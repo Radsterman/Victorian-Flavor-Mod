@@ -10,9 +10,7 @@ Paradox Forum:
 
 Credits:
 
-Radsterman, Cynic, Tawani, Steelwind
-
-Cavalex, Davi Cerqueira, Doble, Engram, Obstination, Orine, Question-Asker, stjern, Typhion, vjw, Wrench
+Radsterman, Cynic, Tawani, Steelwind, Cavalex, Davi Cerqueira, Doble, Engram, Obstination, Orine, Question-Asker, stjern, Typhion, vjw, Wrench
 
 
 VFM wouldn't be possible without the contributions of these developers, the community on the Modding Co-op, and the many mods for Victoria 2 that inspired it.
