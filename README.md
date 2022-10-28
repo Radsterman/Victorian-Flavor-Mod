@@ -10,9 +10,15 @@ Paradox Forum: https://forum.paradoxplaza.com/forum/threads/mod-victorian-flavor
 
 Credits:
 
-Radsterman, Cynic, Tawani, Steelwind for developing and contributing ideas during the early modding period.
+Early Modding Period - Radsterman, Cynic, Tawani, Steelwind
 
-Cavalex, Davi Cerqueira, Doble, Engram, Obstination, Orine, Question-Asker, stjern, Typhion, vjw, Wrench
+Development - Cavalex, Cynic, Davi Cerqueira, Doble, Engram, Obstination, OmegaCorps, Orine, Question-Asker, Radserman, Steelwind, stjern, Tawani, Typhion, vjw, woojin, Wrench
+
+Simplified Chinese Translation - VXCN1812, leaves13
+
+Portuguese Translation - Davi Cerqueira, Orine, Chrysocyon
+
+Spanish Translation - Sith Kermit
 
 
 VFM wouldn't be possible without the contributions of these developers, the community on the Modding Co-op, and the many mods for Victoria 2 that inspired it.
