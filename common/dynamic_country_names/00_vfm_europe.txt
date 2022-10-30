@@ -1,0 +1,386 @@
+﻿#
+# Note: the triggers are checked at certain key points in the code, not all the time
+# color_key = {
+#    color = "black"      # the map color
+#    possible = { ... }   # the trigger to enable this color
+# }
+#
+
+# Example
+#dynamic_map_color_swedish_junta = {
+#    color = "black"
+#	
+#	possible = {
+#		exists = c:SWE # you /must/ check that a tag exists before doing anything else
+#		this = c:SWE
+#
+#        exists = ig:ig_armed_forces
+#        ig:ig_armed_forces = {
+#            is_in_government = yes
+#        }
+#	}
+#}
+
+peru_bolivia = {
+	color = "peru_bolivia"
+
+	possible = {
+		OR = {
+			AND = {
+				exists = c:PEU
+				THIS = c:PEU
+			}
+			AND = {
+				exists = c:BOL
+				THIS = c:BOL
+			}
+		}
+		owns_entire_state_region = STATE_LA_PAZ
+		owns_entire_state_region = STATE_LIMA
+	}
+}
+
+kalmar_union = {
+	color = "kalmar_orange"
+
+	possible = {
+		exists = c:SCA
+		THIS = c:SCA
+		has_law = law_type:law_monarchy
+		ruler = {
+			has_culture = cu:danish
+		}
+	}
+}
+
+fennoscandia = {
+	color = "finnish_brown"
+
+	possible = {
+		exists = c:SCA
+		THIS = c:SCA
+		has_law = law_type:law_monarchy
+		ruler = {
+			has_culture = cu:finnish
+		}
+	}
+}
+
+yellow_prussia = {
+	color = "yellow"
+
+	possible = {
+		exists = c:PRU
+		THIS = c:PRU
+		has_law = law_type:law_anarchy
+	}
+}
+
+korea_monarchy_blue = {
+	color = "joseon_blue"
+	possible = {
+		exists = c:KOR
+		THIS = c:KOR
+		has_law = law_type:law_monarchy 
+	}
+}
+
+japanese_shogunate = {
+	color = "tokugawa_green"
+	possible = {
+		exists = c:JAP
+		THIS = c:JAP
+		has_law = law_type:law_monarchy 
+		NOT = { has_variable = meiji_var }
+	}
+}
+
+usa_monarchy = {
+	color = "usa_monarchy_blue"
+
+	possible = {
+		exists = c:USA
+		THIS = c:USA
+		has_law = law_type:law_monarchy
+	}
+}
+
+ukraine_free_territory = {
+	color = "black"
+
+	possible = {
+		exists = c:UKR
+		THIS = c:UKR
+		has_law = law_type:law_council_republic
+		has_law = law_type:law_anarchy
+	}
+}
+
+turkish_republic = {
+	color = "turkish_republic_red"
+
+	possible = {
+		exists = c:TUR
+		THIS = c:TUR
+		OR = {
+			has_law = law_type:law_parliamentary_republic
+			has_law = law_type:law_presidential_republic
+			has_law = law_type:law_council_republic
+		}
+	}
+}
+
+purple_naples = {
+	color = "naples_purple"
+	possible = {
+		exists = c:SIC
+		THIS = c:SIC
+		NOT = { owns_entire_state_region = STATE_SICILY }
+		owns_entire_state_region = STATE_CAMPANIA
+	}
+}
+
+united_netherlands = {
+	color = "united_netherlands_orange"
+	possible = {
+		exists = c:NET
+		THIS = c:NET
+		owns_entire_state_region = STATE_FLANDERS
+		owns_entire_state_region = STATE_WALLONIA
+	}
+}
+
+mexican_empire = {
+	color = "mexican_empire_green"
+	possible = {
+		exists = c:MEX
+		THIS = c:MEX
+		has_law = law_type:law_monarchy
+	}
+}
+
+dark_khmer = {
+	color = "khmer_green"
+	possible = {
+		exists = c:CAM
+		THIS = c:CAM
+		NOT = { is_country_type = unrecognized }
+	}
+}
+
+austria_hungary = {
+	color = "yellow_light"
+
+	possible = {
+		exists = c:AUS
+		THIS = c:AUS
+		country_has_primary_culture = cu:hungarian
+	}
+}
+
+imperial_japan = {
+	color = "white"
+
+	possible = {
+		exists = c:JAP
+		THIS = c:JAP
+		has_global_variable = meiji_restoration_complete
+		OR = {
+			coa_absolute_monarchy_trigger = yes
+			coa_dictatorship_trigger = yes
+			coa_fascist_trigger = yes
+			coa_military_trigger = yes
+		}
+	}
+}
+
+soviet_red = {
+	color = "red_dark"
+
+	possible = {
+		exists = c:RUS
+		THIS = c:RUS
+		has_law = law_type:law_council_republic
+	}
+}
+
+communist_china = {
+	color = "communist_china_red"
+	possible = {
+		exists = c:CHI
+		THIS = c:CHI
+		has_law = law_type:law_council_republic
+	}
+}
+
+republican_china = {
+	color = "azure"
+
+	possible = {
+		exists = c:CHI
+		THIS = c:CHI
+		OR = {
+			has_law = law_type:law_parliamentary_republic
+			has_law = law_type:law_presidential_republic
+		}
+	}
+}
+
+han_imperial_china = {
+	color = "red_china"
+
+	possible = {
+		exists = c:CHI
+		THIS = c:CHI
+		NOT = { country_has_primary_culture = cu:manchu }
+		has_law = law_type:law_monarchy
+	}
+}
+
+fascist_spain = {
+	color = "orange"
+
+	possible = {
+		exists = c:SPA
+		THIS = c:SPA
+		coa_dictatorship_trigger = yes
+	}
+}
+
+republican_portugal = {
+	color = "green_dark"
+
+	possible = {
+		exists = c:POR
+		THIS = c:POR
+		OR = {
+			has_law = law_type:law_parliamentary_republic
+			has_law = law_type:law_presidential_republic
+		}
+	}
+}
+
+feminist_britain = {
+	color = "pink"
+	possible = {
+		exists = c:GBR
+		THIS = c:GBR
+		ruler = {
+			has_ideology = ideology_feminist
+			is_female = yes
+		}
+		has_law = law_type:law_womens_suffrage
+	}
+}
+
+communist_britain = {
+	color = "british_red"
+
+	possible = {
+		exists = c:GBR
+		THIS = c:GBR
+		has_law = law_type:law_council_republic
+	}
+}
+
+unpleasant_germany = {
+	color = "feldgrau"
+
+	possible = {
+		exists = c:GER
+		THIS = c:GER
+		coa_dictatorship_trigger = yes
+	}
+}
+
+ddr_germany = {
+	color = "DDR_green"
+
+	possible = {
+		exists = c:GER
+		THIS = c:GER
+		has_law = law_type:law_council_republic
+	}
+}
+
+roman_rome = {
+	color = "roman_red"
+
+	possible = {
+		exists = c:PAP
+		THIS = c:PAP
+		OR = {
+			has_law = law_type:law_parliamentary_republic
+			has_law = law_type:law_presidential_republic
+			has_law = law_type:law_council_republic
+		}
+	}
+}
+
+republican_france = {
+	color = "revolutionary_blue"
+
+	possible = {
+		exists = c:FRA
+		THIS = c:FRA
+		NOT = { has_law = law_type:law_autocracy }
+		OR = {
+			has_law = law_type:law_parliamentary_republic
+			has_law = law_type:law_presidential_republic
+		}
+	}
+}
+
+commune_france = {
+	color = "paris_red"
+
+	possible = {
+		exists = c:FRA
+		THIS = c:FRA
+		has_law = law_type:law_council_republic
+	}
+}
+
+republican_india = {
+	color = "orange_india"
+
+	possible = {
+		exists = c:BHT
+		THIS = c:BHT
+		OR = {
+			has_law = law_type:law_parliamentary_republic
+			has_law = law_type:law_presidential_republic
+			has_law = law_type:law_council_republic
+		}
+	}
+}
+
+republican_hindustan = {
+	color = "hoi4_pakistan_blue"
+
+	possible = {
+		exists = c:HND
+		THIS = c:HND
+		OR = {
+			has_law = law_type:law_parliamentary_republic
+			has_law = law_type:law_presidential_republic
+			has_law = law_type:law_council_republic
+		}
+	}
+}
+
+generic_black_anarchist = {
+	color = "black"
+
+	possible = {
+		coa_def_anarchy_flag_trigger = yes
+	}
+}
+
+generic_red_communist = {
+	color = "red"
+
+	possible = {
+		coa_def_communist_flag_trigger = yes
+	}
+}
