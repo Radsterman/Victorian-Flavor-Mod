@@ -1,0 +1,73 @@
+KOR = { # Korea
+	flag_definition = {
+		coa = KOR_tributary
+		subject_canton = KOR_empire	
+		allow_overlord_canton = yes		
+		coa_with_overlord_canton = KOR_subject			
+		priority = 1
+	}
+	flag_definition = {
+		coa = KOR_subject_CHI		
+		priority = 2
+		trigger = { 
+			coa_def_chinese_ensign_trigger = yes
+		}	
+	}
+	flag_definition = {
+		coa = KOR_empire
+		priority = 1500
+		trigger = { 
+			scope:actor = { 
+				NOT = { is_subject_type = subject_type_tributary }
+				has_law = law_type:law_monarchy
+			}
+		}
+	}	
+	flag_definition = {
+		coa = KOR_fascist
+		priority = 1500
+		trigger = { 
+			scope:actor = {
+				NOT = { 
+					is_subject_type = subject_type_tributary 
+					has_law = law_type:law_council_republic
+				}
+				OR = {
+					has_law = law_type:law_parliamentary_republic
+					has_law = law_type:law_presidential_republic
+				}
+				OR = {
+					has_law = law_type:law_ethnostate
+					has_law = law_type:law_national_supremacy
+				}
+				has_law = law_type:law_autocracy
+			}
+		}
+	}	
+	flag_definition = {
+		coa = KOR_republic
+		priority = 1500
+		trigger = { 
+			scope:actor = {
+				NOT = { 
+					is_subject_type = subject_type_tributary 
+					has_law = law_type:law_council_republic
+				}
+				OR = {
+					has_law = law_type:law_parliamentary_republic
+					has_law = law_type:law_presidential_republic
+				}
+			}
+		}
+	}	
+	flag_definition = {
+		coa = KOR_communist
+		priority = 1500
+		trigger = { 
+			scope:actor = {
+				NOT = { is_subject_type = subject_type_tributary }
+				has_law = law_type:law_council_republic
+			}
+		}
+	}	
+}
