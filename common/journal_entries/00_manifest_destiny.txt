@@ -22,14 +22,98 @@ je_manifest_destiny_frontier_wars = {
 	icon = "gfx/interface/icons/event_icons/event_map.dds"
 	# note that if you change this, also update the decision
 	complete = {
-		owns_entire_state_region = STATE_MONTANA
-		owns_entire_state_region = STATE_WYOMING
-		owns_entire_state_region = STATE_COLORADO
-		owns_entire_state_region = STATE_NORTH_DAKOTA
-		owns_entire_state_region = STATE_SOUTH_DAKOTA
-		owns_entire_state_region = STATE_NEBRASKA
-		owns_entire_state_region = STATE_KANSAS
-	}
+		s:STATE_MONTANA = {
+			NOT = {
+				any_scope_state = {
+					AND = {
+						state_region = s:STATE_MONTANA
+						owner = {
+							country_rank = 0
+						}
+					}
+				}
+			}
+		}
+		s:STATE_WYOMING = {
+			NOT = {
+				any_scope_state = {
+					AND = {
+						state_region = s:STATE_WYOMING
+						owner = {
+							country_rank = 0
+						}
+					}
+				}
+			}
+		}
+		s:STATE_NEBRASKA = {
+			NOT = {
+				any_scope_state = {
+					AND = {
+						state_region = s:STATE_NEBRASKA
+						owner = {
+							country_rank = 0
+						}
+					}
+				}
+			}
+		}
+		s:STATE_COLORADO = {
+			NOT = {
+				any_scope_state = {
+					AND = {
+						state_region = s:STATE_COLORADO
+						owner = {
+							country_rank = 0
+						}
+						NOT = {
+							owner = c:UTE
+						}
+					}
+				}
+			}
+		}
+		s:STATE_KANSAS = {
+			NOT = {
+				any_scope_state = {
+					AND = {
+						state_region = s:STATE_KANSAS
+						owner = {
+							country_rank = 0
+						}
+					}
+					NOT = {
+						owner = c:COM
+					}
+				}
+			}
+		}
+		s:STATE_NORTH_DAKOTA = {
+			NOT = {
+				any_scope_state = {
+					AND = {
+						state_region = s:STATE_NORTH_DAKOTA
+						owner = {
+							country_rank = 0
+						}
+					}
+				}
+			}
+		}
+		s:STATE_SOUTH_DAKOTA = {
+			NOT = {
+				any_scope_state = {
+					AND = {
+						state_region = s:STATE_SOUTH_DAKOTA
+						owner = {
+							country_rank = 0
+						}
+					}
+				}
+			}
+		} 
+    }
+
 	
 	on_complete = {
 		trigger_event = { id = manifest_destiny.2 }
