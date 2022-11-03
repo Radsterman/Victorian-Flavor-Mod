@@ -1,0 +1,64 @@
+### A lot of the info found here are copied over from the "__vfm_historical_characters.info" but improved to get a sense of how a character generation works
+# This was made with what I(Orine) know about character generation. Please, improve this with new vars and explanations.
+
+unk_name_template = { # For consistency, use this template for naming: (country_initial)_(name of character)_template
+	first_name = culture  # Picks a random first and last name from the culture, combines those together to make one name
+	last_name = culture 
+	culture = cu:brazilian  # Variable - "game/common/cultures/00_(additional_cultures/cultures).txt" It must be as cu:(YOUR_CULTURE), if you dont state a culture, it will be given by your country
+	female = no
+	ruler = no # Bool - Set this character as the ruler of your country
+    heir = yes # Bool - Set this character as the current heir to the throne
+    noble = yes # Bool - Don't know if has any effect, but it set your character as a noble
+    birth_date = 1776.11.18 # Date - Given a date in this format, calculates your character age (prefer this over age)
+    age = 0 # Number - Set the character date, if you use this method your character ages every first of January, you should prefer using his birth date 
+    dna = dna_emperor_pedro_02 # Variable - Variable defined on "game/common/dna_data/00_vfm_(YOUR_CHARACTER_NAME).txt"
+    religion = protestant  # Variable - Variable defined on "game/common/religions/religion.txt"
+    interest_group = ig_intelligentsia # Variable - Sets your character alligned IG found on  "game/common/interest_groups"
+    ideology = ideology_reformer # Variable -  Variable defined on "game/common/ideologies/00_leader_ideologies.txt"
+    commander_rank = commander_rank_5 # Variable - Sets this commanders rank. Ranges from commander_rank_1 to commander_rank_5
+			
+	trait_generation = { 		# this effect will run as soon as the character is created (should only be used for traits)	
+		if = {
+			limit = {
+				trait_value > 0
+			}
+			set_variable = has_historical_traits
+		}
+	
+		add_experience = 4
+		add_random_trait = personality
+		if = {
+			limit = { 
+				OR = {
+					NOT = { has_variable = has_historical_traits }
+					trait_value <= 3
+				}
+			}
+			add_random_trait = skill			
+		}	
+		if = {
+			limit = {
+				age >= 45
+				trait_value < 8
+			}		
+			random_list = {
+				33 = {}
+				33 = { add_experience = 1 }
+				33 = { 
+					add_experience = 2
+					add_random_trait = skill 
+				}
+			}
+		}
+		if = {
+			limit = {
+				age >= 30
+				NOT = { has_variable = has_historical_traits }
+			}
+			random_list = {
+				95 = {}
+				5 = { add_random_trait = condition }
+			}						
+		}
+	}
+}
