@@ -185,3 +185,116 @@ je_south_german_unification = {
 
 	weight = 100
 }
+
+
+##Dummy JE so that the confederation event can still fire.
+je_north_german_unification_NGF = {
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	is_shown_when_inactive = {
+		country_has_primary_culture = cu:north_german
+		OR = {
+			country_tier = kingdom
+			country_tier = principality
+		}
+		tag = c:NGF
+	}
+
+	possible = {
+		tag = c:NGF
+		country_rank >= rank_value:major_power
+		has_technology_researched = nationalism
+		is_subject = no
+	}
+
+	complete = {
+		#Once all are owned there's no one to annex. Forming germany will get rid of it.
+		owns_entire_state_region = STATE_POMERANIA
+		owns_entire_state_region = STATE_ELBE
+		owns_entire_state_region = STATE_WESTPHALIA
+		owns_entire_state_region = STATE_ANHALT
+		owns_entire_state_region = STATE_RHINELAND
+		owns_entire_state_region = STATE_NORTH_RHINE
+		owns_entire_state_region = STATE_SCHLESWIG_HOLSTEIN
+		owns_entire_state_region = STATE_HANNOVER
+		owns_entire_state_region = STATE_BRUNSWICK
+		owns_entire_state_region = STATE_SAXONY
+		owns_entire_state_region = STATE_HESSE
+		owns_entire_state_region = STATE_MECKLENBURG
+		owns_entire_state_region = STATE_SILESIA
+		owns_entire_state_region = STATE_WEST_PRUSSIA
+		owns_entire_state_region = STATE_EAST_PRUSSIA
+		owns_entire_state_region = STATE_POSEN
+	}
+
+	on_monthly_pulse = {
+		events = {
+			german_unification.2 # confederation
+		}
+	}
+
+	on_complete = {
+		#trigger_event = { id = german_unification.1 } # North German Confederation
+		#Maybe add some small reward of prestige or loyalists?
+	}
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_north_german_status
+			}
+		}
+	}
+	weight = 100
+}
+
+je_south_german_unification_SGF = {
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	is_shown_when_inactive = {
+		country_has_primary_culture = cu:south_german
+		OR = {
+			country_tier = kingdom
+			country_tier = principality
+		}
+		tag = c:SGF
+	}
+
+	possible = {
+		country_rank >= rank_value:major_power
+		has_technology_researched = nationalism
+		is_subject = no
+		tag = c:SGF
+	}
+
+	complete = {
+		owns_entire_state_region = STATE_WURTTEMBERG
+		owns_entire_state_region = STATE_BADEN
+		owns_entire_state_region = STATE_BAVARIA
+		owns_entire_state_region = STATE_FRANCONIA
+		owns_entire_state_region = STATE_ALSACE_LORRAINE
+	}
+
+	on_monthly_pulse = {
+		events = {
+			german_unification.2 # confederation
+		}
+	}
+
+	on_complete = {
+		#trigger_event = { id = german_unification.1 } # South German Confederation
+	}
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_south_german_status
+				trigger = {
+					always = yes
+				}
+			}
+		}
+	}
+
+	weight = 100
+}
