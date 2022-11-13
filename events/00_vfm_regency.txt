@@ -1,18 +1,18 @@
 ﻿namespace = regency
 
 regency.1 = {
-	title = regency.1.t
-	desc = regency.1.d
-	flavor = regency.1.f
+	title = regency.1.title
+	desc = regency.1.desc
+	flavor = regency.1.flavor
 
 	duration = 3
 
 	event_image = {
-		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+		video = "gfx/event_pictures/unspecific_politicians_arguing.bk2"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
 
 	icon = "gfx/interface/icons/event_icons/event_trade.dds"
 
@@ -21,9 +21,69 @@ regency.1 = {
 	}
 
 	option = { 
-		name = goldrush.1.a
+		name = regency.1.a
+		s:STATE_PERNAMBUCO.region_state:BRZ = {
+			add_radicals = {
+				value = medium_radicals
+			}
+		}
+		s:STATE_PIAUI.region_state:BRZ = {
+			custom_tooltip = regency.elites_fearing
+			add_radicals = {
+				strata = rich
+				value = small_radicals
+			}
+		}
+		s:STATE_PARAIBA.region_state:BRZ = {
+			custom_tooltip = regency.elites_fearing
+			add_radicals = {
+				strata = rich
+				value = small_radicals
+			}
+		}
+		s:STATE_RIO_GRANDE_DO_NORTE.region_state:BRZ = {
+			custom_tooltip = regency.elites_fearing
+			add_radicals = {
+				strata = rich
+				value = small_radicals
+			}
+		}
+		s:STATE_CEARA.region_state:BRZ = {
+			custom_tooltip = regency.elites_fearing
+			add_radicals = {
+				strata = rich
+				value = small_radicals
+			}
+		}
+	}
+	option = { 
+		name = regency.1.b
+		s:STATE_MARANHAO.region_state:BRZ = {
+			add_radicals = {
+				value = medium_radicals
+			}
+		}
+		s:STATE_PIAUI.region_state:BRZ = {
+			custom_tooltip = regency.elites_fearing
+			add_radicals = {
+				strata = rich
+				value = small_radicals
+			}
+		}
+	}
+	option = { 
+		name = regency.1.c
 		default_option = yes
-
+		s:STATE_BAHIA.region_state:BRZ = { 
+			add_radicals = {
+				strata = rich
+				value = 0.15
+			}
+			add_radicals = {
+				strata = middle
+				value = medium_radicals
+			}
+		}
 	}
 }
 
@@ -47,18 +107,23 @@ regency.2 = {
         #je trigger
 	}
 
+
 	option = {
 		name = regency.2.a
 		default_option = yes
-		add_modifier = {
-				name = angry_elite
-				months = 3
+		s:STATE_PERNAMBUCO.region_state:BRZ = {
+			create_building = {
+				building = building_barracks
+				level = 1
+			}
 		}
+		
 	}
 	option = {
 		name = regency.2.b
-		add_radicals = {
-				value = 0.10
+		add_modifier = {
+				name = angry_elite
+				months = 3
 		}
 	}
 	option = {
@@ -70,48 +135,10 @@ regency.2 = {
 	}
 }
 
-regency.3 = {
-	title = regency.3.t
-	desc = regency.3.d
-	flavor = regency.3.f
-
-	duration = 3
-
-	event_image = {
-		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
-
-	icon = "gfx/interface/icons/event_icons/event_trade.dds"
-
-	trigger = {
-        #je trigger
-	}
-
-	option = {
-		name = regency.3.a
-		default_option = yes
-		if = {
-			limit = {
-				radical_fraction = {
-					value >= 0.1
-				}
-			}
-			add_modifier = {
-				name = appeased_elite
-				months = 3
-			}
-		}	
-	}
-}
-
-
 regency.10 = {
-	title = regency.10.t
-	desc = regency.10.d
-	flavor = regency.10.f
+	title = regency.10.title
+	desc = regency.10.desc
+	flavor = regency.10.flavor
 
 	duration = 3
 
@@ -125,22 +152,12 @@ regency.10 = {
 	icon = "gfx/interface/icons/event_icons/event_trade.dds"
 
 	trigger = {
-        #je trigger
+        #je regency completion
 	}
 
 	option = {
-		name = regency.3.a
+		name = regency.10.a
 		default_option = yes
-		if = {
-			limit = {
-				radical_fraction = {
-					value >= 0.1
-				}
-			}
-			add_modifier = {
-				name = appeased_elite
-				months = 3
-			}
-		}	
+		activate_law = law_type:law_monarchy	
 	}
 }

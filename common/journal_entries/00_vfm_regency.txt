@@ -3,10 +3,7 @@
 
 	weight = 10
     timeout = 2487
-
 	should_be_pinned_by_default = yes
-
-	
 
 	complete = {
 		custom_tooltip = {
@@ -24,20 +21,39 @@
     
 
     fail = {
-		NOT = { has_law = law_type:law_monarchy }
+		game_date >= 1843.2.13
+		custom_tooltip = {
+			text = brazilian_unity
+			OR = {
+				# NOT = { owns_entire_state_region = STATE_MATO_GROSSO }  # this is deactivated because mato grosso has "alto paraguay" as part of the state
+				NOT = { owns_entire_state_region = STATE_PARANA }
+				NOT = { owns_entire_state_region = STATE_GOIAS }
+				NOT = { owns_entire_state_region = STATE_SANTA_CATARINA }	
+				NOT = { owns_entire_state_region = STATE_PARA }
+				NOT = { owns_entire_state_region = STATE_RIO_DE_JANEIRO }
+				NOT = { owns_entire_state_region = STATE_RIO_GRANDE_DO_SUL }
+				NOT = { owns_entire_state_region = STATE_MINAS_GERAIS }
+				NOT = { owns_entire_state_region = STATE_BAHIA }
+				NOT = { owns_entire_state_region = STATE_RIO_GRANDE_DO_NORTE }
+				NOT = { owns_entire_state_region = STATE_MARANHAO }
+				NOT = { owns_entire_state_region = STATE_CEARA }
+				NOT = { owns_entire_state_region = STATE_PERNAMBUCO }
+				NOT = { owns_entire_state_region = STATE_PARAIBA }
+				NOT = { owns_entire_state_region = STATE_PIAUI }
+				NOT = { owns_entire_state_region = STATE_SAO_PAULO }
+			}
+		}
     }
-
 	
 	on_fail = {
 		trigger_event = { id = regency.2 }
 	}
 
-	on_monthly_pulse = {
-		events = {
-			trigger_event = { 
-				id = regency.1 
-				popup = yes 
-			}
+	on_weekly_pulse = {
+		random_events = {
+				50 = 0
+				25 = regency.1
+				25 = regency.2
 		}
 	}
 
