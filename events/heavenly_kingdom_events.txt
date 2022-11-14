@@ -1,0 +1,485 @@
+﻿namespace = heavenly
+
+# Missionaries from treaty port build hospitals/schools
+heavenly.1 = {
+	type = country_event
+	placement = scope:missionary_state
+
+	title = heavenly.1.t
+	desc = heavenly.1.d
+	flavor = heavenly.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_christianity.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/christianity"
+
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+	duration = 3
+
+	trigger = {
+		NOT = {
+			root.religion = {
+				has_discrimination_trait = christian
+			}
+		}
+		any_scope_state = {
+			is_incorporated = yes
+			any_scope_pop = {
+				NOT = {
+					religion = rel:protestant
+				}
+			}
+			any_neighbouring_state = {
+				is_treaty_port = yes
+				owner = {
+					religion = rel:protestant
+				}
+			}
+		}
+	}
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				any_scope_pop = {
+					NOT = {
+						religion = rel:protestant
+					}
+				}
+				any_neighbouring_state = {
+					is_treaty_port = yes
+					owner = {
+						religion = rel:protestant
+					}
+				}
+			}
+			save_scope_as = missionary_state
+			random_neighbouring_state = {
+				limit = {
+					is_treaty_port = yes
+					owner = {
+						religion = rel:protestant
+					}
+				}
+				save_scope_as = treaty_port_scope
+				owner = {
+					save_scope_as = treaty_port_owner
+				}
+			}
+		}
+	}
+
+	option = {
+		name = heavenly.1.a
+		default_option = yes
+		scope:missionary_state = {
+			add_modifier = {
+				name = missionary_schools_hospitals
+				months = normal_modifier_time
+			}
+			convert_population = {
+				target = rel:protestant 
+				value = 0.05
+			}
+		}
+	}
+	option = {
+		name = heavenly.1.b
+		change_relations = {
+			country = scope:treaty_port_owner
+			value = -10
+		}
+		scope:missionary_state = {
+			convert_population = {
+				target = rel:protestant
+				value = 0.01
+			}
+		}
+	}
+}
+
+# The God Worshipping Society
+heavenly.2 = {
+	type = country_event
+	placement = scope:cult_state
+
+	title = heavenly.2.t
+	desc = heavenly.2.d
+	flavor = heavenly.2.f
+
+	event_image = {
+		video = "gfx/event_pictures/asia_union_leader.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/asia/union_leader"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				has_modifier = god_worshippers
+			}
+			save_scope_as = cult_state
+			set_variable = {
+				name = cult_center
+			}
+		}
+	}
+	option = {
+		name = heavenly.2.a
+		scope:cult_state = {
+			# Already added when the Journal Entry activated, but we're going to remove it and add it again to make it visible to the player
+			hidden_effect = {
+				remove_modifier = god_worshippers
+			}
+			add_modifier = {
+				name = god_worshippers
+				months = short_modifier_time
+			}
+			convert_population = {
+				target = rel:protestant value = 0.1
+			}
+		}
+	}
+}
+
+# Cult Grows
+# Repeatable
+heavenly.3 = {
+	type = country_event
+	placement = scope:cult_growth_state
+
+	title = heavenly.3.t
+	desc = heavenly.3.d
+	flavor = heavenly.3.f
+
+	event_image = {
+		video = "gfx/event_pictures/asia_union_leader.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/asia/union_leader"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	duration = 3
+
+	cooldown = { months = 3 }
+
+	trigger = {
+		any_scope_state = {
+			has_variable = cult_center
+			any_scope_pop = {
+				has_pop_religion = protestant
+			}
+			any_neighbouring_state = {
+				owner = ROOT
+				NOT = {
+					has_variable = cult_center
+				}
+				NOT = { is_capital = yes }
+			}
+		}
+	}
+	immediate = {
+		random_scope_state = {
+			limit = {
+				has_variable = cult_center
+				any_scope_pop = {
+					has_pop_religion = protestant
+				}
+				any_neighbouring_state = {
+					owner = ROOT
+					NOT = {
+						has_variable = cult_center
+					}
+					NOT = { is_capital = yes }
+				}
+			}
+			save_scope_as = cult_center
+			random_neighbouring_state = {
+				limit = {
+					owner = ROOT
+					NOT = {
+						has_variable = cult_center
+					}
+					NOT = { is_capital = yes }
+				}
+				save_scope_as = cult_growth_state
+				set_variable = {
+					name = cult_center
+				}
+			}
+		}
+	}
+	option = {
+		name = heavenly.3.a
+		scope:cult_growth_state = {
+			add_modifier = {
+				name = god_worshippers
+				months = short_modifier_time
+			}
+			convert_population = {
+				target = rel:protestant value = 0.1
+			}
+		}
+	}
+}
+
+# Heavenly Kingdom spawn
+heavenly.4 = {
+	type = country_event
+	placement = ROOT
+
+	title = heavenly.4.t
+	desc = heavenly.4.d
+	flavor = heavenly.4.f
+
+	event_image = {
+		video = "gfx/event_pictures/asia_union_leader.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/asia/union_leader"
+
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+
+	duration = 3
+
+	trigger = {
+
+	}
+	immediate = {
+		every_state = {
+			limit = {
+				has_modifier = god_worshippers
+			}
+			remove_modifier = god_worshippers
+		}
+		random_scope_state = {
+			limit = {
+				has_variable = cult_center
+				any_scope_pop = {
+					has_pop_religion = protestant
+					religion_accepted = no
+				}
+				radical_fraction = { value >= 0.30 }
+			}
+			save_scope_as = heavenly_kingdom_spawn
+		}
+		create_country = {
+			tag = TPG
+			origin = this
+			state = scope:heavenly_kingdom_spawn
+			on_created = {
+				if = {
+					limit = {
+						NOT = {
+							has_ruling_interest_group = ig_devout
+						}
+					}
+					ig:ig_devout = {
+						add_ruling_interest_group = yes
+					}
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_theocracy
+						}
+					}
+					activate_law = law_type:law_theocracy
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_state_religion
+						}
+					}
+					activate_law = law_type:law_state_religion
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_peasant_levies
+						}
+					}
+					activate_law = law_type:law_peasant_levies
+				}
+				add_modifier = {
+					name = uprising_conscription
+					months = normal_modifier_time
+				}
+			}
+		}
+		c:TPG = {
+			save_scope_as = heavenly_kingdom_scope
+		}
+		if = {
+			limit = { has_journal_entry = je_warlord_china }
+			post_notification = warlord_china_explosion_point_add
+			change_variable = {
+				name = china_warlord_explosion
+				add = 1
+			}
+		}
+	}
+
+	option = {
+		name = heavenly.4.a
+		default_option = yes
+		ai_chance = { base = 1 }
+		add_journal_entry = {
+			type = je_taiping
+		}
+		if = {
+			limit = {
+				any_scope_state = {
+					has_variable = cult_center
+				}
+			}
+			every_scope_state = {
+				limit = {
+					has_variable = cult_center
+				}
+				set_state_owner = c:TPG
+				set_state_type = incorporated
+			}
+			every_scope_state = {
+				limit = {
+					is_capital = no
+					NOT = { has_variable = cult_center }
+					any_neighbouring_state = {
+						has_variable = cult_center
+					}
+					turmoil > 0.1
+				}
+				set_state_owner = c:TPG
+				set_state_type = incorporated
+			}
+		}
+		create_diplomatic_play = {
+			name = taiping_rebellion
+			target_country = scope:heavenly_kingdom_scope
+			type = dp_taiping_rebellion
+		}
+	}
+	option = {
+		name = heavenly.4.b
+		ai_chance = { base = 0 }
+		if = {
+			limit = {
+				any_scope_state = {
+					has_variable = cult_center
+				}
+			}
+			every_scope_state = {
+				limit = {
+					has_variable = cult_center
+				}
+				set_state_owner = c:TPG
+				set_state_type = incorporated
+			}
+			every_scope_state = {
+				limit = {
+					is_capital = no
+					NOT = { has_variable = cult_center }
+					any_neighbouring_state = {
+						has_variable = cult_center
+					}
+					turmoil > 0.1
+				}
+				set_state_owner = c:TPG
+				set_state_type = incorporated
+			}
+		}
+		create_diplomatic_play = {
+			name = taiping_rebellion
+			target_country = scope:heavenly_kingdom_scope
+			type = dp_taiping_rebellion
+		}
+		play_as = scope:heavenly_kingdom_scope
+	}
+}
+
+# Aftermath event
+heavenly.5 = {
+	type = country_event
+	placement = ROOT
+
+	title = heavenly.5.t
+	desc = heavenly.5.d
+	flavor = heavenly.5.f
+
+	event_image = {
+		video = "gfx/event_pictures/asia_union_leader.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/asia/union_leader"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	duration = 3
+
+	trigger = {
+		# triggered by journal entry
+	}
+
+	option = { # mass re-conversions
+		name = heavenly.5.a
+		default_option = yes
+		every_scope_state = {
+			limit = {
+				any_scope_pop = {
+					religion = rel:protestant
+				}
+			}
+			convert_population = {
+				target = rel:mahayana value = 0.1
+			}
+		}
+		every_country = {
+			limit = {
+				country_rank >= rank_value:great_power
+				religion = {
+					has_discrimination_trait = christian
+				}
+			}
+			create_incident = {
+				country = root
+				value = 25
+			}
+		}
+	}
+	option = { # mercy and pardons
+		name = heavenly.5.b
+		add_loyalists = {
+			value = 0.2
+			religion = rel:protestant
+		}
+		every_country = {
+			limit = {
+				country_rank >= rank_value:great_power
+				religion = {
+					has_discrimination_trait = christian
+				}
+			}
+			create_incident = {
+				country = root
+				value = 25
+			}
+		}
+	}
+}
