@@ -3,11 +3,26 @@
 
 	is_shown_when_inactive = {
 		THIS = c:CHI
+		NOT = {
+			country_has_state_religion = rel:protestant
+		}
+		
 	}
 
 	possible = {
 		is_subject = no
 		any_scope_state = {
+    		state_region = { is_homeland = cu:han NOT = { is_homeland = cu:manchu } }
+			OR = {
+				any_neighbouring_state = {
+					is_treaty_port = yes
+					owner = {
+						religion = rel:protestant
+					}
+				}
+				is_coastal = yes
+			}
+			any_neighbouring_state = { state_region = { is_homeland = cu:han NOT = { is_homeland = cu:manchu } } }
 			is_incorporated = yes
 			any_scope_pop = {
 				has_pop_religion = protestant
@@ -20,6 +35,17 @@
 	immediate = {
 		random_scope_state = {
 			limit = {
+    			state_region = { is_homeland = cu:han NOT = { is_homeland = cu:manchu } }
+				OR = {
+					any_neighbouring_state = {
+						is_treaty_port = yes
+						owner = {
+							religion = rel:protestant
+						}
+					}
+					is_coastal = yes
+				}
+				any_neighbouring_state = { state_region = { is_homeland = cu:han NOT = { is_homeland = cu:manchu } } }
 				is_incorporated = yes
 				any_scope_pop = {
 					has_pop_religion = protestant
@@ -105,7 +131,7 @@ je_taiping = {
 			post_notification = warlord_china_explosion_point_add
 			change_variable = {
 				name = china_warlord_explosion
-				add = 1
+				add = 10
 			}
 		}
 	}

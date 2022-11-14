@@ -27,29 +27,6 @@ warlord_china_events.100 = { #Split china up into warlord states
 	immediate = {
 		set_global_variable = china_shatters
 		if = {
-			limit = { exists = s:STATE_HUNAN.region_state:CHI }
-			create_country = {
-				tag = HNA
-				origin = this
-				state = s:STATE_HUNAN.region_state:CHI
-
-				on_created = {
-					warlord_setup_effect = yes
-					set_variable = warlord_state
-				}
-			}
-			c:HNA = { save_scope_as = scope_HNA }
-			if = {
-				limit = { exists = s:STATE_WESTERN_HUBEI.region_state:CHI }
-				s:STATE_WESTERN_HUBEI.region_state:CHI = { set_state_owner = c:HNA }
-			}
-			if = {
-				limit = { exists = s:STATE_EASTERN_HUBEI.region_state:CHI }
-				s:STATE_EASTERN_HUBEI.region_state:CHI = { set_state_owner = c:HNA }
-			}
-		}
-
-		if = {
 			limit = { exists = s:STATE_GUANGXI.region_state:CHI }
 			create_country = { #Guangxi
 				tag = GNG
@@ -103,29 +80,6 @@ warlord_china_events.100 = { #Split china up into warlord states
 		}
 
 		if = {
-			limit = { exists = s:STATE_SOUTHERN_MANCHURIA.region_state:CHI }
-			create_country = { #Fengtian Clique
-				tag = MCH
-				origin = this
-				state = s:STATE_SOUTHERN_MANCHURIA.region_state:CHI
-
-				on_created = {
-					warlord_setup_effect = yes
-					set_variable = warlord_state
-				}
-			}
-			c:MCH = { save_scope_as = scope_MCH }
-			if = {
-				limit = { exists = s:STATE_NORTHERN_MANCHURIA.region_state:CHI }
-				s:STATE_NORTHERN_MANCHURIA.region_state:CHI = { set_state_owner = c:MCH }
-			}
-			if = {
-				limit = { exists = s:STATE_OUTER_MANCHURIA.region_state:CHI }
-				s:STATE_OUTER_MANCHURIA.region_state:CHI = { set_state_owner = c:MCH }
-			}
-		}
-
-		if = {
 			limit = { exists = s:STATE_SHANXI.region_state:CHI }
 			create_country = {  #Shanxi
 				tag = SHN
@@ -156,6 +110,13 @@ warlord_china_events.100 = { #Split china up into warlord states
 			if = {
 				limit = { exists = s:STATE_DZUNGARIA.region_state:CHI }
 				s:STATE_DZUNGARIA.region_state:CHI = { set_state_owner = c:XIN }
+			}
+			if = {
+				limit = { exists = s:STATE_JETISY.region_state:CHI }
+				s:STATE_JETISY.region_state:CHI = { set_state_owner = c:XIN }
+			}if = {
+				limit = { exists = s:STATE_KIRGHIZIA.region_state:CHI }
+				s:STATE_KIRGHIZIA.region_state:CHI = { set_state_owner = c:XIN }
 			}
 		}
 
@@ -192,6 +153,33 @@ warlord_china_events.100 = { #Split china up into warlord states
 				s:STATE_CHONGQING.region_state:CHI = { set_state_owner = c:GUI }
 			}
 		}
+		
+		if = {
+			limit = { exists = s:STATE_HUNAN.region_state:CHI }
+			create_country = {
+				tag = HNA
+				origin = this
+				state = s:STATE_HUNAN.region_state:CHI
+
+				on_created = {
+					warlord_setup_effect = yes
+					set_variable = warlord_state
+				}
+			}
+			c:HNA = { save_scope_as = scope_HNA }
+			if = {
+				limit = { exists = s:STATE_WESTERN_HUBEI.region_state:CHI }
+				s:STATE_WESTERN_HUBEI.region_state:CHI = { set_state_owner = c:HNA }
+			}
+			if = {
+				limit = { exists = s:STATE_EASTERN_HUBEI.region_state:CHI }
+				s:STATE_EASTERN_HUBEI.region_state:CHI = { set_state_owner = c:HNA }
+			}
+			if = {
+				limit = { exists = s:STATE_CHONGQING.region_state:CHI }
+				s:STATE_CHONGQING.region_state:CHI = { set_state_owner = c:HNA }
+			}
+		}
 
 		if = {
 			limit = { exists = s:STATE_GUANGDONG.region_state:CHI }
@@ -209,6 +197,36 @@ warlord_china_events.100 = { #Split china up into warlord states
 			if = {
 				limit = { exists = s:STATE_SHAOZHOU.region_state:CHI }
 				s:STATE_SHAOZHOU.region_state:CHI = { set_state_owner = c:YUE }
+			}
+		}
+		
+		if = {
+			limit = { 
+				exists = s:STATE_NGARI.region_state:CHI
+			}
+			create_country = {
+				tag = TIB
+				origin = this
+				state = s:STATE_NGARI.region_state:CHI
+
+				on_created = {
+					warlord_setup_effect = yes
+					set_variable = warlord_state
+				}
+			}
+			c:TIB = { save_scope_as = scope_YUE }
+			if = {
+				limit = { exists = s:STATE_LHASA.region_state:CHI }
+				s:STATE_LHASA.region_state:CHI = { set_state_owner = c:TIB }
+			}
+		}
+		
+		if = {
+			limit = { exists = s:STATE_QINGHAI.region_state:CHI }
+			c:TIB = { save_scope_as = scope_TIB }
+			if = {
+				limit = { exists = s:STATE_QINGHAI.region_state:CHI }
+				s:STATE_QINGHAI.region_state:CHI = { set_state_owner = c:TIB }
 			}
 		}
 
@@ -230,7 +248,7 @@ warlord_china_events.100 = { #Split china up into warlord states
 				s:STATE_QINGHAI.region_state:CHI = { set_state_owner = c:SIH }
 			}
 		}
-
+		
 		if = {
 			limit = { exists = s:STATE_SHANDONG.region_state:CHI }
 			create_country = {
@@ -246,6 +264,32 @@ warlord_china_events.100 = { #Split china up into warlord states
 			c:SHA = { save_scope_as = scope_SHA }
 		}
 
+		if = {
+			limit = { exists = s:STATE_ULIASTAI.region_state:CHI }
+			create_country = {
+				tag = MGL
+				origin = this
+				state = s:STATE_ULIASTAI.region_state:CHI
+
+				on_created = {
+					warlord_setup_effect = yes
+				}
+			}
+			c:MGL = { save_scope_as = scope_MGL }
+			if = {
+				limit = { exists = s:STATE_URGA.region_state:CHI }
+				s:STATE_URGA.region_state:CHI = { set_state_owner = c:MGL }
+			}
+			if = {
+				limit = { exists = s:STATE_ALXA.region_state:CHI }
+				s:STATE_ALXA.region_state:CHI = { set_state_owner = c:MGL }
+			}
+			if = {
+				limit = { exists = s:STATE_HINGGAN.region_state:CHI }
+				s:STATE_HINGGAN.region_state:CHI = { set_state_owner = c:MGL }
+			}
+		}
+		
 		if = {
 			limit = { exists = s:STATE_NINGXIA.region_state:CHI }
 			create_country = {
@@ -267,23 +311,9 @@ warlord_china_events.100 = { #Split china up into warlord states
 				limit = { exists = s:STATE_ALXA.region_state:CHI }
 				s:STATE_ALXA.region_state:CHI = { set_state_owner = c:XIB }
 			}
-		}
-
-		if = {
-			limit = { exists = s:STATE_ULAANBAATAR.region_state:CHI }
-			create_country = {
-				tag = MGL
-				origin = this
-				state = s:STATE_ULAANBAATAR.region_state:CHI
-
-				on_created = {
-					warlord_setup_effect = yes
-				}
-			}
-			c:MGL = { save_scope_as = scope_MGL }
 			if = {
-				limit = { exists = s:STATE_KHOVSGOL.region_state:CHI }
-				s:STATE_KHOVSGOL.region_state:CHI = { set_state_owner = c:MGL }
+				limit = { exists = s:STATE_XIAN.region_state:CHI }
+				s:STATE_XIAN.region_state:CHI = { set_state_owner = c:XIB }
 			}
 		}
 
@@ -300,8 +330,60 @@ warlord_china_events.100 = { #Split china up into warlord states
 				}
 			}
 			c:TUV = { save_scope_as = scope_TUV }
+			if = {
+				limit = { exists = s:STATE_TOMSK.region_state:CHI }
+				s:STATE_TOMSK.region_state:CHI = { set_state_owner = c:TUV }
+			}
 		}
+		
+		if = {
+			limit = { exists = s:STATE_FORMOSA.region_state:CHI }
+			create_country = {
+				tag = FRS
+				origin = this
+				state = s:STATE_FORMOSA.region_state:CHI
 
+				on_created = {
+					warlord_setup_effect = yes
+					set_variable = warlord_state
+				}
+			}
+			c:FRS = { save_scope_as = scope_FRS }
+		}
+		
+		if = {
+			limit = { exists = c:TPG }
+			c:TPG = { save_scope_as = scope_TPG }
+			if = {
+				limit = { exists = s:STATE_JIANGSU.region_state:CHI }
+				s:STATE_JIANGSU.region_state:CHI = { set_state_owner = c:TPG }
+			}
+			if = {
+				limit = { exists = s:STATE_NANJING.region_state:CHI }
+				s:STATE_NANJING.region_state:CHI = { set_state_owner = c:TPG }
+			}
+			if = {
+				limit = { exists = s:STATE_SUZHOU.region_state:CHI }
+				s:STATE_SUZHOU.region_state:CHI = { set_state_owner = c:TPG }
+			}
+			if = {
+				limit = { exists = s:STATE_ZHEJIANG.region_state:CHI }
+				s:STATE_ZHEJIANG.region_state:CHI = { set_state_owner = c:TPG }
+			}
+			if = {
+				limit = { exists = s:STATE_JIANGXI.region_state:CHI }
+				s:STATE_JIANGXI.region_state:CHI = { set_state_owner = c:TPG }
+			}
+			if = {
+				limit = { exists = s:STATE_FUJIAN.region_state:CHI }
+				s:STATE_FUJIAN.region_state:CHI = { set_state_owner = c:TPG }
+			}
+		}
+		
+		change_tag = MCH
+		#warlord_setup_effect = yes
+		set_variable = warlord_state
+		
 		every_subject_or_below = {
 			make_independent = yes
 		}

@@ -33,11 +33,20 @@ heavenly.1 = {
 					religion = rel:protestant
 				}
 			}
-			any_neighbouring_state = {
-				is_treaty_port = yes
-				owner = {
-					religion = rel:protestant
+			OR = {
+				any_neighbouring_state = {
+					is_treaty_port = yes
+					owner = {
+						religion = rel:protestant
+					}
 				}
+				is_coastal = yes
+			}
+		}
+		any_neighbouring_state = {
+			is_treaty_port = yes
+			owner = {
+				religion = rel:protestant
 			}
 		}
 	}
@@ -50,25 +59,28 @@ heavenly.1 = {
 						religion = rel:protestant
 					}
 				}
-				any_neighbouring_state = {
-					is_treaty_port = yes
-					owner = {
-						religion = rel:protestant
+				OR = {
+					any_neighbouring_state = {
+						is_treaty_port = yes
+						owner = {
+							religion = rel:protestant
+						}
 					}
+					is_coastal = yes
 				}
 			}
 			save_scope_as = missionary_state
-			random_neighbouring_state = {
-				limit = {
-					is_treaty_port = yes
-					owner = {
-						religion = rel:protestant
-					}
-				}
-				save_scope_as = treaty_port_scope
+		}
+		random_neighbouring_state = {
+			limit = {
+				is_treaty_port = yes
 				owner = {
-					save_scope_as = treaty_port_owner
+					religion = rel:protestant
 				}
+			}
+			save_scope_as = treaty_port_scope
+			owner = {
+				save_scope_as = treaty_port_owner
 			}
 		}
 	}
@@ -179,11 +191,13 @@ heavenly.3 = {
 
 	trigger = {
 		any_scope_state = {
+			state_region = { is_homeland = cu:han NOT = { is_homeland = cu:manchu } }
 			has_variable = cult_center
 			any_scope_pop = {
 				has_pop_religion = protestant
 			}
 			any_neighbouring_state = {
+				state_region = { is_homeland = cu:han NOT = { is_homeland = cu:manchu } }
 				owner = ROOT
 				NOT = {
 					has_variable = cult_center
@@ -195,11 +209,13 @@ heavenly.3 = {
 	immediate = {
 		random_scope_state = {
 			limit = {
-				has_variable = cult_center
+				state_region = { is_homeland = cu:han NOT = { is_homeland = cu:manchu } }
 				any_scope_pop = {
 					has_pop_religion = protestant
 				}
+				has_variable = cult_center
 				any_neighbouring_state = {
+	    			state_region = { is_homeland = cu:han NOT = { is_homeland = cu:manchu } }
 					owner = ROOT
 					NOT = {
 						has_variable = cult_center
@@ -210,6 +226,7 @@ heavenly.3 = {
 			save_scope_as = cult_center
 			random_neighbouring_state = {
 				limit = {
+					state_region = { is_homeland = cu:han NOT = { is_homeland = cu:manchu } }
 					owner = ROOT
 					NOT = {
 						has_variable = cult_center
@@ -269,6 +286,7 @@ heavenly.4 = {
 		}
 		random_scope_state = {
 			limit = {
+    			state_region = { is_homeland = cu:han NOT = { is_homeland = cu:manchu } }
 				has_variable = cult_center
 				any_scope_pop = {
 					has_pop_religion = protestant
@@ -347,17 +365,23 @@ heavenly.4 = {
 			limit = {
 				any_scope_state = {
 					has_variable = cult_center
+	    			state_region = { is_homeland = cu:han }
+    				NOT = { state_region = { is_homeland = cu:manchu } }
 				}
 			}
 			every_scope_state = {
 				limit = {
 					has_variable = cult_center
+	    			state_region = { is_homeland = cu:han }
+    				NOT = { state_region = { is_homeland = cu:manchu } }
 				}
 				set_state_owner = c:TPG
 				set_state_type = incorporated
 			}
 			every_scope_state = {
 				limit = {
+	    			state_region = { is_homeland = cu:han }
+    				NOT = { state_region = { is_homeland = cu:manchu } }
 					is_capital = no
 					NOT = { has_variable = cult_center }
 					any_neighbouring_state = {
