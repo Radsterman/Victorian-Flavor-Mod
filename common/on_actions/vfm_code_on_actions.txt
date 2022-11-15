@@ -19,5 +19,33 @@ on_colony_created = {
 				}
 			}
 		}
+		owner = {
+			if = {
+				limit = {
+					owner = c:RUS
+					OR = {
+						c:RUS = {
+							has_state_in_state_region = STATE_SAKHALIN 
+						}
+						c:RUS = {
+							has_state_in_state_region = STATE_HOKKAIDO 
+						}
+					}
+					NOT = {
+						has_global_variable = japanese_response
+					}
+				}
+				set_global_variable = japanese_response
+				c:JAP = {
+					create_diplomatic_play = {
+						name = testname
+						war = yes
+						type = dp_annex_war
+						
+						target_state = s:STATE_HOKKAIDO.region_state:AIN
+					}
+				}
+			}
+		}
 	}
 }
