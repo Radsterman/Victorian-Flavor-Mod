@@ -31,28 +31,28 @@ regency.1 = {
 			custom_tooltip = regency.elites_fearing
 			add_radicals = {
 				strata = rich
-				value = small_radicals
+				value = medium_radicals
 			}
 		}
 		s:STATE_PARAIBA.region_state:BRZ = {
 			custom_tooltip = regency.elites_fearing
 			add_radicals = {
 				strata = rich
-				value = small_radicals
+				value = medium_radicals
 			}
 		}
 		s:STATE_RIO_GRANDE_DO_NORTE.region_state:BRZ = {
 			custom_tooltip = regency.elites_fearing
 			add_radicals = {
 				strata = rich
-				value = small_radicals
+				value = medium_radicals
 			}
 		}
 		s:STATE_CEARA.region_state:BRZ = {
 			custom_tooltip = regency.elites_fearing
 			add_radicals = {
 				strata = rich
-				value = small_radicals
+				value = medium_radicals
 			}
 		}
 	}
@@ -67,7 +67,7 @@ regency.1 = {
 			custom_tooltip = regency.elites_fearing
 			add_radicals = {
 				strata = rich
-				value = small_radicals
+				value = medium_radicals
 			}
 		}
 	}
@@ -135,6 +135,98 @@ regency.2 = {
 	}
 }
 
+regency.3 = {
+	title = regency.3.title
+	desc = regency.3.desc
+	flavor = regency.3.flavor
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	trigger = {
+        #je trigger
+	}
+
+
+	option = {
+		name = regency.3.a
+		default_option = yes
+		add_modifier = {
+				name = repressed_strata
+				months = 3
+		}
+	}
+	option = {
+		name = regency.3.b
+		add_modifier = {
+				name = angry_elite
+				months = 3
+		}
+	}
+}
+
+regency.8 = {
+	title = regency.8.title
+	desc = regency.8.desc
+	flavor = regency.8.flavor
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	trigger = {
+        s:STATE_PERNAMBUCO.region_state:BRZ = {
+			turmoil >= 0.75
+		}
+	}
+
+	immediate = {
+		create_country = {
+			tag = ECF
+			origin = this
+			state = s:STATE_PERNAMBUCO.region_state:BRZ
+			state = s:STATE_CEARA.region_state:BRZ
+			state = s:STATE_RIO_GRANDE_DO_NORTE.region_state:BRZ
+			state = s:STATE_PARAIBA.region_state:BRZ
+		}	
+	}
+
+	option = {
+		name = regency.8.a
+		default_option = yes
+		c:BRZ = {
+			create_diplomatic_play = {
+				type = dp_annex_war
+				war = yes
+				target_country = c:ECF
+			}
+		}
+	}
+	option = {
+		name = regency.8.b
+		c:BRZ = {
+			create_diplomatic_pact = {
+				country = c:ECF
+				type = customs_union
+			}
+		}
+	}
+}
 regency.9 = {
 	title = regency.9.title
 	desc = regency.9.desc
@@ -155,10 +247,63 @@ regency.9 = {
         #je trigger
 	}
 
+	immediate = {
+		create_country = {
+			tag = ECF
+			origin = this
+			state = s:STATE_PERNAMBUCO.region_state:BRZ
+			state = s:STATE_CEARA.region_state:BRZ
+			state = s:STATE_RIO_GRANDE_DO_NORTE.region_state:BRZ
+			state = s:STATE_PARAIBA.region_state:BRZ
+		}
+		create_country = {
+			tag = SAB
+			origin = this
+			state = s:STATE_BAHIA.region_state:BRZ
+		}
+		create_country = {
+			tag = BLD
+			origin = this
+			state = s:STATE_MARANHAO.region_state:BRZ
+			state = s:STATE_PIAUI.region_state:BRZ
+		}
+		
+	}
 
 	option = {
 		name = regency.9.a
 		default_option = yes
+		c:BRZ = {
+			create_diplomatic_play = {
+				type = dp_annex_war
+				war = yes
+				target_country = c:ECF
+			}
+			create_diplomatic_play = {
+				type = dp_annex_war
+				war = yes
+				target_country = c:SAB
+			}
+			create_diplomatic_play = {
+				type = dp_annex_war
+				war = yes
+				target_country = c:BLD
+			}
+		}
+	}
+	option = {
+		name = regency.9.a
+		default_option = yes
+		c:BRZ = {
+			create_diplomatic_pact = {
+				country = c:BLD
+				type = dominion
+			}
+			create_diplomatic_pact = {
+				country = c:SAB
+				type = dominion
+			}
+		}
 	}
 }
 regency.10 = {
