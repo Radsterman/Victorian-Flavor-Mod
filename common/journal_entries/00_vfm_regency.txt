@@ -73,3 +73,60 @@
 	#		}
 	#}
 }
+
+je_promised_better_prices = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+	weight = 10
+    timeout = 1
+	should_be_pinned_by_default = yes
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_MARANHAO
+				market = {
+					owner = ROOT
+				}
+			}
+			save_scope_as = maranhao_state
+		}
+	}
+
+	complete = {
+		scope:maranhao_state = {
+			market = { #should be only on maranhao but i don't know if this is possible
+				mg:sugar = {
+					market_goods_pricier > 0.10
+				}
+			}
+			OR = {
+				any_scope_building = {
+					is_building_type = building_sugar_plantation
+					cash_reserves_ratio > 0.50
+					weekly_profit > 0
+					occupancy >= 0.75
+					level >= 2
+				}
+				custom_tooltip = {
+					text = sugar_workers # this could be improved by adding more trigger locs
+					any_scope_pop = {
+						standard_of_living > 8
+						pop_is_discriminated = no
+						pop_employment_building = building_sugar_plantation
+					}
+				}
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { id = regency.10 }
+	}
+    
+	
+	on_timeout = {
+		trigger_event = { id = regency.4 }
+	}
+
+}

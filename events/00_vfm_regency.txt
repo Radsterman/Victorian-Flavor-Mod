@@ -1,5 +1,6 @@
 ﻿namespace = regency
 
+# General Regency Problems
 regency.1 = {
 	title = regency.1.title
 	desc = regency.1.desc
@@ -135,10 +136,12 @@ regency.2 = {
 	}
 }
 
+# Balaiada Revolt
 regency.3 = {
 	title = regency.3.title
 	desc = regency.3.desc
 	flavor = regency.3.flavor
+	placement = s:STATE_MARANHAO.region_state:BRZ # the maranhao state scope does not exist at this time
 
 	duration = 3
 
@@ -155,20 +158,19 @@ regency.3 = {
         #je trigger
 	}
 
-
 	option = {
 		name = regency.3.a
 		default_option = yes
-		add_modifier = {
-				name = repressed_strata
-				months = 3
+		add_journal_entry = {
+			type = je_promised_better_prices
 		}
 	}
 	option = {
 		name = regency.3.b
+		trigger_event = { id = regency.4 }
 		add_modifier = {
-				name = angry_elite
-				months = 3
+			name = revolt_has_broken_out
+			months = 3
 		}
 	}
 }
@@ -177,6 +179,50 @@ regency.4 = {
 	title = regency.4.title
 	desc = regency.4.desc
 	flavor = regency.4.flavor
+	placement = scope:maranhao_state
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	trigger = {
+        #je trigger
+	}
+
+	immediate = {
+		create_country = {
+			tag = BLD
+			origin = this
+			state = s:STATE_MARANHAO.region_state:BRZ
+			state = s:STATE_PIAUI.region_state:BRZ
+		}
+	}
+
+
+	option = {
+		name = regency.4.a
+		default_option = yes
+		c:BRZ = {
+			create_diplomatic_play = {
+				type = dp_annex_war
+				war = yes
+				target_country = c:BLD
+			}
+		}
+	}
+}
+# Sabinada Revolt
+regency.5 = {
+	title = regency.5.title
+	desc = regency.5.desc
+	flavor = regency.5.flavor
 
 	duration = 3
 
@@ -195,15 +241,15 @@ regency.4 = {
 
 
 	option = {
-		name = regency.4.a
+		name = regency.5.a
 		default_option = yes
 		add_modifier = {
-				name = lazy_burocrats
+				name = repressed_strata
 				months = 3
 		}
 	}
 	option = {
-		name = regency.4.b
+		name = regency.5.b
 		add_modifier = {
 				name = angry_elite
 				months = 3
