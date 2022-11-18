@@ -104,6 +104,15 @@ regency.2 = {
 
 	icon = "gfx/interface/icons/event_icons/event_trade.dds"
 
+	immediate = {
+		random_interest_group = {
+			limit = {
+				is_in_government = no
+			}
+			save_scope_as = opposition_igs
+		}
+	}
+
 	trigger = {
         #je trigger
 	}
@@ -112,20 +121,19 @@ regency.2 = {
 	option = {
 		name = regency.2.a
 		default_option = yes
-		s:STATE_PERNAMBUCO.region_state:BRZ = {
-			create_building = {
-				building = building_barracks
-				level = 5
-			}
+		add_modifier = {
+				name = administrative_independence
+				months = 3
 		}
-		
 	}
 	option = {
 		name = regency.2.b
-		add_modifier = {
-				name = angry_elite
+		scope:opposition_igs = {
+			add_modifier = {
+				name = silenced_opositors
 				months = 3
-		}
+			}	
+		}	
 	}
 	option = {
 		name = regency.2.c
@@ -235,25 +243,109 @@ regency.5 = {
 
 	icon = "gfx/interface/icons/event_icons/event_trade.dds"
 
+	immediate = {
+		 create_country = {
+			tag = SAB
+			origin = this
+			state = s:STATE_BAHIA.region_state:BRZ
+		}
+		c:BRZ = {
+			create_diplomatic_pact = {
+				country = c:SAB
+				type = dominion
+			}
+		}
+	}
+
 	trigger = {
-        #je trigger
 	}
 
 
 	option = {
 		name = regency.5.a
 		default_option = yes
-		add_modifier = {
-				name = repressed_strata
-				months = 3
+		c:BRZ = {
+			create_diplomatic_play = {
+				type = dp_annex_war
+				war = yes
+				target_country = c:SAB
+			}
 		}
 	}
 	option = {
 		name = regency.5.b
 		add_modifier = {
-				name = angry_elite
+				name = lazy_burocrats
 				months = 3
 		}
+	}
+}
+
+regency.6 = {
+	title = regency.6.title
+	desc = regency.6.desc
+	flavor = regency.6.flavor
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	immediate = {
+	}
+
+	trigger = {
+	}
+
+
+	option = {
+		name = regency.6.a
+		default_option = yes
+		s:STATE_MINAS_GERAIS.region_state:BRZ = {
+			add_modifier = {
+				name = army_mutiny
+				months = 3
+			}
+		}
+	}
+}
+
+regency.7 = {
+	title = regency.7.title
+	desc = regency.7.desc
+	flavor = regency.7.flavor
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	immediate = {
+	}
+
+	trigger = {
+		ruler = {
+			has_variable = underoos_emperor
+		}
+		radical_fraction > 0.01
+	}
+
+
+	option = {
+		name = regency.7.a
+		default_option = yes
 	}
 }
 
@@ -377,8 +469,7 @@ regency.9 = {
 		}
 	}
 	option = {
-		name = regency.9.a
-		default_option = yes
+		name = regency.9.b
 		c:BRZ = {
 			create_diplomatic_pact = {
 				country = c:BLD
