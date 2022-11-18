@@ -223,3 +223,166 @@
 		value = 1000
 	}
 }
+
+ai_strategy_unify_ethiopia = {
+	icon = "gfx/interface/icons/ai_strategy_icons/unification.dds"
+	
+	type = diplomatic
+	
+	wanted_army_ratio = 150000 # 1 barrack per 150k incorporated population
+	wanted_navy_ratio = 400000 # 1 naval base per 400k coastal incorporated population
+	
+	undesirable_infamy_level = 50
+	unacceptable_infamy_level = 100
+	
+	ideological_opinion_effect_mult = 0.5
+	
+	wargoal_maneuvers_fraction = {
+		value = 0.1
+	}		
+		
+	diplomatic_play_neutrality = 0 # Added to base neutrality in diplomatic plays	
+	diplomatic_play_boldness = 50 # Added to base boldness in diplomatic plays
+		
+	# Added to value from default strategy
+	obligation_value = {
+		value = 0
+	
+		if = {
+			limit = { 
+				scope:target_country = { can_form_nation = ETH }
+			}
+			add = 25
+		}
+	}			
+		
+	# Added to value from default strategy
+	bravery = {
+		value = 0.5
+	}	
+	
+	# Added to value from default strategy
+	aggression = {
+		value = 0.5
+		
+		if = {
+			limit = { 
+				scope:target_country = { can_form_nation = ETH }
+			}
+			add = 10
+		}
+
+		# Less aggressive against countries we're just antagonistic against, rather than belligerent/domineering
+		if = {
+			limit = {
+				has_attitude = {
+					who = scope:target_country
+					attitude = antagonistic
+				}					
+			}
+			multiply = 0.25
+		}			
+	}
+
+	building_group_weights = {
+		bg_army = 1.5
+	}
+	
+	wargoal_scores = {
+		conquer_state = {
+			if = {
+				limit = {
+					scope:target_state = {
+						state_region = {
+							OR = {
+								is_homeland = cu:amhara
+								is_homeland = cu:oromo
+								is_homeland = cu:tigray
+							}					
+						}						
+					}
+					can_reach_target_state = yes
+				}
+				add = 100
+			}
+		}
+		return_state = {
+			if = {
+				limit = {
+					scope:target_state = {
+						state_region = {
+							OR = {
+								is_homeland = cu:amhara
+								is_homeland = cu:oromo
+								is_homeland = cu:tigray
+							}					
+						}						
+					}					
+				}
+				add = 100
+			}
+		}		
+	}		
+	
+	secret_goal_scores = {
+		befriend = {		
+			if = {
+				limit = {
+					scope:target_country = {
+						can_form_nation = ETH
+					}
+				}
+				add = 200
+			}		
+		}		
+		dominate = {		
+			if = {
+				limit = {
+					scope:target_country = {
+						can_form_nation = ETH
+					}
+				}
+				add = 300
+			}			
+		}		
+		conquer = {				
+			if = {
+				limit = {
+					scope:target_country = {
+						can_form_nation = ETH
+					}
+				}
+				add = 300
+			}				
+		}			
+	}	
+
+	wargoal_weights = {
+		conquer_state = 2.0
+		return_state = 2.0
+	}	
+		
+	possible = {
+		NOT = { exists = c:ETH }
+		can_form_nation = ETH
+	}
+
+	weight = {
+		value = 500
+		
+		if = {
+			limit = { NOT = { is_country_type = unrecognized } }
+			add = 100
+		}		
+		
+		if = {
+			limit = { country_rank = rank_value:unrecognized_regional_power }
+			add = 25
+		}
+
+		if = {
+			limit = { country_rank = rank_value:unrecognized_major_power }
+			add = 50
+		}		
+	}
+}
