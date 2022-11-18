@@ -288,7 +288,20 @@ ai_strategy_default = {
 	
 	aggression = {
 		value = 0
-
+		
+		# AI should be insanely aggressive against countries it has claims on
+		if = {
+			limit = {
+				can_reach_target_country = yes
+				scope:target_country = { 
+					any_scope_state = {
+						root = { has_claim = prev }
+					}	
+				}
+			}
+			add = 10000 #Test Value
+		}
+			
 		# Higher aggression against pariah countries
 		if = {
 			limit = {
