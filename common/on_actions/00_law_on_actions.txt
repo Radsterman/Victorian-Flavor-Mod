@@ -1,0 +1,42 @@
+on_law_enactment_started = {
+	effect = {
+		if = {
+			limit = {
+				has_law = law_type:law_monarchy
+				OR = {
+					is_enacting_law = law_type:law_presidential_republic
+					is_enacting_law = law_type:law_parliamentary_republic
+					is_enacting_law = law_type:law_council_republic
+				}
+			}
+			set_variable = {
+				name = abolishing_monarchy_var
+				value = 0
+			}
+			add_journal_entry = { type =  je_abolish_monarchy }
+		}
+	}
+	on_actions = {
+		on_slavery_being_expanded
+		on_slavery_being_reduced
+	}
+}
+
+on_slavery_being_expanded = {
+	trigger = {
+		has_law = law_type:law_slavery_banned
+		is_enacting_law = law_type:law_legacy_slavery
+	}
+}
+
+on_slavery_being_reduced = {
+	effect = {
+		if = {
+			limit = {
+				has_law = law_type:law_legacy_slavery
+				is_enacting_law = law_type:law_slavery_banned
+			}
+			add_journal_entry = { type =  je_usa_secession_crisis }
+		}
+	}
+}

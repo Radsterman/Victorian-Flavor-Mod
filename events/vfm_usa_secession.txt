@@ -1,0 +1,213 @@
+usa_secession_events.1 = {
+	type = country_event
+	placement = scope:seceded_state
+	
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_capitalists_meeting.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/capitalists_meeting"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	title = usa_secession_events.1.t
+	desc = usa_secession_events.1.d
+	flavor = usa_secession_events.1.f
+
+	duration = 3
+
+	trigger = {
+		exists = c:USA
+		c:USA = ROOT
+		OR = {
+			is_enacting_law = law_type:law_slavery_banned
+			ruler = {
+				has_ideology = ideology_abolitionist
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				exists = c:USA
+				owner = {
+					c:USA = THIS
+				}
+				is_slave_state = yes
+				#any_interest_group = {
+				#	is_interest_group_type = ig:ig_landowners
+				#	ig_state_pol_strength_share = {
+				#	target = ig:ig_landowners
+				#	value > 0.01
+				#	}
+				#}
+				
+			}
+			weight = {
+				base = 1
+				#modifier = {
+				#	ig_state_pol_strength_share = {
+				#		target = scope:ig_landowners
+				#		value >= 0.1
+				#	}
+				#	add = 20
+				#}
+				#modifier = {
+				#	any_neighbouring_state = {
+				#		has_variable = has_seceded_from_USA
+				#	}
+				#	add = 50
+				#}
+				#modifier = {
+				#	has_state_trait = floridian_wetlands
+				#	add = 1000
+				#}
+			}
+
+			save_scope_as = seceded_state
+
+			if = {
+			#limit = {
+			#	NOT = { exists = c:ALA }
+			#	scope:seceded_state = {
+			#		state = STATE_ALABAMA
+			#	}
+			#}
+				limit = {
+					NOT = { exists = c:CSA }
+				}
+				create_country = {
+					tag = CSA
+					state = scope:seceded_state
+				}
+			}
+			else = {
+				set_state_owner = c:CSA
+			}
+			set_variable = {
+				name = has_seceded_from_USA
+			}
+		}
+	}
+
+	option = {
+		name = acw_events.1.a
+        default_option = yes
+		#scope:secession_state = {
+		#	set_state_owner = c:MEX
+		#}
+	}
+
+	option = {
+		name = acw_events.1.b
+	}
+}
+
+usa_secession_events.2 = {
+	type = country_event
+	placement = scope:seceded_state
+	
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_capitalists_meeting.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/capitalists_meeting"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	title = usa_secession_events.2.t
+	desc = usa_secession_events.2.d
+	flavor = usa_secession_events.2.f
+
+	duration = 3
+
+	trigger = {
+		exists = c:USA
+		c:USA = ROOT
+		OR = {
+			is_enacting_law = law_type:law_slavery_banned
+			ruler = {
+				has_ideology = ideology_abolitionist
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				exists = c:USA
+				owner = {
+					c:USA = THIS
+				}
+				is_slave_state = yes
+				
+			}
+			save_scope_as = seceded_state
+
+			#if = {
+			##limit = {
+			##	NOT = { exists = c:ALA }
+			##	scope:seceded_state = {
+			##		state = STATE_ALABAMA
+			##	}
+			##}
+			#	limit = {
+			#		NOT = { exists = c:CSA }
+			#	}
+			#	create_country = {
+			#		tag = CSA
+			#		state = scope:seceded_state
+			#	}
+			#}
+			#else = {
+			#	set_state_owner = c:CSA
+			#}
+			create_country = {
+				tag = CSA
+				state = scope:seceded_state
+			}
+			if = {
+				limit = {
+					c:CSA = {
+						ig:ig_landowners = {
+							ig_government_power_share >= 0.1
+						}
+					}
+				}
+				scope:seceded_state = {
+					set_state_owner = c:GBR
+				}
+			}
+			#else = {
+			#	set_variable = small_landowner_share
+			#}
+			#if = {
+			#	limit = {
+			#		has_variable = small_landowner_share
+			#	}
+			#	set_state_owner = c:USA
+			#}
+			#else = {
+			#	set_variable = {
+			#		name = has_seceded_from_USA
+			#	}
+			#}
+			
+		}
+	}
+
+	option = {
+		name = acw_events.1.a
+        default_option = yes
+		#scope:secession_state = {
+		#	set_state_owner = c:MEX
+		#}
+	}
+
+	option = {
+		name = acw_events.1.b
+	}
+}

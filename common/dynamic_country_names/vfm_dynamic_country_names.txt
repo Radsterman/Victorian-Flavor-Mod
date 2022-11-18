@@ -36,3 +36,59 @@ POL = { # Poland -> Congress Poland
 		}
 	}
 }
+
+COL = { # British Columbia
+	dynamic_country_name = {
+		name = dyn_c_columbia
+		adjective = dyn_c_columbia_adj
+		
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			OR = {
+				AND = {
+					exists = c:GBR
+					c:GBR = {
+						has_diplomatic_pact = {
+							who = scope:actor
+							type = dominion
+							is_initiator = yes
+						}
+					}
+				}
+				AND = {
+					exists = c:HBC
+					scope:actor = {
+						is_subject_of = c:HBC
+					}
+				}
+				AND = {
+					exists = c:CAN
+					scope:actor = {
+						is_subject_of = c:CAN
+					}
+				}
+			}
+		}
+	}
+	dynamic_country_name = {
+		name = dyn_c_columbia_district
+		adjective = dyn_c_columbia_adj # no need for a different adjective from the above entry
+		
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = c:GBR
+			c:GBR = {
+				has_diplomatic_pact = {
+					who = c:COL
+					type = puppet
+					is_initiator = yes
+				}
+			}
+		}
+	}
+}

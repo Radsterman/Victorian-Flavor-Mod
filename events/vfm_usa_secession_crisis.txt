@@ -1,0 +1,137 @@
+# namespace = usa_secession_crisis
+
+# usa_secession_crisis.1 = {
+# 	type = country_event
+# 	placement = scope:first_seceded_state
+	
+# 	event_image = {
+# 		video = "gfx/event_pictures/europenorthamerica_capitalists_meeting.bk2"
+# 	}
+
+# 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+# 	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/capitalists_meeting"
+
+# 	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+# 	title = usa_secession_crisis.1.t
+# 	desc = usa_secession_crisis.1.d
+# 	flavor = usa_secession_crisis.1.f
+
+# 	duration = 3
+
+# 	trigger = {
+# 		exists = c:USA
+# 		c:USA = ROOT
+# 		OR = {
+# 			is_enacting_law = law_type:law_slavery_banned
+# 			ruler = {
+# 				has_ideology = ideology_abolitionist
+# 			}
+# 		}
+# 		NOT = { has_variable = first_secession }
+# 	}
+
+# 	immediate = {
+# 		random_scope_state = {
+# 			limit = {
+# 				exists = c:USA
+# 				owner = {
+# 					c:USA = THIS
+# 				}
+# 				is_slave_state = yes
+# 			}
+
+# 			save_scope_as = first_seceded_state
+			
+# 			if = {
+# 				limit = {
+# 					scope:first_seceded_state = {
+
+# 					}
+# 				}
+# 			}
+
+
+# 			create_country = {
+# 				tag = CSA
+# 				state = scope:first_seceded_state
+# 			}
+			
+# 			set_variable = first_secession
+
+# 			add_journal_entry = { type =  je_usa_secession_crisis }
+# 		}
+# 	}
+
+# 	option = {
+# 		name = usa_secession_crisis.1.a
+#         default_option = yes
+# 	}
+
+# 	option = {
+# 		name = usa_secession_crisis.1.b
+# 	}
+# }
+
+# usa_secession_crisis.2 = {
+# 	type = country_event
+# 	placement = scope:seceded_state
+	
+# 	event_image = {
+# 		video = "gfx/event_pictures/europenorthamerica_capitalists_meeting.bk2"
+# 	}
+
+# 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+# 	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/capitalists_meeting"
+
+# 	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+# 	title = usa_secession_crisis.2.t
+# 	desc = usa_secession_crisis.2.d
+# 	flavor = usa_secession_crisis.2.f
+
+# 	duration = 3
+
+# 	trigger = {
+# 		exists = c:USA
+# 		exists = c:CSA
+# 		c:USA = ROOT
+# 		has_variable = first_secession
+# 	}
+
+# 	immediate = {
+# 		random_scope_state = {
+# 			weight = {
+# 				base = 1
+# 				modifier = {
+# 					is_slave_state = yes
+# 					add = 100
+# 				}
+# 				modifier = {
+# 					any_neighboring_state = {
+# 						has_variable = seceded_state_variable
+# 					}
+# 					multiply = 10
+# 				}
+# 			}
+# 			is_slave_state = yes
+
+# 			save_scope_as = seceded_state
+# 			set_variable =  seceded_state_variable
+			
+# 			scope:seceded_state = {
+# 				set_state_owner = c:CSA
+# 			}
+			
+# 		}
+# 	}
+
+# 	option = {
+# 		name = usa_secession_crisis.2.a
+#         default_option = yes
+# 	}
+
+# 	option = {
+# 		name = usa_secession_crisis.2.b
+# 	}
+# }
