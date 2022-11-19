@@ -64,6 +64,11 @@ regency.1 = {
 	}
 	option = { 
 		name = regency.1.b
+		trigger = {
+        	NOT = {
+				exists = c:BLD
+			}
+		}
 		s:STATE_MARANHAO.region_state:BRZ = {
 			add_radicals = {
 				value = large_radicals
@@ -80,6 +85,11 @@ regency.1 = {
 	option = { 
 		name = regency.1.c
 		default_option = yes
+		trigger = {
+        	NOT = {
+				exists = c:SAB
+			}
+		}
 		s:STATE_BAHIA.region_state:BRZ = { 
 			add_radicals = {
 				strata = rich
@@ -110,7 +120,7 @@ regency.2 = {
 	icon = "gfx/interface/icons/event_icons/event_trade.dds"
 
 	immediate = {
-		random_interest_group = {
+		every_interest_group = {
 			limit = {
 				is_in_government = no
 			}
@@ -149,8 +159,106 @@ regency.2 = {
 	}
 }
 
-# Balaiada Revolt
 regency.3 = {
+	title = regency.3.title
+	desc = regency.3.desc
+	flavor = regency.3.flavor
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	immediate = {
+	}
+
+	trigger = {
+	}
+
+
+	option = {
+		name = regency.3.a
+		default_option = yes
+		s:STATE_MINAS_GERAIS.region_state:BRZ = {
+			add_modifier = {
+				name = army_mutiny
+				months = 3
+			}
+		}
+	}
+}
+
+regency.4 = {
+	title = regency.4.title
+	desc = regency.4.desc
+	flavor = regency.4.flavor
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_MARANHAO
+			}
+			save_scope_as = testing
+		}
+		every_scope_war = {
+			save_scope_as = ongoing_war
+			every_scope_front = {
+				save_scope_as = anyfront
+			}
+		}
+		
+	}
+
+	trigger = { 
+	}
+
+	option = {
+		name = regency.7.a
+		default_option = yes
+		scope:testing = {
+			add_radicals = {
+				value = 0.2
+			}
+		}
+		
+	}
+
+	option = {
+		name = regency.7.b
+		hidden_effect = {
+			add_radicals = {
+				value = 0.01
+			}
+		}
+		# scope:ongoing_war = {
+		# 	add_war_war_support = {
+		# 		target = ROOT
+		# 		value = 10
+		# 	}
+		# }
+		
+	}
+}
+
+# Balaiada Revolt
+regency.5 = {
 	title = regency.3.title
 	desc = regency.3.desc
 	flavor = regency.3.flavor
@@ -180,7 +288,7 @@ regency.3 = {
 	}
 	trigger = {
         s:STATE_MARANHAO.region_state:BRZ = {
-			turmoil > 0.8
+			turmoil > 0.4
 		}
 	}
 
@@ -201,7 +309,7 @@ regency.3 = {
 	}
 }
 
-regency.4 = {
+regency.6 = {
 	title = regency.4.title
 	desc = regency.4.desc
 	flavor = regency.4.flavor
@@ -244,7 +352,7 @@ regency.4 = {
 	}
 }
 # Sabinada Revolt
-regency.5 = {
+regency.7 = {
 	title = regency.5.title
 	desc = regency.5.desc
 	flavor = regency.5.flavor
@@ -276,7 +384,7 @@ regency.5 = {
 
 	trigger = {
 		s:STATE_BAHIA.region_state:BRZ = {
-			turmoil > 0.3
+			turmoil > 0.4
 		}
 	}
 
@@ -301,105 +409,7 @@ regency.5 = {
 	}
 }
 
-regency.6 = {
-	title = regency.6.title
-	desc = regency.6.desc
-	flavor = regency.6.flavor
-
-	duration = 3
-
-	event_image = {
-		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
-
-	icon = "gfx/interface/icons/event_icons/event_trade.dds"
-
-	immediate = {
-	}
-
-	trigger = {
-	}
-
-
-	option = {
-		name = regency.6.a
-		default_option = yes
-		s:STATE_MINAS_GERAIS.region_state:BRZ = {
-			add_modifier = {
-				name = army_mutiny
-				months = 3
-			}
-		}
-	}
-}
-
-regency.7 = {
-	title = regency.7.title
-	desc = regency.7.desc
-	flavor = regency.7.flavor
-
-	duration = 3
-
-	event_image = {
-		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
-
-	icon = "gfx/interface/icons/event_icons/event_trade.dds"
-
-	immediate = {
-		random_scope_state = {
-			limit = {
-				state_region = s:STATE_MARANHAO
-			}
-			save_scope_as = testing
-		}
-		every_scope_war = {
-			save_scope_as = ongoing_war
-			every_scope_front = {
-				save_scope_as = anyfront
-			}
-		}
-		
-	}
-
-	trigger = {
-	}
-
-	option = {
-		name = regency.7.a
-		default_option = yes
-		scope:testing = {
-			add_radicals = {
-				value = 0.2
-			}
-		}
-		
-	}
-
-	option = {
-		name = regency.7.b
-		scope:anyfront = {
-			add_modifier = {
-				name = testing_var
-				months = 3
-			}
-		}
-		# scope:ongoing_war = {
-		# 	add_war_war_support = {
-		# 		target = ROOT
-		# 		value = 10
-		# 	}
-		# }
-		
-	}
-}
-
+# New Ecuator confederance
 regency.8 = {
 	title = regency.8.title
 	desc = regency.8.desc
