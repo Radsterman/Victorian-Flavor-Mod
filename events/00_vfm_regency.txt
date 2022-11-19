@@ -23,9 +23,14 @@ regency.1 = {
 
 	option = { 
 		name = regency.1.a
+		trigger = {
+        	NOT = {
+				exists = c:ECF
+			}
+		}
 		s:STATE_PERNAMBUCO.region_state:BRZ = {
 			add_radicals = {
-				value = medium_radicals
+				value = large_radicals
 			}
 		}
 		s:STATE_PIAUI.region_state:BRZ = {
@@ -61,7 +66,7 @@ regency.1 = {
 		name = regency.1.b
 		s:STATE_MARANHAO.region_state:BRZ = {
 			add_radicals = {
-				value = medium_radicals
+				value = large_radicals
 			}
 		}
 		s:STATE_PIAUI.region_state:BRZ = {
@@ -149,7 +154,7 @@ regency.3 = {
 	title = regency.3.title
 	desc = regency.3.desc
 	flavor = regency.3.flavor
-	placement = s:STATE_MARANHAO.region_state:BRZ # the maranhao state scope does not exist at this time
+	placement = s:STATE_MARANHAO.region_state:BRZ
 
 	duration = 3
 
@@ -162,8 +167,21 @@ regency.3 = {
 
 	icon = "gfx/interface/icons/event_icons/event_trade.dds"
 
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_MARANHAO
+				market = {
+					owner = ROOT
+				}
+			}
+			save_scope_as = maranhao_state
+		}
+	}
 	trigger = {
-        #je trigger
+        s:STATE_MARANHAO.region_state:BRZ = {
+			turmoil > 0.8
+		}
 	}
 
 	option = {
@@ -197,11 +215,10 @@ regency.4 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
-
+ 
 	icon = "gfx/interface/icons/event_icons/event_trade.dds"
 
 	trigger = {
-        #je trigger
 	}
 
 	immediate = {
@@ -244,7 +261,7 @@ regency.5 = {
 	icon = "gfx/interface/icons/event_icons/event_trade.dds"
 
 	immediate = {
-		 create_country = {
+		create_country = {
 			tag = SAB
 			origin = this
 			state = s:STATE_BAHIA.region_state:BRZ
@@ -258,6 +275,9 @@ regency.5 = {
 	}
 
 	trigger = {
+		s:STATE_BAHIA.region_state:BRZ = {
+			turmoil > 0.3
+		}
 	}
 
 
@@ -333,19 +353,50 @@ regency.7 = {
 	icon = "gfx/interface/icons/event_icons/event_trade.dds"
 
 	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_MARANHAO
+			}
+			save_scope_as = testing
+		}
+		every_scope_war = {
+			save_scope_as = ongoing_war
+			every_scope_front = {
+				save_scope_as = anyfront
+			}
+		}
+		
 	}
 
 	trigger = {
-		ruler = {
-			has_variable = underoos_emperor
-		}
-		radical_fraction > 0.01
 	}
-
 
 	option = {
 		name = regency.7.a
 		default_option = yes
+		scope:testing = {
+			add_radicals = {
+				value = 0.2
+			}
+		}
+		
+	}
+
+	option = {
+		name = regency.7.b
+		scope:anyfront = {
+			add_modifier = {
+				name = testing_var
+				months = 3
+			}
+		}
+		# scope:ongoing_war = {
+		# 	add_war_war_support = {
+		# 		target = ROOT
+		# 		value = 10
+		# 	}
+		# }
+		
 	}
 }
 
@@ -367,7 +418,7 @@ regency.8 = {
 
 	trigger = {
         s:STATE_PERNAMBUCO.region_state:BRZ = {
-			turmoil >= 0.75
+			turmoil > 0.3
 		}
 	}
 
