@@ -1,0 +1,57 @@
+﻿namespace = ecuador_confederacy
+
+# New Ecuator confederance
+ecuador_confederacy.1 = {
+	title = ecuador_confederacy.1.title
+	desc = ecuador_confederacy.1.desc
+	flavor = ecuador_confederacy.1.flavor
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	trigger = {
+        s:STATE_PERNAMBUCO.region_state:BRZ = {
+			turmoil > 0.3
+		}
+	}
+
+	immediate = {
+		create_country = {
+			tag = ECF
+			origin = this
+			state = s:STATE_PERNAMBUCO.region_state:BRZ
+			state = s:STATE_CEARA.region_state:BRZ
+			state = s:STATE_RIO_GRANDE_DO_NORTE.region_state:BRZ
+			state = s:STATE_PARAIBA.region_state:BRZ
+		}	
+	}
+
+	option = {
+		name = ecuador_confederacy.1.a
+		default_option = yes
+		c:BRZ = {
+			create_diplomatic_play = {
+				type = dp_annex_war
+				war = yes
+				target_country = c:ECF
+			}
+		}
+	}
+	option = {
+		name = ecuador_confederacy.1.b
+		c:BRZ = {
+			create_diplomatic_pact = {
+				country = c:ECF
+				type = customs_union
+			}
+		}
+	}
+}

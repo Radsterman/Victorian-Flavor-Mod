@@ -1,0 +1,59 @@
+﻿namespace = sabino_revolt
+
+# Sabinada Revolt
+sabino_revolt.1 = {
+	title = sabino_revolt.1.title
+	desc = sabino_revolt.1.desc
+	flavor = sabino_revolt.1.flavor
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	immediate = {
+		create_country = {
+			tag = SAB
+			origin = this
+			state = s:STATE_BAHIA.region_state:BRZ
+		}
+		c:BRZ = {
+			create_diplomatic_pact = {
+				country = c:SAB
+				type = dominion
+			}
+		}
+	}
+
+	trigger = {
+		s:STATE_BAHIA.region_state:BRZ = {
+			turmoil > 0.4
+		}
+	}
+
+
+	option = {
+		name = sabino_revolt.1.a
+		default_option = yes
+		c:BRZ = {
+			create_diplomatic_play = {
+				type = dp_annex_war
+				war = yes
+				target_country = c:SAB
+			}
+		}
+	}
+	option = {
+		name = sabino_revolt.1.b
+		add_modifier = {
+				name = administrative_independence
+				months = 3
+		}
+	}
+}

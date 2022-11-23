@@ -1,0 +1,96 @@
+﻿namespace = hamper_revolt
+
+# Balaiada Revolt
+hamper_revolt.1 = {
+	title = hamper_revolt.1.title
+	desc = hamper_revolt.1.desc
+	flavor = hamper_revolt.1.flavor
+	placement = s:STATE_MARANHAO.region_state:BRZ
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_MARANHAO
+				market = {
+					owner = ROOT
+				}
+			}
+			save_scope_as = maranhao_state
+		}
+	}
+	trigger = {
+        s:STATE_MARANHAO.region_state:BRZ = {
+			turmoil > 0.4
+		}
+	}
+
+	option = {
+		name = hamper_revolt.1.a
+		default_option = yes
+		add_journal_entry = {
+			type = je_promised_better_prices
+		}
+	}
+	option = {
+		name = hamper_revolt.1.b
+		trigger_event = { id = regency.6 }
+		add_modifier = {
+			name = revolt_has_broken_out
+			months = 3
+		}
+	}
+}
+
+hamper_revolt.2 = {
+	title = hamper_revolt.2.title
+	desc = hamper_revolt.2.desc
+	flavor = hamper_revolt.2.flavor
+	placement = scope:maranhao_state
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+ 
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		create_country = {
+			tag = BLD
+			origin = this
+			state = s:STATE_MARANHAO.region_state:BRZ
+			state = s:STATE_PIAUI.region_state:BRZ
+		}
+	}
+
+
+	option = {
+		name = hamper_revolt.2.a
+		default_option = yes
+		c:BRZ = {
+			create_diplomatic_play = {
+				type = dp_annex_war
+				war = yes
+				target_country = c:BLD
+			}
+		}
+	}
+}
