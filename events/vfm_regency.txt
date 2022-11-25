@@ -1,7 +1,6 @@
 ﻿namespace = regency
 
-# General Regency Problems
-regency.1 = {
+regency.1 = { 
 	title = regency.1.title
 	desc = regency.1.desc
 	flavor = regency.1.flavor
@@ -17,89 +16,136 @@ regency.1 = {
 
 	icon = "gfx/interface/icons/event_icons/event_trade.dds"
 
-	trigger = {
-        #je trigger
+	immediate = {
+		random_scope_state = {
+			limit = {
+				AND = {
+					is_capital = no
+					any_neighbouring_state = {
+						NOT = { this = root.capital }
+					}
+				}
+			}
+			save_scope_as = distant_states
+		}
+		scope:distant_states = {
+			random_neighbouring_state = {
+				limit = {
+					AND = {
+						exists = c:BRZ
+						owner = { c:BRZ = THIS }
+						is_capital = no
+					}
+				}
+				save_scope_as = neighbour_state
+			}
+		}
 	}
 
-	option = { 
-		name = regency.1.a
-		trigger = {
-        	NOT = {
-				exists = c:ECF
-			}
-		}
-		s:STATE_PERNAMBUCO.region_state:BRZ = {
-			add_radicals = {
-				value = large_radicals
-			}
-		}
-		s:STATE_PIAUI.region_state:BRZ = {
-			custom_tooltip = regency.elites_fearing
-			add_radicals = {
-				strata = rich
-				value = medium_radicals
-			}
-		}
-		s:STATE_PARAIBA.region_state:BRZ = {
-			custom_tooltip = regency.elites_fearing
-			add_radicals = {
-				strata = rich
-				value = medium_radicals
-			}
-		}
-		s:STATE_RIO_GRANDE_DO_NORTE.region_state:BRZ = {
-			custom_tooltip = regency.elites_fearing
-			add_radicals = {
-				strata = rich
-				value = medium_radicals
-			}
-		}
-		s:STATE_CEARA.region_state:BRZ = {
-			custom_tooltip = regency.elites_fearing
-			add_radicals = {
-				strata = rich
-				value = medium_radicals
-			}
+	trigger = {
+		AND = {
+			exists = c:BRZ
+			this = c:BRZ
 		}
 	}
-	option = { 
-		name = regency.1.b
-		trigger = {
-        	NOT = {
-				exists = c:BLD
-			}
-		}
-		s:STATE_MARANHAO.region_state:BRZ = {
-			add_radicals = {
-				value = large_radicals
-			}
-		}
-		s:STATE_PIAUI.region_state:BRZ = {
-			custom_tooltip = regency.elites_fearing
-			add_radicals = {
-				strata = rich
-				value = medium_radicals
-			}
-		}
-	}
+
+	# option = { 
+	# 	name = regency.1.a
+	# 	default_option = yes
+	# 	trigger = {
+    #     	NOT = {
+	# 			exists = c:ECF
+	# 		}
+	# 	}
+	# 	s:STATE_PERNAMBUCO.region_state:BRZ = {
+	# 		add_radicals = {
+	# 			value = large_radicals
+	# 		}
+	# 	}
+	# 	s:STATE_PIAUI.region_state:BRZ = {
+	# 		custom_tooltip = regency.elites_fearing
+	# 		add_radicals = {
+	# 			strata = rich
+	# 			value = medium_radicals
+	# 		}
+	# 	}
+	# 	s:STATE_PARAIBA.region_state:BRZ = {
+	# 		custom_tooltip = regency.elites_fearing
+	# 		add_radicals = {
+	# 			strata = rich
+	# 			value = medium_radicals
+	# 		}
+	# 	}
+	# 	s:STATE_RIO_GRANDE_DO_NORTE.region_state:BRZ = {
+	# 		custom_tooltip = regency.elites_fearing
+	# 		add_radicals = {
+	# 			strata = rich
+	# 			value = medium_radicals
+	# 		}
+	# 	}
+	# 	s:STATE_CEARA.region_state:BRZ = {
+	# 		custom_tooltip = regency.elites_fearing
+	# 		add_radicals = {
+	# 			strata = rich
+	# 			value = medium_radicals
+	# 		}
+	# 	}
+	# }
+	# option = { 
+	# 	name = regency.1.b
+	# 	trigger = {
+    #     	NOT = {
+	# 			exists = c:BLD
+	# 		}
+	# 	}
+	# 	s:STATE_MARANHAO.region_state:BRZ = {
+	# 		add_radicals = {
+	# 			value = large_radicals
+	# 		}
+	# 	}
+	# 	s:STATE_PIAUI.region_state:BRZ = {
+	# 		custom_tooltip = regency.elites_fearing
+	# 		add_radicals = {
+	# 			strata = rich
+	# 			value = medium_radicals
+	# 		}
+	# 	}
+	# }
+
+	# option = { 
+	# 	name = regency.1.c
+	# 	default_option = yes
+	# 	trigger = {
+    #     	NOT = {
+	# 			exists = c:SAB
+	# 		}
+	# 	}
+	# 	s:STATE_BAHIA.region_state:BRZ = { 
+	# 		add_radicals = {
+	# 			strata = rich
+	# 			value = 0.15
+	# 		}
+	# 		add_radicals = {
+	# 			strata = middle
+	# 			value = medium_radicals
+	# 		}
+	# 	}
+	# }
 	option = { 
 		name = regency.1.c
-		default_option = yes
-		trigger = {
-        	NOT = {
-				exists = c:SAB
+		scope:distant_states = {
+			add_modifier = {
+				name = main_var
+				months = 1
 			}
 		}
-		s:STATE_BAHIA.region_state:BRZ = { 
-			add_radicals = {
-				strata = rich
-				value = 0.15
-			}
-			add_radicals = {
-				strata = middle
-				value = medium_radicals
+		scope:neighbour_state = {
+			add_modifier = {
+				name = secondary_var
+				months = 1
 			}
 		}
+		
 	}
 }
 
@@ -120,11 +166,16 @@ regency.2 = {
 	icon = "gfx/interface/icons/event_icons/event_trade.dds"
 
 	immediate = {
-		every_interest_group = {
+		random_scope_state = {
 			limit = {
-				is_in_government = no
+				AND = {
+					any_neighbouring_state = {
+						NOT = { this = root.capital }
+					}
+					is_capital = no
+				}
 			}
-			save_scope_as = opposition_igs
+			save_scope_as = distant_states
 		}
 	}
 
@@ -138,23 +189,28 @@ regency.2 = {
 		default_option = yes
 		add_modifier = {
 				name = administrative_independence
-				months = 3
+				months = 6
 		}
 	}
 	option = {
 		name = regency.2.b
-		scope:opposition_igs = {
-			add_modifier = {
-				name = silenced_opositors
-				months = 3
-			}	
-		}	
+		add_modifier = {
+			name = denied_political_independence
+			months = 6
+		}
+		scope:distant_states = {
+			add_radicals = {
+				value = 0.05
+			}
+		}
+		
 	}
 	option = {
 		name = regency.2.c
-		add_modifier = {
-				name = corruption_in_government
-				months = 3
+		scope:distant_states = {
+			add_radicals = {
+				value = 0.15
+			}
 		}
 	}
 }
@@ -211,14 +267,19 @@ regency.4 = {
 	icon = "gfx/interface/icons/event_icons/event_trade.dds"
 
 	immediate = {
+		
 		random_scope_state = {
 			limit = {
-				state_region = s:STATE_PERNAMBUCO
+				AND = {
+					any_neighbouring_state = {
+						is_capital = yes
+					}
+					is_capital = no
+				}
 			}
-			save_scope_as = testing
+			save_scope_as = distant_state
 		}
 		
-
 	}
 
 	trigger = { 
@@ -227,36 +288,20 @@ regency.4 = {
 	option = {
 		name = regency.4.a
 		default_option = yes
-		scope:testing = {
+		scope:distant_state = {
 			add_modifier = {
 				name = testing_var
-				months = 3
+				months = 1
 			}
 		}
-		
-	}
-
-	option = {
-		name = testing.4.b
-		every_scope_general = {
-			add_modifier = {
-				name = testing_var
-				months = 6
-			}
-		}
-			
-		
-			
 		
 	}
 }
 
-# Balaiada Revolt
 regency.5 = {
 	title = regency.5.title
 	desc = regency.5.desc
 	flavor = regency.5.flavor
-	placement = s:STATE_MARANHAO.region_state:BRZ
 
 	duration = 3
 
@@ -270,36 +315,22 @@ regency.5 = {
 	icon = "gfx/interface/icons/event_icons/event_trade.dds"
 
 	immediate = {
-		random_scope_state = {
-			limit = {
-				state_region = s:STATE_MARANHAO
-				market = {
-					owner = ROOT
-				}
-			}
-			save_scope_as = maranhao_state
-		}
 	}
-	trigger = {
-        s:STATE_MARANHAO.region_state:BRZ = {
-			turmoil > 0.4
-		}
+
+	trigger = { 
 	}
 
 	option = {
 		name = regency.5.a
 		default_option = yes
-		add_journal_entry = {
-			type = je_promised_better_prices
-		}
 	}
+
 	option = {
 		name = regency.5.b
-		trigger_event = { id = regency.6 }
-		add_modifier = {
-			name = revolt_has_broken_out
-			months = 3
-		}
+	}
+
+	option = {
+		name = regency.5.c
 	}
 }
 
@@ -307,7 +338,6 @@ regency.6 = {
 	title = regency.6.title
 	desc = regency.6.desc
 	flavor = regency.6.flavor
-	placement = scope:maranhao_state
 
 	duration = 3
 
@@ -317,36 +347,29 @@ regency.6 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
- 
+
 	icon = "gfx/interface/icons/event_icons/event_trade.dds"
 
-	trigger = {
-	}
-
 	immediate = {
-		create_country = {
-			tag = BLD
-			origin = this
-			state = s:STATE_MARANHAO.region_state:BRZ
-			state = s:STATE_PIAUI.region_state:BRZ
-		}
 	}
 
+	trigger = { 
+	}
 
 	option = {
-		name = regency.4.a
+		name = regency.6.a
 		default_option = yes
-		c:BRZ = {
-			create_diplomatic_play = {
-				type = dp_annex_war
-				war = yes
-				target_country = c:BLD
-			}
-		}
+	}
+
+	option = {
+		name = regency.6.b
+	}
+
+	option = {
+		name = regency.6.c
 	}
 }
 
-# Sabinada Revolt
 regency.7 = {
 	title = regency.7.title
 	desc = regency.7.desc
@@ -364,47 +387,25 @@ regency.7 = {
 	icon = "gfx/interface/icons/event_icons/event_trade.dds"
 
 	immediate = {
-		create_country = {
-			tag = SAB
-			origin = this
-			state = s:STATE_BAHIA.region_state:BRZ
-		}
-		c:BRZ = {
-			create_diplomatic_pact = {
-				country = c:SAB
-				type = dominion
-			}
-		}
 	}
 
-	trigger = {
-		s:STATE_BAHIA.region_state:BRZ = {
-			turmoil > 0.4
-		}
+	trigger = { 
 	}
-
 
 	option = {
 		name = regency.7.a
 		default_option = yes
-		c:BRZ = {
-			create_diplomatic_play = {
-				type = dp_annex_war
-				war = yes
-				target_country = c:SAB
-			}
-		}
 	}
+
 	option = {
 		name = regency.7.b
-		add_modifier = {
-				name = administrative_independence
-				months = 3
-		}
+	}
+
+	option = {
+		name = regency.7.c
 	}
 }
 
-# New Ecuator confederance
 regency.8 = {
 	title = regency.8.title
 	desc = regency.8.desc
@@ -421,42 +422,23 @@ regency.8 = {
 
 	icon = "gfx/interface/icons/event_icons/event_trade.dds"
 
-	trigger = {
-        s:STATE_PERNAMBUCO.region_state:BRZ = {
-			turmoil > 0.3
-		}
+	immediate = {
 	}
 
-	immediate = {
-		create_country = {
-			tag = ECF
-			origin = this
-			state = s:STATE_PERNAMBUCO.region_state:BRZ
-			state = s:STATE_CEARA.region_state:BRZ
-			state = s:STATE_RIO_GRANDE_DO_NORTE.region_state:BRZ
-			state = s:STATE_PARAIBA.region_state:BRZ
-		}	
+	trigger = { 
 	}
 
 	option = {
 		name = regency.8.a
 		default_option = yes
-		c:BRZ = {
-			create_diplomatic_play = {
-				type = dp_annex_war
-				war = yes
-				target_country = c:ECF
-			}
-		}
 	}
+
 	option = {
 		name = regency.8.b
-		c:BRZ = {
-			create_diplomatic_pact = {
-				country = c:ECF
-				type = customs_union
-			}
-		}
+	}
+
+	option = {
+		name = regency.8.c
 	}
 }
 
@@ -464,6 +446,42 @@ regency.9 = {
 	title = regency.9.title
 	desc = regency.9.desc
 	flavor = regency.9.flavor
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	immediate = {
+	}
+
+	trigger = { 
+	}
+
+	option = {
+		name = regency.9.a
+		default_option = yes
+	}
+
+	option = {
+		name = regency.9.b
+	}
+
+	option = {
+		name = regency.9.c
+	}
+}
+
+regency.10 = {
+	title = regency.10.title
+	desc = regency.10.desc
+	flavor = regency.10.flavor
 
 	duration = 3
 
@@ -504,7 +522,7 @@ regency.9 = {
 	}
 
 	option = {
-		name = regency.9.a
+		name = regency.10.a
 		default_option = yes
 		c:BRZ = {
 			create_diplomatic_play = {
@@ -525,7 +543,7 @@ regency.9 = {
 		}
 	}
 	option = {
-		name = regency.9.b
+		name = regency.10.b
 		c:BRZ = {
 			create_diplomatic_pact = {
 				country = c:BLD
@@ -539,10 +557,10 @@ regency.9 = {
 	}
 }
 
-regency.10 = {
-	title = regency.10.title
-	desc = regency.10.desc
-	flavor = regency.10.flavor
+regency.11 = {
+	title = regency.11.title
+	desc = regency.11.desc
+	flavor = regency.11.flavor
 
 	duration = 3
 
