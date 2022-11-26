@@ -16,32 +16,6 @@ regency.1 = {
 
 	icon = "gfx/interface/icons/event_icons/event_trade.dds"
 
-	immediate = {
-		random_scope_state = {
-			limit = {
-				AND = {
-					is_capital = no
-					any_neighbouring_state = {
-						NOT = { this = root.capital }
-					}
-				}
-			}
-			save_scope_as = distant_states
-		}
-		scope:distant_states = {
-			random_neighbouring_state = {
-				limit = {
-					AND = {
-						exists = c:BRZ
-						owner = { c:BRZ = THIS }
-						is_capital = no
-					}
-				}
-				save_scope_as = neighbour_state
-			}
-		}
-	}
-
 	trigger = {
 		AND = {
 			exists = c:BRZ
@@ -49,103 +23,95 @@ regency.1 = {
 		}
 	}
 
-	# option = { 
-	# 	name = regency.1.a
-	# 	default_option = yes
-	# 	trigger = {
-    #     	NOT = {
-	# 			exists = c:ECF
-	# 		}
-	# 	}
-	# 	s:STATE_PERNAMBUCO.region_state:BRZ = {
-	# 		add_radicals = {
-	# 			value = large_radicals
-	# 		}
-	# 	}
-	# 	s:STATE_PIAUI.region_state:BRZ = {
-	# 		custom_tooltip = regency.elites_fearing
-	# 		add_radicals = {
-	# 			strata = rich
-	# 			value = medium_radicals
-	# 		}
-	# 	}
-	# 	s:STATE_PARAIBA.region_state:BRZ = {
-	# 		custom_tooltip = regency.elites_fearing
-	# 		add_radicals = {
-	# 			strata = rich
-	# 			value = medium_radicals
-	# 		}
-	# 	}
-	# 	s:STATE_RIO_GRANDE_DO_NORTE.region_state:BRZ = {
-	# 		custom_tooltip = regency.elites_fearing
-	# 		add_radicals = {
-	# 			strata = rich
-	# 			value = medium_radicals
-	# 		}
-	# 	}
-	# 	s:STATE_CEARA.region_state:BRZ = {
-	# 		custom_tooltip = regency.elites_fearing
-	# 		add_radicals = {
-	# 			strata = rich
-	# 			value = medium_radicals
-	# 		}
-	# 	}
-	# }
-	# option = { 
-	# 	name = regency.1.b
-	# 	trigger = {
-    #     	NOT = {
-	# 			exists = c:BLD
-	# 		}
-	# 	}
-	# 	s:STATE_MARANHAO.region_state:BRZ = {
-	# 		add_radicals = {
-	# 			value = large_radicals
-	# 		}
-	# 	}
-	# 	s:STATE_PIAUI.region_state:BRZ = {
-	# 		custom_tooltip = regency.elites_fearing
-	# 		add_radicals = {
-	# 			strata = rich
-	# 			value = medium_radicals
-	# 		}
-	# 	}
-	# }
+	option = { 
+		name = regency.1.a
+		default_option = yes
+		trigger = {
+        	NOT = {
+				exists = c:ECF
+			}
+		}
+		s:STATE_PERNAMBUCO.region_state:BRZ = {
+			add_radicals = {
+				value = large_radicals
+			}
+		}
+		s:STATE_PIAUI.region_state:BRZ = {
+			custom_tooltip = regency.elites_fearing
+			add_radicals = {
+				strata = rich
+				value = medium_radicals
+			}
+		}
+		s:STATE_PARAIBA.region_state:BRZ = {
+			custom_tooltip = regency.elites_fearing
+			add_radicals = {
+				strata = rich
+				value = medium_radicals
+			}
+		}
+		s:STATE_RIO_GRANDE_DO_NORTE.region_state:BRZ = {
+			custom_tooltip = regency.elites_fearing
+			add_radicals = {
+				strata = rich
+				value = medium_radicals
+			}
+		}
+		s:STATE_CEARA.region_state:BRZ = {
+			custom_tooltip = regency.elites_fearing
+			add_radicals = {
+				strata = rich
+				value = medium_radicals
+			}
+		}
+	}
+	
+	option = { 
+		name = regency.1.b
+		trigger = {
+        	NOT = {
+				exists = c:BLD
+			}
+		}
+		s:STATE_MARANHAO.region_state:BRZ = {
+			add_radicals = {
+				value = large_radicals
+			}
+		}
+		s:STATE_PIAUI.region_state:BRZ = {
+			custom_tooltip = regency.elites_fearing
+			add_radicals = {
+				strata = rich
+				value = medium_radicals
+			}
+		}
+		s:STATE_GOIAS.region_state:BRZ = {
+			custom_tooltip = regency.elites_fearing
+			add_radicals = {
+				strata = rich
+				value = medium_radicals
+			}
+		}
+	}
 
-	# option = { 
-	# 	name = regency.1.c
-	# 	default_option = yes
-	# 	trigger = {
-    #     	NOT = {
-	# 			exists = c:SAB
-	# 		}
-	# 	}
-	# 	s:STATE_BAHIA.region_state:BRZ = { 
-	# 		add_radicals = {
-	# 			strata = rich
-	# 			value = 0.15
-	# 		}
-	# 		add_radicals = {
-	# 			strata = middle
-	# 			value = medium_radicals
-	# 		}
-	# 	}
-	# }
 	option = { 
 		name = regency.1.c
-		scope:distant_states = {
-			add_modifier = {
-				name = main_var
-				months = 1
+		default_option = yes
+		trigger = {
+        	NOT = {
+				exists = c:SAB
 			}
 		}
-		scope:neighbour_state = {
-			add_modifier = {
-				name = secondary_var
-				months = 1
+		s:STATE_BAHIA.region_state:BRZ = { 
+			add_radicals = {
+				strata = rich
+				value = 0.15
+			}
+			add_radicals = {
+				strata = middle
+				value = medium_radicals
 			}
 		}
-		
 	}
 }
 
@@ -232,20 +198,82 @@ regency.3 = {
 	icon = "gfx/interface/icons/event_icons/event_trade.dds"
 
 	immediate = {
+		random_scope_state = {
+			limit = {
+				has_building = building_conscription_center
+				is_capital = no
+			}
+			save_scope_as = conscript_state
+		}
 	}
 
 	trigger = {
+		is_at_war = yes
 	}
 
 
 	option = {
 		name = regency.3.a
-		default_option = yes
-		s:STATE_MINAS_GERAIS.region_state:BRZ = {
-			add_modifier = {
-				name = conscripts_mutiny
-				months = 3
+		remove_modifier = disorganized_army
+		remove_modifier = army_investments
+		# scope:conscript_state = {
+		# 	add_modifier = {
+		# 		name = conscripts_mutiny
+		# 		months = 12
+		# 	}
+		# 	add_loyalists = {
+		# 		value = 0.1
+		# 	}
+		# }
+	}
+
+	option = {
+		name = regency.3.b
+		change_variable = {
+			name = army_rage
+			add = 1
+		}
+		if = {
+			limit = {
+				has_modifier = disorganized_army
 			}
+			remove_modifier = disorganized_army
+		}
+		if = {
+			limit = {
+				NOT = { has_modifier = disorganized_army }
+			}
+			add_modifier = {
+				name = disorganized_army
+				multiplier = var:army_rage
+			}
+		}
+		
+		
+	}
+
+	option = {
+		name = regency.3.c
+		default_option = yes
+		change_variable = {
+			name = army_rage
+			subtract = 0.5
+		}
+		if = {
+			limit = {
+				has_modifier = disorganized_army
+			}
+			remove_modifier = disorganized_army
+		}
+		
+		add_modifier = {
+			name = disorganized_army
+			multiplier = var:army_rage
+		}
+		add_modifier = {
+			name = army_investments
+			months = 6
+			multiplier = var:army_rage
 		}
 	}
 }
@@ -290,7 +318,7 @@ regency.4 = {
 		default_option = yes
 		scope:distant_state = {
 			add_modifier = {
-				name = testing_var
+				name = main_test_var
 				months = 1
 			}
 		}
