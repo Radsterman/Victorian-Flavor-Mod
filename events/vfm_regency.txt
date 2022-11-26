@@ -200,10 +200,29 @@ regency.3 = {
 	immediate = {
 		random_scope_state = {
 			limit = {
-				has_building = building_conscription_center
-				is_capital = no
+				AND = {
+					has_building = building_conscription_center
+					is_capital = no
+				}
+				
 			}
 			save_scope_as = conscript_state
+		}
+		set_variable = {
+			name = added_rage
+			value = var:army_rage
+		}
+		set_variable = {
+			name = appeased_rage
+			value = var:army_rage
+		}
+		change_variable = {
+			name = added_rage
+			add = 1
+		}
+		change_variable = {
+			name = appeased_rage
+			subtract = 0.5
 		}
 	}
 
@@ -214,17 +233,15 @@ regency.3 = {
 
 	option = {
 		name = regency.3.a
-		remove_modifier = disorganized_army
-		remove_modifier = army_investments
-		# scope:conscript_state = {
-		# 	add_modifier = {
-		# 		name = conscripts_mutiny
-		# 		months = 12
-		# 	}
-		# 	add_loyalists = {
-		# 		value = 0.1
-		# 	}
-		# }
+		scope:conscript_state = {
+			add_modifier = {
+				name = conscripts_mutiny
+				months = 12
+			}
+			add_loyalists = {
+				value = 0.1
+			}
+		}
 	}
 
 	option = {
@@ -233,23 +250,29 @@ regency.3 = {
 			name = army_rage
 			add = 1
 		}
-		if = {
-			limit = {
-				has_modifier = disorganized_army
+		custom_tooltip = {
+			text = regency.added_rage
+			if = {
+				limit = {
+					has_modifier = disorganized_army
+				}
+				remove_modifier = disorganized_army
 			}
-			remove_modifier = disorganized_army
+			if = {
+				limit = {
+					NOT = { has_modifier = disorganized_army }
+				}
+				add_modifier = {
+					name = disorganized_army
+					multiplier = var:added_rage
+				}
+				scope:conscript_state = {
+					add_radicals = {
+						value = 0.1
+					}
+				}
+			}
 		}
-		if = {
-			limit = {
-				NOT = { has_modifier = disorganized_army }
-			}
-			add_modifier = {
-				name = disorganized_army
-				multiplier = var:army_rage
-			}
-		}
-		
-		
 	}
 
 	option = {
@@ -259,22 +282,30 @@ regency.3 = {
 			name = army_rage
 			subtract = 0.5
 		}
-		if = {
-			limit = {
-				has_modifier = disorganized_army
-			}
-			remove_modifier = disorganized_army
-		}
-		
-		add_modifier = {
-			name = disorganized_army
-			multiplier = var:army_rage
-		}
-		add_modifier = {
-			name = army_investments
-			months = 6
-			multiplier = var:army_rage
-		}
+		custom_tooltip = {
+			text = regency.appeased_rage
+			if = {
+				limit = {
+					has_modifier = disorganized_army
+				}
+				remove_modifier = disorganized_army
+				remove_modifier = army_investments
+			} 
+			if = {
+				limit = {
+					NOT = { has_modifier = disorganized_army }
+				}
+				add_modifier = {
+					name = disorganized_army
+					multiplier = var:appeased_rage
+				}
+				add_modifier = {
+					name = army_investments
+					months = 6
+					multiplier = var:appeased_rage
+				}
+			}	
+		}	
 	}
 }
 
@@ -295,34 +326,109 @@ regency.4 = {
 	icon = "gfx/interface/icons/event_icons/event_trade.dds"
 
 	immediate = {
-		
 		random_scope_state = {
 			limit = {
 				AND = {
 					any_neighbouring_state = {
-						is_capital = yes
+						NOT = { this = root.capital }
 					}
 					is_capital = no
 				}
 			}
-			save_scope_as = distant_state
+			save_scope_as = distant_states
 		}
-		
+		set_variable = {
+			name = added_rage
+			value = var:army_rage
+		}
+		set_variable = {
+			name = appeased_rage
+			value = var:army_rage
+		}
+		change_variable = {
+			name = added_rage
+			add = 1
+		}
+		change_variable = {
+			name = appeased_rage
+			subtract = 1
+		}		
 	}
 
-	trigger = { 
+	trigger = {
+		is_at_war = yes
 	}
 
 	option = {
 		name = regency.4.a
 		default_option = yes
-		scope:distant_state = {
-			add_modifier = {
-				name = main_test_var
-				months = 1
+		change_variable = {
+			name = army_rage
+			subtract = 0.5
+		}
+		every_scope_general = {
+			if = {
+				limit = {
+					has_modifier = army_stalling
+				}
+				remove_modifier = army_stalling
+			}
+			if = {
+				limit = {
+					NOT = {has_modifier = army_stalling}
+				}
+				add_modifier = {
+					name = army_stalling
+					months = 6
+					multiplier = var:appeased_rage
+					is_decaying = yes
+				}
 			}
 		}
-		
+		add_modifier = {
+			name = high_commmand_talk
+			months = 3
+		}
+	}
+
+	option = {
+		name = regency.4.b
+		ig:ig_armed_forces = {
+			interest_group_approval_add = -4
+		}
+		scope:distant_states = {
+			add_radicals = {
+				value = 0.10
+			}
+		}
+	}
+
+	option = {
+		name = regency.4.c
+		change_variable = {
+			name = army_rage
+			add = 1
+		}
+		every_scope_general = {
+			if = {
+				limit = {
+					has_modifier = army_stalling
+				}
+				remove_modifier = army_stalling
+			}
+			if = {
+				limit = {
+					NOT = {has_modifier = army_stalling}
+				}
+				add_modifier = {
+					name = army_stalling
+					months = 6
+					multiplier = var:added_rage
+					is_decaying = yes
+				}
+			}
+			
+		}
 	}
 }
 
@@ -359,6 +465,28 @@ regency.5 = {
 
 	option = {
 		name = regency.5.c
+		every_scope_character = {
+			if = {
+				limit = { 
+					NOT = { has_modifier = commanders_debuff }
+				}
+				add_modifier = {
+					name = commanders_debuff
+					months = 3
+					multiplier = 1
+				}
+			}
+			if = {
+				limit = { 
+					has_modifier = commanders_debuff
+				}
+				add_modifier = {
+					name = commanders_debuff
+					months = 3
+					multiplier = var:army_rage
+				}
+			}
+		}
 	}
 }
 
