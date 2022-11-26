@@ -5,7 +5,7 @@ regency.1 = {
 	desc = regency.1.desc
 	flavor = regency.1.flavor
 
-	duration = 3
+	duration = 1
 
 	event_image = {
 		video = "gfx/event_pictures/unspecific_politicians_arguing.bk2"
@@ -120,7 +120,7 @@ regency.2 = {
 	desc = regency.2.desc
 	flavor = regency.2.flavor
 
-	duration = 3
+	duration = 1
 
 	event_image = {
 		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
@@ -186,7 +186,7 @@ regency.3 = {
 	desc = regency.3.desc
 	flavor = regency.3.flavor
 
-	duration = 3
+	duration = 1
 
 	event_image = {
 		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
@@ -314,7 +314,7 @@ regency.4 = {
 	desc = regency.4.desc
 	flavor = regency.4.flavor
 
-	duration = 3
+	duration = 1
 
 	event_image = {
 		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
@@ -338,19 +338,19 @@ regency.4 = {
 			save_scope_as = distant_states
 		}
 		set_variable = {
-			name = added_rage
-			value = var:army_rage
+			name = added_commanders_rage
+			value = var:commanders_rage
 		}
 		set_variable = {
-			name = appeased_rage
-			value = var:army_rage
+			name = appeased_commanders_rage
+			value = var:commanders_rage
 		}
 		change_variable = {
-			name = added_rage
+			name = added_commanders_rage
 			add = 1
 		}
 		change_variable = {
-			name = appeased_rage
+			name = appeased_commanders_rage
 			subtract = 1
 		}		
 	}
@@ -363,7 +363,7 @@ regency.4 = {
 		name = regency.4.a
 		default_option = yes
 		change_variable = {
-			name = army_rage
+			name = commanders_rage
 			subtract = 0.5
 		}
 		every_scope_general = {
@@ -380,7 +380,7 @@ regency.4 = {
 				add_modifier = {
 					name = army_stalling
 					months = 6
-					multiplier = var:appeased_rage
+					multiplier = var:appeased_commanders_rage
 					is_decaying = yes
 				}
 			}
@@ -406,7 +406,7 @@ regency.4 = {
 	option = {
 		name = regency.4.c
 		change_variable = {
-			name = army_rage
+			name = commanders_rage
 			add = 1
 		}
 		every_scope_general = {
@@ -423,11 +423,10 @@ regency.4 = {
 				add_modifier = {
 					name = army_stalling
 					months = 6
-					multiplier = var:added_rage
+					multiplier = var:added_commanders_rage
 					is_decaying = yes
 				}
 			}
-			
 		}
 	}
 }
@@ -437,7 +436,7 @@ regency.5 = {
 	desc = regency.5.desc
 	flavor = regency.5.flavor
 
-	duration = 3
+	duration = 1
 
 	event_image = {
 		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
@@ -449,6 +448,33 @@ regency.5 = {
 	icon = "gfx/interface/icons/event_icons/event_trade.dds"
 
 	immediate = {
+		random_scope_state = {
+			limit = {
+				AND = {
+					any_neighbouring_state = {
+						NOT = { this = root.capital }
+					}
+					is_capital = no
+				}
+			}
+			save_scope_as = distant_states
+			set_variable = {
+				name = added_commanders_rage
+				value = var:commanders_rage
+			}
+			set_variable = {
+				name = appeased_commanders_rage
+				value = var:commanders_rage
+			}
+			change_variable = {
+				name = added_commanders_rage
+				add = 1
+			}
+			change_variable = {
+				name = appeased_commanders_rage
+				subtract = 1
+			}
+		}
 	}
 
 	trigger = { 
@@ -457,14 +483,77 @@ regency.5 = {
 	option = {
 		name = regency.5.a
 		default_option = yes
+		change_variable = {
+			name = commanders_rage
+			subtract = 0.5
+		}
+		random_scope_general = {
+			if = {
+				limit = {
+					has_modifier = commanders_debuff
+				}
+				remove_modifier = commanders_debuff
+			}
+			if = {
+				limit = {
+					NOT = {has_modifier = commanders_debuff}
+				}
+				add_modifier = {
+					name = commanders_debuff
+					months = 6
+					multiplier = var:appeased_commanders_rage
+					is_decaying = yes
+				}
+			}
+		}
+		scope:distant_states = {
+			add_modifier = {
+				name = high_commmand_talk
+				months = 3
+			}
+		}
+		
 	}
 
 	option = {
 		name = regency.5.b
+		change_variable = {
+			name = commanders_rage
+			subtract = 0.5
+		}
+		random_scope_general = {
+			if = {
+				limit = {
+					has_modifier = commanders_debuff
+				}
+				remove_modifier = commanders_debuff
+			}
+			if = {
+				limit = {
+					NOT = {has_modifier = commanders_debuff}
+				}
+				add_modifier = {
+					name = commanders_debuff
+					months = 6
+					multiplier = var:appeased_commanders_rage
+					is_decaying = yes
+				}
+			}
+		}
+		scope:distant_states = {
+			add_modifier = {
+				name = high_commmand_order
+				months = 3
+			}
+		}
 	}
 
 	option = {
 		name = regency.5.c
+		change_variable = {
+			name = commanders_rage
+			add = 1
+		}
 		every_scope_character = {
 			if = {
 				limit = { 
@@ -472,7 +561,7 @@ regency.5 = {
 				}
 				add_modifier = {
 					name = commanders_debuff
-					months = 3
+					months = 6
 					multiplier = 1
 				}
 			}
@@ -483,7 +572,7 @@ regency.5 = {
 				add_modifier = {
 					name = commanders_debuff
 					months = 3
-					multiplier = var:army_rage
+					multiplier = var:added_commanders_rage
 				}
 			}
 		}
@@ -495,7 +584,7 @@ regency.6 = {
 	desc = regency.6.desc
 	flavor = regency.6.flavor
 
-	duration = 3
+	duration = 1
 
 	event_image = {
 		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
@@ -507,6 +596,20 @@ regency.6 = {
 	icon = "gfx/interface/icons/event_icons/event_trade.dds"
 
 	immediate = {
+		random_scope_state = {
+			limit = {	
+				AND = {
+					OR = {
+							has_building = building_coffee_plantation
+							has_building = building_sugar_plantation
+							has_building = building_livestock_ranch
+							has_building = building_tobacco_plantation
+						}
+				 	is_capital = no
+				}
+			}
+			save_scope_as = country_buildings
+		}
 	}
 
 	trigger = { 
@@ -514,15 +617,35 @@ regency.6 = {
 
 	option = {
 		name = regency.6.a
-		default_option = yes
+		scope:country_buildings = {
+			add_modifier = {
+				name = crashed_prices
+				months = 3
+			}
+		}
 	}
 
 	option = {
 		name = regency.6.b
+		default_option = yes
+		scope:country_buildings = {
+			add_radicals = {
+				value = 0.05
+			}
+			add_modifier = {
+				name = tax_evasion
+				months = 6
+			}
+		}
 	}
 
 	option = {
 		name = regency.6.c
+		scope:country_buildings = {
+			add_radicals = {
+				value = 0.2
+			}
+		}
 	}
 }
 
@@ -531,7 +654,7 @@ regency.7 = {
 	desc = regency.7.desc
 	flavor = regency.7.flavor
 
-	duration = 3
+	duration = 1
 
 	event_image = {
 		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
@@ -543,6 +666,21 @@ regency.7 = {
 	icon = "gfx/interface/icons/event_icons/event_trade.dds"
 
 	immediate = {
+		every_scope_state = {
+			limit = {	
+				AND = {
+					OR = {
+						has_building = building_coffee_plantation
+						has_building = building_sugar_plantation
+						has_building = building_livestock_ranch
+						has_building = building_tobacco_plantation
+					}
+				 	is_capital = no
+					NOT = { has_modifier =  main_test_var }
+				}
+			}
+			save_scope_as = country_states
+		}
 	}
 
 	trigger = { 
@@ -551,14 +689,48 @@ regency.7 = {
 	option = {
 		name = regency.7.a
 		default_option = yes
+		every_scope_building = {
+			custom_tooltip = many_plantations_inefficiencies
+			limit = {	
+				OR = {
+					is_building_type = building_coffee_plantation
+					is_building_type = building_sugar_plantation
+					is_building_type = building_livestock_ranch
+					is_building_type = building_tobacco_plantation
+				}
+			}
+			add_modifier = {
+				name = main_test_var
+				months = 6
+			}
+			
+		}
 	}
 
 	option = {
 		name = regency.7.b
+		scope:country_states = {
+			add_radicals = {
+				value = 0.05
+			}
+			add_modifier = {
+				name = tax_evasion
+				months = 6
+			}
+		}
 	}
 
 	option = {
 		name = regency.7.c
+		scope:country_states = {
+			add_radicals = {
+				value = 0.05
+			}
+		}
+		add_modifier = {
+			name = bend_to_their_will
+			months = 6
+		}
 	}
 }
 
