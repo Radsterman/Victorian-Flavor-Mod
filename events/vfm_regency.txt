@@ -676,11 +676,12 @@ regency.7 = {
 						has_building = building_tobacco_plantation
 					}
 				 	is_capital = no
-					NOT = { has_modifier =  main_test_var }
+					NOT = { has_modifier =  plantations_inefficiencies }
 				}
 			}
 			save_scope_as = country_states
 		}
+		
 	}
 
 	trigger = { 
@@ -689,19 +690,35 @@ regency.7 = {
 	option = {
 		name = regency.7.a
 		default_option = yes
+		trigger = {
+			any_scope_building = {
+				AND = {
+					OR = {
+						is_building_type = building_coffee_plantation
+						is_building_type = building_sugar_plantation
+						is_building_type = building_livestock_ranch
+						is_building_type = building_tobacco_plantation
+					}
+					NOT = { has_modifier =  plantations_inefficiencies }
+				}
+			}
+			
+		}
 		every_scope_building = {
-			custom_tooltip = many_plantations_inefficiencies
-			limit = {	
-				OR = {
-					is_building_type = building_coffee_plantation
-					is_building_type = building_sugar_plantation
-					is_building_type = building_livestock_ranch
-					is_building_type = building_tobacco_plantation
+			limit = {
+				AND = {
+					OR = {
+						is_building_type = building_coffee_plantation
+						is_building_type = building_sugar_plantation
+						is_building_type = building_livestock_ranch
+						is_building_type = building_tobacco_plantation
+					}
+					NOT = { has_modifier =  plantations_inefficiencies }
 				}
 			}
 			add_modifier = {
-				name = main_test_var
-				months = 6
+				name = plantations_inefficiencies
+				months = 3
 			}
 			
 		}
@@ -715,7 +732,7 @@ regency.7 = {
 			}
 			add_modifier = {
 				name = tax_evasion
-				months = 6
+				months = 3
 			}
 		}
 	}
@@ -729,7 +746,7 @@ regency.7 = {
 		}
 		add_modifier = {
 			name = bend_to_their_will
-			months = 6
+			months = 3
 		}
 	}
 }
@@ -753,20 +770,66 @@ regency.8 = {
 	immediate = {
 	}
 
-	trigger = { 
+	trigger = {
+		year <= 1840
 	}
 
 	option = {
 		name = regency.8.a
 		default_option = yes
+		change_variable = {
+			name = dom_pedro_legitimacy
+			add = 2
+		}
+		custom_tooltip = nation_outrage
+		hidden_effect = {
+			every_scope_state = {
+				limit = {
+					is_capital = no
+				}
+				add_radicals = {
+					value = 0.05
+				}
+			}
+		}
 	}
 
 	option = {
 		name = regency.8.b
+		custom_tooltip = lawyers_support
+		change_variable = {
+			name = dom_pedro_legitimacy
+			add = 1
+		}
+		hidden_effect = {
+			capital = {
+				add_loyalists = {
+					value = 0.1
+				}
+			}
+			every_scope_state = {
+				limit = {
+					is_capital = no
+				}
+				add_radicals = {
+					value = 0.01
+				}
+			}
+		}
 	}
 
 	option = {
 		name = regency.8.c
+		every_interest_group = {
+			limit = {
+				ig_approval >= 2
+			}
+			add_modifier = {
+				name = rejected_political_maneuvers
+				months = 12
+				multiplier = 2
+			}
+		}
 	}
 }
 
@@ -790,19 +853,44 @@ regency.9 = {
 	}
 
 	trigger = { 
+		year > 1840
 	}
 
 	option = {
 		name = regency.9.a
 		default_option = yes
+		change_variable = {
+			name = dom_pedro_legitimacy
+			add = 1
+		}
+		custom_tooltip = nation_outrage
+		hidden_effect = {
+			every_scope_state = {
+				limit = {
+					is_capital = no
+				}
+				add_radicals = {
+					value = 0.1
+				}
+			}
+		}
 	}
 
 	option = {
 		name = regency.9.b
+		ruler = { 
+			remove_variable = underoos_emperor 
+		}
 	}
 
 	option = {
 		name = regency.9.c
+		every_interest_group = {
+			add_modifier = {
+				name = rejected_political_maneuvers
+				months = 12
+			}
+		}
 	}
 }
 
@@ -906,8 +994,45 @@ regency.11 = {
 	}
 
 	option = {
-		name = regency.10.a
+		name = regency.11.a
 		default_option = yes
-		activate_law = law_type:law_monarchy	
+		
+		this = {
+			activate_law = law_type:law_monarchy
+
+			ruler = {
+				add_modifier = {
+					name = emperor_dom_pedro
+					multiplier = 2
+				}
+			}
+			add_modifier = {
+				name = regency_ended
+				multiplier = 2
+				is_decaying = yes
+			}
+		}
+	}
+
+	option = {
+		name = regency.11.b
+		this = {
+			activate_law = law_type:law_monarchy
+			activate_law = law_type:law_autocracy
+			ruler = {
+				add_modifier = {
+					name = emperor_dom_pedro
+					months = long_modifier_time
+					multiplier = 2
+					is_decaying = yes
+				}
+			}
+			add_modifier = {
+				name = regency_ended
+				multiplier = 2
+				is_decaying = yes
+			}
+		}
+		
 	}
 }
