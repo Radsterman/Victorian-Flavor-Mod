@@ -2,18 +2,79 @@
 	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
 
 	is_shown_when_inactive = {
-		OR = {
-			country_has_primary_culture = cu:north_italian
-			country_has_primary_culture = cu:south_italian
+		AND = {
+			OR = {
+				country_has_primary_culture = cu:north_italian
+				country_has_primary_culture = cu:south_italian
+			}
+			OR = {
+				NOT = { exists = c:ITA }
+				c:ITA = THIS
+			}
 		}
 	}
 
 	possible = {
-		country_rank >= rank_value:major_power
-		has_technology_researched = nationalism
-		is_subject = no
+		OR = {
+			AND = {
+				country_rank >= rank_value:minor_power
+				has_technology_researched = nationalism
+				is_subject = no
+			}
+			exists = c:ITA
+		}			
 	}
 
+	immediate = {
+		ROOT = {
+			s:STATE_LOMBARDY = {
+				add_claim = ROOT
+			}
+			s:STATE_PIEDMONT = {
+				add_claim = ROOT
+			}
+			s:STATE_UMBRIA = {
+				add_claim = ROOT
+			}
+			s:STATE_CAMPANIA = {
+				add_claim = ROOT
+			}
+			s:STATE_CALABRIA = {
+				add_claim = ROOT
+			}
+			s:STATE_APULIA = {
+				add_claim = ROOT
+			}
+			s:STATE_ABRUZZO = {
+				add_claim = ROOT
+			}
+			s:STATE_EMILIA = {
+				add_claim = ROOT
+			}
+			s:STATE_TUSCANY = {
+				add_claim = ROOT
+			}
+			s:STATE_ROMAGNA = {
+				add_claim = ROOT
+			}
+			s:STATE_LAZIO = {
+				add_claim = ROOT
+			}
+			s:STATE_VENETIA = {
+				add_claim = ROOT
+			}
+			s:STATE_SICILY = {
+				add_claim = ROOT
+			}
+			s:STATE_SOUTH_TYROL = {
+				add_claim = ROOT
+			}
+			s:STATE_ISTRIA = {
+				add_claim = ROOT
+			}
+		}
+	}
+	
 	complete = {
 		calc_true_if = {
 			amount > 14
