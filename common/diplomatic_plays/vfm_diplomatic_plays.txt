@@ -1,0 +1,77 @@
+﻿dp_taiping_rebellion = {
+	war_goal = annex_country
+	
+	texture = "gfx/interface/icons/war_goals/annex_country.dds"
+	
+	selectable_in_lens = {
+		always = no
+	}
+	
+	possible = {
+		exists = c:TPG
+		scope:target = {
+			this = c:TPG
+		}
+	}
+	
+	additional_involvement_trigger = {
+		NOT = { is_country_type = decentralized }
+		aggressive_diplomatic_plays_permitted = yes
+	
+		scope:target = {
+			capital = {
+				region = {
+					save_temporary_scope_as = target_capital_region
+				}
+			}
+		}
+		
+		OR = {
+			has_interest_marker_in_region = scope:target_capital_region
+			is_home_country_for = scope:target
+		}
+	}
+	
+	on_weekly_pulse = {}
+	
+	on_war_begins = {}
+
+	on_war_end = {}
+}
+
+dp_unify_china = {
+	war_goal = annex_country
+	
+	texture = "gfx/interface/icons/war_goals/annex_country.dds"
+	
+	selectable_in_lens = {
+		OR = {
+			has_government_type = gov_warlord_state
+			AND = { exists = c:CHI this = c:CHI }
+		}
+	}
+	
+	possible = {
+		NOT = { is_country_type = decentralized }
+		is_subject = no
+		OR = {
+			has_government_type = gov_warlord_state
+			AND = { exists = c:CHI this = c:CHI }
+		}
+		
+		scope:target = {
+			NOT = { is_country_type = decentralized }
+			aggressive_diplomatic_plays_permitted = yes
+			OR = {
+				has_government_type = gov_warlord_state
+				AND = { exists = c:CHI this = c:CHI }
+			}
+		}
+	}
+	
+	on_weekly_pulse = {}
+	
+	on_war_begins = {}
+
+	on_war_end = {}
+}
