@@ -49,3 +49,51 @@ on_colony_created = {
 		}
 	}
 }
+
+# Root = country
+on_native_uprising = {
+	effect = {
+		post_notification = native_uprising_notification
+		
+		every_country = {
+			limit = {
+				is_country_type = decentralized
+				is_diplomatic_play_enemy_of = root
+				NOT = { has_war_with = root }
+			}
+			save_scope_as = native_nation
+		}
+		every_diplomatic_play = {
+			limit = {
+				any_scope_play_involved = {
+					this = scope:native_nation
+				}
+			}
+			end_play = yes
+		}
+		create_diplomatic_play = {
+			target_country = scope:native_nation
+			war = yes
+			type = dp_native_uprising_new
+		}
+	}
+}
+
+# Root = Country
+on_capitulation = {
+	effect = {
+		if = {
+			limit = {
+				is_country_type = decentralized
+			}
+			every_country = {
+				limit = {
+					has_truce_with = root
+				}
+				end_truce = {
+					country = root
+				}
+			}
+		}
+	}
+}
