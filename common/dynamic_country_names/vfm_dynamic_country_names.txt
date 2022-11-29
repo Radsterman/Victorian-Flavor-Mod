@@ -9,11 +9,24 @@ POS = { # Posen -> Poznan
 		trigger = {
 			exists = scope:actor
 			scope:actor = {
-				NOT = {
-					OR = {
-					is_subject_of = c:GER
-					is_subject_of = c:NGF
-					is_subject_of = c:PRU
+				NOR = {
+					if = {
+						limit = {
+							exists = c:GER
+						}
+						is_subject_of = c:GER
+					}
+					if = {
+						limit = {
+							exists = c:NGF
+						}
+						is_subject_of = c:NGF
+					}
+					if = {
+						limit = {
+							exists = c:PRU
+						}
+						is_subject_of = c:PRU
 					}
 				}
 			}
