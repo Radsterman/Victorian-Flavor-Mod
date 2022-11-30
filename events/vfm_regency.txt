@@ -208,22 +208,6 @@ regency.3 = {
 			}
 			save_scope_as = conscript_state
 		}
-		set_variable = {
-			name = added_rage
-			value = var:army_rage
-		}
-		set_variable = {
-			name = appeased_rage
-			value = var:army_rage
-		}
-		change_variable = {
-			name = added_rage
-			add = 1
-		}
-		change_variable = {
-			name = appeased_rage
-			subtract = 0.5
-		}
 	}
 
 	trigger = {
@@ -234,42 +218,24 @@ regency.3 = {
 	option = {
 		name = regency.3.a
 		scope:conscript_state = {
-			add_modifier = {
-				name = conscripts_mutiny
-				months = 12
-			}
 			add_loyalists = {
 				value = 0.1
+				pop_type = soldiers
 			}
+			add_soldier_layoff_modifier_effect = yes
 		}
 	}
 
 	option = {
 		name = regency.3.b
-		change_variable = {
-			name = army_rage
-			add = 1
+		scope:conscript_state = {
+			add_soldier_anger_modifier_effect = yes
 		}
-		custom_tooltip = {
-			text = regency.added_rage
-			if = {
-				limit = {
-					has_modifier = disorganized_army
-				}
-				remove_modifier = disorganized_army
-			}
-			if = {
-				limit = {
-					NOT = { has_modifier = disorganized_army }
-				}
-				add_modifier = {
-					name = disorganized_army
-					multiplier = var:added_rage
-				}
-				scope:conscript_state = {
-					add_radicals = {
-						value = 0.1
-					}
+		hidden_effect = {
+			scope:conscript_state = {
+				add_radicals = {
+					value = 0.05
+					pop_type = soldiers
 				}
 			}
 		}
@@ -278,34 +244,16 @@ regency.3 = {
 	option = {
 		name = regency.3.c
 		default_option = yes
-		change_variable = {
-			name = army_rage
-			subtract = 0.5
+		scope:conscript_state = {
+			add_loyalists = {
+				value = 0.05
+				pop_type = soldiers
+			}
+			add_modifier = {
+				name = military_propaganda
+				months = 8
+			}
 		}
-		custom_tooltip = {
-			text = regency.appeased_rage
-			if = {
-				limit = {
-					has_modifier = disorganized_army
-				}
-				remove_modifier = disorganized_army
-				remove_modifier = army_investments
-			} 
-			if = {
-				limit = {
-					NOT = { has_modifier = disorganized_army }
-				}
-				add_modifier = {
-					name = disorganized_army
-					multiplier = var:appeased_rage
-				}
-				add_modifier = {
-					name = army_investments
-					months = 6
-					multiplier = var:appeased_rage
-				}
-			}	
-		}	
 	}
 }
 
@@ -336,23 +284,7 @@ regency.4 = {
 				}
 			}
 			save_scope_as = distant_states
-		}
-		set_variable = {
-			name = added_commanders_rage
-			value = var:commanders_rage
-		}
-		set_variable = {
-			name = appeased_commanders_rage
-			value = var:commanders_rage
-		}
-		change_variable = {
-			name = added_commanders_rage
-			add = 1
-		}
-		change_variable = {
-			name = appeased_commanders_rage
-			subtract = 1
-		}		
+		}	
 	}
 
 	trigger = {
@@ -361,70 +293,47 @@ regency.4 = {
 
 	option = {
 		name = regency.4.a
-		default_option = yes
-		change_variable = {
-			name = commanders_rage
-			subtract = 0.5
-		}
-		every_scope_general = {
-			if = {
-				limit = {
-					has_modifier = army_stalling
-				}
-				remove_modifier = army_stalling
-			}
-			if = {
-				limit = {
-					NOT = {has_modifier = army_stalling}
-				}
-				add_modifier = {
-					name = army_stalling
-					months = 6
-					multiplier = var:appeased_commanders_rage
-					is_decaying = yes
-				}
+		scope:distant_states = {
+			add_radicals = {
+				value = 0.1
+				pop_type = soldiers
 			}
 		}
 		add_modifier = {
 			name = high_commmand_talk
-			months = 3
+			months = 6
 		}
 	}
 
 	option = {
 		name = regency.4.b
-		ig:ig_armed_forces = {
-			interest_group_approval_add = -4
-		}
+		default_option = yes
 		scope:distant_states = {
 			add_radicals = {
-				value = 0.10
+				value = 0.2
+				pop_type = soldiers
 			}
 		}
 	}
 
 	option = {
 		name = regency.4.c
-		change_variable = {
-			name = commanders_rage
-			add = 1
-		}
-		every_scope_general = {
-			if = {
-				limit = {
-					has_modifier = army_stalling
+		trigger = {
+			scope:distant_states = {
+				radical_fraction = {
+					value >= 0.1
+					pop_type = soldiers
 				}
-				remove_modifier = army_stalling
 			}
-			if = {
-				limit = {
-					NOT = {has_modifier = army_stalling}
-				}
-				add_modifier = {
-					name = army_stalling
-					months = 6
-					multiplier = var:added_commanders_rage
-					is_decaying = yes
+		}
+		scope:distant_states = {
+			add_soldier_anger_modifier_effect = yes
+		}
+		hidden_effect = {
+			scope:distant_states = {
+				add_radicals = {
+					value = 0.05
+					pop_type = soldiers
 				}
 			}
 		}
@@ -458,22 +367,6 @@ regency.5 = {
 				}
 			}
 			save_scope_as = distant_states
-			set_variable = {
-				name = added_commanders_rage
-				value = var:commanders_rage
-			}
-			set_variable = {
-				name = appeased_commanders_rage
-				value = var:commanders_rage
-			}
-			change_variable = {
-				name = added_commanders_rage
-				add = 1
-			}
-			change_variable = {
-				name = appeased_commanders_rage
-				subtract = 1
-			}
 		}
 	}
 
@@ -483,97 +376,42 @@ regency.5 = {
 	option = {
 		name = regency.5.a
 		default_option = yes
-		change_variable = {
-			name = commanders_rage
-			subtract = 0.5
+		ig:ig_armed_forces = {
+			add_modifier = lost_approval
+			months = 12
 		}
-		random_scope_general = {
-			if = {
-				limit = {
-					has_modifier = commanders_debuff
-				}
-				remove_modifier = commanders_debuff
-			}
-			if = {
-				limit = {
-					NOT = {has_modifier = commanders_debuff}
-				}
-				add_modifier = {
-					name = commanders_debuff
-					months = 6
-					multiplier = var:appeased_commanders_rage
-					is_decaying = yes
-				}
-			}
+		add_modifier = {
+			add_modifier = high_commmand_talk
+			months = 6
 		}
-		scope:distant_states = {
-			add_modifier = {
-				name = high_commmand_talk
-				months = 3
-			}
-		}
-		
 	}
 
 	option = {
 		name = regency.5.b
-		change_variable = {
-			name = commanders_rage
-			subtract = 0.5
+		ig:ig_armed_forces = {
+			add_modifier = lost_approval
+			months = 12
 		}
-		random_scope_general = {
-			if = {
-				limit = {
-					has_modifier = commanders_debuff
-				}
-				remove_modifier = commanders_debuff
-			}
-			if = {
-				limit = {
-					NOT = {has_modifier = commanders_debuff}
-				}
-				add_modifier = {
-					name = commanders_debuff
-					months = 6
-					multiplier = var:appeased_commanders_rage
-					is_decaying = yes
-				}
-			}
-		}
-		scope:distant_states = {
-			add_modifier = {
-				name = high_commmand_order
-				months = 3
-			}
+		add_modifier = {
+			add_modifier = high_commmand_order
+			months = 6
 		}
 	}
 
 	option = {
 		name = regency.5.c
-		change_variable = {
-			name = commanders_rage
-			add = 1
-		}
-		every_scope_character = {
-			if = {
-				limit = { 
-					NOT = { has_modifier = commanders_debuff }
-				}
-				add_modifier = {
-					name = commanders_debuff
-					months = 6
-					multiplier = 1
-				}
+		trigger = {
+			ig:ig_armed_forces = {
+				ig_approval <= 2
 			}
-			if = {
-				limit = { 
-					has_modifier = commanders_debuff
-				}
-				add_modifier = {
-					name = commanders_debuff
-					months = 3
-					multiplier = var:added_commanders_rage
-				}
+		}
+		add_modifier = {
+			add_high_command_modifier_effect = yes
+		}
+		hidden_effect = {
+				ig:ig_armed_forces = {
+				add_modifier = lost_approval
+				months = 3
 			}
 		}
 	}
@@ -999,23 +837,7 @@ regency.11 = {
 		
 		this = {
 			activate_law = law_type:law_monarchy
-
-			ruler = {
-				add_modifier = {
-					name = emperor_dom_pedro
-					multiplier = 2
-				}
-				add_modifier = {
-					name = emperor_dom_pedro_temp
-					months = long_modifier_time
-				}
-			}
-			add_modifier = {
-				name = regency_ended
-				months = long_modifier_time
-				multiplier = var:dom_pedro_legitimacy
-				is_decaying = yes
-			}
+			add_dom_pedro_legitimacy_effect = yes
 		}
 	}
 
@@ -1024,24 +846,8 @@ regency.11 = {
 		this = {
 			activate_law = law_type:law_monarchy
 			activate_law = law_type:law_autocracy
-			ruler = {
-				add_modifier = {
-					name = emperor_dom_pedro
-					is_decaying = yes
-				}
-				add_modifier = {
-					name = emperor_dom_pedro_temp
-					months = normal_modifier_time
-					multiplier = 2
-				}
-			}
-			add_modifier = {
-				name = regency_ended
-				months = normal_modifier_time
-				multiplier = var:dom_pedro_legitimacy
-				is_decaying = yes
-			}
+			add_dom_pedro_legitimacy_effect = yes
+			#needs a debuff to balance out the free autocracy.
 		}
-		
 	}
 }

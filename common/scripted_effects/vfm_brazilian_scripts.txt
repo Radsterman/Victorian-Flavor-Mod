@@ -1,0 +1,299 @@
+add_soldier_anger_modifier_effect = {
+
+	hidden_effect = {
+		remove_modifier = soldiers_insatisfied
+	}
+	
+	if = {
+		limit = {
+			radical_fraction = {
+				value >= 0.1
+				pop_type = soldiers
+			}
+		}
+		add_radicals = {
+			value = 0.10
+			pop_type = soldiers
+		}
+		add_modifier = {
+			name = soldiers_insatisfied
+			months = 6
+		}
+	}
+	else_if = {
+		limit = {
+			radical_fraction = {
+				value >= 0.2
+				pop_type = soldiers
+			}
+		}
+		add_radicals = {
+			value = 0.12
+			pop_type = soldiers
+		}
+		add_modifier = {
+			name = soldiers_insatisfied
+			months = 6
+			multiplier = 2
+		}
+	}
+	else_if = {
+		limit = {
+			radical_fraction = {
+				value >= 0.3
+				pop_type = soldiers
+			}
+		}
+		add_radicals = {
+			value = 0.14
+			pop_type = soldiers
+		}
+		add_modifier = {
+			name = soldiers_insatisfied
+			months = 6
+			multiplier = 3
+		}
+	}
+	else_if = {
+		limit = {
+			radical_fraction = {
+				value >= 0.4
+				pop_type = soldiers
+			}
+		}
+		add_radicals = {
+			value = 0.16
+			pop_type = soldiers
+		}
+		add_modifier = {
+			name = soldiers_insatisfied
+			months = 6
+			multiplier = 4
+		}
+	}
+	else_if = {
+		limit = {
+			radical_fraction = {
+				value >= 0.5
+				pop_type = soldiers
+			}
+		}
+		add_radicals = {
+			value = 0.18
+			pop_type = soldiers
+		}
+		add_modifier = {
+			name = soldiers_insatisfied
+			months = 6
+			multiplier = 5
+		}
+	}
+
+	
+}
+
+add_soldier_layoff_modifier_effect = {
+	hidden_effect = {
+		remove_modifier = conscripts_layoff
+	}
+
+	if = {
+		limit = {
+			radical_fraction = {
+				value >= 0.1
+				pop_type = soldiers
+			}
+		}
+		add_modifier = {
+			name = conscripts_layoff
+			months = 12
+		}
+	}
+	else_if = {
+		limit = {
+			radical_fraction = {
+				value >= 0.2
+				pop_type = soldiers
+			}
+		}
+		add_modifier = {
+			name = conscripts_layoff
+			months = 12
+			multiplier = 2
+		}
+	}
+	else_if = {
+		limit = {
+			radical_fraction = {
+				value >= 0.3
+				pop_type = soldiers
+			}
+		}
+		add_modifier = {
+			name = conscripts_layoff
+			months = 12
+			multiplier = 3
+		}
+	}
+	else_if = {
+		limit = {
+			radical_fraction = {
+				value >= 0.4
+				pop_type = soldiers
+			}
+		}T
+		add_modifier = {
+			name = conscripts_layoff
+			months = 12
+			multiplier = 4
+		}
+	}
+	else_if = {
+		limit = {
+			radical_fraction = {
+				value >= 0.5
+				pop_type = soldiers
+			}
+		}
+		add_modifier = {
+			name = conscripts_layoff
+			months = 12
+			multiplier = 5
+		}
+	}
+
+}
+
+add_high_command_modifier_effect = {
+
+	hidden_effect = {
+		remove_modifier = incompetent_general
+	}
+	
+	if = {
+		limit = {
+			ig:ig_armed_forces = {
+				ig_approval <= 2
+			}
+		}
+		add_modifier = {
+			name = incompetent_general
+			months = 6
+		}
+	}
+	else_if = {
+		limit = {
+			ig:ig_armed_forces = {
+				ig_approval <= 0
+			}
+		}
+		add_modifier = {
+			name = incompetent_general
+			months = 6
+			multiplier = 2
+		}
+	}
+	else_if = {
+		limit = {
+			ig:ig_armed_forces = {
+				ig_approval <= -3
+			}
+		}
+		add_modifier = {
+			name = incompetent_general
+			months = 6
+			multiplier = 3
+		}
+	}
+	else_if = {
+		limit = {
+			ig:ig_armed_forces = {
+				ig_approval <= -5
+			}
+		}T
+		add_modifier = {
+			name = incompetent_general
+			months = 6
+			multiplier = 4
+		}
+	}
+	else_if = {
+		limit = {
+			ig:ig_armed_forces = {
+				ig_approval <= -10
+			}
+		}
+		add_modifier = {
+			name = incompetent_general
+			months = 6
+			multiplier = 5
+		}
+	}
+
+	
+}
+
+add_dom_pedro_legitimacy_effect = {
+	if = {
+		limit = {
+			var:dom_pedro_legitimacy <= 3
+		}
+		ruler = {
+			add_modifier = {
+				name = emperor_dom_pedro
+			}
+			add_modifier = {
+				name = emperor_dom_pedro_temp
+				months = long_modifier_time
+			}
+		}
+		add_modifier = {
+			name = regency_ended
+			months = long_modifier_time
+			is_decaying = yes
+		}
+	}
+	else_if = {
+		limit = {
+			var:dom_pedro_legitimacy <= 6
+		}
+		ruler = {
+			add_modifier = {
+				name = emperor_dom_pedro
+			}
+			add_modifier = {
+				name = emperor_dom_pedro_temp
+				months = long_modifier_time
+				multiplier = 2
+			}
+		}
+		add_modifier = {
+			name = regency_ended
+			months = long_modifier_time
+			multiplier = 2
+			is_decaying = yes
+		}
+	}
+	else_if = {
+		limit = {
+			var:dom_pedro_legitimacy <= 9 #should be impossible to get as high as 9
+		}
+		ruler = {
+			add_modifier = {
+				name = emperor_dom_pedro
+				multiplier = 2
+			}
+			add_modifier = {
+				name = emperor_dom_pedro_temp
+				months = long_modifier_time
+				multiplier = 3
+			}
+		}
+		add_modifier = {
+			name = regency_ended
+			months = long_modifier_time
+			multiplier = 3
+			is_decaying = yes
+		}
+	}
+}
