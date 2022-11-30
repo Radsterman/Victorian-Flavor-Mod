@@ -1,0 +1,99 @@
+﻿# Root = Colony state
+on_colony_created = {
+	effect = {
+		owner = {
+			if = {
+				limit = {
+					has_journal_entry = je_tutorial_colonize_state
+					je:je_tutorial_colonize_state = {
+						NOT = {
+							has_variable = tut_colony_target
+						}
+					}
+				}
+				je:je_tutorial_colonize_state = {
+					set_variable = {
+						name = tut_colony_target
+						value = root
+					}
+				}
+			}
+		}
+		owner = {
+			if = {
+				limit = {
+					owner = c:RUS
+					OR = {
+						c:RUS = {
+							has_state_in_state_region = STATE_SAKHALIN 
+						}
+						c:RUS = {
+							has_state_in_state_region = STATE_HOKKAIDO 
+						}
+					}
+					NOT = {
+						has_global_variable = japanese_response
+					}
+				}
+				set_global_variable = japanese_response
+				c:JAP = {
+					create_diplomatic_play = {
+						name = testname
+						war = yes
+						type = dp_annex_war
+						
+						target_state = s:STATE_HOKKAIDO.region_state:AIN
+					}
+				}
+			}
+		}
+	}
+}
+
+# Root = country
+on_native_uprising = {
+	effect = {
+		post_notification = native_uprising_notification
+		
+		every_country = {
+			limit = {
+				is_country_type = decentralized
+				is_diplomatic_play_enemy_of = root
+				NOT = { has_war_with = root }
+			}
+			save_scope_as = native_nation
+		}
+		every_diplomatic_play = {
+			limit = {
+				any_scope_play_involved = {
+					this = scope:native_nation
+				}
+			}
+			end_play = yes
+		}
+		create_diplomatic_play = {
+			target_country = scope:native_nation
+			war = yes
+			type = dp_native_uprising_new
+		}
+	}
+}
+
+# Root = Country
+on_capitulation = {
+	effect = {
+		if = {
+			limit = {
+				is_country_type = decentralized
+			}
+			every_country = {
+				limit = {
+					has_truce_with = root
+				}
+				end_truce = {
+					country = root
+				}
+			}
+		}
+	}
+}
