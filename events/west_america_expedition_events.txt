@@ -1,0 +1,1693 @@
+﻿namespace = expedition_events
+
+#Map West America
+
+expedition_events.200 = { #Start event
+	type = country_event
+    placement = ROOT
+
+    title = expedition_events.200.t
+    desc = expedition_events.200.d
+    flavor = expedition_events.200.f
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+    duration = 3
+
+	option = {
+		name = expedition_events.200.a
+		trigger_event = { id = expedition_events.201 days = 0 popup = yes }
+	}
+}
+
+expedition_events.201 = { #Choose commander
+	type = country_event
+    placement = ROOT
+
+    title = expedition_events.2.t
+    desc = expedition_events.2.d
+    flavor = expedition_events.2.f
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+    duration = 3
+
+	trigger = {
+		any_scope_character = {
+			OR = {
+				has_role = general
+				has_role = admiral
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				is_ruler = no
+				OR = {
+					has_role = general
+					has_role = admiral
+				}
+			}
+			save_scope_as = expedition_leader_1
+		}
+		
+		random_scope_character = {
+			limit = {
+				is_ruler = no
+				OR = {
+					has_role = general
+					has_role = admiral
+				}
+				NOT = {
+					this = scope:expedition_leader_1
+				}
+			}
+			save_scope_as = expedition_leader_2
+		}
+
+		random_scope_character = {
+			limit = {
+				is_ruler = no
+				OR = {
+					has_role = general
+					has_role = admiral
+				}
+				NOR = {
+					this = scope:expedition_leader_1
+					this = scope:expedition_leader_2
+				}
+			}
+			save_scope_as = expedition_leader_3
+		}
+		set_variable = west_america_expedition_var
+		set_variable = {
+			name = expedition_progress
+			value = 1
+		}
+		set_variable = {
+			name = expedition_peril
+			value = 1
+		}
+		west_america_expedition_location = yes
+	}
+
+	option = {
+		name = expedition_events.201.a
+		default_option = yes
+		custom_tooltip = expedition_costs_tt
+		add_modifier = {
+			name = modifier_large_expedition_cost
+			multiplier = money_amount_multiplier_medium
+		}
+		add_journal_entry = {
+			type = je_west_america_expedition
+		}
+		scope:expedition_leader_1 = {
+			set_variable = expedition_leader_var
+			set_character_busy = yes
+		}
+	}
+
+	option = {
+		name = expedition_events.201.b
+		custom_tooltip = expedition_costs_tt
+		trigger = {
+			exists = scope:expedition_leader_2
+		}
+		add_modifier = {
+			name = modifier_large_expedition_cost
+			multiplier = money_amount_multiplier_medium
+		}
+		add_journal_entry = {
+			type = je_west_america_expedition
+		}
+		scope:expedition_leader_2 = {
+			set_variable = expedition_leader_var
+			set_character_busy = yes
+		}
+	}
+
+	option = {
+		name = expedition_events.201.c
+		custom_tooltip = expedition_costs_tt
+		trigger = {
+			exists = scope:expedition_leader_3
+		}
+		add_modifier = {
+			name = modifier_large_expedition_cost
+			multiplier = money_amount_multiplier_medium
+		}
+		add_journal_entry = {
+			type = je_west_america_expedition
+		}
+		scope:expedition_leader_3 = {
+			set_variable = expedition_leader_var
+			set_character_busy = yes
+		}
+	}
+}
+
+expedition_events.300 = { #Sucessful expedition - Buenaventura River
+	type = country_event
+    placement = ROOT
+
+    title = expedition_events.300.t
+    desc = expedition_events.300.d
+    flavor = expedition_events.300.f
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+    duration = 3
+
+	immediate = {
+		west_america_expedition_location = yes
+		remove_variable = on_expedition
+		remove_expedition_events_effect = yes
+		set_global_variable = buenaventura_river_disproven
+        random_scope_character = {
+            limit = {
+                    has_variable = expedition_leader_var
+            }
+            save_scope_as = expedition_leader
+        }
+	}
+
+	option = {
+		name = expedition_events.300.a
+		default_option = yes
+		scope:expedition_leader = {
+			set_character_busy = no
+			add_trait = explorer
+		}
+		add_modifier = {
+			name = modifier_buenaventura_river_disproven
+			months = normal_modifier_time
+		}
+	}
+}
+
+expedition_events.301 = { #Sucessful expedition - Oregon Trail
+	type = country_event
+    placement = ROOT
+
+    title = expedition_events.301.t
+    desc = expedition_events.301.d
+    flavor = expedition_events.301.f
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+    duration = 3
+
+	immediate = {
+		west_america_expedition_location = yes
+		remove_variable = on_expedition
+		remove_expedition_events_effect = yes
+		set_global_variable = oregon_trail_mapped
+        random_scope_character = {
+            limit = {
+                    has_variable = expedition_leader_var
+            }
+            save_scope_as = expedition_leader
+        }
+	}
+
+	option = {
+		name = expedition_events.301.a
+		default_option = yes
+		scope:expedition_leader = {
+			set_character_busy = no
+			add_trait = explorer
+		}
+		add_modifier = {
+			name = modifier_oregon_trail_mapped
+			months = normal_modifier_time
+		}
+	}
+}
+
+expedition_events.302 = { #Sucessful expedition - Great Salt Lake
+	type = country_event
+    placement = ROOT
+
+    title = expedition_events.302.t
+    desc = expedition_events.302.d
+    flavor = expedition_events.302.f
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+    duration = 3
+
+	immediate = {
+		west_america_expedition_location = yes
+		remove_variable = on_expedition
+		remove_expedition_events_effect = yes
+		set_global_variable = great_salt_lake_mapped
+		random_scope_character = {
+			limit = {
+				has_variable = expedition_leader_var 
+			}
+			save_scope_as = expedition_leader
+		}
+	}
+
+	option = {
+		name = expedition_events.302.a
+		default_option = yes
+		scope:expedition_leader = {
+			set_character_busy = no
+			add_trait = explorer
+		}
+		add_modifier = {
+			name = modifier_great_salt_lake_mapped
+			months = normal_modifier_time
+		}
+	}
+}
+
+expedition_events.205 = { #Failed expedition
+	type = country_event
+    placement = ROOT
+
+    title = expedition_events.205.t
+    desc = expedition_events.205.d
+    flavor = expedition_events.205.f
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+    duration = 3
+
+    immediate = {
+    	west_america_expedition_location = yes
+		random_scope_character = {
+			limit = { has_variable = expedition_leader_var }
+			save_scope_as = expedition_leader
+		}
+		remove_expedition_events_effect = yes
+    }
+
+	option = {
+		name = expedition_events.205.a
+		default_option = yes
+		scope:expedition_leader = {
+			add_trait = explorer
+			set_character_busy = no
+		}
+		add_modifier = {
+			name = modifier_failed_expedition
+			months = normal_modifier_time
+			is_decaying	= yes
+		}
+	}
+}
+
+expedition_events.220 = { #crossing a river
+	type = country_event
+    placement = scope:current_expedition_location
+
+    title = expedition_events.220.t
+    desc = expedition_events.220.d
+    flavor = expedition_events.220.f
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+    duration = 3
+	
+	trigger = {
+		NOT = { has_variable = river_crossing }
+	}
+
+    immediate = {
+    	set_variable = river_crossing
+		west_america_expedition_location = yes
+		random_scope_character = {
+			limit = { has_variable = expedition_leader_var }
+			save_scope_as = expedition_leader
+		}
+    }
+
+	option = { #you try to cross the river
+		name = expedition_events.220.a
+		default_option = yes
+		random_list = {
+			20 = {
+				trigger_event = { id = expedition_events.221 days = 0 popup = yes }
+			}
+			10 = {
+				trigger_event = { id = expedition_events.222 days = 0 popup = yes}
+			}
+		}
+	}
+
+	option = {
+		name = expedition_events.220.b
+		custom_tooltip = expedition_event_ongoing_tt
+	}
+	
+	option = {
+		name = expedition_events.220.c
+		highlighted_option = yes
+		trigger = {
+			scope:expedition_leader = {
+				has_trait = reckless
+			}
+		}
+		custom_tooltip = jump_river_tt
+		hidden_effect = {
+			random_list = {
+				75 = {
+					set_variable = jump_river_fail_var
+					trigger_event = { id = expedition_events.222 days = 0 popup = yes }
+				}
+				25 = {
+					set_variable = jump_river_success_var
+					trigger_event = { id = expedition_events.221 days = 0 popup = yes }
+				}
+			}
+		}
+	}
+}
+
+expedition_events.221 = { #crossing a river success
+	type = country_event
+    placement = scope:current_expedition_location
+
+    title = expedition_events.221.t
+    desc = expedition_events.221.d
+    flavor = expedition_events.221.f
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+    duration = 3
+
+	option = {
+		name = expedition_events.221.a
+		if = {
+			limit = {
+				has_variable = jump_river_success_var
+			}
+			expedition_great_progress_effect = yes			
+		}
+		else = {
+			expedition_moderate_progress_effect = yes
+		}
+	}
+}
+
+expedition_events.222 = { #crossing a river fail
+	type = country_event
+    placement = scope:current_expedition_location
+
+    title = expedition_events.222.t
+    desc = expedition_events.222.d
+    flavor = expedition_events.222.f
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+    duration = 3
+
+	option = {
+		name = expedition_events.222.a
+		if = {
+			limit = {
+				has_variable = jump_river_fail_var
+			}
+			add_large_peril_effect = yes
+		}
+		else = {
+			add_small_peril_effect = yes
+		}
+		custom_tooltip = expedition_event_ongoing_tt
+	}
+}
+
+expedition_events.230 = { #Bear sighted
+	type = country_event
+    placement = scope:current_expedition_location
+
+    title = expedition_events.230.t
+    desc = expedition_events.230.d
+    flavor = expedition_events.230.f
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+    duration = 3
+	
+	trigger = {
+		NOT = { has_variable = bear_sighting }
+	}
+
+    immediate = {
+    	set_variable = bear_sighting
+		west_america_expedition_location = yes
+    }
+
+	option = { #Hunt the bear
+		name = expedition_events.230.a
+		default_option = yes
+		random_list = {
+			20 = {
+				trigger_event = { id = expedition_events.231 days = 0 popup = yes } #Success
+			}
+			10 = {
+				trigger_event = { id = expedition_events.232 days = 0 popup = yes} #Failure
+			}
+		}
+	}
+
+	option = { #Leave the bear be
+		name = expedition_events.220.b
+		random_list = {
+			30 = {
+				trigger_event = { id = expedition_events.233 days = 0 popup = yes }
+			}
+			70 = {
+				custom_tooltip = expedition_event_ongoing_tt
+			}
+		}
+	}
+}
+
+expedition_events.231 = { #Bear Hunt success
+	type = country_event
+    placement = scope:current_expedition_location
+
+    title = expedition_events.231.t
+    desc = expedition_events.231.d
+    flavor = expedition_events.231.f
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+    duration = 3
+
+	option = {
+		name = expedition_events.231.a
+		expedition_minor_progress_effect = yes
+	}
+}
+
+expedition_events.232 = { #Bear Hunt Failure
+	type = country_event
+    placement = scope:current_expedition_location
+
+    title = expedition_events.232.t
+    desc = expedition_events.232.d
+    flavor = expedition_events.232.f
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+    duration = 3
+
+	option = {
+		name = expedition_events.232.a
+		add_medium_peril_effect = yes
+		custom_tooltip = expedition_event_ongoing_tt
+	}
+}
+
+expedition_events.233 = { #Bear Attacks
+	type = country_event
+    placement = scope:current_expedition_location
+
+    title = expedition_events.233.t
+    desc = expedition_events.233.d
+    flavor = expedition_events.233.f
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+    duration = 3
+
+	option = {
+		name = expedition_events.233.a
+		add_small_peril_effect = yes
+		custom_tooltip = expedition_event_ongoing_tt
+	}
+}
+
+expedition_events.240 = { #Expedition Photographs
+	type = country_event
+    placement = scope:current_expedition_location
+
+    title = expedition_events.240.t
+    desc = expedition_events.240.d
+    flavor = expedition_events.240.f
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+    duration = 3
+	
+	trigger = {
+		has_technology_researched = camera
+		NOT = { has_variable = wildlife_photography }
+	}
+
+    immediate = {
+  		set_variable = wildlife_photography
+		west_america_expedition_location = yes
+    }
+
+    option = { #Yes
+		name = expedition_events.240.a
+		add_modifier = {
+			name = modifier_west_america_wildlife_photography
+			months = normal_modifier_time
+		}
+		set_variable = expedition_photography_var #grand exhibition bonus
+		expedition_minor_progress_effect = yes
+	}
+
+	option = { #No
+		name = expedition_events.240.b
+		default_option = yes
+		expedition_moderate_progress_effect = yes
+	}
+}
+
+expedition_events.250 = { #Mountain spotted
+	type = country_event
+    placement = scope:current_expedition_location
+
+    title = expedition_events.250.t
+    desc = expedition_events.250.d
+    flavor = expedition_events.250.f
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+    duration = 3
+	
+	trigger = {
+		NOT = { has_variable = mountain_spotted }
+	}
+
+    immediate = {
+  		set_variable = mountain_spotted
+		west_america_expedition_location = yes
+    }
+
+    option = { #Climb it
+		name = expedition_events.250.a
+		random_list = {
+			20 = {
+				custom_tooltip = expedition_events_mountain_claim_tt
+				hidden_effect = {
+					if = {
+						limit = {
+							has_global_variable = mountain_discovered
+						}
+						trigger_event = { id = expedition_events.251 days = 0 popup = yes} #
+					}
+					else = {
+						trigger_event = { id = expedition_events.252 days = 0 popup = yes} #
+					}
+				}
+			}
+			10 = {
+				trigger_event = { id = expedition_events.253 days = 0 popup = yes } #Failure
+			}
+		}
+	}
+
+	option = { #Press on
+		name = expedition_events.250.b
+		default_option = yes
+		expedition_minor_progress_effect = yes
+	}
+}
+
+expedition_events.251 = { #Mountain already discovered
+	type = country_event
+    placement = scope:current_expedition_location
+
+    title = expedition_events.251.t
+    desc = expedition_events.251.d
+    flavor = expedition_events.251.f
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+    duration = 3
+	
+	immediate = {
+		random_country = {
+			limit = { has_variable = mountain_claim_country_var }
+			save_scope_as = mountain_claim_country
+		}
+	}
+
+	option = {
+		name = expedition_events.251.a
+		add_small_peril_effect = yes
+		expedition_minor_progress_effect = yes
+		custom_tooltip = expedition_event_ongoing_tt
+	}
+}
+
+expedition_events.252 = { #Mountain discovered
+	type = country_event
+    placement = scope:current_expedition_location
+
+    title = expedition_events.252.t
+    desc = expedition_events.252.d
+    flavor = expedition_events.252.f
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+    duration = 3
+
+    immediate = {
+    	set_global_variable = mountain_discovered
+    	ROOT = {
+			set_variable = mountain_claim_country_var
+    		save_scope_as = mountain_claim_country
+    	}
+		random_scope_character = {
+			limit = { has_variable = expedition_leader_var }
+			save_scope_as = expedition_leader
+		}
+    }
+
+	option = {
+		name = expedition_events.252.a
+		expedition_moderate_progress_effect = yes
+	}
+}
+
+expedition_events.253 = { #Failed mountain climb
+	type = country_event
+    placement = scope:current_expedition_location
+
+    title = expedition_events.253.t
+    desc = expedition_events.253.d
+    flavor = expedition_events.253.f
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+    duration = 3
+
+	option = {
+		name = expedition_events.253.a
+		add_medium_peril_effect = yes
+		custom_tooltip = expedition_event_ongoing_tt
+	}
+}
+
+expedition_events.260 = { #Snow Falls
+	type = country_event
+    placement = scope:current_expedition_location
+
+    title = expedition_events.260.t
+    desc = expedition_events.260.d
+    flavor = expedition_events.260.f
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+    duration = 3
+	
+	trigger = {
+		NOT = { has_variable = snow_falls }
+	}
+
+    immediate = {
+    	set_variable = snow_falls
+		west_america_expedition_location = yes
+    }
+
+	option = { #Push on
+		name = expedition_events.260.a
+		default_option = yes
+		random_list = {
+			15 = {
+				trigger_event = { id = expedition_events.261 days = 0 popup = yes } #Success
+			}
+			10 = {
+				trigger_event = { id = expedition_events.262 days = 0 popup = yes} #Failure
+			}
+		}
+	}
+
+	option = { #Wait
+		name = expedition_events.260.b
+		custom_tooltip = expedition_event_delayed_tt
+		hidden_effect = {
+			trigger_event = { id = expedition_events.263 days = 2 }
+		}
+	}
+}
+
+expedition_events.261 = { #No problems
+	type = country_event
+    placement = scope:current_expedition_location
+
+    title = expedition_events.261.t
+    desc = expedition_events.261.d
+    flavor = expedition_events.261.f
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+    duration = 3
+
+	option = { #
+		name = expedition_events.261.a
+		default_option = yes
+		expedition_moderate_progress_effect = yes
+	}
+}
+
+expedition_events.262 = { #Problems
+	type = country_event
+    placement = scope:current_expedition_location
+
+    title = expedition_events.262.t
+    desc = expedition_events.262.d
+    flavor = expedition_events.262.f
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+    duration = 3
+
+	option = {
+		name = expedition_events.262.a
+		default_option = yes
+		add_medium_peril_effect = yes
+		custom_tooltip = expedition_event_ongoing_tt
+	}
+}
+
+
+expedition_events.263 = { #Snow clears
+	type = country_event
+    placement = scope:current_expedition_location
+
+    title = expedition_events.263.t
+    desc = expedition_events.263.d
+    flavor = expedition_events.263.f
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+    duration = 3
+
+	option = {
+		name = expedition_events.263.a
+		default_option = yes
+		expedition_minor_progress_effect = yes
+	}
+}
+
+expedition_events.270 = { #Gather plants
+	type = country_event
+    placement = scope:current_expedition_location
+
+    title = expedition_events.270.t
+    desc = expedition_events.270.d
+	flavor = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					var:expedition_peril >= 7
+				}
+				desc = expedition_events.270.f2
+			}
+			triggered_desc = {
+				trigger = {
+					var:expedition_peril < 7
+				}
+				desc = expedition_events.270.f
+			}
+		}
+	}
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+    duration = 3
+	
+	trigger = {
+		NOT = { has_variable = plant_gathering }
+	}
+
+    immediate = {
+  		set_variable = plant_gathering
+		west_america_expedition_location = yes
+    }
+
+    option = { #Yes
+		name = expedition_events.270.a
+		custom_tooltip = expedition_event_delayed_tt
+		add_modifier = {
+			name = modifier_west_america_plant_discovered
+			months = normal_modifier_time
+		}
+		set_variable = expedition_plants_var #grand exhibition bonus
+		expedition_minor_progress_effect = yes
+	}
+
+	option = { #No
+		name = expedition_events.270.b
+		default_option = yes
+		expedition_moderate_progress_effect = yes
+	}
+}
+
+expedition_events.280 = { #Lost
+	type = country_event
+    placement = scope:current_expedition_location
+
+    title = expedition_events.280.t
+    desc = expedition_events.280.d
+    flavor = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					var:expedition_peril >= 7
+				}
+				desc = expedition_events.280.f2
+			}
+			triggered_desc = {
+				trigger = {
+					var:expedition_peril < 7
+				}
+				desc = expedition_events.280.f
+			}
+		}
+	}
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+    duration = 3
+	
+	trigger = {
+		trigger_if = {
+    		limit = { exists = var:expedition_lost }
+			NOT = { var:expedition_lost > 3 }
+		}
+	}
+
+    immediate = {
+  		if = {
+			limit = { exists = var:expedition_lost }
+			change_variable = {
+				name = expedition_lost
+				add = 1
+			}
+		}
+		else = {
+			set_variable = {
+				name = expedition_lost
+				value = 1
+			}
+		}
+		west_america_expedition_location = yes
+		random_scope_character = {
+			limit = { has_variable = expedition_leader_var }
+			save_scope_as = expedition_leader
+		}
+    }
+
+    option = { #push on
+		name = expedition_events.280.a
+		random_list = {
+			20 = {
+				trigger_event = { id = expedition_events.281 days = 0 popup = yes }
+			}
+			10 = {
+				trigger_event = { id = expedition_events.282 days = 0 popup = yes }
+			}
+		}
+	}
+
+	option = { #Wait for night
+		name = expedition_events.280.b
+		default_option = yes
+		add_small_peril_effect = yes
+	}
+}
+
+expedition_events.281 = { #More Lost
+	type = country_event
+    placement = scope:current_expedition_location
+
+    title = expedition_events.281.t
+    desc = expedition_events.281.d
+    flavor = expedition_events.281.f
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+    duration = 3
+
+	option = { #Wait for night
+		name = expedition_events.281.a
+		default_option = yes
+		add_medium_peril_effect = yes
+	}
+}
+
+expedition_events.282 = { #Progress
+	type = country_event
+    placement = scope:current_expedition_location
+
+    title = expedition_events.282.t
+    desc = expedition_events.282.d
+    flavor = expedition_events.282.f
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+    duration = 3
+
+	option = { #
+		name = expedition_events.282.a
+		default_option = yes
+		expedition_moderate_progress_effect = yes
+	}
+}
+
+expedition_events.290 = { #Build a fort
+	type = country_event
+    placement = scope:current_expedition_location
+
+	title = expedition_events.290.t
+    desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = expedition_events.290.d
+				trigger = {
+					NOT = { has_global_variable = north_america_fort_var }
+				}
+			}
+			triggered_desc = {
+				desc = expedition_events.290.d2
+				trigger = {
+					has_global_variable = north_america_fort_var
+				}
+			}
+		}
+	}
+    flavor = expedition_events.290.f
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+    duration = 3
+	
+	trigger = {
+		NOT = { has_variable = build_a_fort_var }
+		var:expedition_progress >= 3
+	}
+	
+	immediate = {
+		set_variable = build_a_fort_var
+		west_america_expedition_location = yes
+		random_scope_character = {
+			limit = { has_variable = expedition_leader_var }
+			save_scope_as = expedition_leader
+		}
+	}
+
+	option = { #stop and build a fort
+		name = expedition_events.290.a
+		default_option = yes
+		trigger = {
+			NOT = { has_global_variable = north_america_fort_var }
+		}
+		set_global_variable = north_america_fort_var
+		expedition_peril_decrease_medium_effect = yes
+		custom_tooltip = expedition_event_delayed_tt
+	}
+	
+	option = { #we have no time for this
+		name = expedition_events.290.b
+		expedition_moderate_progress_effect = yes
+		add_medium_peril_effect = yes
+	}
+	
+	option = { #the fort was already built
+		name = expedition_events.290.c
+		default_option = yes
+		highlighted_option = yes
+		trigger = {
+			custom_tooltip = {
+				text = built_fort_tt
+				has_global_variable = north_america_fort_var
+			}
+		}
+		expedition_peril_decrease_medium_effect = yes
+		expedition_moderate_progress_effect = yes
+	}
+}
+
+expedition_events.291 = { #Pregnant Woman
+	type = country_event
+    placement = scope:current_expedition_location
+
+    title = expedition_events.291.t
+    desc = expedition_events.291.d
+	flavor = {
+		first_valid = {
+			triggered_desc = {
+				desc = expedition_events.291.f
+				trigger = {
+					NOT = { has_global_variable = native_guide_var }
+				}
+			}
+			triggered_desc = {
+				desc = expedition_events.291.f2
+				trigger = {
+					has_global_variable = native_guide_var
+				}
+			}
+		}
+	}
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+    duration = 3
+	
+	trigger = {
+		NOT = { has_variable = expedition_baby_var }
+	}
+	
+	immediate = {
+		west_america_expedition_location = yes
+		set_variable = expedition_baby_var
+	}
+
+	option = { #keep the baby
+		name = expedition_events.291.a
+		default_option = yes
+		custom_tooltip = expedition_event_delayed_tt
+	}
+	
+	option = { #tell them to go back
+		name = expedition_events.291.b
+		expedition_minor_progress_effect = yes
+	}
+}
+
+expedition_events.292 = { #your team disobbeys you (went to a liquor shop)
+	type = country_event
+    placement = scope:current_expedition_location
+
+    title = expedition_events.292.t
+    desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = expedition_events.292.d
+				trigger = {
+					NOT = { has_variable = team_disobeys_bad_var }
+				}
+			}
+			triggered_desc = {
+				desc = expedition_events.292.d2
+				trigger = {
+					has_variable = team_disobeys_bad_var
+				}
+			}
+		}
+	}
+    flavor = expedition_events.292.f
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+    duration = 3
+	
+	trigger = {
+		NOT = { has_variable = team_disobeys_var }
+		var:expedition_progress <= 3
+	}
+	
+	immediate = {
+		west_america_expedition_location = yes
+	}
+
+	option = { #discipline them
+		name = expedition_events.292.a
+		default_option = yes
+		expedition_peril_decrease_small_effect = yes
+		custom_tooltip = expedition_event_delayed_tt
+		set_variable = disciplinary_sanctions_var
+		set_variable = team_disobeys_var
+	}
+	
+	option = { #they needed a break
+		name = expedition_events.292.b
+		expedition_minor_progress_effect = yes
+		add_medium_peril_effect = yes
+		hidden_effect = {
+			random_list = {
+				50 = {
+				}
+				50 = {
+					trigger_event = { id = expedition_events.292 days = day_until_next_expedition_event }
+				}
+			}
+		}
+		set_variable = team_disobeys_bad_var
+	}
+}
+
+expedition_events.293 = { #give these men a quest
+	type = country_event
+    placement = scope:current_expedition_location
+
+    title = expedition_events.293.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = expedition_events.293.d
+				trigger = {
+					NOT = { has_variable = disciplinary_sanctions_var }
+				}
+			}
+			triggered_desc = { # you have disciplined them
+				desc = expedition_events.293.d2
+				trigger = {
+					has_variable = disciplinary_sanctions_var
+				}
+			}
+		}
+	}
+    flavor = expedition_events.293.f
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+    duration = 3
+	
+	trigger = {
+		trigger_if = {
+    		limit = { exists = var:expedition_quest_var }
+			NOT = { var:expedition_quest_var >= 3 }
+		}
+	}
+
+	immediate = {
+		if = {
+			limit = { exists = var:expedition_quest_var }
+			change_variable = {
+				name = expedition_quest_var
+				add = 1
+			}
+		}
+		else = {
+			set_variable = {
+				name = expedition_quest_var
+				value = 1
+			}
+		}
+		west_america_expedition_location = yes
+		random_scope_character = {
+			limit = { has_variable = expedition_leader_var }
+			save_scope_as = expedition_leader
+		}
+	}
+
+	option = { #send them hunting
+		name = expedition_events.293.a
+		default_option = yes
+		if = {
+			limit = {
+				has_variable = disciplinary_sanctions_var
+			}
+			random_list = {
+				25 = { #they flee
+					add_medium_peril_effect = yes
+				}
+				50 = {
+					trigger_event = { id = expedition_events.295 days = 3 }
+				}
+			}
+		}
+		else = {
+			trigger_event = {
+				id = expedition_events.295 days = 3
+			}
+		}
+	}
+	
+	option = { #send them to find aid
+		name = expedition_events.293.b
+		if = {
+			limit = {
+				has_variable = disciplinary_sanctions_var
+			}
+			random_list = {
+				25 = { #they flee
+					add_medium_peril_effect = yes
+				}
+				50 = {
+					trigger_event = { id = expedition_events.294 days = 3 }
+				}
+			}
+		}
+		else = {
+			trigger_event = {
+				id = expedition_events.294 days = 3
+			}
+		}
+	}
+}
+
+expedition_events.294 = { #found a native settlement
+	type = country_event
+    placement = scope:current_expedition_location
+
+    title = expedition_events.294.t
+    desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = expedition_events.294.d
+				trigger = {
+					NOT = { has_variable = expedition_baby_var }
+				}
+			}
+			triggered_desc = { # you have a baby
+				desc = expedition_events.294.d2
+				trigger = {
+					has_variable = expedition_baby_var
+				}
+			}
+		}
+	}
+    flavor = expedition_events.294.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_native_american.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/native_american"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+    duration = 3
+
+	option = { #barter
+		name = expedition_events.294.a
+		default_option = yes
+		expedition_peril_decrease_small_effect = yes
+		custom_tooltip = expedition_event_delayed_tt
+		set_variable = expedition_barter_var
+	}
+	
+	option = { #find a guide
+		name = expedition_events.294.b
+		expedition_minor_progress_effect = yes
+		hidden_effect = {
+			trigger_event = { id = expedition_events.296 days = day_until_next_expedition_event }
+		}
+		set_variable = native_guide_var
+	}
+	
+	option = { #baby 
+		name = expedition_events.294.c
+		highlighted_option = yes
+		trigger = {
+			custom_tooltip = {
+				text = expedition_baby_tt
+				has_variable = expedition_baby_var
+			}
+		}
+		expedition_peril_decrease_medium_effect = yes
+		expedition_minor_progress_effect = yes
+		set_variable = expedition_barter_var
+	}
+}
+
+expedition_events.295 = { #hunting party
+	type = country_event
+    placement = scope:current_expedition_location
+
+    title = expedition_events.295.t
+    desc = expedition_events.295.d
+    flavor = expedition_events.295.f
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+    duration = 3
+
+	option = { #go for a small animal
+		name = expedition_events.295.a
+		default_option = yes
+		random_list = {
+			33 = {
+				add_small_peril_effect = yes
+			}
+			66 = {
+				expedition_minor_progress_effect = yes
+			}
+		}
+	}
+	
+	option = { #go for the great game
+		name = expedition_events.295.b
+		random_list = {
+			25 = {
+				add_small_peril_effect = yes
+			}
+			25 = {
+				add_medium_peril_effect = yes
+			}
+			50 = {
+				expedition_moderate_progress_effect = yes
+			}
+		}
+	}
+}
+
+expedition_events.296 = { #listen to your guide
+	type = country_event
+    placement = scope:current_expedition_location
+
+    title = expedition_events.296.t
+    desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = expedition_events.296.d
+				trigger = {
+					NOT = { has_variable = native_guide_var }
+				}
+			}
+			triggered_desc = {
+				desc = expedition_events.296.d2
+				trigger = {
+					has_variable = native_guide_var
+				}
+			}
+		}
+	}
+    flavor = expedition_events.296.f
+
+    event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+    duration = 3
+	
+	trigger = {
+		NOT = { has_variable = guide_advice_var }
+	}
+	
+	immediate = {
+		set_variable = guide_advice_var
+		west_america_expedition_location = yes
+	}
+
+	option = { #follow their advice
+		name = expedition_events.296.a
+		trigger = {
+			NOT = { has_variable = native_guide_var }
+		}
+		default_option = yes
+		custom_tooltip = expedition_event_delayed_tt
+	}
+	
+	option = { #take the faster route
+		name = expedition_events.296.b
+		random_list = {
+			50 = {
+				add_medium_peril_effect = yes
+			}
+			50 = {
+				expedition_minor_progress_effect = yes
+			}
+		}
+	}
+	
+	option = { #native guide
+		name = expedition_events.296.c
+		trigger = {
+			custom_tooltip = {
+				text = native_guide_tt
+				has_variable = native_guide_var
+			}
+		}
+		default_option = yes
+		highlighted_option = yes
+		expedition_moderate_progress_effect = yes
+	}
+}
+
+expedition_events.297 = { #cabin fever
+    type = country_event
+    placement = scope:current_expedition_location
+	
+    title = expedition_events.297.t
+    desc = expedition_events.297.d
+    flavor = expedition_events.297.f
+	
+    event_image = {
+        video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+    }
+	
+    on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+    on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+	
+    icon = "gfx/interface/icons/event_icons/event_map.dds"
+	
+    duration = 3
+    
+    trigger = {
+        var:expedition_peril >= 7
+    }
+	
+    immediate = {
+        west_america_expedition_location = yes
+    }
+	
+    option = { #stay the night (but you're paranoid)
+        name = expedition_events.297.a
+        default_option = yes
+        custom_tooltip = expedition_event_delayed_tt
+        random_list = {
+            50 = {
+                add_small_peril_effect = yes
+            }
+            50 = {
+            }
+        }
+    }
+    
+    option = { #leave at once (but it's dangerous)
+        name = expedition_events.297.b
+        expedition_minor_progress_effect = yes
+        add_small_peril_effect = yes
+    }
+}
