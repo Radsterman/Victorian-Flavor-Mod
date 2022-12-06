@@ -1,0 +1,35 @@
+﻿je_treaty_of_london = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+	complete = {
+		date < 1839
+		gdp > 7200000
+		c:BEL = {
+			c:GBR.relations:ROOT > relations_threshold:cordial
+		}
+		c:BEL = {
+			c:FRA.relations:ROOT > relations_threshold:cordial
+		}
+	}
+	fail = {
+		date > 1839
+	}
+	on_complete = {
+		add_modifier = {
+			name = pax_belgica
+		}
+	}
+	on_fail = {
+		trigger_event = {
+			id = low_countries_events.1
+		}	
+	}
+	is_shown_when_inactive = {
+		THIS = c:BEL
+	}
+	possible = {
+		THIS = c:BEL
+	}
+
+	should_be_pinned_by_default = yes
+}
