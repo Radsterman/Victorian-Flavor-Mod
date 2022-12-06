@@ -1,0 +1,467 @@
+﻿je_the_forming_of_the_potchefstroom_winburg_republic = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+
+	complete = {
+		#exist = PTF
+	}
+	is_shown_when_inactive = {
+		#THIS = c:ORA
+	}
+	possible = {
+		#THIS = c:ORA
+	}
+	on_complete = {
+		trigger_event = {
+			id = south_america.1
+		}
+	}
+	should_be_pinned_by_default = yes
+}
+je_encourage_boer_migration_into_the_oranje_river_basin = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+
+	complete = {
+			OR = {
+				gdp > 200000
+				year > 1952
+			}
+	}
+	is_shown_when_inactive = {
+		THIS = c:ORA
+		NOT = {
+			owns_entire_state_region = STATE_VRYSTAAT
+		}
+	}
+	possible = {
+		THIS = c:ORA
+		NOT = {
+			owns_entire_state_region = STATE_VRYSTAAT
+		}
+	}
+	on_complete = {
+		custom_tooltip = {
+			text = form_oranje_vrystaat_2_tt
+		}
+		s:STATE_VRYSTAAT.region_state:BST = { set_state_owner = c:ORA }
+	}
+}
+je_the_forming_of_the_oranje_vrystaat = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+
+	complete = {
+			owns_entire_state_region = STATE_VRYSTAAT
+	}
+	is_shown_when_inactive = {
+		THIS = c:ORA
+	}
+	possible = {
+		THIS = c:ORA
+	}
+	on_complete = {
+		remove_modifier = adjunct_volksraad
+		custom_tooltip = {
+			text = form_oranje_vrystaat_tt
+		}
+	}
+	should_be_pinned_by_default = yes
+}
+je_climax_of_the_great_trek = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+
+	complete = {
+			OR = {
+				gdp > 100000
+				year > 1952
+				owns_entire_state_region = STATE_TRANSVAAL
+			}
+	}
+	is_shown_when_inactive = {
+		THIS = c:TRN
+	}
+	possible = {
+		THIS = c:TRN
+	}
+	on_complete = {
+		hidden_effect = {
+			s:STATE_ZAMBEZI.region_state:RWZ = { set_state_owner = c:MTB }
+		}
+		s:STATE_TRANSVAAL.region_state:MTB = { set_state_owner = c:TRN }
+		remove_modifier = adjunct_volksraad
+		custom_tooltip = {
+			text = form_south_african_republic_tt
+		}
+	}
+	should_be_pinned_by_default = yes
+}
+je_form_griqualand_west = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+
+	complete = {
+		OR = {
+			AND = {	
+				gdp > 900000
+				exists = c:WBL
+				year > 1845
+				c:SAF = {
+					c:WBL.relations:ROOT > relations_threshold:cordial
+				}
+			}	
+			AND = {
+				c:SAF = {
+					is_ai = yes
+				}
+				c:WBL = {
+					is_ai = yes
+				}
+				year > 1873
+			}	
+
+		}
+	}
+	is_shown_when_inactive = {
+		THIS = c:SAF
+	}
+	possible = {
+		THIS = c:SAF
+	}
+	on_complete = {
+		annex = c:WBL
+	}
+}
+je_colonize_bechuanaland = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+
+	complete = {
+		OR = {
+			AND = {	
+				gdp > 1200000
+				year > 1865
+			}	
+			AND = {
+				year > 1895
+				c:SAF = {
+					is_ai = yes
+				}
+			}
+		}
+	}
+	is_shown_when_inactive = {
+		THIS = c:SAF
+	}
+	possible = {
+		THIS = c:SAF
+		NOT = {
+			c:SAF = {
+				has_state_in_state_region = STATE_NORTHERN_CAPE
+			}
+		}
+	}
+	on_complete = {
+		s:STATE_NORTHERN_CAPE:TSW = { set_state_owner = c:SAF }
+	}
+}
+je_anglo_zulu_war = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+
+	complete = {
+		OR = {
+			AND = {	
+				gdp > 1200000
+				year > 1865
+			}	
+				year > 1879
+		}
+	}
+	is_shown_when_inactive = {
+		THIS = c:SAF
+	}
+	possible = {
+		THIS = c:SAF
+	}
+	on_complete = {
+		c:SAF = {
+			create_diplomatic_play = {
+				name = anglo_zulu_war
+			
+				target_state = s:STATE_ZULULAND.region_state:ZUL
+				
+				war = yes
+				
+				type = dp_annex_war
+			}
+			
+		}
+	}
+}
+je_establish_the_orange_river_soverignty = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+
+	complete = {
+		OR = {
+			AND = {	
+				gdp > 900000
+				year > 1848
+				c:SAF = {
+					c:ORA.relations:ROOT > relations_threshold:cordial
+				}
+			}	
+			AND = {
+				year > 1854
+				c:SAF = {
+					is_ai = yes
+				}
+				c:ORA = {
+					is_ai = yes
+				}
+			}
+		}
+	}
+	is_shown_when_inactive = {
+		THIS = c:SAF
+	}
+	possible = {
+		THIS = c:SAF
+	}
+	on_complete = {
+		c:SAF = {
+			create_diplomatic_pact = {
+				country = c:ORA
+				type = puppet
+			}	
+		}
+	}
+}
+je_establish_the_traansval_colony = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+
+	complete = {
+		OR = {
+			AND = {	
+				gdp > 1400000
+				year > 1860
+				c:SAF = {
+					c:TRN.relations:ROOT < relations_threshold:cordial
+				}
+			}	
+			AND = {
+				year > 1874
+				c:SAF = {
+					is_ai = yes
+				}
+				c:TRN = {
+					is_ai = yes
+				}
+			}
+		}
+	}
+	is_shown_when_inactive = {
+		THIS = c:SAF
+	}
+	possible = {
+		THIS = c:SAF
+	}
+	on_complete = {
+		IF = {
+			limit = {
+				c:TRN = {
+					is_ai = yes
+				}
+			}
+			c:SAF = {
+				create_diplomatic_pact = {
+					country = c:TRN
+					type = puppet
+				}	
+			}
+		}
+		IF = {
+			limit = {
+				c:TRN = {
+					is_ai = no
+				}
+			}
+			create_diplomatic_play = {
+				name = Anglo_intervention_in_Transvaal
+				target_country = c:TRN
+				war = yes
+				type = dp_make_puppet
+			}
+		}
+
+	}
+}
+je_first_boer_war = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+
+	complete = {
+		OR = {
+			AND = {	
+				year > 1860
+				c:SAF = {
+					c:TRN.relations:ROOT < relations_threshold:cordial
+				}
+			}	
+			AND = {
+				year > 1880
+				c:ORA = {
+					is_ai = yes
+				}
+				c:TRN = {
+					is_ai = yes
+				}
+			}
+		}
+	}
+	is_shown_when_inactive = {
+		OR = {
+			THIS = c:TRN
+			THIS = c:ORA
+		}
+	}
+	possible = {
+		c:ORA = {
+			is_subject_of = c:SAF
+		}
+		c:TRN = {
+			is_subject_of = c:SAF
+		}
+	}
+	on_complete = {
+		c:TRN = {
+			make_independent = yes
+		}
+		c:ORA = {
+			make_independent = yes
+		}
+		c:SAF = {
+			create_diplomatic_play = {
+				name = first_boer_war
+				target_country = c:TRN
+				war = yes
+				type = dp_make_puppet
+			}
+			create_diplomatic_play = {
+				name = first_boer_war
+				target_country = c:ORA
+				war = yes
+				type = dp_make_puppet
+			}
+		}
+	}
+}
+je_second_boer_war = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+
+	complete = {
+		OR = {
+			AND = {	
+				year > 1880
+				c:SAF = {
+					c:TRN.relations:ROOT < relations_threshold:cordial
+				}
+			}	
+			AND = {
+				year > 1899
+				c:ORA = {
+					is_ai = yes
+				}
+				c:TRN = {
+					is_ai = yes
+				}
+			}
+		}
+	}
+	is_shown_when_inactive = {
+		OR = {
+			THIS = c:TRN
+			THIS = c:ORA
+		}
+	}
+	possible = {
+		year > 1880
+		NOT = {
+			c:ORA = {
+				is_subject_of = c:SAF
+			}
+			c:TRN = {
+				is_subject_of = c:SAF
+			}
+		}
+	}
+	on_complete = {
+		c:TRN = {
+			make_independent = yes
+		}
+		c:ORA = {
+			make_independent = yes
+		}
+		c:SAF = {
+			create_diplomatic_play = {
+				name = first_boer_war
+				target_country = c:TRN
+				war = yes
+				type = dp_make_puppet
+			}
+			create_diplomatic_play = {
+				name = first_boer_war
+				target_country = c:ORA
+				war = yes
+				type = dp_make_puppet
+			}
+		}
+	}
+}
+je_form_the_union_of_south_africa = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+
+	complete = {
+		c:SAF = {
+			country_or_subject_owns_entire_state_region = STATE_VRYSTAAT
+			country_or_subject_owns_entire_state_region = STATE_TRANSVAAL
+			has_state_in_state_region = STATE_NORTHERN_CAPE
+			country_or_subject_owns_entire_state_region = STATE_ZULULAND
+		}
+	}
+	is_shown_when_inactive = {
+		THIS = c:SAF
+	}
+	possible = {
+		THIS = c:SAF
+		is_subject_of = c:GBR
+		is_subject_type = subject_type_puppet
+	}
+	on_complete = {
+		hidden_effect = {
+			c:SAF = {
+				make_independent = yes
+			}
+		}
+		c:GBR = {
+			create_diplomatic_pact = {
+				country = c:SAF
+				type = dominion
+			}
+		}
+		add_modifier = {
+			name = union_of_south_africa_modifier
+		}
+		custom_tooltip = {
+			text = south_african_union_tt
+		}
+		annex = c:TRN
+		annex = c:ORA
+	}
+	should_be_pinned_by_default = yes
+}

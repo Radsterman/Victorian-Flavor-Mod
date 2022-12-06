@@ -1,0 +1,120 @@
+﻿je_manifest_destiny_mexico = {
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+	# note that if you change this, also update the decision
+	complete = {
+		owns_entire_state_region = STATE_CALIFORNIA
+		owns_entire_state_region = STATE_NEVADA
+		owns_entire_state_region = STATE_UTAH
+		owns_entire_state_region = STATE_ARIZONA
+		owns_entire_state_region = STATE_NEW_MEXICO
+		owns_entire_state_region = STATE_TEXAS
+	}
+
+	on_complete = {
+		trigger_event = { id = manifest_destiny.1 }
+	}
+
+	weight = 100
+	should_be_pinned_by_default = yes
+}
+
+je_manifest_destiny_frontier_wars = {
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+	# note that if you change this, also update the decision
+	complete = {
+		has_state_in_state_region = STATE_MONTANA
+		s:STATE_MONTANA = {
+			NOT = {
+				any_scope_state = {
+					owner = {
+						country_rank = 0
+					}
+				}
+			}
+		}
+		has_state_in_state_region = STATE_WYOMING
+		s:STATE_WYOMING = {
+			NOT = {
+				any_scope_state = {
+					owner = {
+						country_rank = 0
+					}
+				}
+			}
+		}
+		has_state_in_state_region = STATE_NEBRASKA
+		s:STATE_NEBRASKA = {
+			NOT = {
+				any_scope_state = {
+					owner = {
+						country_rank = 0
+					}
+				}
+			}
+		}
+		has_state_in_state_region = STATE_COLORADO
+		s:STATE_COLORADO = {
+			NOT = {
+				any_scope_state = {
+					owner = {
+						country_rank = 0
+					}
+					NOT = {
+						owner = c:UTE
+					}
+				}
+			}
+		}
+		has_state_in_state_region = STATE_KANSAS
+		s:STATE_KANSAS = {
+			NOT = {
+				any_scope_state = {
+					owner = {
+						country_rank = 0
+					}
+					NOT = {
+						owner = c:COM
+					}
+				}
+			}
+		}
+		has_state_in_state_region = STATE_NORTH_DAKOTA
+		s:STATE_NORTH_DAKOTA = {
+			NOT = {
+				any_scope_state = {
+					owner = {
+						country_rank = 0
+					}
+				}
+			}
+		}
+		has_state_in_state_region = STATE_SOUTH_DAKOTA
+		s:STATE_SOUTH_DAKOTA = {
+			NOT = {
+				any_scope_state = {
+					owner = {
+						country_rank = 0
+					}
+				}
+			}
+		
+		}
+    }
+
+	
+	on_complete = {
+		trigger_event = { id = manifest_destiny.2 }
+	}
+
+	on_monthly_pulse = {
+		random_events = {
+			10 = 0
+			1 = manifest_destiny.3
+		}
+	}
+	
+	weight = 100
+	
+	inheritable = no
+	should_be_pinned_by_default = yes
+}
