@@ -9,29 +9,33 @@
 		}
 	}
 
-	possible = {
+	possible =
+	country_rank >= rank_value:major_power
 		has_technology_researched = nationalism
 		is_subject = no
 	}
 
 	complete = {
+		hidden_trigger = {
+			has_variable = je_unification_progress
+		}
 		calc_true_if = {
-			owns_entire_state_region = STATE_POMERANIA
-			owns_entire_state_region = STATE_ELBE
-			owns_entire_state_region = STATE_WESTPHALIA
-			owns_entire_state_region = STATE_ANHALT
-			owns_entire_state_region = STATE_RHINELAND
-			owns_entire_state_region = STATE_NORTH_RHINE
-			owns_entire_state_region = STATE_SCHLESWIG_HOLSTEIN
-			owns_entire_state_region = STATE_HANNOVER
-			owns_entire_state_region = STATE_BRUNSWICK
-			owns_entire_state_region = STATE_SAXONY
-			owns_entire_state_region = STATE_HESSE
-			owns_entire_state_region = STATE_MECKLENBURG
-			owns_entire_state_region = STATE_SILESIA
-			owns_entire_state_region = STATE_WEST_PRUSSIA
-			owns_entire_state_region = STATE_EAST_PRUSSIA
-			owns_entire_state_region = STATE_POSEN
+			country_or_subject_owns_entire_state_region = STATE_POMERANIA
+			country_or_subject_owns_entire_state_region = STATE_ELBE
+			country_or_subject_owns_entire_state_region = STATE_WESTPHALIA
+			country_or_subject_owns_entire_state_region = STATE_ANHALT
+			country_or_subject_owns_entire_state_region = STATE_RHINELAND
+			country_or_subject_owns_entire_state_region = STATE_NORTH_RHINE
+			country_or_subject_owns_entire_state_region = STATE_SCHLESWIG_HOLSTEIN
+			country_or_subject_owns_entire_state_region = STATE_HANNOVER
+			country_or_subject_owns_entire_state_region = STATE_BRUNSWICK
+			country_or_subject_owns_entire_state_region = STATE_SAXONY
+			country_or_subject_owns_entire_state_region = STATE_HESSE
+			country_or_subject_owns_entire_state_region = STATE_MECKLENBURG
+			country_or_subject_owns_entire_state_region = STATE_SILESIA
+			country_or_subject_owns_entire_state_region = STATE_WEST_PRUSSIA
+			country_or_subject_owns_entire_state_region = STATE_EAST_PRUSSIA
+			country_or_subject_owns_entire_state_region = STATE_POSEN
 			amount >= 10
 		}
 	}
@@ -41,10 +45,17 @@
 			german_unification.2 # confederation
 			german_unification.3 # Bismarck
 		}
+		effect = {
+			if = { 
+				limit = { NOT = { has_variable = je_unification_progress } } 
+				set_variable = je_unification_progress
+			}
+		}
 	}
 
 	on_complete = {
 		trigger_event = { id = german_unification.1 } # North German Confederation
+		remove_variable = je_unification_progress
 	}
 
 	status_desc = {
@@ -70,11 +81,15 @@ je_german_unification = {
 	}
 
 	possible = {
+	country_rank >= rank_value:major_power
 		has_technology_researched = pan-nationalism
 		is_subject = no
 	}
 
 	complete = {
+		hidden_trigger = {
+			has_variable = je_unification_progress
+		}
 		calc_true_if = {
 			amount >= 17
 			owns_entire_state_region = STATE_POMERANIA
@@ -105,10 +120,17 @@ je_german_unification = {
 		events = {
 			german_unification.2 # confederation
 		}
+		effect = {
+			if = { 
+				limit = { NOT = { has_variable = je_unification_progress } } 
+				set_variable = je_unification_progress
+			}
+		}
 	}
 
 	on_complete = {
 		trigger_event = { id = german_unification.4 } # German Unification
+		remove_variable = je_unification_progress
 	}
 
 	status_desc = {
@@ -144,18 +166,22 @@ je_south_german_unification = {
 	}
 
 	possible = {
+	country_rank >= rank_value:major_power
 		has_technology_researched = nationalism
 		is_subject = no
 	}
 
 	complete = {
+		hidden_trigger = {
+			has_variable = je_unification_progress
+		}
 		calc_true_if = {
 			amount >= 4
-			has_state_in_state_region = STATE_WURTTEMBERG
-			owns_entire_state_region = STATE_BADEN
-			owns_entire_state_region = STATE_BAVARIA
-			owns_entire_state_region = STATE_FRANCONIA
-			owns_entire_state_region = STATE_ALSACE_LORRAINE
+			country_or_subject_owns_entire_state_region = STATE_WURTTEMBERG
+			country_or_subject_owns_entire_state_region = STATE_BADEN
+			country_or_subject_owns_entire_state_region = STATE_BAVARIA
+			country_or_subject_owns_entire_state_region = STATE_FRANCONIA
+			country_or_subject_owns_entire_state_region = STATE_ALSACE_LORRAINE
 		}
 	}
 
@@ -163,10 +189,17 @@ je_south_german_unification = {
 		events = {
 			german_unification.2 # confederation
 		}
+		effect = {
+			if = { 
+				limit = { NOT = { has_variable = je_unification_progress } } 
+				set_variable = je_unification_progress
+			}
+		}
 	}
 
 	on_complete = {
 		trigger_event = { id = german_unification.1 } # South German Confederation
+		remove_variable = je_unification_progress
 	}
 
 	status_desc = {

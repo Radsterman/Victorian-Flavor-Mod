@@ -76,6 +76,9 @@
 	}
 	
 	complete = {
+		hidden_trigger = {
+			has_variable = je_unification_progress
+		}
 		calc_true_if = {
 			amount > 14
 			owns_entire_state_region = STATE_LOMBARDY
@@ -101,11 +104,18 @@
 		events = {
 			italian_unification.2 # confederation
 			italian_unification.3 # Garibaldi
+		effect = {
+			if = { 
+				limit = { NOT = { has_variable = je_unification_progress } } 
+				set_variable = je_unification_progress
+			}
+		}
 		}
 	}
 
 	on_complete = {
 		trigger_event = { id = italian_unification.1 }
+		remove_variable = je_unification_progress
 	}
 
 	status_desc = {
