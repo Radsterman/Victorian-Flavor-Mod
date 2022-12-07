@@ -12,7 +12,7 @@ Credits:
 
 Early Modding Period - Radsterman, Cynic, Tawani, Steelwind
 
-Development - Cavalex, Cynic, Davi Cerqueira, Doble, Engram, Obstination, OmegaCorps, Orine, Question-Asker, Radserman, Steelwind, stjern, Tawani, Typhion, vjw, woojin, Wrench
+Development - Cruci, Cynic, Davi Cerqueira, Doble, Engram, Obstination, OmegaCorps, Orine, Paul, Question-Asker, Radserman, Steelwind, stjern, Tawani, Timur the Lame, Typhion, UlfDerDritte, vjw, woojin, Wrench, YashaCarry
 
 Simplified Chinese Translation - VXCN1812, leaves13
 

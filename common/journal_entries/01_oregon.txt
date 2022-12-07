@@ -1,0 +1,153 @@
+﻿je_oregon = {
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+	is_shown_when_inactive = {
+		exists = c:USA
+		exists = c:GBR
+		c:USA = ROOT
+		s:STATE_WASHINGTON = {
+			any_scope_state = {
+				owner = {
+					OR = {
+						c:GBR = THIS
+						is_subject_of = c:GBR
+					}
+				}
+			}
+		}
+		s:STATE_OREGON = {
+			any_scope_state = {
+				owner = {
+					OR = {
+						c:GBR = THIS
+						is_subject_of = c:GBR
+					}
+				}
+			}
+		}
+		s:STATE_IDAHO = {
+			any_scope_state = {
+				owner = {
+					OR = {
+						c:GBR = THIS
+						is_subject_of = c:GBR
+					}
+				}
+			}
+		}
+	}
+
+	possible = {
+		has_interest_marker_in_region = region_pacific_coast
+	}
+
+	complete = {
+		OR = {
+			AND = {
+				custom_tooltip = {
+					text = oregon_tt
+					has_global_variable = oregon_trail_mapped
+				}
+				has_state_in_state_region = STATE_MONTANA
+				s:STATE_MONTANA = {
+					NOT = {
+						any_scope_state = {
+							owner = {
+								country_rank = 0
+							}
+						}
+					}
+				}
+				
+				has_state_in_state_region = STATE_WYOMING
+				s:STATE_WYOMING = {
+					NOT = {
+						any_scope_state = {
+							owner = {
+								country_rank = 0
+							}
+						}
+					}
+				}
+				c:GBR = {
+					relations:ROOT >= relations_threshold:cordial
+				}
+			}
+			AND = {
+				owns_entire_state_region = STATE_WASHINGTON
+				owns_entire_state_region = STATE_IDAHO
+				owns_entire_state_region = STATE_OREGON
+			}
+		}
+	}
+
+	on_complete = {
+		if = {
+			limit = {
+				s:STATE_WASHINGTON = {
+					any_scope_state = {
+						owner = {
+							OR = {
+								c:GBR = THIS
+								is_subject_of = c:GBR
+							}
+						}
+					}
+				}
+				s:STATE_OREGON = {
+					any_scope_state = {
+						owner = {
+							OR = {
+								c:GBR = THIS
+								is_subject_of = c:GBR
+							}
+						}
+					}
+				}
+				s:STATE_IDAHO = {
+					any_scope_state = {
+						owner = {
+							OR = {
+								c:GBR = THIS
+								is_subject_of = c:GBR
+							}
+						}
+					}
+				}
+			}
+			c:GBR = { trigger_event = { id = oregon.2 } }
+		}
+		else = {
+			s:STATE_IDAHO = {
+				add_homeland = yankee
+			}
+			s:STATE_WASHINGTON = {
+				add_homeland = yankee
+			}
+			s:STATE_OREGON = {
+				add_homeland = yankee
+			}
+			add_modifier = {
+				name = oregon_resolved
+				months = normal_modifier_time
+			}
+		}
+	}
+
+	weight = 100
+}
+
+je_conquer_oregon = {
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	complete = {
+		c:USA = {
+			owns_entire_state_region = STATE_WASHINGTON
+			owns_entire_state_region = STATE_IDAHO
+			owns_entire_state_region = STATE_OREGON
+		}
+	}
+
+	weight = 100
+
+	inheritable = no
+}

@@ -1,0 +1,130 @@
+﻿je_italian_unification = {
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	is_shown_when_inactive = {
+		AND = {
+			OR = {
+				country_has_primary_culture = cu:north_italian
+				country_has_primary_culture = cu:south_italian
+			}
+			OR = {
+				NOT = { exists = c:ITA }
+				c:ITA = THIS
+			}
+		}
+	}
+
+	possible = {
+		OR = {
+			AND = {
+				country_rank >= rank_value:minor_power
+				has_technology_researched = nationalism
+				is_subject = no
+			}
+			exists = c:ITA
+		}			
+	}
+
+	immediate = {
+		ROOT = {
+			s:STATE_LOMBARDY = {
+				add_claim = ROOT
+			}
+			s:STATE_PIEDMONT = {
+				add_claim = ROOT
+			}
+			s:STATE_UMBRIA = {
+				add_claim = ROOT
+			}
+			s:STATE_CAMPANIA = {
+				add_claim = ROOT
+			}
+			s:STATE_CALABRIA = {
+				add_claim = ROOT
+			}
+			s:STATE_APULIA = {
+				add_claim = ROOT
+			}
+			s:STATE_ABRUZZO = {
+				add_claim = ROOT
+			}
+			s:STATE_EMILIA = {
+				add_claim = ROOT
+			}
+			s:STATE_TUSCANY = {
+				add_claim = ROOT
+			}
+			s:STATE_ROMAGNA = {
+				add_claim = ROOT
+			}
+			s:STATE_LAZIO = {
+				add_claim = ROOT
+			}
+			s:STATE_VENETIA = {
+				add_claim = ROOT
+			}
+			s:STATE_SICILY = {
+				add_claim = ROOT
+			}
+			s:STATE_SOUTH_TYROL = {
+				add_claim = ROOT
+			}
+			s:STATE_ISTRIA = {
+				add_claim = ROOT
+			}
+		}
+	}
+	
+	complete = {
+		hidden_trigger = {
+			has_variable = je_unification_progress
+		}
+		calc_true_if = {
+			amount > 14
+			owns_entire_state_region = STATE_LOMBARDY
+			owns_entire_state_region = STATE_PIEDMONT
+			owns_entire_state_region = STATE_UMBRIA
+			owns_entire_state_region = STATE_CAMPANIA
+			owns_entire_state_region = STATE_CALABRIA
+			owns_entire_state_region = STATE_APULIA
+			owns_entire_state_region = STATE_ABRUZZO
+			owns_entire_state_region = STATE_SAVOY
+			owns_entire_state_region = STATE_EMILIA
+			owns_entire_state_region = STATE_TUSCANY
+			owns_entire_state_region = STATE_ROMAGNA
+			owns_entire_state_region = STATE_LAZIO
+			owns_entire_state_region = STATE_VENETIA
+			owns_entire_state_region = STATE_SICILY
+			owns_entire_state_region = STATE_SOUTH_TYROL
+			owns_entire_state_region = STATE_ISTRIA
+		}
+	}
+
+	on_monthly_pulse = {
+		events = {
+			italian_unification.2 # confederation
+			italian_unification.3 # Garibaldi
+		effect = {
+			if = { 
+				limit = { NOT = { has_variable = je_unification_progress } } 
+				set_variable = je_unification_progress
+			}
+		}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { id = italian_unification.1 }
+		remove_variable = je_unification_progress
+	}
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_italian_status
+			}
+		}
+	}
+
+	weight = 100
+}
