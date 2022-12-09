@@ -1,0 +1,53 @@
+je_deseret = {
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+	is_shown_when_inactive = {
+		c:USA = root
+			any_scope_state = {
+				state_region = s:STATE_UTAH
+                is_incorporated = no
+			} 
+	}
+
+    possible = {
+					any_scope_state = {
+				state_region = s:STATE_UTAH
+                is_incorporated = no
+			} 
+	}
+
+    immediate = {
+		trigger_event = {
+			id = journal_flavor_usa.1
+		}
+	}
+
+    	complete = {	
+         NOT = {
+             c:MEX = {
+                any_scope_state = {
+                    state_region = s:STATE_UTAH
+                }
+            }
+		}
+	}
+
+	fail = {
+        NOT = {
+			any_scope_state = {
+				state_region = s:STATE_UTAH
+			} 
+        }
+
+	}
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_deseret_status
+			}
+		}
+	}
+    should_be_pinned_by_default = yes
+	weight = 1000 
+}

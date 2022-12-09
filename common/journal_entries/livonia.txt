@@ -1,0 +1,40 @@
+﻿je_livonia_partition = {
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	complete = {
+        OR = {
+            c:EST = { NOT = { is_subject_of = c:RUS } }
+            c:LAT = { NOT = { is_subject_of = c:RUS } }
+        }
+        
+       
+	}
+
+	on_complete = {
+				every_scope_state = {
+				limit = {
+			state_region = {
+                    is_homeland = cu:estonian
+			}
+				}
+				set_state_owner = c:EST
+				set_state_type = incorporated
+			}
+            		every_scope_state = {
+			limit = {
+			    state_region = {
+                    is_homeland = cu:latvian
+			    }
+			}
+			set_state_owner = c:LAT
+			set_state_type = incorporated
+		}
+	}
+
+    fail = {
+        NOT = { is_subject_of = c:RUS }
+    }
+
+    should_be_pinned_by_default = yes
+	weight = 100
+}
