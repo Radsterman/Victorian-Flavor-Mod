@@ -252,3 +252,67 @@ immediate = {
 
 	}
 }
+
+
+journal_flavor_usa.3 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_usa.3.t
+	desc = journal_flavor_usa.3.d
+	flavor = journal_flavor_usa.3.f
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_factory_opening.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/factory_opening"
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	duration = 2
+
+	trigger = {
+		# triggered by journal entry
+	}
+immediate = {
+
+		random_country = {
+			limit = {
+				has_variable = banana_introducer
+			}
+			save_scope_as = banana_scope
+		}
+
+}
+
+	option = { 
+		name = journal_flavor_usa.3.a
+		default_option = yes
+
+		if = {
+			limit = {
+				cu:yankee = {
+					NOT = { has_cultural_obsession = fruit }
+				}
+			}
+			cu:yankee = {
+				add_cultural_obsession = fruit
+			}
+		}
+
+		if = {
+			limit = {
+				cu:dixie = {
+					NOT = { has_cultural_obsession = fruit }
+				}
+			}
+			cu:dixie = {
+				add_cultural_obsession = fruit
+			}
+		}
+
+
+	}
+}
