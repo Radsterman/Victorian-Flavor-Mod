@@ -1,0 +1,146 @@
+﻿je_great_game = {
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	is_shown_when_inactive = {
+		c:RUS = root
+	}
+
+	complete = {
+		calc_true_if = {
+
+			country_or_subject_owns_entire_state_region = STATE_KHIVA
+			country_or_subject_owns_entire_state_region = STATE_TURKMENIA
+			country_or_subject_owns_entire_state_region= STATE_URALSK
+			country_or_subject_owns_entire_state_region = STATE_AKMOLINSK
+			country_or_subject_owns_entire_state_region = STATE_SEMIRECHE
+			country_or_subject_owns_entire_state_region = STATE_UZBEKIA
+			country_or_subject_owns_entire_state_region = STATE_TAJIKISTAN
+			country_or_subject_owns_entire_state_region = STATE_KIRGHIZIA
+			amount >= 7
+		}
+	}
+
+	on_complete = {
+		trigger_event = { id = journal_flavor_russia.1 } # Towards India
+	}
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_great_game_status
+			}
+		}
+	}
+    should_be_pinned_by_default = yes
+	weight = 100
+}
+
+je_kiselyov_reforms = {
+	icon = "gfx/interface/icons/event_icons/event_bureaucracy.dds"
+
+	complete = {
+		NOT = { has_law = law_type:law_serfdom }
+	}
+
+	on_complete = {
+		trigger_event = { id = journal_flavor_russia.5 } # Emancipation
+	}
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_kiselyov_reforms_status
+			}
+		}
+	}
+    should_be_pinned_by_default = yes
+	weight = 100
+}
+
+je_unite_caucasia = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+	complete = {
+		# Replace with new requirement
+		#OR = { 
+		#	has_law = law_type:law_unitary
+		#	has_law = law_type:law_totalitarian
+		#}
+		has_technology_researched = central_archives
+	}
+
+	fail = {
+		NOR = {
+			c:SVA = { is_subject_of = c:RUS } 
+			c:MIN = { is_subject_of = c:RUS } 
+			c:ABK = { is_subject_of = c:RUS } 
+		}
+	}
+
+	on_complete = {
+		c:CAU = {
+			if = {
+				limit = {
+					AND = { 
+						c:CAU = { is_subject_of = c:RUS } 
+						c:MIN = { is_subject_of = c:RUS }
+					}
+
+				}
+				annex = c:MIN
+			}
+			else_if = {
+				limit = {
+						c:MIN = { is_subject_of = c:RUS }
+				}
+				c:RUS = {
+				annex = c:MIN
+				}
+			}
+			if = {
+				limit = {
+						AND = { 
+						c:CAU = { is_subject_of = c:RUS } 
+						c:ABK = { is_subject_of = c:RUS }
+						}
+				}
+				annex = c:ABK
+			}
+			else_if = {
+				limit = {
+						c:ABK = { is_subject_of = c:RUS }
+				}
+				c:RUS = {
+					annex = c:ABK
+				}
+			}
+			if = {
+				limit = {
+						AND = { 
+						c:CAU = { is_subject_of = c:RUS } 
+						c:SVA = { is_subject_of = c:RUS }
+						}
+				}
+				annex = c:SVA
+			}
+			else_if = {
+				limit = {
+						c:SVA = { is_subject_of = c:RUS }
+				}
+				c:RUS = {
+				annex = c:SVA
+				}
+			}
+
+		}
+	}
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_unite_caucasia_status
+			}
+		}
+	}
+	weight = 100
+}
