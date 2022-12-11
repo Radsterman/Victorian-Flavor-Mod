@@ -1,0 +1,303 @@
+﻿accessories = {
+	usage = game
+	selection_behavior = weighted_random
+	#fallback = no_headgear
+
+    #no_acessories = {
+    #    dna_modifiers = {
+    #        accessory = {
+    #            mode = add
+    #            gene = 
+    #            template = no_headgear
+    #            range = { 0 1 } # For the randomness to work correctly
+    #        }
+    #    }   
+    #    weight = {
+    #        base = 0
+    #    }
+    #}
+
+    european_shopkeeper_clothes = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = misc
+                template = all_misc
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        } 
+        weight = {
+            base = 0
+            modifier = {
+                add = 10000
+                shopkeepers_clothes_pop_trigger = yes
+                OR = {
+                    european_clothes_pop_trigger = yes
+                    african_diaspora_pop_clothes_trigger = yes
+                    AND = {
+                        native_american_clothes_pop_trigger = yes
+                        AND = {
+                            exists = scope:pop
+                            scope:pop = {
+                                NOT = { culture = cu:inuit }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    sash_accessories = {
+        dna_modifiers = {
+             accessory = {
+                 mode = add
+                 gene = sashes
+                 template = all_sashes
+                 range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+            add = 1000
+    			european_clothes_trigger = yes
+    			scope:character = {
+                    monarchy_clothes_trigger = yes
+    				OR = {
+    					NOT = { exists = c:PAP }
+    					AND = {
+    						exists = c:PAP
+    						NOT = { owner = c:PAP }
+    					}
+    				}
+    			}
+    		}
+        }
+    }
+    austrian_accessories = {
+        dna_modifiers = {
+            accessory = {
+                 mode = add
+                 gene = medals
+                 template = generic_medals
+                 range = { 0 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                 mode = add
+                 gene = epaulettes
+                 template = all_epaulettes
+                 range = { 0 0.4 } # For the randomness to work correctly
+            }
+            accessory = {
+                 mode = add
+                 gene = belts
+                 template = all_belts
+                 range = { 0 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                 mode = add
+                 gene = sashes
+                 template = austrian_sashes
+                 range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+               add = 10001
+                exists = scope:character
+                scope:character = {
+                    owner = {
+                        exists = c:AUS
+                        c:AUS = this
+                    }
+                    OR = {
+                        military_clothes_trigger = yes
+                        monarchy_clothes_trigger = yes
+                    }
+                }
+            }
+        }
+    }
+
+    prussian_accessories = {
+        dna_modifiers = {
+            accessory = {
+                 mode = add
+                 gene = medals
+                 template = prussian_medals
+                 range = { 0 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                 mode = add
+                 gene = epaulettes
+                 template = all_epaulettes
+                 range = { 0 0.4 } # For the randomness to work correctly
+            }
+            accessory = {
+                 mode = add
+                 gene = belts
+                 template = all_belts
+                 range = { 0 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                 mode = add
+                 gene = sashes
+                 template = all_sashes
+                 range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+               add = 10000
+                AND = {
+                    german_clothes_trigger = yes
+                    OR = {
+                        military_clothes_trigger = yes
+                        monarchy_clothes_trigger = yes
+                    }   
+                }  
+            }
+        }
+    }
+
+    american_accessories = {
+        dna_modifiers = {
+            accessory = {
+                 mode = add
+                 gene = medals
+                 template = generic_medals
+                 range = { 0.9 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                 mode = add
+                 gene = epaulettes
+                 template = all_epaulettes
+                 range = { 0.8 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                 mode = add
+                 gene = belts
+                 template = all_belts
+                 range = { 0 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                 mode = add
+                 gene = sashes
+                 template = all_sashes
+                 range = { 0 0.4 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+               add = 10000
+                AND = {
+                    OR = {
+                        american_clothes_trigger = yes
+                        AND = {
+                            exists = scope:character
+                            scope:character = {
+                                owner = {
+                                    exists = c:CSA
+                                    c:CSA = this
+                                    is_subject = no
+                                }
+                            }
+                        }
+                    }
+                    OR = {
+                        military_clothes_trigger = yes
+                        monarchy_clothes_trigger = yes
+                    }   
+                }  
+            }
+        }
+    }
+
+    commander_accessories = {
+        dna_modifiers = {
+             accessory = {
+                 mode = add
+                 gene = medals
+                 template = generic_medals
+                 range = { 0 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = epaulettes
+                template = all_epaulettes
+                range = { 0 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = belts
+                template = all_belts
+                range = { 0 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = sashes
+                template = all_sashes
+                range = { 0 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = aiguillettes
+                template = all_aiguillettes
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 1000
+                european_clothes_trigger = yes
+                republic_clothes_trigger = no
+                OR = {
+                    military_clothes_trigger = yes
+                    officers_clothes_pop_trigger = yes
+                    AND = {
+                        european_clothes_trigger = yes
+                        ruler_clothes_trigger = yes
+                        NOT = {
+                            scope:character = {
+    							exists = c:PAP
+                                owner = c:PAP
+                            }
+                        }
+                    }
+                    AND = {
+                        armed_forces_clothes_trigger = yes
+                        politician_clothes_trigger = yes
+                    }
+                }
+            } 
+        }
+    }
+
+	african_expedition_necklace = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = necklaces
+				template = african_necklaces
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100000
+                AND = {
+                    exists = scope:character
+                    scope:character = {
+                      has_variable = expedition_trading_gifts
+                    }  
+                }     
+			}
+		}
+	}
+}
