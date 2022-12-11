@@ -1,0 +1,92 @@
+﻿namespace = journal_flavor_caucasia
+
+# caucasia Partition
+journal_flavor_caucasia.1 = {
+	type = country_event
+	placement = ROOT
+	title = journal_flavor_caucasia.1.t
+	desc = journal_flavor_caucasia.1.d
+	flavor =  journal_flavor_caucasia.1.f
+
+	duration = 1
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_aristocrats.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	trigger = {
+
+	}
+
+	immediate = {
+
+		c:RUS = {
+			save_scope_as = rus_scope
+		}
+
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_AZERBAIJAN
+			}
+			save_scope_as = azb_spawn
+		}
+        random_scope_state = {
+			limit = {
+				state_region = s:STATE_ARMENIA
+			}
+			save_scope_as = arm_spawn
+		}
+			
+	
+		create_country = {
+			tag = ARM
+			origin = this
+			state = scope:arm_spawn
+		}
+		c:ARM = {
+			save_scope_as = arm_scope
+		}
+		create_country = {
+			tag = AZB
+			origin = this
+			state = scope:azb_spawn
+		}
+		c:AZB = {
+			save_scope_as = azb_scope
+		}
+	}
+
+	option = {
+		default_option = yes
+		name = journal_flavor_caucasia.1.a
+        change_tag = GEO
+
+        ruler = { kill_character = yes }
+       
+	}
+	option = {
+		name = journal_flavor_caucasia.1.b
+        change_tag = GEO    
+        ruler = { kill_character = yes }
+        play_as = scope:arm_scope
+
+		ai_chance = {
+			base = 0
+		}
+	}
+    option = {
+		name = journal_flavor_caucasia.1.c
+        change_tag = GEO
+        ruler = { kill_character = yes }
+        play_as = scope:azb_scope
+        
+		ai_chance = {
+			base = 0
+		}
+	}
+}

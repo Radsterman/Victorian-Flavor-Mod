@@ -1,0 +1,217 @@
+﻿namespace = journal_flavor_japan
+
+journal_flavor_japan.1 = {
+	type = country_event
+	placement = root
+
+	title = journal_flavor_japan.1.t
+	desc = journal_flavor_japan.1.d
+	flavor = journal_flavor_japan.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/asia_westerners_arriving.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/asia/westeners_arriving_in_east_asia" 
+
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	duration = 3
+
+	trigger = {
+		# triggered by journal entry
+	}
+
+	option = {
+		name = journal_flavor_japan.1.a
+		default_option = yes
+		
+            	add_modifier = {
+			name = japan_iwakura_mission
+			months = normal_modifier_time
+		}
+	}
+
+	
+}
+
+journal_flavor_japan.2 = {
+	type = country_event
+	placement = root
+
+	title = journal_flavor_japan.2.t
+	desc = journal_flavor_japan.2.d
+	flavor = journal_flavor_japan.2.f
+
+	event_image = {
+		video = "gfx/event_pictures/asia_confucianism_shinto.bk2"
+	}
+
+		on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+		on_opened_soundeffect = "event:/SFX/Events/asia/confucianism_shinto" 
+
+
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	minor_left_icon = c:CHI
+	minor_right_icon = c:JAP
+
+	duration = 3
+
+	trigger = {
+		# triggered by journal entry
+	}
+
+	option = {
+		name = journal_flavor_japan.2.a
+		default_option = yes
+		
+        s:STATE_SHENGJING = {
+				add_claim = c:JAP
+		}
+        s:STATE_SOUTHERN_MANCHURIA = {
+				add_claim = c:JAP
+		}
+        s:STATE_OUTER_MANCHURIA = {
+				add_claim = c:JAP
+		}
+        s:STATE_NORTHERN_MANCHURIA = {
+				add_claim = c:JAP
+		}
+
+        add_modifier = {
+			name = control_korea
+			months = normal_modifier_time
+		}
+            change_relations = {
+			country = c:CHI
+			value = -50
+		}
+	}
+    	option = {
+		name = journal_flavor_japan.2.b
+		
+	
+            	add_modifier = {
+			name = control_korea
+			months = normal_modifier_time
+		}
+        		change_relations = {
+			country = c:CHI
+			value = 20
+		}
+	}
+	
+}
+
+journal_flavor_japan.3 = {
+	type = country_event
+	placement = root
+
+	title = journal_flavor_japan.3.t
+	desc = journal_flavor_japan.3.d
+	flavor = journal_flavor_japan.3.f
+
+	event_image = {
+		video = "gfx/event_pictures/asia_confucianism_shinto.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/asia/confucianism_shinto" 
+
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+	minor_left_icon = c:AIN
+	minor_right_icon = c:JAP
+
+	duration = 1
+
+	immediate = {
+		c:RUS = {
+			save_scope_as = rus_scope
+		}
+		c:AIN = {
+			save_scope_as = ain_scope
+		}
+	}
+	trigger = {
+		# triggered by journal entry
+	}
+
+	option = {
+		name = journal_flavor_japan.3.a
+		default_option = yes
+		        ai_chance = { base = 1 }
+        c:AIN = {
+			trigger_event = { id = journal_flavor_japan.4 }
+		}
+
+	}
+    	option = {
+		name = journal_flavor_japan.3.b
+                ai_chance = { base = 0 }
+        change_relations = {
+			country = c:AIN
+			value = 20
+		}
+
+	}
+	
+}
+
+journal_flavor_japan.4 = {
+	type = country_event
+	placement = root
+
+	title = journal_flavor_japan.4.t
+	desc = journal_flavor_japan.4.d
+	flavor = journal_flavor_japan.4.f
+
+	event_image = {
+		video = "gfx/event_pictures/asia_confucianism_shinto.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/asia/confucianism_shinto" 
+
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+	minor_left_icon = c:JAP
+	minor_right_icon = c:AIN
+
+	duration = 3
+
+	trigger = {
+		# triggered by journal entry
+	}
+
+	option = {
+		name = journal_flavor_japan.4.a
+		default_option = yes
+        ai_chance = { base = 1 }
+		
+        c:JAP = {
+            annex = c:AIN
+        }
+
+	}
+    	option = {
+		name = journal_flavor_japan.4.b
+        
+        ai_chance = { base = 0 }
+        s:STATE_HOKKAIDO = {
+				add_claim = c:JAP
+		}
+
+        change_relations = {
+			country = c:JAP
+			value = -100
+		}
+	}
+	
+}
