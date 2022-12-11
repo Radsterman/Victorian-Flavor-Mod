@@ -1,0 +1,130 @@
+﻿namespace = dual_monarchy
+
+# Dual Monarchy event
+dual_monarchy.1 = {
+	type = country_event
+
+	title = dual_monarchy.1.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = dual_monarchy.1.d
+				trigger = {
+					NOT = { has_variable = dual_monarchy_fail }
+				}
+			}
+			triggered_desc = {
+				desc = dual_monarchy.1.d2
+				trigger = {
+					has_variable = dual_monarchy_fail
+				}
+			}
+		}
+	}
+	flavor = dual_monarchy.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	duration = 3
+
+	trigger = {
+		# triggered by dual monarchy JE
+	}
+
+	immediate = {
+		cu:hungarian = {
+			save_scope_as = hungarian_culture
+		}
+	}
+
+	option = {
+		name = dual_monarchy.1.a
+		default_option = yes
+		ai_chance = {
+			base = 1
+		}
+		custom_tooltip = austria_hungary_tt
+		add_primary_culture = cu:hungarian
+		annex = c:HUN
+		every_scope_state = {
+			limit = {
+				OR = {
+					state_region = s:STATE_CROATIA
+					state_region = s:STATE_SLAVONIA
+					state_region = {
+						is_homeland = cu:hungarian
+					}
+				}
+
+			}
+		set_state_type = incorporated
+		}
+		add_loyalists = {
+			culture = cu:hungarian
+			value = 0.2
+		}
+		ig:ig_landowners = {
+			remove_ideology = ideology_austrian_hegemony
+			hidden_effect = {
+				set_interest_group_name = ig_landowners
+			}
+		}
+	}
+	option = { # accept compromise
+		name = dual_monarchy.1.b
+
+		custom_tooltip = austria_hungary_tt
+		add_primary_culture = cu:hungarian
+		ig:ig_landowners = {
+			remove_ideology = ideology_austrian_hegemony
+			hidden_effect = {
+				set_interest_group_name = ig_landowners
+			}
+		}
+		c:AUS = {
+			create_diplomatic_pact = {
+				country = c:HUN
+				type = dominion
+				}
+		}
+		add_radicals = {
+			value = large_radicals
+			culture = cu:hungarian
+		}
+		change_relations = {
+			country = c:HUN
+			value = -20
+		}
+	}
+	option = { #reject compromise
+		name = dual_monarchy.1.c
+
+		add_radicals = {
+			value = very_large_radicals
+			culture = cu:hungarian
+		}
+		# add radicals from discrimination
+		every_scope_state = {
+			limit = {
+				state_region = {
+					is_homeland = cu:hungarian
+				}
+			}
+			add_modifier = {
+				name = dual_monarchy_compromise_rejected
+				months = long_modifier_time
+			}
+		}
+		change_relations = {
+			country = c:HUN
+			value = -100
+		}
+	}
+}
