@@ -1,1 +1,60 @@
 namespace = usa_debates_conventions
+
+usa_debates_conventions.1836 = {
+	type = country_event
+	is_popup = yes
+	
+	gui_window = event_window_2char
+	left_icon = scope:government_party_ig.leader
+	right_icon = scope:opposition_party_ig.leader
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/public_figure_assassination"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	title = usa_debates_conventions.1836.t
+	desc = usa_debates_conventions.1836.d
+	flavor = usa_debates_conventions.1836.f
+
+	duration = 3
+
+	trigger = {
+		exists = c:USA
+		c:USA = ROOT
+		has_law = law_type:law_presidential_republic
+		in_election_campaign = yes
+	}
+
+	immediate = {
+		random_interest_group = {
+			limit = {
+				has_party = yes
+				is_in_government = yes
+			}
+			party = {
+				save_scope_as = government_party
+			}
+			save_scope_as = government_party_ig
+		}
+		random_interest_group = {
+			limit = {
+				has_party = yes
+				is_in_government = no
+			}
+			party = {
+				save_scope_as = opposition_party
+			}
+			save_scope_as = opposition_party_ig
+		}
+	}
+
+	option = {
+		name = usa_debates_conventions.1836.a
+        default_option = yes
+	}
+
+	option = {
+		name = usa_debates_conventions.1836.b
+	}
+}
