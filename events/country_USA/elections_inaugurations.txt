@@ -1,11 +1,14 @@
 namespace = elections_inaugurations
-
+#XXXX = Election Started
+#XXXX+1 = Election Concluded, set next date
+#XXXX+2 = Inauguration
 
 elections_inaugurations.1836 = {
 	type = country_event
+	is_popup = yes
 	
 	event_image = {
-		video = "gfx/event_pictures/southamerica_public_figure_assassination.bk2"
+		video = "gfx/event_pictures/europenorthamerica_capitalists_meeting.bk2"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -23,52 +26,99 @@ elections_inaugurations.1836 = {
 		exists = c:USA
 		c:USA = ROOT
 		has_law = law_type:law_presidential_republic
+		in_election_campaign = yes
 	}
 
 	immediate = {
-		set_variable = {
-			name = abolitionist_martydom
-			value = yes
-		}
+		set_variable = usa_election
 	}
 
 	option = {
 		name = elections_inaugurations.1836.a
         default_option = yes
-        random_interest_group = {
-        	limit = {
-        		NOT = { is_interest_group_type = ig_landowners }
-        		is_marginal = no
-        		leader = {
-        			NOR = {
-        				has_ideology = ideology_abolitionist
-        				has_ideology = ideology_slaver
-        			}
-        		}
-        	}
-        	leader = {
-        		set_ideology = ideology_abolitionist
-        	}
-        }
 	}
 
 	option = {
 		name = elections_inaugurations.1836.b
-        random_interest_group = {
-        	limit = {
-        		NOT = { is_interest_group_type = ig_intelligentsia }
-        		NOT = { is_interest_group_type = ig_trade_unions }
-        		is_marginal = no
-        		leader = {
-        			NOR = {
-        				has_ideology = ideology_abolitionist
-        				has_ideology = ideology_slaver
-        			}
-        		}
-        	}
-        	leader = {
-        		set_ideology = ideology_slaver
-        	}
-        }
+	}
+}
+
+elections_inaugurations.1837 = {
+	type = country_event
+	is_popup = yes
+	
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_capitalists_meeting.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/public_figure_assassination"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	title = elections_inaugurations.1837.t
+	desc = elections_inaugurations.1837.d
+	flavor = elections_inaugurations.1837.f
+
+	duration = 3
+
+	trigger = {
+		exists = c:USA
+		c:USA = ROOT
+		has_variable = usa_election
+	}
+
+	immediate = {
+		set_next_election_date = 1840.12.2
+	}
+
+	option = {
+		name = elections_inaugurations.1837.a
+        default_option = yes
+	}
+
+	option = {
+		name = elections_inaugurations.1837.b
+	}
+}
+
+elections_inaugurations.1838 = {
+	type = country_event
+	is_popup = yes
+	
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_capitalists_meeting.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/public_figure_assassination"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	title = elections_inaugurations.1838.t
+	desc = elections_inaugurations.1838.d
+	flavor = elections_inaugurations.1838.f
+
+	duration = 3
+
+	trigger = {
+		exists = c:USA
+		c:USA = ROOT
+		has_law = law_type:law_presidential_republic
+		has_variable = usa_election
+		current_game_date = 1837.3.4
+	}
+
+	immediate = {
+		remove_variable = usa_election
+	}
+
+	option = {
+		name = elections_inaugurations.1838.a
+        default_option = yes
+	}
+
+	option = {
+		name = elections_inaugurations.1838.b
 	}
 }
