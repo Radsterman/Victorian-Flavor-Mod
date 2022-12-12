@@ -1,0 +1,74 @@
+namespace = elections_inaugurations
+
+
+elections_inaugurations.1836 = {
+	type = country_event
+	
+	event_image = {
+		video = "gfx/event_pictures/southamerica_public_figure_assassination.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/public_figure_assassination"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	title = elections_inaugurations.1836.t
+	desc = elections_inaugurations.1836.d
+	flavor = elections_inaugurations.1836.f
+
+	duration = 3
+
+	trigger = {
+		exists = c:USA
+		c:USA = ROOT
+		has_law = law_type:law_presidential_republic
+	}
+
+	immediate = {
+		set_variable = {
+			name = abolitionist_martydom
+			value = yes
+		}
+	}
+
+	option = {
+		name = elections_inaugurations.1836.a
+        default_option = yes
+        random_interest_group = {
+        	limit = {
+        		NOT = { is_interest_group_type = ig_landowners }
+        		is_marginal = no
+        		leader = {
+        			NOR = {
+        				has_ideology = ideology_abolitionist
+        				has_ideology = ideology_slaver
+        			}
+        		}
+        	}
+        	leader = {
+        		set_ideology = ideology_abolitionist
+        	}
+        }
+	}
+
+	option = {
+		name = elections_inaugurations.1836.b
+        random_interest_group = {
+        	limit = {
+        		NOT = { is_interest_group_type = ig_intelligentsia }
+        		NOT = { is_interest_group_type = ig_trade_unions }
+        		is_marginal = no
+        		leader = {
+        			NOR = {
+        				has_ideology = ideology_abolitionist
+        				has_ideology = ideology_slaver
+        			}
+        		}
+        	}
+        	leader = {
+        		set_ideology = ideology_slaver
+        	}
+        }
+	}
+}
