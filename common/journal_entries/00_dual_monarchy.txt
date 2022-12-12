@@ -5,37 +5,21 @@
 		cu:hungarian = {
 			NOT = { culture_is_discriminated_in = ROOT }
 		}
-		c:AUS = {	
-			c:HUN.relations:ROOT > relations_threshold:amicable
-		}
-		c:HUN = {
-			has_attitude = {
-				who = c:AUS
-				attitude = loyal
-			}	
-		} 
 	}
 
 	fail = {
-		c:AUS = {	
-			c:HUN.relations:ROOT < relations_threshold:cold
-		}
-		c:HUN = {
-			has_attitude = {
-				who = c:AUS
-				attitude = rebellious
-			}	
-		} 
-	 }
-	on_fail = {
-		c:HUN = {	
-			create_diplomatic_play = {
-				name = confederation_war
-				target_country = c:AUS
-				type = dp_independence
+		cu:hungarian = {
+			culture_secession_progress = {
+				target = ROOT
+				value > 0.5
 			}
 		}
-
+	 }
+	on_fail = {
+		set_variable = dual_monarchy_fail
+		trigger_event = {
+			id = dual_monarchy.1
+		}
 	}
 
 	on_complete = {
@@ -46,9 +30,14 @@
 
 	invalid = {
 		OR = {
-			NOT = {
-				c:HUN = {
-					is_subject_of = c:AUS
+			custom_tooltip = {
+				text = austria_hunary_invalid
+				NOT = {
+					any_scope_state = {
+						state_region = {
+							is_homeland = cu:hungarian
+						}
+					}
 				}
 			}
 			NOT = {
