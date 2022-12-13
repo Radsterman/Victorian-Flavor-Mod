@@ -32,7 +32,7 @@
 				NOT = { is_country_type = unrecognized }
 				scope:target_country = { is_country_type = unrecognized } 
 			}
-			add = 0.5
+			add = 1
 			
 			if = {
 				limit = { has_technology_researched = civilizing_mission }
@@ -79,7 +79,12 @@
 		if = {
 			limit = { country_rank < rank_value:major_power }
 			add = 10
-		}		
+		}	
+		
+		if = {
+			limit = { is_country_type = unrecognized }
+			multiply = 0.5
+		}	
 	}
 }
 
@@ -105,7 +110,7 @@ ai_strategy_territorial_expansion = {
 	
 	# Added to value from default strategy
 	bravery = {
-		value = 0.25
+		value = 0.5
 	}
 	
 	# Added to value from default strategy
@@ -136,6 +141,23 @@ ai_strategy_territorial_expansion = {
 		bg_army = 1.5
 	}
 	
+	wargoal_scores = {
+		take_treaty_port = {
+			value = 0
+
+			if = {
+				limit = {
+					has_claim = scope:target_state
+					scope:target_country = { has_treaty_port_in_country = root }
+				}
+				add = 25
+			}			
+
+			min = 0
+			max = 100			
+		}
+	}
+	
 	secret_goal_weights = {
 		protect = 0.5
 		conquer = 1.5
@@ -152,7 +174,16 @@ ai_strategy_territorial_expansion = {
 
 	weight = {
 		value = 10
-			
+		
+		if = {
+			limit = { 
+				any_state = {
+					has_claim_by = root
+				} 
+			}
+			add = 10
+		}
+    
 		if = {
 			limit = { ig:ig_armed_forces = { is_powerful = yes } }
 			multiply = 1.5
@@ -160,8 +191,8 @@ ai_strategy_territorial_expansion = {
 		
 		if = {
 			limit = { country_is_in_europe = yes }
-			multiply = 0.25
-		}	
+			multiply = 0.75
+		}
 	}
 }
 
@@ -220,18 +251,13 @@ ai_strategy_armed_isolationism = {
 		value = 10
 		
 		if = {
-			limit = { is_country_type = unrecognized }
-			add = 50
-		}
-		
-		if = {
 			limit = { has_law = law_type:law_national_militia }
-			add = 50
+			add = 20
 		}
 
 		if = {
 			limit = { has_law = law_type:law_isolationism }
-			add = 100
+			add = 20
 		}	
 
 		if = {
@@ -336,6 +362,14 @@ ai_strategy_unify_germany = {
 				}
 				add = 100
 			}
+      
+			if = {
+				limit = {
+					scope:target_country = c:AUS
+				}
+				subtract = 150
+			}
+      
 		}
 		return_state = {
 			if = {
@@ -356,6 +390,20 @@ ai_strategy_unify_germany = {
 	}
 	
 	secret_goal_scores = {
+    befriend = {
+			if = {
+				limit = {
+					scope:target_country = {
+						OR = {
+							country_has_primary_culture = cu:north_german
+							country_has_primary_culture = cu:south_german
+						}					
+						NOT = { is_unification_candidate = GER }					
+					}
+				}
+				add = 1000
+			}
+		}
 		protect = {		
 			if = {
 				limit = {
@@ -380,10 +428,15 @@ ai_strategy_unify_germany = {
 							country_has_primary_culture = cu:south_german
 						}					
 						NOT = { is_unification_candidate = GER }
-						NOT = { is_supporting_unification_candidate = { who = root country_formation = GER } }
+						is_supporting_unification_candidate = { 
+							NOT = { 
+								who = root 
+							}
+							country_formation = GER 
+						}
 					}
 				}
-				add = 1000
+				add = 500
 			}		
 		}		
 		conquer = {				
@@ -393,9 +446,16 @@ ai_strategy_unify_germany = {
 						OR = {
 							country_has_primary_culture = cu:north_german
 							country_has_primary_culture = cu:south_german
-						}					
-						is_unification_candidate = GER
-						NOT = { is_supporting_unification_candidate = { who = root country_formation = GER } }
+						}
+						OR = {
+							is_unification_candidate = GER
+							is_supporting_unification_candidate = { 
+								NOT = { 
+									who = root 
+								}
+								country_formation = GER
+							}
+						}
 					}
 				}
 				add = 1000
@@ -419,7 +479,17 @@ ai_strategy_unify_germany = {
 	}	
 		
 	possible = {
-		is_unification_candidate = GER	
+		OR = {
+			AND = {
+				country_rank >= rank_value:major_power
+				has_technology_researched = pan-nationalism
+				OR = {
+					country_has_primary_culture = cu:north_german
+					country_has_primary_culture = cu:south_german
+				}
+			}
+			is_unification_candidate = GER	
+		}
 		NOT = { country_tier = empire }
 	}
 
@@ -520,8 +590,8 @@ ai_strategy_unify_ethiopia = {
 								is_homeland = cu:oromo
 								is_homeland = cu:tigray
 							}					
-						}						
-					}					
+						}
+					can_reach_target_state = yes
 				}
 				add = 100
 			}
