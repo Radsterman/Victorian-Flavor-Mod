@@ -1,4 +1,4 @@
-﻿# This is a special strategy that sets the default values for different AI scores
+﻿﻿# This is a special strategy that sets the default values for different AI scores
 
 ai_strategy_default = {
 	icon = "gfx/interface/icons/ai_strategy_icons/placate_population.dds" # Never shown
@@ -289,7 +289,7 @@ ai_strategy_default = {
 	aggression = {
 		value = 0
 		
-		# AI should be insanely aggressive against countries it has claims on if have a larger army
+		# AI should be aggressive against countries it has claims on if they have a larger army (WIP)
 		if = {
 			limit = {
 				can_reach_target_country = yes
@@ -300,7 +300,7 @@ ai_strategy_default = {
 				country_rank >= scope:target_country.country_rank
 				}
 			}
-			add = 20 #Test Value
+			add = 20
 		}
 			
 		# Higher aggression against pariah countries
@@ -651,6 +651,17 @@ ai_strategy_default = {
 	}
 
 	strategic_region_scores = {
+		region_arabic = {
+			if = {
+				limit = { # Great Powers care about Egyptian-Ottoman conflict in Arabia early game
+					exists = c:TUR
+					c:TUR = { has_journal_entry = je_sick_man_syria }
+					country_rank = rank_value:great_power
+					navy_size >= 50
+				}
+				add = 1000
+			}
+		}
 		region_japan = {	
 			if = {
 				limit = { # Great Powers should try to open Japan
@@ -857,7 +868,7 @@ ai_strategy_default = {
 				limit = {
 					has_variable = monroe_doctrine	
 				}
-				add = 100
+				add = 1000
 			}			
 		}
 		region_great_plains = {
@@ -985,7 +996,7 @@ ai_strategy_default = {
 		befriend = {
 			value = 200
 			
-			# AI should be insanely aggressive against countries it has claims on
+			# AI should be not be friendly with countries it has claims on
 			if = {
 				limit = {
 					can_reach_target_country = yes
@@ -995,7 +1006,7 @@ ai_strategy_default = {
 						}	
 					}
 				}
-				subtract = 100 #Test Value
+				subtract = 100
 			}
 		
 			if = {
@@ -1064,7 +1075,7 @@ ai_strategy_default = {
 		reconcile = {
 			value = 0
 
-			# AI should be insanely aggressive against countries it has claims on
+			# AI should not reconcile with countries it has claims on
 			if = {
 				limit = {
 					can_reach_target_country = yes
@@ -1074,7 +1085,7 @@ ai_strategy_default = {
 						}	
 					}
 				}
-				subtract = 100 #Test Value
+				subtract = 100
 			}
 			
 			if = {
@@ -1138,7 +1149,7 @@ ai_strategy_default = {
 		protect = {
 			value = 0
 			
-			# AI should be insanely aggressive against countries it has claims on
+			# AI should not protect countries it has claims on
 			if = {
 				limit = {
 					can_reach_target_country = yes
@@ -1148,7 +1159,7 @@ ai_strategy_default = {
 						}	
 					}
 				}
-				subtract = 100 #Test Value
+				subtract = 100
 			}
 			
 			if = {
@@ -1234,7 +1245,7 @@ ai_strategy_default = {
 		antagonize = {
 			value = 0
 			
-			# AI should be insanely aggressive against countries it has claims on
+			# AI should be antagonistic towards countries it has claims on
 			if = {
 				limit = {
 					can_reach_target_country = yes
@@ -1244,9 +1255,9 @@ ai_strategy_default = {
 						}	
 					}
 				}
-				add = 50 #Test Value
+				add = 50
 			}
-			
+      
 			if = {
 				limit = {
 					countries_are_valid_rivals = yes
@@ -1380,7 +1391,7 @@ ai_strategy_default = {
 		conquer = {
 			value = 0
 	
-			# AI should be insanely aggressive against countries it has claims on
+			# AI should want to conquer countries it has claims on
 			if = {
 				limit = {
 					can_reach_target_country = yes
@@ -1390,7 +1401,7 @@ ai_strategy_default = {
 						}	
 					}
 				}
-				add = 50 #Test Value
+				add = 50
 			}
 			
 			if = {
@@ -1670,7 +1681,7 @@ ai_strategy_default = {
 		dominate = {
 			value = 0		
 			
-			# AI should be insanely aggressive against countries it has claims on
+			# AI should want to conquer countries it has claims on, not dominate
 			if = {
 				limit = {
 					can_reach_target_country = yes
@@ -1680,7 +1691,7 @@ ai_strategy_default = {
 						}	
 					}
 				}
-				subtract = 50 #Test Value
+				subtract = 50
 			}
 			
 			if = {
@@ -1688,8 +1699,19 @@ ai_strategy_default = {
 					scope:target_country = { is_subject_of = root }	
 				}
 				add = 100
-			}			
-			
+			}
+      
+			if = {
+				limit = {
+					scope:target_country = { 
+						is_subject_of = root
+						relations:root < relations_threshold:cordial 
+						scope:target_country.country_rank < rank_value:major_power
+					}
+				}
+				add = 50
+			}	
+
 			if = {
 				limit = {
 					can_reach_target_country = yes
@@ -1862,7 +1884,7 @@ ai_strategy_default = {
 				add = {
 					value = 40
 				
-					subtract = {
+					subtract = { #AI should want to conquer more smaller states, not less large states
 						value = scope:target_state.state_population
 						divide = 100000
 						max = 20						
@@ -1921,7 +1943,7 @@ ai_strategy_default = {
 				add = {
 					value = 20
 				
-					subtract = {
+					subtract = { #AI should want to conquer more smaller states, not less large states
 						value = scope:target_state.state_population
 						divide = 100000
 						max = 10						
