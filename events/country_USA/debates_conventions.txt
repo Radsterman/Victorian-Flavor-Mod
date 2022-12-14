@@ -75,3 +75,255 @@ usa_debates_conventions.1836 = {
 		name = usa_debates_conventions.1836.b
 	}
 }
+
+usa_debates_conventions.1837 = {
+	type = country_event
+	
+	gui_window = event_window_2char
+	left_icon = scope:usa_secretary_of_state
+	right_icon = scope:opposition_party_debater
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/public_figure_assassination"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	title = usa_debates_conventions.1837.t
+	desc = usa_debates_conventions.1837.d
+	flavor = usa_debates_conventions.1837.f
+
+	duration = 1
+
+	trigger = {
+		exists = c:USA
+		c:USA = ROOT
+		has_law = law_type:law_presidential_republic
+		in_election_campaign = yes
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = usa_secretary_of_state
+			}
+			save_scope_as = usa_secretary_of_state
+		}
+		random_interest_group = {
+			limit = {
+				has_party = yes
+				is_in_government = no
+			}
+			party = {
+				save_scope_as = opposition_party
+			}
+			save_scope_as = opposition_party_ig
+			random_scope_character = {
+				limit = {
+					NOR = {
+						has_role = general
+						has_role = admiral
+					}
+				}
+				save_scope_as = opposition_party_debater
+			}
+		}
+	}
+
+	option = {
+		name = usa_debates_conventions.1837.a
+        default_option = yes
+	}
+
+	option = {
+		name = usa_debates_conventions.1837.b
+	}
+}
+
+
+#Senatorial Campaign
+usa_debates_conventions.200 = {
+	type = country_event
+	placement = scope:debate_state
+	
+	gui_window = event_window_2char
+	left_icon = scope:incumbent_debater
+	right_icon = scope:opposition_party_debater
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/public_figure_assassination"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	title = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					incumbent_party = opposition_party
+				}
+				desc = usa_debates_conventions.200.t1
+			}
+			triggered_desc = {
+				trigger = {
+					always = yes
+				}
+				desc = usa_debates_conventions.200.t2
+			}
+		}
+	}
+	desc = usa_debates_conventions.200.d
+	flavor = usa_debates_conventions.200.f
+
+	duration = 1
+
+	trigger = {
+		exists = c:USA
+		c:USA = ROOT
+		has_law = law_type:law_presidential_republic
+		in_election_campaign = yes
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				any_scope_character = {
+					OR = {
+						has_variable = usa_senator
+					}
+				}
+			}
+			random_scope_character = {
+				limit = {
+					OR = {
+						has_variable = usa_senator
+					}
+				}
+				save_scope_as = incumbent_debater
+				set_variable = incumbent_debater
+				interest_group.party = {
+					save_scope_as = incumbent_party
+				}
+			}
+		}
+		random_interest_group = {
+			limit = {
+				has_party = yes
+				is_in_government = no
+			}
+			party = {
+				save_scope_as = opposition_party
+			}
+			save_scope_as = opposition_party_ig
+			random_scope_character = {
+				limit = {
+					NOR = {
+						has_role = general
+						has_role = admiral
+					}
+					NOT = { has_variable = incumbent_debater }
+				}
+				save_scope_as = opposition_party_debater
+			}
+		}
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+			}
+			save_scope_as = debate_state
+		}
+	}
+
+	option = {
+		name = usa_debates_conventions.200.a
+        default_option = yes
+	}
+
+	option = {
+		name = usa_debates_conventions.200.b
+	}
+}
+
+
+#Gubernatorial Campaign
+usa_debates_conventions.300 = {
+	type = country_event
+	placement = scope:debate_state
+	
+	gui_window = event_window_2char
+	left_icon = scope:incumbent_debater
+	right_icon = scope:opposition_party_debater
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/public_figure_assassination"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	title = usa_debates_conventions.300.t
+	desc = usa_debates_conventions.300.d
+	flavor = usa_debates_conventions.300.f
+
+	duration = 1
+
+	trigger = {
+		exists = c:USA
+		c:USA = ROOT
+		has_law = law_type:law_presidential_republic
+		in_election_campaign = yes
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				any_scope_character = {
+					OR = {
+						has_variable = usa_governor
+					}
+				}
+			}
+			random_scope_character = {
+				limit = {
+					OR = {
+						has_variable = usa_governor
+					}
+				}
+				save_scope_as = incumbent_debater
+				interest_group.party = {
+					save_scope_as = incumbent_party
+				}
+			}
+		}
+		random_interest_group = {
+			limit = {
+				has_party = yes
+				is_in_government = no
+			}
+			party = {
+				save_scope_as = opposition_party
+			}
+			save_scope_as = opposition_party_ig
+			random_scope_character = {
+				limit = {
+					NOR = {
+						has_role = general
+						has_role = admiral
+					}
+				}
+				save_scope_as = opposition_party_debater
+			}
+		}
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+			}
+			save_scope_as = debate_state
+		}
+	}
+
+	option = {
+		name = usa_debates_conventions.300.a
+        default_option = yes
+	}
+
+	option = {
+		name = usa_debates_conventions.300.b
+	}
+}

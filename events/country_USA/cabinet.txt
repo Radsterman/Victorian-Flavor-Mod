@@ -1,0 +1,55 @@
+namespace = usa_cabinet
+
+#New Secretary of State
+usa_cabinet.100 = {
+	type = country_event
+	
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_capitalists_meeting.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/public_figure_assassination"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	title = usa_cabinet.100.t
+	desc = usa_cabinet.100.d
+	flavor = usa_cabinet.100.f
+
+	duration = 3
+
+	trigger = {
+		exists = c:USA
+		c:USA = ROOT
+		NOT = {
+			any_scope_character = {
+				has_variable = usa_secretary_of_state
+			}
+		}
+	}
+
+	immediate = {
+		#create_character = {
+		#	save_scope_as = candidate_one
+		#}
+		#create_character = {
+		#	save_scope_as = candidate_two
+		#}
+	}
+
+	option = {
+		name = usa_cabinet.100.a
+        default_option = yes
+		scope:candidate_one = {
+			add_modifier = usa_secretary_of_state
+		}
+	}
+
+	option = {
+		name = usa_cabinet.100.b
+		scope:candidate_two = {
+			add_modifier = usa_secretary_of_state
+		}
+	}
+}
