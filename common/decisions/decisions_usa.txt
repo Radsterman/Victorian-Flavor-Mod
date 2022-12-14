@@ -1,15 +1,25 @@
 habeas_corpus = {
 
 	is_shown = {
+		NOT = { has_variable = habeas_corpus_suspended }
 		exists = c:USA
 		root = c:USA
 	}
 
 	possible = {
-		is_at_war = yes
+		NOT = { has_variable = habeas_corpus_suspended }
+		OR = {
+			has_revolution = yes
+			is_at_war = yes
+		}
+		any_scope_state = {
+			is_incorporated = yes
+			turmoil > 0.2
+		}
 	}
 
 	when_taken = {
+		set_variable = habeas_corpus_suspended
 	}
 
 	ai_chance = {
