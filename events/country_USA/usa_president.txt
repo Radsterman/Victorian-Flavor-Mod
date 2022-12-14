@@ -1,0 +1,69 @@
+namespace = usa_president
+
+#President Dies Midterm
+
+
+#President Assassinated
+usa_president.200 = {
+	type = country_event
+	
+	event_image = {
+		video = "gfx/event_pictures/southamerica_public_figure_assassination.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/public_figure_assassination"
+
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	title = usa_president.200.t
+	desc = usa_president.200.d
+	flavor = usa_president.200.f
+
+	duration = 1
+
+	trigger = {
+		exists = c:USA
+		c:USA = ROOT
+		has_law = law_type:law_presidential_republic
+		in_election_campaign = yes
+		any_scope_character = {
+			has_variable = usa_vice_president
+		}
+	}
+
+	immediate = {
+		ruler = {
+			save_scope_as = assassinated
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = usa_vice_president
+			}
+			save_scope_as = usa_vice_president
+		}
+		scope:usa_vice_president = {
+			add_character_role = ruler
+			remove_variable = usa_vice_president
+		}
+		scope:assassinated = {
+			kill_character = yes
+		}
+		create_character = {
+			age > 34
+			on_created = {
+				set_variable = {
+					name = usa_vice_president
+				}				
+			}
+			save_scope_as = new_vice_president
+		}
+	}
+
+	option = {
+		name = usa_president.200.a
+        default_option = yes
+		clear_saved_scope = usa_vice_president
+	}
+}
