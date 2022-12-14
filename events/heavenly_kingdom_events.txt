@@ -30,23 +30,22 @@ heavenly.1 = {
 			is_incorporated = yes
 			any_scope_pop = {
 				NOT = {
-					religion = rel:protestant
+						OR = {
+							religion = rel:protestant
+							religion = rel:reformed
+							religion = rel:anglican
+						}
 				}
 			}
-			OR = {
-				any_neighbouring_state = {
-					is_treaty_port = yes
-					owner = {
-						religion = rel:protestant
+			any_neighbouring_state = {
+				is_treaty_port = yes
+				owner = {
+						OR = {
+							religion = rel:protestant
+							religion = rel:reformed
+							religion = rel:anglican
+						}
 					}
-				}
-				is_coastal = yes
-			}
-		}
-		any_neighbouring_state = {
-			is_treaty_port = yes
-			owner = {
-				religion = rel:protestant
 			}
 		}
 	}
@@ -56,31 +55,41 @@ heavenly.1 = {
 				is_incorporated = yes
 				any_scope_pop = {
 					NOT = {
-						religion = rel:protestant
-					}
-				}
-				OR = {
-					any_neighbouring_state = {
-						is_treaty_port = yes
-						owner = {
+						OR = {
 							religion = rel:protestant
+							religion = rel:reformed
+							religion = rel:anglican
 						}
 					}
-					is_coastal = yes
+				}
+				any_neighbouring_state = {
+					is_treaty_port = yes
+					owner = {
+						OR = {
+							religion = rel:protestant
+							religion = rel:reformed
+							religion = rel:anglican
+						}
+					}
 				}
 			}
 			save_scope_as = missionary_state
-		}
-		random_neighbouring_state = {
-			limit = {
-				is_treaty_port = yes
-				owner = {
-					religion = rel:protestant
+			random_neighbouring_state = {
+				limit = {
+					is_treaty_port = yes
+					owner = {
+						OR = {
+							religion = rel:protestant
+							religion = rel:reformed
+							religion = rel:anglican
+						}
+
+					}
 				}
-			}
-			save_scope_as = treaty_port_scope
-			owner = {
-				save_scope_as = treaty_port_owner
+				save_scope_as = treaty_port_scope
+				owner = {
+					save_scope_as = treaty_port_owner
+				}
 			}
 		}
 	}
@@ -93,10 +102,53 @@ heavenly.1 = {
 				name = missionary_schools_hospitals
 				months = normal_modifier_time
 			}
+		if = {
+			limit = {
+				exists = c:CHI
+				ROOT = c:CHI
+			}
 			convert_population = {
-				target = rel:protestant 
+				target = rel:god_society
 				value = 0.05
 			}
+		}
+		else = {
+		if = {
+			limit = {
+				scope:treaty_port_owner = {
+					religion = rel:anglican
+				} 
+			}
+			convert_population = {
+				target = rel:anglican
+				value = 0.05
+			}
+		}
+		if = {
+			limit = {
+				scope:treaty_port_owner = {
+					religion = rel:reformed
+				} 
+			}
+			convert_population = {
+				target = rel:reformed
+				value = 0.05
+			}
+		}
+		if = {
+			limit = {
+				scope:treaty_port_owner = {
+					religion = rel:protestant
+				} 
+			}
+			convert_population = {
+				target = rel:protestant
+				value = 0.05
+			}
+		}
+		}
+
+
 		}
 	}
 	option = {
@@ -106,15 +158,57 @@ heavenly.1 = {
 			value = -10
 		}
 		scope:missionary_state = {
+		if = {
+			limit = {
+				exists = c:CHI
+				ROOT = c:CHI
+			}
+			convert_population = {
+				target = rel:god_society
+				value = 0.01
+			}
+		}
+		else = {
+		if = {
+			limit = {
+				scope:treaty_port_owner = {
+					religion = rel:anglican
+				} 
+			}
+			convert_population = {
+				target = rel:anglican
+				value = 0.01
+			}
+		}
+		if = {
+			limit = {
+				scope:treaty_port_owner = {
+					religion = rel:reformed
+				} 
+			}
+			convert_population = {
+				target = rel:reformed
+				value = 0.01
+			}
+		}
+		if = {
+			limit = {
+				scope:treaty_port_owner = {
+					religion = rel:protestant
+				} 
+			}
 			convert_population = {
 				target = rel:protestant
 				value = 0.01
 			}
 		}
+		}
+
+		}
 	}
 }
 
-# The God Worshipping Society
+# The God Worshipping god_society
 heavenly.2 = {
 	type = country_event
 	placement = scope:cult_state
@@ -160,7 +254,7 @@ heavenly.2 = {
 				months = short_modifier_time
 			}
 			convert_population = {
-				target = rel:protestant value = 0.1
+				target = rel:god_society value = 0.1
 			}
 		}
 	}
@@ -194,10 +288,9 @@ heavenly.3 = {
 			state_region = { is_homeland = cu:han NOT = { is_homeland = cu:manchu } }
 			has_variable = cult_center
 			any_scope_pop = {
-				has_pop_religion = protestant
+				has_pop_religion = god_society
 			}
 			any_neighbouring_state = {
-				state_region = { is_homeland = cu:han NOT = { is_homeland = cu:manchu } }
 				owner = ROOT
 				NOT = {
 					has_variable = cult_center
@@ -209,13 +302,11 @@ heavenly.3 = {
 	immediate = {
 		random_scope_state = {
 			limit = {
-				state_region = { is_homeland = cu:han NOT = { is_homeland = cu:manchu } }
-				any_scope_pop = {
-					has_pop_religion = protestant
-				}
 				has_variable = cult_center
+				any_scope_pop = {
+					has_pop_religion = god_society
+				}
 				any_neighbouring_state = {
-	    			state_region = { is_homeland = cu:han NOT = { is_homeland = cu:manchu } }
 					owner = ROOT
 					NOT = {
 						has_variable = cult_center
@@ -226,7 +317,6 @@ heavenly.3 = {
 			save_scope_as = cult_center
 			random_neighbouring_state = {
 				limit = {
-					state_region = { is_homeland = cu:han NOT = { is_homeland = cu:manchu } }
 					owner = ROOT
 					NOT = {
 						has_variable = cult_center
@@ -248,7 +338,7 @@ heavenly.3 = {
 				months = short_modifier_time
 			}
 			convert_population = {
-				target = rel:protestant value = 0.1
+				target = rel:god_society value = 0.1
 			}
 		}
 	}
@@ -289,7 +379,7 @@ heavenly.4 = {
     			state_region = { is_homeland = cu:han NOT = { is_homeland = cu:manchu } }
 				has_variable = cult_center
 				any_scope_pop = {
-					has_pop_religion = protestant
+					has_pop_religion = god_society
 					religion_accepted = no
 				}
 				radical_fraction = { value >= 0.30 }
@@ -301,14 +391,23 @@ heavenly.4 = {
 			origin = this
 			state = scope:heavenly_kingdom_spawn
 			on_created = {
+		
+
+				ig:ig_devout = {
+					remove_ideology = ideology_moralist
+					add_ideology = ideology_taiping_moralist
+					remove_ideology = ideology_patriarchal
+					add_ideology = ideology_loyalist
+				}
+
 				if = {
 					limit = {
 						NOT = {
 							has_ruling_interest_group = ig_devout
 						}
 					}
-					ig:ig_devout = {
-						add_ruling_interest_group = yes
+					set_ruling_interest_groups = {
+						ig_devout
 					}
 				}
 				if = {
@@ -335,13 +434,27 @@ heavenly.4 = {
 					}
 					activate_law = law_type:law_peasant_levies
 				}
+				if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_serfdom_banned
+						}
+					}
+					activate_law = law_type:law_serfdom_banned
+				}
+
+		
+
 				add_modifier = {
 					name = uprising_conscription
 					months = normal_modifier_time
-				}
-			}
+				}	
+			}		
 		}
 		c:TPG = {
+
+			trigger_event = { id = heavenly.6 }
+
 			save_scope_as = heavenly_kingdom_scope
 		}
 		if = {
@@ -376,6 +489,7 @@ heavenly.4 = {
     				NOT = { state_region = { is_homeland = cu:manchu } }
 				}
 				set_state_owner = c:TPG
+				set_state_type = incorporated
 			}
 			every_scope_state = {
 				limit = {
@@ -402,6 +516,7 @@ heavenly.4 = {
 				set_variable = taiping_rebellion_state
 			}
 		}
+		
 	}
 	option = {
 		name = heavenly.4.b
@@ -417,6 +532,7 @@ heavenly.4 = {
 					has_variable = cult_center
 				}
 				set_state_owner = c:TPG
+				set_state_type = incorporated
 			}
 			every_scope_state = {
 				limit = {
@@ -468,7 +584,7 @@ heavenly.5 = {
 	trigger = {
 		# triggered by journal entry
 	}
-
+	
 	immediate = {
 		every_scope_state = {
 			limit = {
@@ -486,7 +602,7 @@ heavenly.5 = {
 		every_scope_state = {
 			limit = {
 				any_scope_pop = {
-					religion = rel:protestant
+					religion = rel:god_society
 				}
 			}
 			convert_population = {
@@ -510,7 +626,7 @@ heavenly.5 = {
 		name = heavenly.5.b
 		add_loyalists = {
 			value = 0.2
-			religion = rel:protestant
+			religion = rel:god_society
 		}
 		every_country = {
 			limit = {
@@ -524,5 +640,130 @@ heavenly.5 = {
 				value = 25
 			}
 		}
+	}
+}
+
+# Leader event
+heavenly.6 = {
+	type = country_event
+	placement = ROOT
+
+	title = heavenly.6.t
+	desc = heavenly.6.d
+	flavor = heavenly.6.f
+
+	event_image = {
+		video = "gfx/event_pictures/asia_union_leader.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/asia/union_leader"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	duration = 3
+
+	trigger = {
+		# triggered by journal entry
+	}
+immediate = {
+				create_character = {
+					first_name = "Feng"
+					last_name = "Yunshan"
+					is_general = yes
+					culture = cu:hakka
+					birth_date = 1815.1.1
+				
+					interest_group = ig_devout 
+					traits = {
+							pious
+							surveyor
+					}
+				}
+
+				create_character = {
+					first_name = "Yang"
+					last_name = "Xiuqing"
+					is_general = yes
+					culture = cu:yue
+					birth_date = 1821.09.23
+				
+					interest_group = ig_armed_forces 
+					traits = {
+							ambitious
+							basic_offensive_planner
+							tactful
+
+					}
+				}
+
+				create_character = {
+					first_name = "Xiao"
+					last_name = "Chaogui"
+					is_general = yes
+					culture = cu:yue
+					birth_date = 1821.09.23
+				
+					interest_group = ig_devout 
+					traits = {
+							pious
+							charismatic							
+					}
+				}
+
+				create_character = {
+					first_name = "Wei"
+					last_name = "Chaogui"
+					is_general = yes
+					culture = cu:yue
+					birth_date = 1823.1.1
+				
+					interest_group = ig_armed_forces  
+					traits = {
+							meticulous
+							stalwart_defender							
+					}
+				}
+
+				create_character = {
+					first_name = "Shi"
+					last_name = "Dakai"
+					is_general = yes
+					culture = cu:yue
+					birth_date = 1831.04.1
+					interest_group = ig_devout
+					traits = {
+							direct
+							brave	
+							persistent						
+
+						}
+				}
+
+			}
+	option = { 
+		name = heavenly.6.a
+		default_option = yes
+
+				create_character = {
+					first_name = "Hong"
+					last_name = "Xiuquan"
+					ig_leader = yes
+					ruler = yes
+					culture = cu:hakka
+					dna = dna_hong_xiuquan
+					birth_date = 1814.1.1
+				
+					interest_group = ig_devout 
+					ideology = ideology_fascist
+					traits = {
+							ambitious
+							pious
+							innovative
+					}
+				}
+
+				
+
 	}
 }

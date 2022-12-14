@@ -1,0 +1,125 @@
+je_deseret = {
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+	is_shown_when_inactive = {
+		c:USA = root
+			any_scope_state = {
+				state_region = s:STATE_UTAH
+                is_incorporated = no
+			} 
+	}
+
+    possible = {
+					any_scope_state = {
+				state_region = s:STATE_UTAH
+                is_incorporated = no
+			} 
+	}
+
+    immediate = {
+		trigger_event = {
+			id = journal_flavor_usa.1
+		}
+	}
+
+    	complete = {	
+         NOT = {
+             c:MEX = {
+                any_scope_state = {
+                    state_region = s:STATE_UTAH
+                }
+            }
+		}
+	}
+
+	fail = {
+        NOT = {
+			any_scope_state = {
+				state_region = s:STATE_UTAH
+			} 
+        }
+
+	}
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_deseret_status
+			}
+		}
+	}
+    should_be_pinned_by_default = yes
+	weight = 1000 
+}
+
+je_bananas = {
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	is_shown_when_inactive = {
+		any_state = {
+			has_building = building_banana_plantation
+		}
+		any_primary_culture = {
+			has_discrimination_trait = hispanophone
+		}
+		is_country_type = colonial
+
+		NOT = { has_global_variable = bananas_introduced }
+	}
+
+    possible = {
+		has_law = law_type:law_presidential_republic
+
+		custom_tooltip = {
+			text = bananas_tt
+			country_has_voting_franchise = no
+		}
+		any_scope_building = {
+			is_building_type = building_banana_plantation
+			level >= 1
+		}
+	}
+
+    complete = {	
+		any_scope_building = {
+			is_building_type = building_banana_plantation
+			level >= 10
+		}
+		custom_tooltip = {
+			text = bananas_export_tt
+			any_trade_route = {
+				actor_market.owner = root
+				exporter = root.market
+				importer = c:USA.market
+				goods = g:fruit
+		    }
+
+		}
+	}
+
+	on_complete = {
+			set_global_variable = {
+				name = bananas_introduced
+			}
+			set_variable = banana_introducer
+		c:USA = {
+			trigger_event = { id = journal_flavor_usa.3 }
+		}
+	}
+
+	invalid = {
+				custom_tooltip = {
+			text = bananas_invalid_tt
+		 has_global_variable = bananas_introduced
+		  }
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_bananas_status
+			}
+		}
+	}
+    should_be_pinned_by_default = yes
+	weight = 1000 
+}
