@@ -37,3 +37,42 @@ je_independence_rac = {
 	}
 	weight = 1000 
 }
+
+je_autonomy = {
+	icon = "gfx/interface/icons/event_icons/event_industry.dds"
+
+	is_shown_when_inactive = {
+		is_subject_type = subject_type_chartered_company
+	}
+
+    possible = {
+		GDP >= 1000000
+	}
+
+    complete = {	
+			NOT = {has_law = law_type:law_autocracy}
+	}
+
+	invalid = {
+		NOT = { is_subject_type = subject_type_chartered_company }
+	}
+
+    on_complete = {
+		top_overlord = {
+			create_diplomatic_pact = {
+				country = root
+				type = dominion
+			}
+		}	
+	}
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_autonomy_status
+			}
+		}
+	}
+    should_be_pinned_by_default = yes
+	weight = 1000
+}
