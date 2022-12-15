@@ -29,6 +29,230 @@ je_independence_rac = {
 			origin = this
 			state = s:STATE_ALASKA.region_state:RAC
 		}
+
+		if = {
+			limit = { exists = c:RAC }
+			c:RUS = {
+				annex = c:RAC
+			}
+		}
+	}
+
+	invalid = {
+		is_subject = yes
+		NOT = { is_subject_type = subject_type_chartered_company }
+	}
+	weight = 1000 
+}
+
+je_independence_nwt = {
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+    complete = {	
+		is_subject = no
+		has_law = law_type:law_multicultural
+		has_law = law_type:law_total_separation
+		has_technology_researched = pan-nationalism
+	}
+
+	on_complete = {
+		change_tag = CAN
+	}
+
+	fail = {
+		is_subject = no
+		OR = {
+			NOT = { has_law = law_type:law_multicultural }
+			NOT = { has_law = law_type:law_total_separation }
+			NOT = { has_technology_researched = pan-nationalism }
+		}
+
+	}
+
+	on_fail = {
+		if = {
+			limit = { exists = c:CSC }
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_BRITISH_COLUMBIA
+				}
+				set_state_owner = c:CSC
+			}
+		}
+		else = {
+			create_country = {
+				tag = CSC
+				origin = this
+				state = s:STATE_BRITISH_COLUMBIA.region_state:NWT
+			}
+		}
+		if = {
+			limit = { exists = c:ATB }
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_YUKON_TERRITORY
+				}
+				set_state_owner = c:ATB
+			}
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_NORTHWEST_TERRITORIES
+				}
+				set_state_owner = c:ATB
+			}
+		}
+		else = {
+			create_country = {
+				tag = ATB
+				origin = this
+				state = s:STATE_NORTHWEST_TERRITORIES.region_state:NWT
+			}
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_YUKON_TERRITORY
+				}
+				set_state_owner = c:ATB
+			}
+		}
+		if = {
+			limit = { exists = c:MTC }
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_ALBERTA
+				}
+				set_state_owner = c:MTC
+			}
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_SASKATCHEWAN
+				}
+				set_state_owner = c:MTC
+			}
+		}
+		else = {
+			create_country = {
+				tag = MTC
+				origin = this
+				state = s:STATE_ALBERTA.region_state:NWT
+			}
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_SASKATCHEWAN
+				}
+				set_state_owner = c:MTC
+			}
+		}
+
+		if = {
+			limit = { exists = c:NWT }
+			c:GBR = {
+				annex = c:NWT
+			}
+		}
+	}
+
+	invalid = {
+		is_subject = yes
+		NOT = { is_subject_type = subject_type_chartered_company }
+	}
+	weight = 1000 
+}
+
+je_independence_col = {
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+    complete = {	
+		is_subject = no
+		has_law = law_type:law_multicultural
+		has_law = law_type:law_total_separation
+		has_technology_researched = pan-nationalism
+	}
+
+	on_complete = {
+		change_tag = CAN
+	}
+
+	fail = {
+		is_subject = no
+		OR = {
+			NOT = { has_law = law_type:law_multicultural }
+			NOT = { has_law = law_type:law_total_separation }
+			NOT = { has_technology_researched = pan-nationalism }
+		}
+
+	}
+
+	on_fail = {
+		if = {
+			limit = { exists = c:CSC }
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_BRITISH_COLUMBIA
+				}
+				set_state_owner = c:CSC
+			}
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_WASHINGTON
+				}
+				set_state_owner = c:CSC
+			}
+		}
+		else = {
+			create_country = {
+				tag = CSC
+				origin = this
+				state = s:STATE_BRITISH_COLUMBIA.region_state:COL
+			}
+		}
+		random_scope_state = {
+				limit = {
+					state_region = s:STATE_WASHINGTON
+				}
+				set_state_owner = c:CSC
+		}
+		if = {
+			limit = { exists = c:NZP }
+			every_scope_state = {
+				limit = {
+					OR = { 
+						state_region = s:STATE_IDAHO
+						state_region = s:STATE_OREGON
+						state_region = s:STATE_WYOMING
+						state_region = s:STATE_MONTANA						
+					}
+				}
+				set_state_owner = c:NZP
+			}
+		}
+		else = {
+			create_country = {
+				tag = NZP
+				origin = this
+				state = s:STATE_IDAHO.region_state:COL
+			}
+			every_scope_state = {
+				limit = {
+					OR = { 
+						state_region = s:STATE_IDAHO
+						state_region = s:STATE_OREGON
+						state_region = s:STATE_WYOMING
+						state_region = s:STATE_MONTANA						
+					}
+				}
+				set_state_owner = c:NZP
+			}			
+		}
+		
+		if = {
+			limit = { exists = c:COL }
+			c:GBR = {
+				annex = c:COL
+			}
+		}
+
+		
+		
 	}
 
 	invalid = {
