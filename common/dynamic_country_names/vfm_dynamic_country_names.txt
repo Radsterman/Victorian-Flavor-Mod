@@ -57,6 +57,7 @@ COL = { # British Columbia
 					exists = c:HBC
 					scope:actor = {
 						is_subject_of = c:HBC
+						NOT = { is_subject_type = subject_type_chartered_company }
 					}
 				}
 				AND = {
@@ -76,12 +77,26 @@ COL = { # British Columbia
 		priority = 0
 		
 		trigger = {
-			exists = c:GBR
-			c:GBR = {
-				has_diplomatic_pact = {
-					who = c:COL
-					type = puppet
-					is_initiator = yes
+			OR = {
+				AND = {
+					exists = c:GBR
+					c:HBC = {
+						has_diplomatic_pact = {
+							who = c:COL
+							type = puppet
+							is_initiator = yes
+						}
+					}
+				}
+				AND = {
+					exists = c:HBC
+					c:HBC = {
+						has_diplomatic_pact = {
+							who = c:COL
+							type = chartered_company
+							is_initiator = yes
+						}
+					}
 				}
 			}
 		}
