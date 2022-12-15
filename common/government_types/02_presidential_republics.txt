@@ -36,6 +36,27 @@ gov_governorate = {
 	}
 }
 
+gov_austrian_crownland = {
+	transfer_of_power = presidential_elective
+	new_leader_on_reform_government = no
+
+	male_ruler = "RULER_TITLE_GOVERNOR"
+	female_ruler = "RULER_TITLE_GOVERNOR"
+	
+	possible = {
+		has_law = law_type:law_presidential_republic
+		exists = c:AUS
+		is_subject_of = c:AUS
+		c:AUS = {
+			has_law = law_type:law_monarchy
+		}
+		is_subject_type = subject_type_puppet
+		any_primary_culture = {
+			has_discrimination_trait = european_heritage
+		}
+	}
+}
+
 gov_governor_generalship = {
     transfer_of_power = presidential_elective
 	new_leader_on_reform_government = no
@@ -155,12 +176,19 @@ gov_chartered_company = {
 	
 	possible = {
 		has_law = law_type:law_presidential_republic
-		AND = { exists = c:GBR is_subject_of = c:GBR }
 		OR = {
-			AND = { exists = c:HBC c:HBC = ROOT }
-			AND = { exists = c:BIC c:BIC = ROOT }
+			is_subject_type = subject_type_chartered_company
+			AND = {
+				AND = { exists = c:GBR is_subject_of = c:GBR }
+				OR = {
+					AND = { exists = c:HBC c:HBC = ROOT }
+					AND = { exists = c:BIC c:BIC = ROOT }
+				}
+				is_subject_type = subject_type_dominion
+			}	
 		}
-		is_subject_type = subject_type_dominion
+
+
 	}
 }
 
