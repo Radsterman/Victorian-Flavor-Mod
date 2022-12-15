@@ -55,10 +55,6 @@ je_independence_nwt = {
 		has_technology_researched = pan-nationalism
 	}
 
-	on_complete = {
-		change_tag = CAN
-	}
-
 	fail = {
 		is_subject = no
 		OR = {
@@ -248,6 +244,176 @@ je_independence_col = {
 			limit = { exists = c:COL }
 			c:GBR = {
 				annex = c:COL
+			}
+		}
+
+		
+		
+	}
+
+	invalid = {
+		is_subject = yes
+		NOT = { is_subject_type = subject_type_chartered_company }
+	}
+	weight = 1000 
+}
+
+je_independence_hbc = {
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+    complete = {	
+		is_subject = no
+		has_law = law_type:law_multicultural
+		has_law = law_type:law_total_separation
+		has_technology_researched = pan-nationalism
+	}
+
+	on_complete = {
+		change_tag = CAN
+	}
+
+	fail = {
+		is_subject = no
+		OR = {
+			NOT = { has_law = law_type:law_multicultural }
+			NOT = { has_law = law_type:law_total_separation }
+			NOT = { has_technology_researched = pan-nationalism }
+		}
+
+	}
+
+	on_fail = {
+
+		
+
+		if = {
+			limit = { 
+				c:COL = {
+					is_subject_of = c:HBC
+				}
+			}
+			c:GBR = {
+				create_diplomatic_pact = {
+					country = c:COL
+					type = chartered_company
+				}
+			}
+		}
+
+		if = {
+			limit = { 
+				c:NWT = {
+					is_subject_of = c:HBC
+				}
+			}
+			c:GBR = {
+				create_diplomatic_pact = {
+					country = c:NWT
+					type = chartered_company
+				}
+			}
+		}
+
+		if = {
+			limit = { exists = c:NNV }
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_NUNAVUT
+				}
+				set_state_owner = c:NNV
+			}
+		}
+		else = {
+			create_country = {
+				tag = NNV
+				origin = this
+				state = s:STATE_NUNAVUT.region_state:HBC
+			}
+		}
+		if = {
+			limit = { exists = c:BLF }
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_ALBERTA
+				}
+				set_state_owner = c:BLF
+			}
+		}
+		else = {
+			create_country = {
+				tag = BLF
+				origin = this
+				state = s:STATE_ALBERTA.region_state:HBC
+			}		
+		}
+		if = {
+			limit = { exists = c:ATB }
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_NORTHWEST_TERRITORIES
+				}
+				set_state_owner = c:ATB
+			}
+		}
+		else = {
+			create_country = {
+				tag = ATB
+				origin = this
+				state = s:STATE_NORTHWEST_TERRITORIES.region_state:HBC
+			}		
+		}
+		if = {
+			limit = { exists = c:MTC }
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_SASKATCHEWAN
+				}
+				set_state_owner = c:MTC
+			}
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_MANITOBA
+				}
+				set_state_owner = c:MTC
+			}
+		}
+		else = {
+			create_country = {
+				tag = MTC
+				origin = this
+				state = s:STATE_MANITOBA.region_state:HBC
+			}	
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_SASKATCHEWAN
+				}
+				set_state_owner = c:MTC
+			}
+		}
+
+		if = {
+			limit = { exists = c:ONT }
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_ONTARIO
+				}
+				set_state_owner = c:ONT
+			}
+		}
+		if = {
+			limit = { exists = c:QUE }
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_QUEBEC
+				}
+				set_state_owner = c:QUE
+			}
+		}
+		
+		if = {
+			limit = { exists = c:HBC }
+			c:GBR = {
+				annex = c:HBC
 			}
 		}
 
