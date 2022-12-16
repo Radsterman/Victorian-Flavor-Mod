@@ -1,0 +1,137 @@
+﻿je_consolidate_colonial_rule = {
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+		calc_true_if = {
+			amount >= 7
+			country_or_subject_owns_entire_state_region = STATE_BURMA
+			country_or_subject_owns_entire_state_region = STATE_KACHIN
+			country_or_subject_owns_entire_state_region = STATE_SHAN_STATES
+			country_or_subject_owns_entire_state_region = STATE_PEGU
+			country_or_subject_owns_entire_state_region = STATE_SINDH
+			country_or_subject_owns_entire_state_region = STATE_PUNJAB
+			country_or_subject_owns_entire_state_region = STATE_KASHMIR
+			country_or_subject_owns_entire_state_region = STATE_PASHTUNISTAN
+			country_or_subject_owns_entire_state_region = STATE_BALUCHISTAN
+			country_or_subject_owns_entire_state_region = STATE_HIMALAYAS
+		}
+	}
+
+	on_complete = {
+		trigger_event = { id = east_indies.1 }
+		set_variable = consolidated_colonial_rule
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					NOT = {
+						any_civil_war = {
+							is_civil_war_type = secession
+							civil_war_progress > 30
+						}
+					}
+				}
+				change_variable = {
+					name = east_indies_revolt_var
+					add = 1
+				}
+			}
+		}
+	}
+
+	current_value = {
+		value = root.var:east_indies_revolt_var
+	}
+
+	goal_add_value = {
+		add = 120
+	}
+
+	progressbar = yes
+
+	timeout = 7300
+
+	weight = 100
+}
+
+je_reform_indies = {
+	icon = "gfx/interface/icons/event_icons/event_industry.dds"
+
+	is_shown_when_inactive = {
+		OR = {
+			AND = {
+				exists = c:BIC
+				c:BIC = THIS
+			}
+			AND = {
+				exists = c:DEI
+				c:DEI = THIS
+			}
+		}
+	}
+
+	possible = {
+		OR = {
+			has_law = law_type:law_free_trade
+			has_law = law_type:law_mercantilism
+			NOT = { has_law = law_type:law_land_based_taxation }
+			NOT = { has_law = law_type:law_serfdom }
+		}
+	}
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+		OR = {
+			has_law = law_type:law_free_trade
+			has_law = law_type:law_mercantilism
+		}
+		NOT = { has_law = law_type:law_land_based_taxation }
+		NOT = { has_law = law_type:law_serfdom }
+		has_law = law_type:law_slavery_banned
+	}
+
+	on_complete = {
+		trigger_event = { id = east_indies.2 }
+		show_as_tooltip = {
+			add_journal_entry = {
+				type = je_ethical_policy
+			}
+		}
+		set_variable = reformed_indies
+	}
+
+	current_value = {
+		value = root.gdp
+	}
+
+	goal_add_value = {
+		value = root.gdp
+		multiply = 0.5
+	}
+
+	progressbar = yes
+
+	weight = 100
+}
+
+je_ethical_policy = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+	complete = {
+		literacy_rate > 0.5
+		root.average_sol > 15
+	}
+
+	on_complete = {
+		trigger_event = { id = east_indies.3 }
+	}
+
+	weight = 100
+}
