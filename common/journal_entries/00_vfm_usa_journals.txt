@@ -1,3 +1,111 @@
+je_indian_removal = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+	
+	on_monthly_pulse = {
+		random_events = {
+			10 = 0 
+			1 = native_resettlement.2 # john ross
+			1 = native_resettlement.3 # Preparing for resettlement
+			1 = native_resettlement.4 # Trail of Tears
+		}
+	}
+
+	complete = {
+			AND = {
+				custom_tooltip = {
+					text = indian_removal_east_of_mississippi
+				}
+				AND = {
+					OR = {
+						custom_tooltip = {
+							text = indian_removal_seminole_remove
+							NOT = {
+								s:STATE_FLORIDA.region_state:USA = {
+									any_scope_pop = {
+										culture = {
+											has_discrimination_trait = indigenous_american_heritage
+										}
+									}
+								}
+							}
+						}
+						custom_tooltip = {
+							text = indian_removal_seminole_stay
+						}
+					}
+					OR = {
+						custom_tooltip = {
+							text = indian_removal_seminole_remove
+							NOT = {
+								s:STATE_ALABAMA.region_state:USA = {
+									any_scope_pop = {
+										culture = {
+											has_discrimination_trait = indigenous_american_heritage
+										}
+									}
+								}
+							}
+						}
+						custom_tooltip = {
+							text = indian_removal_seminole_stay
+						}
+					}
+
+				}
+			}
+			NOT = { has_law = law_type:law_no_colonial_affairs }
+			cu:cherokee = {
+				NOT = { culture_is_discriminated_in = ROOT }
+			}
+	}
+	
+	on_complete = {
+		custom_tooltip = {
+			text = indian_removal_end
+			if = {
+				limit = {
+					NOT = {
+						any_scope_pop = {
+							culture = cu:cherokee
+						}
+					}
+				}
+				trigger_event = { id = native_resettlement.5 }
+			}
+			else = {
+				trigger_event = { id = native_resettlement.6 }
+			}
+		}
+	}
+
+	fail = {
+		has_law = law_type:law_no_colonial_affairs
+	}
+	
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = indian_removal_status_1
+				trigger = {
+					NOT = { is_enacting_law = law_type:law_no_colonial_affairs }
+				}
+			}
+			triggered_desc = {
+				desc = indian_removal_status_2
+				trigger = {
+					is_enacting_law = law_type:law_no_colonial_affairs
+				}
+			}
+		}
+	}
+	
+	weight = 200
+	
+	should_be_pinned_by_default = yes
+	
+	inheritable = no
+}
+
 je_manifest_destiny_mexico = {
 	icon = "gfx/interface/icons/event_icons/event_military.dds"
 	# note that if you change this, also update the decision
