@@ -11,7 +11,7 @@
 		trigger = { 
 			coa_def_republic_flag_trigger = yes
 		}
-	}	
+	}
 	flag_definition = {
 		coa = SGF_fascist
 		subject_canton = SGF_fascist
@@ -19,7 +19,7 @@
 		trigger = { 
 			coa_def_fascist_flag_trigger = yes
 		}
-	}	
+	}
 	flag_definition = {
 		coa = SGF_BAV
 		subject_canton = SGF_BAV
@@ -36,7 +36,7 @@
 			coa_def_republic_flag_trigger = yes
 			scope:actor = { capital = { state_region = s:STATE_BAVARIA } }
 		}
-	}	
+	}
 	flag_definition = {
 		coa = SGF_BAV_fascist
 		subject_canton = SGF_BAV_fascist
@@ -45,16 +45,16 @@
 			coa_def_fascist_flag_trigger = yes
 			scope:actor = { capital = { state_region = s:STATE_BAVARIA } }
 		}
-	}	
+	}
 }
 
 NGF = { # North Germany
 	includes = GER
 	flag_definition = {
 		coa = NGF
-		subject_canton = NGF	
-		priority = 1		
-	}	
+		subject_canton = NGF
+		priority = 1	
+	}
 	flag_definition = {
 		coa = NGF_absolute_monarchy
 		priority = 10
@@ -69,15 +69,15 @@ NGF = { # North Germany
 		trigger = { 
 			coa_def_fascist_flag_trigger = yes
 		}
-	}	
+	}
 	flag_definition = {
 		coa = NGF_SAX
-		subject_canton = NGF_SAX	
-		priority = 2	
+		subject_canton = NGF_SAX
+		priority = 2
 		trigger = { 
 			scope:actor = { capital = { state_region = s:STATE_SAXONY } }
 		}
-	}	
+	}
 	flag_definition = {
 		coa = NGF_SAX_absolute_monarchy
 		priority = 20
@@ -94,15 +94,15 @@ NGF = { # North Germany
 			coa_def_fascist_flag_trigger = yes
 			scope:actor = { capital = { state_region = s:STATE_SAXONY } }
 		}
-	}	
+	}
 	flag_definition = {
 		coa = NGF_HAN
-		subject_canton = NGF_HAN	
-		priority = 2	
+		subject_canton = NGF_HAN
+		priority = 2
 		trigger = { 
 			scope:actor = { capital = { state_region = s:STATE_HANNOVER } }
 		}
-	}	
+	}
 	flag_definition = {
 		coa = NGF_HAN_absolute_monarchy
 		priority = 20
@@ -119,12 +119,12 @@ NGF = { # North Germany
 			coa_def_fascist_flag_trigger = yes
 			scope:actor = { capital = { state_region = s:STATE_HANNOVER } }
 		}
-	}	
+	}
 }
 
 GER = { # Germany
 	flag_definition = {
-		coa = GER
+		coa = GER_modern
 	}
 	flag_definition = {
 		coa = GER_iron_cross
@@ -153,7 +153,7 @@ GER = { # Germany
 		trigger = { 
 			coa_def_communist_flag_trigger = yes
 		}
-	}	
+	}
 	flag_definition = {
 		coa = GER_fascist
 		subject_canton = GER_fascist
@@ -161,11 +161,11 @@ GER = { # Germany
 		trigger = { 
 			coa_def_fascist_flag_trigger = yes
 		}
-	}	
+	}
 	flag_definition = {
 		coa = GER_BAV
 		subject_canton = GER_BAV
-		priority = 2	
+		priority = 2
 		trigger = { 
 			scope:actor = { capital = { state_region = s:STATE_BAVARIA } }
 		}
@@ -204,7 +204,7 @@ GER = { # Germany
 			coa_def_communist_flag_trigger = yes
 			scope:actor = { capital = { state_region = s:STATE_BAVARIA } }
 		}
-	}	
+	}
 	flag_definition = {
 		coa = GER_BAV_fascist
 		subject_canton = GER_BAV_fascist
@@ -213,11 +213,11 @@ GER = { # Germany
 			coa_def_fascist_flag_trigger = yes
 			scope:actor = { capital = { state_region = s:STATE_BAVARIA } }
 		}
-	}	
+	}
 	flag_definition = {
 		coa = GER_SAX
 		subject_canton = GER_SAX
-		priority = 2	
+		priority = 2
 		trigger = { 
 			scope:actor = { capital = { state_region = s:STATE_SAXONY } }
 		}
@@ -256,7 +256,7 @@ GER = { # Germany
 			coa_def_communist_flag_trigger = yes
 			scope:actor = { capital = { state_region = s:STATE_SAXONY } }
 		}
-	}	
+	}
 	flag_definition = {
 		coa = GER_SAX_fascist
 		subject_canton = GER_SAX_fascist
@@ -265,11 +265,11 @@ GER = { # Germany
 			coa_def_fascist_flag_trigger = yes
 			scope:actor = { capital = { state_region = s:STATE_SAXONY } }
 		}
-	}	
+	}
 	flag_definition = {
 		coa = GER_HAN
 		subject_canton = GER_HAN
-		priority = 2	
+		priority = 2
 		trigger = { 
 			scope:actor = { capital = { state_region = s:STATE_HANNOVER } }
 		}
@@ -308,7 +308,7 @@ GER = { # Germany
 			coa_def_communist_flag_trigger = yes
 			scope:actor = { capital = { state_region = s:STATE_HANNOVER } }
 		}
-	}	
+	}
 	flag_definition = {
 		coa = GER_HAN_fascist
 		subject_canton = GER_HAN_fascist
@@ -317,5 +317,47 @@ GER = { # Germany
 			coa_def_fascist_flag_trigger = yes
 			scope:actor = { capital = { state_region = s:STATE_HANNOVER } }
 		}
-	}	
+	}
+	flag_definition = {
+		coa = GER_austrian
+		priority = 100
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				has_law = law_type:law_monarchy
+				ruler = {
+					has_culture = cu:south_german
+				}
+				capital = { 
+					OR = {
+						state_region = s:STATE_AUSTRIA
+						state_region = s:STATE_TYROL
+						state_region = s:STATE_SOUTH_TYROL
+						state_region = s:STATE_STYRIA
+					}
+				}
+			}
+		}
+	}
+	# Black-White-Red tricolor is reserved for a Prussian monarchy
+	flag_definition = {
+		coa = GER
+		priority = 100
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				has_law = law_type:law_monarchy
+				ruler = {
+					has_culture = cu:north_german
+				}
+				capital = {
+					OR = {
+						state_region = s:STATE_BRANDENBURG 
+						state_region = s:STATE_EAST_PRUSSIA
+						state_region = s:STATE_WEST_PRUSSIA
+					}
+				}
+			}
+		}
+	}
 }
