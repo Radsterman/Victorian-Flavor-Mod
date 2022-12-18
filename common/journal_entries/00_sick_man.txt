@@ -454,3 +454,52 @@ je_sick_man_bureaucracy = {
 	weight = 5000
 }
 
+#Going from Eyalets to Vilayets
+je_sick_man_vilayets = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+	
+	is_shown_when_inactive = {
+		country_has_primary_culture = cu:turkish
+		NOT = {
+			has_variable = sick_man_complete
+		}
+	}
+	possible = {
+		has_variable = gulhane_edict
+	}
+	
+	complete = {
+		any_scope_state = {
+			tax_capacity_balance >= 0
+		}
+	}
+
+	on_complete = {
+		set_variable = completed_sick_man_vilayet_je
+		custom_tooltip = je_sick_man_advance
+		change_variable = {
+			name = sick_man_var
+			add = 1
+		}
+		trigger_event = vilayet_events.1
+	}
+
+	on_monthly_pulse = {
+		random_events = {
+			100 = 0
+			10 = tanzimat_events.9 # Land registration resisted
+		}
+	}
+	
+	invalid = {
+		custom_tooltip = {
+			text = finished_sick_man_tt
+			has_variable = sick_man_complete
+		}
+	}
+
+	inheritable = no
+
+	weight = 5000
+}
+
