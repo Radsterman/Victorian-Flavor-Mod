@@ -1,0 +1,1110 @@
+﻿#	Example:
+# 
+#	example_trigger = {
+#		x = 100
+#		y = 50
+#	}
+#
+#
+#	In a script file:
+#
+#	effect = {
+#		example_trigger = yes
+#	}
+#
+
+country_has_voting_franchise = {
+	OR = {
+		modifier:country_voting_power_base_add > 0
+		modifier:country_voting_power_from_literacy_add > 0
+		modifier:country_voting_power_wealth_threshold_add > 0
+		modifier:country_academics_voting_power_add > 0
+		modifier:country_aristocrats_voting_power_add > 0
+		modifier:country_bureaucrats_voting_power_add > 0
+		modifier:country_capitalists_voting_power_add > 0
+		modifier:country_clergymen_voting_power_add > 0
+		modifier:country_clerks_voting_power_add > 0
+		modifier:country_engineers_voting_power_add > 0
+		modifier:country_farmers_voting_power_add > 0
+		modifier:country_laborers_voting_power_add > 0
+		modifier:country_machinists_voting_power_add > 0
+		modifier:country_officers_voting_power_add > 0
+		modifier:country_peasants_voting_power_add > 0
+		modifier:country_shopkeepers_voting_power_add > 0
+		modifier:country_slaves_voting_power_add > 0
+		modifier:country_soldiers_voting_power_add > 0
+	}
+}
+
+country_has_education_system = {
+	OR = {
+		has_law = law_type:law_religious_schools
+		has_law = law_type:law_public_schools
+		has_law = law_type:law_private_schools
+	}
+}
+
+is_being_incorporated = {
+	incorporation_progress > 0
+   	incorporation_progress < 1
+}
+
+violate_sovereignty_war_check = {
+	save_temporary_scope_as = relevant_war
+
+	scope:target_country = {
+		any_scope_theater = {
+			is_land_theater = yes
+
+			save_temporary_scope_as = target_theater
+
+			scope:relevant_war.attacker_warleader = {
+				any_scope_theater = {
+					is_land_theater = yes
+
+					check_area = {
+						mode = adjacent
+						target = scope:target_theater
+					}
+				}
+			}
+
+			scope:relevant_war.defender_warleader = {
+				any_scope_theater = {
+					is_land_theater = yes
+
+					check_area = {
+						mode = adjacent
+						target = scope:target_theater
+					}
+				}
+			}
+		}
+	}
+}
+
+
+has_industrialized_pm = {
+	OR = {
+		# Textile Mills
+		is_production_method_active = {
+			building_type = building_textile_mills
+			production_method = pm_mechanized_looms
+		}
+		is_production_method_active = {
+			building_type = building_textile_mills
+			production_method = pm_automatic_power_looms
+		}
+		
+		# Furniture Manufacturies
+		is_production_method_active = {
+			building_type = building_furniture_manufacturies
+			production_method = pm_mechanized_workshops
+		}
+		is_production_method_active = {
+			building_type = building_furniture_manufacturies
+			production_method = pm_watertube_boiler_building_furniture_manufacturies
+		}
+		is_production_method_active = {
+			building_type = building_furniture_manufacturies
+			production_method = pm_rotary_valve_engine_building_furniture_manufacturies
+		}
+		is_production_method_active = {
+			building_type = building_furniture_manufacturies
+			production_method = pm_assembly_lines_building_furniture_manufacturies
+		}
+
+		# Tooling Workshops
+		is_production_method_active = {
+			building_type = building_tooling_workshops
+			production_method = pm_watertube_boiler_building_tooling_workshops
+		}
+		is_production_method_active = {
+			building_type = building_tooling_workshops
+			production_method = pm_rotary_valve_engine_building_tooling_workshops
+		}
+		is_production_method_active = {
+			building_type = building_tooling_workshops
+			production_method = pm_assembly_lines_building_tooling_workshops
+		}
+
+		# Paper Mills
+		is_production_method_active = {
+			building_type = building_paper_mills
+			production_method = pm_watertube_boiler_building_paper_mills
+		}
+		is_production_method_active = {
+			building_type = building_paper_mills
+			production_method = pm_rotary_valve_engine_building_paper_mills
+		}
+
+		# Steel Mills
+		is_production_method_active = {
+			building_type = building_steel_mills
+			production_method = pm_watertube_boiler_building_steel_mills
+		}
+		is_production_method_active = {
+			building_type = building_steel_mills
+			production_method = pm_rotary_valve_engine_building_steel_mills
+		}
+
+		# Motor Industries
+		is_production_method_active = {
+			building_type = building_motor_industry
+			production_method = pm_watertube_boiler_building_motor_industry
+		}
+		is_production_method_active = {
+			building_type = building_motor_industry
+			production_method = pm_rotary_valve_engine_building_motor_industry
+		}
+	}
+}
+
+using_watertube_boiler = {
+	OR = {
+		AND = {
+			has_building = building_furniture_manufacturies
+			is_production_method_active = { 
+				building_type = building_furniture_manufacturies 
+				production_method = pm_watertube_boiler_building_furniture_manufacturies
+			}
+		}
+		AND = {
+			has_building = building_tooling_workshops
+			is_production_method_active = { 
+				building_type = building_tooling_workshops 
+				production_method = pm_watertube_boiler_building_tooling_workshops
+			}
+		}
+		AND = {
+			has_building = building_paper_mills
+			is_production_method_active = { 
+				building_type = building_paper_mills
+				production_method = pm_watertube_boiler_building_paper_mills
+			}
+		}
+		AND = {
+			has_building = building_steel_mills
+			is_production_method_active = { 
+				building_type = building_steel_mills
+				production_method = pm_watertube_boiler_building_steel_mills
+			}
+		}
+		AND = {
+			has_building = building_motor_industry
+			is_production_method_active = { 
+				building_type = building_motor_industry
+				production_method = pm_watertube_boiler_building_motor_industry
+			}
+		}
+		AND = {
+			has_building = building_tooling_workshops
+			is_production_method_active = { 
+				building_type = building_tooling_workshops 
+				production_method = pm_watertube_boiler_building_tooling_workshops
+			}
+		}
+	}
+}
+
+countries_are_valid_rivals = {
+	has_overlapping_interests = scope:target_country
+	
+	trigger_if = {
+		limit = {
+			country_rank = rank_value:great_power
+		}
+		scope:target_country = { 
+			OR = {
+				country_rank = rank_value:great_power
+				country_rank = rank_value:major_power
+			}
+		}		
+	}
+	
+	trigger_if = {
+		limit = {
+			country_rank = rank_value:major_power
+		}
+		scope:target_country = { 
+			OR = {
+				country_rank = rank_value:great_power
+				country_rank = rank_value:major_power
+				country_rank = rank_value:minor_power
+			}
+		}		
+	}
+
+	trigger_if = {
+		limit = {
+			country_rank = rank_value:minor_power
+		}
+		scope:target_country = { 
+			OR = {
+				country_rank = rank_value:major_power
+				country_rank = rank_value:minor_power
+				country_rank = rank_value:insignificant_power
+			}
+		}		
+	}
+
+	trigger_if = {
+		limit = {
+			country_rank = rank_value:insignificant_power
+		}
+		scope:target_country = { 
+			OR = {
+				country_rank = rank_value:minor_power
+				country_rank = rank_value:insignificant_power
+			}
+		}		
+	}
+
+	trigger_if = {
+		limit = {
+			country_rank = rank_value:unrecognized_major_power
+		}
+		scope:target_country = { 
+			OR = {
+				country_rank = rank_value:unrecognized_major_power
+				country_rank = rank_value:unrecognized_regional_power
+			}
+		}		
+	}
+
+	trigger_if = {
+		limit = {
+			country_rank = rank_value:unrecognized_regional_power
+		}
+		scope:target_country = { 
+			OR = {
+				country_rank = rank_value:unrecognized_major_power
+				country_rank = rank_value:unrecognized_regional_power
+				country_rank = rank_value:unrecognized_power
+			}
+		}		
+	}
+
+	trigger_if = {
+		limit = {
+			country_rank = rank_value:unrecognized_power
+		}
+		scope:target_country = { 
+			OR = {
+				country_rank = rank_value:unrecognized_regional_power
+				country_rank = rank_value:unrecognized_power
+			}
+		}		
+	}			
+}
+
+in_earthquake_zone = {
+	OR = {
+		region = sr:region_indonesia
+		region = sr:region_indochina
+		region = sr:region_south_china
+		region = sr:region_north_china
+		region = sr:region_manchuria
+		region = sr:region_himalayas
+		region = sr:region_japan
+		region = sr:region_la_plata
+		region = sr:region_andes
+		region = sr:region_gran_colombia
+		region = sr:region_central_america
+		region = sr:region_mexico
+		region = sr:region_pacific_coast
+	}
+}
+
+in_volcanic_zone = {
+	OR = {
+		region = sr:region_indonesia
+		region = sr:region_japan
+		region = sr:region_la_plata
+		region = sr:region_andes
+		region = sr:region_gran_colombia
+		region = sr:region_central_america
+		region = sr:region_mexico
+		region = sr:region_pacific_coast
+		region = sr:region_zanj
+		region = sr:region_italy
+		state_region = s:STATE_ICELAND
+		state_region = s:STATE_HAWAIIAN_ISLANDS
+	}
+}
+
+on_river = {
+	OR = {
+		has_state_trait = state_trait_rhine_river
+		has_state_trait = state_trait_danube_river
+		has_state_trait = state_trait_drava_river
+		has_state_trait = state_trait_volga_river
+		has_state_trait = state_trait_elbe_river
+		has_state_trait = state_trait_oder_river
+		has_state_trait = state_trait_dnieper_river
+		has_state_trait = state_trait_rhone_river
+		has_state_trait = state_trait_loire_river
+		has_state_trait = state_trait_seine_river
+		has_state_trait = state_trait_nile_river
+		has_state_trait = state_trait_congo_river
+		has_state_trait = state_trait_niger_river
+		has_state_trait = state_trait_zambezi_river
+		has_state_trait = state_trait_yangtze_river
+		has_state_trait = state_trait_pearl_river
+		has_state_trait = state_trait_yellow_river
+		has_state_trait = state_trait_ganges_river
+		has_state_trait = state_trait_tigris_river
+		has_state_trait = state_trait_euphrates_river
+		has_state_trait = state_trait_indus_river
+		has_state_trait = state_trait_brahmaputra_river
+		has_state_trait = state_trait_mekong_river
+		has_state_trait = state_trait_ob_river
+		has_state_trait = state_trait_po_river
+		has_state_trait = state_trait_mississippi_river
+		has_state_trait = state_trait_ohio_river
+		has_state_trait = state_trait_columbia_river
+		has_state_trait = state_trait_orinoco_river
+		has_state_trait = state_trait_uruguay_river
+		has_state_trait = state_trait_parana_river
+		has_state_trait = state_trait_paraguay_river
+		has_state_trait = state_trait_amazon_river
+	}
+}
+
+has_government_building = {
+	OR = {
+		has_building = building_university
+		has_building = building_arts_academy
+	}
+}
+
+has_military_building = {
+	OR = {
+		has_building = building_barracks
+		has_building = building_naval_base
+	}
+}
+
+has_industry_building = {
+	OR = {
+		has_building = building_food_industry
+		has_building = building_textile_mills
+		has_building = building_furniture_manufacturies
+		has_building = building_glassworks
+		has_building = building_tooling_workshops
+		has_building = building_paper_mills
+	}
+}
+
+is_industry_building = {
+	OR = {
+		is_building_type = building_food_industry
+		is_building_type = building_textile_mills
+		is_building_type = building_furniture_manufacturies
+		is_building_type = building_glassworks
+		is_building_type = building_tooling_workshops
+		is_building_type = building_paper_mills
+	}
+}
+
+has_heavy_industry_building = {
+	OR = {
+		has_building = building_chemical_plants
+		has_building = building_synthetics_plants
+		has_building = building_steel_mills
+		has_building = building_motor_industry
+		has_building = building_war_machine_industry
+		has_building = building_electrics_industry
+		has_building = building_munition_plants
+		has_building = building_power_plant
+	}
+}
+
+is_heavy_industry_building = {
+	OR = {
+		is_building_type = building_chemical_plants
+		is_building_type = building_synthetics_plants
+		is_building_type = building_steel_mills
+		is_building_type = building_motor_industry
+		is_building_type = building_war_machine_industry
+		is_building_type = building_electrics_industry
+		is_building_type = building_munition_plants
+		is_building_type = building_power_plant
+	}
+}
+
+state_in_africa = {
+	custom_tooltip = {
+		text = state_in_africa_desc
+		OR = {
+			region = sr:region_nile_basin
+			region = sr:region_north_africa
+			region = sr:region_senegal
+			region = sr:region_niger
+			region = sr:region_congo
+			region = sr:region_southern_africa
+			region = sr:region_zanj
+		}
+	}
+}
+
+has_subsistence_building = {
+	any_scope_building = {
+		is_subsistence_building = yes
+	}
+}
+
+owned_central_asia_region_states = {
+	owns_entire_state_region = STATE_SAMARA
+	owns_entire_state_region = STATE_URALSK
+	owns_entire_state_region = STATE_AKMOLINSK
+	owns_entire_state_region = STATE_SEMIRECHE
+	owns_entire_state_region = STATE_DZUNGARIA
+	owns_entire_state_region = STATE_TIANSHAN
+	owns_entire_state_region = STATE_JETISY
+	owns_entire_state_region = STATE_TAJIKISTAN
+	owns_entire_state_region = STATE_KIRGHIZIA
+	owns_entire_state_region = STATE_UZBEKIA
+	owns_entire_state_region = STATE_TURKMENIA
+	owns_entire_state_region = STATE_KHIVA
+}
+
+owned_great_plains_region_states = {
+	owns_entire_state_region = STATE_MONTANA
+	owns_entire_state_region = STATE_NORTH_DAKOTA
+	owns_entire_state_region = STATE_SOUTH_DAKOTA
+	owns_entire_state_region = STATE_NEBRASKA
+	owns_entire_state_region = STATE_WYOMING
+	owns_entire_state_region = STATE_COLORADO
+	owns_entire_state_region = STATE_KANSAS
+	owns_entire_state_region = STATE_OKLAHOMA
+	owns_entire_state_region = STATE_NEW_MEXICO
+	owns_entire_state_region = STATE_TEXAS
+}
+
+owned_pacific_coast_region_states = {
+	owns_entire_state_region = STATE_WASHINGTON
+	owns_entire_state_region = STATE_IDAHO
+	owns_entire_state_region = STATE_OREGON
+	owns_entire_state_region = STATE_NEVADA
+	owns_entire_state_region = STATE_UTAH
+	owns_entire_state_region = STATE_ARIZONA
+	owns_entire_state_region = STATE_CALIFORNIA
+	owns_entire_state_region = STATE_BAJA_CALIFORNIA
+}
+
+french_treaty_ports = {
+	OR = {
+		owns_treaty_port_in = STATE_PICARDY
+		owns_treaty_port_in = STATE_NORMANDY
+		owns_treaty_port_in = STATE_BRITTANY
+		owns_treaty_port_in = STATE_LOIRE
+		owns_treaty_port_in = STATE_POITOU
+		owns_treaty_port_in = STATE_AQUITAINE
+		owns_treaty_port_in = STATE_PROVENCE
+		owns_treaty_port_in = STATE_LANGUEDOC
+	}
+}
+
+german_treaty_ports = {
+	OR = {
+		owns_treaty_port_in = STATE_HANNOVER
+		owns_treaty_port_in = STATE_ELBE
+		owns_treaty_port_in = STATE_SCHLESWIG_HOLSTEIN
+		owns_treaty_port_in = STATE_MECKLENBURG
+		owns_treaty_port_in = STATE_POMERANIA
+		owns_treaty_port_in = STATE_WEST_PRUSSIA
+		owns_treaty_port_in = STATE_EAST_PRUSSIA
+	}
+}
+
+british_treaty_ports = {
+	OR = {
+		owns_treaty_port_in = STATE_WEST_COUNTRY
+		owns_treaty_port_in = STATE_HOME_COUNTIES
+		owns_treaty_port_in = STATE_EAST_ANGLIA
+		owns_treaty_port_in = STATE_WALES
+		owns_treaty_port_in = STATE_MIDLANDS
+		owns_treaty_port_in = STATE_YORKSHIRE
+		owns_treaty_port_in = STATE_LANCASHIRE
+		owns_treaty_port_in = STATE_LOWLANDS
+		owns_treaty_port_in = STATE_HIGHLANDS
+		owns_treaty_port_in = STATE_ULSTER
+		owns_treaty_port_in = STATE_LEINSTER
+		owns_treaty_port_in = STATE_CONNAUGHT
+		owns_treaty_port_in = STATE_MUNSTER
+	}
+}
+
+italian_treaty_ports = {
+	OR = {
+		owns_treaty_port_in = STATE_SARDINIA
+		owns_treaty_port_in = STATE_SICILY
+		owns_treaty_port_in = STATE_CALABRIA
+		owns_treaty_port_in = STATE_APULIA
+		owns_treaty_port_in = STATE_CAMPANIA
+		owns_treaty_port_in = STATE_ABRUZZO
+		owns_treaty_port_in = STATE_LAZIO
+		owns_treaty_port_in = STATE_UMBRIA
+		owns_treaty_port_in = STATE_ROMAGNA
+		owns_treaty_port_in = STATE_TUSCANY
+		owns_treaty_port_in = STATE_PIEDMONT
+		owns_treaty_port_in = STATE_VENETIA
+		owns_treaty_port_in = STATE_ISTRIA
+		owns_treaty_port_in = STATE_EMILIA
+	}
+}
+	
+iberian_treaty_ports = {
+	OR = {
+		owns_treaty_port_in = STATE_GRANADA
+		owns_treaty_port_in = STATE_ANDALUSIA
+		owns_treaty_port_in = STATE_VALENCIA
+		owns_treaty_port_in = STATE_CATALONIA
+		owns_treaty_port_in = STATE_NAVARRA
+		owns_treaty_port_in = STATE_GALICIA
+		owns_treaty_port_in = STATE_BALEARES
+		owns_treaty_port_in = STATE_BEIRA
+		owns_treaty_port_in = STATE_ESTREMADURA
+		owns_treaty_port_in = STATE_ALENTEJO
+	}
+}
+
+european_colonies_north_africa = {
+	or = {
+		owns_entire_state_region = STATE_CHAD
+		owns_entire_state_region = STATE_NIGER
+		owns_entire_state_region = STATE_TIMBUKTU
+		owns_entire_state_region = STATE_INNER_MAURITANIA
+		owns_entire_state_region = STATE_MAURITANIA
+		owns_entire_state_region = STATE_WEST_SAHARA
+		owns_entire_state_region = STATE_SAHARA
+		owns_entire_state_region = STATE_EAST_SAHARA
+		owns_entire_state_region = STATE_TRIPOLI
+		owns_entire_state_region = STATE_LIBYAN_DESERT
+		owns_entire_state_region = STATE_LIBYA
+		owns_entire_state_region = STATE_TUNISIA
+		owns_entire_state_region = STATE_CONSTANTINE
+		owns_entire_state_region = STATE_INNER_MOROCCO
+		owns_entire_state_region = STATE_TLEMCEN
+		owns_entire_state_region = STATE_ALGIERS
+		owns_entire_state_region = STATE_AL_RIF
+		owns_entire_state_region = STATE_INNER_MOROCCO
+		owns_entire_state_region = STATE_FEZ
+		owns_entire_state_region = STATE_MARRAKECH
+	}
+}
+
+european_colonies_west_africa = {
+	or = {
+		owns_entire_state_region = STATE_NIGER_DELTA
+		owns_entire_state_region = STATE_BENIN
+		owns_entire_state_region = STATE_YORUBA_STATES
+		owns_entire_state_region = STATE_HAUSALAND
+		owns_entire_state_region = STATE_OUTER_HAUSALAND
+		owns_entire_state_region = STATE_NIGERIA
+		owns_entire_state_region = STATE_EAST_HAUSALAND
+		owns_entire_state_region = STATE_BORNU
+		owns_entire_state_region = STATE_DAHOMEY
+		owns_entire_state_region = STATE_VOLTA
+		owns_entire_state_region = STATE_GHANA
+		owns_entire_state_region = STATE_IVORY_COAST
+		owns_entire_state_region = STATE_EASTERN_MALI
+		owns_entire_state_region = STATE_WINDWARD_COAST
+		owns_entire_state_region = STATE_WESTERN_MALI
+		owns_entire_state_region = STATE_GUINEA
+		owns_entire_state_region = STATE_LIBERIA
+		owns_entire_state_region = STATE_SIERRA_LEONE
+		owns_entire_state_region = STATE_GAMBIA
+		owns_entire_state_region = STATE_SENEGAL
+	}
+}
+
+european_colonies_nile_basin = {
+	or = {
+		owns_entire_state_region = STATE_OROMIA
+		owns_entire_state_region = STATE_AMHARA
+		owns_entire_state_region = STATE_EQUATORIA
+		owns_entire_state_region = STATE_DARFUR
+		owns_entire_state_region = STATE_KORDOFAN
+		owns_entire_state_region = STATE_BLUE_NILE
+		owns_entire_state_region = STATE_GONDER
+		owns_entire_state_region = STATE_ERITREA
+		owns_entire_state_region = STATE_DONGOLA
+		owns_entire_state_region = STATE_UPPER_EGYPT
+		owns_entire_state_region = STATE_EGYPTIAN_DESERT
+		owns_entire_state_region = STATE_MIDDLE_EGYPT
+		owns_entire_state_region = STATE_MATRUH
+		owns_entire_state_region = STATE_LOWER_EGYPT
+		owns_entire_state_region = STATE_SINAI
+	}
+}
+
+european_colonies_central_africa = {
+	or = {
+		owns_entire_state_region = STATE_ZAMBIA
+		owns_entire_state_region = STATE_EAST_ANGOLA
+		owns_entire_state_region = STATE_SOUTH_ANGOLA
+		owns_entire_state_region = STATE_NORTH_ANGOLA
+		owns_entire_state_region = STATE_BAS_CONGO
+		owns_entire_state_region = STATE_KASAI
+		owns_entire_state_region = STATE_KATANGA
+		owns_entire_state_region = STATE_CONGO_ORIENTALE
+		owns_entire_state_region = STATE_EQUATEUR
+		owns_entire_state_region = STATE_CONGO
+		owns_entire_state_region = STATE_GABON
+		owns_entire_state_region = STATE_SOUTH_CAMEROON
+		owns_entire_state_region = STATE_UBANGI_SHARI
+		owns_entire_state_region = STATE_WADDAI
+		owns_entire_state_region = STATE_NORTH_CAMEROON
+	}
+}
+
+european_colonies_east_africa = {
+	or = {
+		owns_entire_state_region = STATE_SOMALILAND
+		owns_entire_state_region = STATE_KENYA
+		owns_entire_state_region = STATE_RIFT_VALLEY
+		owns_entire_state_region = STATE_UGANDA
+		owns_entire_state_region = STATE_TANGANYIKA
+		owns_entire_state_region = STATE_LINDI
+		owns_entire_state_region = STATE_ZANZIBAR
+		owns_entire_state_region = STATE_KAZEMBE
+		owns_entire_state_region = STATE_ZAMBEZIA
+		owns_entire_state_region = STATE_MOCAMBIQUE
+		owns_entire_state_region = STATE_NORTH_MADAGASCAR
+		owns_entire_state_region = STATE_SOUTH_MADAGASCAR
+	}
+}
+
+european_colonies_south_africa = {
+	or = {
+		owns_entire_state_region = STATE_EASTERN_CAPE
+		owns_entire_state_region = STATE_CAPE_COLONY
+		owns_entire_state_region = STATE_NORTHERN_CAPE
+		owns_entire_state_region = STATE_VRYSTAAT
+		owns_entire_state_region = STATE_NAMAQUALAND
+		owns_entire_state_region = STATE_BOTSWANA
+		owns_entire_state_region = STATE_TRANSVAAL
+		owns_entire_state_region = STATE_LOURENCO_MARQUES
+		owns_entire_state_region = STATE_ZAMBEZI
+		owns_entire_state_region = STATE_HEREROLAND
+		owns_entire_state_region = STATE_ZULULAND
+	}
+}
+
+owned_andes_region_states = {
+	owns_entire_state_region = STATE_LA_PAZ
+	owns_entire_state_region = STATE_PASTAZA
+	owns_entire_state_region = STATE_JUJUY
+	owns_entire_state_region = STATE_ECUADOR
+	owns_entire_state_region = STATE_SANTA_CRUZ
+	owns_entire_state_region = STATE_AREQUIPA
+	owns_entire_state_region = STATE_CAJAMARCA
+	owns_entire_state_region = STATE_ICA
+	owns_entire_state_region = STATE_LIMA
+	owns_entire_state_region = STATE_POTOSI
+	owns_entire_state_region = STATE_TARAPACA
+	owns_entire_state_region = STATE_ANTOFAGASTA
+	owns_entire_state_region = STATE_ACRE
+}
+
+owned_gran_colombia_region_states = {
+	owns_entire_state_region = STATE_BOLIVAR
+	owns_entire_state_region = STATE_CUNDINAMARCA
+	owns_entire_state_region = STATE_CAUCA
+	owns_entire_state_region = STATE_GUAVIARE
+	owns_entire_state_region = STATE_ZULIA
+	owns_entire_state_region = STATE_ANTIOQUIA
+	owns_entire_state_region = STATE_MIRANDA
+	owns_entire_state_region = STATE_GUAYANA
+}
+
+owned_la_plata_region_states = {
+	owns_entire_state_region = STATE_SANTIAGO
+	owns_entire_state_region = STATE_PATAGONIA
+	owns_entire_state_region = STATE_ARAUCANIA
+	owns_entire_state_region = STATE_LOS_RIOS
+	owns_entire_state_region = STATE_SOUTH_ATLANTIC_ISLANDS
+	owns_entire_state_region = STATE_BAJO_PARAGUAY
+	owns_entire_state_region = STATE_ALTO_PARAGUAY
+	owns_entire_state_region = STATE_BUENOS_AIRES
+	owns_entire_state_region = STATE_CHACO
+	owns_entire_state_region = STATE_TUCUMAN
+	owns_entire_state_region = STATE_CORRIENTES
+	owns_entire_state_region = STATE_SANTA_FE
+	owns_entire_state_region = STATE_RIO_NEGRO
+}
+
+is_farm_building = {
+	or = {
+		is_building_type = building_rye_farm
+		is_building_type = building_wheat_farm
+		is_building_type = building_rice_farm
+		is_building_type = building_maize_farm
+		is_building_type = building_millet_farm
+		is_building_type = building_livestock_ranch
+	}
+}
+
+has_farm_building = {
+	OR = {
+		has_building = building_rye_farm
+		has_building = building_wheat_farm
+		has_building = building_rice_farm
+		has_building = building_maize_farm
+		has_building = building_millet_farm
+		has_building = building_livestock_ranch
+	}
+}
+
+is_production_building = {
+	or = {
+		is_building_type = building_coal_mine
+		is_building_type = building_iron_mine
+		is_building_type = building_lead_mine
+		is_building_type = building_sulfur_mine
+		is_building_type = building_logging_camp
+		is_building_type = building_oil_rig
+		is_building_type = building_coffee_plantation
+		is_building_type = building_cotton_plantation
+		is_building_type = building_dye_plantation
+		is_building_type = building_opium_plantation
+		is_building_type = building_tea_plantation
+		is_building_type = building_tobacco_plantation
+		is_building_type = building_sugar_plantation
+		is_building_type = building_rubber_plantation
+		is_building_type = building_banana_plantation
+		is_building_type = building_silk_plantation
+		is_building_type = building_whaling_station
+		is_building_type = building_livestock_ranch
+		is_building_type = building_maize_farm
+		is_building_type = building_millet_farm
+		is_building_type = building_rice_farm
+		is_building_type = building_wheat_farm
+		is_building_type = building_rye_farm
+		is_building_type = building_food_industry
+		is_building_type = building_textile_mills
+		is_building_type = building_furniture_manufacturies
+		is_building_type = building_glassworks
+		is_building_type = building_tooling_workshops
+		is_building_type = building_paper_mills
+		is_building_type = building_chemical_plants
+		is_building_type = building_synthetics_plants
+		is_building_type = building_steel_mills
+		is_building_type = building_motor_industry
+		is_building_type = building_shipyards
+		is_building_type = building_electrics_industry
+		is_building_type = building_war_machine_industry
+		is_building_type = building_arms_industry
+		is_building_type = building_munition_plants
+		is_building_type = building_power_plant
+		is_building_type = building_fishing_wharf
+	}
+}
+
+
+will_be_accepted_culture = {
+    OR = {
+        AND = {
+            owner = { is_enacting_law = law_type:law_ethnostate }
+            culture = { is_primary_culture_of = root }
+        }
+        AND = {
+            owner = { is_enacting_law = law_type:law_national_supremacy }
+            AND = {
+				culture = { shares_heritage_trait_with_any_primary_culture = root }
+				culture = { shares_non_heritage_trait_with_any_primary_culture = root }
+			}
+        }
+        AND = {
+            owner = { is_enacting_law = law_type:law_racial_segregation }
+            culture = { shares_heritage_trait_with_any_primary_culture = root }
+        }
+        AND = {
+            owner = { is_enacting_law = law_type:law_cultural_exclusion }
+            culture = { shares_trait_with_any_primary_culture = root }
+        }
+        owner = { is_enacting_law = law_type:law_multicultural }
+    }
+}
+
+
+
+
+# used as a trigger in AI script to ensure the AI won't be mean to a player who's still getting their bearings
+is_still_learning = {
+	is_player = yes
+	has_objective = objective_tutorial
+	NOT = { has_completed_subgoal = sg_start_diplomatic_play }
+}
+
+law_can_hurt_minorities = {
+	OR = {
+		is_enacting_law = law_type:law_state_religion				
+		is_enacting_law = law_type:law_national_supremacy
+		is_enacting_law = law_type:law_racial_segregation
+		is_enacting_law = law_type:law_cultural_exclusion
+		is_enacting_law = law_type:law_traditionalism
+		is_enacting_law = law_type:law_isolationism
+		is_enacting_law = law_type:law_mercantilism
+		is_enacting_law = law_type:law_agrarianism
+		is_enacting_law = law_type:law_free_trade
+		is_enacting_law = law_type:law_command_economy
+		is_enacting_law = law_type:law_private_schools
+		is_enacting_law = law_type:law_religious_schools
+		is_enacting_law = law_type:law_censorship
+		is_enacting_law = law_type:law_graduated_taxation
+		is_enacting_law = law_type:law_proportional_taxation
+		is_enacting_law = law_type:law_secret_police
+		is_enacting_law = law_type:law_serfdom
+		is_enacting_law = law_type:law_no_migration_controls
+		is_enacting_law = law_type:law_migration_controls
+		is_enacting_law = law_type:law_closed_borders
+		is_enacting_law = law_type:law_no_social_security
+		is_enacting_law = law_type:law_debt_slavery
+		is_enacting_law = law_type:law_slave_trade
+	}
+}
+
+has_distillery = {
+	any_scope_building = {
+		OR = {
+			has_active_production_method = pm_pot_stills
+			has_active_production_method = pm_patent_stills
+		}
+	}
+}
+
+is_distillery = {
+	OR = {
+		has_active_production_method = pm_pot_stills
+		has_active_production_method = pm_patent_stills
+	}
+}
+
+is_raw_industries_building = {
+	or = {
+		is_building_type = building_coal_mine
+		is_building_type = building_iron_mine
+		is_building_type = building_lead_mine
+		is_building_type = building_sulfur_mine
+		is_building_type = building_logging_camp
+		is_building_type = building_whaling_station
+	}
+}
+is_plantation_building = {
+	or = {
+		is_building_type = building_coffee_plantation
+		is_building_type = building_cotton_plantation
+		is_building_type = building_dye_plantation
+		is_building_type = building_opium_plantation
+		is_building_type = building_tea_plantation
+		is_building_type = building_tobacco_plantation
+		is_building_type = building_sugar_plantation
+		is_building_type = building_rubber_plantation
+		is_building_type = building_banana_plantation
+		is_building_type = building_silk_plantation
+	}
+}
+
+is_economic_objective_building = {
+	or = {
+		is_building_type = building_coal_mine
+		is_building_type = building_iron_mine
+	}
+}
+
+is_non_customs_union_subject = {
+	is_subject = yes
+	NOT = { is_subject_type = subject_type_customs_union }
+}
+
+has_addiction = {
+	OR = {
+		has_trait = alcoholic
+		has_trait = opium_addiction
+		has_trait = cocaine_addiction
+	}
+}
+
+is_commander = {
+	OR = {
+		has_role = general
+		has_role = admiral
+	}
+}
+
+is_on_front = {
+	OR = {
+		has_commander_order = advance
+		has_commander_order = defend
+	}
+}
+
+has_colonial_growth = {
+	colonial_growth_per_colony > 0
+}
+
+language_accepted = {
+	OR = {
+		AND = {
+			culture = { has_discrimination_trait = francophone }
+			owner = {
+				any_primary_culture = { has_discrimination_trait = francophone }
+			}
+		}
+		AND = {
+			culture = { has_discrimination_trait = hispanophone }
+			owner = {
+				any_primary_culture = { has_discrimination_trait = hispanophone }
+			}
+		}
+		AND = {
+			culture = { has_discrimination_trait = lusophone }
+			owner = {
+				any_primary_culture = { has_discrimination_trait = lusophone }
+			}
+		}
+		AND = {
+			culture = { has_discrimination_trait = anglophone }
+			owner = {
+				any_primary_culture = { has_discrimination_trait = anglophone }
+			}
+		}
+		AND = {
+			culture = { has_discrimination_trait = german_speaking }
+			owner = {
+				any_primary_culture = { has_discrimination_trait = german_speaking }
+			}
+		}
+		AND = {
+			culture = { has_discrimination_trait = italophone }
+			owner = {
+				any_primary_culture = { has_discrimination_trait = italophone }
+			}
+		}
+		AND = {
+			culture = { has_discrimination_trait = arab_speaking }
+			owner = {
+				any_primary_culture = { has_discrimination_trait = arab_speaking }
+			}
+		}
+		AND = {
+			culture = { has_discrimination_trait = albanian_language }
+			owner = {
+				any_primary_culture = { has_discrimination_trait = albanian_language }
+			}
+		}
+		AND = {
+			culture = { has_discrimination_trait = mongol_language }
+			owner = {
+				any_primary_culture = { has_discrimination_trait = mongol_language }
+			}
+		}
+		AND = {
+			culture = { has_discrimination_trait = khmer_language }
+			owner = {
+				any_primary_culture = { has_discrimination_trait = khmer_language }
+			}
+		}
+		AND = {
+			culture = { has_discrimination_trait = malagasy_language }
+			owner = {
+				any_primary_culture = { has_discrimination_trait = malagasy_language }
+			}
+		}
+		AND = {
+			culture = { has_discrimination_trait = burmese_language }
+			owner = {
+				any_primary_culture = { has_discrimination_trait = burmese_language }
+			}
+		}
+		AND = {
+			culture = { has_discrimination_trait = korean_language }
+			owner = {
+				any_primary_culture = { has_discrimination_trait = korean_language }
+			}
+		}
+		AND = {
+			culture = { has_discrimination_trait = ainu_language }
+			owner = {
+				any_primary_culture = { has_discrimination_trait = ainu_language }
+			}
+		}
+		AND = {
+			culture = { has_discrimination_trait = hmong_mien_language }
+			owner = {
+				any_primary_culture = { has_discrimination_trait = hmong_mien_language }
+			}
+		}
+		AND = {
+			culture = { has_discrimination_trait = tibetan_language }
+			owner = {
+				any_primary_culture = { has_discrimination_trait = tibetan_language }
+			}
+		}
+	}
+}
+ 
+default_auto_expand_rule = { 
+	cash_reserves_ratio > 0.95
+	state.market_access > 0.5
+	owner.construction_queue_duration < max_autoexpand_queue_weeks
+}
+
+is_in_civil_war = {
+	custom_tooltip = {
+		text = is_in_civil_war_tt
+		any_diplomatic_play = {
+			any_scope_play_involved = {
+				this = root
+			}
+			initiator = {
+				NOT = { this = ROOT }
+				country_definition = root.country_definition
+			}
+		}
+	}
+}
+
+# IG scope
+has_paternalist_ideology = {
+	OR = {
+		has_ideology = ideology_paternalistic
+		has_ideology = ideology_scholar_paternalistic
+		has_ideology = ideology_junker_paternalistic
+		has_ideology = ideology_papal_paternalistic
+	}
+}
+
+can_reach_target_country = {
+	has_diplomatic_relevance = scope:target_country
+	OR = {
+		has_strategic_adjacency = scope:target_country
+		AND = {
+			navy_size >= 10
+			has_port = yes
+			scope:target_country = { has_port = yes }
+		}
+	}
+}
+
+can_reach_target_state = {
+	has_diplomatic_relevance = scope:target_state.owner
+	OR = {
+		has_strategic_adjacency = scope:target_state
+		AND = {
+			navy_size >= 10
+			has_port = yes
+			scope:target_state = { is_coastal = yes }
+		}
+	}
+}
+
+is_peasant_under_serfdom = {
+	is_pop_type = peasants
+	owner = {
+		has_law = law_type:law_serfdom
+	}
+}
