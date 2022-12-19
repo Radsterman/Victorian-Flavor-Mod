@@ -23,16 +23,56 @@ low_countries_events.1 = {
 	option = {
 		name = low_countries_events.1.a
 		highlighted_option = yes
-		create_country = {
-            tag = LGB
-            origin = ROOT
-            state = STATE_GELRE.region_state:BEL
-        }
-		create_country = {
-            tag = LUX
-            origin = ROOT
-            province = { x5180A0 }
-        }
+		hidden_effect = {
+			create_country = {
+				tag = LBG
+				origin = THIS
+				state = s:STATE_GELRE.region_state:BEL
+			}
+			s:STATE_WALLONIA = {
+				create_state = {
+					country = c:NET
+					owned_provinces = { x5180A0 }
+				}
+				region_state:LUX = {
+					create_pop = {
+						culture = wallonian
+						size = 103992
+					}
+					create_pop = {
+						culture = north_german
+						religion = catholic
+						size = 71996
+					}
+				}
+			}
+			c:NET = {
+				random_scope_state = {
+						limit = {
+							state_region = s:STATE_WALLONIA
+						}
+					save_scope_as = luxembourg_netherlands_state
+				}
+			} 
+			create_country = {
+				tag = LUX
+				origin = THIS
+				state = scope:luxembourg_netherlands_state
+			}
+			c:NET = {
+				create_diplomatic_pact = {
+						country = c:LBG
+						type = personal_union
+				}
+				create_diplomatic_pact = {
+						country = c:LUX
+						type = personal_union
+				}
+			}
+		}
+		custom_tooltip = {
+			text = treaty_of_london_event_tooltip_1
+		}
 		change_relations = {
 			country = C:GBR
 			value = 20
