@@ -1,0 +1,313 @@
+﻿gov_caucasian_viceroyalty = {
+    transfer_of_power = dictatorial
+
+	male_ruler = "RULER_TITLE_VICEROY"
+	female_ruler = "RULER_TITLE_VICEROY"
+	
+	possible = {
+		has_law = law_type:law_presidential_republic
+        has_law = law_type:law_autocracy
+		AND = { exists = c:RUS is_subject_of = c:RUS }
+		OR = {
+			AND = { exists = c:CAU c:CAU = ROOT }
+		}
+		is_subject_type = subject_type_puppet
+	}
+}
+
+gov_governorate = {
+	transfer_of_power = presidential_elective
+	new_leader_on_reform_government = no
+
+	male_ruler = "RULER_TITLE_GOVERNOR"
+	female_ruler = "RULER_TITLE_GOVERNOR"
+	
+	possible = {
+		has_law = law_type:law_presidential_republic
+		exists = c:RUS
+		is_subject_of = c:RUS
+		c:RUS = {
+			has_law = law_type:law_monarchy
+		}
+		is_subject_type = subject_type_puppet
+		any_primary_culture = {
+			has_discrimination_trait = european_heritage
+		}
+	}
+}
+
+gov_austrian_crownland = {
+	transfer_of_power = presidential_elective
+	new_leader_on_reform_government = no
+
+	male_ruler = "RULER_TITLE_GOVERNOR"
+	female_ruler = "RULER_TITLE_GOVERNOR"
+	
+	possible = {
+		has_law = law_type:law_presidential_republic
+		exists = c:AUS
+		is_subject_of = c:AUS
+		c:AUS = {
+			has_law = law_type:law_monarchy
+		}
+		is_subject_type = subject_type_puppet
+		any_primary_culture = {
+			has_discrimination_trait = european_heritage
+		}
+	}
+}
+
+gov_governor_generalship = {
+    transfer_of_power = presidential_elective
+	new_leader_on_reform_government = no
+
+	male_ruler = "RULER_TITLE_GOVERNOR_GENERAL"
+	female_ruler = "RULER_TITLE_GOVERNOR_GENERAL"
+	
+	possible = {
+		has_law = law_type:law_presidential_republic
+        has_law = law_type:law_autocracy
+		AND = { exists = c:RUS is_subject_of = c:RUS }
+		OR = {
+			AND = { exists = c:TRH c:TRH = ROOT }
+		}
+		is_subject_type = subject_type_puppet
+	}
+}
+
+
+
+gov_grand_duchy_posen = {
+	transfer_of_power = hereditary
+	new_leader_on_reform_government = no
+	
+	male_ruler = "RULER_TITLE_GOVERNOR"
+	female_ruler = "RULER_TITLE_GOVERNOR"
+
+	male_heir = "" # Empty on purpose
+	female_heir = "" # Empty on purpose
+	
+	possible = {
+		has_law = law_type:law_presidential_republic
+		has_law = law_type:law_autocracy
+		country_tier = grand_principality
+		exists = c:POS
+		c:POS = ROOT
+	}
+}
+
+gov_banana_republic = {
+	transfer_of_power = dictatorial
+
+	male_ruler = "RULER_TITLE_PRESIDENT"
+	female_ruler = "RULER_TITLE_PRESIDENT"
+	
+	possible = {
+		has_law = law_type:law_presidential_republic
+		country_has_voting_franchise = no
+		any_state = {
+			has_building = building_banana_plantation
+		}
+		any_trade_route = {
+			actor_market.owner = root
+			exporter = root.market
+			goods = g:fruit
+		}
+	}
+}
+
+gov_bhutanese_dual_system_temporal = {
+	transfer_of_power = dictatorial
+
+	male_ruler = "RULER_TITLE_DRAGON_REGENT"
+	female_ruler = "RULER_TITLE_DRAGON_REGENT"
+	
+	possible = {
+		exists = c:BHU 
+		c:BHU = ROOT
+		has_law = law_type:law_presidential_republic
+		has_law = law_type:law_state_religion
+		country_has_voting_franchise = no
+	}
+}
+
+gov_warlord_state = {
+	transfer_of_power = dictatorial
+
+	male_ruler = "RULER_TITLE_GENERAL"
+	female_ruler = "RULER_TITLE_GENERAL"
+	
+	possible = {
+		has_law = law_type:law_presidential_republic
+		has_law = law_type:law_autocracy 
+		has_law = law_type:law_peasant_levies
+
+		OR = { #Maybe theres a better trigger?
+			root.capital.region = sr:region_north_china
+			root.capital.region = sr:region_south_china
+			root.capital.region = sr:region_manchuria
+			root.capital.region = sr:region_central_asia
+		}
+	}
+}
+
+gov_fascist_state = {
+	transfer_of_power = dictatorial
+
+	male_ruler = "RULER_TITLE_PRESIDENT"
+	female_ruler = "RULER_TITLE_PRESIDENT"
+	
+	possible = {
+		OR = {
+			has_law = law_type:law_presidential_republic
+			has_law = law_type:law_parliamentary_republic
+		}
+		has_law = law_type:law_autocracy 
+		coa_fascist_trigger = yes
+	}
+}
+
+gov_chartered_company = {
+	transfer_of_power = presidential_elective
+	new_leader_on_reform_government = no
+
+	male_ruler = "RULER_TITLE_GOVERNOR_GENERAL"
+	female_ruler = "RULER_TITLE_GOVERNOR_GENERAL"
+	
+	possible = {
+		has_law = law_type:law_presidential_republic
+		OR = {
+			is_subject_type = subject_type_chartered_company
+		}
+
+
+	}
+}
+
+gov_colonial_administration = {
+	transfer_of_power = presidential_elective
+	new_leader_on_reform_government = no
+
+	male_ruler = "RULER_TITLE_GOVERNOR_GENERAL"
+	female_ruler = "RULER_TITLE_GOVERNOR_GENERAL"
+	
+	possible = {
+		has_law = law_type:law_presidential_republic
+		OR = {
+			AND = {
+				AND = { exists = c:NET is_subject_of = c:NET }
+				AND = { exists = c:DEI c:DEI = ROOT }
+				is_subject_type = subject_type_dominion
+			}
+			AND = {
+				exists = c:SPA
+				is_subject_of = c:SPA
+				is_subject_type = subject_type_puppet
+				is_country_type = colonial
+				top_overlord = { NOT = { is_country_type = colonial } }
+				any_primary_culture = {
+					has_discrimination_trait = european_heritage
+				}
+				country_is_in_europe = no
+			}
+		}
+	}
+}
+
+gov_crown_colony = {
+	transfer_of_power = presidential_elective
+	new_leader_on_reform_government = no
+
+	male_ruler = "RULER_TITLE_GOVERNOR"
+	female_ruler = "RULER_TITLE_GOVERNOR"
+	
+	possible = {
+		has_law = law_type:law_presidential_republic
+		exists = c:GBR
+		is_subject_of = c:GBR
+		c:GBR = {
+			has_law = law_type:law_monarchy
+		}
+		is_subject_type = subject_type_puppet
+		is_country_type = colonial
+		top_overlord = { NOT = { is_country_type = colonial } }
+		any_primary_culture = {
+			has_discrimination_trait = european_heritage
+		}
+		country_is_in_europe = no
+	}
+}
+
+gov_military_dictatorship = {
+	transfer_of_power = dictatorial
+
+	male_ruler = "RULER_TITLE_GENERAL"
+	female_ruler = "RULER_TITLE_GENERAL"
+	
+	possible = {
+		has_law = law_type:law_presidential_republic
+		has_law = law_type:law_autocracy 
+		OR = {
+			has_law = law_type:law_mass_conscription
+			has_law = law_type:law_professional_army
+		}
+	}
+}
+
+gov_presidential_dictatorship = {
+	transfer_of_power = dictatorial
+
+	male_ruler = "RULER_TITLE_PRESIDENT"
+	female_ruler = "RULER_TITLE_PRESIDENT"
+	
+	possible = {
+		has_law = law_type:law_presidential_republic
+		has_law = law_type:law_autocracy 
+		OR = {
+			has_law = law_type:law_peasant_levies
+			has_law = law_type:law_national_militia
+		}
+	}
+}
+
+gov_junta = {
+	transfer_of_power = dictatorial
+
+	male_ruler = "RULER_TITLE_GENERAL"
+	female_ruler = "RULER_TITLE_GENERAL"
+	
+	possible = {
+		has_law = law_type:law_presidential_republic
+		country_has_voting_franchise = no
+		OR = {
+			has_law = law_type:law_mass_conscription
+			has_law = law_type:law_professional_army
+		}
+	}
+}
+
+gov_presidential_oligarchy = {
+	transfer_of_power = dictatorial
+
+	male_ruler = "RULER_TITLE_PRESIDENT"
+	female_ruler = "RULER_TITLE_PRESIDENT"
+	
+	possible = {
+		has_law = law_type:law_presidential_republic
+		country_has_voting_franchise = no
+	}
+}
+
+gov_presidential_democracy = {
+	transfer_of_power = presidential_elective
+	new_leader_on_reform_government = no
+
+	male_ruler = "RULER_TITLE_PRESIDENT"
+	female_ruler = "RULER_TITLE_PRESIDENT"
+	
+	possible = {
+		has_law = law_type:law_presidential_republic
+		country_has_voting_franchise = yes
+	}
+}
+

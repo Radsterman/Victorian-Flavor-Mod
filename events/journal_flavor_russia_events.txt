@@ -1,0 +1,205 @@
+﻿namespace = journal_flavor_russia
+
+journal_flavor_russia.1 = {
+	type = country_event
+	placement = root
+
+	title = journal_flavor_russia.1.t
+	desc = journal_flavor_russia.1.d
+	flavor = journal_flavor_russia.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/asia_hinduism_sikhism.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/asia/hinduism_sikhism"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	minor_left_icon = c:TRH
+	minor_right_icon = c:RUS
+
+	duration = 1
+
+	trigger = {
+		# triggered by journal entry
+	}
+
+	
+	immediate = {
+		random_state = {
+			limit = {
+				OR = {
+					owner = { c:RUS = THIS }
+					owner = { is_subject_of = c:RUS	}
+				}
+		        state_region = {
+                 OR = {
+                    	is_homeland = cu:uzbek
+                        is_homeland = cu:kazak
+						is_homeland = cu:kirgiz
+                        is_homeland = cu:tajik
+						is_homeland = cu:turkmen
+						is_homeland = cu:uighur
+                 }
+					
+				}
+			}
+			save_scope_as = trh_spawn
+		}
+		create_country = {
+			tag = TRH
+			origin = this
+			state = scope:trh_spawn
+			on_created = {
+			
+				if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_presidential_republic
+						}
+					}
+					activate_law = law_type:law_presidential_republic
+				}
+			}
+		}
+		c:TRH = {
+			save_scope_as = trh_scope
+		}
+		create_diplomatic_pact = {
+				country = c:TRH
+				type = puppet
+		}
+	}
+	option = {
+		name = journal_flavor_russia.1.a
+		custom_tooltip = journal_flavor_russia.1.a.tt
+		default_option = yes
+		ai_chance = { base = 0 }
+			every_state = {
+				limit = {
+				OR = {
+					owner = { c:RUS = THIS }
+					owner = { is_subject_of = c:RUS	}
+				}
+				state_region = {
+                 OR = {
+                    	is_homeland = cu:uzbek
+                        is_homeland = cu:kazak
+						is_homeland = cu:kirgiz
+                        is_homeland = cu:tajik
+						is_homeland = cu:turkmen
+						is_homeland = cu:uighur
+                 }
+					
+				}
+				}
+				set_state_owner = c:TRH
+				set_state_type = incorporated
+			}
+
+        	s:STATE_WESTERN_AFGHANISTAN = {
+				add_claim = c:RUS
+			}
+            s:STATE_EASTERN_AFGHANISTAN = {
+				add_claim = c:RUS
+			}
+        add_modifier = {
+			name = control_turkestan 
+			months = normal_modifier_time
+		}
+        change_relations = {
+			country = c:GBR
+			value = -50
+		}
+	}
+    	option = {
+		name = journal_flavor_russia.1.b
+		custom_tooltip = journal_flavor_russia.1.b.tt
+		ai_chance = { base = 1 }
+			every_state = {
+				limit = {
+				OR = {
+					owner = { c:RUS = THIS }
+					owner = { is_subject_of = c:RUS	}
+				}
+				state_region = {
+               		  OR = {
+                    	is_homeland = cu:uzbek
+                        is_homeland = cu:kazak
+						is_homeland = cu:kirgiz
+                        is_homeland = cu:tajik
+						is_homeland = cu:turkmen
+						is_homeland = cu:uighur
+                 }
+					
+				}
+				}
+				set_state_owner = c:TRH
+				set_state_type = incorporated
+			}
+	
+            	add_modifier = {
+			name = control_turkestan # country_prestige_add = -10
+			months = normal_modifier_time
+		}
+        		change_relations = {
+			country = c:GBR
+			value = 20
+		}
+	}
+	
+}
+
+journal_flavor_russia.5 = {
+
+	type = country_event
+	placement = root
+
+	title = journal_flavor_russia.5.t
+	desc = journal_flavor_russia.5.d
+	flavor = journal_flavor_russia.5.f
+
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_russian_serfs.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/russian_serfs"
+
+	icon = "gfx/interface/icons/event_icons/event_scales.dds" 
+
+	duration = 3
+
+	option = {
+		name = journal_flavor_russia.5.a
+
+		add_modifier = {
+			name = russia_welfare
+			months = normal_modifier_time
+		}
+
+		add_loyalists = {
+			pop_type = peasants
+			value = very_large_radicals
+		}
+		add_radicals = {
+			pop_type = aristocrats
+			value = large_radicals
+		}
+	}
+	option = {
+		name = journal_flavor_russia.5.b
+
+		add_loyalists = {
+			pop_type = peasants
+			value = medium_radicals
+		}
+		add_radicals = {
+			pop_type = aristocrats
+			value = small_radicals
+		}
+	}
+}

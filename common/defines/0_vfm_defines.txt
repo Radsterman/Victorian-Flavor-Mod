@@ -1,0 +1,107 @@
+﻿NGame = {
+}
+
+NJominiMap = {
+}
+
+NAI = {
+	STRATEGY_RANDOM_FACTOR = 10.0
+	CHANGE_STRATEGY_INCREASE_WEEKLY_CHANCE = 40.0
+	CHANGE_STRATEGY_DIPLOMATIC_STATE_GAINED = 15
+	CHANGE_STRATEGY_DIPLOMATIC_STATE_LOST = 15
+	COUNTRY_GOAL_STRATEGIC_UPDATE_COUNT = 10
+	COUNTRY_GOAL_ADJUSTMENT_UPDATE_COUNT = 75
+	BASE_AGGRESSION = 0.6
+	DIPLO_PROPOSAL_TO_PLAYER_COOLDOWN_MONTHS = 60
+	DIPLO_PROPOSAL_LIKELY_NON_ACCEPTED_COOLDOWN_MONTHS = 60
+	RECRUITABLE_COMMANDER_RANDOM_FACTOR = 1.5
+	START_DIPLO_PLAY_RANDOM_FACTOR = 1.2
+	WAR_GOAL_RANDOM_FACTOR = 1.5
+	TECH_RANDOM_FACTOR = 1.5
+	TECH_REMAINING_COST_FACTOR = 0.03
+	DEFEND_STATE_CAPITAL_WEIGHT = 50
+	INVADE_STATE_CAPITAL_WEIGHT = 50
+	NAVAL_INVASION_COOLDOWN_DAYS = 30
+	FRONT_IMPORTANCE_MIN_SCORE = 40
+	COLONY_ARABLE_LAND_WEIGHT = 15
+	COLONY_ADJACENT_WEIGHT_MULT = 20
+	COLONY_RANDOM_FACTOR = 1.5
+	MONEY_SPENDING_RANDOM_FACTOR = 1.5
+	PRODUCTION_BUILDING_RANDOM_FACTOR = 5
+	VIOLATE_SOVEREIGNTY_RANDOM_FACTOR = 1.5
+}
+
+NCountry = {
+	COUNTRY_FORMATION_CANDIDATE_MIN_RANK = 2
+}
+
+NPolitics = {
+	LEADER_IDEOLOGY_RANDOM_FACTOR = 1.5
+	POP_IG_RANDOM_FACTOR = 0.3
+	MAX_POP_FRACTION_LEAVE_IG = 0.1
+}
+
+NEconomy = {
+} 
+
+NMilitary = {
+	MANPOWER_LOST_DUE_TO_ATTRITION_PER_WEEK_MIN = 0.0005
+	MAPOWER_LOST_DUE_TO_ATTRITION_PER_WEEK_MAX = 0.005
+}
+
+NDiplomacy = {
+	SWAY_OFFER_WARGOAL_MANEUVERS_COST_RETURN_STATE = 5
+}
+
+NPops =  efficiently for each tax capacity
+} 
+
+### Pop Growth Constants
+@min_birthrate = 0.0010
+@max_birthrate = 0.0050
+@min_mortality = 0.0005
+@max_mortality = 0.0070
+@pop_growth_sol_equilibrium = 8							# Equilibrium is where (with no birthrate/death-rate mods) growth is stagnant
+@pop_growth_sol_delta_cap = 20							# SoL Delta Cap is where net growth stops increasing with rising SoL, i.e. both drop at the same pace
+@pop_growth_sol_cap = 40								# SoL Cap is where they birthrate/death-rate stop dropping
+
+@mortality_at_equilibrium = @[max_birthrate-(pop_growth_sol_equilibrium*(max_birthrate-min_birthrate)/pop_growth_sol_cap)]
+@birthrate_at_delta_cap = @[max_birthrate-(pop_growth_sol_delta_cap*(max_birthrate-min_birthrate)/pop_growth_sol_cap)]
+@improving_slope = @[(birthrate_at_delta_cap-min_birthrate-min_mortality-mortality_at_equilibrium)/(pop_growth_sol_delta_cap-pop_growth_sol_equilibrium)]
+@improving_intercept = @[-1*improving_slope*pop_growth_sol_equilibrium+mortality_at_equilibrium]
+@mortality_at_delta_cap = @[improving_slope*pop_growth_sol_delta_cap+improving_intercept]
+@fixed_delta_slope = @[(min_mortality-mortality_at_delta_cap)/(pop_growth_sol_cap-pop_growth_sol_delta_cap)]
+		
+NPops = {
+}
+### End Pop Growth Constant defines
+
+NEvents = {
+}
+
+NTechnology = {
+}
+
+NCharacters = {
+}
+
+NCommands = {
+}
+
+NBattle = {
+	CASUALTY_MAJORITY_CULTURE_WEIGHT = 1
+	SURVIVAL_RATE = 0.8
+	CASUALTY_ROLL_MIN = 10
+	CASUALTY_ROLL_MAX = 100
+	MIN_DEPENDENTS_PER_ROLL = 25
+}
+
+NWar = {
+}
+
+NText = {
+}
+
+NDebug = {
+}
+
