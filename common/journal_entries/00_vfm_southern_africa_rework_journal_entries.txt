@@ -29,12 +29,14 @@ je_encourage_boer_migration_into_the_oranje_river_basin = {
 			}
 	}
 	is_shown_when_inactive = {
+		exists = c:WIN
 		THIS = c:WIN
 		NOT = {
 			owns_entire_state_region = STATE_VRYSTAAT
 		}
 	}
 	possible = {
+		exists = c:WIN
 		THIS = c:WIN
 		NOT = {
 			owns_entire_state_region = STATE_VRYSTAAT
@@ -109,14 +111,28 @@ je_form_griqualand_west = {
 	}
 	is_shown_when_inactive = {
 		OR = {
-			THIS = c:SAF
-			THIS = c:BOE
+			AND = {
+				exists = c:BOE
+				THIS = c:BOE
+			}
+
+			AND = {
+				exists = c:SAF
+				THIS = c:SAF
+			}
 		}
 	}
 	possible = {
 		OR = {
-			THIS = c:SAF
-			THIS = c:BOE
+			AND = {
+				exists = c:BOE
+				THIS = c:BOE
+			}
+
+			AND = {
+				exists = c:SAF
+				THIS = c:SAF
+			}
 		}
 	}
 	on_complete = {
@@ -143,8 +159,15 @@ je_colonize_bechuanaland = {
 	}
 	is_shown_when_inactive = {
 		OR = {
-			THIS = c:SAF
-			THIS = c:BOE
+			AND = {
+				exists = c:BOE
+				THIS = c:BOE
+			}
+
+			AND = {
+				exists = c:SAF
+				THIS = c:SAF
+			}
 		}
 		
 	}
@@ -305,16 +328,29 @@ je_first_boer_war = {
 	}
 	is_shown_when_inactive = {
 		OR = {
-			THIS = c:TRN
-			THIS = c:ORA
+			AND = {
+				exists = c:TRN
+				THIS = c:TRN
+			}
+
+			AND = {
+				exists = c:ORA
+				THIS = c:ORA
+			}
 		}
 	}
 	possible = {
-		c:ORA = {
-			is_subject_of = root
+		AND = {
+			exists = c:ORA
+			c:ORA = {
+				is_subject_of = root
+			}
 		}
-		c:TRN = {
-			is_subject_of = root
+		AND = {
+			exists = c:TRN
+			c:TRN = {
+				is_subject_of = root
+			}
 		}
 	}
 	on_complete = {
@@ -365,8 +401,16 @@ je_second_boer_war = {
 	}
 	is_shown_when_inactive = {
 		OR = {
-			THIS = c:TRN
-			THIS = c:ORA
+			AND = {
+				exists = c:TRN
+				THIS = c:TRN
+			}
+
+			AND = {
+				exists = c:ORA
+				THIS = c:ORA
+			}
+			
 		}
 	}
 	possible = {
@@ -410,7 +454,11 @@ je_form_the_union_of_south_africa = {
 	complete = {
 		custom_tooltip = {
 			text = is_african_union_tt
-			c:BOE = ROOT
+			AND = {
+				exists = c:BOE
+				c:BOE = ROOT
+			}
+
 		}
 	
 	}
