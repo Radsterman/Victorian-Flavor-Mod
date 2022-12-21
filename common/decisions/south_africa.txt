@@ -6,6 +6,7 @@
             country_has_primary_culture = cu:xhosa
             country_has_primary_culture = cu:zulu
             country_has_primary_culture = cu:sotho
+			country_has_primary_culture = cu:griqua
 		}
 		is_subject = yes
 		any_neighbouring_state = {
@@ -16,6 +17,7 @@
                     country_has_primary_culture = cu:xhosa
                     country_has_primary_culture = cu:zulu
                     country_has_primary_culture = cu:sotho
+					country_has_primary_culture = cu:griqua
 				}
 				is_ai = yes
 				is_subject = yes
@@ -45,7 +47,7 @@
                         country_has_primary_culture = cu:xhosa
                         country_has_primary_culture = cu:zulu
                         country_has_primary_culture = cu:sotho
-
+						country_has_primary_culture = cu:griqua
 					}
 					is_ai = yes
 					is_subject = yes
@@ -83,6 +85,7 @@ south_africa_unite_gbr = {
                 country_has_primary_culture = cu:xhosa
                 country_has_primary_culture = cu:zulu
                 country_has_primary_culture = cu:sotho
+				country_has_primary_culture = cu:griqua
 			}
 			count >= 2
 		}
@@ -100,6 +103,7 @@ south_africa_unite_gbr = {
                     country_has_primary_culture = cu:xhosa
                     country_has_primary_culture = cu:zulu
                     country_has_primary_culture = cu:sotho
+					country_has_primary_culture = cu:griqua
 				}
 				relations:root >= relations_threshold:amicable
 				count >= 2
@@ -114,6 +118,76 @@ south_africa_unite_gbr = {
 		add_modifier = {
 			name = south_africa_decision_modifier
 			months = short_modifier_time
+		}
+	}
+
+	ai_chance = {
+		base = 100
+	}
+}
+
+south_africa_unite_force_saf = {
+	is_shown = {
+		OR = {
+			AND = {
+				exists = c:SAF
+				THIS = c:SAF
+			}
+
+			AND = {
+				exists = c:BOE
+				THIS = c:BOE
+			}
+		}
+		is_subject = yes
+		top_overlord = {
+			is_ai = yes
+		}
+		any_neighbouring_state = {
+			owner = {
+				OR = {
+					country_has_primary_culture = cu:boer
+				}
+				is_subject = no
+				NOT = { THIS = ROOT }
+			}
+		}
+	}
+
+	possible = {
+		is_at_war = no
+		top_overlord = {
+			is_at_war = no
+		}
+		has_technology_researched = nationalism
+		top_overlord = {
+			relations:root >= relations_threshold:amicable
+		}
+		NOT = { has_modifier = south_africa_war_decision_modifier }
+
+		any_neighbouring_state = {
+			owner = {
+				custom_tooltip = {
+					text = unite_south_africa_force_je_saf_tt
+					relations:root < relations_threshold:poor
+				}
+				
+				OR = {
+					country_has_primary_culture = cu:boer
+				}
+				is_subject = no
+				NOT = { THIS = ROOT }
+			}
+		}
+	}
+	when_taken = {
+		custom_tooltip = unite_south_africa_force_tt
+		hidden_effect = {
+			trigger_event = { id = decision_africa.7 popup = yes }
+		}
+		add_modifier = {
+			name = south_africa_war_decision_modifier
+			months = normal_modifier_time
 		}
 	}
 
