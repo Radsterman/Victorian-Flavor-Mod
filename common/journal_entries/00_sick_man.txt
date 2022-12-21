@@ -176,11 +176,14 @@ je_sick_man_economy = {
 		}
 	}
 	possible = {
-		has_variable = gulhane_edict
+		custom_tooltip = {
+			text = gulhane_edict_issued_tt
+			has_variable = gulhane_edict
+		}
 	}
 	
 	complete = {
-		in_default = no
+		taking_loans = no
 		any_scope_state = {
 			is_incorporated = yes
 			has_building = building_urban_center
@@ -198,9 +201,12 @@ je_sick_man_economy = {
 	}
 
 	invalid = {
-		custom_tooltip = {
-			text = finished_sick_man_tt
-			has_variable = sick_man_complete
+		OR = {
+			custom_tooltip = {
+				text = finished_sick_man_tt
+				has_variable = sick_man_complete
+			}
+			in_default = yes
 		}
 	}
 
@@ -220,7 +226,10 @@ je_sick_man_education = {
 		}
 	}
 	possible = {
-		has_variable = gulhane_edict
+		custom_tooltip = {
+			text = gulhane_edict_issued_tt
+			has_variable = gulhane_edict
+		}
 	}
 	
 	complete = {
@@ -249,7 +258,7 @@ je_sick_man_education = {
 
 	goal_add_value = {
 		value = root.literacy_rate
-		add = 0.35
+		add = 0.25
 	}
 
 	invalid = {
@@ -277,7 +286,10 @@ je_sick_man_separatism = {
 		}
 	}
 	possible = {
-		has_variable = gulhane_edict
+		custom_tooltip = {
+			text = gulhane_edict_issued_tt
+			has_variable = gulhane_edict
+		}
 	}
 	
 	complete = {
@@ -285,6 +297,11 @@ je_sick_man_separatism = {
 			is_goal_complete = yes
 		}
 		highest_secession_progress < 0.5
+		NOT = {
+			any_scope_state = {
+				turmoil >= 0.35
+			}
+		}
 	}
 
 	on_complete = {
@@ -314,7 +331,7 @@ je_sick_man_separatism = {
 			2 = tanzimat_events.11 # Mount Lebanon Incident
 			2 = tanzimat_events.15 # Albanian uprising
 			2 = tanzimat_events.19 # Macedonian rebellion to join Serbia
-			2 = tanzimat_events.23 # Macedonian rebellion to join Bulgaria
+			2 = tanzimat_events.23 # Bulgarian uprising
 		}
 	}
 
@@ -355,11 +372,14 @@ je_sick_man_army = {
 		}
 	}
 	possible = {
-		has_variable = gulhane_edict
+		custom_tooltip = {
+			text = gulhane_edict_issued_tt
+			has_variable = gulhane_edict
+		}
 	}
 	
 	complete = {
-		army_size >= 250
+		army_size >= 200
 		has_technology_researched = napoleonic_warfare
 		NOT = {
 			any_scope_building = {
@@ -412,7 +432,10 @@ je_sick_man_bureaucracy = {
 		}
 	}
 	possible = {
-		has_variable = gulhane_edict
+		custom_tooltip = {
+			text = gulhane_edict_issued_tt
+			has_variable = gulhane_edict
+		}
 	}
 	
 	complete = {
@@ -465,12 +488,19 @@ je_sick_man_vilayets = {
 		}
 	}
 	possible = {
-		has_variable = gulhane_edict
+		custom_tooltip = {
+			text = gulhane_edict_issued_tt
+			has_variable = gulhane_edict
+		}
 	}
 	
 	complete = {
-		any_scope_state = {
-			tax_capacity_balance >= 0
+		NOT = {
+			any_scope_state = {
+				NOT = {
+					tax_capacity_balance >= 0
+				}
+			}
 		}
 	}
 
