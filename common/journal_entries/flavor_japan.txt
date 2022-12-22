@@ -1,0 +1,187 @@
+﻿je_ainu_frontier = {
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+	complete = {
+		is_at_war = no
+		OR = {
+			institution_investment_level = {
+				institution = institution_colonial_affairs
+				value >= 1
+			}
+		}
+	}
+
+    fail = {
+		OR= {
+
+            	c:AIN = {
+					is_subject = yes
+					NOT = { is_subject_of = c:JAP }  
+                }
+      
+                NOT ={ 
+					c:AIN = {
+						any_scope_state = {
+							state_region = s:STATE_HOKKAIDO
+						}
+					}
+				}	
+    	}
+			c:AIN = {
+				country_rank > rank_value:minor_power
+			}
+	}
+
+
+	on_complete = {
+		trigger_event = { id = journal_flavor_japan.3 }
+	}
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_ainu_frontier_status
+			}
+		}
+	}
+    should_be_pinned_by_default = yes
+	weight = 100
+}
+
+je_the_line_of_advantage = {
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	complete = {
+            AND = { 
+                country_or_subject_owns_entire_state_region = STATE_BUSAN
+                country_or_subject_owns_entire_state_region = STATE_YANGHO
+                country_or_subject_owns_entire_state_region = STATE_SEOUL
+                country_or_subject_owns_entire_state_region = STATE_PYONGYANG
+                country_or_subject_owns_entire_state_region = STATE_SARIWON       
+            }
+	}
+
+	on_complete = {
+		trigger_event = { id = journal_flavor_japan.2 }
+	}
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_the_line_of_advantage_status
+			}
+		}
+	}
+    should_be_pinned_by_default = yes
+	weight = 100
+}
+
+je_meiji_restoration = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+	is_shown_when_inactive = {
+		exists = c:JAP
+		c:JAP = ROOT
+		NOT = { has_variable = meiji_restoration_complete }
+	}
+
+	possible = {
+		ig:ig_landowners = {
+			is_in_government = no
+		}
+	}
+
+	immediate = {
+		set_variable = {
+			name = shogunate_var
+			value = 0
+		}
+	}
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					ig:ig_landowners = {
+						is_powerful = no
+						is_in_government = no
+					}
+					has_insurrectionary_interest_groups = no
+					is_at_war = no
+					owns_entire_state_region = STATE_KANTO
+				}
+				change_variable = {
+					name = shogunate_var
+					add = 1
+				}
+			}
+		}
+	}
+
+	complete = {
+		# If-else clause to avoid errors because of missing variable before JE activates
+		trigger_if = {
+			limit = { exists = var:shogunate_var }
+			scope:journal_entry = { is_goal_complete = yes }
+		}
+		trigger_else = {
+			custom_tooltip = je_meiji_restoration_goal
+		}
+		ig:ig_landowners = {
+			is_powerful = no
+			is_in_government = no
+		}
+		has_insurrectionary_interest_groups = no
+		is_at_war = no
+		owns_entire_state_region = STATE_KANTO
+	}
+
+	on_complete = {
+		set_variable = meiji_restoration_complete
+		trigger_event = {
+			id = meiji.1
+		}
+	}
+
+	current_value = {
+		value = root.var:shogunate_var
+	}
+
+	goal_add_value = {
+		value = 120
+	}
+
+	progressbar = yes
+
+	weight = 10000
+	should_be_pinned_by_default = yes
+}
+
+je_meiji_diplomacy = {
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	complete = {
+		NOT = { has_law = law_type:law_isolationism }
+		NOT = { has_law = law_type:law_traditionalism }
+		NOT = { has_law = law_type:law_closed_borders }
+		is_subject = no
+	}
+
+	on_complete = {
+		change_variable = {
+			name = meiji_var
+			add = 1
+		}
+        trigger_event = { id = journal_flavor_japan.1 } # Iwakura Mission
+
+	}
+
+	on_monthly_pulse = {
+		random_events = {
+			100 = 0
+			10 = meiji.11
+			10 = meiji.12
+		}
+	}
+
+	weight = 10000
+}

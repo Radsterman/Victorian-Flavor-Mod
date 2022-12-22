@@ -1,0 +1,74 @@
+﻿usa_purchase_alaska = {
+	is_shown = {
+		exists = c:USA
+		exists = c:RUS
+		c:USA = ROOT
+		is_subject = no
+		NOT = {
+			has_variable = alaska_purchase_var
+		}
+		OR = {
+			c:RUS = {
+				owns_entire_state_region = STATE_ALASKA
+				is_subject = no
+				is_player = no
+			}
+			c:RAC = {
+				owns_entire_state_region = STATE_ALASKA
+				is_subject_of = c:RUS
+				is_player = no
+			}			
+		}
+
+	}
+
+	possible = {
+		owns_entire_state_region = STATE_WASHINGTON
+		in_default = no
+		taking_loans = no
+		is_at_war = no
+		c:RUS = {
+			relations:root >= 0
+			is_at_war = no
+			taking_loans = yes
+			can_take_on_scaled_debt = {
+				who = c:RUS
+				value = c:RUS.scaled_debt
+			}
+		}
+	}
+
+	when_taken = {
+		set_variable = {
+			name = alaska_purchase_var
+			value = yes
+		}
+		trigger_event = {
+			id = alaska.4
+			days = 0
+			popup = yes
+		}
+	}
+
+	ai_chance = {
+		base = 0	
+		modifier = {
+			trigger = { gold_reserves > 3000000 }
+			add = 10
+		}		
+		modifier = {
+			trigger = { 
+				gold_reserves > 0
+				weekly_net_fixed_income > 100000
+			}
+			add = 10
+		}
+		modifier = {
+			OR = {
+				is_diplomatic_play_committed_participant = yes
+				is_at_war = yes
+			}
+			add = -1000
+		}
+	}
+}

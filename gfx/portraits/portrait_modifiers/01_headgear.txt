@@ -1,0 +1,979 @@
+﻿headgear = {
+	usage = game
+	selection_behavior = weighted_random
+	fallback = no_headgear
+
+    no_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = no_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        weight = {
+            base = 0
+        }
+    }
+
+    chinese_imperial_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = chinese_imperial_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+               add = 100
+               chinese_imperial_clothes_trigger = yes
+            }
+        }
+    }
+
+    japanese_imperial_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = Japanese_imperial_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                japanese_imperial_clothes_trigger = yes
+            }
+        }
+    }
+
+    european_royal_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = european_royal_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+               add = 100
+               european_clothes_trigger = yes
+               monarchy_clothes_trigger = yes
+            }
+        }
+    }
+
+    european_common_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = european_common_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 10
+                european_clothes_trigger = yes
+                politician_clothes_trigger = yes
+                armed_forces_clothes_trigger = no
+            }
+        }
+    }
+
+    indian_military_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = arabic_turban
+                range = { 1 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 1000
+                OR = {
+                    AND = {
+                        exists = scope:pop
+                        scope:pop = {
+                            religion = rel:sikh
+                            NOT = { is_pop_type = clergymen }
+                        }
+                    }
+                    AND = {
+                        exists = scope:character
+                        scope:character = {
+                            religion = rel:sikh
+                            NAND = {
+                                is_ruler = yes
+                                owner = {
+                                    has_law = law_type:law_monarchy
+                                }
+                            }
+                        }
+                    }
+                    AND = {
+                        indian_clothes_pop_trigger = yes
+                        OR = {
+                            soldier_clothes_pop_trigger = yes
+                            officers_clothes_pop_trigger = yes
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    indian_sikh_clergy_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = indian_common_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 1000
+                exists = scope:pop
+                scope:pop = {
+                    religion = rel:sikh
+                    is_pop_type = clergymen
+                }
+            }
+        }
+    }
+
+    european_military_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = european_military_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                republic_clothes_trigger = no
+                european_clothes_trigger = yes
+                american_clothes_trigger = no
+                british_empire_clothes_trigger = no
+                french_empire_clothes_trigger = no
+                german_clothes_trigger = no
+                NOT = {
+                    exists = scope:character
+                    scope:character = {
+                        owner = {
+                            exists = c:CSA
+                            c:CSA = this
+                            is_subject = no
+                        }
+                    }
+                }
+                OR = {
+                    scope:character = {
+                        has_role = general
+                    }
+                    AND = {
+                        armed_forces_clothes_trigger = yes
+                        politician_clothes_trigger = yes
+                    }
+                    officers_clothes_pop_trigger = yes
+                }  
+            }
+        }
+    }
+
+    european_admiral_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = european_admiral_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                european_clothes_trigger = yes
+                OR = {
+                    scope:character = {
+                       has_role = admiral
+                    }
+                    scope:character = {
+                        has_role = general
+                        is_ruler = yes
+                        owner = {
+                            NOT = { has_law = law_type:law_monarchy}
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    american_military_headgear = {
+        # when updating triggers on this, please update american_military_hairstyles in game\gfx\portraits\portrait_modifiers\01_headgear.txt as well so that triggers continue to match up
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = american_military_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                american_clothes_trigger = yes
+                OR = {
+                    scope:character = {
+                        has_role = general
+                    }
+                    AND = {
+                        politician_clothes_trigger = yes
+                        armed_forces_clothes_trigger = yes
+                    }
+                }
+            }
+        }
+    }
+
+    american_confederate_military_headgear = {
+        # when updating triggers on this, please update american_military_hairstyles in game\gfx\portraits\portrait_modifiers\01_headgear.txt as well so that triggers continue to match up
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = american_confederate_military_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                exists = c:CSA
+                OR = {
+                    AND = {
+                        exists = scope:character
+                        scope:character = {
+                            has_role = general
+                            owner = c:CSA
+                        }
+                    }
+                    AND = {
+                        politician_clothes_trigger = yes
+                        armed_forces_clothes_trigger = yes
+                        scope:character = { owner = c:CSA }
+                    }
+                    AND = {
+                        exists = scope:pop
+                        scope:pop = {
+                            OR = {
+                                is_pop_type = officers
+                                is_pop_type = soldiers
+                            }
+                            owner = c:CSA
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    british_military_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = british_military_headgear
+                range = { 0 0.5 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                british_empire_clothes_trigger = yes
+                OR = {
+                    scope:character = {
+                        has_role = general
+                    }
+                    AND = {
+                        politician_clothes_trigger = yes
+                        armed_forces_clothes_trigger = yes
+                    }
+                }
+            }
+        }
+    }
+
+    british_military_pupet_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = european_military_headgear
+                range = { 0.7 0.7 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                british_empire_clothes_p_trigger = yes
+                officers_clothes_pop_trigger  = yes
+            }
+        }
+    }
+
+    french_military_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = french_military_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                french_empire_clothes_trigger = yes
+                OR = {
+                    scope:character = {
+                        has_role = general
+                    }
+                    AND = {
+                        politician_clothes_trigger = yes
+                        armed_forces_clothes_trigger = yes
+                    }
+                }
+            }
+        }
+    }
+
+    austrian_military_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = austrian_military_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 101
+                exists = scope:character
+                scope:character = {
+                    owner = {
+                        exists = c:AUS
+                        c:AUS = this
+                    }
+                }
+                OR = {
+                    scope:character = {
+                        has_role = general
+                    }
+                    AND = {
+                        politician_clothes_trigger = yes
+                        armed_forces_clothes_trigger = yes
+                    }
+                }
+            }
+        }
+    }
+
+    austrian_officers_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = austrian_military_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 1001
+                exists = scope:character
+                scope:character = {
+                    owner = {
+                        exists = c:AUS
+                        c:AUS = this
+                    }
+                    officers_clothes_pop_trigger = yes
+                }
+            }
+        }
+    }
+
+    german_military_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = german_military_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                german_clothes_trigger = yes
+                OR = {
+                    scope:character = {
+                        has_role = general
+                    }
+                    AND = {
+                        politician_clothes_trigger = yes
+                        armed_forces_clothes_trigger = yes
+                    }
+                }
+            }
+        }
+    }
+
+    german_officers_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = german_military_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 1000
+                german_clothes_pop_trigger = yes
+                officers_clothes_pop_trigger = yes
+            }
+        }
+    }
+
+    ethiopian_royal_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = ethiopian_royal_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 1000
+                ethiopian_clothes_trigger = yes
+                scope:character = {
+                    is_ruler = yes
+                }
+            }
+        }
+    }
+
+    indian_royal_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = indian_royal_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                indian_clothes_trigger = yes
+                scope:character = {
+                    is_ruler = yes
+                }
+            }
+        }
+    }
+
+    indian_high_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = indian_high_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                indian_clothes_pop_trigger = yes
+                upper_clothes_pop_trigger = yes
+            }
+        }
+    }
+
+    indian_clothes = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = indian_high_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }  
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                hindu_clothes_pop_trigger = yes
+                clergy_clothes_pop_trigger = yes
+            }
+        }
+    }
+
+    arabic_turban = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = arabic_turban
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                arabic_clothes_trigger = yes
+            }
+        }
+    }
+    arabic_middle_tier = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = arabic_middle_tier
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 200
+                AND = {
+                    arabic_clothes_trigger = yes          
+                }
+            }
+        }
+    }
+    arabic_fez = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = arabic_fez
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 200
+                AND = {
+                    arabic_clothes_trigger = yes
+                    arabic_fez_trigger = yes
+                }
+            }
+        }
+    }
+    african_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = african_common_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                african_clothes_trigger = yes   
+            }
+        }
+    }
+
+#Pops
+
+    arabic_low_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = arabic_low_tier
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                arabic_clothes_pop_trigger = yes
+                poor_clothes_pop_trigger = yes
+            }
+        }
+    }
+
+    arabic_middle_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = arabic_middle_tier
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                arabic_clothes_pop_trigger = yes
+            }
+        }
+    }
+
+    central_asian_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = central_asian
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                central_asian_clothes_pop_trigger = yes
+                upper_clothes_pop_trigger = yes             
+            }
+        }
+    }
+
+    mongol_noble_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = mongolian_hats
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                exists = scope:pop
+                scope:pop = {
+                    is_pop_type = aristocrats
+                    culture = {
+                        has_discrimination_trait = mongol_language
+                    }
+                }
+            }
+        }
+    }
+
+    chinese_common_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = chinese_common_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                chinese_manchu_queue_hairstyle_pops_trigger = yes
+                poor_clothes_pop_trigger = yes
+            }
+        }
+    }
+
+    japanese_common_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = Japanese_common_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                japanese_clothes_pop_trigger = yes
+                poor_clothes_pop_trigger = yes   
+            }
+        }
+    }
+
+    european_capitalist_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = european_tophat
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                OR = {
+                    european_clothes_pop_trigger = yes
+                    AND = {
+                        exists = scope:pop
+                        scope:pop = { 
+                            OR = {
+                                culture = cu:cherokee 
+                                culture = cu:muskogean
+                            }
+                        }
+                    }
+                }
+                upper_clothes_pop_trigger = yes
+            }
+        }
+    }
+
+    european_bowler_hat = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = european_bowlerhat
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                european_clothes_pop_trigger = yes
+                middle_clothes_pop_trigger = yes
+               
+           }
+        }
+    }
+
+    european_flat_cap = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = european_flatcap
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                european_clothes_pop_trigger = yes
+                poor_clothes_pop_trigger = yes
+                peasants_clothes_pop_trigger = no
+            }
+        }
+    }
+
+    native_american_char_headgear_01 = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = native_american_common_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                native_american_clothes_trigger = yes
+                ruler_clothes_trigger = yes
+                scope:character = {
+                    is_ruler = yes
+                }
+            }
+        }
+    }
+
+    native_american_char_headgear_02 = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = american_military_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                native_north_american_clothes_trigger = yes
+                ruler_clothes_trigger = yes
+                scope:character = {
+                    is_ruler = yes
+                    is_female = no
+                }
+            }
+        }
+    }
+
+    native_american_char_headgear_03 = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = native_american_high_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 1000
+                ruler_clothes_trigger = yes
+                scope:character = {
+                    is_ruler = yes
+                    OR = {
+                        culture = cu:comanche
+                        culture = cu:paiute
+                        culture = cu:dakota
+                        culture = cu:cree
+                        culture = cu:nez_perce
+                        culture = cu:siouan
+                    }
+                }
+            }
+        }
+    }
+
+    native_american_bandanna = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = native_american_common_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                native_american_clothes_pop_trigger = yes   
+            }
+        }
+    }
+
+    arabic_military_fez = { # Excludes the fancy female headgear meant for high class pops
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = arabic_military_fez
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 200
+                arabic_military_fez_pop_trigger = yes
+                soldier_clothes_pop_trigger = yes
+            }
+        }
+    }
+
+    european_peasants_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = european_strawhat
+                range = { 0 1 } # For the randomness to work correctly
+           
+            } 
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 200
+                AND = {
+                    peasants_clothes_pop_trigger = yes
+                    european_clothes_pop_trigger = yes
+                }
+            }
+        }
+    }
+    #academic_clothes = {
+    #    dna_modifiers = {
+    #        accessory = {
+    #            mode = add
+    #            gene = props
+    #            template = academic_cap_01
+    #            range = { 0 1 } # For the randomness to work correctly
+    #        } 
+    #    }
+    #    weight = {
+    #        base = 0
+    #        modifier = {
+    #            add = 200
+    #            academics_clothes_pop_trigger = yes
+    #        }
+    #    }
+    #}
+}

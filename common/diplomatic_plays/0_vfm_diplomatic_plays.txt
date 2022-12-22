@@ -81,6 +81,74 @@ dp_unify_china = {
 	on_war_end = {}
 }
 
+dp_independence = {
+	requires_interest_marker = no
+
+	war_goal = independence
+
+	texture = "gfx/interface/icons/war_goals/independence.dds"
+
+	possible = {
+		NOT = { is_country_type = decentralized }
+		NOT = { is_subject_type = subject_type_chartered_company }
+	}
+	
+	on_weekly_pulse = {}
+
+	on_war_begins = {}
+
+	on_war_end = {}
+}
+
+dp_liberate_subject = {
+	war_goal = liberate_subject
+
+	texture = "gfx/interface/icons/war_goals/liberate_subject.dds"
+
+	possible = {
+		NOT = { is_country_type = decentralized }
+		aggressive_diplomatic_plays_permitted = yes
+		NOT = { is_subject_of = scope:target }
+		scope:target = {
+			NOT = { is_country_type = decentralized }
+			is_subject = yes
+			NOT = { is_subject_type = subject_type_chartered_company }
+			NOT = { is_subject_of = root }
+		}
+	}
+
+	on_weekly_pulse = {}
+
+	on_war_begins = {}
+
+	on_war_end = {}
+}
+
+dp_dissolve_company = {
+	war_goal = liberate_subject
+
+	texture = "gfx/interface/icons/war_goals/dissolve_company.dds"
+
+	possible = {
+		NOT = { is_country_type = decentralized }
+		aggressive_diplomatic_plays_permitted = yes
+		NOT = { is_subject_of = scope:target }
+		country_rank = rank_value:great_power
+		scope:target = {
+			NOT = { is_country_type = decentralized }
+			is_subject = yes
+			is_subject_type = subject_type_chartered_company
+			NOT = { is_subject_of = root }
+		}
+	}
+
+	on_weekly_pulse = {}
+
+	on_war_begins = {}
+
+	on_war_end = {}
+}
+
 dp_native_uprising_new = {
 	war_goal = humiliation
 	
@@ -97,6 +165,66 @@ dp_native_uprising_new = {
 	possible = {
 		scope:target = {
 			is_country_type = decentralized
+		}
+	}
+	
+	on_weekly_pulse = {}
+	
+	on_war_begins = {}
+
+	on_war_end = {}
+}
+
+dp_leadership_ethiopia = {
+	war_goal = unification_leadership
+	
+	requires_interest_marker = no
+	mirror_war_goal = yes
+	
+	texture = "gfx/interface/icons/war_goals/annex_country.dds"
+	
+	selectable_in_lens = {
+		always = no
+	}	
+	
+	possible = {
+		NOT = { is_country_type = decentralized }
+		is_subject = no 
+		can_form_nation = ETH
+		scope:target = {
+			NOT = { is_country_type = decentralized }
+			aggressive_diplomatic_plays_permitted = yes
+			can_form_nation = ETH
+		}	
+	}
+	
+	on_weekly_pulse = {}
+	
+	on_war_begins = {}
+
+	on_war_end = {}
+}
+
+dp_unify_ethiopia = {
+	war_goal = unification
+	
+	requires_interest_marker = no
+	blocked_by_diplomatic_status = no
+	
+	texture = "gfx/interface/icons/war_goals/unification.dds"
+	
+	selectable_in_lens = {
+		always = no
+	}
+	
+	possible = {
+		NOT = { is_country_type = decentralized }
+		is_subject = no
+		can_form_nation = ETH
+		scope:target = {
+			NOT = { is_country_type = decentralized }
+			aggressive_diplomatic_plays_permitted = yes
+			can_form_nation = ETH
 		}
 	}
 	

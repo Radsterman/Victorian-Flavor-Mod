@@ -1,0 +1,118 @@
+﻿coa_def_greater_subject_trigger = {
+	OR = {
+		NOT = { exists = scope:target }
+		AND = {
+			exists = scope:target
+			scope:target = { 
+				OR = {
+					is_subject_type = subject_type_puppet
+					is_subject_type = subject_type_vassal
+                    is_subject_type = subject_type_dominion
+				}
+			}
+		}
+	}
+}
+
+coa_peru_bolivia_trigger = {
+
+	OR = {
+		AND = {
+			OR = {
+				AND = {
+					exists = c:PEU
+					scope:target = c:PEU
+				}
+				AND = {
+					exists = c:NEU
+					scope:target = c:NEU
+				}
+				AND = {
+					exists = c:BOL
+					scope:target = c:BOL
+				}
+			}
+			scope:target = { 
+			owns_entire_state_region = STATE_LA_PAZ
+			owns_entire_state_region = STATE_LIMA
+			}
+		}
+		AND = {
+			scope:target = c:BOL
+			c:BOL = {
+				has_diplomatic_pact = {
+					who = c:PEU
+					type = puppet
+					is_initiator = yes
+				}
+			}
+			c:BOL = {
+				has_diplomatic_pact = {
+					who = c:NEU
+					type = puppet
+					is_initiator = yes
+				}
+			}
+		}
+	}
+	
+
+}
+
+
+coa_def_russian_subject_trigger = {
+	OR = {
+		NOT = { exists = scope:target }
+		AND = {
+			exists = scope:target
+			scope:target = { 
+			exists = c:RUS
+			c:RUS = {
+				has_diplomatic_pact = {
+					who = scope:target 
+					type = puppet
+					is_initiator = yes
+				}
+			}
+			}
+		}
+	}
+}
+
+coa_def_austrian_subject_trigger = {
+	OR = {
+		NOT = { exists = scope:target }
+		AND = {
+			exists = scope:target
+			scope:target = { 
+			exists = c:AUS
+			c:AUS = {
+				has_diplomatic_pact = {
+					who = scope:target 
+					type = personal_union
+					is_initiator = yes
+				}
+			}
+			}
+		}
+	}
+}
+
+coa_def_bolivian_subject_trigger = {
+	OR = {
+		NOT = { exists = scope:target }
+		AND = {
+			exists = scope:target
+			scope:target = { 
+			exists = c:BOL
+			c:BOL = {
+				has_diplomatic_pact = {
+					who = scope:target 
+					type = puppet
+					is_initiator = yes
+				}
+			}
+			}
+		}
+	}
+}

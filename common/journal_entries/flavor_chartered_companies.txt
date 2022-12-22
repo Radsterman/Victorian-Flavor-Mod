@@ -1,0 +1,485 @@
+
+je_independence_rac = {
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+    complete = {	
+		is_subject = no
+		has_law = law_type:law_multicultural
+		has_law = law_type:law_total_separation
+		has_technology_researched = pan-nationalism
+	}
+
+	on_complete = {
+		change_tag = AKA
+	}
+
+	fail = {
+		is_subject = no
+		OR = {
+			NOT = { has_law = law_type:law_multicultural }
+			NOT = { has_law = law_type:law_total_separation }
+			NOT = { has_technology_researched = pan-nationalism }
+		}
+
+	}
+
+	on_fail = {
+		create_country = {
+			tag = TLI
+			origin = this
+			state = s:STATE_ALASKA.region_state:RAC
+		}
+
+		if = {
+			limit = { exists = c:RAC }
+			c:RUS = {
+				annex = c:RAC
+			}
+		}
+	}
+
+	invalid = {
+		is_subject = yes
+		NOT = { is_subject_type = subject_type_chartered_company }
+	}
+	weight = 1000 
+}
+
+je_independence_nwt = {
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+    complete = {	
+		is_subject = no
+		has_law = law_type:law_multicultural
+		has_law = law_type:law_total_separation
+		has_technology_researched = pan-nationalism
+	}
+
+	fail = {
+		is_subject = no
+		OR = {
+			NOT = { has_law = law_type:law_multicultural }
+			NOT = { has_law = law_type:law_total_separation }
+			NOT = { has_technology_researched = pan-nationalism }
+		}
+
+	}
+
+	on_fail = {
+		if = {
+			limit = { exists = c:CSC }
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_BRITISH_COLUMBIA
+				}
+				set_state_owner = c:CSC
+			}
+		}
+		else = {
+			create_country = {
+				tag = CSC
+				origin = this
+				state = s:STATE_BRITISH_COLUMBIA.region_state:NWT
+			}
+		}
+		if = {
+			limit = { exists = c:ATB }
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_YUKON_TERRITORY
+				}
+				set_state_owner = c:ATB
+			}
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_NORTHWEST_TERRITORIES
+				}
+				set_state_owner = c:ATB
+			}
+		}
+		else = {
+			create_country = {
+				tag = ATB
+				origin = this
+				state = s:STATE_NORTHWEST_TERRITORIES.region_state:NWT
+			}
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_YUKON_TERRITORY
+				}
+				set_state_owner = c:ATB
+			}
+		}
+		if = {
+			limit = { exists = c:MTC }
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_ALBERTA
+				}
+				set_state_owner = c:MTC
+			}
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_SASKATCHEWAN
+				}
+				set_state_owner = c:MTC
+			}
+		}
+		else = {
+			create_country = {
+				tag = MTC
+				origin = this
+				state = s:STATE_ALBERTA.region_state:NWT
+			}
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_SASKATCHEWAN
+				}
+				set_state_owner = c:MTC
+			}
+		}
+
+		if = {
+			limit = { exists = c:NWT }
+			c:GBR = {
+				annex = c:NWT
+			}
+		}
+	}
+
+	invalid = {
+		is_subject = yes
+		NOT = { is_subject_type = subject_type_chartered_company }
+	}
+	weight = 1000 
+}
+
+je_independence_col = {
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+    complete = {	
+		is_subject = no
+		has_law = law_type:law_multicultural
+		has_law = law_type:law_total_separation
+		has_technology_researched = pan-nationalism
+	}
+
+	on_complete = {
+		change_tag = CAN
+	}
+
+	fail = {
+		is_subject = no
+		OR = {
+			NOT = { has_law = law_type:law_multicultural }
+			NOT = { has_law = law_type:law_total_separation }
+			NOT = { has_technology_researched = pan-nationalism }
+		}
+
+	}
+
+	on_fail = {
+		if = {
+			limit = { exists = c:CSC }
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_BRITISH_COLUMBIA
+				}
+				set_state_owner = c:CSC
+			}
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_WASHINGTON
+				}
+				set_state_owner = c:CSC
+			}
+		}
+		else = {
+			create_country = {
+				tag = CSC
+				origin = this
+				state = s:STATE_BRITISH_COLUMBIA.region_state:COL
+			}
+		}
+		random_scope_state = {
+				limit = {
+					state_region = s:STATE_WASHINGTON
+				}
+				set_state_owner = c:CSC
+		}
+		if = {
+			limit = { exists = c:NZP }
+			every_scope_state = {
+				limit = {
+					OR = { 
+						state_region = s:STATE_IDAHO
+						state_region = s:STATE_OREGON
+						state_region = s:STATE_WYOMING
+						state_region = s:STATE_MONTANA						
+					}
+				}
+				set_state_owner = c:NZP
+			}
+		}
+		else = {
+			create_country = {
+				tag = NZP
+				origin = this
+				state = s:STATE_IDAHO.region_state:COL
+			}
+			every_scope_state = {
+				limit = {
+					OR = { 
+						state_region = s:STATE_IDAHO
+						state_region = s:STATE_OREGON
+						state_region = s:STATE_WYOMING
+						state_region = s:STATE_MONTANA						
+					}
+				}
+				set_state_owner = c:NZP
+			}			
+		}
+		
+		if = {
+			limit = { exists = c:COL }
+			c:GBR = {
+				annex = c:COL
+			}
+		}
+
+		
+		
+	}
+
+	invalid = {
+		is_subject = yes
+		NOT = { is_subject_type = subject_type_chartered_company }
+	}
+	weight = 1000 
+}
+
+je_independence_hbc = {
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+    complete = {	
+		is_subject = no
+		has_law = law_type:law_multicultural
+		has_law = law_type:law_total_separation
+		has_technology_researched = pan-nationalism
+	}
+
+	on_complete = {
+		change_tag = CAN
+	}
+
+	fail = {
+		is_subject = no
+		OR = {
+			NOT = { has_law = law_type:law_multicultural }
+			NOT = { has_law = law_type:law_total_separation }
+			NOT = { has_technology_researched = pan-nationalism }
+		}
+
+	}
+
+	on_fail = {
+
+		
+
+		if = {
+			limit = { 
+				c:COL = {
+					is_subject_of = c:HBC
+				}
+			}
+			c:GBR = {
+				create_diplomatic_pact = {
+					country = c:COL
+					type = chartered_company
+				}
+			}
+		}
+
+		if = {
+			limit = { 
+				c:NWT = {
+					is_subject_of = c:HBC
+				}
+			}
+			c:GBR = {
+				create_diplomatic_pact = {
+					country = c:NWT
+					type = chartered_company
+				}
+			}
+		}
+
+		if = {
+			limit = { exists = c:NNV }
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_NUNAVUT
+				}
+				set_state_owner = c:NNV
+			}
+		}
+		else = {
+			create_country = {
+				tag = NNV
+				origin = this
+				state = s:STATE_NUNAVUT.region_state:HBC
+			}
+		}
+		if = {
+			limit = { exists = c:BLF }
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_ALBERTA
+				}
+				set_state_owner = c:BLF
+			}
+		}
+		else = {
+			create_country = {
+				tag = BLF
+				origin = this
+				state = s:STATE_ALBERTA.region_state:HBC
+			}		
+		}
+		if = {
+			limit = { exists = c:ATB }
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_NORTHWEST_TERRITORIES
+				}
+				set_state_owner = c:ATB
+			}
+		}
+		else = {
+			create_country = {
+				tag = ATB
+				origin = this
+				state = s:STATE_NORTHWEST_TERRITORIES.region_state:HBC
+			}		
+		}
+		if = {
+			limit = { exists = c:MTC }
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_SASKATCHEWAN
+				}
+				set_state_owner = c:MTC
+			}
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_MANITOBA
+				}
+				set_state_owner = c:MTC
+			}
+		}
+		else = {
+			create_country = {
+				tag = MTC
+				origin = this
+				state = s:STATE_MANITOBA.region_state:HBC
+			}	
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_SASKATCHEWAN
+				}
+				set_state_owner = c:MTC
+			}
+		}
+
+		if = {
+			limit = { exists = c:ONT }
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_ONTARIO
+				}
+				set_state_owner = c:ONT
+			}
+		}
+		if = {
+			limit = { exists = c:QUE }
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_QUEBEC
+				}
+				set_state_owner = c:QUE
+			}
+		}
+		
+		if = {
+			limit = { exists = c:HBC }
+			c:GBR = {
+				annex = c:HBC
+			}
+		}
+
+		
+		
+	}
+
+	invalid = {
+		is_subject = yes
+		NOT = { is_subject_type = subject_type_chartered_company }
+	}
+	weight = 1000 
+}
+
+je_autonomy = {
+	icon = "gfx/interface/icons/event_icons/event_industry.dds"
+
+	is_shown_when_inactive = {
+		is_subject_type = subject_type_chartered_company
+		NOT = {
+			c:BIC = ROOT
+		}
+	}
+
+    possible = {
+		GDP >= 1000000
+		
+	}
+
+    complete = {	
+			NOT = {has_law = law_type:law_autocracy}
+			standard_of_living > 15
+	}
+
+	invalid = {
+		NOT = { is_subject_type = subject_type_chartered_company }
+	}
+
+    on_complete = {
+		top_overlord = {
+			create_diplomatic_pact = {
+				country = root
+				type = dominion
+			}
+		}
+		if = {
+			limit = {
+				c:RAC = ROOT
+			}
+			change_tag = AKA
+		}	
+		else_if = {
+			limit = {
+					c:HBC = ROOT
+			}
+			change_tag = CAN
+		}	
+	}
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_autonomy_status
+			}
+		}
+	}
+    should_be_pinned_by_default = yes
+	weight = 1000
+}

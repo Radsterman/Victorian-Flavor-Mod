@@ -1,0 +1,116 @@
+﻿namespace = journal_flavor_peru
+
+# Peru Partition
+journal_flavor_peru.1 = {
+	type = country_event
+	placement = ROOT
+	title = journal_flavor_peru.1.t
+	desc = journal_flavor_peru.1.d
+	flavor =  journal_flavor_peru.1.f
+
+	duration = 1
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_aristocrats.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	trigger = {
+
+	}
+
+	immediate = {
+
+		c:BOL = {
+			save_scope_as = bol_scope
+		}
+
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_ICA
+			}
+			save_scope_as = neu_spawn
+		}
+			
+	
+		create_country = {
+			tag = NEU
+			origin = this
+			state = scope:neu_spawn
+		}
+		c:NEU = {
+			save_scope_as = neu_scope
+		}
+        c:BOL = {
+            create_diplomatic_pact = {
+                    country = c:NEU
+                    type = puppet
+            }
+        }
+	}
+
+	option = {
+		default_option = yes
+		name = journal_flavor_peru.1.a
+
+        random_scope_state = {
+				limit = {
+					state_region = s:STATE_AREQUIPA
+				}
+				set_state_owner = c:NEU
+				set_state_type = incorporated
+		}
+        random_scope_state = {
+				limit = {
+					state_region = s:STATE_TARAPACA
+				}
+				set_state_owner = c:NEU
+				set_state_type = incorporated
+		}
+		create_diplomatic_play = {
+			name = confederation_war
+			target_country = c:BOL
+			type = dp_independence
+		}
+
+        change_relations = {
+			country = c:CHL
+			value = 100
+		}
+		change_relations = {
+			country = c:ARG
+			value = 100
+		}
+		add_journal_entry = { type = je_peru_unification }
+		ai_chance = {
+			base = 1
+		}
+	}
+	option = {
+		name = journal_flavor_peru.1.b
+
+        random_scope_state = {
+				limit = {
+					state_region = s:STATE_AREQUIPA
+				}
+				set_state_owner = c:NEU
+				set_state_type = incorporated
+		}
+        random_scope_state = {
+				limit = {
+					state_region = s:STATE_TARAPACA
+				}
+				set_state_owner = c:NEU
+				set_state_type = incorporated
+		}
+
+		add_journal_entry = { type = je_peru_unification }
+		ai_chance = {
+			base = 0
+		}
+	}
+}
