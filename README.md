@@ -22,3 +22,9 @@ Spanish Translation - Sith Kermit
 
 
 VFM wouldn't be possible without the contributions of these developers, the community on the Modding Co-op, and the many mods for Victoria 2 that inspired it.
+
+
+The following sources were used in the creation of many aspects of the mod's map:
+https://www.hydrosheds.org/
+https://censusmosaic.demog.berkeley.edu/home
+https://gis.harvard.edu/
