@@ -1,0 +1,110 @@
+﻿je_livonia_partition = {
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	complete = {
+        OR = {
+            c:EST = { NOT = { is_subject_of = c:RUS } }
+            c:CRL = { NOT = { is_subject_of = c:RUS } }
+        }
+        
+       
+	}
+
+	on_complete = {
+				every_scope_state = {
+				limit = {
+			state_region = {
+                    is_homeland = cu:estonian
+			}
+				}
+				set_state_owner = c:EST
+				set_state_type = incorporated
+			}
+            		every_scope_state = {
+			limit = {
+			    state_region = {
+                    is_homeland = cu:latvian
+			    }
+			}
+			set_state_owner = c:CRL
+			c:CRL = {
+				change_tag = LAT
+			}
+			set_state_type = incorporated
+		}
+	}
+
+    fail = {
+        NOT = { is_subject_of = c:RUS }
+    }
+
+    should_be_pinned_by_default = yes
+	weight = 100
+}
+
+je_estonia_awakening = {
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	complete = {
+		has_technology_researched = nationalism  
+		NOT = { has_law = law_type:law_ethnostate }
+		NOT = { has_law = law_type:law_national_supremacy }
+	}
+
+	on_complete = {
+
+		random_primary_culture = {
+			save_scope_as = old_primary
+		}
+		add_primary_culture = cu:estonian
+		remove_primary_culture = scope:old_primary
+
+		every_scope_state = {
+			limit = {
+				state_region = {
+						is_homeland = cu:baltic_german
+				}
+			}
+			state_region = {
+				remove_homeland = baltic_german
+			}
+		}
+	}
+
+    should_be_pinned_by_default = yes
+	weight = 100
+}
+
+je_latvia_awakening = {
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	complete = {
+		has_technology_researched = nationalism  
+		NOT = { has_law = law_type:law_ethnostate }
+		NOT = { has_law = law_type:law_national_supremacy }
+		
+	}
+
+	on_complete = {
+
+		random_primary_culture = {
+			save_scope_as = old_primary
+		}
+		add_primary_culture = cu:latvian
+		remove_primary_culture = scope:old_primary
+
+		every_scope_state = {
+			limit = {
+				state_region = {
+						is_homeland = cu:baltic_german
+				}
+			}
+			state_region = {
+				remove_homeland = baltic_german
+			}
+		}
+	}
+
+    should_be_pinned_by_default = yes
+	weight = 100
+}
