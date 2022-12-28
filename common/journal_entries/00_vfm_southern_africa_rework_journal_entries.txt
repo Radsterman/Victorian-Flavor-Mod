@@ -90,53 +90,30 @@ je_form_griqualand_west = {
 	complete = {
 		OR = {
 			AND = {	
-				gdp > 900000
+				gdp > 1200000
 				exists = c:WBL
-				year > 1845
 				root = {
-					c:WBL.relations:ROOT > relations_threshold:cordial
+					c:WBL.relations:ROOT > relations_threshold:friendly
 				}
 			}	
-			AND = {
-				root = {
-					is_ai = yes
-				}
-				c:WBL = {
-					is_ai = yes
-				}
-				year > 1873
-			}	
 
-		}
-	}
-	is_shown_when_inactive = {
-		OR = {
-			AND = {
-				exists = c:BOE
-				THIS = c:BOE
-			}
-
-			AND = {
-				exists = c:SAF
-				THIS = c:SAF
-			}
-		}
-	}
-	possible = {
-		OR = {
-			AND = {
-				exists = c:BOE
-				THIS = c:BOE
-			}
-
-			AND = {
-				exists = c:SAF
-				THIS = c:SAF
-			}
 		}
 	}
 	on_complete = {
-		annex = c:WBL
+		c:WBL = {
+			trigger_event = { id = journal_flavor_south_africa.11 }
+		}
+	}
+
+	invalid = {
+		OR = {
+			c:WBL = {
+				is_subject = yes
+			}
+			NOT = {
+				exists = c:WBL
+			}
+		}
 	}
 }
 je_colonize_bechuanaland = {

@@ -1397,3 +1397,106 @@ journal_flavor_south_africa.10 = {
 	
 }
 
+journal_flavor_south_africa.11 = {
+	type = country_event
+	placement = root
+
+	title = journal_flavor_south_africa.11.t
+	desc = journal_flavor_south_africa.11.d
+	flavor = journal_flavor_south_africa.11.f
+
+	event_image = {
+		video = "gfx/event_pictures/Africa_diplomats_negotiating.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+	minor_left_icon = c:WBL
+	minor_right_icon = c:SAF
+
+	duration = 1
+
+	trigger = {
+		# triggered by journal entry
+	}
+
+	immediate = {
+
+		s:STATE_NATAL = {
+			add_claim = root
+		}
+
+		
+		if = {
+			limit = {
+				exists = c:BOE
+			}
+			c:BOE = {
+				save_scope_as = saf_scope
+			}
+		}
+		else = {
+			c:SAF = {
+				save_scope_as = saf_scope
+			}
+		}
+
+		c:GBR = {
+			save_scope_as = gbr_scope
+		}
+	}
+
+	option = {
+		name = journal_flavor_south_africa.9.a
+		default_option = yes
+		ai_chance = { base = 1 }
+
+		c:GBR = {
+			create_diplomatic_pact = {
+				country = c:WBL
+				type = puppet
+			}
+		}
+
+	}
+    	option = {
+		name = journal_flavor_south_africa.9.b
+                ai_chance = { base = 0 }
+
+		if = {
+			limit = {
+				exists = c:BOE
+			}
+			s:STATE_NORTHERN_CAPE = {
+					add_claim = c:BOE
+			}
+			change_relations = {
+				country = c:BOE
+				value = -50
+			}
+		}
+		else_if = {
+			limit = {
+				exists = c:SAF
+			}
+			s:STATE_NORTHERN_CAPE = {
+					add_claim = c:GBR
+			}
+			change_relations = {
+				country = c:SAF
+				value = -50
+			}
+			change_relations = {
+				country = c:GBR
+				value = -50
+			}
+		}
+
+
+
+	}
+	
+}
