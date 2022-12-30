@@ -668,21 +668,6 @@ heavenly.6 = {
 	}
 immediate = {
 
-			if = {
-				limit = {
-					exists = c:RUS
-					c:RUS = {
-						is_subject = no
-					}
-				}
-				c:RUS = {
-					trigger_event = {
-						id = heavenly.7
-					}
-				}
-			}
-
-
 				create_character = {
 					first_name = "Feng"
 					last_name = "Yunshan"
@@ -778,8 +763,35 @@ immediate = {
 							innovative
 					}
 				}
+			hidden_effect = {
+				if = {
+					limit = {
+						exists = c:RUS
+						c:RUS = {
+							is_subject = no
+						}
 
-				
+						OR = {
+							c:CHI = {
+								owns_entire_state_region = STATE_OUTER_MANCHURIA
+							}
+							AND = {
+								exists = c:MCH
+								c:MCH = {
+									owns_entire_state_region = STATE_OUTER_MANCHURIA
+								}
+
+							}
+						}
+					}
+					c:RUS = {
+						trigger_event = {
+							id = heavenly.7
+						}
+					}
+				}
+			}
+
 
 	}
 }
