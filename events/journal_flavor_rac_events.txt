@@ -1,0 +1,299 @@
+﻿namespace = journal_flavor_rac
+
+journal_flavor_rac.1 = {
+
+	type = country_event
+	placement = root
+
+	title = journal_flavor_rac.1.t
+	desc = journal_flavor_rac.1.d
+	flavor = journal_flavor_rac.1.f
+
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	duration = 1
+
+	immediate ={
+				c:GBR = {
+			save_scope_as = gbr_scope
+		}
+
+		top_overlord = {
+			save_scope_as = rus_scope
+		}
+
+		if = {
+			limit = {
+				exists = c:HBC
+				c:HBC = {
+					is_subject_of = c:GBR
+				}
+			}
+			c:HBC = {
+				save_scope_as = company_country
+			}
+		}
+		else_if = {
+			limit = {
+				exists = c:NWT
+				c:NWT = {
+					OR = {
+						is_subject_of = c:GBR
+						is_subject_of = c:HBC
+					}
+				}
+			}
+			c:NWT = {
+				save_scope_as = company_country
+			}
+		}
+		else  = {
+			limit = {
+				exists = c:COL
+				c:COL = {
+					OR = {
+						is_subject_of = c:GBR
+						is_subject_of = c:HBC
+					}
+				}
+			}
+			c:COL = {
+				save_scope_as = company_country
+			}
+		}
+	}
+
+	option = {
+		name = journal_flavor_rac.1.a
+		custom_tooltip = journal_flavor_rac.1.a.tt
+		default_option = yes
+		ai_chance = { base = 1 }
+
+		scope:company_country = {
+			trigger_event = {
+				id = journal_flavor_rac.2
+			}
+		}
+
+	}
+	option = {
+		name = journal_flavor_rac.1.b
+		ai_chance = { base = 0 }
+
+		create_incident = {
+			country = root
+			value = 30
+		}
+
+		change_relations = {
+			country = c:RUS
+			value = -20
+		}
+
+		set_variable = rac_agreement_fail
+
+	}
+}
+
+journal_flavor_rac.2 = {
+
+	type = country_event
+	placement = root
+
+	title = journal_flavor_rac.2.t
+	desc = journal_flavor_rac.2.d
+	flavor = journal_flavor_rac.2.f
+
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	duration = 1
+
+	immediate ={
+		c:RAC = {
+			save_scope_as = rac_scope
+			top_overlord = {
+				save_scope_as = rus_scope
+			}
+		}
+
+
+		top_overlord = {
+			save_scope_as = gbr_scope
+		}
+
+	}
+
+	option = {
+		name = journal_flavor_rac.2.a
+		default_option = yes
+		ai_chance = { base = 1 }
+
+		c:RAC = {
+			if = {
+				limit = {
+					exists = c:HBC
+					c:HBC = {
+						is_subject_of = c:GBR
+					}
+				}
+				c:RAC = {
+					create_truce = {
+						country = c:HBC
+						months = 60
+					}
+				}
+			}
+			if = {
+				limit = {
+					exists = c:NWT
+					c:NWT = {
+						OR = {
+							is_subject_of = c:GBR
+							is_subject_of = c:HBC
+						}
+					}
+				}
+				c:RAC = {
+					create_truce = {
+						country = c:NWT
+						months = 60
+					}
+				}
+			}
+			if = {
+				limit = {
+					exists = c:COL
+					c:COL = {
+						OR = {
+							is_subject_of = c:GBR
+							is_subject_of = c:HBC
+						}
+					}
+				}
+				c:RAC = {
+					create_truce = {
+						country = c:COL
+						months = 60
+					}
+				}
+			}
+		}
+	}
+	option = {
+		name = journal_flavor_rac.2.b
+		ai_chance = { base = 0 }
+
+		create_incident = {
+			country = root
+			value = 30
+		}
+
+		change_relations = {
+			country = c:GBR
+			value = -20
+		}
+
+		c:RAC = {
+			set_variable = rac_agreement_fail
+		}
+	}
+}
+
+journal_flavor_rac.3 = {
+
+	type = country_event
+	placement = root
+
+	title = journal_flavor_rac.3.t
+	desc = journal_flavor_rac.3.d
+	flavor = journal_flavor_rac.3.f
+
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	duration = 1
+
+	immediate ={
+		c:GBR = {
+			save_scope_as = gbr_scope
+		}
+
+		top_overlord = {
+			save_scope_as = rus_scope
+		}
+
+		if = {
+			limit = {
+				exists = c:HBC
+				c:HBC = {
+					is_subject_of = c:GBR
+				}
+			}
+			c:HBC = {
+				save_scope_as = company_country
+			}
+		}
+		else_if = {
+			limit = {
+				exists = c:NWT
+				c:NWT = {
+					OR = {
+						is_subject_of = c:GBR
+						is_subject_of = c:HBC
+					}
+				}
+			}
+			c:NWT = {
+				save_scope_as = company_country
+			}
+		}
+		else  = {
+			limit = {
+				exists = c:COL
+				c:COL = {
+					OR = {
+						is_subject_of = c:GBR
+						is_subject_of = c:HBC
+					}
+				}
+			}
+			c:COL = {
+				save_scope_as = company_country
+			}
+		}
+	}
+
+	option = {
+		name = journal_flavor_rac.3.a
+		default_option = yes
+		ai_chance = { base = 1 }
+
+		add_journal_entry = {
+			type = je_rac_hbc_deal
+		}
+
+	}
+}
