@@ -667,6 +667,7 @@ heavenly.6 = {
 		# triggered by journal entry
 	}
 immediate = {
+
 				create_character = {
 					first_name = "Feng"
 					last_name = "Yunshan"
@@ -762,8 +763,248 @@ immediate = {
 							innovative
 					}
 				}
+			hidden_effect = {
+				if = {
+					limit = {
+						exists = c:RUS
+						c:RUS = {
+							is_subject = no
+						}
 
-				
+						OR = {
+							c:CHI = {
+								owns_entire_state_region = STATE_OUTER_MANCHURIA
+							}
+							AND = {
+								exists = c:MCH
+								c:MCH = {
+									owns_entire_state_region = STATE_OUTER_MANCHURIA
+								}
+
+							}
+						}
+					}
+					c:RUS = {
+						trigger_event = {
+							id = heavenly.7
+						}
+					}
+				}
+			}
+
+
+	}
+}
+
+# Treaty of Aigun
+heavenly.7 = {
+	type = country_event
+	placement = scope:aigun_state
+
+	title = heavenly.7.t
+	desc = heavenly.7.d
+	flavor = heavenly.7.f
+
+	event_image = {
+		video = "gfx/event_pictures/asia_union_leader.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/asia/union_leader"
+
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+
+	minor_left_icon = c:CHI
+	minor_right_icon = c:RUS
+
+	duration = 3
+
+	trigger = {
+
+	}
+	immediate = {
+
+		if = {
+			limit = {
+				c:CHI = {
+					owns_entire_state_region = STATE_OUTER_MANCHURIA
+				}
+			}
+			c:CHI = {
+				random_state = {
+					limit = {
+						state_region = s:STATE_OUTER_MANCHURIA
+					}
+					save_scope_as = aigun_state
+				}
+			}
+		}
+		else = {
+			c:MCH = {
+				random_state = {
+					limit = {
+						state_region = s:STATE_OUTER_MANCHURIA
+					}
+					save_scope_as = aigun_state
+				}
+			}
+		}
+
+		c:CHI = {
+			save_scope_as = chi_scope
+		}
+
+		c:TPG = {
+			save_scope_as = tpg_scope
+		}
+	}
+
+	option = {
+		name = heavenly.7.a
+		custom_tooltip = heavenly.7.a.tt
+		default_option = yes
+		ai_chance = { base = 75 }
+
+		c:CHI = {
+			trigger_event = {
+				id = heavenly.8
+			}
+		}
+		
+	}
+	option = {
+		name = heavenly.7.b
+		ai_chance = { base = 25 }
+	}
+}
+
+# Treaty of Aigun Qing
+heavenly.8 = {
+	type = country_event
+	placement = scope:aigun_state
+
+	title = heavenly.8.t
+	desc = heavenly.8.d
+	flavor = heavenly.8.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+	minor_left_icon = c:RUS
+	minor_right_icon = c:CHI
+
+	duration = 3
+
+	trigger = {
+
+	}
+	immediate = {
+
+		if = {
+			limit = {
+				c:CHI = {
+					owns_entire_state_region = STATE_OUTER_MANCHURIA
+				}
+			}
+			random_state = {
+				limit = {
+					state_region = s:STATE_OUTER_MANCHURIA
+				}
+				save_scope_as = aigun_state
+			}
+		}
+		else = {
+			c:MCH = {
+				random_state = {
+					limit = {
+						state_region = s:STATE_OUTER_MANCHURIA
+					}
+					save_scope_as = aigun_state
+				}
+			}
+		}
+
+		c:RUS = {
+			save_scope_as = rus_scope
+		}
+
+		c:TPG = {
+			save_scope_as = tpg_scope
+		}
+	}
+
+	option = {
+		name = heavenly.8.a
+		default_option = yes
+		ai_chance = { base = 75 }
+
+		if = {
+			limit = {
+				c:CHI = {
+					owns_entire_state_region = STATE_OUTER_MANCHURIA
+				}
+			}
+			random_state = {
+				limit = {
+					state_region = s:STATE_OUTER_MANCHURIA
+				}
+				set_state_owner = c:RUS
+				set_state_type = unincorporated
+			}
+		}
+		else = {
+			c:MCH = {
+				random_state = {
+					limit = {
+						state_region = s:STATE_OUTER_MANCHURIA
+					}
+					set_state_owner = c:RUS
+					set_state_type = unincorporated
+				}
+			}
+		}
+
+		c:RUS = {
+			create_truce = {
+				country = c:CHI
+				months = 12
+			}
+		}
+
+	}
+	option = {
+		name = heavenly.8.b
+		ai_chance = { base = 25 }
+
+		if = {
+			limit = {
+				c:CHI = {
+					owns_entire_state_region = STATE_OUTER_MANCHURIA
+				}
+			}
+			c:RUS = {
+				create_diplomatic_play = {
+					name = manchurian_conquest
+					type = dp_conquer_state		
+					target_state = s:STATE_OUTER_MANCHURIA.region_state:CHI
+				}			
+			}
+		}
+		else = {
+			c:RUS = {
+				create_diplomatic_play = {
+					name = manchurian_conquest
+					type = dp_conquer_state		
+					target_state = s:STATE_OUTER_MANCHURIA.region_state:MCH
+				}			
+			}
+		}
 
 	}
 }

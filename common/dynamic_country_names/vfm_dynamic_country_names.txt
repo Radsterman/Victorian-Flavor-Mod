@@ -147,10 +147,17 @@ MCH = {
 		trigger = {
 			exists = c:CHI
 			c:CHI = {
-				has_diplomatic_pact = {
-					who = c:XIN
-					type = personal_union
-					is_initiator = yes
+				OR = {
+					has_diplomatic_pact = {
+						who = c:MCH
+						type = vassal
+						is_initiator = yes
+					}
+					has_diplomatic_pact = {
+						who = c:MCH
+						type = puppet
+						is_initiator = yes
+					}
 				}
 			}
 		}
@@ -200,7 +207,7 @@ XIN = {
 				OR = {
 					has_diplomatic_pact = {
 						who = c:XIN
-						type = personal_union
+						type = puppet
 						is_initiator = yes
 					}
 					has_diplomatic_pact = {
@@ -319,12 +326,12 @@ OMG = { # Outer Mongolia -> Wai Menggu
 			c:CHI = {
 				OR = {
 					has_diplomatic_pact = {
-						who = c:XIN
-						type = personal_union
+						who = c:OMG
+						type = puppet
 						is_initiator = yes
 					}
 					has_diplomatic_pact = {
-						who = c:XIN
+						who = c:OMG
 						type = vassal
 						is_initiator = yes
 					}
@@ -347,15 +354,35 @@ IMG = { # Inner Mongolia -> Nei Menggu
 			c:CHI = {
 				OR = {
 					has_diplomatic_pact = {
-						who = c:XIN
-						type = personal_union
+						who = c:IMG
+						type = puppet
 						is_initiator = yes
 					}
 					has_diplomatic_pact = {
-						who = c:XIN
+						who = c:IMG
 						type = vassal
 						is_initiator = yes
 					}
+				}
+			}
+		}
+	}
+}
+
+PAN = { # Punjab
+	dynamic_country_name = {
+		name = dyn_c_sikh_empire
+		adjective = dyn_c_sikh_empire_adj
+		
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			scope:actor = {
+				OR = {
+					has_law = law_type:law_monarchy
+					has_law = law_type:law_theocracy
+					has_law = law_type:law_autocracy
 				}
 			}
 		}

@@ -483,3 +483,90 @@ je_autonomy = {
     should_be_pinned_by_default = yes
 	weight = 1000
 }
+
+je_rac_hbc_deal = {
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	is_shown_when_inactive = {
+		c:RAC = root
+	}
+
+    possible = {
+		OR = {
+			AND = {
+				exists = c:NWT 
+				c:NWT = {
+					relations:root < relations_threshold:cordial
+				} 
+			}
+			AND = {
+				exists = c:COL
+				c:COL = {
+					relations:root < relations_threshold:cordial
+				} 
+			}
+			AND = {
+				exists = c:HBC
+				c:HBC = {
+					relations:root < relations_threshold:cordial
+				} 
+			}
+		}
+
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = rac_agreement_fail_tt
+			has_variable = rac_agreement_fail
+		}
+		
+	}
+
+	invalid = {
+		AND = {
+			AND = {
+				NOT = { exists = c:HBC }
+				c:HBC = {
+					NOT = { is_subject_of = c:GBR }
+				}
+			}
+			AND = {
+				NOT = { exists = c:NWT }
+				c:NWT = {
+					NOT = { is_subject_of = c:GBR }
+				}
+			}
+			AND = {
+				NOT = { exists = c:COL }
+				c:COL = {
+					NOT = { is_subject_of = c:GBR }
+				}
+			}	
+		}
+	}
+
+	immediate = {
+        set_variable = {
+			name = hbc_deal_var
+			value = 0
+		}
+		trigger_event = {
+			id = journal_flavor_rac.1
+		}
+    }
+
+	current_value = {
+		value = root.var:hbc_deal_var
+	}
+
+	on_timeout = {
+		trigger_event = {
+			id = journal_flavor_rac.3
+		}
+	}
+
+	timeout = 1825
+
+	weight = 10000
+}

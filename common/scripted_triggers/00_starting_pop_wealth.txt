@@ -1,0 +1,168 @@
+﻿### NOTE: This file only exist to set a baseline for the simulation, the ACTUAL wealth of pops is calculated during setup so starting wealth January 1, 1836 will NOT match the values set in this file
+
+
+# Very high wealth, British and Dutch special cases ($1,800 and $1,700 GDP/capita (PPP) in 1820)
+
+effect_starting_pop_wealth_very_high = {
+	every_scope_pop = {
+		set_pop_wealth = {
+			wealth_distribution = {
+				value = 13
+				if = {
+					limit = {
+						strata = rich
+					}
+					add = 15
+				}
+				if = {
+					limit = {
+						strata = middle
+					}
+					add = 7
+				}
+				if = {
+					limit = {
+						is_pop_type = laborers
+					}
+					add = -2
+				}
+				if = {
+					limit = {
+						is_pop_type = peasants
+					}
+					add = -3
+				}			
+			}
+			update_loyalties = no
+		}
+		effect_reset_wealth_if_slave = yes
+	}
+} 
+
+# High wealth, eg Belgium, Germany, USA, Spain ($1,300 to $1,000 GDP/capita (PPP) in 1820)
+
+effect_starting_pop_wealth_high = {
+	every_scope_pop = {
+		set_pop_wealth = {
+			wealth_distribution = {
+				value = 12
+				if = {
+					limit = {
+						strata = rich
+					}
+					add = 15
+				}
+				if = {
+					limit = {
+						strata = middle
+					}
+					add = 7
+				}
+				if = {
+					limit = {
+						is_pop_type = laborers
+					}
+					add = -2
+				}
+				if = {
+					limit = {
+						is_pop_type = peasants
+					}
+					add = -3
+				}		
+			}
+			update_loyalties = no
+		}
+		effect_reset_wealth_if_slave = yes
+	}
+}
+
+# Medium wealth, eg Portugal, Finland, Latin America, Japan, Russia ($900 to $650 GDP/capita (PPP) in 1820)
+
+effect_starting_pop_wealth_medium = {
+	every_scope_pop = {
+		set_pop_wealth = {
+			wealth_distribution = {
+				value = 11
+				if = {
+					limit = {
+						strata = rich
+					}
+					add = 15
+				}
+				if = {
+					limit = {
+						strata = middle
+					}
+					add = 7
+				}
+				if = {
+					limit = {
+						is_pop_type = laborers
+					}
+					add = -2
+				}
+				if = {
+					limit = {
+						is_pop_type = peasants
+					}
+					add = -3
+				}				
+			}
+			update_loyalties = no
+		}
+		effect_reset_wealth_if_slave = yes
+	}
+}
+
+# Low wealth, eg China, India, Africa ($600 to $400 GDP/capita (PPP) in 1820)
+
+effect_starting_pop_wealth_low = {
+	every_scope_pop = {
+		set_pop_wealth = {
+			wealth_distribution = {
+				value = 10
+				if = {
+					limit = {
+						strata = rich
+					}
+					add = 15
+				}
+				if = {
+					limit = {
+						strata = middle
+					}
+					add = 7
+				}		
+				if = {
+					limit = {
+						is_pop_type = laborers
+					}
+					add = -2
+				}
+				if = {
+					limit = {
+						is_pop_type = peasants
+					}
+					add = -3
+				}		
+			}
+			update_loyalties = no
+		}
+		effect_reset_wealth_if_slave = yes
+	}
+}
+
+effect_reset_wealth_if_slave = {
+	if = {
+		limit = {
+			is_pop_type = slaves
+		}
+		set_pop_wealth = {
+			wealth_distribution = {
+				value = 1
+			}
+			update_loyalties = no
+		}
+	}
+}
