@@ -70,35 +70,41 @@ vilayet_events.2 = { #Bringing Egypt to heel
 		default_option = yes
 		custom_tooltip = vilayet_events.2.tta
 		c:EGY = {
-			trigger_event = vilayet_events.3
+			trigger_event = {
+				id = vilayet_events.3
+				days = 7
+			}
 		}
 	}
 	option = { #He will be the Vali, no special status
 		name = vilayet_events.2.b
 		custom_tooltip = vilayet_events.2.ttb
 		c:EGY = {
-			trigger_event = vilayet_events.4
+			trigger_event = {
+				id = vilayet_events.4
+				days = 7
+			}
 		}
 	}
 	option = { #We will settle for nothing less than conquest
 		name = vilayet_events.2.c
 		s:STATE_SINAI = {
-			add_claim = TUR
+			add_claim = ROOT
 		}
 		s:STATE_UPPER_EGYPT = {
-			add_claim = TUR
+			add_claim = ROOT
 		}
 		s:STATE_MIDDLE_EGYPT = {
-			add_claim = TUR
+			add_claim = ROOT
 		}
 		s:STATE_LOWER_EGYPT = {
-			add_claim = TUR
+			add_claim = ROOT
 		}
 		s:STATE_EGYPTIAN_DESERT = {
-			add_claim = TUR
+			add_claim = ROOT
 		}
 		s:STATE_MATRUH = {
-			add_claim = TUR
+			add_claim = ROOT
 		}
 	}
 }
@@ -122,10 +128,22 @@ vilayet_events.3 = { #Egypt response - Khedivate offered
 	option = { #Accept
 		name = vilayet_events.3.a
 		default_option = yes
-
+		c:TUR = {
+			trigger_event = vilayet_events.5
+			create_diplomatic_pact = {
+				country = c:EGY
+				type = dominion
+			}
+		}
+		set_variable = khedivate_conferred
 	}
+	
 	option = { #Decline
 		name = vilayet_events.2.b
+		c:TUR = {
+			trigger_event = vilayet_events.6
+			days = 3
+		}
 	}
 	
 }
@@ -148,12 +166,20 @@ vilayet_events.4 = { #Egypt response - no Khedivate offered
 	}
 	option = { #Accept
 		name = vilayet_events.4.a
-		
-
+		c:TUR = {
+			trigger_event = vilayet_events.5
+			create_diplomatic_pact = {
+				country = c:EGY
+				type = puppet
+			}
+		}
 	}
 	option = { #Decline
 		name = vilayet_events.4.b
 		default_option = yes
+		c:TUR = {
+			trigger_event = vilayet_events.6
+		}
 	}	
 }
 
@@ -176,6 +202,7 @@ vilayet_events.5 = { #Ottoman notification - Egypt accepts subjection
 	option = { #Wonderful
 		name = vilayet_events.5.a
 		default_option = yes
+		country_prestige_add = 10
 	}
 }
 
@@ -199,22 +226,22 @@ vilayet_events.6 = { #Ottoman notification - Egypt rejects subjection
 		name = vilayet_events.6.a
 		default_option = yes
 		s:STATE_SINAI = {
-			add_claim = TUR
+			add_claim = ROOT
 		}
 		s:STATE_UPPER_EGYPT = {
-			add_claim = TUR
+			add_claim = ROOT
 		}
 		s:STATE_MIDDLE_EGYPT = {
-			add_claim = TUR
+			add_claim = ROOT
 		}
 		s:STATE_LOWER_EGYPT = {
-			add_claim = TUR
+			add_claim = ROOT
 		}
 		s:STATE_EGYPTIAN_DESERT = {
-			add_claim = TUR
+			add_claim = ROOT
 		}
 		s:STATE_MATRUH = {
-			add_claim = TUR
+			add_claim = ROOT
 		}
 	}
 }
