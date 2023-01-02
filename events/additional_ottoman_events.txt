@@ -1,7 +1,8 @@
 ﻿namespace = ottoman_dynasty #events around deaths and succession
-namespace = tur_major_holidays
-namespace = tanzimat_events
-namespace = vilayet_events
+namespace = tur_major_holidays #Light flavour events for holidays
+namespace = tanzimat_events #reform and rebellion related events
+namespace = vilayet_events #events around the provinces and tributaries
+namespace = opda_events #the Ottoman Public Debt Administration
 
 # Death of Mahmud II
 ottoman_dynasty.1 = {
@@ -24,6 +25,29 @@ ottoman_dynasty.1 = {
 		name = ottoman_dynasty.1.a
 		default_option = yes
 		custom_tooltip = ottoman_dynasty.1.tt
+	}
+}
+
+opda_events.1 = {
+		type = country_event
+		title = opda_events.1.t
+		desc = opda_events.1.d
+		flavor =  opda_events.1.f
+		duration = 3
+	event_image = {
+		video = "gfx/event_pictures/middleeast_courtroom_upheaval.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	trigger = {
+		#triggered by defaulting during Tanzimat
+	}
+	option = { #
+		name = opda_events.1.a
+		default_option = yes
+		custom_tooltip = opda_events.1.tt
 	}
 }
 
@@ -135,15 +159,26 @@ vilayet_events.3 = { #Egypt response - Khedivate offered
 				type = dominion
 			}
 		}
+		hidden_effect = {
+			s:STATE_CRETE = {
+				set_state_owner = c:TUR
+			}
+		}
+		change_relations = {
+			country = c:TUR
+			value = 100
+		}
+		end_truce = c:TUR
 		set_variable = khedivate_conferred
 	}
 	
 	option = { #Decline
-		name = vilayet_events.2.b
+		name = vilayet_events.3.b
 		c:TUR = {
 			trigger_event = vilayet_events.6
 			days = 3
 		}
+		set_variable = khedivate_conferred
 	}
 	
 }
@@ -173,6 +208,16 @@ vilayet_events.4 = { #Egypt response - no Khedivate offered
 				type = puppet
 			}
 		}
+		hidden_effect = {
+			s:STATE_CRETE = {
+				set_state_owner = c:TUR
+			}
+		}
+		change_relations = {
+			country = c:TUR
+			value = 100
+		}
+		end_truce = c:TUR
 	}
 	option = { #Decline
 		name = vilayet_events.4.b
@@ -180,6 +225,7 @@ vilayet_events.4 = { #Egypt response - no Khedivate offered
 		c:TUR = {
 			trigger_event = vilayet_events.6
 		}
+		set_variable = khedivate_conferred
 	}	
 }
 
@@ -202,7 +248,6 @@ vilayet_events.5 = { #Ottoman notification - Egypt accepts subjection
 	option = { #Wonderful
 		name = vilayet_events.5.a
 		default_option = yes
-		country_prestige_add = 10
 	}
 }
 

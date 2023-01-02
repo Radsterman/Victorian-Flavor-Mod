@@ -96,10 +96,9 @@ je_sick_man_syria = {
 					}
 				}
 			}
-			custom_tooltip = je_sick_man_advance
-			change_variable = {
-				name = sick_man_var
-				add = 1
+			add_modifier = {
+				name = reclaimed_egypt # country_prestige_add = 10
+				months = normal_modifier_time
 			}
 		}
 		else = {
@@ -154,10 +153,9 @@ je_sick_man_egypt = {
 	}
 
 	on_complete = {
-		custom_tooltip = je_sick_man_advance
-		change_variable = {
-			name = sick_man_var
-			add = 1
+		add_modifier = {
+			name = reclaimed_egypt # country_prestige_add = 10
+			months = normal_modifier_time
 		}
 	}
 
@@ -196,6 +194,9 @@ je_sick_man_economy = {
 			has_building = building_urban_center
 			percent >= 0.75
 		}
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
 	}
 
 	on_complete = {
@@ -206,20 +207,35 @@ je_sick_man_economy = {
 			add = 1
 		}
 	}
+	
+	current_value = {
+		value = root.gdp
+	}
+
+	goal_add_value = {
+		value = root.gdp
+		multiply = 1
+	}
+	
+	fail = {
+		in_default = yes
+	}
+	
+	on_fail = {
+		trigger_event = { id = odpa_events.1 }
+	}
 
 	invalid = {
-		OR = {
-			custom_tooltip = {
-				text = finished_sick_man_tt
-				has_variable = sick_man_complete
-			}
-			in_default = yes
+		custom_tooltip = {
+			text = finished_sick_man_tt
+			has_variable = sick_man_complete
 		}
 	}
 
 	inheritable = no
 
 	weight = 5000
+	progressbar = yes
 }
 
 # Literacy and Universities
@@ -378,13 +394,14 @@ je_sick_man_army = {
 			has_variable = sick_man_complete
 		}
 	}
+	
 	possible = {
 		custom_tooltip = {
 			text = gulhane_edict_issued_tt
 			has_variable = gulhane_edict
 		}
 	}
-	
+
 	complete = {
 		army_size >= 200
 		has_technology_researched = napoleonic_warfare
@@ -396,6 +413,69 @@ je_sick_man_army = {
 					has_active_production_method = pm_no_artillery
 					has_active_production_method = pm_cannon_artillery
 				}
+			}
+		}
+	}
+
+	on_complete = {
+		set_variable = completed_sick_man_army_je
+		custom_tooltip = je_sick_man_advance
+		change_variable = {
+			name = sick_man_var
+			add = 1
+		}
+	}
+
+	on_monthly_pulse = {
+		events = {
+			tanzimat_events.10 # Tanzimat Draft Question
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = finished_sick_man_tt
+			has_variable = sick_man_complete
+		}
+	}
+
+	inheritable = no
+
+	weight = 5000
+}
+
+#Navy reform
+je_sick_man_navy = {
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+	
+	is_shown_when_inactive = {
+		country_has_primary_culture = cu:turkish
+		NOT = {
+			has_variable = sick_man_complete
+		}
+	}
+	
+	possible = {
+		custom_tooltip = {
+			text = gulhane_edict_issued_tt
+			has_variable = gulhane_edict
+		}
+	}
+
+	complete = {
+		navy_size >= 50
+		has_technology_researched = power_of_the_purse
+		has_technology_researched = screw_frigate
+		NOT = {
+			any_scope_building = {
+				is_building_type = building_naval_base
+				has_active_production_method = pm_no_naval_theory
+			}
+		}
+		NOT = {
+			any_scope_building = {
+				is_building_type = building_shipyards
+				has_active_production_method = pm_basic_shipbuilding
 			}
 		}
 	}
