@@ -57,6 +57,7 @@ COL = { # British Columbia
 					exists = c:HBC
 					scope:actor = {
 						is_subject_of = c:HBC
+						NOT = { is_subject_type = subject_type_chartered_company }
 					}
 				}
 				AND = {
@@ -76,12 +77,26 @@ COL = { # British Columbia
 		priority = 0
 		
 		trigger = {
-			exists = c:GBR
-			c:GBR = {
-				has_diplomatic_pact = {
-					who = c:COL
-					type = puppet
-					is_initiator = yes
+			OR = {
+				AND = {
+					exists = c:GBR
+					c:GBR = {
+						has_diplomatic_pact = {
+							who = c:COL
+							type = chartered_company
+							is_initiator = yes
+						}
+					}
+				}
+				AND = {
+					exists = c:HBC
+					c:HBC = {
+						has_diplomatic_pact = {
+							who = c:COL
+							type = chartered_company
+							is_initiator = yes
+						}
+					}
 				}
 			}
 		}
@@ -132,10 +147,17 @@ MCH = {
 		trigger = {
 			exists = c:CHI
 			c:CHI = {
-				has_diplomatic_pact = {
-					who = c:XIN
-					type = personal_union
-					is_initiator = yes
+				OR = {
+					has_diplomatic_pact = {
+						who = c:MCH
+						type = vassal
+						is_initiator = yes
+					}
+					has_diplomatic_pact = {
+						who = c:MCH
+						type = puppet
+						is_initiator = yes
+					}
 				}
 			}
 		}
@@ -182,10 +204,17 @@ XIN = {
 		trigger = {
 			exists = c:CHI
 			c:CHI = {
-				has_diplomatic_pact = {
-					who = c:XIN
-					type = personal_union
-					is_initiator = yes
+				OR = {
+					has_diplomatic_pact = {
+						who = c:XIN
+						type = puppet
+						is_initiator = yes
+					}
+					has_diplomatic_pact = {
+						who = c:XIN
+						type = vassal
+						is_initiator = yes
+					}
 				}
 			}
 		}
@@ -264,6 +293,78 @@ CAU = {
 	}
 }
 
+BSA = {
+	dynamic_country_name = {
+		name = dyn_c_south_africa_company_british
+		adjective = dyn_c_south_africa_company_british_adj
+
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = c:GBR
+			c:GBR = {
+				has_diplomatic_pact = {
+					who = c:BSA
+					type = chartered_company
+					is_initiator = yes
+				}
+			}
+		}
+	}
+}
+
+RHO = {
+	dynamic_country_name = {
+		name = dyn_c_rhodesia_colony
+		adjective = dyn_c_rhodesia_colony_adj
+
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_subject = yes
+			}
+		}
+	}
+}
+
+ZAM = {
+	dynamic_country_name = {
+		name = dyn_c_zambia_colony
+		adjective = dyn_c_zambia_colony_adj
+
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_subject = yes
+			}
+		}
+	}
+}
+
+TAN = {
+	dynamic_country_name = {
+		name = dyn_c_tanganyika_colony
+		adjective = dyn_c_tanganyika_colony_adj
+
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_subject = yes
+			}
+		}
+	}
+}
+
 PEU = {
 	dynamic_country_name = {
 		name = dyn_c_north_peru
@@ -278,6 +379,82 @@ PEU = {
 					who = c:PEU
 					type = puppet
 					is_initiator = yes
+				}
+			}
+		}
+	}
+}
+
+OMG = { # Outer Mongolia -> Wai Menggu
+	dynamic_country_name = {
+		name = dyn_c_omg_china
+		adjective = dyn_c_omg_china_adj
+		
+		is_main_tag_only = yes
+		priority = 0
+
+		trigger = {
+			exists = c:CHI
+			c:CHI = {
+				OR = {
+					has_diplomatic_pact = {
+						who = c:OMG
+						type = puppet
+						is_initiator = yes
+					}
+					has_diplomatic_pact = {
+						who = c:OMG
+						type = vassal
+						is_initiator = yes
+					}
+				}
+			}
+		}
+	}
+}
+
+IMG = { # Inner Mongolia -> Nei Menggu
+	dynamic_country_name = {
+		name = dyn_c_img_china
+		adjective = dyn_c_img_china_adj
+		
+		is_main_tag_only = yes
+		priority = 0
+
+		trigger = {
+			exists = c:CHI
+			c:CHI = {
+				OR = {
+					has_diplomatic_pact = {
+						who = c:IMG
+						type = puppet
+						is_initiator = yes
+					}
+					has_diplomatic_pact = {
+						who = c:IMG
+						type = vassal
+						is_initiator = yes
+					}
+				}
+			}
+		}
+	}
+}
+
+PAN = { # Punjab
+	dynamic_country_name = {
+		name = dyn_c_sikh_empire
+		adjective = dyn_c_sikh_empire_adj
+		
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			scope:actor = {
+				OR = {
+					has_law = law_type:law_monarchy
+					has_law = law_type:law_theocracy
+					has_law = law_type:law_autocracy
 				}
 			}
 		}

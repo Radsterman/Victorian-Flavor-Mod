@@ -1,0 +1,302 @@
+﻿namespace = alaska
+
+# An Offer for Alaska
+alaska.1 = {
+	type = country_event
+	placement = ROOT
+
+	title = alaska.1.t
+	desc = alaska.1.d
+	flavor = alaska.1.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		c:USA = {
+			save_scope_as = usa_scope
+		}
+		if = {
+			limit = {
+				c:RAC = {
+					owns_entire_state_region = STATE_ALASKA
+				}
+			}
+			s:STATE_ALASKA.region_state:RAC = {
+				save_scope_as = alaska_scope
+			}
+		}
+		else = {
+			s:STATE_ALASKA.region_state:RUS = {
+				save_scope_as = alaska_scope
+			}
+		}
+
+	}
+
+	option = {
+		name = alaska.1.a
+		default_option = yes
+		add_modifier = {
+			name = alaska_rus_big_money
+			months = 12
+			is_decaying = no
+		}
+		c:USA = {
+			trigger_event = { id = alaska.2 days = 0 popup = yes }
+		}
+		show_as_tooltip = {
+			if = {
+				limit = {
+					c:RAC = {
+						owns_entire_state_region = STATE_ALASKA
+					}
+				}
+				s:STATE_ALASKA.region_state:RAC = {
+					set_state_owner = c:USA
+				}
+			}
+			else = {
+				s:STATE_ALASKA.region_state:RUS = {
+					set_state_owner = c:USA
+				}
+			}
+
+			change_relations = {
+				country = c:USA
+				value = 10
+			}
+		}
+		ai_chance = {
+			base = 1
+		}
+	}
+	option = {
+		name = alaska.1.b
+		c:USA = {
+			trigger_event = { id = alaska.3 days = 0 popup = yes }
+		}
+		show_as_tooltip = {
+			change_relations = {
+				country = c:USA
+				value = -20
+			}
+		}
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+# The Alaska Purchase
+alaska.2 = {
+	type = country_event
+	placement = ROOT
+
+	title = alaska.2.t
+	desc = alaska.2.d
+	flavor = alaska.2.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		c:RUS = {
+			save_scope_as = russia_scope
+		}
+		if = {
+			limit = {
+				c:RAC = {
+					owns_entire_state_region = STATE_ALASKA
+				}
+			}
+			s:STATE_ALASKA.region_state:RAC = {
+				save_scope_as = alaska_scope
+			}
+		}
+		else = {
+			s:STATE_ALASKA.region_state:RUS = {
+				save_scope_as = alaska_scope
+			}
+		}
+	}
+
+	option = {
+		name = alaska.2.a
+		default_option = yes
+		add_modifier = {
+			name = alaska_usa_big_money
+			months = 12
+		}
+		if = {
+			limit = {
+				c:RAC = {
+					owns_entire_state_region = STATE_ALASKA
+				}
+			}
+			s:STATE_ALASKA.region_state:RAC = {
+				set_state_owner = c:USA
+			}
+		}
+		else = {
+			s:STATE_ALASKA.region_state:RUS = {
+				set_state_owner = c:USA
+			}
+		}
+
+		change_relations = {
+			country = c:RUS
+			value = 10
+		}
+	}
+}
+
+# Failed Alaska Purchase
+alaska.3 = {
+	type = country_event
+	placement = ROOT
+
+	title = alaska.3.t
+	desc = alaska.3.d
+	flavor = alaska.3.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		c:RUS = {
+			save_scope_as = russia_scope
+		}
+		if = {
+			limit = {
+				c:RAC = {
+					owns_entire_state_region = STATE_ALASKA
+				}
+			}
+			s:STATE_ALASKA.region_state:RAC = {
+				save_scope_as = alaska_scope
+			}
+		}
+		else = {
+			s:STATE_ALASKA.region_state:RUS = {
+				save_scope_as = alaska_scope
+			}
+		}
+	}
+
+	option = {
+		name = alaska.3.a
+		default_option = yes
+		s:STATE_ALASKA = {
+			add_claim = ROOT
+		}
+		change_relations = {
+			country = c:RUS
+			value = -20
+		}
+        add_journal_entry = {
+			type = je_alaska
+		}
+	}
+}
+
+# Making an Offer
+alaska.4 = {
+	type = country_event
+	placement = ROOT
+
+	title = alaska.4.t
+	desc = alaska.4.d
+	flavor = alaska.4.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		c:RUS = {
+			save_scope_as = russia_scope
+		}
+		if = {
+			limit = {
+				c:RAC = {
+					owns_entire_state_region = STATE_ALASKA
+				}
+			}
+			s:STATE_ALASKA.region_state:RAC = {
+				save_scope_as = alaska_scope
+			}
+		}
+		else = {
+			s:STATE_ALASKA.region_state:RUS = {
+				save_scope_as = alaska_scope
+			}
+		}
+	}
+
+	option = {
+		name = alaska.4.a
+		ai_chance = {
+			base = 1
+		}
+		custom_tooltip = alaska.4.tt1 # 3 million over a year
+		c:RUS = {
+			trigger_event = {
+				id = alaska.1
+				days = 0
+				popup = yes
+			}
+		}
+	}
+	option = { # perhaps another time
+		name = alaska.4.c
+		default_option = yes
+		ai_chance = {
+			base = 0
+		}
+		remove_variable = alaska_purchase_var
+	}
+}

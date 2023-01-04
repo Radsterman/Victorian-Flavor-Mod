@@ -1,0 +1,429 @@
+﻿namespace = journal_flavor_hawaii
+
+journal_flavor_hawaii.1 = { # Paulett Affair begins
+	type = country_event
+	placement = root
+
+	title = journal_flavor_hawaii.1.t
+	desc = journal_flavor_hawaii.1.d
+	flavor = journal_flavor_hawaii.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/africa_construction_colony.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/construction_colony"
+
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	duration = 3
+
+	immediate = {
+		c:GBR= {
+			save_scope_as = gbr_scope
+		}
+		random_scope_character = {
+			limit = {
+				is_ruler = no
+				has_role = admiral
+			}
+			save_scope_as = hawaii_admiral
+		}
+		c:RAC = {
+			save_scope_as = rac_scope
+		}
+	}
+
+	trigger = {
+		# triggered by journal entry
+	}
+
+	option = {
+		name = journal_flavor_hawaii.1.a
+		default_option = yes
+		ai_chance = {
+			base = 75
+		}
+		custom_tooltip = hawaii_accept_tt
+		hidden_effect = {
+			c:GBR ={
+				trigger_event = { id = journal_flavor_hawaii.2 }
+			}
+		}	
+	}
+
+	option = {
+		name = journal_flavor_hawaii.1.b
+		default_option = yes
+		ai_chance = {
+			base = 25
+		}
+        change_relations = {
+			country = c:GBR
+			value = -20
+		}
+		hidden_effect = {
+			c:GBR ={
+				trigger_event = { id = journal_flavor_hawaii.3 }
+			}
+			set_global_variable = paulet_affair_fail
+		}	
+	}
+}
+
+journal_flavor_hawaii.2 = {
+	type = country_event
+	placement = scope:haw_placement_scope
+
+	title = journal_flavor_hawaii.2.t
+	desc = journal_flavor_hawaii.2.d
+	flavor = journal_flavor_hawaii.2.f
+
+	event_image = {
+		video = "gfx/event_pictures/africa_construction_colony.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/construction_colony"
+
+	minor_left_icon = c:HAW
+	minor_right_icon = c:GBR
+
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+
+	duration = 3
+
+	immediate = {
+		c:HAW = {
+			save_scope_as = haw_scope
+			capital = {
+				save_scope_as = haw_placement_scope
+			}
+		}
+		c:USA = {
+			save_scope_as = usa_scope
+		}
+		c:GBR= {
+			save_scope_as = gbr_scope
+		}
+		random_scope_character = {
+			limit = {
+				is_ruler = no
+				has_role = admiral
+			}
+			save_scope_as = hawaii_admiral
+		}
+	}
+
+	trigger = {
+		# triggered by journal entry
+	}
+
+	option = {
+		name = journal_flavor_hawaii.2.a
+		default_option = yes
+		ai_chance = {
+			base = 75
+		}
+		create_diplomatic_pact = {
+			country = c:HAW
+			type = dominion
+		}
+		create_incident = {
+			country = c:HAW
+			value = 21
+		}
+		c:USA = {
+			trigger_event = { id = journal_flavor_hawaii.4 }
+		}
+	}
+    	option = {
+		name = journal_flavor_hawaii.2.b
+		ai_chance = {
+			base = 25
+		}
+		create_incident = {
+			country = c:HAW
+			value = 5
+		}
+		scope:hawaii_admiral = {
+			kill_character = yes
+		}
+		c:HAW = {
+			trigger_event = { id = journal_flavor_hawaii.7 }
+		}
+	}
+	
+}
+
+journal_flavor_hawaii.3 = {
+	type = country_event
+	placement = scope:haw_placement_scope
+
+	title = journal_flavor_hawaii.3.t
+	desc = journal_flavor_hawaii.3.d
+	flavor = journal_flavor_hawaii.3.f
+
+	event_image = {
+		video = "gfx/event_pictures/africa_construction_colony.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/construction_colony"
+
+	minor_left_icon = c:HAW
+	minor_right_icon = c:GBR
+
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+
+	duration = 3
+
+	immediate = {
+		c:HAW = {
+			save_scope_as = haw_scope
+
+			capital = {
+				save_scope_as = haw_placement_scope
+			}
+		}
+		c:GBR= {
+			save_scope_as = gbr_scope
+		}
+		c:USA = {
+			save_scope_as = usa_scope
+		}
+		random_scope_character = {
+			limit = {
+				is_ruler = no
+				has_role = admiral
+			}
+			save_scope_as = hawaii_admiral
+		}
+	}
+
+	trigger = {
+		# triggered by journal entry
+	}
+
+	option = {
+		name = journal_flavor_hawaii.3.a
+		default_option = yes
+		create_incident = {
+			country = c:HAW
+			value = 10
+		}
+		change_relations = {
+			country = c:HAW
+			value = -30
+		}
+		ai_chance = {
+			base = 75
+		}
+		c:HAW = {
+			trigger_event = { id = journal_flavor_hawaii.6 }
+		}
+	}
+    option = {
+		name = journal_flavor_hawaii.3.b
+		create_incident = {
+			country = c:HAW
+			value = 5
+		}
+		scope:hawaii_admiral = {
+			kill_character = yes
+		}
+		ai_chance = {
+			base = 25
+		}
+		c:HAW = {
+			trigger_event = { id = journal_flavor_hawaii.6 }
+		}
+	}
+	
+}
+
+journal_flavor_hawaii.4 = {
+	type = country_event
+	placement = scope:haw_placement_scope
+
+	title = journal_flavor_hawaii.4.t
+	desc = journal_flavor_hawaii.4.d
+	flavor = journal_flavor_hawaii.4.f
+
+	event_image = {
+		video = "gfx/event_pictures/africa_construction_colony.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/construction_colony"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	immediate = {
+		c:USA = {
+			save_scope_as = usa_scope
+		}
+		c:GBR = {
+			save_scope_as = gbr_scope
+		}
+	}
+
+	duration = 3
+
+	trigger = {
+		# triggered by journal entry
+	}
+
+	option = {
+		name = journal_flavor_hawaii.4.a
+		default_option = yes
+		ai_chance = {
+			base = 75
+		}
+		create_diplomatic_play = {
+			name = paulet_affair
+			target_country = scope:haw_scope
+			type = dp_liberate_subject
+		}
+		ig:ig_rural_folk = {
+			add_modifier = {
+				name = us_hawaii_involvement
+				months = normal_modifier_time
+			}
+		}
+	}
+    option = {
+		name = journal_flavor_hawaii.4.b
+		ai_chance = {
+			base = 25
+		}
+		ig:ig_armed_forces = {
+			add_modifier = {
+				name = us_rejected_hawaii_involvement
+				months = normal_modifier_time
+			}
+		}
+	}
+	
+}
+
+journal_flavor_hawaii.5 = {
+	type = country_event
+	placement = root
+
+	title = journal_flavor_hawaii.5.t
+	desc = journal_flavor_hawaii.5.d
+	flavor = journal_flavor_hawaii.5.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	duration = 3
+
+	trigger = {
+		# triggered by journal entry
+	}
+
+	immediate = {
+		c:USA = {
+			save_scope_as = usa_scope
+		}
+		c:GBR = {
+			save_scope_as = gbr_scope
+		}
+	}
+
+	option = {
+		name = journal_flavor_hawaii.5.a
+		default_option = yes
+		
+	}
+	
+}
+
+journal_flavor_hawaii.6 = {
+	type = country_event
+	placement = root
+
+	title = journal_flavor_hawaii.6.t
+	desc = journal_flavor_hawaii.6.d
+	flavor = journal_flavor_hawaii.6.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	duration = 3
+
+	immediate = {
+		c:USA = {
+			save_scope_as = usa_scope
+		}
+		c:GBR = {
+			save_scope_as = gbr_scope
+		}
+	}
+
+	trigger = {
+		# triggered by journal entry
+	}
+
+	option = {
+		name = journal_flavor_hawaii.6.a
+		default_option = yes
+		set_global_variable = paulet_affair_fail
+	}
+	
+}
+
+journal_flavor_hawaii.7 = {
+	type = country_event
+	placement = root
+
+	title = journal_flavor_hawaii.7.t
+	desc = journal_flavor_hawaii.7.d
+	flavor = journal_flavor_hawaii.7.f
+
+	event_image = {
+		video = "gfx/event_pictures/africa_construction_colony.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/construction_colony"
+
+
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	duration = 3
+
+	trigger = {
+		# triggered by journal entry
+	}
+
+	immediate = {
+		c:GBR = {
+			save_scope_as = gbr_scope
+		}
+	}
+
+	option = {
+		name = journal_flavor_hawaii.7.a
+		default_option = yes
+		set_global_variable = paulet_affair_fail
+	}
+	
+}

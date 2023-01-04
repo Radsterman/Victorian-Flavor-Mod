@@ -1,4 +1,4 @@
-﻿coa_def_greater_subject_trigger = {
+﻿coa_def_subject_trigger = {
 	OR = {
 		NOT = { exists = scope:target }
 		AND = {
@@ -7,6 +7,7 @@
 				OR = {
 					is_subject_type = subject_type_puppet
 					is_subject_type = subject_type_vassal
+					is_subject_type = subject_type_chartered_company
                     is_subject_type = subject_type_dominion
 				}
 			}
@@ -72,6 +73,74 @@ coa_def_russian_subject_trigger = {
 					who = scope:target 
 					type = puppet
 					is_initiator = yes
+				}
+			}
+			}
+		}
+	}
+}
+
+coa_def_qing_subject_trigger = {
+	OR = {
+		NOT = { exists = scope:target }
+		AND = {
+			exists = scope:target
+			scope:target = { 
+			exists = c:CHI
+			c:CHI = {
+					AND = {
+					country_has_primary_culture = cu:manchu
+					OR = {
+						has_diplomatic_pact = {
+							who = scope:target 
+							type = puppet
+							is_initiator = yes
+						}
+						has_diplomatic_pact = {
+							who = scope:target 
+							type = vassal
+							is_initiator = yes
+						}
+					}
+				}
+			}
+			}
+		}
+	}
+}
+
+coa_def_british_colony_trigger = {
+	OR = {
+		NOT = { exists = scope:target }
+		AND = {
+			exists = scope:target
+			scope:target = { 
+			exists = c:CHI
+			c:CHI = {
+					AND = {
+					country_has_primary_culture = cu:manchu
+					OR = {
+						has_diplomatic_pact = {
+							who = scope:target 
+							type = puppet
+							is_initiator = yes
+						}
+						has_diplomatic_pact = {
+							who = scope:target 
+							type = vassal
+							is_initiator = yes
+						}
+						has_diplomatic_pact = {
+							who = scope:target 
+							type = chartered_company
+							is_initiator = yes
+						}
+						has_diplomatic_pact = {
+							who = scope:target 
+							type = dominion
+							is_initiator = yes
+						}
+					}
 				}
 			}
 			}
