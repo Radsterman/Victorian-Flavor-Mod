@@ -1,5 +1,5 @@
 ﻿je_company_independence = {
-	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
 
 	is_shown_when_inactive = {
 		is_subject_type = subject_type_chartered_company
@@ -9,14 +9,11 @@
 	}
 
 	possible = {
-		always = yes
+		is_subject_type = subject_type_chartered_company
 	}
 
     complete = {	
-		is_subject = no
-		has_law = law_type:law_multicultural
-		has_law = law_type:law_total_separation
-		has_technology_researched = pan-nationalism
+		NOT = { is_subject_type = subject_type_chartered_company }
 	}
 
 	on_complete = {
@@ -48,18 +45,12 @@
 
 	fail = {
 		is_subject = no
-		OR = {
-			NOT = { has_law = law_type:law_multicultural }
-			NOT = { has_law = law_type:law_total_separation }
-			NOT = { has_technology_researched = pan-nationalism }
-		}
-
 	}
 
 	on_fail = {
 		custom_tooltip = {
 			text = company_collapse_tt
-		}
+		
 			if = {
 				limit = {
 					c:RAC = ROOT
@@ -147,7 +138,7 @@
 				}
 			}
 		
-
+		}
 	}
 
 	invalid = {
