@@ -1,0 +1,168 @@
+﻿namespace = journal_flavor_company_collapse
+
+#HBC
+journal_flavor_company_collapse.1 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_company_collapse.1.t
+	desc = journal_flavor_company_collapse.1.d
+	flavor = journal_flavor_company_collapse.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_devastation.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	duration = 2
+
+	trigger = {
+		# triggered by journal entry
+	}
+	immediate = {
+
+		c:HBC = {
+			save_scope_as = company_scope
+		}
+
+		if = {
+					limit = { 
+						c:COL = {
+							is_subject_of = c:HBC
+						}
+					}
+					c:GBR = {
+						create_diplomatic_pact = {
+							country = c:COL
+							type = chartered_company
+						}
+					}
+				}
+
+				if = {
+					limit = { 
+						c:NWT = {
+							is_subject_of = c:HBC
+						}
+					}
+					c:GBR = {
+						create_diplomatic_pact = {
+							country = c:NWT
+							type = chartered_company
+						}
+					}
+				}
+
+				if = {
+					limit = { exists = c:NNV }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_NUNAVUT
+						}
+						set_state_owner = c:NNV
+					}
+				}
+				else = {
+					create_country = {
+						tag = NNV
+						origin = this
+						state = s:STATE_NUNAVUT.region_state:HBC
+					}
+				}
+				if = {
+					limit = { exists = c:BLF }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_ALBERTA
+						}
+						set_state_owner = c:BLF
+					}
+				}
+				else = {
+					create_country = {
+						tag = BLF
+						origin = this
+						state = s:STATE_ALBERTA.region_state:HBC
+					}		
+				}
+				if = {
+					limit = { exists = c:ATB }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_NORTHWEST_TERRITORIES
+						}
+						set_state_owner = c:ATB
+					}
+				}
+				else = {
+					create_country = {
+						tag = ATB
+						origin = this
+						state = s:STATE_NORTHWEST_TERRITORIES.region_state:HBC
+					}		
+				}
+				if = {
+					limit = { exists = c:MTC }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_SASKATCHEWAN
+						}
+						set_state_owner = c:MTC
+					}
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_MANITOBA
+						}
+						set_state_owner = c:MTC
+					}
+				}
+				else = {
+					create_country = {
+						tag = MTC
+						origin = this
+						state = s:STATE_MANITOBA.region_state:HBC
+					}	
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_SASKATCHEWAN
+						}
+						set_state_owner = c:MTC
+					}
+				}
+
+				if = {
+					limit = { exists = c:ONT }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_ONTARIO
+						}
+						set_state_owner = c:ONT
+					}
+				}
+				if = {
+					limit = { exists = c:QUE }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_QUEBEC
+						}
+						set_state_owner = c:QUE
+					}
+				}
+
+	}
+
+	option = { 
+		name = journal_flavor_company_collapse.1.a
+		default_option = yes
+		
+		if = {
+			limit = { exists = c:RNC }
+			annex = c:HBC
+		}
+
+	}
+}
