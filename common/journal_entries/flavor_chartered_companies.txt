@@ -57,395 +57,96 @@
 	}
 
 	on_fail = {
-
 		custom_tooltip = {
 			text = company_collapse_tt
+		}
 			if = {
 				limit = {
 					c:RAC = ROOT
 				}
-				create_country = {
-					tag = TLI
-					origin = this
-					state = s:STATE_ALASKA.region_state:RAC
+
+				every_in_list = {
+					variable = past_overlord 
+					trigger_event = { id = journal_flavor_company_collapse.4 }
 				}
 
-				if = {
-					limit = { exists = c:RAC }
-					top_overlord = {
-						annex = c:RAC
-					}
-				}
+			 
+
 			}
 			else_if = {
 				limit = {
 					c:NWT = ROOT
 				}
-				if = {
-					limit = { exists = c:CSC }
-					random_scope_state = {
-						limit = {
-							state_region = s:STATE_BRITISH_COLUMBIA
-						}
-						set_state_owner = c:CSC
-					}
-				}
-				else = {
-					create_country = {
-						tag = CSC
-						origin = this
-						state = s:STATE_BRITISH_COLUMBIA.region_state:NWT
-					}
-				}
-				if = {
-					limit = { exists = c:ATB }
-					random_scope_state = {
-						limit = {
-							state_region = s:STATE_YUKON_TERRITORY
-						}
-						set_state_owner = c:ATB
-					}
-					random_scope_state = {
-						limit = {
-							state_region = s:STATE_NORTHWEST_TERRITORIES
-						}
-						set_state_owner = c:ATB
-					}
-				}
-				else = {
-					create_country = {
-						tag = ATB
-						origin = this
-						state = s:STATE_NORTHWEST_TERRITORIES.region_state:NWT
-					}
-					random_scope_state = {
-						limit = {
-							state_region = s:STATE_YUKON_TERRITORY
-						}
-						set_state_owner = c:ATB
-					}
-				}
-				if = {
-					limit = { exists = c:MTC }
-					random_scope_state = {
-						limit = {
-							state_region = s:STATE_ALBERTA
-						}
-						set_state_owner = c:MTC
-					}
-					random_scope_state = {
-						limit = {
-							state_region = s:STATE_SASKATCHEWAN
-						}
-						set_state_owner = c:MTC
-					}
-				}
-				else = {
-					create_country = {
-						tag = MTC
-						origin = this
-						state = s:STATE_ALBERTA.region_state:NWT
-					}
-					random_scope_state = {
-						limit = {
-							state_region = s:STATE_SASKATCHEWAN
-						}
-						set_state_owner = c:MTC
-					}
+
+				every_in_list = {
+					variable = past_overlord 
+					trigger_event = { id = journal_flavor_company_collapse.2 }
 				}
 
-				if = {
-					limit = { exists = c:NWT }
-					top_overlord = {
-						annex = c:NWT
-					}
-				}
 			}
 			else_if = {
 				limit = {
 					c:COL = ROOT
 				}
-				if = {
-					limit = { exists = c:CSC }
-					random_scope_state = {
-						limit = {
-							state_region = s:STATE_BRITISH_COLUMBIA
-						}
-						set_state_owner = c:CSC
-					}
-					random_scope_state = {
-						limit = {
-							state_region = s:STATE_WASHINGTON
-						}
-						set_state_owner = c:CSC
-					}
+					every_in_list = {
+					variable = past_overlord 
+					trigger_event = { id = journal_flavor_company_collapse.3 }
 				}
-				else = {
-					create_country = {
-						tag = CSC
-						origin = this
-						state = s:STATE_BRITISH_COLUMBIA.region_state:COL
-					}
-				}
-				random_scope_state = {
-						limit = {
-							state_region = s:STATE_WASHINGTON
-						}
-						set_state_owner = c:CSC
-				}
-				if = {
-					limit = { exists = c:NZP }
-					every_scope_state = {
-						limit = {
-							OR = { 
-								state_region = s:STATE_IDAHO
-								state_region = s:STATE_OREGON
-								state_region = s:STATE_WYOMING
-								state_region = s:STATE_MONTANA						
-							}
-						}
-						set_state_owner = c:NZP
-					}
-				}
-				else = {
-					create_country = {
-						tag = NZP
-						origin = this
-						state = s:STATE_IDAHO.region_state:COL
-					}
-					every_scope_state = {
-						limit = {
-							OR = { 
-								state_region = s:STATE_IDAHO
-								state_region = s:STATE_OREGON
-								state_region = s:STATE_WYOMING
-								state_region = s:STATE_MONTANA						
-							}
-						}
-						set_state_owner = c:NZP
-					}			
-				}
-				
-				if = {
-					limit = { exists = c:COL }
-					top_overlord = {
-						annex = c:COL
-					}
-				}			
+
 			}
 			else_if = {
 				limit = {
 					c:HBC = ROOT
 				}
-				if = {
-					limit = { 
-						c:COL = {
-							is_subject_of = c:HBC
-						}
-					}
-					c:GBR = {
-						create_diplomatic_pact = {
-							country = c:COL
-							type = chartered_company
-						}
-					}
-				}
 
-				if = {
-					limit = { 
-						c:NWT = {
-							is_subject_of = c:HBC
-						}
-					}
-					c:GBR = {
-						create_diplomatic_pact = {
-							country = c:NWT
-							type = chartered_company
-						}
-					}
-				}
-
-				if = {
-					limit = { exists = c:NNV }
-					random_scope_state = {
-						limit = {
-							state_region = s:STATE_NUNAVUT
-						}
-						set_state_owner = c:NNV
-					}
-				}
-				else = {
-					create_country = {
-						tag = NNV
-						origin = this
-						state = s:STATE_NUNAVUT.region_state:HBC
-					}
-				}
-				if = {
-					limit = { exists = c:BLF }
-					random_scope_state = {
-						limit = {
-							state_region = s:STATE_ALBERTA
-						}
-						set_state_owner = c:BLF
-					}
-				}
-				else = {
-					create_country = {
-						tag = BLF
-						origin = this
-						state = s:STATE_ALBERTA.region_state:HBC
-					}		
-				}
-				if = {
-					limit = { exists = c:ATB }
-					random_scope_state = {
-						limit = {
-							state_region = s:STATE_NORTHWEST_TERRITORIES
-						}
-						set_state_owner = c:ATB
-					}
-				}
-				else = {
-					create_country = {
-						tag = ATB
-						origin = this
-						state = s:STATE_NORTHWEST_TERRITORIES.region_state:HBC
-					}		
-				}
-				if = {
-					limit = { exists = c:MTC }
-					random_scope_state = {
-						limit = {
-							state_region = s:STATE_SASKATCHEWAN
-						}
-						set_state_owner = c:MTC
-					}
-					random_scope_state = {
-						limit = {
-							state_region = s:STATE_MANITOBA
-						}
-						set_state_owner = c:MTC
-					}
-				}
-				else = {
-					create_country = {
-						tag = MTC
-						origin = this
-						state = s:STATE_MANITOBA.region_state:HBC
-					}	
-					random_scope_state = {
-						limit = {
-							state_region = s:STATE_SASKATCHEWAN
-						}
-						set_state_owner = c:MTC
-					}
-				}
-
-				if = {
-					limit = { exists = c:ONT }
-					random_scope_state = {
-						limit = {
-							state_region = s:STATE_ONTARIO
-						}
-						set_state_owner = c:ONT
-					}
-				}
-				if = {
-					limit = { exists = c:QUE }
-					random_scope_state = {
-						limit = {
-							state_region = s:STATE_QUEBEC
-						}
-						set_state_owner = c:QUE
-					}
+				every_in_list = {
+					variable = past_overlord 
+					trigger_event = { id = journal_flavor_company_collapse.1 }
 				}
 				
-				if = {
-					limit = { exists = c:HBC }
-					top_overlord = {
-						annex = c:HBC
-					}
-				}
 			}
 			else_if = {
 				limit = {
 					c:RNC = ROOT
 				}
 				
-				if = {
-					limit = {
-						any_state = {
-							owner = ROOT
-							OR = {
-								state_region = s:STATE_NIGER_DELTA
-								state_region = s:STATE_NIGERIA
-								state_region = s:STATE_BENIN
-								state_region = s:STATE_YORUBA_STATES
-								state_region = s:STATE_HAUSALAND
-								state_region = s:STATE_EAST_HAUSALAND
-								state_region = s:STATE_BORNU
-							}
-						}
-					}
-					random_scope_state = {
-						limit = {
-								state_region = s:STATE_NIGER_DELTA
-								state_region = s:STATE_NIGERIA
-								state_region = s:STATE_BENIN
-								state_region = s:STATE_YORUBA_STATES
-								state_region = s:STATE_HAUSALAND
-								state_region = s:STATE_EAST_HAUSALAND
-								state_region = s:STATE_BORNU
-						}
-						save_scope_as = ngr_spawn
-					}
-
-					create_country = {
-						tag = NGR
-						origin = this
-						state = ngr_spawn
-					}	
-
-					every_scope_state = {
-						limit = {
-								state_region = s:STATE_NIGER_DELTA
-								state_region = s:STATE_NIGERIA
-								state_region = s:STATE_BENIN
-								state_region = s:STATE_YORUBA_STATES
-								state_region = s:STATE_HAUSALAND
-								state_region = s:STATE_EAST_HAUSALAND
-								state_region = s:STATE_BORNU
-						}
-						set_state_owner = c:NGR
-					}
-
+				every_in_list = {
+					variable = past_overlord 
+					trigger_event = { id = journal_flavor_company_collapse.5 }
 				}
 
-				if = {
-					limit = { exists = c:RNC }
-					top_overlord = {
-						annex = c:RNC
-					}
-				}
 
 			}
 			else_if = {
 				limit = {
 					c:IAC = ROOT
 				}
+
+				every_in_list = {
+					variable = past_overlord 
+					trigger_event = { id = journal_flavor_company_collapse.7 }
+				}
+
 			}
 			else_if = {
 				limit = {
 					c:GEA = ROOT
+				}
+				every_in_list = {
+					variable = past_overlord 
+					trigger_event = { id = journal_flavor_company_collapse.8 }
 				}
 			}
 			else_if = {
 				limit = {
 					c:BSA = ROOT
 				}
+				every_in_list = {
+					variable = past_overlord 
+					trigger_event = { id = journal_flavor_company_collapse.6 }
+				}
 			}
-		}
+		
 
 	}
 
@@ -453,6 +154,14 @@
 		is_subject = yes
 		NOT = { is_subject_type = subject_type_chartered_company }
 	}
+
+	on_weekly_pulse = {
+		effect = {
+			clear_variable_list = past_overlord
+			add_to_variable_list = { name = past_overlord target = top_overlord }
+		}
+	}
+
 	weight = 1000 
 }
 
