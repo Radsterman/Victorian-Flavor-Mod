@@ -740,6 +740,24 @@ TAN = { # Tanganyika
 	}	
 }
 
+TZN = { # Tanganyika
+	flag_definition = {
+		coa = TZN
+		allow_overlord_canton = no
+		subject_canton = TZN
+		priority = 1
+	}
+	flag_definition = {
+		coa = TZN
+		coa_with_overlord_canton = TAN_subject
+		allow_overlord_canton = yes
+		priority = 20
+		trigger = { 
+			coa_def_subject_trigger = yes
+		}
+	}	
+}
+
 KNA = { # Kenya
 	flag_definition = {
 		coa = KNA
@@ -816,9 +834,13 @@ GEA = { # German East Africa
 		allow_overlord_canton = yes
 		priority = 10
 		trigger = { 
-			coa_def_subject_trigger = yes
+			AND = {
+				coa_def_non_company_subject_trigger = yes
+				coa_def_subject_trigger = yes
+			}
+
 		}
-	}	
+	}		
 	flag_definition = {
 		coa = GER_colony
 		allow_overlord_canton = no

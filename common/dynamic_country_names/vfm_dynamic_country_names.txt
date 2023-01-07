@@ -314,6 +314,7 @@ BSA = {
 	}
 }
 
+
 RHO = {
 	dynamic_country_name = {
 		name = dyn_c_rhodesia_colony
@@ -366,6 +367,23 @@ KNA = {
 }
 
 TAN = {
+	dynamic_country_name = {
+		name = dyn_c_tanganyika_colony
+		adjective = dyn_c_tanganyika_colony_adj
+
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_subject = yes
+			}
+		}
+	}
+}
+
+TZN = {
 	dynamic_country_name = {
 		name = dyn_c_tanganyika_colony
 		adjective = dyn_c_tanganyika_colony_adj
@@ -447,6 +465,26 @@ OMG = { # Outer Mongolia -> Wai Menggu
 	}
 }
 
+HBC = { 
+	dynamic_country_name = {
+		name = dyn_c_hudson_bay_company
+		adjective = dyn_c_hudson_bay_company_adj
+		
+		is_main_tag_only = yes
+		priority = 0
+
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				AND = {
+					is_subject = yes
+					is_subject_type = subject_type_chartered_company
+				}
+			}
+		}
+	}
+}
+
 GEA = { 
 	dynamic_country_name = {
 		name = dyn_c_tanganyika_colony
@@ -459,6 +497,9 @@ GEA = {
 			exists = scope:actor
 			scope:actor = {
 				is_subject = yes
+				NOT = {
+					is_subject_type = subject_type_chartered_company
+				}
 			}
 		}
 	}
