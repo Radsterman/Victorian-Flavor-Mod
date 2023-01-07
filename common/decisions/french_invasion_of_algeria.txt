@@ -1,0 +1,92 @@
+﻿france_invade_CNS = {
+	is_shown = {
+		exists = c:FRA
+		exists = c:CNS
+		c:FRA = ROOT
+		is_subject = no
+		NOT = { has_variable = invaded_constantine_once }
+	}
+	possible = {
+		c:FRA = {
+			is_at_war = no
+			NOT = {
+				has_truce_with = c:CNS
+			}
+		}
+	}
+	when_taken = {
+		c:FRA = {
+			set_variable = {
+				name = invaded_constantine_once
+			}
+			create_diplomatic_play = {
+				name = french_algeria_invasion
+			
+				target_state = s:STATE_CONSTANTINE.region_state:CNS
+				
+				war = no
+				
+				type = dp_annex_war
+
+				add_war_goal = {
+					holder = c:CNS
+					type = conquer_state
+					target_state = s:STATE_CONSTANTINE.region_state:FRA
+				}
+			}
+		}
+	}
+
+	ai_chance = {
+		base = 100
+	}
+}
+
+france_invade_MSR = {
+	is_shown = {
+		exists = c:FRA
+		exists = c:MSR
+		c:FRA = ROOT
+		is_subject = no
+		c:FRA = { NOT = { has_variable = invaded_algiers_once } }
+	}
+	possible = {
+		c:FRA = {
+			is_at_war = no
+			NOT = {
+				has_truce_with = c:MSR
+			}
+		}
+	}
+	when_taken = {
+		c:FRA = {
+			set_variable = {
+				name = invaded_algiers_once
+			}
+			create_diplomatic_play = {
+				name = french_algeria_invasion
+			
+				target_state = s:STATE_TLEMCEN.region_state:MSR
+			
+				war = no
+				
+				type = dp_annex_war
+
+				add_war_goal = {
+					holder = c:MSR
+					type = conquer_state
+					target_state = s:STATE_ALGIERS.region_state:FRA
+				}
+				add_war_goal = {
+					holder = c:MSR
+					type = conquer_state
+					target_state = s:STATE_TLEMCEN.region_state:FRA
+				}
+			}
+		}
+	}
+
+	ai_chance = {
+		base = 100
+	}
+}
