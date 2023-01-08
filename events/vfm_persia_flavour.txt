@@ -1,0 +1,205 @@
+﻿namespace = iran_abolish_autonomy
+
+# Start the process of centralizing
+iran_abolish_autonomy.1 = {
+	type = country_event
+	placement = ROOT
+
+	title = iran_abolish_autonomy.1.t
+	desc = iran_abolish_autonomy.1.d
+	flavor = iran_abolish_autonomy.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	duration = 3
+
+	immediate = {
+		set_variable = centralizing_persia
+	}
+
+	option = {
+		name = iran_abolish_autonomy.1.a
+		default_option = yes
+		ai_chance = {
+			base = 1
+		}
+	}
+}
+
+# Inherit Khanates and Emirates Event
+iran_abolish_autonomy.2 = {
+	type = country_event
+	placement = ROOT
+
+	title = iran_abolish_autonomy.2.t
+	desc = iran_abolish_autonomy.2.d
+	flavor = iran_abolish_autonomy.2.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	duration = 3
+
+	cooldown = { months = 6 }
+	
+	trigger = {
+		OR = {
+			country_tier = kingdom
+			country_tier = principality
+		}
+		OR = {
+			has_variable = centralizing_persia
+			has_technology_researched = nationalism
+		}
+		any_country = {
+			trigger_if = {
+				OR = {
+					country_has_primary_culture = cu:azeri
+					country_has_primary_culture = cu:turkmen
+					country_has_primary_culture = cu:kurdish
+				}
+			}
+			has_diplomatic_pact = {
+				who = ROOT
+				type = vassal
+			}
+			OR = {
+				is_subject = no
+				is_subject_of = ROOT
+			}
+			country_rank < rank_value:major_power
+			relations:root >= relations_threshold:amicable
+			is_player = no
+		}
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				trigger_if = {
+					limit = {
+						ROOT = {
+							has_technology_researched = nationalism
+						}
+					}
+					OR = {
+						country_has_primary_culture = cu:kurdish
+						country_has_primary_culture = cu:azeri
+						country_has_primary_culture = cu:turkmen
+					}
+				}
+				trigger_else_if = {
+					limit = {
+						ROOT = {
+							has_variable = centralizing_persia
+						}
+					}
+					OR = {
+						country_has_primary_culture = cu:kurdish
+						country_has_primary_culture = cu:azeri
+						country_has_primary_culture = cu:turkmen
+					}
+				}
+				has_diplomatic_pact = {
+					who = ROOT
+					type = vassal
+				}
+				OR = {
+					is_subject = no
+					is_subject_of = ROOT
+				}
+				country_rank < rank_value:major_power
+				is_player = no
+			}
+			save_scope_as = persian_annex_country
+		}
+	}
+
+	option = {
+		name = iran_abolish_autonomy.2.a
+		default_option = yes
+		annex = scope:persian_annex_country
+		ai_chance = {
+			base = 1
+		}
+	}
+}
+
+# Weeeee
+iran_flavour_wip.1 = {
+	type = country_event
+	placement = ROOT
+
+	title = iran_flavour_wip.1.t
+	desc = iran_flavour_wip.1.d
+	flavor = iran_flavour_wip.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	duration = 3
+
+	immediate = {
+		set_variable = centralizing_persia
+	}
+
+	option = {
+		name = iran_flavour_wip.1.a
+		default_option = yes
+		ai_chance = {
+			base = 1
+		}
+	}
+}
+
+# pain
+iran_flavour_wip.2 = {
+	type = country_event
+	placement = ROOT
+
+	title = iran_flavour_wip.2.t
+	desc = iran_flavour_wip.2.d
+	flavor = iran_flavour_wip.2.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	duration = 3
+
+	immediate = {
+		set_variable = centralizing_persia
+	}
+
+	option = {
+		name = iran_flavour_wip.2.a
+		default_option = yes
+		ai_chance = {
+			base = 1
+		}
+	}
+}

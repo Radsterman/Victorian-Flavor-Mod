@@ -1,44 +1,63 @@
 je_centralize_iran = {
-	icon = "gfx/interface/icons/event_icons/event_military.dds"
+	icon = "gfx/interface/icons/event_icons/event_persia.dds"
 
 	complete = {
+		has_technology_researched = centralization
         NOT = { has_law = law_type:law_hereditary_bureaucrats }
 	}
 
 	on_complete = {
 		trigger_event = { id = iran_abolish_autonomy.1 } # Inherit the Khanates and Emirates
+		hidden_effect = {
+			add_journal_entry = {
+				type = je_centralize_iran_process
+			}
+		}
 	}
 
     should_be_pinned_by_default = yes
 	weight = 100
 }
 
-je_reclaim_coast_iran = {
-	icon = "gfx/interface/icons/event_icons/event_military.dds"
+je_centralize_iran_process = {
+	icon = "gfx/interface/icons/event_icons/event_persia.dds"
 
 	complete = {
-        NOT = { has_law = law_type:law_hereditary_bureaucrats }
+		custom_tooltip = {
+			text = integrate_khanates_iran
+			has_variable = integrated_khanates_iran
+		}
+		custom_tooltip = {
+			text = reclaim_coast_iran
+			has_variable = reclaimed_coast_iran
+		}
+		custom_tooltip = {
+			text = integrate_qaenat_iran
+			has_variable = integrated_qaenat_iran
+		}
+		custom_tooltip = {
+			text = integrate_herat_iran
+			has_variable = integrated_herat_iran
+		}
 	}
+	
+	timeout = 22000
 
 	on_complete = {
-		trigger_event = { id = iran_abolish_autonomy.2 } # Inherit Sheikhdoms
+		trigger_event = { id = iran_flavour_wip.1 }
+		remove_modifier = a_shah_in_name
 	}
 
-    should_be_pinned_by_default = yes
-	weight = 100
-}
-
-je_abolish_qaenat_iran = {
-	icon = "gfx/interface/icons/event_icons/event_military.dds"
-
-	complete = {
-        NOT = { has_law = law_type:law_hereditary_bureaucrats }
+	on_timeout = {
+		trigger_event = { id = iran_flavour_wip.2 }
 	}
 
-	on_complete = {
-		trigger_event = { id = iran_abolish_autonomy.3 } # Inherit Qaenat
+	goal_add_value = {
+		add = 4
 	}
 
-    should_be_pinned_by_default = yes
-	weight = 100
+	progressbar = yes
+
+	weight = 10000
+	should_be_pinned_by_default = yes
 }
