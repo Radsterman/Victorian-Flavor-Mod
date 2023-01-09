@@ -1,0 +1,90 @@
+﻿shopkeepers = {
+	texture = "gfx/interface/icons/pops_icons/shopkeepers.dds"
+	color = hsv{ 0.41 0.45 0.88 }
+	strata = middle
+	start_quality_of_life = 10
+	wage_weight = 2
+	literacy_target = 0.20
+	dependent_wage = 0.5	# per year
+	unemployment = yes
+	
+	# 30% - 70% politically engaged
+	political_engagement_base = 0.3
+	political_engagement_literacy_factor = 0.4
+	
+	political_engagement_mult = {
+		value = 1	
+
+		add = {
+			desc = "POP_STARVATION"	
+			
+			if = {
+				limit = { 
+					standard_of_living < 5
+				}
+				value = 1
+			}		
+		}
+
+		multiply = {
+			desc = "POP_WORKPLACE"
+		
+			if = {
+				limit = { 
+					pop_employment_building_group = bg_trade
+				}
+				value = 0.25
+			}
+			else = {
+				value = 1
+			}
+		}
+	}	
+	
+	qualifications_growth_desc = "SHOPKEEPERS_QUALIFICATIONS_DESC"
+	qualifications = {
+		# baseline: ( wealth - 5 ) / 2, norm 10 for Clerks with Wealth 15
+		add = {
+			value = wealth
+			subtract = 5
+			min = 0
+			desc = "QUALIFICATIONS_WEALTH_FACTOR"
+		}
+		if = {
+			limit = {
+				is_pop_type = clerks
+			}
+			multiply = {
+				value = 5
+				desc = "QUALIFICATIONS_FAVORED_TYPE"
+			}
+		}
+		if = {
+			limit = {
+				is_pop_type = farmers
+			}
+			multiply = {
+				value = 4
+				desc = "QUALIFICATIONS_FAVORED_TYPE"
+			}
+		}
+		if = {
+			limit = { 
+				is_peasant_under_serfdom = yes 
+			}
+			multiply = {
+				desc = "QUALIFICATIONS_PEASANTS_UNDER_SERFDOM"
+				value = 0
+			}
+		}
+	}
+	
+	portrait_age = {
+		integer_range = {
+			min = define:NPortrait|GRACEFUL_AGING_START
+			max = define:NPortrait|GRACEFUL_AGING_END
+		}
+	}
+	portrait_pose = { value = 0 }			
+	portrait_is_female = { always = yes }
+}

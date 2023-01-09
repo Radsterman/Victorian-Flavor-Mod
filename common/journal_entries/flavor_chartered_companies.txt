@@ -1,40 +1,143 @@
+﻿je_company_independence = {
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
 
-je_independence_rac = {
-	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+	is_shown_when_inactive = {
+		is_subject_type = subject_type_chartered_company
+		NOT = {
+			c:BIC = ROOT
+		}
+	}
+
+	possible = {
+		is_subject_type = subject_type_chartered_company
+	}
 
     complete = {	
-		is_subject = no
-		has_law = law_type:law_multicultural
-		has_law = law_type:law_total_separation
-		has_technology_researched = pan-nationalism
+		NOT = { is_subject_type = subject_type_chartered_company }
 	}
 
 	on_complete = {
+		if = {
+			limit = {
+				c:RAC = ROOT
+			}
 		change_tag = AKA
+		}
+		else_if = {
+			limit = {
+				c:COL = ROOT
+			}
+		change_tag = ORG
+		}
+		else_if = {
+			limit = {
+				c:RNC = ROOT
+			}
+		change_tag = NGR
+		}
+		else_if = {
+			limit = {
+				c:GEA = ROOT
+			}
+		change_tag = TZN
+		}
 	}
 
 	fail = {
 		is_subject = no
-		OR = {
-			NOT = { has_law = law_type:law_multicultural }
-			NOT = { has_law = law_type:law_total_separation }
-			NOT = { has_technology_researched = pan-nationalism }
-		}
-
 	}
 
 	on_fail = {
-		create_country = {
-			tag = TLI
-			origin = this
-			state = s:STATE_ALASKA.region_state:RAC
-		}
+		custom_tooltip = {
+			text = company_collapse_tt
+		
+			if = {
+				limit = {
+					c:RAC = ROOT
+				}
 
-		if = {
-			limit = { exists = c:RAC }
-			c:RUS = {
-				annex = c:RAC
+				every_in_list = {
+					variable = past_overlord 
+					trigger_event = { id = journal_flavor_company_collapse.4 }
+				}
+
+			 
+
 			}
+			else_if = {
+				limit = {
+					c:NWT = ROOT
+				}
+
+				every_in_list = {
+					variable = past_overlord 
+					trigger_event = { id = journal_flavor_company_collapse.2 }
+				}
+
+			}
+			else_if = {
+				limit = {
+					c:COL = ROOT
+				}
+					every_in_list = {
+					variable = past_overlord 
+					trigger_event = { id = journal_flavor_company_collapse.3 }
+				}
+
+			}
+			else_if = {
+				limit = {
+					c:HBC = ROOT
+				}
+
+				every_in_list = {
+					variable = past_overlord 
+					trigger_event = { id = journal_flavor_company_collapse.1 }
+				}
+				
+			}
+			else_if = {
+				limit = {
+					c:RNC = ROOT
+				}
+				
+				every_in_list = {
+					variable = past_overlord 
+					trigger_event = { id = journal_flavor_company_collapse.5 }
+				}
+
+
+			}
+			else_if = {
+				limit = {
+					c:IAC = ROOT
+				}
+
+				every_in_list = {
+					variable = past_overlord 
+					trigger_event = { id = journal_flavor_company_collapse.7 }
+				}
+
+			}
+			else_if = {
+				limit = {
+					c:GEA = ROOT
+				}
+				every_in_list = {
+					variable = past_overlord 
+					trigger_event = { id = journal_flavor_company_collapse.8 }
+				}
+			}
+			else_if = {
+				limit = {
+					c:BSA = ROOT
+				}
+				every_in_list = {
+					variable = past_overlord 
+					trigger_event = { id = journal_flavor_company_collapse.6 }
+				}
+			}
+		
 		}
 	}
 
@@ -42,389 +145,14 @@ je_independence_rac = {
 		is_subject = yes
 		NOT = { is_subject_type = subject_type_chartered_company }
 	}
-	weight = 1000 
-}
 
-je_independence_nwt = {
-	icon = "gfx/interface/icons/event_icons/event_trade.dds"
-
-    complete = {	
-		is_subject = no
-		has_law = law_type:law_multicultural
-		has_law = law_type:law_total_separation
-		has_technology_researched = pan-nationalism
-	}
-
-	fail = {
-		is_subject = no
-		OR = {
-			NOT = { has_law = law_type:law_multicultural }
-			NOT = { has_law = law_type:law_total_separation }
-			NOT = { has_technology_researched = pan-nationalism }
-		}
-
-	}
-
-	on_fail = {
-		if = {
-			limit = { exists = c:CSC }
-			random_scope_state = {
-				limit = {
-					state_region = s:STATE_BRITISH_COLUMBIA
-				}
-				set_state_owner = c:CSC
-			}
-		}
-		else = {
-			create_country = {
-				tag = CSC
-				origin = this
-				state = s:STATE_BRITISH_COLUMBIA.region_state:NWT
-			}
-		}
-		if = {
-			limit = { exists = c:ATB }
-			random_scope_state = {
-				limit = {
-					state_region = s:STATE_YUKON_TERRITORY
-				}
-				set_state_owner = c:ATB
-			}
-			random_scope_state = {
-				limit = {
-					state_region = s:STATE_NORTHWEST_TERRITORIES
-				}
-				set_state_owner = c:ATB
-			}
-		}
-		else = {
-			create_country = {
-				tag = ATB
-				origin = this
-				state = s:STATE_NORTHWEST_TERRITORIES.region_state:NWT
-			}
-			random_scope_state = {
-				limit = {
-					state_region = s:STATE_YUKON_TERRITORY
-				}
-				set_state_owner = c:ATB
-			}
-		}
-		if = {
-			limit = { exists = c:MTC }
-			random_scope_state = {
-				limit = {
-					state_region = s:STATE_ALBERTA
-				}
-				set_state_owner = c:MTC
-			}
-			random_scope_state = {
-				limit = {
-					state_region = s:STATE_SASKATCHEWAN
-				}
-				set_state_owner = c:MTC
-			}
-		}
-		else = {
-			create_country = {
-				tag = MTC
-				origin = this
-				state = s:STATE_ALBERTA.region_state:NWT
-			}
-			random_scope_state = {
-				limit = {
-					state_region = s:STATE_SASKATCHEWAN
-				}
-				set_state_owner = c:MTC
-			}
-		}
-
-		if = {
-			limit = { exists = c:NWT }
-			c:GBR = {
-				annex = c:NWT
-			}
+	on_weekly_pulse = {
+		effect = {
+			clear_variable_list = past_overlord
+			add_to_variable_list = { name = past_overlord target = top_overlord }
 		}
 	}
 
-	invalid = {
-		is_subject = yes
-		NOT = { is_subject_type = subject_type_chartered_company }
-	}
-	weight = 1000 
-}
-
-je_independence_col = {
-	icon = "gfx/interface/icons/event_icons/event_trade.dds"
-
-    complete = {	
-		is_subject = no
-		has_law = law_type:law_multicultural
-		has_law = law_type:law_total_separation
-		has_technology_researched = pan-nationalism
-	}
-
-	on_complete = {
-		change_tag = CAN
-	}
-
-	fail = {
-		is_subject = no
-		OR = {
-			NOT = { has_law = law_type:law_multicultural }
-			NOT = { has_law = law_type:law_total_separation }
-			NOT = { has_technology_researched = pan-nationalism }
-		}
-
-	}
-
-	on_fail = {
-		if = {
-			limit = { exists = c:CSC }
-			random_scope_state = {
-				limit = {
-					state_region = s:STATE_BRITISH_COLUMBIA
-				}
-				set_state_owner = c:CSC
-			}
-			random_scope_state = {
-				limit = {
-					state_region = s:STATE_WASHINGTON
-				}
-				set_state_owner = c:CSC
-			}
-		}
-		else = {
-			create_country = {
-				tag = CSC
-				origin = this
-				state = s:STATE_BRITISH_COLUMBIA.region_state:COL
-			}
-		}
-		random_scope_state = {
-				limit = {
-					state_region = s:STATE_WASHINGTON
-				}
-				set_state_owner = c:CSC
-		}
-		if = {
-			limit = { exists = c:NZP }
-			every_scope_state = {
-				limit = {
-					OR = { 
-						state_region = s:STATE_IDAHO
-						state_region = s:STATE_OREGON
-						state_region = s:STATE_WYOMING
-						state_region = s:STATE_MONTANA						
-					}
-				}
-				set_state_owner = c:NZP
-			}
-		}
-		else = {
-			create_country = {
-				tag = NZP
-				origin = this
-				state = s:STATE_IDAHO.region_state:COL
-			}
-			every_scope_state = {
-				limit = {
-					OR = { 
-						state_region = s:STATE_IDAHO
-						state_region = s:STATE_OREGON
-						state_region = s:STATE_WYOMING
-						state_region = s:STATE_MONTANA						
-					}
-				}
-				set_state_owner = c:NZP
-			}			
-		}
-		
-		if = {
-			limit = { exists = c:COL }
-			c:GBR = {
-				annex = c:COL
-			}
-		}
-
-		
-		
-	}
-
-	invalid = {
-		is_subject = yes
-		NOT = { is_subject_type = subject_type_chartered_company }
-	}
-	weight = 1000 
-}
-
-je_independence_hbc = {
-	icon = "gfx/interface/icons/event_icons/event_trade.dds"
-
-    complete = {	
-		is_subject = no
-		has_law = law_type:law_multicultural
-		has_law = law_type:law_total_separation
-		has_technology_researched = pan-nationalism
-	}
-
-	on_complete = {
-		change_tag = CAN
-	}
-
-	fail = {
-		is_subject = no
-		OR = {
-			NOT = { has_law = law_type:law_multicultural }
-			NOT = { has_law = law_type:law_total_separation }
-			NOT = { has_technology_researched = pan-nationalism }
-		}
-
-	}
-
-	on_fail = {
-
-		
-
-		if = {
-			limit = { 
-				c:COL = {
-					is_subject_of = c:HBC
-				}
-			}
-			c:GBR = {
-				create_diplomatic_pact = {
-					country = c:COL
-					type = chartered_company
-				}
-			}
-		}
-
-		if = {
-			limit = { 
-				c:NWT = {
-					is_subject_of = c:HBC
-				}
-			}
-			c:GBR = {
-				create_diplomatic_pact = {
-					country = c:NWT
-					type = chartered_company
-				}
-			}
-		}
-
-		if = {
-			limit = { exists = c:NNV }
-			random_scope_state = {
-				limit = {
-					state_region = s:STATE_NUNAVUT
-				}
-				set_state_owner = c:NNV
-			}
-		}
-		else = {
-			create_country = {
-				tag = NNV
-				origin = this
-				state = s:STATE_NUNAVUT.region_state:HBC
-			}
-		}
-		if = {
-			limit = { exists = c:BLF }
-			random_scope_state = {
-				limit = {
-					state_region = s:STATE_ALBERTA
-				}
-				set_state_owner = c:BLF
-			}
-		}
-		else = {
-			create_country = {
-				tag = BLF
-				origin = this
-				state = s:STATE_ALBERTA.region_state:HBC
-			}		
-		}
-		if = {
-			limit = { exists = c:ATB }
-			random_scope_state = {
-				limit = {
-					state_region = s:STATE_NORTHWEST_TERRITORIES
-				}
-				set_state_owner = c:ATB
-			}
-		}
-		else = {
-			create_country = {
-				tag = ATB
-				origin = this
-				state = s:STATE_NORTHWEST_TERRITORIES.region_state:HBC
-			}		
-		}
-		if = {
-			limit = { exists = c:MTC }
-			random_scope_state = {
-				limit = {
-					state_region = s:STATE_SASKATCHEWAN
-				}
-				set_state_owner = c:MTC
-			}
-			random_scope_state = {
-				limit = {
-					state_region = s:STATE_MANITOBA
-				}
-				set_state_owner = c:MTC
-			}
-		}
-		else = {
-			create_country = {
-				tag = MTC
-				origin = this
-				state = s:STATE_MANITOBA.region_state:HBC
-			}	
-			random_scope_state = {
-				limit = {
-					state_region = s:STATE_SASKATCHEWAN
-				}
-				set_state_owner = c:MTC
-			}
-		}
-
-		if = {
-			limit = { exists = c:ONT }
-			random_scope_state = {
-				limit = {
-					state_region = s:STATE_ONTARIO
-				}
-				set_state_owner = c:ONT
-			}
-		}
-		if = {
-			limit = { exists = c:QUE }
-			random_scope_state = {
-				limit = {
-					state_region = s:STATE_QUEBEC
-				}
-				set_state_owner = c:QUE
-			}
-		}
-		
-		if = {
-			limit = { exists = c:HBC }
-			c:GBR = {
-				annex = c:HBC
-			}
-		}
-
-		
-		
-	}
-
-	invalid = {
-		is_subject = yes
-		NOT = { is_subject_type = subject_type_chartered_company }
-	}
 	weight = 1000 
 }
 
@@ -440,7 +168,10 @@ je_autonomy = {
 
     possible = {
 		GDP >= 1000000
-		
+	}
+
+	fail = {
+		in_default = yes
 	}
 
     complete = {	
@@ -467,16 +198,271 @@ je_autonomy = {
 		}	
 		else_if = {
 			limit = {
-					c:HBC = ROOT
+				c:HBC = ROOT
 			}
 			change_tag = CAN
 		}	
+		else_if = {
+			limit = {
+				c:RNC = ROOT
+			}
+			change_tag = NGR
+		}
+		else_if = {
+			limit = {
+				c:GEA = ROOT
+			}
+			change_tag = TZN
+		}
+		else_if = {
+			limit = {
+				c:COL = ROOT
+			}
+			change_tag = ORG
+		}
 	}
 
 	status_desc = {
 		first_valid = {
 			triggered_desc = {
 				desc = je_autonomy_status
+			}
+		}
+	}
+    should_be_pinned_by_default = yes
+	weight = 1000
+}
+
+je_rac_hbc_deal = {
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	is_shown_when_inactive = {
+		c:RAC = root
+	}
+
+    possible = {
+		OR = {
+			AND = {
+				exists = c:NWT 
+				c:NWT = {
+					relations:root < relations_threshold:cordial
+				} 
+			}
+			AND = {
+				exists = c:COL
+				c:COL = {
+					relations:root < relations_threshold:cordial
+				} 
+			}
+			AND = {
+				exists = c:HBC
+				c:HBC = {
+					relations:root < relations_threshold:cordial
+				} 
+			}
+		}
+
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = rac_agreement_fail_tt
+			has_variable = rac_agreement_fail
+		}
+		
+	}
+
+	invalid = {
+		AND = {
+			AND = {
+				NOT = { exists = c:HBC }
+				c:HBC = {
+					NOT = { is_subject_of = c:GBR }
+				}
+			}
+			AND = {
+				NOT = { exists = c:NWT }
+				c:NWT = {
+					NOT = { is_subject_of = c:GBR }
+				}
+			}
+			AND = {
+				NOT = { exists = c:COL }
+				c:COL = {
+					NOT = { is_subject_of = c:GBR }
+				}
+			}	
+		}
+	}
+
+	immediate = {
+        set_variable = {
+			name = hbc_deal_var
+			value = 0
+		}
+		trigger_event = {
+			id = journal_flavor_rac.1
+		}
+    }
+
+	current_value = {
+		value = root.var:hbc_deal_var
+	}
+
+	on_timeout = {
+		trigger_event = {
+			id = journal_flavor_rac.3
+		}
+	}
+
+	timeout = 1825
+
+	weight = 10000
+}
+
+je_company_bankruptcy = {
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	is_shown_when_inactive = {
+		is_subject_type = subject_type_chartered_company
+		NOT = {
+			c:BIC = ROOT
+		}
+	}
+
+    possible = {
+		taking_loans = yes
+	}
+
+	fail = {
+		in_default = yes
+	}
+
+	invalid = {
+		NOT = { is_subject_type = subject_type_chartered_company }
+	}
+
+    on_fail = {
+		top_overlord = {
+			create_diplomatic_pact = {
+				country = root
+				type = puppet
+			}
+		}
+		if = {
+			limit = {
+				c:RAC = ROOT
+			}
+			change_tag = AKA
+		}	
+		else_if = {
+			limit = {
+				c:HBC = ROOT
+			}
+
+			if = {
+				limit = { exists = c:ONT }
+				random_scope_state = {
+					limit = {
+						state_region = s:STATE_ONTARIO
+					}
+					set_state_owner = c:ONT
+				}
+			}
+			if = {
+				limit = { exists = c:QUE }
+				random_scope_state = {
+					limit = {
+						state_region = s:STATE_QUEBEC
+					}
+					set_state_owner = c:QUE
+				}
+			}
+
+		}	
+		else_if = {
+			limit = {
+				c:RNC = ROOT
+			}
+			change_tag = NGR
+		}
+		else_if = {
+			limit = {
+				c:BSA = ROOT
+			}
+
+			if = { 
+				limit = {
+					NOT = {
+						any_scope_state = {
+							OR = {
+								state_region = s:STATE_ZAMBIA
+								state_region = s:STATE_KAZEMBE
+							}
+						}	
+					}
+				}
+				change_tag = RHO
+			}
+			else = {
+				change_tag = ZAM
+
+				if = {
+					limit = {
+						any_scope_state = {
+							state_region = s:STATE_ZAMBEZI
+						}	
+					}
+					create_country = {
+						tag = RHO
+						origin = this
+						state = s:STATE_ZAMBEZI.region_state:ZAM
+					}
+					top_overlord = {
+						create_diplomatic_pact = {
+						country = c:RHO
+						type = puppet
+						}
+					}
+				}
+			}
+
+
+
+		}
+		else_if = {
+			limit = {
+				c:IAC = ROOT
+			}
+			change_tag = KNA
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_UGANDA
+					}	
+				}
+				create_country = {
+					tag = UGA
+					origin = this
+					state = s:STATE_UGANDA.region_state:KNA
+				}
+				top_overlord = {
+					create_diplomatic_pact = {
+					country = c:UGA
+					type = puppet
+					}
+				}
+			}
+
+		}
+
+	}
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_bankruptcy_status
 			}
 		}
 	}

@@ -8,7 +8,7 @@
 					        AND = {
 					has_global_variable = trek_trn
 					has_global_variable = trek_ora
-					#has_global_variable = trek_nal
+					has_global_variable = trek_nal
 					#has_global_variable = trek_kle
 					#has_global_variable = trek_ste
                     }
@@ -67,7 +67,7 @@ on_monthly_pulse = {
 		
 	
 			any_state = {
-				state_region = s:STATE_NATALIA
+				state_region = s:STATE_NATAL
 				owner = { 
 					NOT = { 
 						OR = { 
@@ -75,7 +75,7 @@ on_monthly_pulse = {
 							is_country_type = unrecognized
 						}
 					} 
-					owns_entire_state_region = STATE_NATALIA
+					owns_entire_state_region = STATE_NATAL
 				}
 			}
 		}
@@ -229,7 +229,7 @@ on_monthly_pulse = {
 			}
 	
 			any_state = {
-				state_region = s:STATE_KLEIN_VRYSTAAT
+				state_region = s:STATE_ZULULAND
 				owner = { 
 					NOT = { 
 						OR = { 
@@ -237,7 +237,7 @@ on_monthly_pulse = {
 							is_country_type = unrecognized
 						}
 					} 
-					owns_entire_state_region = STATE_KLEIN_VRYSTAAT
+					owns_entire_state_region = STATE_ZULULAND
 				}
 			}
 		}
@@ -283,7 +283,7 @@ on_monthly_pulse = {
 			}
 	
 			any_state = {
-				state_region = s:STATE_STELLALAND
+				state_region = s:STATE_NORTHERN_CAPE
 				owner = { 
 					NOT = { 
 						OR = { 
@@ -291,7 +291,7 @@ on_monthly_pulse = {
 							is_country_type = unrecognized
 						}
 					} 
-					owns_entire_state_region = STATE_STELLALAND
+					owns_entire_state_region = STATE_NORTHERN_CAPE
 				}
 			}
 		}
@@ -301,5 +301,32 @@ on_monthly_pulse = {
 			set_global_variable = trek_ste
 		}
 
+	weight = 100
+}
+
+je_mtb_migration = {
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+    complete = {	
+  		custom_tooltip = {
+			text = mtb_exists_tt
+			hidden_trigger = {
+				NOT = { exists = c:MTB }
+			}
+		}	
+	}
+
+	on_complete = {
+		change_tag = MTB
+	}
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_mtb_migration_status
+			}
+		}
+	}
+    should_be_pinned_by_default = yes
 	weight = 100
 }

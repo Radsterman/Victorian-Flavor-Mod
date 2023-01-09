@@ -10,9 +10,19 @@
 		}	
 	}
 	c:NET = {
-		create_diplomatic_pact = {
-			country = c:LUX
-			type = personal_union
+		if = {
+			limit = { exists = c:LUX }
+			create_diplomatic_pact = {
+				country = c:LUX
+				type = personal_union
+			}
+		}
+		if = {
+			limit = { exists = c:LBG }
+			create_diplomatic_pact = {
+				country = c:LBG
+				type = personal_union
+			}
 		}
 		create_diplomatic_pact = {
 			country = c:DEI
@@ -25,10 +35,15 @@
 			type = personal_union
 		}
 	}
-	c:AUS = {
-		create_diplomatic_pact = {
-			country = c:GAL
-			type = puppet
+	if = {
+		limit = {
+			has_game_rule = yes_polish_subjects
+			}
+		c:AUS = {
+			create_diplomatic_pact = {
+				country = c:GAL
+				type = puppet
+			}
 		}
 	}
 	c:RUS = {
@@ -48,9 +63,18 @@
 			country = c:EST
 			type = puppet
 		}
-		create_diplomatic_pact = {
-			country = c:CPL
-			type = personal_union
+		if = {
+			limit = {
+				OR = {
+					has_game_rule = yes_polish_subjects
+					has_game_rule = congress_polish_subjects
+					has_game_rule = congress_posen_polish_subjects
+				}
+			}
+			create_diplomatic_pact = {
+				country = c:CPL
+				type = personal_union
+			}
 		}
 		create_diplomatic_pact = {
 			country = c:CAU
@@ -98,9 +122,17 @@
 			country = c:HHN
 			type = puppet
 		}
-		create_diplomatic_pact = {
-			country = c:POS
-			type = puppet
+		if = {
+			limit = {
+				OR = {
+					has_game_rule = yes_polish_subjects
+					has_game_rule = congress_posen_polish_subjects
+				}
+			}
+			create_diplomatic_pact = {
+				country = c:POS
+				type = puppet
+			}
 		}
 	}		
 	c:DEN = {
@@ -116,6 +148,38 @@
 	c:CHI = {
 		create_diplomatic_pact = {
 			country = c:TIB
+			type = vassal
+		}
+		create_diplomatic_pact = {
+			country = c:MCH
+			type = vassal
+		}
+		create_diplomatic_pact = {
+			country = c:OMG
+			type = vassal
+		}
+		create_diplomatic_pact = {
+			country = c:IMG
+			type = vassal
+		}
+		create_diplomatic_pact = {
+			country = c:TUV
+			type = vassal
+		}
+		create_diplomatic_pact = {
+			country = c:XIN
+			type = vassal
+		}
+		create_diplomatic_pact = {
+			country = c:QIN
+			type = vassal
+		}
+		create_diplomatic_pact = {
+			country = c:KUM
+			type = vassal
+		}
+		create_diplomatic_pact = {
+			country = c:ATI
 			type = vassal
 		}
 		create_diplomatic_pact = {
@@ -182,10 +246,6 @@
 		}
 		create_diplomatic_pact = {
 			country = c:SAF
-			type = puppet
-		}
-		create_diplomatic_pact = {
-			country = c:LAB
 			type = puppet
 		}
 		create_diplomatic_pact = {
