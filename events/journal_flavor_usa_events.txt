@@ -1,0 +1,314 @@
+﻿namespace = journal_flavor_usa
+
+# Deseret Spawn
+journal_flavor_usa.1 = {
+	type = country_event
+	placement = ROOT
+	title = journal_flavor_usa.1.t
+	desc = journal_flavor_usa.1.d
+	flavor =  journal_flavor_usa.1.f
+
+	duration = 1
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_aristocrats.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	trigger = {
+
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_UTAH
+			}
+			save_scope_as = des_spawn
+		}
+
+		create_country = {
+			tag = DES
+			origin = this
+			state = scope:des_spawn
+
+			on_created = {
+				if = {
+					limit = {
+						NOT = {
+							has_ruling_interest_group = ig_devout
+						}
+					}
+					set_ruling_interest_groups = {
+						ig_devout
+					}
+				}
+				ig:ig_devout = { 
+					set_interest_group_name = ig_mormons
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_theocracy
+						}
+					}
+					activate_law = law_type:law_theocracy
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_state_religion
+						}
+					}
+					activate_law = law_type:law_state_religion
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_national_militia
+						}
+					}
+					activate_law = law_type:law_national_militia
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_slavery_banned
+						}
+					}
+					activate_law = law_type:law_slavery_banned
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_national_supremacy
+						}
+					}
+					activate_law = law_type:law_national_supremacy
+				}
+                
+				if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_elected_bureaucrats
+						}
+					}
+					activate_law = law_type:law_elected_bureaucrats
+				}
+
+                if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_national_guard
+						}
+					}
+					activate_law = law_type:law_national_guard
+				}
+
+				
+                if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_universal_suffrage
+						}
+					}
+					activate_law = law_type:law_universal_suffrage
+				}
+
+			}
+		}
+		c:DES = {
+			create_character = {
+					first_name = Brigham                   
+					last_name = Young                   
+					culture = cu:yankee                 
+					female = no      
+					ruler = yes           
+					religion = mormon           
+					ideology = ideology_theocrat                    
+					interest_group = ig_devout
+					birth_date = 1801.6.1                   
+					traits = { bigoted hedonist persistent }                    
+			}
+			save_scope_as = des_scope
+
+			
+		}
+		if = {
+			limit = {
+				c:UTE = {
+					any_scope_state = {
+						state_region = s:STATE_UTAH
+					}
+				}
+			}
+			c:DES = {
+				annex = c:UTE
+			}
+		}
+		s:STATE_UTAH = {
+			region_state:DES = {
+					create_pop = {
+						culture = yankee
+						religion = mormon
+						size = 4986
+					}
+			}
+		}
+		s:STATE_UTAH = {
+			add_claim = c:USA
+		}
+		s:STATE_NEVADA = {
+			add_claim = c:DES
+		}
+		s:STATE_ARIZONA = {
+			add_claim = c:DES
+		}
+			
+	}
+
+	option = {
+		default_option = yes
+		name = journal_flavor_usa.1.a
+		create_diplomatic_play = {
+			name = utah_war
+			target_state = s:STATE_UTAH.region_state:DES
+			type = dp_annex_war
+		}
+		c:DES = {
+			trigger_event = { id = journal_flavor_usa.2 }
+		}
+		
+	}
+	option = {
+		name = journal_flavor_usa.1.b
+		create_diplomatic_pact = {
+			country = c:DES
+			type = puppet
+		}
+		c:DES = {
+			trigger_event = { id = journal_flavor_usa.2 }
+		}
+	}
+	option = {
+		name = journal_flavor_usa.1.c
+		play_as = c:DES
+		custom_tooltip = journal_flavor_usa.1.c.tt
+		c:DES = {
+			trigger_event = { id = journal_flavor_usa.2 }
+		}
+	}
+}
+
+journal_flavor_usa.2 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_usa.2.t
+	desc = journal_flavor_usa.2.d
+	flavor = journal_flavor_usa.2.f
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_christianity.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/christianity"
+
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+	duration = 2
+
+	trigger = {
+		# triggered by journal entry
+	}
+
+	option = { 
+		name = journal_flavor_usa.2.a
+		default_option = yes
+
+			create_character = {
+					first_name = Brigham                   
+					last_name = Young                   
+					culture = cu:yankee                 
+					female = no      
+					ruler = yes           
+					religion = mormon           
+					ideology = ideology_theocrat                    
+					interest_group = ig_devout
+					birth_date = 1801.6.1                   
+					traits = { bigoted hedonist persistent }                    
+			}
+
+				
+
+	}
+}
+
+
+journal_flavor_usa.3 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_usa.3.t
+	desc = journal_flavor_usa.3.d
+	flavor = journal_flavor_usa.3.f
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_factory_opening.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/factory_opening"
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	duration = 2
+
+	trigger = {
+		# triggered by journal entry
+	}
+immediate = {
+
+		random_country = {
+			limit = {
+				has_variable = banana_introducer
+			}
+			save_scope_as = banana_scope
+		}
+
+}
+
+	option = { 
+		name = journal_flavor_usa.3.a
+		default_option = yes
+
+		if = {
+			limit = {
+				cu:yankee = {
+					NOT = { has_cultural_obsession = fruit }
+				}
+			}
+			cu:yankee = {
+				add_cultural_obsession = fruit
+			}
+		}
+
+		if = {
+			limit = {
+				cu:dixie = {
+					NOT = { has_cultural_obsession = fruit }
+				}
+			}
+			cu:dixie = {
+				add_cultural_obsession = fruit
+			}
+		}
+
+
+	}
+}
