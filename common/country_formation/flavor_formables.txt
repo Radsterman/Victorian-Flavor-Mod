@@ -78,7 +78,7 @@ MGL = {
 		STATE_ULIASTAI
         STATE_URGA
 		STATE_ALXA
-		STATE_MONAN
+		STATE_HINGGAN
 	}
 
 	required_states_fraction = 0.75
@@ -89,10 +89,35 @@ MGL = {
 		country_has_primary_culture = cu:mongol
 		has_technology_researched = nationalism
 	}
+}
 
 HAW = {
 	states = {
 		STATE_HAWAIIAN_ISLANDS
 		}
 	ai_will_do = { always = yes }
+}
+
+SWN = {
+	use_culture_states = yes
+
+	required_num_states = 8
+	
+	ai_will_do = { always = yes }
+
+	possible = {
+		NOT = {
+			AND = {
+				exists = c:SWE
+				exists = c:NOR
+				c:SWE = ROOT
+				c:SWE = {
+					has_diplomatic_pact = {
+						who = c:NOR
+						type = personal_union
+					}
+				}
+			}
+		}
+	}
 }
