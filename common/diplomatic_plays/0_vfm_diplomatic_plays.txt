@@ -234,3 +234,62 @@ dp_unify_ethiopia = {
 
 	on_war_end = {}
 }
+
+dp_algerian_conquest = {
+	war_goal = annex_country
+	
+	texture = "gfx/interface/icons/war_goals/annex_country.dds"
+	
+	selectable_in_lens = {
+		AND = {
+			exists = c:FRA
+			c:FRA = ROOT
+			any_country = {
+				AND = {
+					OR = {
+						country_has_primary_culture = cu:berber
+						country_has_primary_culture = cu:maghrebi
+					}
+					capital = {
+						OR = {
+							state_region = s:STATE_ALGIERS
+							state_region = s:STATE_TLEMCEN
+							state_region = s:STATE_CONSTANTINE
+							state_region = s:STATE_GHARDAIA
+						}	
+					}
+					is_country_type = unrecognized
+				}
+			}
+		}
+		
+
+	}
+	
+	possible = {
+		is_subject = no
+
+		scope:target = {
+			is_country_type = unrecognized
+			aggressive_diplomatic_plays_permitted = yes
+			OR = {
+				country_has_primary_culture = cu:berber
+				country_has_primary_culture = cu:maghrebi
+			}
+			capital = {
+				OR = {
+					state_region = s:STATE_ALGIERS
+					state_region = s:STATE_TLEMCEN
+					state_region = s:STATE_CONSTANTINE
+					state_region = s:STATE_GHARDAIA
+				}	
+			}
+		}
+	}
+	
+	on_weekly_pulse = {}
+	
+	on_war_begins = {}
+
+	on_war_end = {}
+}

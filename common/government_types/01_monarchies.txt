@@ -198,6 +198,7 @@ gov_sultanate = {
 			AND = { exists = c:WSG c:WSG = ROOT }
 			AND = { exists = c:ISQ c:ISQ = ROOT }
 			AND = { exists = c:DFR c:DFR = ROOT }
+			AND = { exists = c:ALD c:ALD = ROOT NOT={ is_subject_of = c:TUR} }
 		}
 	}
 }
@@ -231,8 +232,10 @@ gov_sheikhdom = {
 	possible = {
 		country_tier = principality
 		has_law = law_type:law_monarchy
-		exists = c:ABU
-		c:ABU = ROOT
+		OR = {
+			AND = { exists = c:ABU c:ABU = ROOT }
+			AND = { exists = c:BAB c:BAB = ROOT }
+		}
 	}
 }
 
@@ -443,6 +446,24 @@ gov_shah = {
 	}			
 }
 
+gov_dey = {
+	transfer_of_power = hereditary
+	
+	male_ruler = "RULER_TITLE_DEY"
+	female_ruler = "" # Empty on purpose
+
+	male_heir = "RULER_TITLE_CROWN_PRINCE"
+	female_heir = "" # Empty on purpose
+	
+	possible = {
+		has_law = law_type:law_monarchy
+		exists = c:ALD
+		exists = c:TUR
+		c:ALD = ROOT
+		is_subject_of = c:TUR
+	}			
+}
+
 gov_prince = {
 	transfer_of_power = hereditary
 	
@@ -473,8 +494,11 @@ gov_bey = {
 	
 	possible = {
 		has_law = law_type:law_monarchy
-		exists = c:TUN
-		c:TUN = ROOT
+		OR = {
+			AND = { exists = c:TUN c:TUN = ROOT }
+			AND = { exists = c:CNS c:CNS = ROOT }
+		}
+		
 	}
 }
 
