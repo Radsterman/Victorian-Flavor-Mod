@@ -14,7 +14,24 @@ ottoman_dynasty.1 = {
 	event_image = {
 		video = "gfx/event_pictures/middleeast_courtroom_upheaval.bk2"
 	}
-
+	immediate = {
+		create_character = {
+			first_name = Abdulaziz
+			last_name = Osmanoglu
+			heir = yes
+			birth_date = 1839.2.8
+			interest_group = ig_intelligentsia
+			ideology = ideology_moderate
+			traits = {
+				persistent
+			}
+			on_created = {
+				set_variable = {
+					name = is_abdulmecid_i
+				}				
+			}
+		}
+	}
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
 	icon = "gfx/interface/icons/event_icons/event_fire.dds"
@@ -25,6 +42,28 @@ ottoman_dynasty.1 = {
 		name = ottoman_dynasty.1.a
 		default_option = yes
 		custom_tooltip = ottoman_dynasty.1.tt
+	}
+}
+
+ottoman_dynasty.2 = { #Death of Abdulmejid I
+		type = country_event
+		title = ottoman_dynasty.2.t
+		desc = ottoman_dynasty.2.d
+		flavor =  ottoman_dynasty.2.f
+		duration = 3
+	event_image = {
+		video = "gfx/event_pictures/middleeast_courtroom_upheaval.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	trigger = {
+		#triggered by the Sick Man je
+	}
+	option = { #The Sultan is dead, long live the Sultan
+		name = ottoman_dynasty.2.a
+		default_option = yes
 	}
 }
 
@@ -99,6 +138,9 @@ vilayet_events.2 = { #Bringing Egypt to heel
 		name = vilayet_events.2.a
 		default_option = yes
 		custom_tooltip = vilayet_events.2.tta
+		ai_chance = {
+			base = 85
+		}
 		c:EGY = {
 			trigger_event = {
 				id = vilayet_events.3
@@ -114,6 +156,9 @@ vilayet_events.2 = { #Bringing Egypt to heel
 				id = vilayet_events.4
 				days = 7
 			}
+		}
+		ai_chance = {
+			base = 15
 		}
 	}
 	option = { #We will settle for nothing less than conquest
@@ -135,6 +180,9 @@ vilayet_events.2 = { #Bringing Egypt to heel
 		}
 		s:STATE_MATRUH = {
 			add_claim = ROOT
+		}
+		ai_chance = {
+			base = 0
 		}
 	}
 }
@@ -176,6 +224,9 @@ vilayet_events.3 = { #Egypt response - Khedivate offered
 		}
 		end_truce = c:TUR
 		set_variable = khedivate_conferred
+		ai_chance = {
+			base = 90
+		}
 	}
 	
 	option = { #Decline
@@ -185,6 +236,9 @@ vilayet_events.3 = { #Egypt response - Khedivate offered
 			days = 3
 		}
 		set_variable = khedivate_conferred
+		ai_chance = {
+			base = 10
+		}
 	}
 	
 }
@@ -224,6 +278,9 @@ vilayet_events.4 = { #Egypt response - no Khedivate offered
 			value = 100
 		}
 		end_truce = c:TUR
+		ai_chance = {
+			base = 45
+		}
 	}
 	option = { #Decline
 		name = vilayet_events.4.b
@@ -232,6 +289,9 @@ vilayet_events.4 = { #Egypt response - no Khedivate offered
 			trigger_event = vilayet_events.6
 		}
 		set_variable = khedivate_conferred
+		ai_chance = {
+			base = 55
+		}
 	}	
 }
 
@@ -305,7 +365,7 @@ tanzimat_events.11 = {
 	desc = tanzimat_events.11.d
 	flavor =  tanzimat_events.11.f
 	fire_only_once = yes
-	duration = 3
+	duration = 1
 	event_image = {
 		video = "gfx/event_pictures/middleeast_police_breaking_door.bk2"
 	}
@@ -320,17 +380,152 @@ tanzimat_events.11 = {
 			save_scope_as = mount_lebanon_state
 		}
 	}
-	option = { #The irregulars have it in hand
+	option = { #Let's hope it doesn't get too bad
 		name = tanzimat_events.11.a
 		default_option = yes
-		# Change tag to whatever is appropriate ro your capital state
+		trigger_event = {
+			id = tanzimat_events.12
+			days = { 0 35 }
+		}
+	}
+}
+
+# Mt Lebanon situation escalates
+tanzimat_events.12 = {
+	type = state_event
+	placement = scope:mount_lebanon_state
+	title = tanzimat_events.12.t
+	desc = tanzimat_events.12.d
+	flavor =  tanzimat_events.12.f
+	fire_only_once = yes
+	duration = 1
+	event_image = {
+		video = "gfx/event_pictures/middleeast_police_breaking_door.bk2"
+	}
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/police_breaking_door"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	trigger = {
+		
+	}
+	option = { #Rely on the Kurdish irrelgulars
+		name = tanzimat_events.12.a
+		default_option = yes
+		
+	}
+	option = { #The Kurds can't be trusted, send in the army
+		name = tanzimat_events.12.b
+		default_option = yes
+
+	}
+}
+
+#Our forces join the anti-Christian riots
+tanzimat_events.13 = {
+	type = state_event
+	placement = scope:mount_lebanon_state
+	title = tanzimat_events.13.t
+	desc = tanzimat_events.13.d
+	flavor =  tanzimat_events.13.f
+	fire_only_once = yes
+	duration = 1
+	event_image = {
+		video = "gfx/event_pictures/middleeast_police_breaking_door.bk2"
+	}
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/police_breaking_door"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	trigger = {
+		
+	}
+	option = { #This is a disaster!
+		name = tanzimat_events.13.a
+		default_option = yes
 		
 	}
 
-	option = { #Send in the army
-		name = tanzimat_events.11.b
+}
+
+#The riots are quelled
+tanzimat_events.14 = {
+	type = state_event
+	placement = scope:mount_lebanon_state
+	title = tanzimat_events.14.t
+	desc = tanzimat_events.14.d
+	flavor =  tanzimat_events.14.f
+	fire_only_once = yes
+	duration = 1
+	event_image = {
+		video = "gfx/event_pictures/middleeast_police_breaking_door.bk2"
+	}
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/police_breaking_door"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	trigger = {
 		
 	}
+	option = { #Glad we got that under control
+		name = tanzimat_events.14.a
+		default_option = yes
+		
+	}
+
 }
+
+#The riots are quelled
+tanzimat_events.15 = {
+	type = state_event
+	placement = scope:mount_lebanon_state
+	title = tanzimat_events.15.t
+	desc = tanzimat_events.15.d
+	flavor =  tanzimat_events.15.f
+	fire_only_once = yes
+	duration = 1
+	event_image = {
+		video = "gfx/event_pictures/middleeast_police_breaking_door.bk2"
+	}
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/police_breaking_door"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	trigger = {
+		
+	}
+	option = { #Glad we got that under control
+		name = tanzimat_events.15.a
+		default_option = yes
+		
+	}
+
+}
+
+#Rioting spreads to Damascus
+tanzimat_events.16 = {
+	type = state_event
+	placement = scope:mount_lebanon_state
+	title = tanzimat_events.16.t
+	desc = tanzimat_events.16.d
+	flavor =  tanzimat_events.16.f
+	fire_only_once = yes
+	duration = 1
+	event_image = {
+		video = "gfx/event_pictures/middleeast_police_breaking_door.bk2"
+	}
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/police_breaking_door"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	trigger = {
+		
+	}
+	
+	option = { #Oh no
+		name = tanzimat_events.16.a
+		default_option = yes
+		
+	}
+	
+
+}
+
+
 
 
