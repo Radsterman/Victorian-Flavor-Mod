@@ -72,3 +72,52 @@
 	weight = 100
 }
 
+je_swedish_guilds = {
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	complete = {
+		OR = {
+			AND = {
+				custom_tooltip = {
+					text = johan_died_tt
+					ruler = {
+						NOT = { has_variable = is_johan }
+					}
+				}
+				AND = {
+					ig:ig_industrialists = {
+						ig_clout > 0.1
+					}
+					ig:ig_petty_bourgeoisie = {
+						ig_clout < 0.1
+					}
+				}
+			}
+
+			AND = {
+				ig:ig_industrialists = {
+					is_powerful = yes
+				}
+				ig:ig_petty_bourgeoisie = {
+					ig_clout < 0.05
+				}
+			}
+		}
+
+	}
+
+	on_complete = {
+		trigger_event = { id = journal_flavor_scandinavia.2 }
+	}
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_swedish_guilds_status
+			}
+		}
+	}
+    should_be_pinned_by_default = yes
+	weight = 100
+}
+

@@ -32,5 +32,76 @@ journal_flavor_scandinavia.1 = {
 		}
 	}
 
+}
+
+journal_flavor_scandinavia.2 = {
+	type = country_event
+	placement = root
+
+	title = journal_flavor_scandinavia.2.t
+	desc = journal_flavor_scandinavia.2.d
+	flavor = journal_flavor_scandinavia.2.f
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	duration = 3
+
+	trigger = {
+		# triggered by journal entry
+	}
+
+	immediate = {
+		ig:ig_petty_bourgeoisie = {
+			save_scope_as = guilds_ig
+			leader = {
+				save_scope_as = guilds_ig_leader
+			}
+		}
+
+		ig:ig_industrialists = {
+			save_scope_as = industrialists_ig
+		}
+
+	}
+
+	option = {
+		name = journal_flavor_scandinavia.2.a
+		default_option = yes
+
+		custom_tooltip = guilds_rename.tt
+
+		hidden_effect = {
+			scope:guilds_ig = {
+				set_interest_group_name = ig_petty_bourgeoisie
+			}
+		}
+		scope:guilds_ig  = {
+			remove_ideology = ideology_guilds
+		}
+
+		scope:guilds_ig  = {
+			remove_modifier = guild_dominance
+			add_modifier = {
+				name = lingering_guild_dominance
+				months = normal_modifier_time
+			}
+		}
+
+		ig:ig_industrialists = {
+			remove_modifier = guild_dominance_industrialists
+			add_modifier = {
+				name = lingering_guild_dominance_industrialists
+				months = normal_modifier_time
+			}
+		}
+
+	}
 	
 }
