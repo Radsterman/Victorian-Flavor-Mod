@@ -121,3 +121,68 @@ je_swedish_guilds = {
 	weight = 100
 }
 
+je_matter_of_norway = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+	complete = {
+		has_technology_researched = pan-nationalism
+		c:NOR = {
+			has_attitude = {
+				who = c:SWE
+				attitude = loyal
+			}
+			owes_obligation_to = root	
+		}
+
+
+		OR = {
+			has_law = law_type:law_right_of_assembly
+			has_law = law_type:law_protected_speech
+		}
+
+		OR = {
+			has_law = law_type:law_universal_suffrage
+			has_law = law_type:law_census_voting
+		}
+		
+
+	}
+
+	on_complete = {
+		annex = c:NOR
+		change_tag = SWN
+	}
+
+	fail = {
+		c:NOR = {
+			has_attitude = {
+				who = c:SWE
+				attitude = rebellious
+			}
+		}
+	}
+
+	on_fail = {
+		create_diplomatic_pact = {
+			country = c:NOR
+			type = dominion
+		}
+	}
+
+	invalid = {
+		c:NOR = {
+			NOT = { is_subject_type = subject_type_personal_union }
+		}
+	}
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_matter_of_norway_status
+			}
+		}
+	}
+    should_be_pinned_by_default = yes
+	weight = 100
+}
+
