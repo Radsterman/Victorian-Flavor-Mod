@@ -43,27 +43,14 @@ plombieres_agreement.8 = { #SAR An agreement with France?
 			}
 		}
 	    ai_chance = {
-			base = 100
-			modifier = {
-				OR = {
-					is_diplomatic_play_committed_participant = yes
-					is_at_war = yes
-				}
-			add = -1000
-			}
+			base = 1	
 		}
     }
     option = {
      	name = plombieres_agreement.8.b
      	remove_variable = plombieres_agreement_var
      	ai_chance = {
-			base = 0
-			modifier = {
-				trigger = { 
-					gold_reserves < -250000 
-				}
-				add = 1000
-			}	
+			base = 0	
 		}
     }
 }
@@ -147,7 +134,7 @@ plombieres_agreement.1 = { #SAR The Meeting
 			}
 		}
 	    ai_chance = {
-			base = 100
+			base = 1
 		}
     }
     option = {
@@ -216,9 +203,6 @@ plombieres_agreement.2 = { #FRA An Agreement With Sardinia?
 		}
 	}
 
-	trigger = {
-	}
-
 	option = {
 		name = plombieres_agreement.2.a
 		default_option = yes
@@ -231,7 +215,7 @@ plombieres_agreement.2 = { #FRA An Agreement With Sardinia?
 			}
 		}
 		ai_chance = {
-			base = 100
+			base = 125
 		}
 	}
 	option = {
@@ -246,29 +230,34 @@ plombieres_agreement.2 = { #FRA An Agreement With Sardinia?
 		ai_chance = {
 			base = 0
 			modifier = {
-				OR = {
-					is_diplomatic_play_committed_participant = yes
+				trigger = {
 					is_at_war = yes
 				}
-			add = 1000
+				add = 100
+			}
+			modifier = {
+				trigger = {
+					is_diplomatic_play_committed_participant = yes
+				}
+				add = 50
 			}
 			modifier = {
 				c:AUS = {
 					relations:root >= relations_threshold:friendly 
 				}
-			add = 1000
+				add = -100
 			}
 			modifier = {
 				trigger = {
-					gold_reserves < -350000 
+					gold_reserves < -400000 
 			    }
-			add = -1000
+				add = 50
 			}	
 			modifier = {
 				trigger = {
 					has_strategy = ai_strategy_armed_isolationism
 			    }
-			add = -1000
+				add = 100
 			}	
 		}
 	}
@@ -332,7 +321,6 @@ plombieres_agreement.3 = { #SAR Plombières Agreement
 		name = plombieres_agreement.3.a
 		default_option = yes
 
-
 		create_diplomatic_pact = {
 			country = c:FRA
 			type = defensive_pact
@@ -349,7 +337,7 @@ plombieres_agreement.3 = { #SAR Plombières Agreement
 			}
 	    }
 	    ai_chance = {
-			base = 100
+			base = 1
 		}
     }
 }
@@ -391,9 +379,8 @@ plombieres_agreement.4 = { #SAR France has refused
 			value = -50
 		    }
 		}
-
 	    ai_chance = {
-			base = 100
+			base = 1
 		}
     }
 }
@@ -447,9 +434,8 @@ plombieres_agreement.5 = { #AUS Second Italian War of Independence
 		c:AUS = {
 		    create_diplomatic_play = {
 				target_country = c:SAR
-				war = no
+				war = yes
 				type = dp_second_italian_war
-				escalation = 85
 
 				add_war_goal = {
 					holder = c:SAR
@@ -464,14 +450,18 @@ plombieres_agreement.5 = { #AUS Second Italian War of Independence
 				popup = yes
 			}
 		}
-
 	    ai_chance = {
-			base = 1
+			base = 100
+			modifier = {
+				trigger = {
+					gold_reserves < -400000 
+				}
+				add = 25
+			}
 		}
     }
 	option = {
 		name = plombieres_agreement.5.b
-		default_option = no
 
 		s:STATE_LOMBARDY.region_state:AUS = {
 			set_state_owner = c:SAR
@@ -492,7 +482,25 @@ plombieres_agreement.5 = { #AUS Second Italian War of Independence
 		}
 
 	    ai_chance = {
-			base = 1
+			base = 0
+			modifier = {
+				trigger = {
+					has_strategy = ai_strategy_armed_isolationism
+				}
+				add = 50
+			}		
+			modifier = {
+				trigger = {
+					is_at_war = yes
+				}
+				add = 25	
+			}
+			modifier = {
+				trigger = {
+					is_diplomatic_play_committed_participant = yes
+				}
+			 	add = 10
+			}
 		}
     }
 }

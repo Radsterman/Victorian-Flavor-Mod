@@ -25,7 +25,7 @@
 				owns_entire_state_region = STATE_LOMBARDY
 			}
 		}
-		year >= 1830
+		year >= 1850
 		NOT = {
 			year >= 1870
 		}
@@ -52,39 +52,70 @@
 		trigger_event = {
 			id = plombieres_agreement.6
 			days = 0
-			popup = yesd
+			popup = yes
 		}
 	}
 
 	ai_chance = {
-		base = 1
+		base = 100
 		modifier = {
 			trigger = { 
-				weekly_net_fixed_income > money_amount_multiplier_medium
-				gold_reserves > 0
+				OR = {
+					weekly_net_fixed_income > money_amount_multiplier_medium
+					gold_reserves > 100000
+				}
 			}
-			add = 1
+			add = 15
 		}
+		modifier = {
+			trigger = { 
+				gold_reserves > 350000 
+			}
+			add = 30
+			}	
 		modifier = {
 			trigger = {
 				gold_reserves < -350000 
 			}
-			add = -1000
+			add = -30
 			}	
+		modifier = {
+			trigger = {
+				OR = {
+					has_diplomatic_pact = {
+						who = c:AUS								
+						type = alliance					
+					}
+					has_diplomatic_pact = {
+						who = c:AUS								
+						type = defensive_pact					
+					}
+					has_diplomatic_pact = {
+						who = c:AUS								
+						type = customs_union					
+					}
+				}
+			}
+			add = -75
+		}
 		modifier = {
 			trigger = {
 				has_strategy = ai_strategy_armed_isolationism
 			}
-			add = -1000
+			add = -50
 			}		
 		modifier = {
-			OR = {
-				is_diplomatic_play_committed_participant = yes
+			trigger = {
 				is_at_war = yes
 			}
-			add = -1000
+			add = -100	
+			}
+		modifier = {
+			trigger = {
+				is_diplomatic_play_committed_participant = yes
+			}
+		 	add = -20
 		}			
 	}
-
 	weight = 500
 }
