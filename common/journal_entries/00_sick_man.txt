@@ -463,7 +463,7 @@ je_sick_man_army = {
 
 #Navy reform
 je_sick_man_navy = {
-	icon = "gfx/interface/icons/event_icons/event_military.dds"
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
 	
 	is_shown_when_inactive = {
 		country_has_primary_culture = cu:turkish
@@ -583,7 +583,7 @@ je_sick_man_bureaucracy = {
 
 #Going from Eyalets to Vilayets
 je_sick_man_vilayets = {
-	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
 	
 	is_shown_when_inactive = {
 		country_has_primary_culture = cu:turkish
@@ -644,3 +644,32 @@ je_sick_man_vilayets = {
 	weight = 5000
 }
 
+###Journal entries for seperatism and foreign interference
+
+je_druze_christian_war_foreign = { #JE for interested GPs so that they can see the situation is ongoing
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+
+	is_shown_when_inactive = {
+		has_global_variable = druze_christian_war
+		has_interest_marker_in_region = region_middle_east
+		country_rank = rank_value:great_power
+	}
+
+	possible = {
+		custom_tooltip = druze_christian_war_interest_tt
+		country_rank = rank_value:great_power
+	}
+	
+	complete = {
+		custom_tooltip = je_druze_christian_war_foreign_tt
+	}
+	
+	invalid = {
+		hidden_trigger = {
+			NOT = { has_global_variable = druze_christian_war }
+		}
+		custom_tooltip = invalid_influence_hawaii_tt
+	}
+	should_be_pinned_by_default = yes
+	
+}

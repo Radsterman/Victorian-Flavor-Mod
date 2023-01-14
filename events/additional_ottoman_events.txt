@@ -376,8 +376,17 @@ tanzimat_events.11 = {
 		
 	}
 	immediate = {
+		set_global_variable = druze_christian_war
 		s:STATE_LEBANON = {
 			save_scope_as = mount_lebanon_state
+		}
+		any_scope_country = {
+			limit = {
+				has_interest_marker_in_region = region_middle_east
+			}
+			add_journal_entry = {
+				type = je_druze_christian_war_foreign
+			}
 		}
 	}
 	option = { #Let's hope it doesn't get too bad
@@ -446,14 +455,13 @@ tanzimat_events.13 = {
 
 }
 
-#The riots are quelled
+#The riots continue
 tanzimat_events.14 = {
 	type = state_event
 	placement = scope:mount_lebanon_state
 	title = tanzimat_events.14.t
 	desc = tanzimat_events.14.d
 	flavor =  tanzimat_events.14.f
-	fire_only_once = yes
 	duration = 1
 	event_image = {
 		video = "gfx/event_pictures/middleeast_police_breaking_door.bk2"
@@ -462,7 +470,7 @@ tanzimat_events.14 = {
 	on_opened_soundeffect = "event:/SFX/Events/middleeast/police_breaking_door"
 	icon = "gfx/interface/icons/event_icons/event_fire.dds"
 	trigger = {
-		
+		has_variable = lebanon_civil_war_ongoing
 	}
 	option = { #Glad we got that under control
 		name = tanzimat_events.14.a
@@ -495,7 +503,6 @@ tanzimat_events.15 = {
 		default_option = yes
 		
 	}
-
 }
 
 #Rioting spreads to Damascus
@@ -514,16 +521,14 @@ tanzimat_events.16 = {
 	on_opened_soundeffect = "event:/SFX/Events/middleeast/police_breaking_door"
 	icon = "gfx/interface/icons/event_icons/event_fire.dds"
 	trigger = {
-		
+		s:STATE_SYRIA = {	
+			turmoil > 0.1
+		}
 	}
-	
 	option = { #Oh no
 		name = tanzimat_events.16.a
 		default_option = yes
-		
 	}
-	
-
 }
 
 
