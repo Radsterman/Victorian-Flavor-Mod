@@ -131,9 +131,11 @@ je_matter_of_norway = {
 				who = c:SWE
 				attitude = loyal
 			}
-			owes_obligation_to = root	
+		relations:root >= relations_threshold:friendly
+
 		}
 
+		is_at_war = no
 
 		OR = {
 			has_law = law_type:law_right_of_assembly
@@ -151,6 +153,9 @@ je_matter_of_norway = {
 	on_complete = {
 		annex = c:NOR
 		change_tag = SWN
+
+		trigger_event = { id = journal_flavor_scandinavia.7 }
+
 	}
 
 	fail = {
@@ -163,15 +168,21 @@ je_matter_of_norway = {
 	}
 
 	on_fail = {
-		create_diplomatic_pact = {
-			country = c:NOR
-			type = dominion
-		}
+		trigger_event = { id = journal_flavor_scandinavia.6 }
 	}
 
 	invalid = {
 		c:NOR = {
 			NOT = { is_subject_type = subject_type_personal_union }
+		}
+	}
+
+	on_monthly_pulse = {
+		random_events = {
+			36 = 0
+			1 = journal_flavor_scandinavia.3
+			1 = journal_flavor_scandinavia.4
+			1 = journal_flavor_scandinavia.5
 		}
 	}
 
