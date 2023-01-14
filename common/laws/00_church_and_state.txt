@@ -1,0 +1,210 @@
+﻿# group = this is the law_group a law belongs to
+# icon = graphical icon shown in-game
+# modifier = {} modifier on country for having adopted this law
+# cultural_acceptance_rule and religious_acceptance_rule are triggers in the pop scope used to check if a pop should be accepted or discriminated against
+
+law_state_religion = {
+	group = lawgroup_church_and_state
+	
+	icon = "gfx/interface/icons/law_icons/state_religion.dds"
+	
+	progressiveness = -50
+	
+	on_enact = {
+		recalculate_pop_ig_support = yes
+	}
+	
+	religious_acceptance_rule = {
+		is_state_religion = scope:country
+	}
+	
+	modifier = {
+		interest_group_ig_devout_pol_str_mult = 0.3
+		state_radicals_from_sol_change_accepted_religion_mult = -0.15
+		state_loyalists_from_sol_change_accepted_religion_mult = 0.15	
+		country_authority_add = 200
+	}
+	
+	possible_political_movements = {
+		law_freedom_of_conscience
+	}
+	
+	ai_will_do = {
+		exists = ruler
+		ruler = {
+			has_ideology = ideology_theocrat
+		}
+	}
+}
+
+law_denominational_exclusion = {
+	group = lawgroup_church_and_state
+	
+	icon = "gfx/interface/icons/law_icons/cultural_exclusion.dds"
+	
+	progressiveness = 0
+
+	unlocking_technologies = {
+		rationalism
+	}
+
+	disallowing_laws = {
+		law_theocracy
+	}
+	
+	on_enact = {
+		recalculate_pop_ig_support = yes
+	}
+	
+	religious_acceptance_rule = {
+		custom_tooltip = {
+			text = denominational_exclusion_tt
+			shares_heritage_trait_with_state_religion = scope:country
+		}
+		
+	}
+	
+	modifier = {
+		interest_group_ig_devout_pol_str_mult = 0.2
+		state_radicals_from_sol_change_accepted_religion_mult = -0.1
+		state_loyalists_from_sol_change_accepted_religion_mult = 0.1	
+		country_authority_add = 150
+	}
+	
+	possible_political_movements = {
+		law_total_separation
+	}
+	
+	pop_support = {
+		value = 0
+		
+		add = {
+			desc = "POP_DISCRIMINATED"
+			if = {
+				limit = { 
+					religion_accepted = no
+					owner = { NOT = { has_law = law_type:law_total_separation } }
+				}
+				value = 0.5				
+			}
+			if = {
+				limit = { 
+					religion_accepted = no
+					owner = { NOT = { has_law = law_type:law_total_separation } }
+					standard_of_living <= 10 
+				}
+				value = 0.5				
+			}			
+		}
+	}
+}
+
+law_freedom_of_conscience = {
+	group = lawgroup_church_and_state
+	
+	icon = "gfx/interface/icons/law_icons/freedom_of_conscience.dds"
+	
+	progressiveness = 0
+
+	unlocking_technologies = {
+		rationalism
+	}
+
+	disallowing_laws = {
+		law_theocracy
+	}
+	
+	on_enact = {
+		recalculate_pop_ig_support = yes
+	}
+	
+	religious_acceptance_rule = {
+		custom_tooltip = {
+			text = freedom_of_conscience_tt
+			shares_trait_with_state_religion = scope:country
+		}
+	}
+	
+	modifier = {
+		interest_group_ig_devout_pol_str_mult = 0.15
+		state_radicals_from_sol_change_accepted_religion_mult = -0.05
+		state_loyalists_from_sol_change_accepted_religion_mult = 0.05	
+		country_authority_add = 100
+	}
+	
+	possible_political_movements = {
+		law_total_separation
+	}
+	
+	pop_support = {
+		value = 0
+		
+		add = {
+			desc = "POP_DISCRIMINATED"
+			if = {
+				limit = { 
+					religion_accepted = no
+					owner = { NOT = { has_law = law_type:law_total_separation } }
+				}
+				value = 0.5				
+			}
+			if = {
+				limit = { 
+					religion_accepted = no
+					owner = { NOT = { has_law = law_type:law_total_separation } }
+					standard_of_living <= 10 
+				}
+				value = 0.5				
+			}			
+		}
+	}
+}
+
+law_total_separation = {
+	group = lawgroup_church_and_state
+	
+	icon = "gfx/interface/icons/law_icons/total_separation.dds"
+	
+	progressiveness = 50
+
+	unlocking_technologies = {
+		empiricism
+	}
+
+	disallowing_laws = {
+		law_theocracy
+	}
+	
+	on_enact = {
+		recalculate_pop_ig_support = yes
+	}
+	
+	religious_acceptance_rule = {
+		always = yes
+	}
+	
+	possible_political_movements = {
+		law_freedom_of_conscience
+	}
+	
+	pop_support = {
+		value = 0
+		
+		add = {
+			desc = "POP_DISCRIMINATED"
+			if = {
+				limit = { 
+					religion_accepted = no
+				}
+				value = 0.5				
+			}
+			if = {
+				limit = { 
+					religion_accepted = no
+					standard_of_living <= 10 
+				}
+				value = 0.5				
+			}			
+		}
+	}
+}
