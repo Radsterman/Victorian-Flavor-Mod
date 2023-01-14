@@ -1,0 +1,728 @@
+﻿
+
+ai_strategy_colonial_expansion = {
+	icon = "gfx/interface/icons/ai_strategy_icons/colonial_expansion.dds"
+	
+	type = diplomatic
+	
+	wanted_army_ratio = 200000 # 1 barrack per 200k incorporated population
+	wanted_navy_ratio = 200000 # 1 naval base per 200k coastal incorporated population
+	
+	undesirable_infamy_level = 25
+	unacceptable_infamy_level = 50	
+	
+	ideological_opinion_effect_mult = 1.0
+	
+	wargoal_maneuvers_fraction = {
+		value = 0
+	
+		if = {
+			limit = {
+				scope:enemy_country = { is_country_type = unrecognized }
+			}
+			add = 0.25
+		}	
+	}		
+	
+	diplomatic_play_neutrality = 25 # Added to base neutrality in diplomatic plays
+	diplomatic_play_boldness = -15 # Added to base boldness in diplomatic plays		
+	
+	# Added to value from default strategy
+	bravery = {
+		value = 0.1
+	}
+	
+	# Added to value from default strategy
+	aggression = {
+		value = 0.5
+		if = {
+			limit = { 
+				NOT = { is_country_type = unrecognized }
+				scope:target_country = { is_country_type = unrecognized } 
+			}
+			add = 2.5			
+			
+			if = {
+				limit = { has_technology_researched = civilizing_mission }
+				add = 2.5
+			}			
+		}
+
+		# Less aggressive against countries we're just antagonistic against, rather than belligerent/domineering
+		if = {
+			limit = {
+				has_attitude = {
+					who = scope:target_country
+					attitude = antagonistic
+				}					
+			}
+			multiply = 0.1
+		}			
+	}
+	
+	building_group_weights = {
+		bg_navy = 1.5
+	}
+	
+	colonial_interest_ratio = {
+		value = 0.10
+	
+		if = {
+			limit = { navy_size >= 30 }
+			add = 0.1
+		}
+		
+		if = {
+			limit = { navy_size >= 60 }
+			add = 0.1
+		}		
+		
+		if = {
+			limit = { navy_size >= 90 }
+			add = 0.1
+		}	
+		
+		if = {
+			limit = { navy_size >= 120 }
+			add = 0.1
+		}			
+	}
+	
+	secret_goal_scores = {
+		dominate = {
+			if = {
+				limit = {
+					scope:target_country = { NOT = { is_country_type = unrecognized } }
+				}
+				multiply = 0.25
+			}		
+			if = {
+				limit = {
+					has_strategic_adjacency = scope:target_country
+					scope:target_country = { is_country_type = unrecognized }
+				}
+				add = 200
+			}	
+		}		
+		conquer = {
+			if = {
+				limit = {
+					scope:target_country = { NOT = { is_country_type = unrecognized } }
+				}
+				multiply = 0.25
+			}		
+			if = {
+				limit = {
+					has_strategic_adjacency = scope:target_country
+					scope:target_country = { is_country_type = unrecognized }
+				}
+				add = 200
+			}	
+		}		
+	}
+
+	wargoal_weights = {
+		conquer_state = 1.5
+		make_dominion = 1.5
+		take_treaty_port = 1.5
+	}	
+		
+	possible = {
+		navy_size >= 25
+		is_country_type = recognized
+		OR = {
+			has_law = law_type:law_colonial_resettlement
+			has_law = law_type:law_colonial_exploitation
+		}
+	}
+
+	weight = {
+		value = 10
+		
+		if = {
+			limit = { country_rank = rank_value:major_power }
+			add = 5
+		}	
+
+		if = {
+			limit = { country_rank = rank_value:great_power }
+			add = 5
+		}			
+		
+		if = {
+			limit = { navy_size < 50 }
+			multiply = 0.5
+		}		
+		
+		if = {
+			limit = { navy_size >= 75 }
+			multiply = 1.5
+		}	
+
+		if = {
+			limit = { has_technology_researched = civilizing_mission }
+			multiply = 1.25
+		}				
+	}
+}
+
+
+ai_strategy_economic_imperialism = {
+	icon = "gfx/interface/icons/ai_strategy_icons/economic_imperialism.dds"
+	
+	type = diplomatic
+	
+	wanted_army_ratio = 200000 # 1 barrack per 200k incorporated population
+	wanted_navy_ratio = 200000 # 1 naval base per 200k coastal incorporated population
+	
+	undesirable_infamy_level = 25
+	unacceptable_infamy_level = 50	
+	
+	ideological_opinion_effect_mult = 1.0
+	
+	wargoal_maneuvers_fraction = {
+		value = 0
+	
+		if = {
+			limit = {
+				scope:enemy_country = { is_country_type = unrecognized }
+			}
+			add = 0.25
+		}
+	}			
+	
+	diplomatic_play_neutrality = 10 # Added to base neutrality in diplomatic plays
+	diplomatic_play_boldness = -10 # Added to base boldness in diplomatic plays		
+	
+	# Added to value from default strategy
+	bravery = {
+		value = -0.1
+	}
+	
+	# Added to value from default strategy
+	aggression = {
+		value = 0.5
+		if = {
+			limit = { 
+				NOT = { is_country_type = unrecognized }
+				scope:target_country = { is_country_type = unrecognized } 
+			}
+			add = 1.5
+			
+			if = {
+				limit = { has_technology_researched = civilizing_mission }
+				add = 2.5
+			}			
+		}
+		
+		if = {
+			limit = { 
+				has_technology_researched = civilizing_mission
+				scope:target_country = { 
+					has_law = law_type:law_isolationism 
+					capital.region = sr:region_japan					
+				} 
+			}
+			add = 10
+		}
+
+		# Less aggressive against countries we're just antagonistic against, rather than belligerent/domineering
+		if = {
+			limit = {
+				has_attitude = {
+					who = scope:target_country
+					attitude = antagonistic
+				}					
+			}
+			multiply = 0.25
+		}		
+	}
+	
+	building_group_weights = {
+		bg_navy = 1.5
+	}
+	
+	colonial_interest_ratio = {
+		value = 0.10
+	
+		if = {
+			limit = { navy_size >= 30 }
+			add = 0.05
+		}
+		
+		if = {
+			limit = { navy_size >= 60 }
+			add = 0.05
+		}		
+		
+		if = {
+			limit = { navy_size >= 90 }
+			add = 0.05
+		}	
+		
+		if = {
+			limit = { navy_size >= 120 }
+			add = 0.05
+		}			
+	}
+	
+	secret_goal_scores = {
+		dominate = {
+			if = {
+				limit = {
+					has_strategic_adjacency = scope:target_country
+					scope:target_country = { 
+						has_law = law_type:law_isolationism
+						capital.region = sr:region_japan	
+					}
+				}
+				add = 1000
+			}		
+			if = {
+				limit = {
+					has_strategic_adjacency = scope:target_country
+					scope:target_country = { 
+						has_law = law_type:law_isolationism
+						NOT = { capital.region = sr:region_japan }	
+					}
+				}
+				add = 100
+			}
+			if = {
+				limit = {
+					has_strategic_adjacency = scope:target_country
+					root.country_rank > scope:target_country.country_rank
+					scope:target_country = {
+						NOR = { 
+							has_law = law_type:law_free_trade 
+							has_law = law_type:law_isolationism
+						}
+					}
+				}
+				add = 50
+			}		
+		}		
+		conquer = {		
+			if = {
+				limit = {
+					has_strategic_adjacency = scope:target_country
+					scope:target_country = { is_country_type = unrecognized }
+				}
+				add = 50
+			}
+			if = {
+				limit = {
+					scope:target_country = { NOT = { is_country_type = unrecognized } }
+				}
+				multiply = 0.5
+			}			
+		}		
+	}
+
+	wargoal_weights = {
+		take_treaty_port = 1.5
+		make_puppet = 1.5
+		make_dominion = 1.5	
+		make_vassal = 1.5	
+	}	
+	
+	wargoal_scores = {	
+		open_market = {
+			value = 0
+		
+			if = {
+				limit = {
+					can_reach_target_country = yes
+					scope:target_country = {
+						has_law = law_type:law_isolationism
+					}
+				}
+				add = 1000
+			}
+		}
+	}
+		
+	possible = {
+		navy_size >= 25
+		is_country_type = recognized
+		NOT = { has_law = law_type:law_isolationism }
+		OR = {
+			country_rank = rank_value:major_power
+			country_rank = rank_value:great_power
+		}	
+	}
+
+	weight = {
+		value = 10		
+
+		if = {
+			limit = { country_rank = rank_value:great_power }
+			add = 10
+		}
+
+		if = {
+			limit = {
+				exists = c:JAP
+				has_strategic_adjacency = c:JAP
+				c:JAP = { has_law = law_type:law_isolationism }
+			}
+			multiply = 2.0
+		}	
+
+		if = {
+			limit = { navy_size < 50 }
+			multiply = 0.5
+		}		
+		
+		if = {
+			limit = { navy_size >= 75 }
+			multiply = 1.5
+		}			
+	}
+}
+
+
+ai_strategy_unify_italy = {
+	icon = "gfx/interface/icons/ai_strategy_icons/unification.dds"
+	
+	type = diplomatic
+	
+	wanted_army_ratio = 150000 # 1 barrack per 150k incorporated population
+	wanted_navy_ratio = 400000 # 1 naval base per 400k coastal incorporated population
+		
+	undesirable_infamy_level = 50
+	unacceptable_infamy_level = 100
+	
+	ideological_opinion_effect_mult = 0.5
+	
+	wargoal_maneuvers_fraction = {
+		value = 0.1
+	}		
+	
+	diplomatic_play_neutrality = 0 # Added to base neutrality in diplomatic plays
+	diplomatic_play_boldness = 50 # Added to base boldness in diplomatic plays	
+	
+	# Added to value from default strategy
+	obligation_value = {
+		value = 0
+	
+		if = {
+			limit = { 
+				scope:target_country = {
+					OR = {
+						country_has_primary_culture = cu:north_italian
+						country_has_primary_culture = cu:south_italian
+					}				
+				}
+			}
+			add = 25
+		}
+	}		
+	
+	# Added to value from default strategy
+	bravery = {
+		value = 0.5
+	}	
+	
+	# Added to value from default strategy
+	aggression = {
+		value = 0.25
+		
+		if = {
+			limit = { 
+				scope:target_country = {
+					OR = {
+						country_has_primary_culture = cu:north_italian
+						country_has_primary_culture = cu:south_italian
+					}				
+				}
+			}
+			add = 10
+		}
+
+		# Less aggressive against countries we're just antagonistic against, rather than belligerent/domineering
+		if = {
+			limit = {
+				has_attitude = {
+					who = scope:target_country
+					attitude = antagonistic
+				}					
+			}
+			multiply = 0.25
+		}			
+	}
+
+	building_group_weights = {
+		bg_army = 1.5
+	}
+	
+	wargoal_scores = {
+		conquer_state = {
+			if = {
+				limit = {
+					scope:target_state = {
+						state_region = {
+							OR = {
+								is_homeland = cu:north_italian
+								is_homeland = cu:south_italian
+							}
+						}					
+					}	
+					can_reach_target_state = yes
+				}
+				add = 100
+			}
+		}
+		return_state = {
+			if = {
+				limit = {
+					scope:target_state = {
+						state_region = {
+							OR = {
+								is_homeland = cu:north_italian
+								is_homeland = cu:south_italian
+							}
+						}					
+					}
+					can_reach_target_state = yes
+				}
+				add = 100
+			}
+		}		
+	}	
+	
+	secret_goal_scores = {
+		protect = {		
+			if = {
+				limit = {
+					scope:target_country = {
+						OR = {
+							country_has_primary_culture = cu:north_italian
+							country_has_primary_culture = cu:south_italian
+						}
+						NOT = { is_unification_candidate = ITA }
+						is_supporting_unification_candidate = { who = root country_formation = ITA }
+					}
+				}
+				add = 1000
+			}		
+		}		
+		dominate = {		
+			if = {
+				limit = {
+					scope:target_country = {
+						OR = {
+							country_has_primary_culture = cu:north_italian
+							country_has_primary_culture = cu:south_italian
+						}					
+						NOT = { is_unification_candidate = ITA }
+						NOT = { is_supporting_unification_candidate = { who = root country_formation = ITA } }
+					}
+				}
+				add = 1000
+			}		
+		}		
+		conquer = {				
+			if = {
+				limit = {
+					scope:target_country = {
+						OR = {
+							country_has_primary_culture = cu:north_italian
+							country_has_primary_culture = cu:south_italian
+						}					
+						is_unification_candidate = ITA
+						NOT = { is_supporting_unification_candidate = { who = root country_formation = ITA } }
+					}
+				}
+				add = 1000
+			}			
+		}	
+		antagonize = {				
+			if = {
+				limit = {
+					scope:target_country = {
+						is_unification_candidate = ITA
+					}
+				}
+				add = 1000
+			}			
+		}		
+	}	
+
+	wargoal_weights = {
+		conquer_state = 2.0
+		return_state = 2.0
+	}	
+		
+	possible = {
+		is_unification_candidate = ITA	
+		NOT = { country_tier = empire }
+	}
+
+	weight = {
+		value = 1000	
+	}
+}
+
+
+ai_strategy_unify_china = {
+	icon = "gfx/interface/icons/ai_strategy_icons/unification.dds"
+	
+	type = diplomatic
+	
+	wanted_army_ratio = 150000 # 1 barrack per 150k incorporated population
+	wanted_navy_ratio = 400000 # 1 naval base per 400k coastal incorporated population
+	
+	undesirable_infamy_level = 50
+	unacceptable_infamy_level = 100
+	
+	ideological_opinion_effect_mult = 0.5
+	
+	wargoal_maneuvers_fraction = {
+		value = 0.1
+	}		
+		
+	diplomatic_play_neutrality = 0 # Added to base neutrality in diplomatic plays	
+	diplomatic_play_boldness = 50 # Added to base boldness in diplomatic plays
+		
+	# Added to value from default strategy
+	obligation_value = {
+		value = 0
+	
+		if = {
+			limit = { 
+				scope:target_country = { can_form_nation = CHI }
+			}
+			add = 25
+		}
+	}			
+		
+	# Added to value from default strategy
+	bravery = {
+		value = 0.5
+	}	
+	
+	# Added to value from default strategy
+	aggression = {
+		value = 0.5
+		
+		if = {
+			limit = { 
+				scope:target_country = { can_form_nation = CHI }
+			}
+			add = 10
+		}
+
+		# Less aggressive against countries we're just antagonistic against, rather than belligerent/domineering
+		if = {
+			limit = {
+				has_attitude = {
+					who = scope:target_country
+					attitude = antagonistic
+				}					
+			}
+			multiply = 0.25
+		}			
+	}
+
+	building_group_weights = {
+		bg_army = 1.5
+	}
+	
+	wargoal_scores = {
+		conquer_state = {
+			if = {
+				limit = {
+					scope:target_state = {				
+						state_region = {
+							OR = {
+								is_homeland = cu:manchu
+								is_homeland = cu:han
+							}		
+						}
+					}
+					can_reach_target_state = yes
+				}
+				add = 100
+			}
+		}
+		return_state = {
+			if = {
+				limit = {
+					scope:target_state = {					
+						state_region = {
+							OR = {
+								is_homeland = cu:manchu
+								is_homeland = cu:han
+							}
+						}	
+					}
+					can_reach_target_state = yes
+				}
+				add = 100
+			}
+		}		
+	}			
+	
+	secret_goal_scores = {
+		befriend = {		
+			if = {
+				limit = {
+					scope:target_country = {
+						can_form_nation = CHI
+					}
+				}
+				add = 200
+			}		
+		}		
+		dominate = {		
+			if = {
+				limit = {
+					scope:target_country = {
+						can_form_nation = CHI
+					}
+				}
+				add = 300
+			}			
+		}		
+		conquer = {				
+			if = {
+				limit = {
+					scope:target_country = {
+						can_form_nation = CHI
+					}
+				}
+				add = 300
+			}				
+		}			
+	}	
+
+	wargoal_weights = {
+		conquer_state = 2.0
+		return_state = 2.0
+	}	
+		
+	possible = {
+		NOT = { exists = c:CHI }
+		can_form_nation = CHI	
+	}
+
+	weight = {
+		value = 50
+		
+		if = {
+			limit = { NOT = { is_country_type = unrecognized } }
+			add = 100
+		}		
+		
+		if = {
+			limit = { country_rank = rank_value:unrecognized_regional_power }
+			add = 25
+		}
+
+		if = {
+			limit = { country_rank = rank_value:unrecognized_major_power }
+			add = 50
+		}		
+	}
+}
