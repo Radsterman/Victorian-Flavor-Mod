@@ -72,7 +72,20 @@
 
 				every_in_list = {
 					variable = past_overlord 
-					trigger_event = { id = journal_flavor_company_collapse.2 }
+					if = {
+						limit = {
+							NOT = { exists = c:HBC }
+						}
+						c:GBR = {
+							create_diplomatic_pact = {
+								country = c:NWT
+								type = dominion
+							}
+						}
+					}
+					else = {
+						trigger_event = { id = journal_flavor_company_collapse.2 }
+					}
 				}
 
 			}
@@ -80,9 +93,22 @@
 				limit = {
 					c:COL = ROOT
 				}
-					every_in_list = {
+				every_in_list = {
 					variable = past_overlord 
-					trigger_event = { id = journal_flavor_company_collapse.3 }
+					if = {
+						limit = {
+							NOT = { exists = c:HBC }
+						}
+						c:GBR = {
+							create_diplomatic_pact = {
+								country = c:COL
+								type = dominion
+							}
+						}
+					}
+					else = {
+						trigger_event = { id = journal_flavor_company_collapse.3 }
+					}
 				}
 
 			}
@@ -142,11 +168,6 @@
 		}
 	}
 
-	invalid = {
-		is_subject = yes
-		NOT = { is_subject_type = subject_type_chartered_company }
-	}
-
 	on_weekly_pulse = {
 		effect = {
 			clear_variable_list = past_overlord
@@ -176,8 +197,10 @@ je_autonomy = {
 	}
 
     complete = {	
-			NOT = {has_law = law_type:law_autocracy}
+		NOT = {has_law = law_type:law_autocracy}
+		any_scope_pop = {
 			standard_of_living > 15
+		}
 	}
 
 	invalid = {
