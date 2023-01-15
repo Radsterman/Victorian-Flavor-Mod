@@ -1,12 +1,12 @@
 ﻿namespace = plombieres_agreement
 
-plombieres_agreement.6 = { #SAR An agreement with France?
+plombieres_agreement.8 = { #SAR An agreement with France?
 	type = country_event
 	placement = ROOT
 
-	title = plombieres_agreement.6.t
-	desc = plombieres_agreement.6.d
-	flavor = plombieres_agreement.6.f
+	title = plombieres_agreement.8.t
+	desc = plombieres_agreement.8.d
+	flavor = plombieres_agreement.8.f
 
 	event_image = {
 		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
@@ -32,7 +32,7 @@ plombieres_agreement.6 = { #SAR An agreement with France?
 	}
 
 	option = {
-		name = plombieres_agreement.6.a
+		name = plombieres_agreement.8.a
 		default_option = yes
 
 		c:SAR = {
@@ -43,27 +43,14 @@ plombieres_agreement.6 = { #SAR An agreement with France?
 			}
 		}
 	    ai_chance = {
-			base = 100
-			modifier = {
-				OR = {
-					is_diplomatic_play_committed_participant = yes
-					is_at_war = yes
-				}
-			add = -1000
-			}
+			base = 1	
 		}
     }
     option = {
-     	name = plombieres_agreement.6.b
+     	name = plombieres_agreement.8.b
      	remove_variable = plombieres_agreement_var
      	ai_chance = {
-			base = 0
-			modifier = {
-				trigger = { 
-					gold_reserves < -250000 
-				}
-				add = 1000
-			}	
+			base = 0	
 		}
     }
 }
@@ -147,7 +134,7 @@ plombieres_agreement.1 = { #SAR The Meeting
 			}
 		}
 	    ai_chance = {
-			base = 100
+			base = 1
 		}
     }
     option = {
@@ -216,9 +203,6 @@ plombieres_agreement.2 = { #FRA An Agreement With Sardinia?
 		}
 	}
 
-	trigger = {
-	}
-
 	option = {
 		name = plombieres_agreement.2.a
 		default_option = yes
@@ -231,7 +215,7 @@ plombieres_agreement.2 = { #FRA An Agreement With Sardinia?
 			}
 		}
 		ai_chance = {
-			base = 100
+			base = 125
 		}
 	}
 	option = {
@@ -246,29 +230,34 @@ plombieres_agreement.2 = { #FRA An Agreement With Sardinia?
 		ai_chance = {
 			base = 0
 			modifier = {
-				OR = {
-					is_diplomatic_play_committed_participant = yes
+				trigger = {
 					is_at_war = yes
 				}
-			add = 1000
+				add = 100
+			}
+			modifier = {
+				trigger = {
+					is_diplomatic_play_committed_participant = yes
+				}
+				add = 50
 			}
 			modifier = {
 				c:AUS = {
 					relations:root >= relations_threshold:friendly 
 				}
-			add = 1000
+				add = -100
 			}
 			modifier = {
 				trigger = {
-					gold_reserves < -350000 
+					gold_reserves < -400000 
 			    }
-			add = -1000
+				add = 50
 			}	
 			modifier = {
 				trigger = {
 					has_strategy = ai_strategy_armed_isolationism
 			    }
-			add = -1000
+				add = 100
 			}	
 		}
 	}
@@ -332,7 +321,6 @@ plombieres_agreement.3 = { #SAR Plombières Agreement
 		name = plombieres_agreement.3.a
 		default_option = yes
 
-
 		create_diplomatic_pact = {
 			country = c:FRA
 			type = defensive_pact
@@ -342,17 +330,6 @@ plombieres_agreement.3 = { #SAR Plombières Agreement
 			months = 60
 		}
 		c:AUS = {
-		    create_diplomatic_play = {
-				target_country = c:SAR
-				war = yes
-				type = dp_second_italian_war
-
-				add_war_goal = {
-					holder = c:SAR
-					type = return_state
-					target_state = s:STATE_LOMBARDY.region_state:AUS
-			    }
-		    }
 			trigger_event = {
 				id = plombieres_agreement.5
 				days = 0
@@ -360,7 +337,7 @@ plombieres_agreement.3 = { #SAR Plombières Agreement
 			}
 	    }
 	    ai_chance = {
-			base = 100
+			base = 1
 		}
     }
 }
@@ -402,9 +379,8 @@ plombieres_agreement.4 = { #SAR France has refused
 			value = -50
 		    }
 		}
-
 	    ai_chance = {
-			base = 100
+			base = 1
 		}
     }
 }
@@ -435,12 +411,187 @@ plombieres_agreement.5 = { #AUS Second Italian War of Independence
 		c:SAR = {
 			save_scope_as = sar_scope
 		}
+		s:STATE_LOMBARDY = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						OR = {
+							c:AUS = THIS
+							is_subject_of = c:AUS
+						}
+					}
+				}
+			save_scope_as = lombardy_scope
+			}
+		}
 	}
 
 	option = {
 		name = plombieres_agreement.5.a
 		default_option = yes
 		custom_tooltip = plombieres_agreement.5.tt1
+
+		c:AUS = {
+		    create_diplomatic_play = {
+				target_country = c:SAR
+				war = yes
+				type = dp_second_italian_war
+
+				add_war_goal = {
+					holder = c:SAR
+					type = return_state
+					target_state = s:STATE_LOMBARDY.region_state:AUS
+				}
+		    }
+		}
+		c:SAR = {
+			trigger_event = {
+				id = plombieres_agreement.6
+				popup = yes
+			}
+		}
+	    ai_chance = {
+			base = 100
+			modifier = {
+				trigger = {
+					gold_reserves < -400000 
+				}
+				add = 25
+			}
+		}
+    }
+	option = {
+		name = plombieres_agreement.5.b
+
+		s:STATE_LOMBARDY.region_state:AUS = {
+			set_state_owner = c:SAR
+		}
+		add_modifier = {
+		    name = modifier_second_italian_war_lost
+			months = normal_modifier_time
+		}
+		change_relations = {
+			country = c:SAR
+			value = -70
+		}
+		c:SAR = {
+			trigger_event = {
+				id = plombieres_agreement.7
+				popup = yes
+			}
+		}
+
+	    ai_chance = {
+			base = 0
+			modifier = {
+				trigger = {
+					has_strategy = ai_strategy_armed_isolationism
+				}
+				add = 50
+			}		
+			modifier = {
+				trigger = {
+					is_at_war = yes
+				}
+				add = 25	
+			}
+			modifier = {
+				trigger = {
+					is_diplomatic_play_committed_participant = yes
+				}
+			 	add = 10
+			}
+		}
+    }
+}
+
+plombieres_agreement.6 = { #SAR Austria Attacks Us
+	type = country_event
+	placement = ROOT
+
+	title = plombieres_agreement.6.t
+	desc = plombieres_agreement.6.d
+	flavor = plombieres_agreement.6.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	duration = 3
+
+	immediate = {
+		c:AUS = {
+			save_scope_as = aus_scope
+		}
+	}
+
+	option = {
+		name = plombieres_agreement.6.a
+		default_option = yes
+
+		custom_tooltip = plombieres_agreement.6.tt1
+
+	    ai_chance = {
+			base = 1
+		}
+    }
+}
+
+plombieres_agreement.7 = { #SAR Austria backs down
+	type = country_event
+	placement = ROOT
+
+	title = plombieres_agreement.7.t
+	desc = plombieres_agreement.7.d
+	flavor = plombieres_agreement.7.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 3
+
+	immediate = {
+		c:FRA = {
+			save_scope_as = fra_scope
+		}
+		c:AUS = {
+			save_scope_as = aus_scope
+		}
+		s:STATE_LOMBARDY = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						OR = {
+							c:AUS = THIS
+							is_subject_of = c:AUS
+						}
+					}
+				}
+			save_scope_as = lombardy_scope
+			}
+		}
+	}
+
+	option = {
+		name = plombieres_agreement.7.a
+		default_option = yes
+
+		add_modifier = {
+		    name = modifier_second_italian_war
+			months = long_modifier_time
+		}
+		custom_tooltip = plombieres_agreement.7.tt1
 
 	    ai_chance = {
 			base = 1
