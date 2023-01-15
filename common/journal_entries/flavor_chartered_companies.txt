@@ -72,7 +72,20 @@
 
 				every_in_list = {
 					variable = past_overlord 
-					trigger_event = { id = journal_flavor_company_collapse.2 }
+					if = {
+						limit = {
+							NOT = { exists = c:HBC }
+						}
+						c:GBR = {
+							create_diplomatic_pact = {
+								country = c:NWT
+								type = dominion
+							}
+						}
+					}
+					else = {
+						trigger_event = { id = journal_flavor_company_collapse.2 }
+					}
 				}
 
 			}
@@ -80,9 +93,22 @@
 				limit = {
 					c:COL = ROOT
 				}
-					every_in_list = {
+				every_in_list = {
 					variable = past_overlord 
-					trigger_event = { id = journal_flavor_company_collapse.3 }
+					if = {
+						limit = {
+							NOT = { exists = c:HBC }
+						}
+						c:GBR = {
+							create_diplomatic_pact = {
+								country = c:COL
+								type = dominion
+							}
+						}
+					}
+					else = {
+						trigger_event = { id = journal_flavor_company_collapse.3 }
+					}
 				}
 
 			}
