@@ -14,6 +14,20 @@
 	ai_will_do = { always = yes }
 }
 
+ALD = {
+	states = {
+		STATE_ALGIERS
+		STATE_CONSTANTINE
+		STATE_TLEMCEN
+		STATE_TOUGGOURT
+		STATE_GHARDAIA
+		STATE_SAHARA
+		STATE_EAST_SAHARA
+	}
+	required_states_fraction = 0.7
+	ai_will_do = { always = yes }
+}	
+
 TZN = {
 	states = {
 		STATE_LINDI
@@ -64,7 +78,7 @@ MGL = {
 		STATE_ULIASTAI
         STATE_URGA
 		STATE_ALXA
-		STATE_MONAN
+		STATE_HINGGAN
 	}
 
 	required_states_fraction = 0.75
@@ -75,10 +89,43 @@ MGL = {
 		country_has_primary_culture = cu:mongol
 		has_technology_researched = nationalism
 	}
+}
 
 HAW = {
 	states = {
 		STATE_HAWAIIAN_ISLANDS
 		}
 	ai_will_do = { always = yes }
+}
+
+SWN = {
+	use_culture_states = yes
+
+	required_states_fraction = 1
+	
+	ai_will_do = { always = yes }
+
+	possible = {
+		NOT = {
+			AND = {
+				exists = c:SWE
+				exists = c:NOR
+				c:SWE = ROOT
+				OR = {
+					c:SWE = {
+						has_diplomatic_pact = {
+							who = c:NOR
+							type = personal_union
+						}
+					}
+					c:SWE = {
+						has_diplomatic_pact = {
+							who = c:NOR
+							type = dominion
+						}
+					}
+				}
+			}
+		}
+	}
 }

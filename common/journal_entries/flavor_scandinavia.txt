@@ -1,0 +1,199 @@
+﻿je_scandinavian_monetary_union = {
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	is_shown_when_inactive = {
+		any_primary_culture = {
+			has_discrimination_trait = scandinavian_culture_group
+		}
+	}
+
+	possible = {
+		has_technology_researched = pan-nationalism
+		OR = {
+			is_subject = no	
+			top_overlord = {
+				any_primary_culture = {
+					has_discrimination_trait = scandinavian_culture_group
+				}
+			}
+		}
+	}
+
+	invalid = {
+		has_global_variable = scandinavian_monetary_union_var
+	}
+
+	complete = {
+		has_technology_researched = international_exchange_standards
+		custom_tooltip = {
+			text = scandinavian_monetary_union_relations_tt
+			any_country = {
+				is_subject = no
+				any_primary_culture = {
+					has_discrimination_trait = scandinavian_culture_group
+				}				
+				NOT = { relations:root < relations_threshold:amicable }
+			}
+		}
+
+	}
+
+	on_complete = {
+		set_global_variable = scandinavian_monetary_union_var
+		every_country = {
+			limit = { 
+				any_primary_culture = {
+					has_discrimination_trait = scandinavian_culture_group
+				}
+				OR = {
+					is_subject = no	
+					top_overlord = {
+						any_primary_culture = {
+							has_discrimination_trait = scandinavian_culture_group
+						}
+					}
+				}
+				
+			
+			}
+			trigger_event = { id = journal_flavor_scandinavia.1 }
+		}
+		
+	}
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_scandinavian_monetary_union_status
+			}
+		}
+	}
+    should_be_pinned_by_default = yes
+	weight = 100
+}
+
+je_swedish_guilds = {
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	complete = {
+		OR = {
+			AND = {
+				custom_tooltip = {
+					text = johan_died_tt
+					ruler = {
+						NOT = { has_variable = is_johan }
+					}
+				}
+				AND = {
+					ig:ig_industrialists = {
+						ig_clout > 0.1
+					}
+					ig:ig_petty_bourgeoisie = {
+						ig_clout < 0.1
+					}
+				}
+			}
+
+			AND = {
+				ig:ig_industrialists = {
+					is_powerful = yes
+				}
+				ig:ig_petty_bourgeoisie = {
+					ig_clout < 0.05
+				}
+			}
+		}
+
+	}
+
+	on_complete = {
+		trigger_event = { id = journal_flavor_scandinavia.2 }
+	}
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_swedish_guilds_status
+			}
+		}
+	}
+    should_be_pinned_by_default = yes
+	weight = 100
+}
+
+je_matter_of_norway = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+	complete = {
+		has_technology_researched = pan-nationalism
+		c:NOR = {
+			has_attitude = {
+				who = c:SWE
+				attitude = loyal
+			}
+		relations:root >= relations_threshold:friendly
+
+		}
+
+		is_at_war = no
+
+		OR = {
+			has_law = law_type:law_right_of_assembly
+			has_law = law_type:law_protected_speech
+		}
+
+		OR = {
+			has_law = law_type:law_universal_suffrage
+			has_law = law_type:law_census_voting
+		}
+		
+
+	}
+
+	on_complete = {
+		annex = c:NOR
+		change_tag = SWN
+
+		trigger_event = { id = journal_flavor_scandinavia.7 }
+
+	}
+
+	fail = {
+		c:NOR = {
+			has_attitude = {
+				who = c:SWE
+				attitude = rebellious
+			}
+		}
+	}
+
+	on_fail = {
+		trigger_event = { id = journal_flavor_scandinavia.6 }
+	}
+
+	invalid = {
+		c:NOR = {
+			NOT = { is_subject_type = subject_type_personal_union }
+		}
+	}
+
+	on_monthly_pulse = {
+		random_events = {
+			36 = 0
+			1 = journal_flavor_scandinavia.3
+			1 = journal_flavor_scandinavia.4
+			1 = journal_flavor_scandinavia.5
+		}
+	}
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_matter_of_norway_status
+			}
+		}
+	}
+    should_be_pinned_by_default = yes
+	weight = 100
+}
+
