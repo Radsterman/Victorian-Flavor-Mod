@@ -1,0 +1,280 @@
+﻿namespace = hawaii_events
+
+hawaii_events.1 = { # Fate of Hawaii
+	type = country_event
+	placement = ROOT
+
+	title = hawaii_events.1.t
+	desc = hawaii_events.1.d
+	flavor = hawaii_events.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_aristocrats.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	duration = 3
+
+	trigger = {
+		has_global_variable = paulet_affair_fail
+	}
+
+	immediate = {
+		set_global_variable = gp_hawaii_interest
+		set_variable = death_of_kamehameha
+	}
+
+	option = { #starts JE
+		name = hawaii_events.1.a
+		default_option = yes
+		add_journal_entry = {
+			type = je_hawaii
+		}
+	}
+}
+
+hawaii_events.2 = { #JE success
+	type = country_event
+	placement = ROOT
+
+	title = hawaii_events.2.t
+	desc = hawaii_events.2.d
+	flavor = hawaii_events.2.f
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_factory_opening.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/factory_opening"
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+	remove_global_variable = gp_hawaii_interest
+	}
+
+	option = { #get an extra defense modifier
+		name = hawaii_events.2.a
+		default_option = yes
+		every_scope_state = {
+			limit = { is_incorporated = yes }
+			add_modifier = {
+				name = national_defence_modifier
+				months = short_modifier_time
+			}
+		}
+	}
+	option = { #deport businessmen thinking of coup
+		name = hawaii_events.2.b
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = deporting_disloyal_igs
+				months = normal_modifier_time
+			}
+		}
+		if = {
+			limit = {
+				any_country = {
+					has_variable = hawaii_interest
+				}
+			}
+			random_country = {
+				limit = {
+					has_variable = hawaii_interest
+				}
+				trigger_event = {
+					id = hawaii_events.5
+				}
+			}
+		}
+	}
+}
+hawaii_events.3 = { #Failed JE
+	type = country_event
+	placement = ROOT
+
+	title = hawaii_events.3.t
+	desc = hawaii_events.3.d
+	flavor = hawaii_events.3.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_springtime_of_nations.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/springtime_of_nation"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		remove_global_variable = gp_hawaii_interest
+		if = {
+			limit = {
+				any_country = {
+					has_variable = hawaii_interest
+				}
+			}
+			random_country = {
+				limit = {
+					has_variable = hawaii_interest
+				}
+				save_scope_as = hawaiian_coup
+			}
+		}
+	}
+
+	option = { #Government overthrown policy change
+		name = hawaii_events.3.a
+		default_option = yes
+		activate_law = law_type:law_presidential_republic
+		activate_law = law_type:law_oligarchy
+		scope:hawaiian_coup = {
+			trigger_event = {
+				id = hawaii_events.4
+			}
+		}
+	}
+}
+
+hawaii_events.4 = { #Great Power makes hawaii puppet or annex's them
+	type = country_event
+	placement = ROOT
+
+	title = hawaii_events.4.t
+	desc = hawaii_events.4.d
+	flavor = hawaii_events.4.f
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_aristocrats.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+	duration = 4
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #makes hawaii puppet
+		name = hawaii_events.4.a
+		default_option = yes
+		create_diplomatic_pact = {
+			country = c:HAW
+			type = puppet
+		}
+		create_incident = {
+			country = c:HAW
+			value = 10
+		}
+		ai_chance = {
+			base = 50
+			modifier = {
+				add = 50
+				c:USA = ROOT
+			}
+		}
+	}
+	option = { #annex hawaii
+		name = hawaii_events.4.b
+		trigger = {
+			exists = c:HAW
+			c:HAW = {
+				is_player = no
+			}
+		}
+		annex = c:HAW
+		create_incident = {
+			country = c:HAW
+			value = 30
+		}
+		ai_chance = {
+			base = 25
+			modifier = {
+				add = 50
+				c:USA = ROOT
+			}
+		}
+	}
+	option = { #no hostile action improve relations
+		name = hawaii_events.4.c
+		change_relations = {
+			country = c:HAW
+			value = 20
+		}
+		ai_chance = {
+			base = 25
+		}
+	}
+}
+
+hawaii_events.5 = { #JE success GP reaction
+type = country_event
+	placement = ROOT
+
+	title = hawaii_events.5.t
+	desc = hawaii_events.5.d
+	flavor = hawaii_events.5.f
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_aristocrats.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	duration = 4
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = hawaii_events.5.a
+		default_option = yes
+		change_relations = {
+			country = c:HAW
+			value = 20
+		}
+		ai_chance = {
+			base = 50
+		}
+	}
+	option = {
+		name = hawaii_events.5.b
+		s:STATE_HAWAIIAN_ISLANDS = {
+			add_claim = ROOT
+		}
+		ai_chance = {
+			base = 25
+			modifier = {
+				add = 50
+				c:USA = ROOT
+			}
+		}
+	}
+}

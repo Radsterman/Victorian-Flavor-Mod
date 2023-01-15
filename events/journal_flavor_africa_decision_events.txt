@@ -1,0 +1,308 @@
+﻿namespace = decision_africa
+
+# South African colony absorbs a poorer neighbor
+decision_africa.1 = {
+	type = country_event
+	placement = ROOT
+
+	title = decision_africa.1.t
+	desc = decision_africa.1.d
+	flavor = decision_africa.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_neighbouring_state = {
+			limit = {
+				owner = {
+					is_ai = yes
+					relations:root >= relations_threshold:amicable
+					OR = {
+				country_has_primary_culture = cu:boer
+                country_has_primary_culture = cu:voortrekker
+                country_has_primary_culture = cu:xhosa
+                country_has_primary_culture = cu:zulu
+                country_has_primary_culture = cu:sotho
+				country_has_primary_culture = cu:griqua
+					}
+					is_subject = yes
+					NOT = { THIS = ROOT }
+					top_overlord = {
+						THIS = root.top_overlord
+					}
+					this.gdp < root.gdp
+				}
+			}
+			owner = { save_scope_as = south_africa_annex_scope }
+		}
+		top_overlord = {
+			save_scope_as = south_africa_overlord_country
+			ruler = {
+				save_scope_as = south_africa_overlord_ruler
+			}
+		}
+	}
+
+	option = {
+		name = decision_africa.1.a
+		default_option = yes
+		annex = scope:south_africa_annex_scope
+	}
+}
+
+# Britain mashes 2 South Africans together
+decision_africa.2 = {
+	type = country_event
+	placement = ROOT
+
+	title = decision_africa.2.t
+	desc = decision_africa.2.d
+	flavor = decision_africa.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_subject_or_below = {
+			limit = {
+				OR = {
+				country_has_primary_culture = cu:boer
+                country_has_primary_culture = cu:voortrekker
+                country_has_primary_culture = cu:xhosa
+                country_has_primary_culture = cu:zulu
+                country_has_primary_culture = cu:sotho
+				country_has_primary_culture = cu:griqua
+				}
+				relations:root >= relations_threshold:amicable
+			}
+			save_scope_as = south_africa_scope_1
+		}
+		random_subject_or_below = {
+			limit = {
+				OR = {
+				country_has_primary_culture = cu:boer
+                country_has_primary_culture = cu:voortrekker
+                country_has_primary_culture = cu:xhosa
+                country_has_primary_culture = cu:zulu
+                country_has_primary_culture = cu:sotho
+				country_has_primary_culture = cu:griqua
+				}
+				relations:root >= relations_threshold:amicable
+				NOT = {
+					scope:south_africa_scope_1 = THIS
+				}
+			}
+			save_scope_as = south_africa_scope_2
+		}
+	}
+
+	option = {
+		name = decision_africa.2.a
+		default_option = yes
+		if = {
+			limit = {
+				scope:south_africa_scope_1.gdp > scope:south_africa_scope_2.gdp
+				scope:south_africa_scope_2 = {
+					is_ai = yes
+				}
+			}
+			scope:south_africa_scope_1 = {
+				annex = scope:south_africa_scope_2
+			}
+		}
+		else = {
+			scope:south_africa_scope_2 = {
+				annex = scope:south_africa_scope_1
+			}
+		}
+	}
+}
+
+# south_africa complete event for south_africa
+decision_africa.5 = {
+	type = country_event
+	placement = ROOT
+
+	title = decision_africa.5.t
+	desc = decision_africa.5.d
+	flavor = decision_africa.5.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		top_overlord = {
+			save_scope_as = south_africa_overlord_country
+		}
+	}
+
+	option = {
+		name = decision_africa.5.a
+		add_modifier = {
+			name = saf_unified_south_africa
+			months = normal_modifier_time
+		}
+		if = {
+			limit = {
+				NOT = { is_subject_type = subject_type_dominion }
+			}
+			change_subject_type = subject_type_dominion
+		}
+	}
+}
+
+# south_africa complete event for Overlord
+decision_africa.6 = {
+	type = country_event
+	placement = ROOT
+
+	title = decision_africa.5.t
+	desc = decision_africa.6.d
+	flavor = decision_africa.5.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_subject_or_below = {
+			limit = {
+				OR = {
+				country_has_primary_culture = cu:boer
+                country_has_primary_culture = cu:voortrekker
+                country_has_primary_culture = cu:xhosa
+                country_has_primary_culture = cu:zulu
+                country_has_primary_culture = cu:sotho
+				country_has_primary_culture = cu:griqua
+				}
+				any_scope_state = {
+					OR = {
+                        state_region = s:STATE_TRANSVAAL
+                        state_region = s:STATE_NORTHERN_CAPE
+                        state_region = s:STATE_EASTERN_CAPE
+                        state_region = s:STATE_CAPE_COLONY 
+                        state_region = s:STATE_VRYSTAAT                        
+					}
+					count >= 6
+				}
+			}
+			save_scope_as = south_africa_country
+		}
+	}
+
+	option = {
+		name = decision_africa.5.a
+		add_modifier = {
+			name = gbr_unified_south_africa
+			months = normal_modifier_time
+		}
+	}
+}
+
+decision_africa.7 = {
+	type = country_event
+	placement = ROOT
+
+	title = decision_africa.7.t
+	desc = decision_africa.7.d
+	flavor = decision_africa.7.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_neighbouring_state = {
+			limit = {
+				owner = {
+					relations:root < relations_threshold:poor
+					OR = {
+						country_has_primary_culture = cu:boer
+					}
+					is_subject = no
+					NOT = { THIS = ROOT }
+				}
+			}
+			owner = { save_scope_as = south_africa_attack_scope }
+		}
+		top_overlord = {
+			save_scope_as = south_africa_overlord_country
+			ruler = {
+				save_scope_as = south_africa_overlord_ruler
+			}
+		}
+	}
+
+	option = {
+		name = decision_africa.7.a
+		default_option = yes
+
+		top_overlord = {
+			create_diplomatic_play = {
+				name = african_colonialism
+				target_country = scope:south_africa_attack_scope
+				
+				type = dp_make_puppet
+			}		
+		}	
+	}
+
+	option = {
+		name = decision_africa.7.b
+
+	}
+}

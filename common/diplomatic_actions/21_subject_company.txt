@@ -1,0 +1,230 @@
+﻿chartered_company = {
+	can_select = no
+	can_use_obligations = yes
+
+	potential = {
+		always = no
+	}
+
+	possible = {
+		is_revolutionary = no
+		scope:target_country = {
+			is_revolutionary = no
+		}
+	}	
+	
+	pact = {
+		cost = 25
+	
+		has_junior_participant = yes
+		recipient_pays_maintenance = no
+		is_customs_union = yes
+		income_transfer = 0.3
+		recipient_gets_income_transfer = no
+		income_transfer_based_on_recipient = yes
+		
+		relations_progress_per_day = 1
+		relations_improvement_max = 50
+
+		target_requires_approval_to_break = yes	
+		
+		subject_type = subject_type_chartered_company
+		
+		actor_can_break = {
+			is_diplomatic_play_committed_participant = no
+		}
+
+		target_can_break = {
+			is_diplomatic_play_committed_participant = no
+			custom_tooltip = {
+				text = chartered_company_demand_independence_tt
+				always = no
+			}
+		}
+		
+		break_effect = {
+			create_truce = { country = scope:target_country months = 12 }
+		}
+	}
+	
+	ai = {
+		check_acceptance_for_will_break = no
+		
+		will_break = {
+			always = no		
+		}
+		
+		propose_break_score = {
+			value = 10
+		}		
+		
+		accept_break_score = {
+			value = 0
+
+			add = {
+				desc = "DIPLOMATIC_ACCEPTANCE_BASE"
+				value = -100
+			}				
+	
+			if = {
+				limit = { has_truce_with = scope:actor }
+				add = {
+					desc = "DIPLOMATIC_ACCEPTANCE_TRUCE"
+					value = -1000
+				}	
+			}			
+			
+			add = {
+				desc = "DIPLOMATIC_ACCEPTANCE_ARMY_STRENGTH"
+				value = "scope:actor.ai_army_comparison(root)"
+				add = 0.5
+				multiply = 5
+				min = -50
+				max = 50
+			}		
+
+			if = {
+				limit = {
+					"scope:actor.ai_ideological_opinion(root)" > 0
+				}
+				add = {
+					desc = "DIPLOMATIC_ACCEPTANCE_IDEOLOGICAL_OPINION"
+					value = "scope:actor.ai_ideological_opinion(root)"
+					multiply = -0.25
+					min = -10
+				}					
+			}
+			else_if = {
+				limit = {
+					"scope:actor.ai_ideological_opinion(root)" < 0
+				}
+				add = {
+					desc = "DIPLOMATIC_ACCEPTANCE_IDEOLOGICAL_OPINION_NEGATIVE"
+					value = "scope:actor.ai_ideological_opinion(root)"
+					multiply = -0.25
+					max = 10
+				}					
+			}							
+			
+			add = {
+				desc = "DIPLOMATIC_ACCEPTANCE_ATTITUDE"	
+				if = {
+					limit = {
+						has_attitude = {
+							who = scope:actor
+							attitude = domineering
+						}								
+					}
+					value = -50
+				}							
+			}			
+
+			add = {
+				desc = "DIPLOMATIC_ACCEPTANCE_RELATIONS"	
+				if = {
+					limit = {
+						"relations(scope:actor)" < relations_threshold:cordial
+					}
+					value = -25
+				}					
+				if = {
+					limit = {
+						"relations(scope:actor)" >= relations_threshold:cordial
+						"relations(scope:actor)" < relations_threshold:amicable
+					}
+					value = 10
+				}					
+				if = {
+					limit = {
+						"relations(scope:actor)" >= relations_threshold:amicable
+						"relations(scope:actor)" < relations_threshold:friendly
+					}
+					value = 25
+				}	
+				if = {
+					limit = {
+						"relations(scope:actor)" >= relations_threshold:friendly
+					}
+					value = 50
+				}				
+			}
+			
+			add = {
+				desc = "DIPLOMATIC_ACCEPTANCE_INFAMY"
+				if = {
+					limit = {
+						"scope:actor.infamy" >= infamy_threshold:infamous
+						"scope:actor.infamy" < infamy_threshold:notorious
+					}
+					value = -25
+				}	
+				if = {
+					limit = {
+						"scope:actor.infamy" >= infamy_threshold:notorious
+						"scope:actor.infamy" < infamy_threshold:pariah
+					}
+					value = -50
+				}
+				if = {
+					limit = {
+						"scope:actor.infamy" >= infamy_threshold:pariah
+					}
+					value = -100
+				}					
+			}					
+
+			add = {
+				desc = "DIPLOMATIC_ACCEPTANCE_RANK"
+	
+				if = {
+					limit = { scope:actor = { country_rank > root.country_rank } }
+					value = 10
+				}
+				
+				if = {
+					limit = { scope:actor = { country_rank < root.country_rank } }
+					value = -10
+				}				
+			}	
+
+			if = {
+				limit = {
+					any_country = {
+						NOT = { this = root }
+						OR = {
+							country_rank >= root.country_rank
+							army_size >= root.army_size
+						}
+						
+						OR = {
+							has_diplomatic_pact = {
+								who = scope:actor
+								type = alliance
+							}
+							has_diplomatic_pact = {
+								who = scope:actor
+								type = customs_union
+							}
+							has_diplomatic_pact = {
+								who = scope:actor
+								type = defensive_pact
+							}									
+						}							
+					}
+				}
+				add = {
+					desc = "DIPLOMATIC_ACCEPTANCE_POWERFUL_PROTECTORS_US"
+					value = 25
+				}	
+			}		
+		}	
+
+		use_obligation_chance = {
+			value = 50
+		}
+
+		owe_obligation_chance = {
+			value = 25
+		}		
+	}
+}

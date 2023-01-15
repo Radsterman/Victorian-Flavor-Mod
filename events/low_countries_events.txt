@@ -1,0 +1,97 @@
+﻿namespace = low_countries_events
+
+# start event
+low_countries_events.1 = {
+	type = country_event
+	placement = root
+	title = low_countries_events.1.t
+	desc = low_countries_events.1.d
+	flavor = low_countries_events.1.f
+
+	duration = 6
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+
+	option = {
+		name = low_countries_events.1.a
+		highlighted_option = yes
+		default_option = yes
+		hidden_effect = {
+			create_country = {
+				tag = LBG
+				origin = THIS
+				state = s:STATE_GELRE.region_state:BEL
+			}
+			create_country = {
+				tag = LUX
+				origin = THIS
+				state = s:STATE_LUXEMBOURG.region_state:BEL
+			}
+			c:NET = {
+				create_diplomatic_pact = {
+						country = c:LBG
+						type = personal_union
+				}
+				create_diplomatic_pact = {
+						country = c:LUX
+						type = personal_union
+				}
+			}
+		}
+		custom_tooltip = {
+			text = treaty_of_london_event_tooltip_1
+		}
+		change_relations = {
+			country = C:GBR
+			value = 20
+		}
+		change_relations = {
+			country = C:FRA
+			value = 15
+		}
+		change_relations = {
+			country = C:NET
+			value = 10
+		}
+	}
+
+	option = {
+		name = low_countries_events.2.a
+		ai_chance = 0
+		c:NET = {
+			create_diplomatic_play = {
+				name = dutch_belgian_war
+			
+				target_state = s:STATE_GELRE.region_state:BEL
+				
+				war = yes
+				
+				type = dp_annex_war
+			}
+		}
+		change_infamy = 30
+		change_relations = {
+			country = C:GBR
+			value = -30
+		}
+		change_relations = {
+			country = C:FRA
+			value = -30
+		}
+		change_relations = {
+			country = C:NET
+			value = -30
+		}
+		add_modifier = {
+			name = pax_belgica
+		}
+	}
+}

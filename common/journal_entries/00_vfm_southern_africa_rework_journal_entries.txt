@@ -29,13 +29,15 @@ je_encourage_boer_migration_into_the_oranje_river_basin = {
 			}
 	}
 	is_shown_when_inactive = {
-		THIS = c:ORA
+		exists = c:WIN
+		THIS = c:WIN
 		NOT = {
 			owns_entire_state_region = STATE_VRYSTAAT
 		}
 	}
 	possible = {
-		THIS = c:ORA
+		exists = c:WIN
+		THIS = c:WIN
 		NOT = {
 			owns_entire_state_region = STATE_VRYSTAAT
 		}
@@ -54,17 +56,9 @@ je_the_forming_of_the_oranje_vrystaat = {
 	complete = {
 			owns_entire_state_region = STATE_VRYSTAAT
 	}
-	is_shown_when_inactive = {
-		THIS = c:ORA
-	}
-	possible = {
-		THIS = c:ORA
-	}
 	on_complete = {
 		remove_modifier = adjunct_volksraad
-		custom_tooltip = {
-			text = form_oranje_vrystaat_tt
-		}
+		change_tag = ORA
 	}
 	should_be_pinned_by_default = yes
 }
@@ -79,21 +73,13 @@ je_climax_of_the_great_trek = {
 				owns_entire_state_region = STATE_TRANSVAAL
 			}
 	}
-	is_shown_when_inactive = {
-		THIS = c:TRN
-	}
-	possible = {
-		THIS = c:TRN
-	}
 	on_complete = {
 		hidden_effect = {
-			s:STATE_ZAMBEZI.region_state:RWZ = { set_state_owner = c:MTB }
+			s:STATE_ZAMBEZI.region_state:RZW = { set_state_owner = c:MTB }
 		}
 		s:STATE_TRANSVAAL.region_state:MTB = { set_state_owner = c:TRN }
 		remove_modifier = adjunct_volksraad
-		custom_tooltip = {
-			text = form_south_african_republic_tt
-		}
+		change_tag = TRN
 	}
 	should_be_pinned_by_default = yes
 }
@@ -104,66 +90,30 @@ je_form_griqualand_west = {
 	complete = {
 		OR = {
 			AND = {	
-				gdp > 900000
-				exists = c:WBL
-				year > 1845
-				c:SAF = {
-					c:WBL.relations:ROOT > relations_threshold:cordial
-				}
-			}	
-			AND = {
-				c:SAF = {
-					is_ai = yes
-				}
-				c:WBL = {
-					is_ai = yes
-				}
-				year > 1873
-			}	
-
-		}
-	}
-	is_shown_when_inactive = {
-		THIS = c:SAF
-	}
-	possible = {
-		THIS = c:SAF
-	}
-	on_complete = {
-		annex = c:WBL
-	}
-}
-je_colonize_bechuanaland = {
-	icon = "gfx/interface/icons/event_icons/event_scales.dds"
-
-
-	complete = {
-		OR = {
-			AND = {	
 				gdp > 1200000
-				year > 1865
-			}	
-			AND = {
-				year > 1895
-				c:SAF = {
-					is_ai = yes
+				exists = c:WBL
+				root = {
+					c:WBL.relations:ROOT > relations_threshold:amicable
 				}
-			}
-		}
-	}
-	is_shown_when_inactive = {
-		THIS = c:SAF
-	}
-	possible = {
-		THIS = c:SAF
-		NOT = {
-			c:SAF = {
-				has_state_in_state_region = STATE_NORTHERN_CAPE
-			}
+			}	
+
 		}
 	}
 	on_complete = {
-		s:STATE_NORTHERN_CAPE:TSW = { set_state_owner = c:SAF }
+		c:WBL = {
+			trigger_event = { id = journal_flavor_south_africa.11 }
+		}
+	}
+
+	invalid = {
+		OR = {
+			c:WBL = {
+				is_subject = yes
+			}
+			NOT = {
+				exists = c:WBL
+			}
+		}
 	}
 }
 je_anglo_zulu_war = {
@@ -174,19 +124,15 @@ je_anglo_zulu_war = {
 		OR = {
 			AND = {	
 				gdp > 1200000
-				year > 1865
+				root = {
+					c:ZUL.relations:ROOT < relations_threshold:cold
+				}
 			}	
 				year > 1879
 		}
 	}
-	is_shown_when_inactive = {
-		THIS = c:SAF
-	}
-	possible = {
-		THIS = c:SAF
-	}
 	on_complete = {
-		c:SAF = {
+		root = {
 			create_diplomatic_play = {
 				name = anglo_zulu_war
 			
@@ -196,7 +142,6 @@ je_anglo_zulu_war = {
 				
 				type = dp_annex_war
 			}
-			
 		}
 	}
 }
@@ -209,13 +154,13 @@ je_establish_the_orange_river_soverignty = {
 			AND = {	
 				gdp > 900000
 				year > 1848
-				c:SAF = {
+				root = {
 					c:ORA.relations:ROOT > relations_threshold:cordial
 				}
 			}	
 			AND = {
 				year > 1854
-				c:SAF = {
+				root = {
 					is_ai = yes
 				}
 				c:ORA = {
@@ -224,14 +169,8 @@ je_establish_the_orange_river_soverignty = {
 			}
 		}
 	}
-	is_shown_when_inactive = {
-		THIS = c:SAF
-	}
-	possible = {
-		THIS = c:SAF
-	}
 	on_complete = {
-		c:SAF = {
+		root = {
 			create_diplomatic_pact = {
 				country = c:ORA
 				type = puppet
@@ -248,13 +187,13 @@ je_establish_the_traansval_colony = {
 			AND = {	
 				gdp > 1400000
 				year > 1860
-				c:SAF = {
+				root = {
 					c:TRN.relations:ROOT < relations_threshold:cordial
 				}
 			}	
 			AND = {
 				year > 1874
-				c:SAF = {
+				root = {
 					is_ai = yes
 				}
 				c:TRN = {
@@ -263,12 +202,12 @@ je_establish_the_traansval_colony = {
 			}
 		}
 	}
-	is_shown_when_inactive = {
-		THIS = c:SAF
-	}
-	possible = {
-		THIS = c:SAF
-	}
+	#is_shown_when_inactive = {
+	#	THIS = c:SAF
+	#}
+	#possible = {
+	#	THIS = c:SAF
+	#}
 	on_complete = {
 		IF = {
 			limit = {
@@ -276,7 +215,7 @@ je_establish_the_traansval_colony = {
 					is_ai = yes
 				}
 			}
-			c:SAF = {
+			root = {
 				create_diplomatic_pact = {
 					country = c:TRN
 					type = puppet
@@ -307,7 +246,7 @@ je_first_boer_war = {
 		OR = {
 			AND = {	
 				year > 1860
-				c:SAF = {
+				root = {
 					c:TRN.relations:ROOT < relations_threshold:cordial
 				}
 			}	
@@ -324,16 +263,29 @@ je_first_boer_war = {
 	}
 	is_shown_when_inactive = {
 		OR = {
-			THIS = c:TRN
-			THIS = c:ORA
+			AND = {
+				exists = c:TRN
+				THIS = c:TRN
+			}
+
+			AND = {
+				exists = c:ORA
+				THIS = c:ORA
+			}
 		}
 	}
 	possible = {
-		c:ORA = {
-			is_subject_of = c:SAF
+		AND = {
+			exists = c:ORA
+			c:ORA = {
+				is_subject_of = root
+			}
 		}
-		c:TRN = {
-			is_subject_of = c:SAF
+		AND = {
+			exists = c:TRN
+			c:TRN = {
+				is_subject_of = root
+			}
 		}
 	}
 	on_complete = {
@@ -343,7 +295,7 @@ je_first_boer_war = {
 		c:ORA = {
 			make_independent = yes
 		}
-		c:SAF = {
+		root = {
 			create_diplomatic_play = {
 				name = first_boer_war
 				target_country = c:TRN
@@ -367,7 +319,7 @@ je_second_boer_war = {
 		OR = {
 			AND = {	
 				year > 1880
-				c:SAF = {
+				root = {
 					c:TRN.relations:ROOT < relations_threshold:cordial
 				}
 			}	
@@ -384,18 +336,26 @@ je_second_boer_war = {
 	}
 	is_shown_when_inactive = {
 		OR = {
-			THIS = c:TRN
-			THIS = c:ORA
+			AND = {
+				exists = c:TRN
+				THIS = c:TRN
+			}
+
+			AND = {
+				exists = c:ORA
+				THIS = c:ORA
+			}
+			
 		}
 	}
 	possible = {
 		year > 1880
 		NOT = {
 			c:ORA = {
-				is_subject_of = c:SAF
+				is_subject_of = root
 			}
 			c:TRN = {
-				is_subject_of = c:SAF
+				is_subject_of = root
 			}
 		}
 	}
@@ -406,7 +366,7 @@ je_second_boer_war = {
 		c:ORA = {
 			make_independent = yes
 		}
-		c:SAF = {
+		root = {
 			create_diplomatic_play = {
 				name = first_boer_war
 				target_country = c:TRN
@@ -427,41 +387,32 @@ je_form_the_union_of_south_africa = {
 
 
 	complete = {
-		c:SAF = {
-			country_or_subject_owns_entire_state_region = STATE_VRYSTAAT
-			country_or_subject_owns_entire_state_region = STATE_TRANSVAAL
-			has_state_in_state_region = STATE_NORTHERN_CAPE
-			country_or_subject_owns_entire_state_region = STATE_ZULULAND
+		custom_tooltip = {
+			text = is_african_union_tt
+			AND = {
+				exists = c:BOE
+				c:BOE = ROOT
+			}
+
 		}
-	}
-	is_shown_when_inactive = {
-		THIS = c:SAF
-	}
-	possible = {
-		THIS = c:SAF
-		is_subject_of = c:GBR
-		is_subject_type = subject_type_puppet
+	
 	}
 	on_complete = {
-		hidden_effect = {
-			c:SAF = {
-				make_independent = yes
+
+		if = {
+			limit = { 
+				is_subject_type = subject_type_puppet
 			}
-		}
-		c:GBR = {
-			create_diplomatic_pact = {
-				country = c:SAF
-				type = dominion
+			top_overlord = {
+				create_diplomatic_pact = {
+					country = root
+					type = dominion
+				}
 			}
 		}
 		add_modifier = {
 			name = union_of_south_africa_modifier
 		}
-		custom_tooltip = {
-			text = south_african_union_tt
-		}
-		annex = c:TRN
-		annex = c:ORA
 	}
 	should_be_pinned_by_default = yes
 }
