@@ -54,6 +54,22 @@ can_aus.1 = {
 	option = {
 		name = can_aus.1.a
 		default_option = yes
+
+		every_country = {
+			limit = {
+				is_subject_of = scope:canada_annex_scope
+			}
+			save_scope_as = subject_of_subject
+
+			scope:canada_annex_scope = {
+				top_overlord = {
+					create_diplomatic_pact = {
+						country = scope:subject_of_subject
+						type = puppet
+					}
+				}
+			}
+		}
 		annex = scope:canada_annex_scope
 	}
 }
@@ -117,11 +133,41 @@ can_aus.2 = {
 				scope:canada_scope_1.gdp > scope:canada_scope_2.gdp
 			}
 			scope:canada_scope_1 = {
+				every_country = {
+					limit = {
+						is_subject_of = scope:canada_scope_2
+					}
+					save_scope_as = subject_of_subject
+
+					scope:canada_scope_2 = {
+						top_overlord = {
+							create_diplomatic_pact = {
+								country = scope:subject_of_subject
+								type = puppet
+							}
+						}
+					}
+				}
 				annex = scope:canada_scope_2
 			}
 		}
 		else = {
 			scope:canada_scope_2 = {
+				every_country = {
+					limit = {
+						is_subject_of = scope:canada_scope_1
+					}
+					save_scope_as = subject_of_subject
+
+					scope:canada_scope_1 = {
+						top_overlord = {
+							create_diplomatic_pact = {
+								country = scope:subject_of_subject
+								type = puppet
+							}
+						}
+					}
+				}
 				annex = scope:canada_scope_1
 			}
 		}
