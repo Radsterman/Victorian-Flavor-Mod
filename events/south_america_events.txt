@@ -163,3 +163,155 @@ south_america.2 = {
 	}
 }
 
+# Brazil starting war
+south_america.3 = { #Ongoing Guerilla War 
+	type = country_event
+	placement = ROOT
+	title = south_america.3.t
+	desc = south_america.3.d
+	flavor =  south_america.3.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_war_civilians.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/war_civilians"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	trigger = {
+		has_variable = recently_won_war
+		any_state_region = {
+			has_variable = brazil_sucession_state
+		}
+		country_is_in_south_america = yes
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = {
+					has_variable = brazil_sucession_state
+				}
+			}
+			save_scope_as = guerilla_state
+		}
+	}
+
+	option = {
+		name = south_america.3.a
+		default_option = yes
+
+		scope:guerilla_state.state_region = {
+			add_devastation = 10
+		}
+
+		add_modifier = {
+			name = modifier_destroy_guerillas
+			months = normal_modifier_time
+		}
+	}
+
+	option = {
+		name = south_america.3.b
+
+		scope:guerilla_state.state_region = {
+			add_devastation = 50
+		}
+
+	}
+
+}
+
+
+south_america.5 = { #you lost
+	type = country_event
+	placement = ROOT
+	title = south_america.5.t
+	desc = south_america.5.d
+	flavor =  south_america.5.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_war_civilians.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/war_civilians"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	trigger = {
+		#triggered by the Ragamuffin JE
+	}
+
+	option = { #Revenge
+		name = south_america.5.a
+		default_option = yes
+		s:STATE_RIO_GRANDE_DO_SUL = {
+			add_claim = ROOT
+		}
+		add_modifier = {
+			name = lost_ragamuffin_war
+			months = normal_modifier_time
+		}
+	}
+
+	option = { #Peace
+		name = south_america.5.b
+		add_modifier = {
+			name = lost_ragamuffin_war
+			months = normal_modifier_time
+		}
+	}
+}
+
+
+south_america.6 = { #you won
+	type = country_event
+	placement = ROOT
+	title = south_america.6.t
+	desc = south_america.6.d
+	flavor =  south_america.6.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_war_civilians.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/war_civilians"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	trigger = {
+		#triggered by the Ragamuffin JE
+	}
+
+	option = {
+		name = south_america.6.a
+		default_option = yes
+		add_modifier = {
+			name = won_ragamuffin_war_integrate
+			months = normal_modifier_time
+		}	
+	}
+
+	option = {
+		name = south_america.6.b
+		add_modifier = {
+			name = won_ragamuffin_war_ostracize
+			months = normal_modifier_time
+		}
+		add_radicals = {
+			value = 0.1
+			culture = cu:brazilian
+		}
+	}
+}
+
