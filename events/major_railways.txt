@@ -1,0 +1,236 @@
+﻿namespace = major_railways
+
+# Trans-Siberian
+major_railways.1 = {
+	type = country_event
+	event_image = {
+		video = "gfx/event_pictures/unspecific_trains.bk2"
+	}
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/trains"
+
+	duration = 3
+	placement = scope:siberia_end_scope	
+	title = major_railways.1.t
+	desc = major_railways.1.d
+	flavor = major_railways.1.f
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				OR = {
+					state_region = s:STATE_OKHOTSK
+					state_region = s:STATE_OUTER_MANCHURIA
+				}
+				has_building = building_railway
+			}
+			save_scope_as = siberia_end_scope
+		}
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_MOSCOW
+			}
+			save_scope_as = moscow_scope
+		}
+		sr:region_east_siberia = {
+			save_scope_as = east_siberia
+		}
+		sr:region_west_siberia = {
+			save_scope_as = west_siberia
+		}
+		sr:region_manchuria = {
+			save_scope_as = manchuria
+		}
+	}
+	
+	option = {
+		name = major_railways.1.a
+		default_option = yes
+		custom_tooltip = siberia_tt
+		show_as_tooltip = {
+			random_scope_state = {
+				limit = {
+					OR = {
+						region = sr:region_east_siberia
+						region = sr:region_west_siberia
+						region = sr:region_manchuria
+					}
+					has_building = building_railway
+				}
+				add_modifier = {
+					name = siberia_mining
+					months = normal_modifier_time
+				}
+			}
+		}
+		hidden_effect = {
+			every_scope_state = {
+				limit = {
+					OR = {
+						region = sr:region_east_siberia
+						region = sr:region_west_siberia
+						region = sr:region_manchuria
+					}
+					has_building = building_railway
+				}
+				add_modifier = {
+					name = siberia_mining
+					months = normal_modifier_time
+				}
+			}
+		}
+	}
+
+	option = {
+		name = major_railways.1.b
+		custom_tooltip = siberia_tt
+		show_as_tooltip = {
+			random_scope_state = {
+				limit = {
+					OR = {
+						region = sr:region_east_siberia
+						region = sr:region_west_siberia
+						region = sr:region_manchuria
+					}
+					has_building = building_railway
+				}
+				add_modifier = {
+					name = siberia_infrastructure
+					months = normal_modifier_time
+				}
+			}
+		}
+		hidden_effect = {
+			every_scope_state = {
+				limit = {
+					OR = {
+						region = sr:region_east_siberia
+						region = sr:region_west_siberia
+						region = sr:region_manchuria
+					}
+					has_building = building_railway
+				}
+				add_modifier = {
+					name = siberia_infrastructure
+					months = normal_modifier_time
+				}
+			}
+		}
+	}
+}
+
+# Transcontinental
+major_railways.2 = {
+	type = country_event
+	event_image = {
+		video = "gfx/event_pictures/unspecific_trains.bk2"
+	}
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/trains"
+
+	duration = 3
+	placement = scope:california_scope
+	
+	title = major_railways.2.t
+	desc = major_railways.2.d
+	flavor = major_railways.2.f
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_CALIFORNIA
+			}
+			save_scope_as = california_scope
+		}
+	}
+	
+	option = { # settle the great plains
+		name = major_railways.2.a
+		every_scope_state = {
+			limit = {
+				region = sr:region_great_plains
+				has_building = building_railway
+			}
+			add_modifier = {
+				name = great_plains_settlement
+				months = normal_modifier_time
+			}
+		}
+	}
+	option = { # settle california
+		name = major_railways.2.b
+		default_option = yes
+		every_scope_state = {
+			limit = {
+				region = sr:region_pacific_coast
+				has_building = building_railway
+			}
+			add_modifier = {
+				name = great_plains_settlement
+				months = normal_modifier_time
+			}
+		}
+	}
+}
+
+# Canada Pacific
+major_railways.3 = {
+	type = country_event
+	event_image = {
+		video = "gfx/event_pictures/unspecific_trains.bk2"
+	}
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/trains"
+
+	duration = 3
+	placement = scope:pacific_railroad_end
+	title = major_railways.3.t
+	desc = major_railways.3.d
+	flavor = major_railways.3.f
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_BRITISH_COLUMBIA
+			}
+			save_scope_as = pacific_railroad_end
+		}
+	}
+	
+	option = { # settle the west coast
+		name = major_railways.3.a
+		default_option = yes
+		scope:pacific_railroad_end = {
+			add_modifier = {
+				name = canada_settlement_mod
+				months = normal_modifier_time
+				multiplier = 2
+			}
+		}
+	}
+	option = { # settle the praries
+		name = major_railways.3.b
+		every_scope_state = {
+			limit = {
+				OR = {
+					state_region = s:STATE_ALBERTA
+					state_region = s:STATE_SASKATCHEWAN
+					state_region = s:STATE_MANITOBA
+				}
+			}
+			add_modifier = {
+				name = canada_settlement_mod
+				months = normal_modifier_time
+			}
+		}
+	}
+}
