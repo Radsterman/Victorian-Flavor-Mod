@@ -1,0 +1,119 @@
+﻿plombieres_agreement_decision = {
+	is_shown = {	
+		NOT = { 
+			has_variable = plombieres_agreement_var 
+		}
+		has_journal_entry = je_plombieres_agreement
+	}
+
+	possible = {
+		is_at_war = no
+		country_rank >= rank_value:minor_power
+		is_subject = no
+		is_at_war = no
+		has_technology_researched = pan-nationalism
+		owns_entire_state_region = STATE_PIEDMONT
+		owns_entire_state_region = STATE_SAVOY
+		has_state_in_state_region = STATE_PROVENCE
+		OR = {
+			c:AUS = {
+				owns_entire_state_region = STATE_LOMBARDY
+				is_subject = no
+			}
+			any_country = {
+				is_subject_of = c:AUS
+				owns_entire_state_region = STATE_LOMBARDY
+			}
+		}
+		NOT = {
+			year >= 1880
+		}
+		c:FRA = {
+			relations:root >= relations_threshold:amicable 
+			is_at_war = no
+		}
+		c:SAR = {
+			is_at_war = no
+		}
+	}
+
+	when_taken = {
+		hidden_effect = {
+			c:FRA = {
+				save_scope_as = fra_scope
+			}
+		}
+		set_variable = {
+			name = plombieres_agreement_var
+			value = yes
+		}
+		trigger_event = {
+			id = plombieres_agreement.6
+			days = 0
+			popup = yes
+		}
+	}
+
+	ai_chance = {
+		base = 100
+		modifier = {
+			trigger = { 
+				OR = {
+					weekly_net_fixed_income > money_amount_multiplier_medium
+					gold_reserves > 100000
+				}
+			}
+			add = 15
+		}
+		modifier = {
+			trigger = { 
+				gold_reserves > 350000 
+			}
+			add = 30
+			}	
+		modifier = {
+			trigger = {
+				gold_reserves < -350000 
+			}
+			add = -30
+			}	
+		modifier = {
+			trigger = {
+				OR = {
+					has_diplomatic_pact = {
+						who = c:AUS								
+						type = alliance					
+					}
+					has_diplomatic_pact = {
+						who = c:AUS								
+						type = defensive_pact					
+					}
+					has_diplomatic_pact = {
+						who = c:AUS								
+						type = customs_union					
+					}
+				}
+			}
+			add = -75
+		}
+		modifier = {
+			trigger = {
+				has_strategy = ai_strategy_armed_isolationism
+			}
+			add = -50
+			}		
+		modifier = {
+			trigger = {
+				is_at_war = yes
+			}
+			add = -100	
+			}
+		modifier = {
+			trigger = {
+				is_diplomatic_play_committed_participant = yes
+			}
+		 	add = -20
+		}			
+	}
+	weight = 500
+}

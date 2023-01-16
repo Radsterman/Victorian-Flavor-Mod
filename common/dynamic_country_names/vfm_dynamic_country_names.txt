@@ -1,4 +1,4 @@
-POS = { # Posen -> Poznan
+﻿POS = { # Posen -> Poznan
 	dynamic_country_name = {
 		name = dyn_c_poznan
 		adjective = dyn_c_poznan_adj
@@ -9,19 +9,13 @@ POS = { # Posen -> Poznan
 		trigger = {
 			exists = scope:actor
 			scope:actor = {
-				NOT = {
-					overlord = {
-						OR = {
-							country_has_primary_culture = cu:north_german
-							country_has_primary_culture = cu:south_german
-						}
-					}
-				}
+				is_subject_of = c:PRU
 			}
 		}
 	}
 }
-POL = { # Poland -> Congress Poland
+
+CPL = { # Poland -> Congress Poland
 	dynamic_country_name = {
 		name = dyn_c_congress_poland
 		adjective = dyn_c_congress_poland_adj
@@ -63,6 +57,7 @@ COL = { # British Columbia
 					exists = c:HBC
 					scope:actor = {
 						is_subject_of = c:HBC
+						NOT = { is_subject_type = subject_type_chartered_company }
 					}
 				}
 				AND = {
@@ -82,12 +77,26 @@ COL = { # British Columbia
 		priority = 0
 		
 		trigger = {
-			exists = c:GBR
-			c:GBR = {
-				has_diplomatic_pact = {
-					who = c:COL
-					type = puppet
-					is_initiator = yes
+			OR = {
+				AND = {
+					exists = c:GBR
+					c:GBR = {
+						has_diplomatic_pact = {
+							who = c:COL
+							type = chartered_company
+							is_initiator = yes
+						}
+					}
+				}
+				AND = {
+					exists = c:HBC
+					c:HBC = {
+						has_diplomatic_pact = {
+							who = c:COL
+							type = chartered_company
+							is_initiator = yes
+						}
+					}
 				}
 			}
 		}
@@ -122,10 +131,17 @@ MCH = {
 		trigger = {
 			exists = c:CHI
 			c:CHI = {
-				has_diplomatic_pact = {
-					who = c:XIN
-					type = personal_union
-					is_initiator = yes
+				OR = {
+					has_diplomatic_pact = {
+						who = c:MCH
+						type = vassal
+						is_initiator = yes
+					}
+					has_diplomatic_pact = {
+						who = c:MCH
+						type = puppet
+						is_initiator = yes
+					}
 				}
 			}
 		}
@@ -172,10 +188,17 @@ XIN = {
 		trigger = {
 			exists = c:CHI
 			c:CHI = {
-				has_diplomatic_pact = {
-					who = c:XIN
-					type = personal_union
-					is_initiator = yes
+				OR = {
+					has_diplomatic_pact = {
+						who = c:XIN
+						type = puppet
+						is_initiator = yes
+					}
+					has_diplomatic_pact = {
+						who = c:XIN
+						type = vassal
+						is_initiator = yes
+					}
 				}
 			}
 		}
@@ -204,6 +227,34 @@ TRH = {
 	}
 }
 
+AUS = { # Austria
+	dynamic_country_name = {
+		name = dyn_c_austria-hungary
+		adjective = dyn_c_austria-hungary_adj
+		
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = { country_has_primary_culture = cu:hungarian }
+			NOT = {
+				OR = {
+					 exists = c:HUN 
+
+					c:AUS = {
+					has_diplomatic_pact = {
+						who = c:HUN
+						type = personal_union
+						is_initiator = yes
+					}
+				}
+
+			}
+			 }
+		}
+	}
+}
 
 CAU = {
 	dynamic_country_name = {
@@ -226,6 +277,130 @@ CAU = {
 	}
 }
 
+BSA = {
+	dynamic_country_name = {
+		name = dyn_c_south_africa_company_british
+		adjective = dyn_c_south_africa_company_british_adj
+
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = c:GBR
+			c:GBR = {
+				has_diplomatic_pact = {
+					who = c:BSA
+					type = chartered_company
+					is_initiator = yes
+				}
+			}
+		}
+	}
+}
+
+
+RHO = {
+	dynamic_country_name = {
+		name = dyn_c_rhodesia_colony
+		adjective = dyn_c_rhodesia_colony_adj
+
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_subject = yes
+			}
+		}
+	}
+}
+
+ZAM = {
+	dynamic_country_name = {
+		name = dyn_c_zambia_colony
+		adjective = dyn_c_zambia_colony_adj
+
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_subject = yes
+			}
+		}
+	}
+}
+
+KNA = {
+	dynamic_country_name = {
+		name = dyn_c_kenya_colony
+		adjective = dyn_c_kenya_colony_adj
+
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_subject = yes
+			}
+		}
+	}
+}
+
+TAN = {
+	dynamic_country_name = {
+		name = dyn_c_tanganyika_colony
+		adjective = dyn_c_tanganyika_colony_adj
+
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_subject = yes
+			}
+		}
+	}
+}
+
+TZN = {
+	dynamic_country_name = {
+		name = dyn_c_tanganyika_colony
+		adjective = dyn_c_tanganyika_colony_adj
+
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_subject = yes
+			}
+		}
+	}
+}
+
+NGR = {
+	dynamic_country_name = {
+		name = dyn_c_nigeria_colony
+		adjective = dyn_c_nigeria_colony_adj
+
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_subject = yes
+			}
+		}
+	}
+}
+
 PEU = {
 	dynamic_country_name = {
 		name = dyn_c_north_peru
@@ -242,6 +417,214 @@ PEU = {
 					is_initiator = yes
 				}
 			}
+		}
+	}
+}
+
+OMG = { # Outer Mongolia -> Wai Menggu
+	dynamic_country_name = {
+		name = dyn_c_omg_china
+		adjective = dyn_c_omg_china_adj
+		
+		is_main_tag_only = yes
+		priority = 0
+
+		trigger = {
+			exists = c:CHI
+			c:CHI = {
+				OR = {
+					has_diplomatic_pact = {
+						who = c:OMG
+						type = puppet
+						is_initiator = yes
+					}
+					has_diplomatic_pact = {
+						who = c:OMG
+						type = vassal
+						is_initiator = yes
+					}
+				}
+			}
+		}
+	}
+}
+
+HBC = { 
+	dynamic_country_name = {
+		name = dyn_c_hudson_bay_company
+		adjective = dyn_c_hudson_bay_company_adj
+		
+		is_main_tag_only = yes
+		priority = 0
+
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				AND = {
+					is_subject = yes
+					is_subject_type = subject_type_chartered_company
+				}
+			}
+		}
+	}
+}
+
+GEA = { 
+	dynamic_country_name = {
+		name = dyn_c_tanganyika_colony
+		adjective = dyn_c_tanganyika_colony_adj
+		
+		is_main_tag_only = yes
+		priority = 0
+
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_subject = yes
+				NOT = {
+					is_subject_type = subject_type_chartered_company
+				}
+			}
+		}
+	}
+	dynamic_country_name = {
+		name = dyn_c_east_africa_company_german_colony
+		adjective = dyn_c_east_africa_company_german_colony_adj
+		
+		is_main_tag_only = yes
+		priority = 10
+
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_subject = yes
+				OR = {
+					is_subject_of = c:PRU
+					is_subject_of = c:GER
+				}
+			}
+		}
+	}
+	dynamic_country_name = {
+		name = dyn_c_east_africa_company_german
+		adjective = dyn_c_east_africa_company_german_adj
+		
+		is_main_tag_only = yes
+		priority = 20
+
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_subject = yes
+				is_subject_type = subject_type_chartered_company
+				OR = {
+					is_subject_of = c:PRU
+					is_subject_of = c:GER
+				}
+			}
+		}
+	}
+}
+
+IAC = { 
+	dynamic_country_name = {
+		name = dyn_c_northeast_africa_company_british
+		adjective = dyn_c_northeast_africa_company_british_adj
+		
+		is_main_tag_only = yes
+		priority = 10
+
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_subject = yes
+				is_subject_of = c:GBR
+			}
+		}
+	}
+}
+
+RNC = { 
+	dynamic_country_name = {
+		name = dyn_c_niger_company_monarchy
+		adjective = dyn_c_niger_company_monarchy_adj
+		
+		is_main_tag_only = yes
+		priority = 10
+
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				AND = {
+					is_subject = yes
+					top_overlord = {
+						has_law = law_type:law_monarchy
+					}
+				}
+				
+			}
+		}
+	}
+}
+
+IMG = { # Inner Mongolia -> Nei Menggu
+	dynamic_country_name = {
+		name = dyn_c_img_china
+		adjective = dyn_c_img_china_adj
+		
+		is_main_tag_only = yes
+		priority = 0
+
+		trigger = {
+			exists = c:CHI
+			c:CHI = {
+				OR = {
+					has_diplomatic_pact = {
+						who = c:IMG
+						type = puppet
+						is_initiator = yes
+					}
+					has_diplomatic_pact = {
+						who = c:IMG
+						type = vassal
+						is_initiator = yes
+					}
+				}
+			}
+		}
+	}
+}
+
+PAN = { # Punjab
+	dynamic_country_name = {
+		name = dyn_c_sikh_empire
+		adjective = dyn_c_sikh_empire_adj
+		
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			scope:actor = {
+				OR = {
+					has_law = law_type:law_monarchy
+					has_law = law_type:law_theocracy
+					has_law = law_type:law_autocracy
+				}
+			}
+		}
+	}
+}
+
+URU = { 
+	dynamic_country_name = {
+		name = dyn_c_blancos
+		adjective = dyn_c_blancos
+
+		is_main_tag_only = yes
+		priority = 0
+
+		trigger = {
+			exists = c:UCO
 		}
 	}
 }

@@ -1,0 +1,75 @@
+﻿je_central_america_falls_apart = { 
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+	
+	should_be_pinned_by_default = yes
+	
+	on_monthly_pulse = {
+		random_events = {
+			10 = 0
+			1 = central_america.4
+			1 = central_america.6
+		}
+	}
+
+	complete = {
+		OR = {
+			any_scope_state = {	
+				state_region = s:STATE_GUATEMALA
+				turmoil < 0.20
+			}
+			has_variable = recognized_guatemalan_independence
+		}
+		any_scope_state = {	
+			state_region = s:STATE_SAN_SALVADOR
+			turmoil < 0.20
+		}
+		any_scope_state = {	
+			state_region = s:STATE_HONDURAS
+			turmoil < 0.20
+		}
+		any_scope_state = {	
+			state_region = s:STATE_NICARAGUA
+			turmoil < 0.20
+		}
+		OR = {
+			any_scope_state = {	
+				state_region = s:STATE_COSTA_RICA
+				turmoil < 0.20
+			}
+			has_variable = recognized_costa_rican_independence
+		}
+	}
+	
+	fail = {
+		custom_tooltip = {
+			text = central_america_fail_tt
+			any_scope_state = {
+				OR = {
+					state_region = s:STATE_GUATEMALA
+					state_region = s:STATE_SAN_SALVADOR
+					state_region = s:STATE_HONDURAS
+					state_region = s:STATE_NICARAGUA
+					state_region = s:STATE_COSTA_RICA
+				}
+				count < 3
+			}
+		}
+	}
+	
+	on_fail = {
+		trigger_event = { id = central_america.2 popup = yes }
+		custom_tooltip = central_america_capital_tt
+	}
+
+	on_complete = {
+		trigger_event = { id = central_america.7 }
+	}
+	
+	weight = 100
+	
+	inheritable = no
+
+	invalid = {
+		NOT = { exists = c:UCA }
+	}
+}
