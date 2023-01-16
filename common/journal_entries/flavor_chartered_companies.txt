@@ -17,33 +17,6 @@
 		NOT = { is_subject_type = subject_type_chartered_company }
 	}
 
-	on_complete = {
-		if = {
-			limit = {
-				c:RAC = ROOT
-			}
-		change_tag = AKA
-		}
-		else_if = {
-			limit = {
-				c:COL = ROOT
-			}
-		change_tag = ORG
-		}
-		else_if = {
-			limit = {
-				c:RNC = ROOT
-			}
-		change_tag = NGR
-		}
-		else_if = {
-			limit = {
-				c:GEA = ROOT
-			}
-		change_tag = TZN
-		}
-	}
-
 	fail = {
 		is_subject = no
 	}
@@ -138,6 +111,17 @@
 					trigger_event = { id = journal_flavor_company_collapse.6 }
 				}
 			}
+			else_if = {
+				limit = {
+					c:RGT = ROOT
+				}
+
+				every_in_list = {
+					variable = past_overlord 
+					trigger_event = { id = journal_flavor_company_collapse.9 }
+				}
+
+			}
 		
 		}
 	}
@@ -218,6 +202,12 @@ je_autonomy = {
 				c:COL = ROOT
 			}
 			change_tag = ORG
+		}
+		else_if = {
+			limit = {
+				c:RGT = ROOT
+			}
+			change_tag = GRN
 		}
 	}
 
@@ -385,6 +375,12 @@ je_company_bankruptcy = {
 				c:RNC = ROOT
 			}
 			change_tag = NGR
+		}
+		else_if = {
+			limit = {
+				c:RGT = ROOT
+			}
+			change_tag = GRN
 		}
 		else_if = {
 			limit = {

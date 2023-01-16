@@ -848,3 +848,68 @@ journal_flavor_company_collapse.8 = {
 		}
 	}
 }
+
+#Greenland
+journal_flavor_company_collapse.9 = {
+	type = country_event
+	placement = scope:event_location
+
+	title = journal_flavor_company_collapse.1.t
+	desc = journal_flavor_company_collapse.1.d
+	flavor = journal_flavor_company_collapse.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_devastation.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	duration = 2
+
+	trigger = {
+		# triggered by journal entry
+	}
+	immediate = {
+
+		c:RGT = {
+			save_scope_as = company_scope
+
+			capital = {
+				save_scope_as = event_location
+			}
+			if = { 
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_GREENLAND
+					}	
+				}
+				random_scope_state = {
+					limit = {
+						OR = {
+							state_region = s:STATE_GREENLAND
+						}
+					}
+					save_scope_as = grn_spawn
+				}
+				create_country = {
+					tag = GRN
+					origin = this
+					state = scope:grn_spawn
+				}
+			}
+		}
+	}
+
+	option = { 
+		name = journal_flavor_company_collapse.1.a
+		default_option = yes
+		
+		if = {
+			limit = { exists = c:RGT }
+			annex = c:RGT
+		}
+	}
+}
