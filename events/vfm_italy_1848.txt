@@ -1,0 +1,193 @@
+﻿namespace = italy_1848
+
+#SIC Sicilian Revolution
+italy_1848.1 = {
+	type = country_event
+	placement = scope:sicily_scope
+
+	title = italy_1848.1.t
+	desc = italy_1848.1.d
+	flavor = italy_1848.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_springtime_of_nations.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/springtime_of_nation"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	duration = 3
+
+	trigger = {
+		exists = c:SIC
+		this = c:SIC
+	}
+
+	immediate = {
+		c:SIC = {
+			save_scope_as = sic_scope
+		}
+		s:STATE_SICILY = {
+			random_scope_state = {
+				save_scope_as = sicily_scope
+			}
+		}
+	}
+
+	option = {
+		name = italy_1848.1.a
+		default_option = yes
+
+		create_country = { #Sicily
+			tag = SCL
+			origin = this
+			state = s:STATE_SICILY.region_state:SIC
+			on_created = {
+				activate_law = law_type:law_presidential_republic
+				activate_law = law_type:law_universal_suffrage
+				activate_law = law_type:law_right_of_assembly
+				ig:ig_intelligentsia = {
+					add_ruling_interest_group = yes
+				}
+				create_character = {
+					# Ruggero Settimo
+					is_general = no
+					first_name = "Ruggero"
+					last_name = "Settimo"
+					ruler = no
+					birth_date = 1778.05.19
+					ig_leader = yes
+					interest_group = ig_intelligentsia
+					ideology = ideology_liberal
+				}
+			}
+		}
+		s:STATE_SICILY = {
+			add_claim = c:SIC
+		}
+		c:SIC = {
+			trigger_event = {
+				id = italy_1848.2
+				popup = yes
+			}
+		}
+
+	    ai_chance = {
+			base = 1	
+		}
+    }
+}
+
+#SIC Sicilian Revolution
+italy_1848.2 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.2.t
+	desc = italy_1848.2.d
+	flavor = italy_1848.2.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_springtime_of_nations.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/springtime_of_nation"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	duration = 3
+
+	trigger = {
+		exists = c:SIC
+		exists = c:SCL
+		this = c:SIC
+	}
+
+	immediate = {
+		c:SIC = {
+			save_scope_as = sic_scope
+		}
+		c:SCL = {
+			save_scope_as = sic_rev_scope
+		}
+		s:STATE_SICILY = {
+			random_scope_state = {
+				save_scope_as = sicily_scope
+			}
+		}
+	}
+
+	option = {
+		name = italy_1848.2.a
+		default_option = yes
+
+		add_radicals = {
+			value = large_radicals
+			strata = middle
+		}
+		add_radicals = {
+			value = large_radicals
+			strata = poor
+		}
+		c:SIC = {
+	    	create_diplomatic_play = {
+				target_country = c:SCL
+				war = yes
+				type = dp_annex_war
+	    	}
+		}
+
+	    ai_chance = {
+			base = 1	
+		}
+    }
+
+    option = {
+     	name = italy_1848.2.b
+
+		add_radicals = {
+			value = large_radicals
+			strata = middle
+		}
+		add_radicals = {
+			value = large_radicals
+			strata = poor
+		}
+		add_modifier = {
+		    name = modifier_sicilian_revolution
+			months = long_modifier_time
+		}
+
+     	ai_chance = {
+			base = 0	
+		}
+    }
+
+    option = {
+     	name = italy_1848.2.c
+
+		add_radicals = {
+			value = large_radicals
+			strata = middle
+		}
+		add_radicals = {
+			value = large_radicals
+			strata = poor
+		}
+		c:SIC = {
+	    	create_diplomatic_play = {
+				target_country = c:SCL
+				war = yes
+				type = dp_annex_war
+	    	}
+		}
+     	play_as = c:SCL
+
+     	ai_chance = {
+			base = 0	
+		}
+    }
+}
