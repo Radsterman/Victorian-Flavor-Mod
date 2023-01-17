@@ -47,7 +47,7 @@ italy_1848.1 = {
 			origin = this
 			state = s:STATE_SICILY.region_state:SIC
 			on_created = {
-				activate_law = law_type:law_presidential_republic
+				activate_law = law_type:law_parliamentary_republic
 				activate_law = law_type:law_universal_suffrage
 				activate_law = law_type:law_right_of_assembly
 				set_next_election_date = 1852.1.1
@@ -430,7 +430,6 @@ italy_1848.3 = {
     }
 	option = {
 		name = italy_1848.3.b
-		default_option = yes
 		custom_tooltip = italy_1848.3.tt2
 
 	    ai_chance = {
@@ -443,6 +442,71 @@ italy_1848.3 = {
 				}
 			add = 30
 			}
+		}
+    }
+}
+
+#SIC Sicilian revolution lost
+italy_1848.4 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.4.t
+	desc = italy_1848.4.d
+	flavor = italy_1848.4.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_politicians_arguing.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/leader_arguing"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	duration = 3
+
+	trigger = {
+		exists = c:SCL
+		this = c:SIC
+		c:SCL = {
+			is_at_war = no
+			owns_entire_state_region = STATE_SICILY
+		}
+	}
+
+	immediate = {
+		c:SCL = {
+	    	ruler = {
+				save_scope_as = ruler_scope
+			}
+		}
+
+	}
+
+	option = {
+		name = italy_1848.4.a
+		default_option = yes
+
+		add_modifier = {
+		    name = sicilian_revolution
+			months = long_modifier_time
+		}
+
+	    ai_chance = {
+			base = 80	
+		}
+    }
+	option = {
+		name = italy_1848.4.b
+
+		add_modifier = {
+		    name = sicilian_revolution
+			months = long_modifier_time
+		}
+
+	    ai_chance = {
+			base = 20
 		}
     }
 }
