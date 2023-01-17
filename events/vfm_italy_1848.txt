@@ -22,6 +22,7 @@ italy_1848.1 = {
 
 	trigger = {
 		exists = c:SIC
+		this = c:SIC
 		owns_entire_state_region = STATE_SICILY
 		game_date >= 1848.1.12
 	}
@@ -49,8 +50,13 @@ italy_1848.1 = {
 				activate_law = law_type:law_presidential_republic
 				activate_law = law_type:law_universal_suffrage
 				activate_law = law_type:law_right_of_assembly
+				set_next_election_date = 1852.1.1
 				ig:ig_intelligentsia = {
 					add_ruling_interest_group = yes
+					add_modifier = {
+						name = sicilian_revolution_ig_str
+						months = normal_modifier_time
+					}
 				}
 				create_character = {
 					# Ruggero Settimo
@@ -131,6 +137,16 @@ italy_1848.2 = {
 				war = yes
 				type = dp_annex_war
 	    	}
+			change_relations = {
+				country = c:SCL
+				value = -75
+		    }
+		}
+		c:SCL = {
+			change_relations = {
+				country = c:SIC
+				value = -75
+		    }
 		}
 		add_radicals = {
 			value = large_radicals
@@ -178,13 +194,31 @@ italy_1848.2 = {
 		}
 
 	    ai_chance = {
-			base = 1	
+			base = 100
+			modifier = {
+				trigger = { 
+					gold_reserves > 200000
+				}
+				add = 25
+			}				
 		}
     }
 
     option = {
      	name = italy_1848.2.b
 
+		c:SCL = {
+			change_relations = {
+				country = c:SIC
+				value = -50
+		    }
+		}
+		c:SIC = {
+			change_relations = {
+				country = c:SCL
+				value = -50
+		    }
+		}
 		add_radicals = {
 			value = large_radicals
 			strata = middle
@@ -236,6 +270,24 @@ italy_1848.2 = {
 
      	ai_chance = {
 			base = 0	
+			modifier = {
+				trigger = { 
+					gold_reserves < 200000
+				}
+				add = 15
+			}
+			modifier = {
+				trigger = {
+					is_at_war = yes
+				}
+				add = 20
+			}
+			modifier = {
+				trigger = {
+					is_diplomatic_play_committed_participant = yes
+				}
+				add = 10
+			}
 		}
     }
 
@@ -249,6 +301,16 @@ italy_1848.2 = {
 				war = yes
 				type = dp_annex_war
 	    	}
+			change_relations = {
+				country = c:SCL
+				value = -75
+		    }
+		}
+		c:SCL = {
+			change_relations = {
+				country = c:SIC
+				value = -75
+		    }
 		}
 		add_radicals = {
 			value = large_radicals
@@ -297,6 +359,90 @@ italy_1848.2 = {
 
      	ai_chance = {
 			base = 0	
+		}
+    }
+}
+
+#SCL Republic or Kingdom?
+italy_1848.3 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.3.t
+	desc = italy_1848.3.d
+	flavor = italy_1848.3.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_politicians_arguing.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/leader_arguing"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	duration = 3
+
+	trigger = {
+		exists = c:SCL
+		this = c:SCL
+		c:SCL = {
+			is_at_war = no
+			owns_entire_state_region = STATE_SICILY
+		}
+	}
+
+	immediate = {
+		c:SIC = {
+			save_scope_as = sic_scope
+		}
+		c:SCL = {
+	    	ruler = {
+				save_scope_as = ruler_scope
+			}
+		}
+
+	}
+
+	option = {
+		name = italy_1848.3.a
+		default_option = yes
+		c:SCL = {
+			activate_law = law_type:law_monarchy
+		}
+		create_character = {
+			# Alberto Amedeo I
+			is_general = no
+			first_name = "Alberto_Amedeo_I"
+			last_name = "di_Savoia-Genova"
+			culture = cu:north_italian
+			ruler = yes
+			birth_date = 1822.11.15
+			ig_leader = no
+			interest_group = ig_intelligentsia
+			ideology = ideology_moderate
+		}
+		custom_tooltip = italy_1848.3.tt1
+
+	    ai_chance = {
+			base = 80	
+		}
+    }
+	option = {
+		name = italy_1848.3.b
+		default_option = yes
+		custom_tooltip = italy_1848.3.tt2
+
+	    ai_chance = {
+			base = 20
+			modifier = {
+				trigger = {
+					c:SAR = {
+						is_at_war = yes
+					}
+				}
+			add = 30
+			}
 		}
     }
 }
