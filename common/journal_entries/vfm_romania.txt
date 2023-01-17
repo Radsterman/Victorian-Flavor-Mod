@@ -1,16 +1,33 @@
 ﻿je_unify_romania = {
 	icon = "gfx/interface/icons/event_icons/event_scales.dds"
 
+    is_shown_when_inactive = {
+        OR = {
+            AND = {
+                exists = c:MOL
+                c:MOL = root 
+            }
+            AND = {
+                exists = c:WAL
+                c:WAL = root 
+            }
+        }
+    }
+
+    possible = {
+        has_technology_researched = nationalism
+    }
+
 	on_monthly_pulse = {
         effect = {
             if = {
                 limit = {
                     OR = {
                         c:WAL = {	
-                            c:MOL.relations:ROOT > relations_threshold:amicable
+                            c:MOL.relations:ROOT >= relations_threshold:amicable
                         }
                         c:MOL = {	
-                            c:WAL.relations:ROOT > relations_threshold:amicable
+                            c:WAL.relations:ROOT >= relations_threshold:amicable
                         }
                     }
                 }
@@ -38,7 +55,6 @@
 
 	complete = {
 		scope:journal_entry = { is_goal_complete = yes }
-        has_technology_researched = nationalism
 	}
 
 	on_complete = {
@@ -114,7 +130,7 @@
 	}
 
 	goal_add_value = {
-		value = 60
+		value = 2
 	}
 
 	progressbar = yes
