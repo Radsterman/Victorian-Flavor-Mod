@@ -76,6 +76,8 @@ italy_1848.1 = {
 					ig_leader = yes
 					interest_group = ig_intelligentsia
 					ideology = ideology_liberal
+					traits = {
+					}
 				}
 			}
 		}
@@ -410,6 +412,15 @@ italy_1848.3 = {
 				save_scope_as = ruler_scope
 			}
 		}
+     	remove_variable = sicilian_revolution_var1
+	}
+
+	option = {
+		name = italy_1848.3.a
+		default_option = yes
+		c:SCL = {
+			activate_law = law_type:law_monarchy
+		}
 		create_character = {
 			# Alberto Amedeo I
 			is_general = no
@@ -421,17 +432,15 @@ italy_1848.3 = {
 			ig_leader = no
 			interest_group = ig_intelligentsia
 			ideology = ideology_moderate
-		}
-     	remove_variable = sicilian_revolution_var1
-	}
-
-	option = {
-		name = italy_1848.3.a
-		default_option = yes
-		c:SCL = {
-			activate_law = law_type:law_monarchy
+			traits = {
+				cautious
+			}
 		}
 		custom_tooltip = italy_1848.3.tt1
+		trigger_event = {
+			id = italy_1848.5
+			days = 1
+		}
 
 	    ai_chance = {
 			base = 80	
@@ -451,6 +460,54 @@ italy_1848.3 = {
 				}
 			add = 30
 			}
+		}
+    }
+}
+
+#SCL The New King
+italy_1848.5 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.5.t
+	desc = italy_1848.5.d
+	flavor = italy_1848.5.f
+
+	event_image = {
+		video = "gfx/event_pictures/middleeast_upperclass_party.bk2"
+	}
+
+	left_icon = ruler
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/upperclass_party"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	duration = 0
+
+	option = {
+		name = italy_1848.5.a
+		default_option = yes
+
+		create_character = {
+			# Alberto Amedeo I
+			is_general = no
+			first_name = "Alberto_Amedeo_I"
+			last_name = "di_Savoia-Genova"
+			culture = cu:north_italian
+			ruler = yes
+			birth_date = 1822.11.15
+			ig_leader = no
+			interest_group = ig_intelligentsia
+			ideology = ideology_moderate
+			traits = {
+				cautious
+			}
+		}
+
+	    ai_chance = {
+			base = 1	
 		}
     }
 }
