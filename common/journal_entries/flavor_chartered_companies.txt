@@ -315,9 +315,6 @@ je_company_bankruptcy = {
 
 	is_shown_when_inactive = {
 		is_subject_type = subject_type_chartered_company
-		NOT = {
-			c:BIC = ROOT
-		}
 	}
 
     possible = {
@@ -345,6 +342,14 @@ je_company_bankruptcy = {
 			}
 			change_tag = AKA
 		}	
+		else_if = {
+			limit = {
+				c:BIC = ROOT
+			}
+			top_overlord = {
+				trigger_event = { id = raj.1 }
+			}
+		}
 		else_if = {
 			limit = {
 				c:HBC = ROOT
