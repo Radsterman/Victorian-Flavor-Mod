@@ -315,9 +315,6 @@ je_company_bankruptcy = {
 
 	is_shown_when_inactive = {
 		is_subject_type = subject_type_chartered_company
-		NOT = {
-			c:BIC = ROOT
-		}
 	}
 
     possible = {
@@ -345,6 +342,14 @@ je_company_bankruptcy = {
 			}
 			change_tag = AKA
 		}	
+		else_if = {
+			limit = {
+				c:BIC = ROOT
+			}
+			top_overlord = {
+				trigger_event = { id = raj.1 }
+			}
+		}
 		else_if = {
 			limit = {
 				c:HBC = ROOT
@@ -430,7 +435,7 @@ je_company_bankruptcy = {
 			limit = {
 				c:IAC = ROOT
 			}
-			change_tag = KNA
+			change_tag = KNY
 
 			if = {
 				limit = {
@@ -441,7 +446,7 @@ je_company_bankruptcy = {
 				create_country = {
 					tag = UGA
 					origin = this
-					state = s:STATE_UGANDA.region_state:KNA
+					state = s:STATE_UGANDA.region_state:KNY
 				}
 				top_overlord = {
 					create_diplomatic_pact = {
