@@ -1,0 +1,97 @@
+﻿namespace = italy_flavor
+
+#SIC Cholera Pandemic in Sicily
+italy_flavor.1 = {
+	type = country_event
+	placement = scope:sicily_scope
+
+	title = italy_flavor.1.t
+	desc = italy_flavor.1.d
+	flavor = italy_flavor.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_sick_in_hospital.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/sick_people_in_a_field_hospital"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	duration = 3
+
+	trigger = {
+		exists = c:SIC
+		this = c:SIC
+		owns_entire_state_region = STATE_SICILY
+		AND = {
+			game_date < 1837.7.1
+			game_date > 1837.5.31
+		}
+		NOT = {
+			AND = {
+				has_technology_researched = modern_sewerage
+				has_technology_researched = pharmaceuticals
+			}
+			
+		}
+	}
+
+	immediate = {
+		s:STATE_SICILY = {
+			random_scope_state = {
+				save_scope_as = sicily_scope
+			}
+		}
+	}
+
+	option = {
+		name = italy_flavor.1.a
+		default_option = yes
+
+		s:STATE_SICILY.region_state:SIC = {
+			add_modifier = {
+				name = sicily_cholera_1
+				months = short_modifier_time
+			}
+			add_radicals = {
+				value = 0.1
+			}
+		}
+		add_modifier = {
+			name = sicily_cholera_cost
+			multiplier = money_amount_multiplier_medium
+			months = short_modifier_time
+		}
+		add_technology_progress = {
+			progress = 1500
+			technology = modern_sewerage
+		}
+		add_technology_progress = {
+			progress = 1500
+			technology = pharmaceuticals
+		}
+
+	    ai_chance = {
+			base = 80
+		}
+    }
+
+	option = {
+		name = italy_flavor.1.b
+
+		s:STATE_SICILY.region_state:SIC = {
+			add_modifier = {
+				name = sicily_cholera_2
+				months = short_modifier_time
+			}
+			add_radicals = {
+				value = 0.2
+			}
+		}
+
+	    ai_chance = {
+			base = 20	
+		}
+    }
+}
