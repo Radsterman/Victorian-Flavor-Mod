@@ -19,3 +19,50 @@ je_hanja_issue = {
 		}
 	}
 }
+
+je_sadae = {
+	icon = "gfx/interface/icons/event_icons/event_statue.dds"
+
+	complete = {
+		top_overlord = {
+			relations:root >= relations_threshold:amicable
+			owes_obligation_to = root
+		}
+	}
+
+	fail = {
+		OR = {
+			top_overlord = {
+				relations:root < relations_threshold:neutral
+			}
+			NOT = {
+				is_subject_of = c:CHI
+			}
+		}
+
+	}
+
+	invalid = {
+		NOT = { exists = c:CHI }
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = kor.3
+		}
+		c:CHI ={
+			create_diplomatic_pact = {
+				country = c:KOR
+				type = customs_union
+			}
+		}
+	}
+
+	on_fail = {
+		c:CHI = {
+			trigger_event = {
+				id = kor.4
+			}
+		}
+	}
+}
