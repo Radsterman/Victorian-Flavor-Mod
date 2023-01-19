@@ -95,3 +95,86 @@ italy_flavor.1 = {
 		}
     }
 }
+
+#TUS Annexation of Lucca
+italy_flavor.2 = {
+	type = country_event
+	placement = root
+
+	title = italy_flavor.2.t
+	desc = italy_flavor.2.d
+	flavor = italy_flavor.2.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	duration = 3
+
+	trigger = {
+		exists = c:LUC
+		exists = c:TUS
+		this = c:TUS
+		c:TUS = {
+			is_at_war = no
+			has_law = law_type:law_monarchy
+		}
+		c:LUC = {
+			relations:root >= relations_threshold:neutral 
+			is_at_war = no
+			is_player = no
+				AND = {
+					has_law = law_type:law_monarchy
+				OR = {
+					has_law = law_type:law_autocracy 
+					has_law = law_type:law_oligarchy
+					has_law = law_type:law_landed_voting
+				}
+			}
+		}
+		game_date >= 1847.10.4
+	}
+
+	immediate = {
+		c:LUC = {
+			save_scope_as = luc_scope
+		}
+		c:MOD = {
+			save_scope_as = mod_scope
+		}
+	}
+
+	option = {
+		name = italy_flavor.2.a
+		default_option = yes
+
+		s:STATE_EMILIA.region_state:LUC = {
+			add_radicals = {
+				value = 0.1
+			}
+		}
+		annex = c:LUC
+
+	    ai_chance = {
+			base = 1
+		}
+    }
+
+	option = {
+		name = italy_flavor.2.b
+
+		change_relations = {
+			country = c:LUC
+			value = 50
+	    }
+
+	    ai_chance = {
+			base = 0	
+		}
+    }
+}
