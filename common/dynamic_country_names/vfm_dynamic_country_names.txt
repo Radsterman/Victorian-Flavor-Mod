@@ -677,9 +677,28 @@ KOR = { # Korea
 		priority = 1
 		
 		trigger = {
-			scope:actor = { is_subject_type = subject_type_tributary }
+			
+			scope:actor = {
+				is_subject = yes
+				 has_law = law_type:law_monarchy
+			}
 		}
 	}
+	dynamic_country_name = { # Joseon
+	name = dyn_c_korea_great_joseon
+	adjective = dyn_c_korea_great_joseon_adj
+	
+	is_main_tag_only = yes
+	priority = 10
+	
+	trigger = {
+		
+		scope:actor = {
+			 is_subject = no
+			 has_law = law_type:law_monarchy
+		}
+	}
+}
 	dynamic_country_name = { # Chaoxian
 		name = dyn_c_korea_chaoxian
 		adjective = dyn_c_korea_chaoxian_adj
@@ -700,8 +719,9 @@ KOR = { # Korea
 		
 		trigger = {
 			scope:actor = { 
-				NOT = { is_subject_type = subject_type_tributary }
-				has_law = law_type:law_monarchy
+				is_subject = no
+				has_law = law_type:law_autocracy
+				NOT = { has_law = law_type:law_monarchy }
 			}
 		}
 	}
