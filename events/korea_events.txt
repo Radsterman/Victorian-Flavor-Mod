@@ -1,0 +1,67 @@
+namespace = kor
+
+#Hangul event
+kor.1 = {
+  type = country_event
+  
+  title = kor.1.t
+  desc = kor.1.d
+  flavor = kor.1.f
+  
+  event_image = {
+    video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
+  }
+  
+  icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+  
+  on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+  on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+  
+  duration = 3
+  
+  trigger = {
+    #Complete the issue of hanja journal entry
+  }
+  
+  option = { #embrace hangul
+    name = kor.1.a
+    add_modifier = {
+      name = modifier_kor_hangul
+    }
+    remove_modifier = modifier_kor_ill_fitting_writing_system
+    if = { 
+      limit = { is_subject_of = c:CHI }
+      change_relations = {
+        country = c:CHI
+        value = -30
+      }
+    }
+  }
+  option = { #keep hanja
+    name = kor.1.b
+    add_modifier = {
+      name = modifier_kor_kept_hanja
+      is_decaying = yes
+      months = 60
+    }
+    if = { 
+      limit = { is_subject_of = c:CHI }
+      change_relations = {
+        country = c:CHI
+        value = 30
+      }
+    }
+  }
+  option = { #use both
+    name = kor.1.c
+    remove_modifier = modifier_kor_ill_fitting_writing_system
+    if = { 
+      limit = { is_subject_of = c:CHI }
+      change_relations = {
+        country = c:CHI
+        value = -5
+      }
+    }
+  }
+
+}
