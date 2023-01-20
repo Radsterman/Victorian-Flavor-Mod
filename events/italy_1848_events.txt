@@ -27,12 +27,12 @@ italy_1848.1 = {
 		game_date >= 1848.1.12
 		has_technology_researched = nationalism
 		has_law = law_type:law_monarchy
-			OR = {
-				has_law = law_type:law_autocracy 
-				has_law = law_type:law_oligarchy
-				has_law = law_type:law_landed_voting
-			}
+		OR = {
+			has_law = law_type:law_autocracy 
+			has_law = law_type:law_oligarchy
+			has_law = law_type:law_landed_voting
 		}
+	}
 
 	immediate = {
 		c:SIC = {
@@ -70,7 +70,7 @@ italy_1848.1 = {
 					add_ruling_interest_group = yes
 					add_modifier = {
 						name = sicilian_revolution_ig_str
-						months = normal_modifier_time
+						months = long_modifier_time
 					}
 				}
 				create_character = {
@@ -427,13 +427,13 @@ italy_1848.4 = {
 		}
 		ig:ig_landowners = {
 			add_modifier = {
-				name = sicilian_revolution_positive
+				name = 1848_positive_2
 				months = long_modifier_time
 			}
 		}
 		ig:ig_intelligentsia = {
 			add_modifier = {
-				name = sicilian_revolution_negative
+				name = 1848_negative_1
 				months = long_modifier_time
 			}
 		}
@@ -452,6 +452,7 @@ italy_1848.4 = {
 		add_radicals = {
 			value = 0.1
 		}
+		activate_law = law_type:law_monarchy
 		activate_law = law_type:law_census_voting
 		activate_law = law_type:law_right_of_assembly
 
@@ -468,13 +469,13 @@ italy_1848.4 = {
 		}
 		ig:ig_landowners = {
 			add_modifier = {
-				name = sicilian_revolution_negative
+				name = 1848_negative_2
 				months = long_modifier_time
 			}
 		}
 		ig:ig_intelligentsia = {
 			add_modifier = {
-				name = sicilian_revolution_positive
+				name = 1848_positive_1
 				months = long_modifier_time
 			}
 		}
@@ -488,6 +489,168 @@ italy_1848.4 = {
 
 	    ai_chance = {
 			base = 20
+		}
+    }
+}
+
+#SAR Statuto Albertino
+italy_1848.6 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.6.t
+	desc = italy_1848.6.d
+	flavor = italy_1848.6.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	left_icon = ruler
+
+	duration = 3
+
+	trigger = {
+		exists = c:SAR
+		this = c:SAR
+		owns_entire_state_region = STATE_PIEDMONT
+		game_date >= 1848.3.3
+		has_technology_researched = nationalism
+		has_law = law_type:law_monarchy
+		OR = {
+			has_law = law_type:law_autocracy 
+			has_law = law_type:law_oligarchy
+			has_law = law_type:law_landed_voting
+		}
+	}
+
+	immediate = {
+    	ruler = {
+			save_scope_as = ruler_scope
+		}
+		c:SAR = {
+			save_scope_as = sar_scope
+		}
+	}
+
+	option = {
+		name = italy_1848.6.a
+		default_option = yes
+
+		activate_law = law_type:law_monarchy
+		activate_law = law_type:law_wealth_voting
+		activate_law = law_type:law_right_of_assembly
+
+		custom_tooltip = italy_1848.6.tt1
+		add_radicals = {
+			strata = rich
+			value = 0.25
+		}
+		ig:ig_landowners = {
+			add_modifier = {
+				name = 1848_negative_2
+				months = long_modifier_time
+			}
+		}
+		ig:ig_intelligentsia = {
+			add_modifier = {
+				name = 1848_positive_1
+				months = long_modifier_time
+			}
+			add_modifier = {
+				name = alb_statute_ig_str
+				months = long_modifier_time
+			}
+		}
+
+	    ai_chance = {
+			base = 95	
+		}
+    }
+	option = {
+		name = italy_1848.6.b
+		default_option = yes
+
+		add_modifier = {
+		    name = alb_statute_legitimacy
+			months = long_modifier_time
+		}
+		add_radicals = {
+			strata = poor
+			value = 0.2
+		}
+		add_radicals = {
+			strata = middle
+			value = 0.2
+		}
+		ig:ig_landowners = {
+			add_modifier = {
+				name = 1848_positive_2
+				months = long_modifier_time
+			}
+		}
+		ig:ig_intelligentsia = {
+			add_modifier = {
+				name = 1848_negative_1
+				months = long_modifier_time
+			}
+		}
+
+	    ai_chance = {
+			base = 5	
+		}
+    }
+}
+
+#PAP Roman Republic
+italy_1848.7 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.7.t
+	desc = italy_1848.7.d
+	flavor = italy_1848.7.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_springtime_of_nations.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/springtime_of_nation"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	left_icon = ruler
+
+	duration = 3
+
+	trigger = {
+		exists = c:PAP
+		this = c:PAP
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = italy_1848.7.a
+		default_option = yes
+
+	    ai_chance = {
+			base = 1	
+		}
+    }
+	option = {
+		name = italy_1848.7.b
+		default_option = yes
+
+	    ai_chance = {
+			base = 1	
 		}
     }
 }
