@@ -1,0 +1,498 @@
+﻿namespace = italy_1848
+
+#SIC Sicilian Revolution
+italy_1848.1 = {
+	type = country_event
+	placement = scope:sicily_scope
+
+	title = italy_1848.1.t
+	desc = italy_1848.1.d
+	flavor = italy_1848.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_springtime_of_nations.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/springtime_of_nation"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	duration = 3
+
+	trigger = {
+		exists = c:SIC
+		this = c:SIC
+		owns_entire_state_region = STATE_SICILY
+		game_date >= 1848.1.12
+		has_technology_researched = nationalism
+		AND = {
+			OR = {
+				has_law = law_type:law_monarchy
+				has_law = law_type:law_theocracy
+			}
+			OR = {
+				has_law = law_type:law_autocracy 
+				has_law = law_type:law_oligarchy
+				has_law = law_type:law_landed_voting
+			}
+		}
+	}
+
+	immediate = {
+		c:SIC = {
+			save_scope_as = sic_scope
+		}
+		s:STATE_SICILY = {
+			random_scope_state = {
+				save_scope_as = sicily_scope
+			}
+		}
+		set_variable = {
+			name = sicilian_revolution_var2
+			value = yes
+		}
+	}
+
+	option = {
+		name = italy_1848.1.a
+		default_option = yes
+
+		create_country = { #Sicily
+			tag = SCL
+			origin = this
+			state = s:STATE_SICILY.region_state:SIC
+			on_created = {
+				set_variable = {
+					name = sicilian_revolution_var1
+					value = yes
+				}
+				activate_law = law_type:law_parliamentary_republic
+				activate_law = law_type:law_universal_suffrage
+				activate_law = law_type:law_right_of_assembly
+				set_next_election_date = 1852.1.1
+				ig:ig_intelligentsia = {
+					add_ruling_interest_group = yes
+					add_modifier = {
+						name = sicilian_revolution_ig_str
+						months = normal_modifier_time
+					}
+				}
+				create_character = {
+					# Ruggero Settimo
+					is_general = no
+					first_name = "Ruggero"
+					last_name = "Settimo"
+					ruler = no
+					birth_date = 1778.05.19
+					ig_leader = yes
+					interest_group = ig_intelligentsia
+					ideology = ideology_liberal
+					traits = {
+					}
+				}
+			}
+		}
+		s:STATE_SICILY = {
+			add_claim = c:SIC
+		}
+		c:SIC = {
+			trigger_event = {
+				id = italy_1848.2
+				popup = yes
+			}
+		}
+
+	    ai_chance = {
+			base = 1	
+		}
+    }
+}
+
+#SIC Sicilian Revolution
+italy_1848.2 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.2.t
+	desc = italy_1848.2.d
+	flavor = italy_1848.2.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_springtime_of_nations.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/springtime_of_nation"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	duration = 3
+
+	trigger = {
+		exists = c:SIC
+		exists = c:SCL
+		this = c:SIC
+	}
+
+	immediate = {
+		c:SIC = {
+			save_scope_as = sic_scope
+		}
+		c:SCL = {
+			save_scope_as = sic_rev_scope
+		}
+		s:STATE_SICILY = {
+			random_scope_state = {
+				save_scope_as = sicily_scope
+			}
+		}
+	}
+
+	option = {
+		name = italy_1848.2.a
+		default_option = yes
+
+		c:SIC = {
+	    	create_diplomatic_play = {
+				target_country = c:SCL
+				war = no
+				escalation = 50
+				type = dp_annex_war
+	    	}
+			change_relations = {
+				country = c:SCL
+				value = -75
+		    }
+		}
+		add_journal_entry = {
+			type = je_sicilian_revolution
+		}
+
+	    ai_chance = {
+			base = 100
+			modifier = {
+				trigger = { 
+					gold_reserves > 200000
+				}
+				add = 25
+			}				
+		}
+    }
+
+    option = {
+     	name = italy_1848.2.b
+		c:SIC = {
+			change_relations = {
+				country = c:SCL
+				value = -50
+		    }
+		}
+		add_radicals = {
+			value = large_radicals
+		}
+		add_modifier = {
+		    name = sicilian_revolution
+			months = long_modifier_time
+		}
+
+     	ai_chance = {
+			base = 0	
+			modifier = {
+				trigger = { 
+					gold_reserves < 200000
+				}
+				add = 15
+			}
+			modifier = {
+				trigger = {
+					is_at_war = yes
+				}
+				add = 20
+			}
+			modifier = {
+				trigger = {
+					is_diplomatic_play_committed_participant = yes
+				}
+				add = 10
+			}
+		}
+    }
+
+    option = {
+     	name = italy_1848.2.c
+
+     	play_as = c:SCL
+		c:SIC = {
+	    	create_diplomatic_play = {
+				target_country = c:SCL
+				war = no
+				escalation = 50
+				type = dp_annex_war
+	    	}
+			change_relations = {
+				country = c:SCL
+				value = -75
+		    }
+		}
+		add_journal_entry = {
+			type = je_sicilian_revolution
+		}
+
+     	ai_chance = {
+			base = 0	
+		}
+    }
+}
+
+#SCL Republic or Kingdom?
+italy_1848.3 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.3.t
+	desc = italy_1848.3.d
+	flavor = italy_1848.3.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_politicians_arguing.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/leader_arguing"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	duration = 3
+
+	trigger = {
+		exists = c:SCL
+		this = c:SCL
+		c:SCL = {
+			is_at_war = no
+			owns_entire_state_region = STATE_SICILY
+		}
+		has_variable = sicilian_revolution_var1
+	}
+
+	immediate = {
+		c:SIC = {
+			save_scope_as = sic_scope
+		}
+		c:SCL = {
+	    	ruler = {
+				save_scope_as = ruler_scope
+			}
+		}
+     	remove_variable = sicilian_revolution_var1
+	}
+
+	option = {
+		name = italy_1848.3.a
+		default_option = yes
+		c:SCL = {
+			activate_law = law_type:law_monarchy
+		}
+		create_character = {
+			# Alberto Amedeo I
+			is_general = no
+			first_name = "Alberto_Amedeo_I"
+			last_name = "di_Savoia-Genova"
+			culture = cu:north_italian
+			ruler = yes
+			birth_date = 1822.11.15
+			ig_leader = no
+			interest_group = ig_intelligentsia
+			ideology = ideology_moderate
+			traits = {
+				cautious
+			}
+		}
+		custom_tooltip = italy_1848.3.tt1
+		hidden_effect = {
+			trigger_event = {
+				id = italy_1848.5
+				days = 1
+			}
+		}
+
+	    ai_chance = {
+			base = 80	
+		}
+    }
+	option = {
+		name = italy_1848.3.b
+		custom_tooltip = italy_1848.3.tt2
+
+	    ai_chance = {
+			base = 20
+			modifier = {
+				trigger = {
+					c:SAR = {
+						is_at_war = yes
+					}
+				}
+			add = 30
+			}
+		}
+    }
+}
+
+#SCL The New King
+italy_1848.5 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.5.t
+	desc = italy_1848.5.d
+	flavor = italy_1848.5.f
+
+	event_image = {
+		video = "gfx/event_pictures/middleeast_upperclass_party.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/upperclass_party"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	duration = 0
+
+	option = {
+		name = italy_1848.5.a
+		default_option = yes
+
+		create_character = {
+			# Alberto Amedeo I
+			is_general = no
+			first_name = "Alberto_Amedeo_I"
+			last_name = "di_Savoia-Genova"
+			culture = cu:north_italian
+			ruler = yes
+			birth_date = 1822.11.15
+			ig_leader = no
+			interest_group = ig_intelligentsia
+			ideology = ideology_moderate
+			traits = {
+				cautious
+			}
+		}
+
+	    ai_chance = {
+			base = 1	
+		}
+    }
+}
+
+#SIC Sicilian revolution lost
+italy_1848.4 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.4.t
+	desc = italy_1848.4.d
+	flavor = italy_1848.4.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_politicians_arguing.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/leader_arguing"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		c:SCL = {
+			save_scope_as = sic_rev_scope
+		}
+     	remove_variable = sicilian_revolution_var2
+	}
+
+	option = {
+		name = italy_1848.4.a
+		default_option = yes
+
+		add_modifier = {
+		    name = sicilian_revolution_legitimacy
+			months = long_modifier_time
+		}
+		add_radicals = {
+			strata = poor
+			value = 0.2
+		}
+		add_radicals = {
+			strata = middle
+			value = 0.2
+		}
+		ig:ig_landowners = {
+			add_modifier = {
+				name = sicilian_revolution_positive
+				months = long_modifier_time
+			}
+		}
+		ig:ig_intelligentsia = {
+			add_modifier = {
+				name = sicilian_revolution_negative
+				months = long_modifier_time
+			}
+		}
+
+	    ai_chance = {
+			base = 70	
+		}
+    }
+	option = {
+		name = italy_1848.4.b
+
+		add_modifier = {
+		    name = sicilian_revolution_legitimacy
+			months = long_modifier_time
+		}
+		add_radicals = {
+			value = 0.1
+		}
+		activate_law = law_type:law_census_voting
+		activate_law = law_type:law_right_of_assembly
+
+	    ai_chance = {
+			base = 10
+		}
+    }
+	option = {
+		name = italy_1848.4.c
+
+		add_modifier = {
+		    name = sicilian_revolution_lost
+			months = long_modifier_time
+		}
+		ig:ig_landowners = {
+			add_modifier = {
+				name = sicilian_revolution_negative
+				months = long_modifier_time
+			}
+		}
+		ig:ig_intelligentsia = {
+			add_modifier = {
+				name = sicilian_revolution_positive
+				months = long_modifier_time
+			}
+		}
+		add_radicals = {
+			strata = rich
+			value = 0.25
+		}
+		activate_law = law_type:law_parliamentary_republic
+		activate_law = law_type:law_universal_suffrage
+		activate_law = law_type:law_right_of_assembly
+
+	    ai_chance = {
+			base = 20
+		}
+    }
+}

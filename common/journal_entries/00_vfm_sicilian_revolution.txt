@@ -1,0 +1,52 @@
+﻿je_sicilian_revolution = {
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	immediate = {
+		c:SCL = {
+			save_scope_as = sic_rev_scope
+		}
+	}
+
+	complete = {
+		owns_entire_state_region = STATE_SICILY
+    }
+
+    fail = {
+    	custom_tooltip = {
+    		text = sicilian_revolution_fail
+	    	AND = {
+	    		exists = c:SCL
+		        NOT = {
+		            any_diplomatic_play = {
+		                OR = {
+		                    initiator_is = c:SIC
+		                    target_is = c:SCL
+		                }
+		            }
+		        }
+	    	}
+    	}
+    }
+
+    on_fail = {
+    	c:SIC = {
+			trigger_event = {
+				id = italy_1848.4
+	    	}
+    	}
+    }
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = sicilian_revolution_goal
+			}
+		}
+	}
+
+	weight = 200
+
+	should_be_pinned_by_default = yes
+	
+}
