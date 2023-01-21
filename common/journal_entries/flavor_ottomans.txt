@@ -1,0 +1,152 @@
+﻿je_sick_man_kurdistan = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+	complete = {
+        # Replace with new requirement
+		#OR = { 
+		#	has_law = law_type:law_unitary
+		#	has_law = law_type:law_totalitarian
+		#}
+		has_technology_researched = central_archives
+
+	}
+
+	on_complete = {
+        if = { 
+            limit = {
+                NOT = { has_variable = sick_man_complete }
+            }
+            custom_tooltip = je_sick_man_advance
+            change_variable = {
+                name = sick_man_var
+                add = 1
+            }
+            set_variable = completed_kurdistan_je
+        }
+
+
+        random_country = {
+            limit = {          
+                country_has_primary_culture = cu:kurdish
+                is_subject_of = c:TUR
+            }
+            save_scope_as = kurdistan_leader
+        }
+        c:TUR = {
+			create_diplomatic_pact = {
+				country = scope:kurdistan_leader
+				type = puppet
+			}
+		}
+        every_country = {
+            limit = { 
+                NOT = { this = scope:kurdistan_leader }
+                is_subject_of = c:TUR
+                country_has_primary_culture = cu:kurdish
+            }
+            save_scope_as = kurdistan_annex_target
+            scope:kurdistan_leader = {
+            annex = scope:kurdistan_annex_target
+            }
+        }
+
+        scope:kurdistan_leader = {
+             change_tag = KUR
+        }
+
+
+	}
+
+    invalid = {
+        NOT = {
+            any_country = {
+                is_subject_of = c:TUR
+                country_has_primary_culture = cu:kurdish
+            }
+        }
+    }
+
+	inheritable = no
+
+	weight = 5000
+}
+
+je_sick_man_syria = {
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	complete = {
+		country_or_subject_owns_entire_state_region = STATE_ALEPPO
+		country_or_subject_owns_entire_state_region = STATE_SYRIA
+		country_or_subject_owns_entire_state_region = STATE_LEBANON
+		country_or_subject_owns_entire_state_region = STATE_PALESTINE
+		country_or_subject_owns_entire_state_region = STATE_TRANSJORDAN
+		country_or_subject_owns_entire_state_region = STATE_ADANA
+	}
+
+	on_complete = {
+		custom_tooltip = je_sick_man_advance
+		change_variable = {
+			name = sick_man_var
+			add = 1
+		}
+		set_variable = completed_syria_je
+		s:STATE_SINAI = {
+			add_claim = ROOT
+		}
+		s:STATE_UPPER_EGYPT = {
+			add_claim = ROOT
+		}
+		s:STATE_MIDDLE_EGYPT = {
+			add_claim = ROOT
+		}
+		s:STATE_LOWER_EGYPT = {
+			add_claim = ROOT
+		}
+		if = {
+			limit = {
+				OR = {
+					AND = {
+						exists = c:EGY
+						c:EGY = {
+							is_subject_of = ROOT
+						}
+					}
+					AND = {
+						owns_entire_state_region = STATE_SINAI
+						owns_entire_state_region = STATE_UPPER_EGYPT
+						owns_entire_state_region = STATE_MIDDLE_EGYPT
+						owns_entire_state_region = STATE_LOWER_EGYPT
+					}
+				}
+			}
+			custom_tooltip = je_sick_man_advance
+			change_variable = {
+				name = sick_man_var
+				add = 1
+			}
+		}
+		else = {
+			add_journal_entry = {
+				type = je_sick_man_egypt
+			}
+		}
+		custom_tooltip = sickman_syria_egypt
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = finished_sick_man_tt
+			has_variable = sick_man_complete
+		}
+	}
+
+	on_weekly_pulse = {
+		events = {
+			egyptian_crisis_events.1
+		}
+	}
+
+	inheritable = no
+
+	weight = 5000
+}

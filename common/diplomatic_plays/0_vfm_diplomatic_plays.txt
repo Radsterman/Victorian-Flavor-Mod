@@ -205,6 +205,37 @@ dp_leadership_ethiopia = {
 	on_war_end = {}
 }
 
+dp_leadership_india= {
+	war_goal = unification_leadership
+	
+	requires_interest_marker = no
+	mirror_war_goal = yes
+	
+	texture = "gfx/interface/icons/war_goals/annex_country.dds"
+	
+	selectable_in_lens = {
+		always = no
+	}	
+	
+	possible = {
+		NOT = { is_country_type = decentralized }
+		has_technology_researched = pan-nationalism
+		is_subject = no
+		can_form_nation = BHT
+		scope:target = {
+			NOT = { is_country_type = decentralized }
+			aggressive_diplomatic_plays_permitted = yes
+			can_form_nation = BHT
+		}
+	}
+	
+	on_weekly_pulse = {}
+	
+	on_war_begins = {}
+
+	on_war_end = {}
+}
+
 dp_unify_ethiopia = {
 	war_goal = unification
 	
@@ -225,6 +256,64 @@ dp_unify_ethiopia = {
 			NOT = { is_country_type = decentralized }
 			aggressive_diplomatic_plays_permitted = yes
 			can_form_nation = ETH
+		}
+	}
+	
+	on_weekly_pulse = {}
+	
+	on_war_begins = {}
+
+	on_war_end = {}
+}
+
+dp_unify_india = {
+	war_goal = unification
+	
+	requires_interest_marker = no
+	blocked_by_diplomatic_status = no
+	
+	texture = "gfx/interface/icons/war_goals/unification.dds"
+	
+	selectable_in_lens = {
+		always = no
+	}
+	  
+	possible = {
+		NOT = { is_country_type = decentralized }
+
+   
+			OR = {
+                custom_tooltip = {
+				text = india_unification_criteria
+					OR = {
+						NOT = { exists = c:BIC }
+						NOT = {
+							AND = {
+								exists = c:BIC
+								c:BIC = {
+									any_scope_state = {
+										state_region = {
+											state_is_in_india = yes
+										}
+									}
+								}
+							}
+						}
+					}
+           			
+					   
+                }
+		}
+
+        
+       
+		has_technology_researched = pan-nationalism
+		is_subject = no
+		can_form_nation = BHT
+		scope:target = {
+			NOT = { is_country_type = decentralized }
+			aggressive_diplomatic_plays_permitted = yes
+			can_form_nation = BHT
 		}
 	}
 	
