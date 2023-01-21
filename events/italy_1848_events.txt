@@ -62,7 +62,7 @@ italy_1848.1 = {
 					name = sicilian_revolution_var1
 					value = yes
 				}
-				activate_law = law_type:law_parliamentary_republic
+				activate_law = law_type:law_presidential_republic
 				activate_law = law_type:law_universal_suffrage
 				activate_law = law_type:law_right_of_assembly
 				set_next_election_date = 1852.1.1
@@ -84,6 +84,7 @@ italy_1848.1 = {
 					interest_group = ig_intelligentsia
 					ideology = ideology_liberal
 					traits = {
+						expert_naval_commander
 					}
 				}
 			}
@@ -353,6 +354,8 @@ italy_1848.5 = {
 
 	duration = 0
 
+	hidden = yes
+
 	option = {
 		name = italy_1848.5.a
 		default_option = yes
@@ -511,8 +514,6 @@ italy_1848.6 = {
 
 	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
 
-	left_icon = ruler
-
 	duration = 3
 
 	trigger = {
@@ -607,7 +608,7 @@ italy_1848.6 = {
     }
 }
 
-#PAP Roman Republic
+#AUS Republic of San Marco
 italy_1848.7 = {
 	type = country_event
 	placement = root
@@ -625,29 +626,144 @@ italy_1848.7 = {
 
 	icon = "gfx/interface/icons/event_icons/event_protest.dds"
 
-	left_icon = ruler
+	duration = 0
 
-	duration = 3
+	hidden = yes
 
 	trigger = {
-		exists = c:PAP
-		this = c:PAP
+		exists = c:AUS
+		this = c:AUS
+		owns_entire_state_region = STATE_VENETIA
+		game_date >= 1836.2.1 #1848.3.17
+		has_technology_researched = nationalism
+		OR = {
+			c:AUS = {
+				owns_entire_state_region = STATE_VENETIA
+				is_subject = no
+			}
+			any_country = {
+				is_subject_of = c:AUS
+				owns_entire_state_region = STATE_VENETIA
+			}
+		}
 	}
 
 	immediate = {
+		s:STATE_VENETIA = {
+			add_claim = c:AUS
+		}
 	}
 
 	option = {
 		name = italy_1848.7.a
 		default_option = yes
 
+		create_country = { #Republic of San Marco
+			tag = SMR
+			origin = this
+			state = s:STATE_VENETIA.region_state:AUS
+			on_created = {
+				set_variable = {
+					name = san_marco_var
+					value = yes
+				}
+				activate_law = law_type:law_presidential_republic
+				activate_law = law_type:law_universal_suffrage
+				activate_law = law_type:law_right_of_assembly
+				set_next_election_date = 1852.1.1
+				ig:ig_intelligentsia = {
+					add_ruling_interest_group = yes
+					add_modifier = {
+						name = san_marco_ig_str
+						months = long_modifier_time
+					}
+				}
+				ig:ig_armed_forces = {
+					add_ruling_interest_group = yes
+				}
+				create_character = {
+					# Daniele Manin
+					is_general = no
+					first_name = "Daniele"
+					last_name = "Manin"
+					ruler = no
+					birth_date = 1804.05.13
+					ig_leader = yes
+					interest_group = ig_intelligentsia
+					ideology = ideology_liberal
+					traits = {
+						brave
+						meticulous
+					}
+				}
+			}
+		}
+		trigger_event = {
+			id = italy_1848.8
+			popup = yes
+		}
+
 	    ai_chance = {
 			base = 1	
 		}
     }
+}
+
+italy_1848.9 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.8.t
+	desc = italy_1848.8.d
+	flavor = italy_1848.8.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_springtime_of_nations.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/springtime_of_nation"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	duration = 0
+
+	trigger = {
+	}
+
+	immediate = {
+		c:SMR = {
+			save_scope_as = smr_scope
+		}
+		s:STATE_VENETIA = {
+			random_scope_state = {
+				save_scope_as = venetia_scope
+			}
+		}
+	}
+
 	option = {
-		name = italy_1848.7.b
+		name = italy_1848.8.a
 		default_option = yes
+
+		c:AUS = {
+		}
+
+	    ai_chance = {
+			base = 1	
+		}
+    }
+
+	option = {
+		name = italy_1848.8.b
+
+	    ai_chance = {
+			base = 1	
+		}
+    }
+
+	option = {
+		name = italy_1848.8.c
 
 	    ai_chance = {
 			base = 1	
