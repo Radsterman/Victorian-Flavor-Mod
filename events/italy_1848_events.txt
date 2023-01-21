@@ -812,6 +812,7 @@ italy_1848.8 = {
     }
 }
 
+#AUS Aftermath of The Italian Uprisings
 italy_1848.9 = {
 	type = country_event
 	placement = root
@@ -868,7 +869,137 @@ italy_1848.9 = {
 		}
 
 	    ai_chance = {
-			base = 95	
+			base = 1	
 		}
     }
+}
+
+#AUS Five Days of Milan
+italy_1848.10 = {
+	type = country_event
+	placement = scope:lombardy_scope
+
+	title = italy_1848.10.t
+	desc = italy_1848.10.d
+	flavor = italy_1848.10.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_springtime_of_nations.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/springtime_of_nation"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	duration = 1
+
+	trigger = {
+		exists = c:AUS
+		this = c:AUS
+		owns_entire_state_region = STATE_LOMBARDY
+		game_date >= 1848.3.18
+		has_technology_researched = nationalism
+		OR = {
+			c:AUS = {
+				owns_entire_state_region = STATE_LOMBARDY
+				is_subject = no
+			}
+			any_country = {
+				is_subject_of = c:AUS
+				owns_entire_state_region = STATE_LOMBARDY
+			}
+		}
+	}
+	immediate = {
+		c:SAR = {
+			save_scope_as = sar_scope
+		}
+		s:STATE_LOMBARDY = {
+			random_scope_state = {
+				save_scope_as = lombardy_scope
+			}
+		}
+		create_country = { #MILAN
+			tag = MLN
+			origin = this
+			state = s:STATE_LOMBARDY.region_state:AUS
+			on_created = {
+				activate_law = law_type:law_presidential_republic
+				activate_law = law_type:law_universal_suffrage
+				activate_law = law_type:law_right_of_assembly
+				set_next_election_date = 1852.1.1
+				ig:ig_intelligentsia = {
+					add_ruling_interest_group = yes
+					add_modifier = {
+						name = five_days_ig_str
+						months = long_modifier_time
+					}
+				}
+				create_character = {
+					# Carlo Cattaneo
+					is_general = no
+					first_name = "Carlo"
+					last_name = "Cattaneo"
+					ruler = no
+					birth_date = 1801.01.15
+					ig_leader = yes
+					interest_group = ig_intelligentsia
+					ideology = ideology_liberal
+					traits = {
+						expert_political_operator
+					}
+				}
+				set_variable = {
+					name = five_days_var
+					value = yes
+				}
+				change_relations = {
+					country = c:SAR
+					value = 100
+			    }
+			}		
+		}
+		hidden_effect = {
+			s:STATE_LOMBARDY = {
+				set_owner_of_provinces = {
+					country = c:AUS
+					provinces = { x867A90 x9AC196 xA40CE9 x4713EE x70B8A9 x50C060 }
+				}
+			}
+		}
+	}
+
+	option = {
+		name = italy_1848.10.a
+		default_option = yes
+
+		change_relations = {
+			country = c:MLN
+			value = -100
+	    }
+
+		c:SAR = {
+			trigger_event = {
+				id = italy_1848.11
+				popup = yes
+			}
+		}
+
+	    ai_chance = {
+			base = 95
+		}
+    }
+
+	option = {
+		name = italy_1848.10.b
+
+		s:STATE_LOMBARDY.region_state:AUS = {
+			set_state_owner = c:MLN
+		}
+
+	    ai_chance = {
+			base = 5
+		}
+	}
 }
