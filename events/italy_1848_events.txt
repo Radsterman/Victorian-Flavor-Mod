@@ -354,8 +354,6 @@ italy_1848.5 = {
 
 	duration = 0
 
-	hidden = yes
-
 	option = {
 		name = italy_1848.5.a
 		default_option = yes
@@ -608,7 +606,7 @@ italy_1848.6 = {
     }
 }
 
-#AUS Republic of San Marco
+#AUS (HIDDEN) Creation of Republic of San Marco
 italy_1848.7 = {
 	type = country_event
 	placement = root
@@ -627,8 +625,6 @@ italy_1848.7 = {
 	icon = "gfx/interface/icons/event_icons/event_protest.dds"
 
 	duration = 0
-
-	hidden = yes
 
 	trigger = {
 		exists = c:AUS
@@ -709,9 +705,10 @@ italy_1848.7 = {
     }
 }
 
-italy_1848.9 = {
+#AUS Republic of San Marco
+italy_1848.8 = {
 	type = country_event
-	placement = root
+	placement = scope:venetia_scope
 
 	title = italy_1848.8.t
 	desc = italy_1848.8.d
@@ -726,9 +723,10 @@ italy_1848.9 = {
 
 	icon = "gfx/interface/icons/event_icons/event_protest.dds"
 
-	duration = 0
+	duration = 1
 
 	trigger = {
+		has_variable = san_marco_var
 	}
 
 	immediate = {
@@ -746,27 +744,59 @@ italy_1848.9 = {
 		name = italy_1848.8.a
 		default_option = yes
 
-		c:AUS = {
+    	create_diplomatic_play = {
+			target_country = c:SMR
+			war = no
+			escalation = 50
+			type = dp_annex_war
+    	}
+		change_relations = {
+			country = c:SMR
+			value = -100
+	    }
+		add_journal_entry = {
+			type = je_italian_uprising
 		}
 
 	    ai_chance = {
-			base = 1	
+			base = 95	
 		}
     }
 
 	option = {
 		name = italy_1848.8.b
 
+		change_relations = {
+			country = c:SMR
+			value = -50
+	    }
+	    remove_variable = san_marco_var
+
 	    ai_chance = {
-			base = 1	
+			base = 5	
 		}
     }
 
 	option = {
 		name = italy_1848.8.c
 
+     	play_as = c:SMR
+    	create_diplomatic_play = {
+			target_country = c:SMR
+			war = no
+			escalation = 50
+			type = dp_annex_war
+    	}
+		change_relations = {
+			country = c:SMR
+			value = -100
+	    }
+		add_journal_entry = {
+			type = je_italian_uprising
+		}
+
 	    ai_chance = {
-			base = 1	
+			base = 0	
 		}
     }
 }
