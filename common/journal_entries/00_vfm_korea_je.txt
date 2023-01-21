@@ -25,36 +25,31 @@ je_sadae = {
 
 	complete = {
 		top_overlord = {
-			relations:root >= relations_threshold:amicable
+			custom_tooltip = {
+				text = kor_chi_relations_tt
+				relations:root >= relations_threshold:amicable
+			}
 			owes_obligation_to = root
 		}
 	}
 
 	fail = {
-		OR = {
+		custom_tooltip = {
+			text = kor_chi_relations_bad_tt
 			top_overlord = {
 				relations:root < relations_threshold:neutral
-			}
-			NOT = {
-				is_subject_of = c:CHI
 			}
 		}
 
 	}
 
 	invalid = {
-		NOT = { exists = c:CHI }
+		NOT = { is_subject_of = c:CHI }
 	}
 
 	on_complete = {
 		trigger_event = {
 			id = kor.3
-		}
-		c:CHI ={
-			create_diplomatic_pact = {
-				country = c:KOR
-				type = customs_union
-			}
 		}
 	}
 
