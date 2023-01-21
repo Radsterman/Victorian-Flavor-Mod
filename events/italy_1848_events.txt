@@ -648,12 +648,6 @@ italy_1848.7 = {
 		s:STATE_VENETIA = {
 			add_claim = c:AUS
 		}
-		c:AUS = {
-			set_variable = {
-				name = san_marco_var
-				value = yes
-			}
-		}
 	}
 
 	option = {
@@ -694,7 +688,11 @@ italy_1848.7 = {
 						meticulous
 					}
 				}
-			}
+				set_variable = {
+					name = san_marco_var
+					value = yes
+				}
+			}		
 		}
 		trigger_event = {
 			id = italy_1848.8
@@ -728,7 +726,9 @@ italy_1848.8 = {
 	duration = 1
 
 	trigger = {
-		has_variable = san_marco_var
+		c:SMR = {
+			has_variable = san_marco_var
+		}
 	}
 
 	immediate = {
@@ -772,7 +772,9 @@ italy_1848.8 = {
 			country = c:SMR
 			value = -50
 	    }
-	    remove_variable = san_marco_var
+	    c:SMR = {
+	    	remove_variable = san_marco_var
+	    }
 
 	    ai_chance = {
 			base = 5	
