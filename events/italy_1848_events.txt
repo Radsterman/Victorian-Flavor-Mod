@@ -750,17 +750,14 @@ italy_1848.8 = {
 		name = italy_1848.8.a
 		default_option = yes
 
-    	create_diplomatic_play = {
-			target_country = c:SMR
-			war = yes
-			type = dp_annex_war
-    	}
 		change_relations = {
 			country = c:SMR
 			value = -100
 	    }
-		add_journal_entry = {
-			type = je_italian_uprisings
+		trigger_event = {
+			id = italy_1848.10
+			days = 1
+			popup = yes
 		}
 
 	    ai_chance = {
@@ -769,41 +766,17 @@ italy_1848.8 = {
     }
 
 	option = {
-		name = italy_1848.8.b
-
-		change_relations = {
-			country = c:SMR
-			value = -50
-	    }
-	    c:SMR = {
-	    	remove_variable = san_marco_var
-	    }
-		trigger_event = {
-			id = italy_1848.9
-			popup = yes
-		}
-
-	    ai_chance = {
-			base = 5	
-		}
-    }
-
-	option = {
 		name = italy_1848.8.c
 
      	play_as = c:SMR
-    	create_diplomatic_play = {
-			target_country = c:SMR
-			war = no
-			escalation = 50
-			type = dp_annex_war
-    	}
 		change_relations = {
 			country = c:SMR
 			value = -100
 	    }
-		add_journal_entry = {
-			type = je_italian_uprisings
+		trigger_event = {
+			id = italy_1848.10
+			days = 1
+			popup = yes
 		}
 
 	    ai_chance = {
@@ -898,8 +871,6 @@ italy_1848.10 = {
 		exists = c:AUS
 		this = c:AUS
 		owns_entire_state_region = STATE_LOMBARDY
-		game_date >= 1848.3.18
-		has_technology_researched = nationalism
 		OR = {
 			c:AUS = {
 				owns_entire_state_region = STATE_LOMBARDY
@@ -920,7 +891,7 @@ italy_1848.10 = {
 				save_scope_as = lombardy_scope
 			}
 		}
-		create_country = { #MILAN
+		create_country = { #Milan
 			tag = MLN
 			origin = this
 			state = s:STATE_LOMBARDY.region_state:AUS
@@ -974,6 +945,8 @@ italy_1848.10 = {
 		name = italy_1848.10.a
 		default_option = yes
 
+		custom_tooltip = italy_1848.10.tt1
+
 		change_relations = {
 			country = c:MLN
 			value = -100
@@ -996,6 +969,116 @@ italy_1848.10 = {
 
 		s:STATE_LOMBARDY.region_state:AUS = {
 			set_state_owner = c:MLN
+		}
+		trigger_event = {
+			id = italy_1848.9
+			popup = yes
+		}
+		c:SMR = {
+			remove_variable = san_marco_var
+		}
+
+	    ai_chance = {
+			base = 5
+		}
+	}
+}
+
+#SAR Five Days of Milan
+italy_1848.11 = {
+	type = country_event
+	placement = scope:lombardy_scope
+
+	title = italy_1848.11.t
+	desc = italy_1848.11.d
+	flavor = italy_1848.11.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+		c:MLN = {
+			save_scope_as = sar_scope
+		}
+		c:SMR = {
+			save_scope_as = smr_scope
+		}
+		c:AUS = {
+			save_scope_as = aus_scope
+		}
+		s:STATE_LOMBARDY = {
+			random_scope_state = {
+				save_scope_as = lombardy_scope
+			}
+		}
+	}
+
+	option = {
+		name = italy_1848.11.a
+
+		annex = c:MLN
+		create_diplomatic_pact = {
+			country = c:SMR
+			type = alliance
+		}
+		c:AUS = {
+			trigger_event = {
+				id = italy_1848.12
+				popup = yes
+			}
+		}
+	   create_diplomatic_play = {
+			target_country = c:AUS
+			war = no
+			escalation = 50
+			type = dp_first_italian_war
+
+			add_war_goal = {
+				holder = c:SAR
+				type = return_state
+				target_state = s:STATE_LOMBARDY.region_state:AUS
+			}
+			add_war_goal = {
+				holder = c:AUS
+				type = return_state
+				target_state = s:STATE_LOMBARDY.region_state:SAR
+			}
+			add_war_goal = {
+				holder = c:AUS
+				type = return_state
+				target_state = s:STATE_VENETIA.region_state:SMR
+			}
+	    }
+		s:STATE_LOMBARDY = {
+			add_claim = c:SAR
+		}
+		s:STATE_LOMBARDY = {
+			add_claim = c:AUS
+		}
+
+	    ai_chance = {
+			base = 95
+		}
+	}
+	option = {
+		name = italy_1848.11.b
+
+		c:AUS = {
+			trigger_event = {
+				id = italy_1848.13
+				popup = yes
+			}
 		}
 
 	    ai_chance = {
