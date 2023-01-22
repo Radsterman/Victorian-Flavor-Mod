@@ -43,10 +43,6 @@ italy_1848.1 = {
 				save_scope_as = sicily_scope
 			}
 		}
-		set_variable = {
-			name = sicilian_revolution_var2
-			value = yes
-		}
 	}
 
 	option = {
@@ -152,8 +148,7 @@ italy_1848.2 = {
 		c:SIC = {
 	    	create_diplomatic_play = {
 				target_country = c:SCL
-				war = no
-				escalation = 50
+				war = yes
 				type = dp_annex_war
 	    	}
 			change_relations = {
@@ -222,8 +217,7 @@ italy_1848.2 = {
 		c:SIC = {
 	    	create_diplomatic_play = {
 				target_country = c:SCL
-				war = no
-				escalation = 50
+				war = yes
 				type = dp_annex_war
 	    	}
 			change_relations = {
@@ -407,7 +401,6 @@ italy_1848.4 = {
 		c:SCL = {
 			save_scope_as = sic_rev_scope
 		}
-     	remove_variable = sicilian_revolution_var2
 	}
 
 	option = {
@@ -645,9 +638,6 @@ italy_1848.7 = {
 	}
 
 	immediate = {
-		s:STATE_VENETIA = {
-			add_claim = c:AUS
-		}
 	}
 
 	option = {
@@ -970,9 +960,11 @@ italy_1848.10 = {
 		s:STATE_LOMBARDY.region_state:AUS = {
 			set_state_owner = c:MLN
 		}
-		trigger_event = {
-			id = italy_1848.9
-			popup = yes
+		c:SAR = {
+			trigger_event = {
+				id = italy_1848.12
+				popup = yes
+			}
 		}
 		c:SMR = {
 			remove_variable = san_marco_var
@@ -984,7 +976,7 @@ italy_1848.10 = {
 	}
 }
 
-#SAR Five Days of Milan
+#SAR First Italian War of Independence
 italy_1848.11 = {
 	type = country_event
 	placement = scope:lombardy_scope
@@ -1022,6 +1014,11 @@ italy_1848.11 = {
 				save_scope_as = lombardy_scope
 			}
 		}
+		s:STATE_VENETIA = {
+			random_scope_state = {
+				save_scope_as = venetia_scope
+			}
+		}
 	}
 
 	option = {
@@ -1040,8 +1037,7 @@ italy_1848.11 = {
 		}
 	   create_diplomatic_play = {
 			target_country = c:AUS
-			war = no
-			escalation = 50
+			war = yes
 			type = dp_first_italian_war
 
 			add_war_goal = {
@@ -1060,11 +1056,21 @@ italy_1848.11 = {
 				target_state = s:STATE_VENETIA.region_state:SMR
 			}
 	    }
+	    add_modifier = {
+			name = italian_vol # Remove at war's end
+	    }
 		s:STATE_LOMBARDY = {
 			add_claim = c:SAR
 		}
 		s:STATE_LOMBARDY = {
 			add_claim = c:AUS
+		}
+		s:STATE_VENETIA = {
+			add_claim = c:AUS
+		}
+		set_variable = {
+			name = first_italian_war_var
+			value = yes
 		}
 
 	    ai_chance = {
@@ -1075,14 +1081,344 @@ italy_1848.11 = {
 		name = italy_1848.11.b
 
 		c:AUS = {
+	    	create_diplomatic_play = {
+				target_country = c:MLN
+				war = yes
+				type = dp_annex_war
+	    	}
+	    	create_diplomatic_play = {
+				target_country = c:SMR
+				war = yes
+				type = dp_annex_war
+	    	}
+		}
+	    add_modifier = {
+			name = no_first_italian_war
+			months = long_modifier_time
+	    }
+		add_radicals = {
+			value = large_radicals
+		}
+
+	    ai_chance = {
+			base = 5
+		}
+	}
+}
+
+#SAR Austria doesn't fight Venice and Milan
+italy_1848.12 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.12.t
+	desc = italy_1848.12.d
+	flavor = italy_1848.12.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+		c:SMR = {
+			save_scope_as = smr_scope
+		}
+		c:MLN = {
+			save_scope_as = mln_scope
+		}
+		s:STATE_LOMBARDY = {
+			random_scope_state = {
+				save_scope_as = lombardy_scope
+			}
+		}
+		s:STATE_VENETIA = {
+			random_scope_state = {
+				save_scope_as = venetia_scope
+			}
+		}
+	}
+
+	option = {
+		name = italy_1848.12.a
+		
+		default_option = yes
+
+		c:MLN = {
 			trigger_event = {
 				id = italy_1848.13
 				popup = yes
 			}
 		}
+		c:SMR = {
+			trigger_event = {
+				id = italy_1848.17
+				popup = yes
+			}
+		}
 
 	    ai_chance = {
-			base = 5
+			base = 99
+		}
+	}
+	option = {
+		name = italy_1848.12.b
+
+	    ai_chance = {
+			base = 1
+		}
+	}
+}
+
+#MLN Plebiscite for annexation
+italy_1848.13 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.13.t
+	desc = italy_1848.13.d
+	flavor = italy_1848.13.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	option = {
+		name = italy_1848.13.a
+		
+		default_option = yes
+
+		c:SAR = {
+			trigger_event = {
+				id = italy_1848.14
+				days = 15
+				popup = yes
+			}
+		}
+
+	    ai_chance = {
+			base = 1
+		}
+	}
+}
+
+#SMR Plebiscite for annexation
+italy_1848.15 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.15.t
+	desc = italy_1848.15.d
+	flavor = italy_1848.15.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+		c:SAR = {
+			save_scope_as = sar_scope
+		}
+	}
+
+	option = {
+		name = italy_1848.15.a
+		
+		default_option = yes
+
+		c:SAR = {
+			trigger_event = {
+				id = italy_1848.16
+				days = 15
+				popup = yes
+			}
+		}
+
+	    ai_chance = {
+			base = 99
+		}
+	}
+	option = {
+		name = italy_1848.15.b
+
+		c:SAR = {
+			trigger_event = {
+				id = italy_1848.17
+				days = 15
+				popup = yes
+			}
+		}
+
+	    ai_chance = {
+			base = 1
+		}
+	}
+}
+
+#SAR Positive Plebescite
+italy_1848.16 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.16.t
+	desc = italy_1848.16.d
+	flavor = italy_1848.16.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+		c:SMR = {
+			save_scope_as = smr_scope
+		}
+		s:STATE_LOMBARDY = {
+			random_scope_state = {
+				save_scope_as = lombardy_scope
+			}
+		}
+		s:STATE_VENETIA = {
+			random_scope_state = {
+				save_scope_as = venetia_scope
+			}
+		}
+	}
+
+	option = {
+		name = italy_1848.16.a
+		
+		default_option = yes
+
+		if = {
+			limit = {
+				exists = c:MLN
+			}
+			annex = c:MLN
+		}
+		annex = c:SMR
+
+	    ai_chance = {
+			base = 1
+		}
+	}
+}
+
+#SAR Negative Plebescite
+italy_1848.17 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.17.t
+	desc = italy_1848.17.d
+	flavor = italy_1848.17.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+		c:SMR = {
+			save_scope_as = smr_scope
+		}
+		s:STATE_LOMBARDY = {
+			random_scope_state = {
+				save_scope_as = lombardy_scope
+			}
+		}
+		s:STATE_VENETIA = {
+			random_scope_state = {
+				save_scope_as = venetia_scope
+			}
+		}
+	}
+
+	option = {
+		name = italy_1848.17.a
+		
+		default_option = yes
+
+		if = {
+			limit = {
+				exists = c:MLN
+			}
+			annex = c:MLN
+		}
+    	create_diplomatic_play = {
+			target_country = c:SMR
+			war = yes
+			type = dp_annex_war
+    	}
+
+	    ai_chance = {
+			base = 75
+		}
+	}
+
+	option = {
+		name = italy_1848.17.b
+
+		if = {
+			limit = {
+				exists = c:MLN
+			}
+			annex = c:MLN
+		}
+		remove_diplomatic_pact = {
+			country = c:SMR
+			type = alliance
+		}
+
+	    ai_chance = {
+			base = 25
 		}
 	}
 }
