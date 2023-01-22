@@ -1,0 +1,161 @@
+﻿proclaim_gulhane_irade = {
+
+	is_shown = {
+		exists = c:TUR
+		root = c:TUR
+		NOT = { has_variable = gulhane_edict }
+	}
+
+	possible = {
+		custom_tooltip = {
+			text = gulhane_edict_tt
+			NOT = {
+				ROOT = {
+					ruler = {
+						has_variable = is_mahmud_ii
+					}
+				}
+			}
+		}
+	}
+
+	when_taken = {
+		set_variable = gulhane_edict
+		if = {
+			limit = {
+				any_scope_pop = { 
+					religion = rel:sunni 
+				}
+			}
+			add_radicals = {
+				religion = rel:sunni
+				value = medium_radicals
+			}
+		}
+		if = {
+			limit = {
+				any_scope_pop = { 
+					religion = rel:orthodox 
+				}
+			}
+			add_radicals = {
+				religion = rel:orthodox
+				value = medium_radicals
+			}
+		}
+		if = {
+			limit = {
+				any_scope_pop = { 
+					religion = rel:oriental_orthodox 
+				}
+			}
+			add_radicals = {
+				religion = rel:oriental_orthodox
+				value = medium_radicals
+			}
+		}
+		if = {
+			limit = {
+				any_scope_pop = { 
+					religion = rel:catholic 
+				}
+			}
+			add_radicals = {
+				religion = rel:catholic
+				value = medium_radicals
+			}
+		}
+		if = {
+			limit = {
+				any_scope_pop = { 
+					religion = rel:protestant 
+				}
+			}
+			add_radicals = {
+				religion = rel:protestant
+				value = medium_radicals
+			}
+		}
+		if = {
+			limit = {
+				any_scope_pop = { 
+					religion = rel:jewish 
+				}
+			}
+			add_radicals = {
+				religion = rel:jewish
+				value = medium_radicals
+			}
+		}
+	}
+
+	ai_chance = {
+		base = 10
+	}
+}
+
+centralise_kurdish_vilayets = { #Annex a Kurdish minor
+	is_shown = {
+		exists = c:TUR
+		root = c:TUR
+		has_journal_entry = je_sick_man_kurdistan
+	}
+
+	possible = {
+		is_at_war = no
+		custom_tooltip = {
+			text = centralise_kurdish_vilayets_tt
+			NOT = { has_variable = centralise_kurdish_vilayets_cooldown }
+		}
+		any_subject_or_below = {
+			is_player = no
+			country_has_primary_culture = cu:kurdish
+			NOT = {
+				exists = c:KUR
+			}
+		}
+	}
+
+	when_taken = {
+		trigger_event = { id = vilayet_events.7 days = 0 popup = yes }
+		set_variable = {
+			name = centralise_kurdish_vilayets_cooldown
+			years = 2
+		}
+	}
+
+	ai_chance = {
+		base = 10
+	}
+}
+
+establish_kurdish_state = { #Establish a Kurdish vassal state
+	is_shown = {
+		exists = c:TUR
+		root = c:TUR
+		has_journal_entry = je_sick_man_kurdistan
+	}
+
+	possible = {
+		is_at_war = no
+		any_subject_or_below = {
+			is_player = no
+			country_has_primary_culture = cu:kurdish
+			NOT = {
+				exists = c:KUR
+			}
+		}
+		has_variable = completed_sick_man_vilayet_je
+		has_technology_researched = nationalism
+		has_technology_researched = railways
+		has_technology_researched = logistics
+	}
+
+	when_taken = {
+		trigger_event = { id = vilayet_events.8 days = 0 popup = yes }
+	}
+
+	ai_chance = {
+		base = 0
+	}
+}
