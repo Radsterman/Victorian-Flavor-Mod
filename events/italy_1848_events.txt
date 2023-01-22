@@ -1632,6 +1632,9 @@ italy_1848.20 = {
 		exists = c:PAP
 		this = c:PAP
 		owns_entire_state_region = STATE_LATIUM
+		NOT = {
+			has_variable = roman_rep_happened_var
+		}
 		game_date >= 1849.2.9
 		has_technology_researched = nationalism
 		OR = {
@@ -1754,17 +1757,31 @@ italy_1848.21 = {
 		c:RMR = {
 			save_scope_as = rmr_scope
 		}
+		s:STATE_LAZIO = {
+			add_claim = c:FRA
+		}
 	}
 
     option = {
 		name = italy_1848.21.a
 		default_option = yes
 
-		c:RMR = {
-			trigger_event = {
-				id = italy_1848.22
-				days = 5
-			}
+    	create_diplomatic_play = {
+			target_country = c:RMR
+			war = yes
+			type = dp_return_state
+    	}
+		add_radicals = {
+			strata = poor
+			value = 0.05
+		}
+		add_radicals = {
+			strata = middle
+			value = 0.05
+		}
+		set_variable = {
+			name = roman_rep_war_var
+			value = yes
 		}
 
 	    ai_chance = {
@@ -1779,4 +1796,79 @@ italy_1848.21 = {
 			base = 5	
 		}
     }
+}
+
+#FRA Roman Republic War Win
+italy_1848.22 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.22.t
+	desc = italy_1848.22.d
+	flavor = italy_1848.22.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_military_parade.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/military_parade"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	duration = 1
+
+	trigger = {
+		has_variable = roman_rep_war_var
+		owns_entire_state_region = STATE_LAZIO
+		exists = c:RMR
+	}
+
+	immediate = {
+		c:RMR = {
+			save_scope_as = rmr_scope
+		}
+		s:STATE_LAZIO = {
+			remove_claim = c:FRA
+		}
+		remove_variable = roman_rep_war_var
+	}
+
+    option = {
+		name = italy_1848.22.a
+		default_option = yes
+
+		custom_tooltip = {
+			text = italy_1848.22.tt1
+			create_country = { # Papal States
+				tag = PAP
+				origin = c:RMR
+				state = s:STATE_LAZIO.region_state:FRA
+				on_created = {
+					activate_law = law_type:law_theocracy
+					activate_law = law_type:law_oligarchy
+					activate_law = law_type:law_state_religion
+					activate_law = law_type:law_censorship
+					ig:ig_devout = {
+						add_ruling_interest_group = yes
+					}
+					c:PAP = {
+						annex = c:RMR
+						set_variable = {
+							name = roman_rep_happened_var
+							value = yes
+						}
+					}
+				}
+			}
+		}
+		add_modifier = {
+			name = helped_the_pope
+			months = long_modifier_time
+		}
+
+	    ai_chance = {
+			base = 1	
+		}
+	}
 }
