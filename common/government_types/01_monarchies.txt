@@ -364,26 +364,70 @@ gov_khedive = {
 		has_law = law_type:law_monarchy
 		exists = c:EGY
 		c:EGY = ROOT
+		has_variable = khedivate_conferred
+	}
+}
+
+gov_pashalik = {
+	transfer_of_power = hereditary
+	
+	male_ruler = "RULER_TITLE_PASHA"
+	female_ruler = "" # Empty on purpose
+
+	male_heir = "RULER_TITLE_PRINCE"
+	female_heir = "" # Empty on purpose
+	
+	possible = {
+		has_law = law_type:law_monarchy
+		exists = c:EGY
+		c:EGY = ROOT
+		NOT = {
+			has_variable = khedivate_conferred
+		}
 	}
 }
 
 
 gov_vilayet = {								
-	transfer_of_power = hereditary
+	transfer_of_power = dictatorial
 	
-	male_ruler = "RULER_TITLE_VALI"			# Governor. This post would usually be appointed by the Ottoman Sultan, and not be hereditary. 
+	male_ruler = "RULER_TITLE_VALI"			# governor of a province after the 1860 when the Eyalets were abolished and Vilyaets became the subdivisions
 	female_ruler = "" # Empty on purpose
-
-	male_heir = "RULER_TITLE_MUTASARRIF"	# Governor of a Vilayet's subunit, the Sanjak, who would assume command in the Vali's absence
-	female_heir = "" # Empty on purpose
 	
 	possible = {
-		has_law = law_type:law_monarchy
-		exists = c:TRI
 		exists = c:TUR
-		c:TRI = ROOT
-		is_subject_of = c:TUR		
-	}		
+		c:TUR = {	
+			has_variable = completed_sick_man_vilayet_je
+		}
+		is_subject_of = c:TUR
+		NOR = {
+			country_has_state_religion = rel:orthodox
+			country_has_state_religion = rel:catholic
+			country_has_primary_culture = cu:kurdish 	#Kurds are set up to use Emir
+		}
+	}
+}
+
+gov_eyalet = {								
+	transfer_of_power = dictatorial
+	
+	male_ruler = "RULER_TITLE_BEYLERBEY"			# pre-vilayet title, Vali was used generically sometimes especially for Egypt but wasn't the legal title until the 1860s 
+	female_ruler = "" # Empty on purpose
+
+	possible = {
+		exists = c:TUR
+		NOT = {
+			c:TUR = {
+				has_variable = completed_sick_man_vilayet_je
+			}
+		}
+		is_subject_of = c:TUR
+		NOT = {
+			country_has_state_religion = rel:orthodox
+			country_has_state_religion = rel:catholic	#Should stop the Serbs and Romanians being Eyalets because the @$%£^ing geographic trigger isn't checked on startup
+			country_has_primary_culture = cu:kurdish	#Kurds are set up to use Emir
+		}
+	}
 }
 
 gov_shah = {
