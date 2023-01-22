@@ -93,3 +93,88 @@
 		base = 10
 	}
 }
+
+centralise_kurdish_vilayets = { #Annex a Kurdish minor
+	is_shown = {
+		exists = c:TUR
+		root = c:TUR
+		has_journal_entry = je_sick_man_kurdistan
+	}
+
+	possible = {
+		is_at_war = no
+		custom_tooltip = {
+			text = centralise_kurdish_vilayets_tt
+			NOT = { has_variable = centralise_kurdish_vilayets_cooldown }
+		}
+		any_subject_or_below = {
+			is_player = no
+			country_has_primary_culture = cu:kurdish
+			can_form_nation = KUR
+		}
+	}
+
+	when_taken = {
+		trigger_event = { id = vilayet_events.7 days = 0 popup = yes }
+		set_variable = {
+			name = centralise_kurdish_vilayets_cooldown
+			years = 2
+		}
+	}
+
+	ai_chance = {
+		base = 10
+	}
+}
+
+establish_kurdish_state = { #Establish a Kurdish vassal state
+	is_shown = {
+		exists = c:TUR
+		root = c:TUR
+		has_journal_entry = je_sick_man_kurdistan
+	}
+
+	possible = {
+		is_at_war = no
+		any_subject_or_below = {
+			is_player = no
+			country_has_primary_culture = cu:kurdish
+			can_form_nation = KUR
+		}
+	}
+
+	when_taken = {
+		random_country = {
+            limit = {          
+                country_has_primary_culture = cu:kurdish
+                is_subject_of = c:TUR
+            }
+            save_scope_as = kurdistan_leader
+        }
+        c:TUR = {
+			create_diplomatic_pact = {
+				country = scope:kurdistan_leader
+				type = puppet
+			}
+		}
+        every_country = {
+            limit = { 
+                NOT = { this = scope:kurdistan_leader }
+                is_subject_of = c:TUR
+                country_has_primary_culture = cu:kurdish
+            }
+            save_scope_as = kurdistan_annex_target
+            scope:kurdistan_leader = {
+            annex = scope:kurdistan_annex_target
+            }
+        }
+		scope:kurdistan_leader = {
+             change_tag = KUR
+        }
+		trigger_event = { id = vilayet_events.8 days = 0 popup = yes }
+	}
+
+	ai_chance = {
+		base = 0
+	}
+}

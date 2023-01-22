@@ -40,8 +40,6 @@
 					}
 				}
 			}
-		}
-		effect = {
 			if = {
 				limit = {
 					year > 1858
@@ -65,7 +63,7 @@
 	}
 
 	goal_add_value = {
-		add = 6
+		add = 8
 	}
 
 	progressbar = yes
@@ -298,7 +296,7 @@ je_sick_man_education = {
 
 	goal_add_value = {
 		value = root.literacy_rate
-		add = 0.25
+		add = 0.35
 	}
 
 	invalid = {
@@ -368,10 +366,7 @@ je_sick_man_separatism = {
 		random_events = {
 			100 = 0
 			10 = tanzimat_events.5 # Paranoia Event
-			2 = tanzimat_events.11 # Mount Lebanon Incident
-			2 = tanzimat_events.15 # Albanian uprising
-			2 = tanzimat_events.19 # Macedonian rebellion to join Serbia
-			2 = tanzimat_events.23 # Bulgarian uprising
+			5 = tanzimat_events.11 # Mount Lebanon Incident
 		}
 	}
 
@@ -420,7 +415,7 @@ je_sick_man_army = {
 	}
 
 	complete = {
-		army_size >= 200
+		army_size >= 250
 		has_technology_researched = napoleonic_warfare
 		NOT = {
 			any_scope_building = {
@@ -644,32 +639,80 @@ je_sick_man_vilayets = {
 	weight = 5000
 }
 
+je_sick_man_kurdistan = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+	complete = {
+		OR = {
+			AND = {
+				owns_entire_state_region = STATE_ANKARA
+				owns_entire_state_region = STATE_ERZURUM
+				owns_entire_state_region = STATE_DIYARBAKIR
+				owns_entire_state_region = STATE_DEIR_EZ_ZOR
+				owns_entire_state_region = STATE_MOSUL
+				owns_entire_state_region = STATE_BAGHDAD
+			}
+			AND = {
+				exists = c:KUR
+				KUR = {
+					is_subject_of = ROOT
+				}
+			}
+		}
+	}
+
+	on_complete = {
+        if = { 
+            limit = {
+                NOT = { has_variable = sick_man_complete }
+            }
+            custom_tooltip = je_sick_man_advance
+            change_variable = {
+                name = sick_man_var
+                add = 1
+            }
+            set_variable = completed_kurdistan_je
+        }
+	}
+
+    invalid = {
+        custom_tooltip = {
+			text = finished_sick_man_tt
+			has_variable = sick_man_complete
+		}
+    }
+
+	inheritable = no
+
+	weight = 5000
+}
+
 ###Journal entries for seperatism and foreign interference
 
-je_druze_christian_war_foreign = { #JE for interested GPs so that they can see the situation is ongoing
-	icon = "gfx/interface/icons/event_icons/event_fire.dds"
-
-	is_shown_when_inactive = {
-		has_interest_marker_in_region = region_middle_east
-		country_rank = rank_value:great_power
-	}
-
-	possible = {
-		has_global_variable = druze_christian_war
-		custom_tooltip = druze_christian_war_interest_tt
-		country_rank = rank_value:great_power
-	}
-	
-	complete = {
-		custom_tooltip = je_druze_christian_war_foreign_tt
-	}
-	
-	invalid = {
-		hidden_trigger = {
-			NOT = { has_global_variable = druze_christian_war }
-		}
-		custom_tooltip = invalid_influence_hawaii_tt
-	}
-	should_be_pinned_by_default = yes
-	
-}
+#je_druze_christian_war_foreign = { #JE for interested GPs so that they can see the situation is ongoing
+#	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+#
+#	is_shown_when_inactive = {
+#		has_interest_marker_in_region = region_middle_east
+#		country_rank = rank_value:great_power
+#	}
+#
+#	possible = {
+#		has_global_variable = druze_christian_war
+#		custom_tooltip = druze_christian_war_interest_tt
+#		country_rank = rank_value:great_power
+#	}
+#	
+#	complete = {
+#		custom_tooltip = je_druze_christian_war_foreign_tt
+#	}
+#	
+#	invalid = {
+#		hidden_trigger = {
+#			NOT = { has_global_variable = druze_christian_war }
+#		}
+#		custom_tooltip = invalid_influence_hawaii_tt
+#	}
+#	should_be_pinned_by_default = yes
+#	
+#}
