@@ -1080,6 +1080,10 @@ italy_1848.11 = {
 			name = first_italian_war_var
 			value = yes
 		}
+		change_relations = {
+			country = c:AUS
+			value = -75
+	    }
 		c:AUS = {
 			add_journal_entry = {
 				type = je_italian_uprisings
@@ -1178,6 +1182,10 @@ italy_1848.12 = {
 			trigger_event = {
 				id = italy_1848.15
 			}
+		}
+		set_variable = {
+			name = free_north_italy_1
+			value = yes
 		}
 
 	    ai_chance = {
@@ -1441,7 +1449,7 @@ italy_1848.17 = {
 	}
 }
 
-#SMR Wins First Independence War
+#SAR Wins First Independence War
 italy_1848.18 = {
 	type = country_event
 	placement = root
@@ -1497,7 +1505,6 @@ italy_1848.18 = {
 
 		remove_variable = first_italian_war_var
 		remove_modifier = italian_vol
-
 		c:MLN = {
 			trigger_event = {
 				id = italy_1848.13
@@ -1512,6 +1519,10 @@ italy_1848.18 = {
 					id = italy_1848.15
 				}
 			}
+		}
+		set_variable = {
+			name = free_north_italy_1
+			value = yes
 		}
 
 	    ai_chance = {
@@ -1859,12 +1870,79 @@ italy_1848.22 = {
 							value = yes
 						}
 					}
+					add_radicals = {
+						strata = poor
+						value = 0.2
+					}
+					add_radicals = {
+						strata = middle
+						value = 0.2
+					}
 				}
 			}
 		}
 		add_modifier = {
 			name = helped_the_pope
 			months = long_modifier_time
+		}
+
+	    ai_chance = {
+			base = 1	
+		}
+	}
+}
+
+#SAR Parma and Modena joins us
+italy_1848.23 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.23.t
+	desc = italy_1848.23.d
+	flavor = italy_1848.23.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 1
+
+	trigger = {
+		exists = c:SAR
+		c:SAR = this
+		c:SAR = {
+			has_variable = free_north_italy_1
+		}
+		OR = {
+			exists = c:MOD
+			exists = c:PAR
+		}
+	}
+
+	immediate = {
+		c:MOD = {
+			save_scope_as = mod_scope
+		}
+		c:PAR = {
+			save_scope_as = par_scope
+		}
+		c:SAR = {
+			remove_variable = free_north_italy_1
+		}
+	}
+
+    option = {
+		name = italy_1848.23.a
+		default_option = yes
+
+		c:SAR = {
+			annex = c:PAR
+			annex = c:MOD
 		}
 
 	    ai_chance = {
