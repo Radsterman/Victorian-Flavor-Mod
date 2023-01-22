@@ -1,0 +1,96 @@
+﻿je_italian_uprisings = {
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	immediate = {
+		s:STATE_VENETIA = {
+			random_scope_state = {
+				save_scope_as = venetia_scope
+			}
+		}
+		s:STATE_LOMBARDY = {
+			random_scope_state = {
+				save_scope_as = lombardy_scope
+			}
+		}
+		c:SMR = {
+			save_scope_as = smr_scope
+		}
+	}
+
+	complete = {
+    	custom_tooltip = {
+			text = italian_uprisings_complete_1
+			AND = {
+				OR = {
+					c:AUS = {
+						owns_entire_state_region = STATE_VENETIA
+						is_subject = no
+					}
+					any_country = {
+						is_subject_of = c:AUS
+						owns_entire_state_region = STATE_VENETIA
+					}
+				}
+				OR = {
+					c:AUS = {
+						owns_entire_state_region = STATE_LOMBARDY
+						is_subject = no
+					}
+					any_country = {
+						is_subject_of = c:AUS
+						owns_entire_state_region = STATE_LOMBARDY
+					}
+				}
+			}
+		}
+    }
+
+    fail = {
+    	custom_tooltip = {
+    		text = italian_uprisings_fail
+    		c:AUS = {
+    			is_at_war = no
+    		}
+    		OR = {
+	    		c:SAR = {
+	    			OR = {
+	    			owns_entire_state_region = STATE_LOMBARDY
+				  	owns_entire_state_region = STATE_VENETIA
+	    			}
+	    		}
+	    		c:SMR = {
+	    			owns_entire_state_region = STATE_VENETIA
+	    			is_at_war = no
+	    		}
+	    		c:MLN = {
+	    			owns_entire_state_region = STATE_LOMBARDY
+	    			is_at_war = no
+	    		}
+    		}
+    	}
+    }
+
+    on_fail = {
+    	c:AUS = {
+			trigger_event = {
+				id = italy_1848.9
+	    	}
+    	}
+    	c:SMR = {
+    		remove_variable = san_marco_var
+    	}
+    }
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = italian_uprisings_goal
+			}
+		}
+	}
+
+	weight = 200
+
+	should_be_pinned_by_default = yes
+}
