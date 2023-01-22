@@ -1772,9 +1772,6 @@ italy_1848.21 = {
 		c:RMR = {
 			save_scope_as = rmr_scope
 		}
-		s:STATE_LAZIO = {
-			add_claim = c:FRA
-		}
 	}
 
     option = {
@@ -1797,6 +1794,9 @@ italy_1848.21 = {
 		set_variable = {
 			name = roman_rep_war_var
 			value = yes
+		}
+		s:STATE_LAZIO = {
+			add_claim = c:FRA
 		}
 
 	    ai_chance = {
@@ -1951,6 +1951,10 @@ italy_1848.23 = {
 				name = free_north_italy_2
 				value = yes
 			}
+			set_variable = {
+				name = free_north_italy_3
+				value = yes
+			}
 		}
 
 	    ai_chance = {
@@ -1994,6 +1998,9 @@ italy_1848.24 = {
 		c:SAR = {
 			save_scope_as = sar_scope
 		}
+		c:TUS = {
+			save_scope_as = tus_scope
+		}
 	}
 
     option = {
@@ -2013,7 +2020,6 @@ italy_1848.24 = {
 
     option = {
 		name = italy_1848.24.b
-		default_option = yes
 
 		custom_tooltip = italy_1848.24.tt1
 
@@ -2135,7 +2141,192 @@ italy_1848.26 = {
 
     option = {
 		name = italy_1848.26.b
+
+	    ai_chance = {
+			base = 1	
+		}
+	}
+}
+
+#RMR Plebiscite For Annexation
+italy_1848.27 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.27.t
+	desc = italy_1848.27.d
+	flavor = italy_1848.27.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 1
+
+	trigger = {
+		exists = c:RMR
+		c:RMR = this
+		c:SAR = {
+			has_variable = free_north_italy_3
+		}
+	}
+
+	immediate = {
+		c:SAR = {
+			remove_variable = free_north_italy_3
+		}
+		c:SAR = {
+			save_scope_as = sar_scope
+		}
+		c:RMR = {
+			save_scope_as = rmr_scope
+		}
+	}
+
+    option = {
+		name = italy_1848.27.a
 		default_option = yes
+
+		c:SAR = {
+			trigger_event = {
+				id = italy_1848.29
+			}
+		}
+
+	    ai_chance = {
+			base = 90	
+		}
+	}
+
+    option = {
+		name = italy_1848.27.b
+
+		custom_tooltip = italy_1848.27.tt1
+
+		s:STATE_TUSCANY = {
+			add_claim = c:SAR
+		}
+		s:STATE_EMILIA = {
+			add_claim = c:SAR
+		}
+		c:SAR = {
+			trigger_event = {
+				id = italy_1848.28
+			}
+		}
+	    ai_chance = {
+			base = 10	
+		}
+	}
+}
+
+#SAR Roman Republic Votes For Independence
+italy_1848.28 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.28.t
+	desc = italy_1848.28.d
+	flavor = italy_1848.28.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	duration = 1
+
+	trigger = {
+		c:SAR = {
+			has_variable = free_north_italy_3
+		}
+		exists = c:RMR
+		NOT = {
+			c:FRA = {
+				has_claim = s:STATE_LAZIO
+			}
+		}
+	}
+
+	immediate = {
+		c:SAR = {
+			remove_variable = free_north_italy_3
+		}
+		c:RMR = {
+			save_scope_as = rmr_scope
+		}
+	}
+
+    option = {
+		name = italy_1848.28.a
+		default_option = yes
+
+    	create_diplomatic_play = {
+			target_country = c:RMR
+			war = yes
+			type = dp_annex_war
+    	}
+
+	    ai_chance = {
+			base = 1	
+		}
+	}
+
+    option = {
+		name = italy_1848.28.b
+
+	    ai_chance = {
+			base = 1	
+		}
+	}
+}
+
+#SAR Roman Republic Votes For Annexation
+italy_1848.29 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.29.t
+	desc = italy_1848.29.d
+	flavor = italy_1848.29.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+		c:SAR = {
+			remove_variable = free_north_italy_3
+		}
+		c:RMR = {
+			save_scope_as = rmr_scope
+		}
+	}
+
+    option = {
+		name = italy_1848.29.a
+		default_option = yes
+
+		annex = c:RMR
 
 	    ai_chance = {
 			base = 1	
