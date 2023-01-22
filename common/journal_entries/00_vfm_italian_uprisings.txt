@@ -49,35 +49,25 @@
     fail = {
     	custom_tooltip = {
     		text = italian_uprisings_fail
-	    	AND = {
-	    		OR = {
-	    			exists = c:SMR
-	    			exists = c:MLN
-	    			c:SAR = {
-	    				OR = {
-		    				owns_entire_state_region = STATE_LOMBARDY
-		    				owns_entire_state_region = STATE_VENETIA
-	    				}
+    		c:AUS = {
+    			is_at_war = no
+    		}
+    		OR = {
+	    		c:SAR = {
+	    			OR = {
+	    			owns_entire_state_region = STATE_LOMBARDY
+				  	owns_entire_state_region = STATE_VENETIA
 	    			}
 	    		}
-		        NOT = {
-		        	AND = {
-			            any_diplomatic_play = {
-			                OR = {
-			                    initiator_is = c:AUS
-			                    target_is = c:SMR
-			                }
-			            }
-			            any_diplomatic_play = {
-			                OR = {
-			                    initiator_is = c:AUS
-			                    target_is = c:SAR
-			                }
-			            }
-		        	}
-		        }
-	    	}
-
+	    		c:SMR = {
+	    			owns_entire_state_region = STATE_VENETIA
+	    			is_at_war = no
+	    		}
+	    		c:MLN = {
+	    			owns_entire_state_region = STATE_LOMBARDY
+	    			is_at_war = no
+	    		}
+    		}
     	}
     }
 
