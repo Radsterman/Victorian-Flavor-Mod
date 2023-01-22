@@ -16,18 +16,7 @@
 		}
     }
 
-    fail = {
-   		game_date >= 1848.3.1
-		OR = {
-			has_law = law_type:law_landed_voting
-			has_law = law_type:law_oligarchy
-			has_law = law_type:law_autocracy
-		}
-		OR = {
-			has_law = law_type:law_censorship
-			has_law = law_type:law_outlawed_dissent
-		}
-    }
+	timeout = 1826
 
     on_complete = {
 		add_radicals = {
@@ -50,9 +39,13 @@
 				months = long_modifier_time
 			}
 		}
+		set_variable = {
+			name = albertine_statute
+			value = yes
+		}
     }
 
-    on_fail = {
+    on_timeout = {
     	add_modifier = {
 		    name = alb_statute_legitimacy
 			months = long_modifier_time
@@ -76,6 +69,10 @@
 				name = 1848_negative_1
 				months = long_modifier_time
 			}
+		}
+		set_variable = {
+			name = albertine_statute
+			value = yes
 		}
     }
 
