@@ -86,7 +86,6 @@ opda_events.1 = {
 	option = { #
 		name = opda_events.1.a
 		default_option = yes
-		custom_tooltip = opda_events.1.tt
 		add_modifier = {
 			name = opda_payments
 			months = long_modifier_time
@@ -294,7 +293,6 @@ vilayet_events.4 = { #Egypt response - no Khedivate offered
 			country = c:TUR
 			value = 100
 		}
-		end_truce = c:TUR
 		ai_chance = {
 			base = 45
 		}
@@ -487,6 +485,35 @@ vilayet_events.8 = { #Creation of the Kurdish Autonomy
 	event_image = {
 		video = "gfx/event_pictures/asia_hinduism_sikhism.bk2"
 	}
+	immediate = {
+		random_country = {
+            limit = {          
+                country_has_primary_culture = cu:kurdish
+                is_subject_of = c:TUR
+            }
+            save_scope_as = kurdistan_leader
+        }
+        c:TUR = {
+			create_diplomatic_pact = {
+				country = scope:kurdistan_leader
+				type = puppet
+			}
+		}
+        every_country = {
+            limit = { 
+                NOT = { this = scope:kurdistan_leader }
+                is_subject_of = c:TUR
+                country_has_primary_culture = cu:kurdish
+            }
+            save_scope_as = kurdistan_annex_target
+            scope:kurdistan_leader = {
+            annex = scope:kurdistan_annex_target
+            }
+        }
+		scope:kurdistan_leader = {
+             change_tag = KUR
+        }
+	}
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/asia/hinduism_sikhism"
 	icon = "gfx/interface/icons/event_icons/event_map.dds"
@@ -539,7 +566,9 @@ tanzimat_events.11 = {
 		NOT = {
 			has_global_variable = druze_christian_war
 		}
-		owns_entire_state_region = s:STATE_LEBANON
+		ROOT = {
+			owns_entire_state_region = STATE_LEBANON
+		}
 	}
 	immediate = {
 		set_global_variable = druze_christian_war
@@ -549,14 +578,14 @@ tanzimat_events.11 = {
 		s:STATE_SYRIA = {
 			save_scope_as = damascus_state
 		}
-		any_scope_country = {
-			limit = {
-				has_interest_marker_in_region = region_middle_east
-			}
-			add_journal_entry = {
-				type = je_druze_christian_war_foreign
-			}
-		}
+		#every_scope_country = {
+		#	limit = {
+		#		has_interest_marker_in_region = region_middle_east
+		#	}
+		#	add_journal_entry = {
+		#		type = je_druze_christian_war_foreign
+		#	}
+		#}
 	}
 	option = { #Let's hope it doesn't get too bad
 		name = tanzimat_events.11.a
@@ -615,7 +644,7 @@ tanzimat_events.12 = {
 				}
 				10 = {
 					trigger_event = {
-						id = tanzimat_events.17
+						id = tanzimat_events.16
 						days = { 5 15 }
 					}
 				}
@@ -631,7 +660,6 @@ tanzimat_events.12 = {
 			add_radicals = {
 				value = small_radicals
 				culture = cu:kurdish
-				pop_type = servicemen
 			}
 		}
 		scope:mount_lebanon_state = {
@@ -651,7 +679,7 @@ tanzimat_events.12 = {
 				}
 				35 = {
 					trigger_event = {
-						id = tanzimat_events.17
+						id = tanzimat_events.16
 						days = { 5 15 }
 					}
 				}
@@ -837,7 +865,6 @@ tanzimat_events.16 = {
 	
 	duration = 3
 	immediate = {
-		clear_global_variable = lebanon_civil_war_ongoing
 		random_scope_character = {
 			limit = {
 				has_variable = pacifying_lebanon_var 
