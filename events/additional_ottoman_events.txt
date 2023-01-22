@@ -1,0 +1,1081 @@
+﻿namespace = ottoman_dynasty #events around deaths and succession
+namespace = tur_major_holidays #Light flavour events for holidays
+namespace = tanzimat_events #reform and rebellion related events
+namespace = vilayet_events #events around the provinces and tributaries
+namespace = opda_events #the Ottoman Public Debt Administration
+
+# Death of Mahmud II
+ottoman_dynasty.1 = {
+		type = country_event
+		title = ottoman_dynasty.1.t
+		desc = ottoman_dynasty.1.d
+		flavor =  ottoman_dynasty.1.f
+		duration = 3
+	event_image = {
+		video = "gfx/event_pictures/middleeast_courtroom_upheaval.bk2"
+	}
+	immediate = {
+		create_character = {
+			first_name = Abdulaziz
+			last_name = Osmanoglu
+			heir = yes
+			birth_date = 1839.2.8
+			interest_group = ig_intelligentsia
+			ideology = ideology_moderate
+			traits = {
+				persistent
+			}
+			#on_created = { #Avoid the wrath of the error log for the moment
+			#	set_variable = {
+			#		name = is_abdulaziz
+			#	}				
+			#}
+		}
+	}
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	trigger = {
+		#triggered by the Sick Man je
+	}
+	option = { #The Sultan is dead, long live the Sultan
+		name = ottoman_dynasty.1.a
+		default_option = yes
+		custom_tooltip = ottoman_dynasty.1.tt
+	}
+}
+
+ottoman_dynasty.2 = { #Death of Abdulmejid I
+		type = country_event
+		title = ottoman_dynasty.2.t
+		desc = ottoman_dynasty.2.d
+		flavor =  ottoman_dynasty.2.f
+		duration = 3
+	event_image = {
+		video = "gfx/event_pictures/middleeast_courtroom_upheaval.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	trigger = {
+		#triggered by the Sick Man je
+	}
+	option = { #The Sultan is dead, long live the Sultan
+		name = ottoman_dynasty.2.a
+		default_option = yes
+	}
+}
+
+opda_events.1 = {
+		type = country_event
+		title = opda_events.1.t
+		desc = opda_events.1.d
+		flavor =  opda_events.1.f
+		duration = 3
+	event_image = {
+		video = "gfx/event_pictures/middleeast_courtroom_upheaval.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	trigger = {
+		#triggered by defaulting during Tanzimat
+	}
+	option = { #
+		name = opda_events.1.a
+		default_option = yes
+		add_modifier = {
+			name = opda_payments
+			months = long_modifier_time
+		}
+	}
+}
+
+
+
+vilayet_events.1 = { #State organised into Vilayet
+		type = state_event
+		title = vilayet_events.1.t
+		desc = vilayet_events.1.d
+		flavor =  vilayet_events.1.f
+		duration = 3
+	event_image = {
+		video = "gfx/event_pictures/middleeast_courtroom_upheaval.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	trigger = {
+		#triggered by the Bureaucracy je
+	}
+	option = { 
+		name = vilayet_events.1.a
+		default_option = yes
+	}
+}
+
+vilayet_events.2 = { #Bringing Egypt to heel
+		type = state_event
+		title = vilayet_events.2.t
+		desc = vilayet_events.2.d
+		flavor =  vilayet_events.2.f
+		duration = 3
+	event_image = {
+		video = "gfx/event_pictures/middleeast_courtroom_upheaval.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	trigger = {
+		#triggered by the Syria je
+	}
+	option = { #We will confirm him as Khedive
+		name = vilayet_events.2.a
+		default_option = yes
+		custom_tooltip = vilayet_events.2.tta
+		ai_chance = {
+			base = 85
+		}
+		c:EGY = {
+			trigger_event = {
+				id = vilayet_events.3
+				days = 7
+			}
+		}
+	}
+	option = { #He will be the Vali, no special status
+		name = vilayet_events.2.b
+		custom_tooltip = vilayet_events.2.ttb
+		c:EGY = {
+			trigger_event = {
+				id = vilayet_events.4
+				days = 7
+			}
+		}
+		ai_chance = {
+			base = 15
+		}
+	}
+	option = { #We will settle for nothing less than conquest
+		name = vilayet_events.2.c
+		s:STATE_SINAI = {
+			add_claim = ROOT
+		}
+		s:STATE_UPPER_EGYPT = {
+			add_claim = ROOT
+		}
+		s:STATE_MIDDLE_EGYPT = {
+			add_claim = ROOT
+		}
+		s:STATE_LOWER_EGYPT = {
+			add_claim = ROOT
+		}
+		s:STATE_EGYPTIAN_DESERT = {
+			add_claim = ROOT
+		}
+		s:STATE_MATRUH = {
+			add_claim = ROOT
+		}
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+vilayet_events.3 = { #Egypt response - Khedivate offered
+		type = state_event
+		title = vilayet_events.3.t
+		desc = vilayet_events.3.d
+		flavor =  vilayet_events.3.f
+		duration = 3
+	event_image = {
+		video = "gfx/event_pictures/middleeast_courtroom_upheaval.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	trigger = {
+		#triggered by the prior event
+	}
+	option = { #Accept
+		name = vilayet_events.3.a
+		default_option = yes
+		c:TUR = {
+			trigger_event = vilayet_events.5
+			create_diplomatic_pact = {
+				country = c:EGY
+				type = dominion
+			}
+		}
+		hidden_effect = {
+			s:STATE_CRETE = {
+				random_scope_state = {
+				limit = {
+					exists = c:EGY
+					owner = {
+						is_subject_of = c:TUR
+					}
+				}
+					set_state_owner = c:TUR
+				}
+			}
+		}
+		change_relations = {
+			country = c:TUR
+			value = 100
+		}
+		set_variable = khedivate_conferred
+		ai_chance = {
+			base = 90
+		}
+	}
+	
+	option = { #Decline
+		name = vilayet_events.3.b
+		c:TUR = {
+			trigger_event = {
+				id = vilayet_events.6
+				days = 3
+			}
+		}
+		set_variable = khedivate_conferred
+		ai_chance = {
+			base = 10
+		}
+	}
+	
+}
+
+vilayet_events.4 = { #Egypt response - no Khedivate offered
+		type = state_event
+		title = vilayet_events.4.t
+		desc = vilayet_events.4.d
+		flavor =  vilayet_events.4.f
+		duration = 3
+	event_image = {
+		video = "gfx/event_pictures/middleeast_courtroom_upheaval.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	trigger = {
+		#triggered by the prior event
+	}
+	option = { #Accept
+		name = vilayet_events.4.a
+		c:TUR = {
+			trigger_event = vilayet_events.5
+			create_diplomatic_pact = {
+				country = c:EGY
+				type = puppet
+			}
+		}
+		hidden_effect = {
+			s:STATE_CRETE = {
+				random_scope_state = {
+					limit = {
+						exists = c:EGY
+						owner = {
+							is_subject_of = c:TUR
+						}
+					}
+					set_state_owner = c:TUR
+				}
+			}
+		}
+		change_relations = {
+			country = c:TUR
+			value = 100
+		}
+		ai_chance = {
+			base = 45
+		}
+	}
+	option = { #Decline
+		name = vilayet_events.4.b
+		default_option = yes
+		c:TUR = {
+			trigger_event = vilayet_events.6
+		}
+		set_variable = khedivate_conferred
+		ai_chance = {
+			base = 55
+		}
+	}	
+}
+
+vilayet_events.5 = { #Ottoman notification - Egypt accepts subjection
+		type = state_event
+		title = vilayet_events.5.t
+		desc = vilayet_events.5.d
+		flavor =  vilayet_events.5.f
+		duration = 3
+	event_image = {
+		video = "gfx/event_pictures/middleeast_courtroom_upheaval.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	trigger = {
+		#triggered by the prior event
+	}
+	option = { #Wonderful
+		name = vilayet_events.5.a
+		default_option = yes
+	}
+}
+
+vilayet_events.6 = { #Ottoman notification - Egypt rejects subjection
+		type = state_event
+		title = vilayet_events.6.t
+		desc = vilayet_events.6.d
+		flavor =  vilayet_events.6.f
+		duration = 3
+	event_image = {
+		video = "gfx/event_pictures/middleeast_courtroom_upheaval.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	trigger = {
+		#triggered by the prior event
+	}
+	option = { #Conquest it is then
+		name = vilayet_events.6.a
+		default_option = yes
+		s:STATE_SINAI = {
+			add_claim = ROOT
+		}
+		s:STATE_UPPER_EGYPT = {
+			add_claim = ROOT
+		}
+		s:STATE_MIDDLE_EGYPT = {
+			add_claim = ROOT
+		}
+		s:STATE_LOWER_EGYPT = {
+			add_claim = ROOT
+		}
+		s:STATE_EGYPTIAN_DESERT = {
+			add_claim = ROOT
+		}
+		s:STATE_MATRUH = {
+			add_claim = ROOT
+		}
+	}
+}
+
+vilayet_events.7 = { #Centralising the Kurdish Emirates
+	type = country_event
+	placement = ROOT
+	title = vilayet_events.7.t
+	desc = vilayet_events.7.d
+	flavor = vilayet_events.7.f
+	duration = 3
+	event_image = {
+		video = "gfx/event_pictures/asia_hinduism_sikhism.bk2"
+	}
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/asia/hinduism_sikhism"
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+	minor_left_icon = c:TUR
+	immediate = {
+		random_state = {
+			limit = {
+				owner = {
+					is_subject_of = ROOT
+					is_player = no
+					country_has_primary_culture = cu:kurdish
+					can_form_nation = KUR
+				}
+			}
+			save_scope_as = kurdish_annexation_target_state_1
+		}
+		random_state = {
+			limit = {
+				owner = {
+					is_subject_of = ROOT
+					is_player = no
+					country_has_primary_culture = cu:kurdish
+					can_form_nation = KUR
+				}
+				NOT = { this = scope:kurdish_annexation_target_state_1 }
+			}
+			save_scope_as = kurdish_annexation_target_state_2
+		}
+		random_state = {
+			limit = {
+				owner = {
+					is_subject_of = ROOT
+					is_player = no
+					country_has_primary_culture = cu:kurdish
+					can_form_nation = KUR
+				}
+				NOT = { this = scope:kurdish_annexation_target_state_1 }
+				NOT = { this = scope:kurdish_annexation_target_state_2 }
+			}
+			save_scope_as = kurdish_annexation_target_state_3
+		}
+	}
+
+	option = {
+		name = vilayet_events.7.a
+		default_option = yes
+		scope:kurdish_annexation_target_state_1 = {
+			set_state_owner = ROOT
+			add_radicals = {
+				value = very_large_radicals
+			}
+		}
+		create_incident = {
+			country = scope:kurdish_annexation_target_state_1.owner
+			value = 2
+		}
+	}
+
+	option = {
+		name = vilayet_events.7.b
+		trigger = {
+			exists = scope:kurdish_annexation_target_state_2
+		}
+		scope:kurdish_annexation_target_state_2 = {
+			set_state_owner = ROOT
+			add_radicals = {
+				value = very_large_radicals
+			}
+		}
+		create_incident = {
+			country = scope:kurdish_annexation_target_state_2.owner
+			value = 2
+		}
+	}
+	
+	option = {
+		name = vilayet_events.7.c
+		trigger = {
+			exists = scope:kurdish_annexation_target_state_3
+		}
+		scope:kurdish_annexation_target_state_3 = {
+			set_state_owner = ROOT
+			add_radicals = {
+				value = very_large_radicals
+			}
+		}
+		create_incident = {
+			country = scope:kurdish_annexation_target_state_3.owner
+			value = 2
+		}
+	}
+}
+
+vilayet_events.8 = { #Creation of the Kurdish Autonomy
+	type = country_event
+	placement = ROOT
+	title = vilayet_events.8.t
+	desc = vilayet_events.8.d
+	flavor = vilayet_events.8.f
+	duration = 3
+	event_image = {
+		video = "gfx/event_pictures/asia_hinduism_sikhism.bk2"
+	}
+	immediate = {
+		random_country = {
+            limit = {          
+                country_has_primary_culture = cu:kurdish
+                is_subject_of = c:TUR
+            }
+            save_scope_as = kurdistan_leader
+        }
+        c:TUR = {
+			create_diplomatic_pact = {
+				country = scope:kurdistan_leader
+				type = puppet
+			}
+		}
+        every_country = {
+            limit = { 
+                NOT = { this = scope:kurdistan_leader }
+                is_subject_of = c:TUR
+                country_has_primary_culture = cu:kurdish
+            }
+            save_scope_as = kurdistan_annex_target
+            scope:kurdistan_leader = {
+            annex = scope:kurdistan_annex_target
+            }
+        }
+		scope:kurdistan_leader = {
+             change_tag = KUR
+        }
+	}
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/asia/hinduism_sikhism"
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+	minor_left_icon = c:KUR
+	option = { 
+		name = vilayet_events.8.a
+		default_option = yes
+		hidden_effect = {
+			s:STATE_ANKARA = {
+				random_scope_state = {
+					limit = {
+						owner = {
+							is_subject_of = c:TUR
+						}
+					}
+					set_state_owner = c:TUR
+				}
+			}
+			s:STATE_ERZURUM = {
+				random_scope_state = {
+					limit = {
+						owner = {
+							is_subject_of = c:TUR
+						}
+					}
+					set_state_owner = c:TUR
+				}
+			}
+		}
+	}
+}
+
+
+# Tensions around Mount Lebanon
+tanzimat_events.11 = {
+	type = state_event
+	placement = s:STATE_LEBANON
+	title = tanzimat_events.11.t
+	desc = tanzimat_events.11.d
+	flavor =  tanzimat_events.11.f
+	
+	duration = 1
+	event_image = {
+		video = "gfx/event_pictures/middleeast_police_breaking_door.bk2"
+	}
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/police_breaking_door"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	trigger = {
+		NOT = {
+			has_global_variable = druze_christian_war
+		}
+		ROOT = {
+			owns_entire_state_region = STATE_LEBANON
+		}
+	}
+	immediate = {
+		set_global_variable = druze_christian_war
+		s:STATE_LEBANON = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:TUR = THIS
+					}
+				}
+				save_scope_as = mount_lebanon_state
+			}
+		}
+		s:STATE_SYRIA = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:TUR = THIS
+					}
+				}
+				save_scope_as = damascus_state
+			}
+		}
+		#every_scope_country = {
+		#	limit = {
+		#		has_interest_marker_in_region = region_middle_east
+		#	}
+		#	add_journal_entry = {
+		#		type = je_druze_christian_war_foreign
+		#	}
+		#}
+	}
+	option = { #Let's hope it doesn't get too bad
+		name = tanzimat_events.11.a
+		default_option = yes
+		trigger_event = {
+			id = tanzimat_events.12
+			days = { 35 60 }
+		}
+		scope:mount_lebanon_state = {
+			add_radicals = {
+				value = large_radicals
+				religion = rel:druze
+			}
+			add_radicals = {
+				value = large_radicals
+				religion = rel:catholic
+			}
+		}
+	}
+}
+
+# Mt Lebanon situation escalates
+tanzimat_events.12 = {
+	type = state_event
+	placement = scope:mount_lebanon_state
+	title = tanzimat_events.12.t
+	desc = tanzimat_events.12.d
+	flavor =  tanzimat_events.12.f
+	
+	duration = 1
+	event_image = {
+		video = "gfx/event_pictures/middleeast_police_breaking_door.bk2"
+	}
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/police_breaking_door"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	immediate = {
+		s:STATE_LEBANON = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:TUR = THIS
+					}
+				}
+				save_scope_as = mount_lebanon_state
+			}
+		}
+		s:STATE_SYRIA = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:TUR = THIS
+					}
+				}
+				save_scope_as = damascus_state
+			}
+		}
+	}
+	trigger = {
+		#triggered by prior event
+	}
+	option = { #Rely on the Kurdish irrelgulars
+		name = tanzimat_events.12.a
+		default_option = yes
+		scope:mount_lebanon_state.state_region = {
+			add_devastation = 20
+		}
+		scope:mount_lebanon_state = {
+			add_radicals = {
+				value = very_large_radicals
+				religion = rel:druze
+			}
+			add_radicals = {
+				value = very_large_radicals
+				religion = rel:catholic
+			}
+		}
+		hidden_effect = {
+			random_list = {
+				90 = {
+					trigger_event = {
+						id = tanzimat_events.13
+						days = { 5 15 }
+					}
+				}
+				10 = {
+					trigger_event = {
+						id = tanzimat_events.16
+						days = { 5 15 }
+					}
+				}
+			}
+		}
+	}
+	option = { #The Kurds can't be trusted, reinforce the local garrisons
+		name = tanzimat_events.12.b
+		every_scope_state = {
+			limit = {
+				state_region = {
+					is_homeland = cu:kurdish
+				}
+			}
+			add_radicals = {
+				value = small_radicals
+				culture = cu:kurdish
+			}
+		}
+		scope:mount_lebanon_state.state_region = {
+			add_devastation = 15
+		}
+		scope:mount_lebanon_state = {
+			add_radicals = {
+				value = very_large_radicals
+				religion = rel:druze
+			}
+			add_radicals = {
+				value = very_large_radicals
+				religion = rel:catholic
+			}
+		}
+		hidden_effect = {
+			random_list = {
+				65 = {
+					trigger_event = {
+						id = tanzimat_events.13
+						days = { 5 15 }
+					}
+				}
+				35 = {
+					trigger_event = {
+						id = tanzimat_events.16
+						days = { 5 15 }
+					}
+				}
+			}
+		}
+	}
+}
+
+#Our forces join the anti-Christian massacres
+tanzimat_events.13 = {
+	type = state_event
+	placement = scope:mount_lebanon_state
+	title = tanzimat_events.13.t
+	desc = tanzimat_events.13.d
+	flavor =  tanzimat_events.13.f
+	immediate = {
+		s:STATE_LEBANON = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:TUR = THIS
+					}
+				}
+				save_scope_as = mount_lebanon_state
+			}
+		}
+		s:STATE_SYRIA = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:TUR = THIS
+					}
+				}
+				save_scope_as = damascus_state
+			}
+		}
+	}
+	duration = 1
+	event_image = {
+		video = "gfx/event_pictures/middleeast_police_breaking_door.bk2"
+	}
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/police_breaking_door"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	trigger = {
+		#triggered by random roll on prior event
+	}
+	option = { #This is a disaster!
+		name = tanzimat_events.13.a
+		default_option = yes
+		change_infamy = 5
+		scope:mount_lebanon_state.state_region = {
+			add_devastation = 10
+		}
+		scope:mount_lebanon_state = {
+			every_scope_pop = {
+				limit = {
+					religion = rel:catholic
+				}
+				move_pop = scope:damascus_state
+			}
+			add_modifier = { # reduce sol because I can't find a direct way to kill pops
+				name = maronites_displaced_modifier
+				months = normal_modifier_time
+			}
+		}
+		scope:damascus_state = {
+			add_radicals = {
+				value = large_radicals
+				religion = rel:druze
+			}
+			add_radicals = {
+				value = large_radicals
+				religion = rel:catholic
+			}
+		}
+		trigger_event = {
+			id = tanzimat_events.14
+			days = { 7 14 }
+		}
+	}
+
+}
+
+#Refugees cause tensions in Damascus
+tanzimat_events.14 = {
+	type = state_event
+	placement = scope:damascus_state
+	title = tanzimat_events.14.t
+	desc = tanzimat_events.14.d
+	flavor =  tanzimat_events.14.f
+	duration = 1
+	event_image = {
+		video = "gfx/event_pictures/middleeast_police_breaking_door.bk2"
+	}
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/police_breaking_door"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	immediate = {
+		s:STATE_LEBANON = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:TUR = THIS
+					}
+				}
+				save_scope_as = mount_lebanon_state
+			}
+		}
+		s:STATE_SYRIA = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:TUR = THIS
+					}
+				}
+				save_scope_as = damascus_state
+			}
+		}
+		trigger_event = {
+			id = tanzimat_events.15
+			days = { 20 35 }
+		}
+	}
+	option = { #This could get out of hand
+		name = tanzimat_events.14.a
+		default_option = yes
+		scope:damascus_state = {
+			add_radicals = {
+				value = very_large_radicals
+				religion = rel:sunni
+			}
+		}
+	}
+
+}
+
+#Damascene massacres
+tanzimat_events.15 = {
+	type = state_event
+	placement = scope:damascus_state
+	title = tanzimat_events.15.t
+	desc = tanzimat_events.15.d
+	flavor =  tanzimat_events.15.f
+	
+	immediate = {
+		s:STATE_LEBANON = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:TUR = THIS
+					}
+				}
+				save_scope_as = mount_lebanon_state
+			}
+		}
+		s:STATE_SYRIA = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:TUR = THIS
+					}
+				}
+				save_scope_as = damascus_state
+			}
+		}
+		random_scope_character = {
+			limit = {
+				is_ruler = no
+				has_role = general
+			}
+			save_scope_as = lebanon_pacifier_1
+		}
+		
+		random_scope_character = {
+			limit = {
+				is_ruler = no
+				has_role = general
+				NOT = {
+					this = scope:lebanon_pacifier_1
+				}
+			}
+			save_scope_as = lebanon_pacifier_2
+		}
+
+		random_scope_character = {
+			limit = {
+				is_ruler = no
+				has_role = general
+				NOR = {
+					this = scope:lebanon_pacifier_1
+					this = scope:lebanon_pacifier_2
+				}
+			}
+			save_scope_as = lebanon_pacifier_3
+		}
+		trigger_event = {
+			id = tanzimat_events.16
+			days = 365
+		}
+	}
+	duration = 1
+	event_image = {
+		video = "gfx/event_pictures/middleeast_police_breaking_door.bk2"
+	}
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/police_breaking_door"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	trigger = {
+		
+	}
+	option = { #Send leader #1
+		name = tanzimat_events.15.a
+		default_option = yes
+		scope:damascus_state = {
+			add_modifier = { 
+				name = maronites_displaced_modifier
+				months = normal_modifier_time
+			}
+		}
+		scope:lebanon_pacifier_1 = {
+			set_variable = pacifying_lebanon_var
+			set_character_busy = yes
+		}
+	}
+	option = { #Send leader #2
+		name = tanzimat_events.15.a
+		default_option = yes
+		scope:damascus_state = {
+			add_modifier = { 
+				name = maronites_displaced_modifier
+				months = normal_modifier_time
+			}
+		}
+		scope:lebanon_pacifier_2 = {
+			set_variable = pacifying_lebanon_var
+			set_character_busy = yes
+		}
+	}
+	option = { #Send leader #3
+		name = tanzimat_events.15.a
+		default_option = yes
+		scope:damascus_state = {
+			add_modifier = { 
+				name = maronites_displaced_modifier
+				months = normal_modifier_time
+			}
+		}
+		scope:lebanon_pacifier_3 = {
+			set_variable = pacifying_lebanon_var
+			set_character_busy = yes
+		}
+	}
+}
+
+#Conflict quelled
+tanzimat_events.16 = {
+	type = state_event
+	placement = scope:mount_lebanon_state
+	title = tanzimat_events.16.t
+	desc = tanzimat_events.16.d
+	flavor =  tanzimat_events.16.f
+	
+	duration = 3
+	immediate = {
+		s:STATE_LEBANON = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:TUR = THIS
+					}
+				}
+				save_scope_as = mount_lebanon_state
+			}
+		}
+		s:STATE_SYRIA = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:TUR = THIS
+					}
+				}
+				save_scope_as = damascus_state
+			}
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = pacifying_lebanon_var 
+			}
+			save_scope_as = lebanon_pacifier
+		}
+	}
+	event_image = {
+		video = "gfx/event_pictures/middleeast_police_breaking_door.bk2"
+	}
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/police_breaking_door"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	trigger = {
+		
+	}
+	option = { #Glad we got that under control
+		name = tanzimat_events.16.a
+		default_option = yes
+		scope:lebanon_pacifier = {
+			set_character_busy = no
+		}
+	}
+}
+
+##Foreign country contemplates intervention
+#tanzimat_events.17 = {
+#	type = state_event
+#	placement = scope:mount_lebanon_state
+#	title = tanzimat_events.17.t
+#	desc = tanzimat_events.17.d
+#	flavor =  tanzimat_events.17.f
+#	
+#	duration = 1
+#	event_image = {
+#		video = "gfx/event_pictures/middleeast_police_breaking_door.bk2"
+#	}
+#	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+#	on_opened_soundeffect = "event:/SFX/Events/middleeast/police_breaking_door"
+#	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+#	trigger = {
+#		has_journal_entry = je_druze_christian_war_foreign
+#	}
+#	
+#	option = { #We must intervene strongly
+#		name = tanzimat_events.17.a
+#		default_option = yes
+#	}
+#	
+#	option = { #We will petition the Sultan for action
+#		name = tanzimat_events.17.b
+#		default_option = yes
+#	}
+#	
+#	option = { #Take no action, we cannot risk it
+#		name = tanzimat_events.17.c
+#		default_option = yes
+#	}
+#}
+#
+
+
+

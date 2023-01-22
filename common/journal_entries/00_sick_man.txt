@@ -1,0 +1,720 @@
+﻿je_sick_man_main = {
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {
+		remove_modifier = sick_man_of_europe
+		trigger_event = {
+			id = sick_man.2
+		}
+	}
+
+	timeout = 14600
+
+	on_timeout = {
+		remove_modifier = sick_man_of_europe
+		trigger_event = {
+			id = sick_man.3
+		}
+	}
+	
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					year > 1838
+					exists = c:TUR
+					c:TUR = ROOT
+					ruler = { has_variable = is_mahmud_ii }
+				}
+				random_list = {
+					9 = { }
+					1 = {
+						ruler = { kill_character = yes }
+						trigger_event = ottoman_dynasty.1
+					}
+				}
+			}
+			if = {
+				limit = {
+					year > 1858
+					exists = c:TUR
+					c:TUR = ROOT
+					ruler = { has_variable = is_abdulmejid_i }
+				}
+				random_list = {
+					9 = { }
+					1 = {
+						ruler = { kill_character = yes }
+						trigger_event = ottoman_dynasty.2
+					}
+				}
+			}
+		}
+	}
+
+	current_value = {
+		value = var:sick_man_var
+	}
+
+	goal_add_value = {
+		add = 8
+	}
+
+	progressbar = yes
+
+	weight = 10000
+	should_be_pinned_by_default = yes
+}
+
+je_sick_man_syria = {
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	complete = {
+		owns_entire_state_region = STATE_ALEPPO
+		owns_entire_state_region = STATE_SYRIA
+		owns_entire_state_region = STATE_LEBANON
+		owns_entire_state_region = STATE_PALESTINE
+		owns_entire_state_region = STATE_TRANSJORDAN
+		owns_entire_state_region = STATE_ADANA
+	}
+
+	on_complete = {
+		custom_tooltip = je_sick_man_advance
+		change_variable = {
+			name = sick_man_var
+			add = 1
+		}
+		set_variable = completed_syria_je
+
+		if = {
+			limit = {
+				OR = {
+					AND = {
+						exists = c:EGY
+						c:EGY = {
+							is_subject_of = ROOT
+						}
+					}
+					AND = {
+						owns_entire_state_region = STATE_SINAI
+						owns_entire_state_region = STATE_UPPER_EGYPT
+						owns_entire_state_region = STATE_MIDDLE_EGYPT
+						owns_entire_state_region = STATE_LOWER_EGYPT
+						owns_entire_state_region = STATE_EGYPTIAN_DESERT
+						owns_entire_state_region = STATE_MATRUH
+					}
+				}
+			}
+			add_modifier = {
+				name = reclaimed_egypt # country_prestige_add = 10
+				months = normal_modifier_time
+			}
+		}
+		else = {
+			add_journal_entry = {
+				type = je_sick_man_egypt
+			}
+			trigger_event = {
+				id = vilayet_events.2
+			}
+		}
+		custom_tooltip = sickman_syria_egypt
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = finished_sick_man_tt
+			has_variable = sick_man_complete
+		}
+	}
+
+	on_weekly_pulse = {
+		events = {
+			egyptian_crisis_events.1
+		}
+	}
+
+	inheritable = no
+
+	weight = 5000
+}
+
+je_sick_man_egypt = {
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	complete = {
+		OR = {
+			AND = {
+				exists = c:EGY
+				c:EGY = {
+					is_subject_of = ROOT
+				}
+			}
+			AND = {
+				owns_entire_state_region = STATE_SINAI
+				owns_entire_state_region = STATE_UPPER_EGYPT
+				owns_entire_state_region = STATE_MIDDLE_EGYPT
+				owns_entire_state_region = STATE_LOWER_EGYPT
+				owns_entire_state_region = STATE_EGYPTIAN_DESERT
+				owns_entire_state_region = STATE_MATRUH
+			}
+		}
+	}
+
+	on_complete = {
+		add_modifier = {
+			name = reclaimed_egypt # country_prestige_add = 10
+			months = normal_modifier_time
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = finished_sick_man_tt
+			has_variable = sick_man_complete
+		}
+	}
+
+	inheritable = no
+
+	weight = 5000
+}
+
+je_sick_man_economy = {
+	icon = "gfx/interface/icons/event_icons/event_industry.dds"
+	
+	is_shown_when_inactive = {
+		country_has_primary_culture = cu:turkish
+		NOT = {
+			has_variable = sick_man_complete
+		}
+	}
+	possible = {
+		custom_tooltip = {
+			text = gulhane_edict_issued_tt
+			has_variable = gulhane_edict
+		}
+	}
+	
+	complete = {
+		taking_loans = no
+		any_scope_state = {
+			is_incorporated = yes
+			has_building = building_urban_center
+			percent >= 0.75
+		}
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {
+		set_variable = completed_sick_man_economy_je
+		custom_tooltip = je_sick_man_advance
+		change_variable = {
+			name = sick_man_var
+			add = 1
+		}
+	}
+	
+	current_value = {
+		value = root.gdp
+	}
+
+	goal_add_value = {
+		value = root.gdp
+		multiply = 1
+	}
+	
+	fail = {
+		in_default = yes
+	}
+	
+	on_fail = {
+		trigger_event = { id = opda_events.1 }
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = finished_sick_man_tt
+			has_variable = sick_man_complete
+		}
+	}
+
+	inheritable = no
+
+	weight = 5000
+	progressbar = yes
+}
+
+# Literacy and Universities
+je_sick_man_education = {
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+	
+	is_shown_when_inactive = {
+		country_has_primary_culture = cu:turkish
+		NOT = {
+			has_variable = sick_man_complete
+		}
+	}
+	possible = {
+		custom_tooltip = {
+			text = gulhane_edict_issued_tt
+			has_variable = gulhane_edict
+		}
+	}
+	
+	complete = {
+		any_scope_building = {
+			is_building_type = building_university
+			occupancy > 0.9
+			level >= 5
+		}
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {
+		set_variable = completed_sick_man_education_je
+		custom_tooltip = je_sick_man_advance
+		change_variable = {
+			name = sick_man_var
+			add = 1
+		}
+	}
+
+	current_value = {
+		value = root.literacy_rate
+	}
+
+	goal_add_value = {
+		value = root.literacy_rate
+		add = 0.35
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = finished_sick_man_tt
+			has_variable = sick_man_complete
+		}
+	}
+
+	inheritable = no
+
+	weight = 5000
+
+	progressbar = yes
+}
+
+# Nationalism
+je_sick_man_separatism = {
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	
+	is_shown_when_inactive = {
+		country_has_primary_culture = cu:turkish
+		NOT = {
+			has_variable = sick_man_complete
+		}
+	}
+	possible = {
+		custom_tooltip = {
+			text = gulhane_edict_issued_tt
+			has_variable = gulhane_edict
+		}
+	}
+	
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+		highest_secession_progress < 0.5
+		NOT = {
+			any_scope_state = {
+				turmoil >= 0.35
+			}
+		}
+	}
+
+	on_complete = {
+		set_variable = completed_separatism_sick_man_je
+		custom_tooltip = je_sick_man_advance
+		change_variable = {
+			name = sick_man_var
+			add = 1
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					highest_secession_progress < 0.5
+				}
+				change_variable = {
+					name = sick_man_separatist_var
+					add = 1
+				}
+			}
+		}
+		random_events = {
+			100 = 0
+			10 = tanzimat_events.5 # Paranoia Event
+			5 = tanzimat_events.11 # Mount Lebanon Incident
+		}
+	}
+
+	fail = {
+		highest_secession_progress > 0.9
+	}
+
+	current_value = {
+		value = var:sick_man_separatist_var
+	}
+
+	goal_add_value = {
+		add = 180
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = finished_sick_man_tt
+			has_variable = sick_man_complete
+		}
+	}
+
+	inheritable = no
+
+	weight = 5000
+
+	progressbar = yes
+}
+
+# Army Reform
+je_sick_man_army = {
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+	
+	is_shown_when_inactive = {
+		country_has_primary_culture = cu:turkish
+		NOT = {
+			has_variable = sick_man_complete
+		}
+	}
+	
+	possible = {
+		custom_tooltip = {
+			text = gulhane_edict_issued_tt
+			has_variable = gulhane_edict
+		}
+	}
+
+	complete = {
+		army_size >= 250
+		has_technology_researched = napoleonic_warfare
+		NOT = {
+			any_scope_building = {
+				is_building_type = building_barracks
+				OR = {
+					has_active_production_method = pm_irregular_infantry
+					has_active_production_method = pm_no_artillery
+					has_active_production_method = pm_cannon_artillery
+				}
+			}
+		}
+	}
+
+	on_complete = {
+		set_variable = completed_sick_man_army_je
+		custom_tooltip = je_sick_man_advance
+		change_variable = {
+			name = sick_man_var
+			add = 1
+		}
+	}
+
+	on_monthly_pulse = {
+		events = {
+			tanzimat_events.10 # Tanzimat Draft Question
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = finished_sick_man_tt
+			has_variable = sick_man_complete
+		}
+	}
+
+	inheritable = no
+
+	weight = 5000
+}
+
+#Navy reform
+je_sick_man_navy = {
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+	
+	is_shown_when_inactive = {
+		country_has_primary_culture = cu:turkish
+		NOT = {
+			has_variable = sick_man_complete
+		}
+	}
+	
+	possible = {
+		custom_tooltip = {
+			text = gulhane_edict_issued_tt
+			has_variable = gulhane_edict
+		}
+	}
+
+	complete = {
+		navy_size >= 50
+		has_technology_researched = power_of_the_purse
+		has_technology_researched = screw_frigate
+		NOT = {
+			any_scope_building = {
+				is_building_type = building_naval_base
+				has_active_production_method = pm_no_naval_theory
+			}
+		}
+		NOT = {
+			any_scope_building = {
+				is_building_type = building_shipyards
+				has_active_production_method = pm_basic_shipbuilding
+			}
+		}
+	}
+
+	on_complete = {
+		set_variable = completed_sick_man_army_je
+		custom_tooltip = je_sick_man_advance
+		change_variable = {
+			name = sick_man_var
+			add = 1
+		}
+	}
+
+	on_monthly_pulse = {
+		events = {
+			tanzimat_events.10 # Tanzimat Draft Question
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = finished_sick_man_tt
+			has_variable = sick_man_complete
+		}
+	}
+
+	inheritable = no
+
+	weight = 5000
+}
+
+
+# Bureaucractic Reform
+je_sick_man_bureaucracy = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+	
+	is_shown_when_inactive = {
+		country_has_primary_culture = cu:turkish
+		NOT = {
+			has_variable = sick_man_complete
+		}
+	}
+	possible = {
+		custom_tooltip = {
+			text = gulhane_edict_issued_tt
+			has_variable = gulhane_edict
+		}
+	}
+	
+	complete = {
+		NOR = { 
+			has_law = law_type:law_hereditary_bureaucrats 
+			has_law = law_type:law_land_based_taxation
+			has_law = law_type:law_consumption_based_taxation
+		}
+		bureaucracy >= 0 
+		approaching_bureaucracy_shortage = no
+	}
+
+	on_complete = {
+		set_variable = completed_sick_man_bureaucracy_je
+		custom_tooltip = je_sick_man_advance
+		change_variable = {
+			name = sick_man_var
+			add = 1
+		}
+		remove_modifier = outmoded_bureaucracy
+	}
+
+	on_monthly_pulse = {
+		random_events = {
+			100 = 0
+			10 = tanzimat_events.9 # Land registration resisted
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = finished_sick_man_tt
+			has_variable = sick_man_complete
+		}
+	}
+
+	inheritable = no
+
+	weight = 5000
+}
+
+#Going from Eyalets to Vilayets
+je_sick_man_vilayets = {
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+	
+	is_shown_when_inactive = {
+		country_has_primary_culture = cu:turkish
+		NOT = {
+			has_variable = sick_man_complete
+		}
+	}
+	possible = {
+		custom_tooltip = {
+			text = gulhane_edict_issued_tt
+			has_variable = gulhane_edict
+		}
+	}
+	
+	complete = {
+		custom_tooltip = {
+			text = finished_syria_tt
+			has_variable = completed_syria_je
+		}
+		custom_tooltip = {
+			text = ottoman_vilayet_organisation_tt
+			NOT = {
+				any_scope_state = {
+					NOT = {
+						tax_capacity_balance >= 0
+					}
+				}
+			}
+		}
+	}
+
+	on_complete = {
+		set_variable = completed_sick_man_vilayet_je
+		custom_tooltip = je_sick_man_advance
+		change_variable = {
+			name = sick_man_var
+			add = 1
+		}
+		trigger_event = vilayet_events.1
+	}
+
+	on_monthly_pulse = {
+		random_events = {
+			100 = 0
+			10 = tanzimat_events.9 # Land registration resisted
+		}
+	}
+	
+	invalid = {
+		custom_tooltip = {
+			text = finished_sick_man_tt
+			has_variable = sick_man_complete
+		}
+	}
+
+	inheritable = no
+
+	weight = 5000
+}
+
+je_sick_man_kurdistan = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+	complete = {
+		OR = {
+			custom_tooltip = {
+				text = finished_kurdistan_je_tt
+				AND = {
+					exists = c:KUR
+					c:KUR = {
+						is_subject_of = ROOT
+					}
+				}
+			}
+			AND = {
+				owns_entire_state_region = STATE_ANKARA
+				owns_entire_state_region = STATE_ERZURUM
+				owns_entire_state_region = STATE_DIYARBAKIR
+				owns_entire_state_region = STATE_DEIR_EZ_ZOR
+				owns_entire_state_region = STATE_MOSUL
+				owns_entire_state_region = STATE_BAGHDAD
+			}
+		}
+	}
+
+	on_complete = {
+        if = { 
+            limit = {
+                NOT = { has_variable = sick_man_complete }
+            }
+            custom_tooltip = je_sick_man_advance
+            change_variable = {
+                name = sick_man_var
+                add = 1
+            }
+        }
+	}
+
+    invalid = {
+        custom_tooltip = {
+			text = finished_sick_man_tt
+			has_variable = sick_man_complete
+		}
+    }
+
+	inheritable = no
+
+	weight = 5000
+}
+
+###Journal entries for seperatism and foreign interference
+
+#je_druze_christian_war_foreign = { #JE for interested GPs so that they can see the situation is ongoing
+#	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+#
+#	is_shown_when_inactive = {
+#		has_interest_marker_in_region = region_middle_east
+#		country_rank = rank_value:great_power
+#	}
+#
+#	possible = {
+#		has_global_variable = druze_christian_war
+#		custom_tooltip = druze_christian_war_interest_tt
+#		country_rank = rank_value:great_power
+#	}
+#	
+#	complete = {
+#		custom_tooltip = je_druze_christian_war_foreign_tt
+#	}
+#	
+#	invalid = {
+#		hidden_trigger = {
+#			NOT = { has_global_variable = druze_christian_war }
+#		}
+#		custom_tooltip = invalid_influence_hawaii_tt
+#	}
+#	should_be_pinned_by_default = yes
+#	
+#}

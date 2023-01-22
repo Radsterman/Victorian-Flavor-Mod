@@ -913,3 +913,693 @@ journal_flavor_company_collapse.9 = {
 		}
 	}
 }
+
+#British East India COmpany, Big boi coming through
+journal_flavor_company_collapse.10 = {
+	type = country_event
+	placement = scope:event_location
+
+	title = journal_flavor_company_collapse.1.t
+	desc = journal_flavor_company_collapse.1.d
+	flavor = journal_flavor_company_collapse.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_devastation.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	duration = 2
+
+	trigger = {
+		# triggered by journal entry
+	}
+	immediate = {
+
+		c:BIC= {
+			save_scope_as = company_scope
+
+			capital = {
+				save_scope_as = event_location
+			}
+
+			every_country = {
+				limit = { is_subject_of = c:BIC }
+				save_scope_as = bic_puppet
+				c:BIC = {
+					remove_diplomatic_pact = {
+						country = scope:bic_puppet
+						type = puppet
+					}
+				}
+
+
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_DELHI
+					}
+				}
+				if = {
+					limit = { exists = c:AWA }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_DELHI
+						}
+						set_state_owner = c:AWA
+					}
+				}
+				else = {
+					create_country = {
+						tag = AWA
+						origin = this
+						state = s:STATE_DELHI.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_AWADH
+					}
+				}
+				if = {
+					limit = { exists = c:AWA }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_AWADH
+						}
+						set_state_owner = c:AWA
+					}
+				}
+				else = {
+					create_country = {
+						tag = AWA
+						origin = this
+						state = s:STATE_AWADH.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_ASSAM
+					}
+				}
+				if = {
+					limit = { exists = c:ASM }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_ASSAM
+						}
+						set_state_owner = c:ASM
+					}
+				}
+				else = {
+					create_country = {
+						tag = ASM
+						origin = this
+						state = s:STATE_ASSAM.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_NORTH_BENGAL
+					}
+				}
+				if = {
+					limit = { exists = c:BGL }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_NORTH_BENGAL
+						}
+						set_state_owner = c:BGL
+					}
+				}
+				else = {
+					create_country = {
+						tag = BGL
+						origin = this
+						state = s:STATE_NORTH_BENGAL.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_SOUTH_BENGAL
+					}
+				}
+				if = {
+					limit = { exists = c:BGL }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_SOUTH_BENGAL
+						}
+						set_state_owner = c:BGL
+					}
+				}
+				else = {
+					create_country = {
+						tag = BGL
+						origin = this
+						state = s:STATE_SOUTH_BENGAL.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_HIMALAYAS
+					}
+				}
+				if = {
+					limit = { exists = c:NEP }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_HIMALAYAS
+						}
+						set_state_owner = c:NEP
+					}
+				}
+				else = {
+					create_country = {
+						tag = NEP
+						origin = this
+						state = s:STATE_HIMALAYAS.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_BIHAR
+					}
+				}
+				if = {
+					limit = { exists = c:BIH }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_BIHAR
+						}
+						set_state_owner = c:BIH
+					}
+				}
+				else = {
+					create_country = {
+						tag = BIH
+						origin = this
+						state = s:STATE_BIHAR.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_ORISSA
+					}
+				}
+				if = {
+					limit = { exists = c:ORI }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_ORISSA
+						}
+						set_state_owner = c:ORI
+					}
+				}
+				else = {
+					create_country = {
+						tag = ORI
+						origin = this
+						state = s:STATE_ORISSA.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_CIRCARS
+					}
+				}
+				if = {
+					limit = { exists = c:ADH }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_CIRCARS
+						}
+						set_state_owner = c:ADH
+					}
+				}
+				else = {
+					create_country = {
+						tag = ADH
+						origin = this
+						state = s:STATE_CIRCARS.region_state:BIC
+					}		
+				}
+			}
+
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_NAGPUR
+					}
+				}
+				if = {
+					limit = { exists = c:NAG }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_NAGPUR
+						}
+						set_state_owner = c:NAG
+					}
+				}
+				else = {
+					create_country = {
+						tag = NAG
+						origin = this
+						state = s:STATE_NAGPUR.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_HYDERABAD
+					}
+				}
+				if = {
+					limit = { exists = c:HYD }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_HYDERABAD
+						}
+						set_state_owner = c:HYD
+					}
+				}
+				else = {
+					create_country = {
+						tag = HYD
+						origin = this
+						state = s:STATE_HYDERABAD.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_MYSORE
+					}
+				}
+				if = {
+					limit = { exists = c:MYS }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_MYSORE
+						}
+						set_state_owner = c:MYS
+					}
+				}
+				else = {
+					create_country = {
+						tag = MYS
+						origin = this
+						state = s:STATE_MYSORE.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_MADRAS
+					}
+				}
+				if = {
+					limit = { exists = c:MDR }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_MADRAS
+						}
+						set_state_owner = c:MDR
+					}
+				}
+				else = {
+					create_country = {
+						tag = MDR
+						origin = this
+						state = s:STATE_MADRAS.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_CEYLON
+					}
+				}
+				if = {
+					limit = { exists = c:CEY }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_CEYLON
+						}
+						set_state_owner = c:CEY
+					}
+				}
+				else = {
+					create_country = {
+						tag = CEY
+						origin = this
+						state = s:STATE_CEYLON.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_BOMBAY
+					}
+				}
+				if = {
+					limit = { exists = c:MHR }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_BOMBAY
+						}
+						set_state_owner = c:MHR
+					}
+				}
+				else = {
+					create_country = {
+						tag = MHR
+						origin = this
+						state = s:STATE_BOMBAY.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_BOMBAY
+					}
+				}
+				if = {
+					limit = { exists = c:MHR }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_BOMBAY
+						}
+						set_state_owner = c:MHR
+					}
+				}
+				else = {
+					create_country = {
+						tag = MHR
+						origin = this
+						state = s:STATE_BOMBAY.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_CENTRAL_INDIA
+					}
+				}
+				if = {
+					limit = { exists = c:BUN }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_CENTRAL_INDIA
+						}
+						set_state_owner = c:BUN
+					}
+				}
+				else = {
+					create_country = {
+						tag = BUN
+						origin = this
+						state = s:STATE_CENTRAL_INDIA.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_SINDH
+					}
+				}
+				if = {
+					limit = { exists = c:SIN }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_SINDH
+						}
+						set_state_owner = c:SIN
+					}
+				}
+				else = {
+					create_country = {
+						tag = SIN
+						origin = this
+						state = s:STATE_SINDH.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_GUJARAT
+					}
+				}
+				if = {
+					limit = { exists = c:BER }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_GUJARAT
+						}
+						set_state_owner = c:BER
+					}
+				}
+				else = {
+					create_country = {
+						tag = BER
+						origin = this
+						state = s:STATE_GUJARAT.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_RAJPUTANA
+					}
+				}
+				if = {
+					limit = { exists = c:JAI }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_RAJPUTANA
+						}
+						set_state_owner = c:JAI
+					}
+				}
+				else = {
+					create_country = {
+						tag = JAI
+						origin = this
+						state = s:STATE_RAJPUTANA.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_PEGU
+					}
+				}
+				if = {
+					limit = { exists = c:BUR }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_PEGU
+						}
+						set_state_owner = c:BUR
+					}
+				}
+				else = {
+					create_country = {
+						tag = BUR
+						origin = this
+						state = s:STATE_PEGU.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_PUNJAB
+					}
+				}
+				if = {
+					limit = { exists = c:PAN }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_PUNJAB
+						}
+						set_state_owner = c:PAN
+					}
+				}
+				else = {
+					create_country = {
+						tag = PAN
+						origin = this
+						state = s:STATE_PUNJAB.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_PASHTUNISTAN
+					}
+				}
+				if = {
+					limit = { exists = c:PAN }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_PASHTUNISTAN
+						}
+						set_state_owner = c:PAN
+					}
+				}
+				else = {
+					create_country = {
+						tag = PAN
+						origin = this
+						state = s:STATE_PASHTUNISTAN.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_KASHMIR
+					}
+				}
+				if = {
+					limit = { exists = c:PAN }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_KASHMIR
+						}
+						set_state_owner = c:PAN
+					}
+				}
+				else = {
+					create_country = {
+						tag = PAN
+						origin = this
+						state = s:STATE_KASHMIR.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_TENASSERIM
+					}
+				}
+				if = {
+					limit = { exists = c:SIA }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_TENASSERIM
+						}
+						set_state_owner = c:SIA
+					}
+				}
+				else = {
+					create_country = {
+						tag = SIA
+						origin = this
+						state = s:STATE_TENASSERIM.region_state:BIC
+					}		
+				}
+			}
+
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_TRAVANCORE
+					}
+				}
+				if = {
+					limit = { exists = c:TRA }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_TRAVANCORE
+						}
+						set_state_owner = c:TRA
+					}
+				}
+				else = {
+					create_country = {
+						tag = TRA
+						origin = this
+						state = s:STATE_TRAVANCORE.region_state:BIC
+					}		
+				}
+			}
+
+
+
+
+
+
+		}
+	}
+
+	option = { 
+		name = journal_flavor_company_collapse.1.a
+		default_option = yes
+		
+		if = {
+			limit = { exists = c:BIC }
+			annex = c:BIC
+		}
+	}
+}
