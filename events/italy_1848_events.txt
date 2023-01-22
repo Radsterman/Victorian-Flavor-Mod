@@ -1581,6 +1581,10 @@ italy_1848.19 = {
     	ruler = {
 			save_scope_as = ruler_scope
 		}
+		set_variable = {
+			name = first_italian_war_lost
+			value = yes
+		}
 	}
 
 	option = {
@@ -1943,7 +1947,195 @@ italy_1848.23 = {
 		c:SAR = {
 			annex = c:PAR
 			annex = c:MOD
+			set_variable = {
+				name = free_north_italy_2
+				value = yes
+			}
 		}
+
+	    ai_chance = {
+			base = 1	
+		}
+	}
+}
+
+#TUS Plebiscite For Annexation
+italy_1848.24 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.24.t
+	desc = italy_1848.24.d
+	flavor = italy_1848.24.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 1
+
+	trigger = {
+		exists = c:TUS
+		c:TUS = this
+		c:SAR = {
+			has_variable = free_north_italy_2
+		}
+	}
+
+	immediate = {
+		c:SAR = {
+			remove_variable = free_north_italy_2
+		}
+		c:SAR = {
+			save_scope_as = sar_scope
+		}
+	}
+
+    option = {
+		name = italy_1848.24.a
+		default_option = yes
+
+		c:SAR = {
+			trigger_event = {
+				id = italy_1848.25
+			}
+		}
+
+	    ai_chance = {
+			base = 95	
+		}
+	}
+
+    option = {
+		name = italy_1848.24.b
+		default_option = yes
+
+		custom_tooltip = italy_1848.24.tt1
+
+		s:STATE_TUSCANY = {
+			add_claim = c:SAR
+		}
+		s:STATE_EMILIA = {
+			add_claim = c:SAR
+		}
+		c:SAR = {
+			trigger_event = {
+				id = italy_1848.26
+			}
+		}
+	    ai_chance = {
+			base = 5	
+		}
+	}
+}
+
+#SAR Tuscany Votes For Annexation
+italy_1848.25 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.25.t
+	desc = italy_1848.25.d
+	flavor = italy_1848.25.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+		c:SAR = {
+			remove_variable = free_north_italy_2
+		}
+		c:TUS = {
+			save_scope_as = tus_scope
+		}
+	}
+
+    option = {
+		name = italy_1848.25.a
+		default_option = yes
+
+		annex = c:TUS
+		annex = c:LUC
+
+	    ai_chance = {
+			base = 1	
+		}
+	}
+}
+
+#SAR Tuscany Votes For Independence
+italy_1848.26 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.26.t
+	desc = italy_1848.26.d
+	flavor = italy_1848.26.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+		c:SAR = {
+			remove_variable = free_north_italy_2
+		}
+		c:TUS = {
+			save_scope_as = tus_scope
+		}
+	}
+
+    option = {
+		name = italy_1848.26.a
+		default_option = yes
+
+    	create_diplomatic_play = {
+			target_country = c:TUS
+			war = yes
+			type = dp_annex_war
+    	}
+    	hidden_effect = {
+	    	create_diplomatic_play = {
+				target_country = c:LUC
+				war = yes
+				type = dp_annex_war
+	    	}
+    	}
+
+	    ai_chance = {
+			base = 1	
+		}
+	}
+
+    option = {
+		name = italy_1848.26.b
+		default_option = yes
 
 	    ai_chance = {
 			base = 1	
