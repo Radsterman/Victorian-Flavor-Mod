@@ -1458,11 +1458,11 @@ italy_1848.18 = {
 	flavor = italy_1848.18.f
 
 	event_image = {
-		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+		video = "gfx/event_pictures/unspecific_military_parade.bk2"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/military_parade"
 
 	icon = "gfx/interface/icons/event_icons/event_default.dds"
 
@@ -1521,6 +1521,94 @@ italy_1848.18 = {
 					popup = yes
 				}
 			}
+		}
+
+	    ai_chance = {
+			base = 1
+		}
+	}
+}
+
+#SMR Lost First Independence War
+italy_1848.19 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.19.t
+	desc = italy_1848.19.d
+	flavor = italy_1848.19.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	duration = 1
+
+	trigger = {
+		exists = c:SAR
+		this = c:SAR
+		is_at_war = no
+		c:AUS = {
+			owns_entire_state_region = STATE_LOMBARDY
+			owns_entire_state_region = STATE_VENETIA
+		}
+		c:SAR = {
+			has_variable = first_italian_war_var
+		}
+	}
+
+	immediate = {
+		c:AUS = {
+			save_scope_as = aus_scope
+		}
+		s:STATE_LOMBARDY = {
+			random_scope_state = {
+				save_scope_as = lombardy_scope
+			}
+		}
+		s:STATE_VENETIA = {
+			random_scope_state = {
+				save_scope_as = venetia_scope
+			}
+		}
+    	ruler = {
+			save_scope_as = ruler_scope
+		}
+	}
+
+	option = {
+		name = italy_1848.19.a
+		
+		default_option = yes
+
+		custom_tooltip = {
+			text = italy_1848.19.tt1
+			ruler = {
+				kill_character = yes
+			}
+		}
+
+		remove_variable = first_italian_war_var
+		remove_modifier = italian_vol
+
+	    ai_chance = {
+			base = 99
+		}
+	}
+
+	option = {
+		name = italy_1848.19.b
+
+		remove_variable = first_italian_war_var
+		remove_modifier = italian_vol
+
+		add_radicals = {
+			value = large_radicals
 		}
 
 	    ai_chance = {
