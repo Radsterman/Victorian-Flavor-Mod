@@ -513,9 +513,11 @@ italy_1848.6 = {
 		exists = c:SAR
 		this = c:SAR
 		owns_entire_state_region = STATE_PIEDMONT
-		game_date >= 1848.3.3
 		has_technology_researched = nationalism
 		has_law = law_type:law_monarchy
+		NOT = {
+			has_variable = albertine_statute
+		}
 		OR = {
 			has_law = law_type:law_autocracy 
 			has_law = law_type:law_oligarchy
@@ -536,30 +538,8 @@ italy_1848.6 = {
 		name = italy_1848.6.a
 		default_option = yes
 
-		activate_law = law_type:law_monarchy
-		activate_law = law_type:law_wealth_voting
-		activate_law = law_type:law_right_of_assembly
-
-		custom_tooltip = italy_1848.6.tt1
-		add_radicals = {
-			strata = rich
-			value = 0.25
-		}
-		ig:ig_landowners = {
-			add_modifier = {
-				name = 1848_negative_2
-				months = long_modifier_time
-			}
-		}
-		ig:ig_intelligentsia = {
-			add_modifier = {
-				name = 1848_positive_1
-				months = long_modifier_time
-			}
-			add_modifier = {
-				name = alb_statute_ig_str
-				months = long_modifier_time
-			}
+		add_journal_entry = {
+			type = je_albertine_statute
 		}
 
 	    ai_chance = {
@@ -973,7 +953,6 @@ italy_1848.10 = {
 			base = 5
 		}
 	}
-	
 	option = {
 		name = italy_1848.10.c
 
@@ -1043,7 +1022,6 @@ italy_1848.11 = {
 		name = italy_1848.11.a
 
 		default_option = yes
-		
 		annex = c:MLN
 		create_diplomatic_pact = {
 			country = c:SMR
