@@ -1,0 +1,91 @@
+﻿je_albertine_statute = {
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	complete = {
+		has_law = law_type:law_monarchy
+		OR = {
+			has_law = law_type:law_wealth_voting
+			has_law = law_type:law_census_voting
+			has_law = law_type:law_universal_suffrage
+		}
+		OR = {
+			has_law = law_type:law_right_of_assembly
+			has_law = law_type:law_census_voting
+			has_law = law_type:law_protected_speech
+		}
+    }
+
+	timeout = 1826
+
+    on_complete = {
+		add_radicals = {
+			strata = rich
+			value = 0.25
+		}
+		ig:ig_landowners = {
+			add_modifier = {
+				name = 1848_negative_2
+				months = long_modifier_time
+			}
+		}
+		ig:ig_intelligentsia = {
+			add_modifier = {
+				name = 1848_positive_1
+				months = long_modifier_time
+			}
+			add_modifier = {
+				name = alb_statute_ig_str
+				months = long_modifier_time
+			}
+		}
+		set_variable = {
+			name = albertine_statute
+			value = yes
+		}
+    }
+
+    on_timeout = {
+    	add_modifier = {
+		    name = alb_statute_legitimacy
+			months = long_modifier_time
+		}
+		add_radicals = {
+			strata = poor
+			value = 0.2
+		}
+		add_radicals = {
+			strata = middle
+			value = 0.2
+		}
+		ig:ig_landowners = {
+			add_modifier = {
+				name = 1848_positive_2
+				months = long_modifier_time
+			}
+		}
+		ig:ig_intelligentsia = {
+			add_modifier = {
+				name = 1848_negative_1
+				months = long_modifier_time
+			}
+		}
+		set_variable = {
+			name = albertine_statute
+			value = yes
+		}
+    }
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = albertine_statute_goal
+			}
+		}
+	}
+
+	weight = 100
+
+	should_be_pinned_by_default = yes
+	
+}
