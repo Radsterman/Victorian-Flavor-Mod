@@ -26,6 +26,7 @@ italy_1848.1 = {
 		owns_entire_state_region = STATE_SICILY
 		game_date >= 1848.1.12
 		has_technology_researched = nationalism
+		has_variable = sicilian_rev_possible_var
 		has_law = law_type:law_monarchy
 		OR = {
 			has_law = law_type:law_autocracy 
@@ -43,13 +44,14 @@ italy_1848.1 = {
 				save_scope_as = sicily_scope
 			}
 		}
+		remove_variable = sicilian_rev_possible_var
 	}
 
 	option = {
 		name = italy_1848.1.a
 		default_option = yes
 
-		create_country = { #Sicily
+		create_country = { # Sicily
 			tag = SCL
 			origin = this
 			state = s:STATE_SICILY.region_state:SIC
@@ -747,7 +749,6 @@ italy_1848.8 = {
 		trigger_event = {
 			id = italy_1848.10
 			days = 1
-			popup = yes
 		}
 
 	    ai_chance = {
@@ -766,7 +767,6 @@ italy_1848.8 = {
 		trigger_event = {
 			id = italy_1848.10
 			days = 1
-			popup = yes
 		}
 
 	    ai_chance = {
@@ -961,7 +961,6 @@ italy_1848.10 = {
 		c:SAR = {
 			trigger_event = {
 				id = italy_1848.11
-				popup = yes
 			}
 		}
 
@@ -979,7 +978,6 @@ italy_1848.10 = {
 		c:SAR = {
 			trigger_event = {
 				id = italy_1848.12
-				popup = yes
 			}
 		}
 		c:SMR = {
@@ -1174,13 +1172,11 @@ italy_1848.12 = {
 		c:MLN = {
 			trigger_event = {
 				id = italy_1848.13
-				popup = yes
 			}
 		}
 		c:SMR = {
 			trigger_event = {
 				id = italy_1848.15
-				popup = yes
 			}
 		}
 
@@ -1229,7 +1225,6 @@ italy_1848.13 = {
 			trigger_event = {
 				id = italy_1848.14
 				days = 15
-				popup = yes
 			}
 		}
 
@@ -1280,7 +1275,6 @@ italy_1848.15 = {
 			trigger_event = {
 				id = italy_1848.16
 				days = 15
-				popup = yes
 			}
 		}
 
@@ -1295,7 +1289,6 @@ italy_1848.15 = {
 			trigger_event = {
 				id = italy_1848.17
 				days = 15
-				popup = yes
 			}
 		}
 
@@ -1508,7 +1501,6 @@ italy_1848.18 = {
 		c:MLN = {
 			trigger_event = {
 				id = italy_1848.13
-				popup = yes
 			}
 		}
 		if = {
@@ -1518,7 +1510,6 @@ italy_1848.18 = {
 			c:SMR = {
 				trigger_event = {
 					id = italy_1848.15
-					popup = yes
 				}
 			}
 		}
@@ -1615,4 +1606,177 @@ italy_1848.19 = {
 			base = 1
 		}
 	}
+}
+
+#PAP Roman Republic
+italy_1848.20 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.20.t
+	desc = italy_1848.20.d
+	flavor = italy_1848.20.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_springtime_of_nations.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/springtime_of_nation"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	duration = 1
+
+	trigger = {
+		exists = c:PAP
+		this = c:PAP
+		owns_entire_state_region = STATE_LATIUM
+		game_date >= 1849.2.9
+		has_technology_researched = nationalism
+		OR = {
+			has_law = law_type:law_monarchy
+			has_law = law_type:law_theocracy
+		}
+		OR = {
+			has_law = law_type:law_autocracy 
+			has_law = law_type:law_oligarchy
+			has_law = law_type:law_landed_voting
+		}
+	}
+
+    option = {
+		name = italy_1848.20.a
+		default_option = yes
+
+		custom_tooltip = {
+			text = italy_1848.20.tt1
+			create_country = { # Roman Republic
+				tag = RMR
+				origin = this
+				state = s:STATE_LAZIO.region_state:PAP
+				on_created = {
+					set_variable = {
+						name = roman_rep_var
+						value = yes
+					}
+					activate_law = law_type:law_presidential_republic
+					activate_law = law_type:law_universal_suffrage
+					activate_law = law_type:law_right_of_assembly
+					set_next_election_date = 1852.1.1
+					ig:ig_intelligentsia = {
+						add_ruling_interest_group = yes
+						add_modifier = {
+							name = roman_republic_ig_str
+							months = long_modifier_time
+						}
+					}
+					create_character = {
+						# Giuseppe Mazzini
+						is_general = no
+						first_name = "Giuseppe"
+						last_name = "Mazzini"
+						ruler = no
+						birth_date = 1805.06.22
+						ig_leader = yes
+						interest_group = ig_intelligentsia
+						ideology = ideology_republican
+						traits = {
+							expert_political_operator
+							persistent
+						}
+					}
+					annex = c:PAP
+				}
+			}
+			play_as = c:RMR
+		}
+
+		c:FRA = {
+			trigger_event = {
+				id = italy_1848.21
+				days = 1
+			}
+		}
+
+	    ai_chance = {
+			base = 95	
+		}
+	}
+
+	option = {
+		name = italy_1848.20.b
+
+		activate_law = law_type:law_theocracy
+		activate_law = law_type:law_census_voting
+		activate_law = law_type:law_right_of_assembly
+		activate_law = law_type:law_freedom_of_conscience
+
+		add_radicals = {
+			strata = poor
+			value = 0.05
+		}
+		add_radicals = {
+			strata = middle
+			value = 0.05
+		}
+
+	    ai_chance = {
+			base = 5	
+		}
+    }
+}
+
+#FRA Roman Republic
+italy_1848.21 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.21.t
+	desc = italy_1848.21.d
+	flavor = italy_1848.21.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+		c:RMR = {
+			save_scope_as = rmr_scope
+		}
+	}
+
+    option = {
+		name = italy_1848.21.a
+		default_option = yes
+
+		c:RMR = {
+			trigger_event = {
+				id = italy_1848.22
+				days = 5
+			}
+		}
+
+	    ai_chance = {
+			base = 95	
+		}
+	}
+
+	option = {
+		name = italy_1848.21.b
+
+	    ai_chance = {
+			base = 5	
+		}
+    }
 }
