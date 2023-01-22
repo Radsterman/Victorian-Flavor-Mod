@@ -2333,3 +2333,63 @@ italy_1848.29 = {
 		}
 	}
 }
+
+#SAR Romagna Votes For Annexation
+italy_1848.30 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.30.t
+	desc = italy_1848.30.d
+	flavor = italy_1848.30.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 1
+
+	trigger = {
+		exists = c:SAR
+		this = c:SAR
+		c:SAR = {
+			has_variable = free_north_italy_3
+		}
+		exists = c:PAP
+		c:PAP = {
+			owns_entire_state_region = STATE_ROMAGNA
+		}
+	}
+
+	immediate = {
+		c:SAR = {
+			remove_variable = free_north_italy_3
+		}
+		c:PAP = {
+			save_scope_as = pap_scope
+		}
+		s:STATE_ROMAGNA = {
+			random_scope_state = {
+				save_scope_as = romagna_scope
+			}
+		}
+	}
+
+    option = {
+		name = italy_1848.30.a
+		default_option = yes
+
+		s:STATE_ROMAGNA.region_state:PAP = {
+			set_state_owner = c:SAR
+		}
+
+	    ai_chance = {
+			base = 1	
+		}
+	}
+}
