@@ -550,7 +550,7 @@ vilayet_events.8 = { #Creation of the Kurdish Autonomy
 # Tensions around Mount Lebanon
 tanzimat_events.11 = {
 	type = state_event
-	placement = scope:mount_lebanon_state
+	placement = s:STATE_LEBANON
 	title = tanzimat_events.11.t
 	desc = tanzimat_events.11.d
 	flavor =  tanzimat_events.11.f
@@ -573,10 +573,24 @@ tanzimat_events.11 = {
 	immediate = {
 		set_global_variable = druze_christian_war
 		s:STATE_LEBANON = {
-			save_scope_as = mount_lebanon_state
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:TUR = THIS
+					}
+				}
+				save_scope_as = mount_lebanon_state
+			}
 		}
 		s:STATE_SYRIA = {
-			save_scope_as = damascus_state
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:TUR = THIS
+					}
+				}
+				save_scope_as = damascus_state
+			}
 		}
 		#every_scope_country = {
 		#	limit = {
@@ -596,8 +610,12 @@ tanzimat_events.11 = {
 		}
 		scope:mount_lebanon_state = {
 			add_radicals = {
-				value = medium_radicals
-				religion = scope:discriminated_religion_scope
+				value = large_radicals
+				religion = rel:druze
+			}
+			add_radicals = {
+				value = large_radicals
+				religion = rel:catholic
 			}
 		}
 	}
@@ -620,6 +638,26 @@ tanzimat_events.12 = {
 	icon = "gfx/interface/icons/event_icons/event_fire.dds"
 	immediate = {
 		set_global_variable = lebanon_civil_war_ongoing
+		s:STATE_LEBANON = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:TUR = THIS
+					}
+				}
+				save_scope_as = mount_lebanon_state
+			}
+		}
+		s:STATE_SYRIA = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:TUR = THIS
+					}
+				}
+				save_scope_as = damascus_state
+			}
+		}
 	}
 	trigger = {
 		#triggered by prior event
@@ -627,11 +665,17 @@ tanzimat_events.12 = {
 	option = { #Rely on the Kurdish irrelgulars
 		name = tanzimat_events.12.a
 		default_option = yes
+		scope:mount_lebanon_state.state_region = {
+			add_devastation = 20
+		}
 		scope:mount_lebanon_state = {
-			add_devastation = 0.2
 			add_radicals = {
-				value = large_radicals
-				religion = scope:discriminated_religion_scope
+				value = very_large_radicals
+				religion = rel:druze
+			}
+			add_radicals = {
+				value = very_large_radicals
+				religion = rel:catholic
 			}
 		}
 		hidden_effect = {
@@ -655,18 +699,26 @@ tanzimat_events.12 = {
 		name = tanzimat_events.12.b
 		every_scope_state = {
 			limit = {
-				is_homeland = cu:kurdish
+				state_region = {
+					is_homeland = cu:kurdish
+				}
 			}
 			add_radicals = {
 				value = small_radicals
 				culture = cu:kurdish
 			}
 		}
+		scope:mount_lebanon_state.state_region = {
+			add_devastation = 15
+		}
 		scope:mount_lebanon_state = {
-			add_devastation = 0.15
 			add_radicals = {
-				value = large_radicals
-				religion = scope:discriminated_religion_scope
+				value = very_large_radicals
+				religion = rel:druze
+			}
+			add_radicals = {
+				value = very_large_radicals
+				religion = rel:catholic
 			}
 		}
 		hidden_effect = {
@@ -695,7 +747,28 @@ tanzimat_events.13 = {
 	title = tanzimat_events.13.t
 	desc = tanzimat_events.13.d
 	flavor =  tanzimat_events.13.f
-	
+	immediate = {
+		s:STATE_LEBANON = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:TUR = THIS
+					}
+				}
+				save_scope_as = mount_lebanon_state
+			}
+		}
+		s:STATE_SYRIA = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:TUR = THIS
+					}
+				}
+				save_scope_as = damascus_state
+			}
+		}
+	}
 	duration = 1
 	event_image = {
 		video = "gfx/event_pictures/middleeast_police_breaking_door.bk2"
@@ -710,8 +783,10 @@ tanzimat_events.13 = {
 		name = tanzimat_events.13.a
 		default_option = yes
 		change_infamy = 5
+		scope:mount_lebanon_state.state_region = {
+			add_devastation = 10
+		}
 		scope:mount_lebanon_state = {
-			add_devastation = 0.10
 			every_scope_pop = {
 				limit = {
 					religion = rel:catholic
@@ -726,8 +801,16 @@ tanzimat_events.13 = {
 		scope:damascus_state = {
 			add_radicals = {
 				value = large_radicals
-				religion = scope:discriminated_religion_scope
+				religion = rel:druze
 			}
+			add_radicals = {
+				value = large_radicals
+				religion = rel:catholic
+			}
+		}
+		trigger_event = {
+			id = tanzimat_events.14
+			days = { 7 14 }
 		}
 	}
 
@@ -748,20 +831,37 @@ tanzimat_events.14 = {
 	on_opened_soundeffect = "event:/SFX/Events/middleeast/police_breaking_door"
 	icon = "gfx/interface/icons/event_icons/event_fire.dds"
 	immediate = {
+		s:STATE_LEBANON = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:TUR = THIS
+					}
+				}
+				save_scope_as = mount_lebanon_state
+			}
+		}
+		s:STATE_SYRIA = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:TUR = THIS
+					}
+				}
+				save_scope_as = damascus_state
+			}
+		}
 		trigger_event = {
 			id = tanzimat_events.15
 			days = { 20 35 }
 		}
-	}
-	trigger = {
-		has_variable = lebanon_civil_war_ongoing
 	}
 	option = { #This could get out of hand
 		name = tanzimat_events.14.a
 		default_option = yes
 		scope:damascus_state = {
 			add_radicals = {
-				value = large_radicals
+				value = very_large_radicals
 				religion = rel:sunni
 			}
 		}
@@ -778,10 +878,24 @@ tanzimat_events.15 = {
 	flavor =  tanzimat_events.15.f
 	
 	immediate = {
-		scope:damascus_state = {
-			add_modifier = { 
-				name = maronites_displaced_modifier
-				months = normal_modifier_time
+		s:STATE_LEBANON = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:TUR = THIS
+					}
+				}
+				save_scope_as = mount_lebanon_state
+			}
+		}
+		s:STATE_SYRIA = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:TUR = THIS
+					}
+				}
+				save_scope_as = damascus_state
 			}
 		}
 		random_scope_character = {
@@ -832,6 +946,12 @@ tanzimat_events.15 = {
 	option = { #Send leader #1
 		name = tanzimat_events.15.a
 		default_option = yes
+		scope:damascus_state = {
+			add_modifier = { 
+				name = maronites_displaced_modifier
+				months = normal_modifier_time
+			}
+		}
 		scope:lebanon_pacifier_1 = {
 			set_variable = pacifying_lebanon_var
 			set_character_busy = yes
@@ -840,6 +960,12 @@ tanzimat_events.15 = {
 	option = { #Send leader #2
 		name = tanzimat_events.15.a
 		default_option = yes
+		scope:damascus_state = {
+			add_modifier = { 
+				name = maronites_displaced_modifier
+				months = normal_modifier_time
+			}
+		}
 		scope:lebanon_pacifier_2 = {
 			set_variable = pacifying_lebanon_var
 			set_character_busy = yes
@@ -848,6 +974,12 @@ tanzimat_events.15 = {
 	option = { #Send leader #3
 		name = tanzimat_events.15.a
 		default_option = yes
+		scope:damascus_state = {
+			add_modifier = { 
+				name = maronites_displaced_modifier
+				months = normal_modifier_time
+			}
+		}
 		scope:lebanon_pacifier_3 = {
 			set_variable = pacifying_lebanon_var
 			set_character_busy = yes
@@ -865,6 +997,26 @@ tanzimat_events.16 = {
 	
 	duration = 3
 	immediate = {
+		s:STATE_LEBANON = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:TUR = THIS
+					}
+				}
+				save_scope_as = mount_lebanon_state
+			}
+		}
+		s:STATE_SYRIA = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:TUR = THIS
+					}
+				}
+				save_scope_as = damascus_state
+			}
+		}
 		random_scope_character = {
 			limit = {
 				has_variable = pacifying_lebanon_var 
