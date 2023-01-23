@@ -1,0 +1,317 @@
+﻿namespace = south_america
+
+# Peru-Bolivia success
+south_america.1 = {
+	type = country_event
+	placement = ROOT
+	title = south_america.1.t
+	desc = south_america.1.d
+	flavor =  south_america.1.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_aristocrats.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	trigger = {
+		# triggered by JE
+	}
+
+	immediate = {
+		c:PEU = {
+			save_scope_as = peru_country
+			capital = {
+				save_scope_as = peru_capital
+			}
+		}
+	}
+
+	option = { # Annex Peru
+		name = south_america.1.a
+		scope:peru_capital = {
+			add_radicals = {
+				value = 0.33
+			}
+		}
+		if = {
+			limit = { 
+				exists = c:PEU
+				c:BOL= {
+					has_diplomatic_pact = {
+						who = c:PEU
+						type = puppet
+						is_initiator = yes
+					}
+				} 
+			}
+			c:BOL = {
+            annex = c:PEU
+        	}
+		}
+		if = {
+			limit = { 
+				exists = c:NEU
+				c:BOL= {
+					has_diplomatic_pact = {
+						who = c:NEU
+						type = puppet
+						is_initiator = yes
+					}
+				} 
+			}
+			c:BOL = {
+            annex = c:NEU
+        	}
+		}
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = { #No
+		name = south_america.1.b
+		default_option = yes
+		change_relations = {
+			country = c:PEU
+			value = 20
+		}
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+# Peru-Bolivia Startup
+south_america.2 = {
+	type = country_event
+	placement = ROOT
+	title = south_america.2.t
+	desc = south_america.2.d
+	flavor =  south_america.2.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_aristocrats.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	trigger = {
+		c:PEU = {
+			is_player = no
+		}
+	}
+
+	immediate = {
+		c:PEU = {
+			save_scope_as = peru_country
+		}
+	}
+
+	option = { #Yes
+		name = south_america.2.a
+
+		c:PEU = {
+			trigger_event = { id = journal_flavor_peru.1 }
+		}
+        change_relations = {
+			country = c:CHL
+			value = -100
+		}
+		change_relations = {
+			country = c:ARG
+			value = -100
+		}
+		create_incident = {
+			value = 52.5
+			country = c:PEU
+		}
+		create_diplomatic_pact = {
+			country = c:PEU
+			type = puppet
+		}
+		set_variable = {
+			name = peru_bolivia_var
+			value = 0
+		}
+		add_journal_entry = { type = je_peru_bolivia }
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = { #No
+		name = south_america.2.b
+		default_option = yes
+		change_relations = {
+			country = c:PEU
+			value = 20
+		}
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+# Brazil starting war
+south_america.3 = { #Ongoing Guerilla War 
+	type = country_event
+	placement = ROOT
+	title = south_america.3.t
+	desc = south_america.3.d
+	flavor =  south_america.3.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_war_civilians.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/war_civilians"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	trigger = {
+		has_variable = recently_won_war
+		any_state_region = {
+			has_variable = brazil_sucession_state
+		}
+		country_is_in_south_america = yes
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = {
+					has_variable = brazil_sucession_state
+				}
+			}
+			save_scope_as = guerilla_state
+		}
+	}
+
+	option = {
+		name = south_america.3.a
+		default_option = yes
+
+		scope:guerilla_state.state_region = {
+			add_devastation = 10
+		}
+
+		add_modifier = {
+			name = modifier_destroy_guerillas
+			months = normal_modifier_time
+		}
+	}
+
+	option = {
+		name = south_america.3.b
+
+		scope:guerilla_state.state_region = {
+			add_devastation = 50
+		}
+
+	}
+
+}
+
+
+south_america.5 = { #you lost
+	type = country_event
+	placement = ROOT
+	title = south_america.5.t
+	desc = south_america.5.d
+	flavor =  south_america.5.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_war_civilians.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/war_civilians"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	trigger = {
+		#triggered by the Ragamuffin JE
+	}
+
+	option = { #Revenge
+		name = south_america.5.a
+		default_option = yes
+		s:STATE_RIO_GRANDE_DO_SUL = {
+			add_claim = ROOT
+		}
+		add_modifier = {
+			name = lost_ragamuffin_war
+			months = normal_modifier_time
+		}
+	}
+
+	option = { #Peace
+		name = south_america.5.b
+		add_modifier = {
+			name = lost_ragamuffin_war
+			months = normal_modifier_time
+		}
+	}
+}
+
+
+south_america.6 = { #you won
+	type = country_event
+	placement = ROOT
+	title = south_america.6.t
+	desc = south_america.6.d
+	flavor =  south_america.6.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_war_civilians.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/war_civilians"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	trigger = {
+		#triggered by the Ragamuffin JE
+	}
+
+	option = {
+		name = south_america.6.a
+		default_option = yes
+		add_modifier = {
+			name = won_ragamuffin_war_integrate
+			months = normal_modifier_time
+		}	
+	}
+
+	option = {
+		name = south_america.6.b
+		add_modifier = {
+			name = won_ragamuffin_war_ostracize
+			months = normal_modifier_time
+		}
+		add_radicals = {
+			value = 0.1
+			culture = cu:brazilian
+		}
+	}
+}
+

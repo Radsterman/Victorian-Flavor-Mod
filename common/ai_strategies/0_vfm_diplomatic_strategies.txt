@@ -428,12 +428,7 @@ ai_strategy_unify_germany = {
 							country_has_primary_culture = cu:south_german
 						}					
 						NOT = { is_unification_candidate = GER }
-						is_supporting_unification_candidate = { 
-							NOT = { 
-								who = root 
-							}
-							country_formation = GER 
-						}
+						NOT = { is_supporting_unification_candidate = { who = root country_formation = GER } }
 					}
 				}
 				add = 500
@@ -449,12 +444,7 @@ ai_strategy_unify_germany = {
 						}
 						OR = {
 							is_unification_candidate = GER
-							is_supporting_unification_candidate = { 
-								NOT = { 
-									who = root 
-								}
-								country_formation = GER
-							}
+							NOT = { is_supporting_unification_candidate = { who = root country_formation = GER } }
 						}
 					}
 				}
@@ -532,29 +522,18 @@ ai_strategy_unify_ethiopia = {
 		
 	# Added to value from default strategy
 	bravery = {
-		value = 0.5
+		value = 1
 	}	
 	
 	# Added to value from default strategy
 	aggression = {
-		value = 0.5
+		value = 1
 		
 		if = {
 			limit = { 
 				scope:target_country = { can_form_nation = ETH }
 			}
 			add = 10
-		}
-
-		# Less aggressive against countries we're just antagonistic against, rather than belligerent/domineering
-		if = {
-			limit = {
-				has_attitude = {
-					who = scope:target_country
-					attitude = antagonistic
-				}					
-			}
-			multiply = 0.25
 		}			
 	}
 
@@ -591,12 +570,13 @@ ai_strategy_unify_ethiopia = {
 								is_homeland = cu:tigray
 							}					
 						}
+					}
 					can_reach_target_state = yes
 				}
 				add = 100
 			}
 		}		
-	}		
+	}
 	
 	secret_goal_scores = {
 		befriend = {		
@@ -606,7 +586,7 @@ ai_strategy_unify_ethiopia = {
 						can_form_nation = ETH
 					}
 				}
-				add = 200
+				subtract = 200
 			}		
 		}		
 		dominate = {		
@@ -616,7 +596,7 @@ ai_strategy_unify_ethiopia = {
 						can_form_nation = ETH
 					}
 				}
-				add = 300
+				subtract = 300
 			}			
 		}		
 		conquer = {				

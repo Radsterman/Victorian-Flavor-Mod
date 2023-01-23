@@ -1,0 +1,612 @@
+﻿establish_south_africa_company = {
+	is_shown = {
+		any_state = {
+			owner = ROOT
+			OR = {
+				state_region = s:STATE_ZAMBIA
+				state_region = s:STATE_ZAMBEZI
+				state_region = s:STATE_KAZEMBE
+			}
+		}
+		NOT = {
+			OR = {
+				exists = c:BSA
+				exists = c:RHO
+				exists = c:ZAM
+			}
+			
+		}
+	}
+	possible = {
+		NOT = {
+			any_primary_culture = {
+				has_discrimination_trait = african_heritage
+			} 
+		}
+		has_technology_researched = malaria_prevention
+	}
+	when_taken = {
+
+		random_scope_state = {
+			limit = {
+				OR = {
+					state_region = s:STATE_ZAMBIA
+					state_region = s:STATE_ZAMBEZI
+					state_region = s:STATE_KAZEMBE
+				}
+			}
+			save_scope_as = bsa_spawn
+		}
+
+		create_country = {
+			tag = BSA
+			origin = this
+			state = scope:bsa_spawn
+			on_created = {
+			
+				if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_presidential_republic
+						}
+					}
+					activate_law = law_type:law_presidential_republic
+				}
+
+				if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_autocracy
+						}
+					}
+					activate_law = law_type:law_autocracy
+				}
+
+				if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_colonial_resettlement
+						}
+					}
+					activate_law = law_type:law_colonial_resettlement
+				}
+
+				set_institution_investment_level = {
+					institution = institution_colonial_affairs
+					level = 2
+				}	
+
+			}
+		}
+
+		hidden_effect = {
+
+			every_scope_state = {
+				limit = {
+					owner = ROOT
+					OR = {
+						state_region = s:STATE_ZAMBIA
+						state_region = s:STATE_ZAMBEZI
+						state_region = s:STATE_KAZEMBE
+					}
+				}
+				set_state_owner = c:BSA
+			}
+
+			create_diplomatic_pact = {
+				country = c:BSA
+				type = chartered_company
+			}	
+
+			c:BSA = {
+				add_to_variable_list = { name = past_overlord target = top_overlord }
+
+				add_journal_entry = {
+					type = je_company_independence
+				}
+				if = {
+					limit = {
+						top_overlord = {
+							NOT = {
+								country_has_primary_culture = cu:british
+							}
+						}
+					}
+					top_overlord = {
+						random_primary_culture = {
+							save_scope_as = new_primary
+						}
+					}
+
+					random_primary_culture = {
+						save_scope_as = old_primary
+					}
+					add_primary_culture = scope:new_primary
+					remove_primary_culture = scope:old_primary
+				}
+				if = {
+					limit = {
+						top_overlord = {
+							NOT = {
+								country_has_state_religion = rel:anglican
+							}
+						}
+					}
+					top_overlord = {
+						root.religion = { save_scope_as = overlord_religion }
+					}
+					set_state_religion = scope:overlord_religion
+				}
+			}
+		}
+		trigger_event = { id = decision_company.2 }
+	}
+	
+	ai_chance = {
+		base = 100
+	}
+}
+
+establish_imperial_east_africa_company = {
+	is_shown = {
+		any_state = {
+			owner = ROOT
+			OR = {
+				state_region = s:STATE_UGANDA
+				state_region = s:STATE_KENYA
+				state_region = s:STATE_RIFT_VALLEY
+			}
+		}
+		NOT = {
+			OR = {
+				exists = c:IAC
+				exists = c:KNY
+				exists = c:UGA
+			}
+		}
+	}
+	possible = {
+		NOT = {
+			any_primary_culture = {
+				has_discrimination_trait = african_heritage
+			} 
+		}
+		has_technology_researched = malaria_prevention
+	}
+	when_taken = {
+
+		random_scope_state = {
+			limit = {
+			OR = {
+				state_region = s:STATE_UGANDA
+				state_region = s:STATE_KENYA
+				state_region = s:STATE_RIFT_VALLEY
+			}
+			}
+			save_scope_as = iac_spawn
+		}
+
+		create_country = {
+			tag = IAC
+			origin = this
+			state = scope:iac_spawn
+			on_created = {
+			
+				if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_presidential_republic
+						}
+					}
+					activate_law = law_type:law_presidential_republic
+				}
+
+				if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_autocracy
+						}
+					}
+					activate_law = law_type:law_autocracy
+				}
+
+				if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_colonial_resettlement
+						}
+					}
+					activate_law = law_type:law_colonial_resettlement
+				}
+
+				set_institution_investment_level = {
+					institution = institution_colonial_affairs
+					level = 2
+				}	
+
+			}
+		}
+
+		hidden_effect = {
+
+			every_scope_state = {
+				limit = {
+					owner = ROOT
+				OR = {
+					state_region = s:STATE_UGANDA
+					state_region = s:STATE_KENYA
+					state_region = s:STATE_RIFT_VALLEY
+				}
+				}
+				set_state_owner = c:IAC
+			}
+
+			create_diplomatic_pact = {
+				country = c:IAC
+				type = chartered_company
+			}	
+
+
+			c:IAC = {
+				add_to_variable_list = { name = past_overlord target = top_overlord }
+
+				add_journal_entry = {
+					type = je_company_independence
+				}
+				if = {
+					limit = {
+						top_overlord = {
+							NOT = {
+								country_has_primary_culture = cu:british
+							}
+						}
+					}
+					top_overlord = {
+						random_primary_culture = {
+							save_scope_as = new_primary
+						}
+					}
+
+					random_primary_culture = {
+						save_scope_as = old_primary
+					}
+					add_primary_culture = scope:new_primary
+					remove_primary_culture = scope:old_primary
+				}
+				if = {
+					limit = {
+						top_overlord = {
+							NOT = {
+								country_has_state_religion = rel:anglican
+							}
+						}
+					}
+					top_overlord = {
+						root.religion = { save_scope_as = overlord_religion }
+					}
+					set_state_religion = scope:overlord_religion
+				}
+			}
+		}
+		trigger_event = { id = decision_company.4 }
+	}
+	
+	ai_chance = {
+		base = 100
+	}
+}
+
+
+establish_german_east_africa_company = {
+	is_shown = {
+		any_state = {
+			owner = ROOT
+			OR = {
+				state_region = s:STATE_LINDI
+				state_region = s:STATE_ZANZIBAR
+				state_region = s:STATE_TANGANYIKA
+			}
+		}
+		NOT = {
+			OR = {
+				exists = c:GEA
+				exists = c:TAN
+				exists = c:TZN
+			}
+		}
+	}
+	possible = {
+		NOT = {
+			any_primary_culture = {
+				has_discrimination_trait = african_heritage
+			} 
+		}
+		has_technology_researched = malaria_prevention
+	}
+	when_taken = {
+
+		random_scope_state = {
+			limit = {
+				OR = {
+					state_region = s:STATE_LINDI
+					state_region = s:STATE_ZANZIBAR
+					state_region = s:STATE_TANGANYIKA
+				}
+			}
+			save_scope_as = gea_spawn
+		}
+
+		create_country = {
+			tag = GEA
+			origin = this
+			state = scope:gea_spawn
+			on_created = {
+			
+				if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_presidential_republic
+						}
+					}
+					activate_law = law_type:law_presidential_republic
+				}
+
+				if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_autocracy
+						}
+					}
+					activate_law = law_type:law_autocracy
+				}
+
+				if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_colonial_resettlement
+						}
+					}
+					activate_law = law_type:law_colonial_resettlement
+				}
+
+				set_institution_investment_level = {
+					institution = institution_colonial_affairs
+					level = 2
+				}	
+
+			}
+		}
+
+		hidden_effect = {
+
+			every_scope_state = {
+				limit = {
+					owner = ROOT
+					OR = {
+					state_region = s:STATE_LINDI
+					state_region = s:STATE_ZANZIBAR
+					state_region = s:STATE_TANGANYIKA
+					}
+				}
+				set_state_owner = c:GEA
+			}
+
+			create_diplomatic_pact = {
+				country = c:GEA
+				type = chartered_company
+			}	
+
+
+			c:GEA = {
+				add_to_variable_list = { name = past_overlord target = top_overlord }
+
+				add_journal_entry = {
+					type = je_company_independence
+				}
+				if = {
+					limit = {
+						top_overlord = {
+							NOT = {
+								country_has_primary_culture = cu:north_german
+							}
+						}
+					}
+					top_overlord = {
+						random_primary_culture = {
+							save_scope_as = new_primary
+						}
+					}
+
+					random_primary_culture = {
+						save_scope_as = old_primary
+					}
+					add_primary_culture = scope:new_primary
+					remove_primary_culture = scope:old_primary
+				}
+				if = {
+					limit = {
+						top_overlord = {
+							NOT = {
+								country_has_state_religion = rel:protestant
+							}
+						}
+					}
+					top_overlord = {
+						root.religion = { save_scope_as = overlord_religion }
+					}
+					set_state_religion = scope:overlord_religion
+				}
+			}
+		}
+		trigger_event = { id = decision_company.3 }
+	}
+	
+	ai_chance = {
+		base = 100
+	}
+}
+
+establish_niger_company = {
+	is_shown = {
+		any_state = {
+			owner = ROOT
+			OR = {
+				state_region = s:STATE_NIGER_DELTA
+				state_region = s:STATE_NIGERIA
+				state_region = s:STATE_BENIN
+				state_region = s:STATE_YORUBA_STATES
+				state_region = s:STATE_HAUSALAND
+				state_region = s:STATE_EAST_HAUSALAND
+				state_region = s:STATE_BORNU
+			}
+		}
+		NOT = {
+			OR = {
+				exists = c:RNC
+				exists = c:NGR
+			}
+			
+		}
+	}
+	possible = {
+		NOT = {
+			any_primary_culture = {
+				has_discrimination_trait = african_heritage
+			} 
+		}
+		has_technology_researched = malaria_prevention
+	}
+	when_taken = {
+
+		random_scope_state = {
+			limit = {
+				OR = {
+					state_region = s:STATE_NIGER_DELTA
+					state_region = s:STATE_NIGERIA
+					state_region = s:STATE_BENIN
+					state_region = s:STATE_YORUBA_STATES
+					state_region = s:STATE_HAUSALAND
+					state_region = s:STATE_EAST_HAUSALAND
+					state_region = s:STATE_BORNU
+				}
+			}
+			save_scope_as = rnc_spawn
+		}
+
+		create_country = {
+			tag = RNC
+			origin = this
+			state = scope:rnc_spawn
+			on_created = {
+			
+				if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_presidential_republic
+						}
+					}
+					activate_law = law_type:law_presidential_republic
+				}
+
+				if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_autocracy
+						}
+					}
+					activate_law = law_type:law_autocracy
+				}
+
+				if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_colonial_resettlement
+						}
+					}
+					activate_law = law_type:law_colonial_resettlement
+				}
+
+				set_institution_investment_level = {
+					institution = institution_colonial_affairs
+					level = 2
+				}	
+
+			}
+		}
+
+		hidden_effect = {
+
+			every_scope_state = {
+				limit = {
+					owner = ROOT
+					OR = {
+						state_region = s:STATE_NIGER_DELTA
+						state_region = s:STATE_NIGERIA
+						state_region = s:STATE_BENIN
+						state_region = s:STATE_YORUBA_STATES
+						state_region = s:STATE_HAUSALAND
+						state_region = s:STATE_EAST_HAUSALAND
+						state_region = s:STATE_BORNU
+					}
+				}
+				set_state_owner = c:RNC
+			}
+
+			create_diplomatic_pact = {
+				country = c:RNC
+				type = chartered_company
+			}	
+
+
+			c:RNC = {
+
+				add_to_variable_list = { name = past_overlord target = top_overlord }
+
+				add_journal_entry = {
+					type = je_company_independence
+				}
+
+				if = {
+					limit = {
+						top_overlord = {
+							NOT = {
+								country_has_primary_culture = cu:british
+							}
+						}
+					}
+					top_overlord = {
+						random_primary_culture = {
+							save_scope_as = new_primary
+						}
+					}
+
+					random_primary_culture = {
+						save_scope_as = old_primary
+					}
+					add_primary_culture = scope:new_primary
+					remove_primary_culture = scope:old_primary
+				}
+				if = {
+					limit = {
+						top_overlord = {
+							NOT = {
+								country_has_state_religion = rel:anglican
+							}
+						}
+					}
+					top_overlord = {
+						root.religion = { save_scope_as = overlord_religion }
+					}
+					set_state_religion = scope:overlord_religion
+				}
+			}
+		}
+
+		trigger_event = { id = decision_company.1 }
+
+	}
+	
+	ai_chance = {
+		base = 100
+	}
+}

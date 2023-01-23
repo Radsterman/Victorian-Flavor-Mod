@@ -1,0 +1,63 @@
+﻿je_hanja_issue = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+	complete = {
+		any_scope_building = {
+			is_building_type = building_university
+			occupancy > 0.9
+			level >= 5
+		}
+		institution_investment_level = {
+	  		institution = institution_schools 
+	 		value >= 2
+  		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = kor.1
+		}
+	}
+}
+
+je_sadae = {
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	complete = {
+		top_overlord = {
+			custom_tooltip = {
+				text = kor_chi_relations_tt
+				relations:root >= relations_threshold:amicable
+			}
+			owes_obligation_to = root
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = kor_chi_relations_bad_tt
+			top_overlord = {
+				relations:root < relations_threshold:neutral
+			}
+		}
+
+	}
+
+	invalid = {
+		NOT = { is_subject_of = c:CHI }
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = kor.3
+		}
+	}
+
+	on_fail = {
+		c:CHI = {
+			trigger_event = {
+				id = kor.4
+			}
+		}
+	}
+}

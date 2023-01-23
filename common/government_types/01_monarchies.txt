@@ -198,6 +198,7 @@ gov_sultanate = {
 			AND = { exists = c:WSG c:WSG = ROOT }
 			AND = { exists = c:ISQ c:ISQ = ROOT }
 			AND = { exists = c:DFR c:DFR = ROOT }
+			AND = { exists = c:ALD c:ALD = ROOT NOT={ is_subject_of = c:TUR} }
 		}
 	}
 }
@@ -231,8 +232,10 @@ gov_sheikhdom = {
 	possible = {
 		country_tier = principality
 		has_law = law_type:law_monarchy
-		exists = c:ABU
-		c:ABU = ROOT
+		OR = {
+			AND = { exists = c:ABU c:ABU = ROOT }
+			AND = { exists = c:BAB c:BAB = ROOT }
+		}
 	}
 }
 
@@ -361,26 +364,70 @@ gov_khedive = {
 		has_law = law_type:law_monarchy
 		exists = c:EGY
 		c:EGY = ROOT
+		has_variable = khedivate_conferred
+	}
+}
+
+gov_pashalik = {
+	transfer_of_power = hereditary
+	
+	male_ruler = "RULER_TITLE_PASHA"
+	female_ruler = "" # Empty on purpose
+
+	male_heir = "RULER_TITLE_PRINCE"
+	female_heir = "" # Empty on purpose
+	
+	possible = {
+		has_law = law_type:law_monarchy
+		exists = c:EGY
+		c:EGY = ROOT
+		NOT = {
+			has_variable = khedivate_conferred
+		}
 	}
 }
 
 
 gov_vilayet = {								
-	transfer_of_power = hereditary
+	transfer_of_power = dictatorial
 	
-	male_ruler = "RULER_TITLE_VALI"			# Governor. This post would usually be appointed by the Ottoman Sultan, and not be hereditary. 
+	male_ruler = "RULER_TITLE_VALI"			# governor of a province after the 1860 when the Eyalets were abolished and Vilyaets became the subdivisions
 	female_ruler = "" # Empty on purpose
-
-	male_heir = "RULER_TITLE_MUTASARRIF"	# Governor of a Vilayet's subunit, the Sanjak, who would assume command in the Vali's absence
-	female_heir = "" # Empty on purpose
 	
 	possible = {
-		has_law = law_type:law_monarchy
-		exists = c:TRI
 		exists = c:TUR
-		c:TRI = ROOT
-		is_subject_of = c:TUR		
-	}		
+		c:TUR = {	
+			has_variable = completed_sick_man_vilayet_je
+		}
+		is_subject_of = c:TUR
+		NOR = {
+			country_has_state_religion = rel:orthodox
+			country_has_state_religion = rel:catholic
+			country_has_primary_culture = cu:kurdish 	#Kurds are set up to use Emir
+		}
+	}
+}
+
+gov_eyalet = {								
+	transfer_of_power = dictatorial
+	
+	male_ruler = "RULER_TITLE_BEYLERBEY"			# pre-vilayet title, Vali was used generically sometimes especially for Egypt but wasn't the legal title until the 1860s 
+	female_ruler = "" # Empty on purpose
+
+	possible = {
+		exists = c:TUR
+		NOT = {
+			c:TUR = {
+				has_variable = completed_sick_man_vilayet_je
+			}
+		}
+		is_subject_of = c:TUR
+		NOT = {
+			country_has_state_religion = rel:orthodox
+			country_has_state_religion = rel:catholic	#Should stop the Serbs and Romanians being Eyalets because the @$%£^ing geographic trigger isn't checked on startup
+			country_has_primary_culture = cu:kurdish	#Kurds are set up to use Emir
+		}
+	}
 }
 
 gov_shah = {
@@ -396,6 +443,24 @@ gov_shah = {
 		has_law = law_type:law_monarchy
 		exists = c:PER
 		c:PER = ROOT
+	}			
+}
+
+gov_dey = {
+	transfer_of_power = hereditary
+	
+	male_ruler = "RULER_TITLE_DEY"
+	female_ruler = "" # Empty on purpose
+
+	male_heir = "RULER_TITLE_CROWN_PRINCE"
+	female_heir = "" # Empty on purpose
+	
+	possible = {
+		has_law = law_type:law_monarchy
+		exists = c:ALD
+		exists = c:TUR
+		c:ALD = ROOT
+		is_subject_of = c:TUR
 	}			
 }
 
@@ -429,8 +494,11 @@ gov_bey = {
 	
 	possible = {
 		has_law = law_type:law_monarchy
-		exists = c:TUN
-		c:TUN = ROOT
+		OR = {
+			AND = { exists = c:TUN c:TUN = ROOT }
+			AND = { exists = c:CNS c:CNS = ROOT }
+		}
+		
 	}
 }
 

@@ -1,0 +1,1605 @@
+﻿namespace = journal_flavor_company_collapse
+
+#HBC
+journal_flavor_company_collapse.1 = {
+	type = country_event
+	placement = scope:event_location
+
+	title = journal_flavor_company_collapse.1.t
+	desc = journal_flavor_company_collapse.1.d
+	flavor = journal_flavor_company_collapse.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_devastation.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	duration = 2
+
+	trigger = {
+		# triggered by journal entry
+	}
+	immediate = {
+
+		c:HBC = {
+			save_scope_as = company_scope
+
+			capital = {
+				save_scope_as = event_location
+			}
+
+				if = {
+					limit = { 
+						c:COL = {
+							is_subject_of = c:HBC
+						}
+					}
+					every_in_list = {
+						variable = past_overlord 
+						create_diplomatic_pact = {
+							country = c:COL
+							type = chartered_company
+						}
+					}
+				}
+
+				if = {
+					limit = { 
+						c:NWT = {
+							is_subject_of = c:HBC
+						}
+					}
+					every_in_list = {
+						variable = past_overlord 
+						create_diplomatic_pact = {
+							country = c:NWT
+							type = chartered_company
+						}
+					}
+				}
+
+				if = {
+					limit = { exists = c:NNV }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_NUNAVUT
+						}
+						set_state_owner = c:NNV
+					}
+				}
+				else = {
+					create_country = {
+						tag = NNV
+						origin = this
+						state = s:STATE_NUNAVUT.region_state:HBC
+					}
+				}
+				if = {
+					limit = { exists = c:BLF }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_ALBERTA
+						}
+						set_state_owner = c:BLF
+					}
+				}
+				else = {
+					create_country = {
+						tag = BLF
+						origin = this
+						state = s:STATE_ALBERTA.region_state:HBC
+					}		
+				}
+				if = {
+					limit = { exists = c:ATB }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_NORTHWEST_TERRITORIES
+						}
+						set_state_owner = c:ATB
+					}
+				}
+				else = {
+					create_country = {
+						tag = ATB
+						origin = this
+						state = s:STATE_NORTHWEST_TERRITORIES.region_state:HBC
+					}		
+				}
+				if = {
+					limit = { exists = c:MTC }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_SASKATCHEWAN
+						}
+						set_state_owner = c:MTC
+					}
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_MANITOBA
+						}
+						set_state_owner = c:MTC
+					}
+				}
+				else = {
+					create_country = {
+						tag = MTC
+						origin = this
+						state = s:STATE_MANITOBA.region_state:HBC
+					}	
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_SASKATCHEWAN
+						}
+						set_state_owner = c:MTC
+					}
+				}
+
+				if = {
+					limit = { exists = c:ONT }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_ONTARIO
+						}
+						set_state_owner = c:ONT
+					}
+				}
+				if = {
+					limit = { exists = c:QUE }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_QUEBEC
+						}
+						set_state_owner = c:QUE
+					}
+				}
+		}
+	}
+
+	option = { 
+		name = journal_flavor_company_collapse.1.a
+		default_option = yes
+		
+		if = {
+			limit = { exists = c:HBC }
+			annex = c:HBC
+		}
+
+	}
+}
+
+#North-Western Territory
+journal_flavor_company_collapse.2 = {
+	type = country_event
+	placement = scope:event_location
+
+	title = journal_flavor_company_collapse.1.t
+	desc = journal_flavor_company_collapse.1.d
+	flavor = journal_flavor_company_collapse.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_devastation.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	duration = 2
+
+	trigger = {
+		# triggered by journal entry
+	}
+	immediate = {
+
+		c:NWT = {
+			save_scope_as = company_scope
+
+			capital = {
+				save_scope_as = event_location
+			}
+
+
+				if = {
+					limit = { exists = c:CSC }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_BRITISH_COLUMBIA
+						}
+						set_state_owner = c:CSC
+					}
+				}
+				else = {
+					create_country = {
+						tag = CSC
+						origin = this
+						state = s:STATE_BRITISH_COLUMBIA.region_state:NWT
+					}
+				}
+				if = {
+					limit = { exists = c:ATB }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_YUKON_TERRITORY
+						}
+						set_state_owner = c:ATB
+					}
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_NORTHWEST_TERRITORIES
+						}
+						set_state_owner = c:ATB
+					}
+				}
+				else = {
+					create_country = {
+						tag = ATB
+						origin = this
+						state = s:STATE_NORTHWEST_TERRITORIES.region_state:NWT
+					}
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_YUKON_TERRITORY
+						}
+						set_state_owner = c:ATB
+					}
+				}
+				if = {
+					limit = { exists = c:MTC }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_ALBERTA
+						}
+						set_state_owner = c:MTC
+					}
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_SASKATCHEWAN
+						}
+						set_state_owner = c:MTC
+					}
+				}
+				else = {
+					create_country = {
+						tag = MTC
+						origin = this
+						state = s:STATE_ALBERTA.region_state:NWT
+					}
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_SASKATCHEWAN
+						}
+						set_state_owner = c:MTC
+					}
+				}
+		}
+	}
+
+	option = { 
+		name = journal_flavor_company_collapse.1.a
+		default_option = yes
+		
+		if = {
+			limit = { exists = c:NWT }
+			annex = c:NWT
+		}
+
+	}
+}
+
+#Columbia District
+journal_flavor_company_collapse.3 = {
+	type = country_event
+	placement = scope:event_location
+
+	title = journal_flavor_company_collapse.1.t
+	desc = journal_flavor_company_collapse.1.d
+	flavor = journal_flavor_company_collapse.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_devastation.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	duration = 2
+
+	trigger = {
+		# triggered by journal entry
+	}
+	immediate = {
+
+		c:COL = {
+			save_scope_as = company_scope
+
+			capital = {
+				save_scope_as = event_location
+			}
+
+				if = {
+					limit = { exists = c:CSC }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_BRITISH_COLUMBIA
+						}
+						set_state_owner = c:CSC
+					}
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_WASHINGTON
+						}
+						set_state_owner = c:CSC
+					}
+				}
+				else = {
+					create_country = {
+						tag = CSC
+						origin = this
+						state = s:STATE_BRITISH_COLUMBIA.region_state:COL
+					}
+				}
+				random_scope_state = {
+						limit = {
+							state_region = s:STATE_WASHINGTON
+						}
+						set_state_owner = c:CSC
+				}
+				if = {
+					limit = { exists = c:NZP }
+					every_scope_state = {
+						limit = {
+							OR = { 
+								state_region = s:STATE_IDAHO
+								state_region = s:STATE_OREGON
+								state_region = s:STATE_WYOMING
+								state_region = s:STATE_MONTANA						
+							}
+						}
+						set_state_owner = c:NZP
+					}
+				}
+				else = {
+					create_country = {
+						tag = NZP
+						origin = this
+						state = s:STATE_IDAHO.region_state:COL
+					}
+					every_scope_state = {
+						limit = {
+							OR = { 
+								state_region = s:STATE_IDAHO
+								state_region = s:STATE_OREGON
+								state_region = s:STATE_WYOMING
+								state_region = s:STATE_MONTANA						
+							}
+						}
+						set_state_owner = c:NZP
+					}			
+				}
+				
+				if = {
+					limit = { exists = c:COL }
+					top_overlord = {
+						annex = c:COL
+					}
+				}		
+		}
+	}
+
+	option = { 
+		name = journal_flavor_company_collapse.1.a
+		default_option = yes
+		
+		if = {
+			limit = { exists = c:COL }
+			annex = c:COL
+		}
+
+	}
+}
+
+#Russian-American Company
+journal_flavor_company_collapse.4 = {
+	type = country_event
+	placement = scope:event_location
+
+	title = journal_flavor_company_collapse.1.t
+	desc = journal_flavor_company_collapse.1.d
+	flavor = journal_flavor_company_collapse.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_devastation.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	duration = 2
+
+	trigger = {
+		# triggered by journal entry
+	}
+	immediate = {
+
+		c:RAC = {
+			save_scope_as = company_scope
+
+			capital = {
+				save_scope_as = event_location
+			}
+
+			create_country = {
+				tag = TLI
+				origin = this
+				state = s:STATE_ALASKA.region_state:RAC
+			}
+		}
+	}
+
+	option = { 
+		name = journal_flavor_company_collapse.1.a
+		default_option = yes
+		
+		if = {
+			limit = { exists = c:RAC }
+			annex = c:RAC
+		}
+
+	}
+}
+
+#Royal Niger Company
+journal_flavor_company_collapse.5 = {
+	type = country_event
+	placement = scope:event_location
+
+	title = journal_flavor_company_collapse.1.t
+	desc = journal_flavor_company_collapse.1.d
+	flavor = journal_flavor_company_collapse.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_devastation.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	duration = 2
+
+	trigger = {
+		# triggered by journal entry
+	}
+	immediate = {
+
+		c:RNC = {
+			save_scope_as = company_scope
+
+			capital = {
+				save_scope_as = event_location
+			}
+
+				if = {
+					limit = {
+						any_scope_state = {
+							OR = {
+								state_region = s:STATE_NIGER_DELTA
+								state_region = s:STATE_NIGERIA
+								state_region = s:STATE_BENIN
+								state_region = s:STATE_YORUBA_STATES
+								state_region = s:STATE_HAUSALAND
+								state_region = s:STATE_EAST_HAUSALAND
+								state_region = s:STATE_BORNU
+							}
+						}
+					}
+					random_scope_state = {
+						limit = {
+							OR = {
+								state_region = s:STATE_NIGER_DELTA
+								state_region = s:STATE_NIGERIA
+								state_region = s:STATE_BENIN
+								state_region = s:STATE_YORUBA_STATES
+								state_region = s:STATE_HAUSALAND
+								state_region = s:STATE_EAST_HAUSALAND
+								state_region = s:STATE_BORNU
+							}
+						}
+						save_scope_as = ngr_spawn
+					}
+
+					create_country = {
+						tag = NGR
+						origin = this
+						state = scope:ngr_spawn
+					}	
+
+					every_scope_state = {
+						limit = {
+							OR = {
+								state_region = s:STATE_NIGER_DELTA
+								state_region = s:STATE_NIGERIA
+								state_region = s:STATE_BENIN
+								state_region = s:STATE_YORUBA_STATES
+								state_region = s:STATE_HAUSALAND
+								state_region = s:STATE_EAST_HAUSALAND
+								state_region = s:STATE_BORNU
+							}
+						}
+						set_state_owner = c:NGR
+					}
+				}
+		}
+	}
+
+	option = { 
+		name = journal_flavor_company_collapse.1.a
+		default_option = yes
+		
+		if = {
+			limit = { exists = c:RNC }
+			annex = c:RNC
+		}
+
+	}
+}
+
+#South Africa Company
+journal_flavor_company_collapse.6 = {
+	type = country_event
+	placement = scope:event_location
+
+	title = journal_flavor_company_collapse.1.t
+	desc = journal_flavor_company_collapse.1.d
+	flavor = journal_flavor_company_collapse.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_devastation.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	duration = 2
+
+	trigger = {
+		# triggered by journal entry
+	}
+	immediate = {
+
+		c:BSA = {
+			save_scope_as = company_scope
+
+			capital = {
+				save_scope_as = event_location
+			}
+
+			if = { 
+				limit = {
+					any_scope_state = {
+						OR = {
+							state_region = s:STATE_ZAMBIA
+							state_region = s:STATE_KAZEMBE
+						}
+					}	
+				}
+				random_scope_state = {
+					limit = {
+						OR = {
+							state_region = s:STATE_ZAMBIA
+							state_region = s:STATE_KAZEMBE
+						}
+					}
+					save_scope_as = zam_spawn
+				}
+				create_country = {
+					tag = ZAM
+					origin = this
+					state = scope:zam_spawn
+				}
+				every_scope_state = {
+					limit = {
+						OR = {
+							state_region = s:STATE_ZAMBIA
+							state_region = s:STATE_KAZEMBE
+						}
+					}
+					set_state_owner = c:ZAM
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_ZAMBEZI
+					}	
+				}
+				create_country = {
+					tag = RHO
+					origin = this
+					state = s:STATE_ZAMBEZI.region_state:BSA
+				}
+			}
+
+		}
+	}
+
+	option = { 
+		name = journal_flavor_company_collapse.1.a
+		default_option = yes
+		
+		if = {
+			limit = { exists = c:BSA }
+			annex = c:BSA
+		}
+
+	}
+}
+
+#Imperial East Africa Company
+journal_flavor_company_collapse.7 = {
+	type = country_event
+	placement = scope:event_location
+
+	title = journal_flavor_company_collapse.1.t
+	desc = journal_flavor_company_collapse.1.d
+	flavor = journal_flavor_company_collapse.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_devastation.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	duration = 2
+
+	trigger = {
+		# triggered by journal entry
+	}
+	immediate = {
+
+		c:IAC = {
+			save_scope_as = company_scope
+
+			capital = {
+				save_scope_as = event_location
+			}
+
+			if = { 
+				limit = {
+					any_scope_state = {
+						OR = {
+							state_region = s:STATE_RIFT_VALLEY
+							state_region = s:STATE_KENYA
+						}
+					}	
+				}
+				random_scope_state = {
+					limit = {
+						OR = {
+							state_region = s:STATE_RIFT_VALLEY
+							state_region = s:STATE_KENYA
+						}
+					}
+					save_scope_as = kna_spawn
+				}
+				create_country = {
+					tag = KNY
+					origin = this
+					state = scope:kna_spawn
+				}
+				every_scope_state = {
+					limit = {
+						OR = {
+							state_region = s:STATE_RIFT_VALLEY
+							state_region = s:STATE_KENYA
+						}
+					}
+					set_state_owner = c:KNY
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_UGANDA
+					}	
+				}
+				create_country = {
+					tag = UGA
+					origin = this
+					state = s:STATE_UGANDA.region_state:IAC
+				}
+			}
+		}
+	}
+
+	option = { 
+		name = journal_flavor_company_collapse.1.a
+		default_option = yes
+		
+		if = {
+			limit = { exists = c:IAC }
+			annex = c:IAC
+		}
+
+	}
+}
+
+#German East Africa Company
+journal_flavor_company_collapse.8 = {
+	type = country_event
+	placement = scope:event_location
+
+	title = journal_flavor_company_collapse.1.t
+	desc = journal_flavor_company_collapse.1.d
+	flavor = journal_flavor_company_collapse.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_devastation.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	duration = 2
+
+	trigger = {
+		# triggered by journal entry
+	}
+	immediate = {
+
+		c:GEA = {
+			save_scope_as = company_scope
+
+			capital = {
+				save_scope_as = event_location
+			}
+			if = { 
+				limit = {
+					any_scope_state = {
+						OR = {
+							state_region = s:STATE_TANGANYIKA
+							state_region = s:STATE_LINDI
+						}
+					}	
+				}
+				random_scope_state = {
+					limit = {
+						OR = {
+							state_region = s:STATE_TANGANYIKA
+							state_region = s:STATE_LINDI
+						}
+					}
+					save_scope_as = tan_spawn
+				}
+				create_country = {
+					tag = TAN
+					origin = this
+					state = scope:tan_spawn
+				}
+				every_scope_state = {
+					limit = {
+						OR = {
+							state_region = s:STATE_TANGANYIKA
+							state_region = s:STATE_LINDI
+						}
+					}
+					set_state_owner = c:TAN
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_ZANZIBAR
+					}	
+				}
+
+				if = {
+					limit = {
+						exists = c:ZAN
+					}
+					random_scope_state = {
+						limit = {
+							OR = {
+								state_region = s:STATE_ZANZIBAR
+							}
+						}
+						set_state_owner = c:ZAN
+					}
+				}
+				else = {
+					create_country = {
+						tag = ZAN
+						origin = this
+						state = s:STATE_ZANZIBAR.region_state:GEA
+					}
+				}
+			}
+		}
+	}
+
+	option = { 
+		name = journal_flavor_company_collapse.1.a
+		default_option = yes
+		
+		if = {
+			limit = { exists = c:GEA }
+			annex = c:GEA
+		}
+	}
+}
+
+#Greenland
+journal_flavor_company_collapse.9 = {
+	type = country_event
+	placement = scope:event_location
+
+	title = journal_flavor_company_collapse.1.t
+	desc = journal_flavor_company_collapse.1.d
+	flavor = journal_flavor_company_collapse.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_devastation.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	duration = 2
+
+	trigger = {
+		# triggered by journal entry
+	}
+	immediate = {
+
+		c:RGT = {
+			save_scope_as = company_scope
+
+			capital = {
+				save_scope_as = event_location
+			}
+			if = { 
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_GREENLAND
+					}	
+				}
+				random_scope_state = {
+					limit = {
+						OR = {
+							state_region = s:STATE_GREENLAND
+						}
+					}
+					save_scope_as = grn_spawn
+				}
+				create_country = {
+					tag = GRN
+					origin = this
+					state = scope:grn_spawn
+				}
+			}
+		}
+	}
+
+	option = { 
+		name = journal_flavor_company_collapse.1.a
+		default_option = yes
+		
+		if = {
+			limit = { exists = c:RGT }
+			annex = c:RGT
+		}
+	}
+}
+
+#British East India COmpany, Big boi coming through
+journal_flavor_company_collapse.10 = {
+	type = country_event
+	placement = scope:event_location
+
+	title = journal_flavor_company_collapse.1.t
+	desc = journal_flavor_company_collapse.1.d
+	flavor = journal_flavor_company_collapse.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_devastation.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	duration = 2
+
+	trigger = {
+		# triggered by journal entry
+	}
+	immediate = {
+
+		c:BIC= {
+			save_scope_as = company_scope
+
+			capital = {
+				save_scope_as = event_location
+			}
+
+			every_country = {
+				limit = { is_subject_of = c:BIC }
+				save_scope_as = bic_puppet
+				c:BIC = {
+					remove_diplomatic_pact = {
+						country = scope:bic_puppet
+						type = puppet
+					}
+				}
+
+
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_DELHI
+					}
+				}
+				if = {
+					limit = { exists = c:AWA }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_DELHI
+						}
+						set_state_owner = c:AWA
+					}
+				}
+				else = {
+					create_country = {
+						tag = AWA
+						origin = this
+						state = s:STATE_DELHI.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_AWADH
+					}
+				}
+				if = {
+					limit = { exists = c:AWA }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_AWADH
+						}
+						set_state_owner = c:AWA
+					}
+				}
+				else = {
+					create_country = {
+						tag = AWA
+						origin = this
+						state = s:STATE_AWADH.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_ASSAM
+					}
+				}
+				if = {
+					limit = { exists = c:ASM }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_ASSAM
+						}
+						set_state_owner = c:ASM
+					}
+				}
+				else = {
+					create_country = {
+						tag = ASM
+						origin = this
+						state = s:STATE_ASSAM.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_NORTH_BENGAL
+					}
+				}
+				if = {
+					limit = { exists = c:BGL }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_NORTH_BENGAL
+						}
+						set_state_owner = c:BGL
+					}
+				}
+				else = {
+					create_country = {
+						tag = BGL
+						origin = this
+						state = s:STATE_NORTH_BENGAL.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_SOUTH_BENGAL
+					}
+				}
+				if = {
+					limit = { exists = c:BGL }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_SOUTH_BENGAL
+						}
+						set_state_owner = c:BGL
+					}
+				}
+				else = {
+					create_country = {
+						tag = BGL
+						origin = this
+						state = s:STATE_SOUTH_BENGAL.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_HIMALAYAS
+					}
+				}
+				if = {
+					limit = { exists = c:NEP }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_HIMALAYAS
+						}
+						set_state_owner = c:NEP
+					}
+				}
+				else = {
+					create_country = {
+						tag = NEP
+						origin = this
+						state = s:STATE_HIMALAYAS.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_BIHAR
+					}
+				}
+				if = {
+					limit = { exists = c:BIH }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_BIHAR
+						}
+						set_state_owner = c:BIH
+					}
+				}
+				else = {
+					create_country = {
+						tag = BIH
+						origin = this
+						state = s:STATE_BIHAR.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_ORISSA
+					}
+				}
+				if = {
+					limit = { exists = c:ORI }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_ORISSA
+						}
+						set_state_owner = c:ORI
+					}
+				}
+				else = {
+					create_country = {
+						tag = ORI
+						origin = this
+						state = s:STATE_ORISSA.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_CIRCARS
+					}
+				}
+				if = {
+					limit = { exists = c:ADH }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_CIRCARS
+						}
+						set_state_owner = c:ADH
+					}
+				}
+				else = {
+					create_country = {
+						tag = ADH
+						origin = this
+						state = s:STATE_CIRCARS.region_state:BIC
+					}		
+				}
+			}
+
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_NAGPUR
+					}
+				}
+				if = {
+					limit = { exists = c:NAG }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_NAGPUR
+						}
+						set_state_owner = c:NAG
+					}
+				}
+				else = {
+					create_country = {
+						tag = NAG
+						origin = this
+						state = s:STATE_NAGPUR.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_HYDERABAD
+					}
+				}
+				if = {
+					limit = { exists = c:HYD }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_HYDERABAD
+						}
+						set_state_owner = c:HYD
+					}
+				}
+				else = {
+					create_country = {
+						tag = HYD
+						origin = this
+						state = s:STATE_HYDERABAD.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_MYSORE
+					}
+				}
+				if = {
+					limit = { exists = c:MYS }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_MYSORE
+						}
+						set_state_owner = c:MYS
+					}
+				}
+				else = {
+					create_country = {
+						tag = MYS
+						origin = this
+						state = s:STATE_MYSORE.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_MADRAS
+					}
+				}
+				if = {
+					limit = { exists = c:MDR }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_MADRAS
+						}
+						set_state_owner = c:MDR
+					}
+				}
+				else = {
+					create_country = {
+						tag = MDR
+						origin = this
+						state = s:STATE_MADRAS.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_CEYLON
+					}
+				}
+				if = {
+					limit = { exists = c:CEY }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_CEYLON
+						}
+						set_state_owner = c:CEY
+					}
+				}
+				else = {
+					create_country = {
+						tag = CEY
+						origin = this
+						state = s:STATE_CEYLON.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_BOMBAY
+					}
+				}
+				if = {
+					limit = { exists = c:MHR }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_BOMBAY
+						}
+						set_state_owner = c:MHR
+					}
+				}
+				else = {
+					create_country = {
+						tag = MHR
+						origin = this
+						state = s:STATE_BOMBAY.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_BOMBAY
+					}
+				}
+				if = {
+					limit = { exists = c:MHR }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_BOMBAY
+						}
+						set_state_owner = c:MHR
+					}
+				}
+				else = {
+					create_country = {
+						tag = MHR
+						origin = this
+						state = s:STATE_BOMBAY.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_CENTRAL_INDIA
+					}
+				}
+				if = {
+					limit = { exists = c:BUN }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_CENTRAL_INDIA
+						}
+						set_state_owner = c:BUN
+					}
+				}
+				else = {
+					create_country = {
+						tag = BUN
+						origin = this
+						state = s:STATE_CENTRAL_INDIA.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_SINDH
+					}
+				}
+				if = {
+					limit = { exists = c:SIN }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_SINDH
+						}
+						set_state_owner = c:SIN
+					}
+				}
+				else = {
+					create_country = {
+						tag = SIN
+						origin = this
+						state = s:STATE_SINDH.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_GUJARAT
+					}
+				}
+				if = {
+					limit = { exists = c:BER }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_GUJARAT
+						}
+						set_state_owner = c:BER
+					}
+				}
+				else = {
+					create_country = {
+						tag = BER
+						origin = this
+						state = s:STATE_GUJARAT.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_RAJPUTANA
+					}
+				}
+				if = {
+					limit = { exists = c:JAI }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_RAJPUTANA
+						}
+						set_state_owner = c:JAI
+					}
+				}
+				else = {
+					create_country = {
+						tag = JAI
+						origin = this
+						state = s:STATE_RAJPUTANA.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_PEGU
+					}
+				}
+				if = {
+					limit = { exists = c:BUR }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_PEGU
+						}
+						set_state_owner = c:BUR
+					}
+				}
+				else = {
+					create_country = {
+						tag = BUR
+						origin = this
+						state = s:STATE_PEGU.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_PUNJAB
+					}
+				}
+				if = {
+					limit = { exists = c:PAN }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_PUNJAB
+						}
+						set_state_owner = c:PAN
+					}
+				}
+				else = {
+					create_country = {
+						tag = PAN
+						origin = this
+						state = s:STATE_PUNJAB.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_PASHTUNISTAN
+					}
+				}
+				if = {
+					limit = { exists = c:PAN }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_PASHTUNISTAN
+						}
+						set_state_owner = c:PAN
+					}
+				}
+				else = {
+					create_country = {
+						tag = PAN
+						origin = this
+						state = s:STATE_PASHTUNISTAN.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_KASHMIR
+					}
+				}
+				if = {
+					limit = { exists = c:PAN }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_KASHMIR
+						}
+						set_state_owner = c:PAN
+					}
+				}
+				else = {
+					create_country = {
+						tag = PAN
+						origin = this
+						state = s:STATE_KASHMIR.region_state:BIC
+					}		
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_TENASSERIM
+					}
+				}
+				if = {
+					limit = { exists = c:SIA }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_TENASSERIM
+						}
+						set_state_owner = c:SIA
+					}
+				}
+				else = {
+					create_country = {
+						tag = SIA
+						origin = this
+						state = s:STATE_TENASSERIM.region_state:BIC
+					}		
+				}
+			}
+
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_TRAVANCORE
+					}
+				}
+				if = {
+					limit = { exists = c:TRA }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_TRAVANCORE
+						}
+						set_state_owner = c:TRA
+					}
+				}
+				else = {
+					create_country = {
+						tag = TRA
+						origin = this
+						state = s:STATE_TRAVANCORE.region_state:BIC
+					}		
+				}
+			}
+
+
+
+
+
+
+		}
+	}
+
+	option = { 
+		name = journal_flavor_company_collapse.1.a
+		default_option = yes
+		
+		if = {
+			limit = { exists = c:BIC }
+			annex = c:BIC
+		}
+	}
+}

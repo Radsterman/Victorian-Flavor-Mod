@@ -1,0 +1,402 @@
+﻿namespace = treaty_of_villafranca
+
+treaty_of_villafranca.1 = { #SAR Treaty of Villafranca
+	type = country_event
+	placement = ROOT
+
+	title = treaty_of_villafranca.1.t
+	desc = treaty_of_villafranca.1.d
+	flavor = treaty_of_villafranca.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 3
+
+	trigger = {
+        exists = c:SAR
+		is_subject = no
+		is_at_war = no
+		owns_entire_state_region = STATE_LOMBARDY
+		owns_entire_state_region = STATE_PIEDMONT
+		has_modifier = plombieres_agreement
+	}
+
+	immediate = {
+		c:FRA = {
+			save_scope_as = fra_scope
+		}
+		c:AUS = {
+			save_scope_as = aus_scope
+		}
+		s:STATE_LOMBARDY = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						OR = {
+							c:SAR = THIS
+							is_subject_of = c:SAR
+						}
+					}
+				}
+			save_scope_as = lombardy_scope
+			}
+		}
+		s:STATE_SAVOY = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						OR = {
+							c:SAR = THIS
+							is_subject_of = c:SAR
+						}
+					}
+				}
+			save_scope_as = savoy_scope
+			}
+		}
+		s:STATE_PROVENCE = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						OR = {
+							c:SAR = THIS
+							is_subject_of = c:SAR
+						}
+					}
+				}
+			save_scope_as = provence_scope
+			}
+		}
+	}
+
+	option = {
+		name = treaty_of_villafranca.1.a
+		default_option = yes
+		s:STATE_SAVOY.region_state:SAR = {
+			set_state_owner = c:FRA
+		}
+		s:STATE_PROVENCE = {
+			set_owner_of_provinces = {
+				country = c:FRA
+				provinces = { x5080E0 }
+			}
+		}
+		c:FRA = {
+			change_relations = {
+				country = c:SAR
+				value = 10
+		    }
+		    trigger_event = {
+				id = treaty_of_villafranca.3
+				days = 2
+				popup = yes
+			}
+		}
+		c:AUS = {
+		    trigger_event = {
+				id = treaty_of_villafranca.4
+				days = 2
+				popup = yes
+			}
+		}
+		remove_diplomatic_pact = {
+			country = c:FRA
+			type = defensive_pact
+		}
+		add_modifier = {
+		    name = second_italian_war
+			months = long_modifier_time
+		}
+		remove_modifier = plombieres_agreement
+		custom_tooltip = treaty_of_villafranca.1.tt1
+		ai_chance = {
+			base = 100
+		}
+	}
+	option = {
+		name = treaty_of_villafranca.1.b
+		remove_diplomatic_pact = {
+			country = c:FRA
+			type = defensive_pact
+		}
+		c:FRA = {
+			change_relations = {
+				country = c:SAR
+				value = -100
+		    }
+		    trigger_event = {
+				id = treaty_of_villafranca.2
+				days = 2
+				popup = yes
+			}
+		}
+		c:AUS = {
+		    trigger_event = {
+				id = treaty_of_villafranca.4
+				days = 0
+				popup = yes
+			}
+		}
+		change_infamy = 30
+		add_modifier = {
+		    name = second_italian_war
+			months = long_modifier_time
+		}
+		remove_modifier = plombieres_agreement
+		custom_tooltip = treaty_of_villafranca.2.tt1
+		c:FRA = {
+			trigger_event = {
+				id = treaty_of_villafranca.2
+				days = 2
+				popup = yes
+			}
+		}
+		ai_chance = {
+			base = 5
+		}
+	}
+}
+
+treaty_of_villafranca.2 = { #FRA Sardinia doesn't honour the agreement
+	type = country_event
+	placement = ROOT
+
+	title = treaty_of_villafranca.2.t
+	desc = treaty_of_villafranca.2.d
+	flavor = treaty_of_villafranca.2.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 3
+
+	immediate = {
+		c:FRA = {
+			save_scope_as = fra_scope
+		}
+		c:AUS = {
+			save_scope_as = aus_scope
+		}
+		c:SAR = {
+			save_scope_as = sar_scope
+		}
+		s:STATE_LOMBARDY = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						OR = {
+							c:SAR = THIS
+							is_subject_of = c:SAR
+						}
+					}
+				}
+			save_scope_as = lombardy_scope
+			}
+		}
+		s:STATE_SAVOY = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						OR = {
+							c:SAR = THIS
+							is_subject_of = c:SAR
+						}
+					}
+				}
+			save_scope_as = savoy_scope
+			}
+		}
+		s:STATE_PROVENCE = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						OR = {
+							c:SAR = THIS
+							is_subject_of = c:SAR
+						}
+					}
+				}
+			save_scope_as = provence_scope
+			}
+		}
+	}
+
+	option = {
+		name = treaty_of_villafranca.2.a
+		default_option = yes
+		custom_tooltip = treaty_of_villafranca.2.tt1
+		custom_tooltip = treaty_of_villafranca.2.tt2
+		custom_tooltip = treaty_of_villafranca.2.tt3
+		custom_tooltip = treaty_of_villafranca.2.tt4
+		add_modifier = {
+		    name = fra_second_italian_war
+			months = normal_modifier_time
+		}
+		ai_chance = {
+			base = 1
+		}
+	}
+}
+
+treaty_of_villafranca.3 = { #FRA Sardinia honours the agreement
+	type = country_event
+	placement = ROOT
+
+	title = treaty_of_villafranca.3.t
+	desc = treaty_of_villafranca.3.d
+	flavor = treaty_of_villafranca.3.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 3
+
+	immediate = {
+		c:FRA = {
+			save_scope_as = fra_scope
+		}
+		c:AUS = {
+			save_scope_as = aus_scope
+		}
+		c:SAR = {
+			save_scope_as = sar_scope
+		}
+		s:STATE_LOMBARDY = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						OR = {
+							c:SAR = THIS
+							is_subject_of = c:SAR
+						}
+					}
+				}
+			save_scope_as = lombardy_scope
+			}
+		}
+		s:STATE_SAVOY = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						OR = {
+							c:SAR = THIS
+							is_subject_of = c:SAR
+						}
+					}
+				}
+			save_scope_as = savoy_scope
+			}
+		}
+		s:STATE_PROVENCE = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						OR = {
+							c:SAR = THIS
+							is_subject_of = c:SAR
+						}
+					}
+				}
+			save_scope_as = provence_scope
+			}
+		}
+	}
+
+	option = {
+		name = treaty_of_villafranca.3.a
+		default_option = yes
+		custom_tooltip = treaty_of_villafranca.3.tt1
+		custom_tooltip = treaty_of_villafranca.3.tt2
+		custom_tooltip = treaty_of_villafranca.3.tt3
+		custom_tooltip = treaty_of_villafranca.3.tt4
+		add_modifier = {
+		    name = fra_second_italian_war
+			months = normal_modifier_time
+		}
+		ai_chance = {
+			base = 1
+		}
+	}
+}
+
+treaty_of_villafranca.4 = { #AUS Defeat
+	type = country_event
+	placement = ROOT
+
+	title = treaty_of_villafranca.4.t
+	desc = treaty_of_villafranca.4.d
+	flavor = treaty_of_villafranca.4.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 3
+
+	immediate = {
+		c:FRA = {
+			save_scope_as = fra_scope
+		}
+		c:SAR = {
+			save_scope_as = sar_scope
+		}
+		s:STATE_LOMBARDY = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						OR = {
+							c:SAR = THIS
+							is_subject_of = c:SAR
+						}
+					}
+				}
+			save_scope_as = lombardy_scope
+			}
+		}
+	}
+
+	option = {
+		name = treaty_of_villafranca.4.a
+		default_option = yes
+		custom_tooltip = treaty_of_villafranca.4.tt1
+		change_relations = {
+			country = c:SAR
+			value = -100
+		}
+		change_relations = {
+			country = c:FRA
+			value = -50
+		}
+		add_modifier = {
+		    name = second_italian_war_lost
+			months = long_modifier_time
+		}
+		ai_chance = {
+			base = 1
+		}
+	}
+}

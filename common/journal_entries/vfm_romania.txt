@@ -1,0 +1,139 @@
+﻿je_unify_romania = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+    is_shown_when_inactive = {
+        OR = {
+            AND = {
+                exists = c:MOL
+                c:MOL = root 
+            }
+            AND = {
+                exists = c:WAL
+                c:WAL = root 
+            }
+        }
+    }
+
+    possible = {
+        has_technology_researched = nationalism
+    }
+
+	on_monthly_pulse = {
+        effect = {
+            if = {
+                limit = {
+                    OR = {
+                        c:WAL = {	
+                            c:MOL.relations:ROOT >= relations_threshold:amicable
+                        }
+                        c:MOL = {	
+                            c:WAL.relations:ROOT >= relations_threshold:amicable
+                        }
+                    }
+                }
+                change_variable = {
+                    name = romania_friends_var
+                    add = 1
+                }
+            }
+            else = {
+                set_variable = {
+                    name = romania_friends_var
+                    value = 0
+                }
+            }
+        }
+
+	}
+
+    immediate = {
+        set_variable = {
+			name = romania_friends_var
+			value = 0
+		}
+    }
+
+	complete = {
+		scope:journal_entry = { is_goal_complete = yes }
+	}
+
+	on_complete = {
+        if = {
+            limit = {
+                c:WAL = ROOT
+            }
+            annex = c:MOL
+        }
+        else = {
+            annex = c:WAL
+        }
+        change_tag = ROM
+	}
+
+	fail = {
+        OR = {
+            c:MOL = { 
+                AND = {
+                    is_subject = yes
+                    NOT = { is_subject_type = subject_type_protectorate }
+                }
+            }
+            c:WAL = { 
+                AND = {
+                    is_subject = yes
+                    NOT = { is_subject_type = subject_type_protectorate }
+                }
+            }
+        }
+	}
+
+    invalid = {
+        OR = {
+            AND = {
+                OR = {
+                    custom_tooltip = {
+			            text = moldavia_destroyed
+		            	hidden_trigger = {
+                            NOT = {
+                                exists = c:MOL
+                            }
+                        }
+			        }
+                    c:MOL = { 
+                        is_player = yes
+                    }
+                }
+                c:WAL = ROOT
+            }
+            AND = {
+                OR = {
+                    custom_tooltip = {
+			            text = wallachia_destroyed
+		            	hidden_trigger = {
+                            NOT = {
+                                exists = c:WAL
+                            }
+                        }
+			        }
+                    c:WAL = { 
+                        is_player = yes
+                    }
+                }
+
+                c:MOL = ROOT
+            }
+        }
+    }
+
+	current_value = {
+		value = root.var:romania_friends_var
+	}
+
+	goal_add_value = {
+		value = 2
+	}
+
+	progressbar = yes
+
+	weight = 10000
+}

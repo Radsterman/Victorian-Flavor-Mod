@@ -1,0 +1,603 @@
+﻿namespace = plombieres_agreement
+
+plombieres_agreement.8 = { #SAR An agreement with France?
+	type = country_event
+	placement = ROOT
+
+	title = plombieres_agreement.8.t
+	desc = plombieres_agreement.8.d
+	flavor = plombieres_agreement.8.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 3
+
+	immediate = {
+		c:FRA = {
+			save_scope_as = fra_scope
+		}
+		c:AUS = {
+			save_scope_as = aus_scope
+		}
+		c:SAR = {
+			save_scope_as = sar_scope
+		}
+	}
+
+	option = {
+		name = plombieres_agreement.8.a
+		default_option = yes
+
+		c:SAR = {
+			trigger_event = {
+				id = plombieres_agreement.1
+				days = 2
+				popup = yes
+			}
+		}
+	    ai_chance = {
+			base = 1	
+		}
+    }
+    option = {
+     	name = plombieres_agreement.8.b
+     	remove_variable = plombieres_agreement_var
+     	ai_chance = {
+			base = 0	
+		}
+    }
+}
+
+plombieres_agreement.1 = { #SAR The Meeting
+	type = country_event
+	placement = ROOT
+
+	title = plombieres_agreement.1.t
+	desc = plombieres_agreement.1.d
+	flavor = plombieres_agreement.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 3
+
+	immediate = {
+		c:FRA = {
+			save_scope_as = fra_scope
+		}
+		c:AUS = {
+			save_scope_as = aus_scope
+		}
+		s:STATE_LOMBARDY = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						OR = {
+							c:AUS = THIS
+							is_subject_of = c:AUS
+						}
+					}
+				}
+			save_scope_as = lombardy_scope
+			}
+		}
+		s:STATE_SAVOY = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						OR = {
+							c:SAR = THIS
+							is_subject_of = c:SAR
+						}
+					}
+				}
+			save_scope_as = savoy_scope
+			}
+		}
+		s:STATE_PROVENCE = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						OR = {
+							c:SAR = THIS
+							is_subject_of = c:SAR
+						}
+					}
+				}
+			save_scope_as = provence_scope
+			}
+		}
+	}
+
+	option = {
+		name = plombieres_agreement.1.a
+		default_option = yes
+		custom_tooltip = plombieres_agreement.1.tt1
+		c:FRA = {
+			trigger_event = {
+				id = plombieres_agreement.2
+				days = 2
+				popup = yes
+			}
+		}
+	    ai_chance = {
+			base = 1
+		}
+    }
+    option = {
+     	name = plombieres_agreement.1.b
+     	remove_variable = plombieres_agreement_var
+     	ai_chance = {
+			base = 0	
+		}
+    }
+}
+
+plombieres_agreement.2 = { #FRA An Agreement With Sardinia?
+	type = country_event
+	placement = ROOT
+
+	title = plombieres_agreement.2.t
+	desc = plombieres_agreement.2.d
+	flavor = plombieres_agreement.2.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 3
+
+	immediate = {
+		c:FRA = {
+			save_scope_as = fra_scope
+		}
+		c:AUS = {
+			save_scope_as = aus_scope
+		}
+		c:SAR = {
+			save_scope_as = sar_scope
+		}
+		s:STATE_SAVOY = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						OR = {
+							c:SAR = THIS
+							is_subject_of = c:SAR
+						}
+					}
+				}
+			save_scope_as = savoy_scope
+			}
+		}
+		s:STATE_PROVENCE = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						OR = {
+							c:SAR = THIS
+							is_subject_of = c:SAR
+						}
+					}
+				}
+			save_scope_as = provence_scope
+			}
+		}
+	}
+
+	option = {
+		name = plombieres_agreement.2.a
+		default_option = yes
+		custom_tooltip = plombieres_agreement.2.tt1
+		c:SAR = {
+			trigger_event = {
+				id = plombieres_agreement.3
+				days = 2
+				popup = yes
+			}
+		}
+		ai_chance = {
+			base = 125
+		}
+	}
+	option = {
+		name = plombieres_agreement.2.b
+		c:SAR = {
+			trigger_event = {
+				id = plombieres_agreement.4
+				days = 2
+				popup = yes
+			}
+		}
+		ai_chance = {
+			base = 0
+			modifier = {
+				trigger = {
+					is_at_war = yes
+				}
+				add = 100
+			}
+			modifier = {
+				trigger = {
+					is_diplomatic_play_committed_participant = yes
+				}
+				add = 50
+			}
+			modifier = {
+				c:AUS = {
+					relations:root >= relations_threshold:friendly 
+				}
+				add = -100
+			}
+			modifier = {
+				trigger = {
+					gold_reserves < -400000 
+			    }
+				add = 50
+			}	
+			modifier = {
+				trigger = {
+					has_strategy = ai_strategy_armed_isolationism
+			    }
+				add = 100
+			}	
+		}
+	}
+}
+
+plombieres_agreement.3 = { #SAR Plombières Agreement
+	type = country_event
+	placement = ROOT
+
+	title = plombieres_agreement.3.t
+	desc = plombieres_agreement.3.d
+	flavor = plombieres_agreement.3.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	duration = 3
+
+	immediate = {
+		c:FRA = {
+			save_scope_as = fra_scope
+		}
+		c:AUS = {
+			save_scope_as = aus_scope
+		}
+		s:STATE_SAVOY = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						OR = {
+							c:SAR = THIS
+							is_subject_of = c:SAR
+						}
+					}
+				}
+			save_scope_as = savoy_scope
+			}
+		}
+		s:STATE_PROVENCE = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						OR = {
+							c:SAR = THIS
+							is_subject_of = c:SAR
+						}
+					}
+				}
+			save_scope_as = provence_scope
+			}
+		}
+	}
+
+	option = {
+		name = plombieres_agreement.3.a
+		default_option = yes
+
+		create_diplomatic_pact = {
+			country = c:FRA
+			type = defensive_pact
+		}
+		add_modifier = {
+			name = plombieres_agreement
+			months = 60
+		}
+		c:AUS = {
+			trigger_event = {
+				id = plombieres_agreement.5
+				days = 0
+				popup = yes
+			}
+	    }
+		s:STATE_LOMBARDY = {
+			add_claim = c:SAR
+		}
+	    ai_chance = {
+			base = 1
+		}
+    }
+}
+
+plombieres_agreement.4 = { #SAR France has refused
+	type = country_event
+	placement = ROOT
+
+	title = plombieres_agreement.4.t
+	desc = plombieres_agreement.4.d
+	flavor = plombieres_agreement.4.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_politicians_arguing.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 3
+
+	immediate = {
+		c:FRA = {
+			save_scope_as = fra_scope
+		}
+		c:AUS = {
+			save_scope_as = aus_scope
+		}
+	}
+
+	option = {
+		name = plombieres_agreement.4.a
+		default_option = yes
+		c:SAR = {
+			change_relations = {
+			country = c:FRA
+			value = -50
+		    }
+		}
+	    ai_chance = {
+			base = 1
+		}
+    }
+}
+
+plombieres_agreement.5 = { #AUS Second Italian War of Independence
+	type = country_event
+	placement = ROOT
+
+	title = plombieres_agreement.5.t
+	desc = plombieres_agreement.5.d
+	flavor = plombieres_agreement.5.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	duration = 3
+
+	immediate = {
+		c:FRA = {
+			save_scope_as = fra_scope
+		}
+		c:SAR = {
+			save_scope_as = sar_scope
+		}
+		s:STATE_LOMBARDY = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						OR = {
+							c:AUS = THIS
+							is_subject_of = c:AUS
+						}
+					}
+				}
+			save_scope_as = lombardy_scope
+			}
+		}
+	}
+
+	option = {
+		name = plombieres_agreement.5.a
+		default_option = yes
+		custom_tooltip = plombieres_agreement.5.tt1
+
+		c:AUS = {
+		    create_diplomatic_play = {
+				target_country = c:SAR
+				war = yes
+				type = dp_second_italian_war
+
+				add_war_goal = {
+					holder = c:SAR
+					type = return_state
+					target_state = s:STATE_LOMBARDY.region_state:AUS
+				}
+		    }
+		}
+		c:SAR = {
+			trigger_event = {
+				id = plombieres_agreement.6
+				popup = yes
+			}
+		}
+	    ai_chance = {
+			base = 100
+			modifier = {
+				trigger = {
+					gold_reserves < -400000 
+				}
+				add = 25
+			}
+		}
+    }
+	option = {
+		name = plombieres_agreement.5.b
+
+		s:STATE_LOMBARDY.region_state:AUS = {
+			set_state_owner = c:SAR
+		}
+		add_modifier = {
+		    name = second_italian_war_lost
+			months = normal_modifier_time
+		}
+		change_relations = {
+			country = c:SAR
+			value = -70
+		}
+		c:SAR = {
+			trigger_event = {
+				id = plombieres_agreement.7
+				popup = yes
+			}
+		}
+
+	    ai_chance = {
+			base = 0
+			modifier = {
+				trigger = {
+					has_strategy = ai_strategy_armed_isolationism
+				}
+				add = 50
+			}		
+			modifier = {
+				trigger = {
+					is_at_war = yes
+				}
+				add = 25	
+			}
+			modifier = {
+				trigger = {
+					is_diplomatic_play_committed_participant = yes
+				}
+			 	add = 10
+			}
+		}
+    }
+}
+
+plombieres_agreement.6 = { #SAR Austria Attacks Us
+	type = country_event
+	placement = ROOT
+
+	title = plombieres_agreement.6.t
+	desc = plombieres_agreement.6.d
+	flavor = plombieres_agreement.6.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	duration = 3
+
+	immediate = {
+		c:AUS = {
+			save_scope_as = aus_scope
+		}
+	}
+
+	option = {
+		name = plombieres_agreement.6.a
+		default_option = yes
+
+		custom_tooltip = plombieres_agreement.6.tt1
+
+	    ai_chance = {
+			base = 1
+		}
+    }
+}
+
+plombieres_agreement.7 = { #SAR Austria backs down
+	type = country_event
+	placement = ROOT
+
+	title = plombieres_agreement.7.t
+	desc = plombieres_agreement.7.d
+	flavor = plombieres_agreement.7.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 3
+
+	immediate = {
+		c:FRA = {
+			save_scope_as = fra_scope
+		}
+		c:AUS = {
+			save_scope_as = aus_scope
+		}
+		s:STATE_LOMBARDY = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						OR = {
+							c:AUS = THIS
+							is_subject_of = c:AUS
+						}
+					}
+				}
+			save_scope_as = lombardy_scope
+			}
+		}
+	}
+
+	option = {
+		name = plombieres_agreement.7.a
+		default_option = yes
+
+		add_modifier = {
+		    name = second_italian_war
+			months = long_modifier_time
+		}
+		custom_tooltip = plombieres_agreement.7.tt1
+
+	    ai_chance = {
+			base = 1
+		}
+    }
+}

@@ -1,0 +1,470 @@
+﻿namespace = journal_flavor_scandinavia
+
+journal_flavor_scandinavia.1 = {
+	type = country_event
+	placement = root
+
+	title = journal_flavor_scandinavia.1.t
+	desc = journal_flavor_scandinavia.1.d
+	flavor = journal_flavor_scandinavia.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	duration = 3
+
+	trigger = {
+		# triggered by journal entry
+	}
+
+	option = {
+		name = journal_flavor_scandinavia.1.a
+		default_option = yes
+		
+        add_modifier = {
+			name = scandinavian_monetary_union
+		}
+	}
+
+}
+
+journal_flavor_scandinavia.2 = {
+	type = country_event
+	placement = root
+
+	title = journal_flavor_scandinavia.2.t
+	desc = journal_flavor_scandinavia.2.d
+	flavor = journal_flavor_scandinavia.2.f
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	duration = 3
+
+	trigger = {
+		# triggered by journal entry
+	}
+
+	immediate = {
+		ig:ig_petty_bourgeoisie = {
+			save_scope_as = guilds_ig
+			leader = {
+				save_scope_as = guilds_ig_leader
+			}
+		}
+
+		ig:ig_industrialists = {
+			save_scope_as = industrialists_ig
+		}
+
+	}
+
+	option = {
+		name = journal_flavor_scandinavia.2.a
+		default_option = yes
+
+		custom_tooltip = guilds_rename.tt
+
+		hidden_effect = {
+			scope:guilds_ig = {
+				set_interest_group_name = ig_petty_bourgeoisie
+			}
+		}
+		scope:guilds_ig  = {
+			remove_ideology = ideology_guilds
+		}
+
+		scope:guilds_ig  = {
+			remove_modifier = guild_dominance
+			add_modifier = {
+				name = lingering_guild_dominance
+				months = normal_modifier_time
+			}
+		}
+
+		ig:ig_industrialists = {
+			remove_modifier = guild_dominance_industrialists
+			add_modifier = {
+				name = lingering_guild_dominance_industrialists
+				months = normal_modifier_time
+			}
+		}
+
+	}
+	
+}
+
+
+journal_flavor_scandinavia.3 = { #Christiana Palace
+	type = country_event
+	placement = root
+
+	title = journal_flavor_scandinavia.3.t
+	desc = journal_flavor_scandinavia.3.d
+	flavor = journal_flavor_scandinavia.3.f
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_factory_closed.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/factory_closed"
+
+	duration = 3
+
+	trigger = {
+		NOT = {
+			has_variable = christiana_palace_var
+		}
+	}
+
+	immediate = {
+		c:NOR = {
+			save_scope_as = nor_scope
+		}
+
+		set_variable = christiana_palace_var
+
+	}
+
+	option = {
+		name = journal_flavor_scandinavia.3.a
+		default_option = yes
+
+		change_relations = {
+			country = C:NOR
+			value = 30
+		}
+
+		add_modifier = {
+			name = renovating_christiana_palace
+			multiplier = money_amount_multiplier_medium
+			months = normal_modifier_time
+		}
+		
+
+	}
+
+	
+	option = {
+		name = journal_flavor_scandinavia.3.b
+
+		change_relations = {
+			country = C:NOR
+			value = -50
+		}
+
+	}
+	
+}
+
+journal_flavor_scandinavia.4 = { #Norway Flag Question
+	type = country_event
+	placement = root
+
+	title = journal_flavor_scandinavia.4.t
+	desc = journal_flavor_scandinavia.4.d
+	flavor = journal_flavor_scandinavia.4.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_politicians_arguing.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/asia/politician_parliament_motion"
+
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+	duration = 3
+
+	trigger = {
+		NOT = {
+			has_variable = norway_flag_var
+		}
+	}
+
+	immediate = {
+		c:NOR = {
+			save_scope_as = nor_scope
+		}
+
+		if = {
+			limit = {
+				exists = c:GER
+			}
+			c:GER = {
+				save_scope_as = ger_scope
+			}
+		}
+		else_if = {
+			limit = {
+				exists = c:NGF
+			}
+			c:GER = {
+				save_scope_as = ger_scope
+			}
+		}
+		else = {
+			c:PRU = {
+				save_scope_as = ger_scope
+			}	
+		}
+
+		set_variable = norway_flag_var
+
+	}
+
+	option = {
+		name = journal_flavor_scandinavia.4.a
+		default_option = yes
+
+		change_relations = {
+			country = C:NOR
+			value = 30
+		}
+
+		add_modifier = {
+			name = norway_flags_prestige
+			months = normal_modifier_time
+		}
+
+
+		ig:ig_petty_bourgeoisie = {
+			add_modifier = {
+				name = norway_flags_petite
+				months = normal_modifier_time
+			}
+		}
+
+	}
+
+	
+	option = {
+		name = journal_flavor_scandinavia.4.b
+
+		change_relations = {
+			country = C:NOR
+			value = -50
+		}
+
+		add_modifier = {
+			name = norway_flags_denied_prestige
+			months = normal_modifier_time
+		}
+
+		ig:ig_petty_bourgeoisie = {
+			add_modifier = {
+				name = norway_flags_denied_petite
+				months = normal_modifier_time
+			}
+		}
+
+
+	}
+	
+}
+
+journal_flavor_scandinavia.5 = { #Western Swedish Conservatives demand protectionism
+	type = country_event
+	placement = root
+
+	title = journal_flavor_scandinavia.5.t
+	desc = journal_flavor_scandinavia.5.d
+	flavor = journal_flavor_scandinavia.5.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_capitalists_meeting.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/capitalists_meeting"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	duration = 3
+
+	trigger = {
+		NOT = {
+			has_variable = norway_protectionism_var
+		}
+	}
+
+	immediate = {
+		c:NOR = {
+			save_scope_as = nor_scope
+		}
+
+		ig:ig_industrialists = {
+			save_scope_as = industrialists_ig
+		}
+
+		set_variable = norway_protectionism_var
+
+	}
+
+	option = {
+		name = journal_flavor_scandinavia.5.a
+		default_option = yes
+
+		change_relations = {
+			country = C:NOR
+			value = 30
+		}
+
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = norway_border_protectionism_denied
+				months = normal_modifier_time
+			}
+		}
+	}
+
+	
+	option = {
+		name = journal_flavor_scandinavia.5.b
+
+		change_relations = {
+			country = C:NOR
+			value = -50
+		}
+
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = norway_border_protectionism
+				months = normal_modifier_time
+			}
+		}
+
+	}
+	
+}
+
+
+journal_flavor_scandinavia.6 = { #Norway Demands Autonomy
+	type = country_event
+	placement = root
+
+	title = journal_flavor_scandinavia.6.t
+	desc = journal_flavor_scandinavia.6.d
+	flavor = journal_flavor_scandinavia.6.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_political_extremism.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/political_extremism"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	duration = 3
+
+	trigger = {
+
+	}
+
+	immediate = {
+		c:NOR = {
+			save_scope_as = nor_scope
+		}
+
+	}
+
+	option = {
+		name = journal_flavor_scandinavia.6.a
+		default_option = yes
+
+		create_diplomatic_pact = {
+			country = c:NOR
+			type = dominion
+		}
+
+		change_relations = {
+			country = C:NOR
+			value = 60
+		}
+
+	}
+
+	
+	option = {
+		name = journal_flavor_scandinavia.6.b
+
+		create_diplomatic_play = {
+				name = norwegian_independence_war
+				target_country = c:NOR
+				type = dp_make_puppet
+
+			add_war_goal = {
+				holder = c:NOR
+				type = independence
+				target_country = c:SWE
+			}
+		}
+
+	}
+	
+}
+
+journal_flavor_scandinavia.7 = { #Form Norway-Sweden
+	type = country_event
+	placement = root
+
+	title = journal_flavor_scandinavia.7.t
+	desc = journal_flavor_scandinavia.7.d
+	flavor = journal_flavor_scandinavia.7.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_military_parade.bk2"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/military_parade"
+
+	duration = 3
+
+	trigger = {
+
+	}
+
+	immediate = {
+
+	}
+
+	option = {
+		name = journal_flavor_scandinavia.7.a
+		default_option = yes
+
+		if = {
+			limit = {
+				NOT = {
+					country_has_primary_culture = cu:norwegian
+				}
+			}
+			add_primary_culture = cu:norwegian
+		}
+
+		add_modifier = {
+			name = swedish_norwegian_unifier
+		}
+
+	}
+
+	
+}

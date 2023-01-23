@@ -1,0 +1,401 @@
+﻿namespace = journal_flavor_uruguay
+journal_flavor_uruguay.1 = {
+	type = country_event
+	placement = ROOT
+	title = journal_flavor_uruguay.1.t
+	desc = journal_flavor_uruguay.1.d
+	flavor =  journal_flavor_uruguay.1.f
+
+	duration = 1
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+	event_image = {
+		video = "gfx/event_pictures/southamerica_war_civilians.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/war_civilians"
+
+	trigger = {
+
+	}
+
+	immediate = {			
+        s:STATE_URUGUAY = {
+            create_state = {
+                country = c:PNI
+                owned_provinces = { x061EE6 xD5325F xC2A28B x08CCA6 x9C6453 }
+            }
+        }
+
+        c:PNI = {
+            random_scope_state = {
+                    limit = {
+                        state_region = s:STATE_URUGUAY
+                    }
+                save_scope_as = uruguay_revolt_state
+            }
+        create_country = {
+                tag = UCO
+                origin = this
+                state = scope:uruguay_revolt_state
+
+
+
+				on_created = {
+
+				create_character = {
+					first_name = "Fructuoso"
+					last_name = "Rivera"
+					ruler = yes
+					is_general = yes
+					birth_date = 1784.10.17
+					interest_group = ig_intelligentsia
+					ideology = ideology_moderate
+					traits = {
+						arrogant
+					}
+				}	
+				create_character = {
+					first_name = "Juan"
+					last_name = "Lavalle"
+					is_general = yes
+					birth_date = 1797.10.17
+					interest_group = ig_armed_forces
+					ideology = ideology_moderate
+					traits = {
+						ambitious
+					}
+				}
+
+				if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_presidential_republic
+						}
+					}
+					activate_law = law_type:law_presidential_republic
+				}	
+
+				if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_mercantilism
+						}
+					}
+					activate_law = law_type:law_mercantilism
+				}	
+
+				
+				if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_peasant_levies
+						}
+					}
+					activate_law = law_type:law_peasant_levies
+				}	
+
+				if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_autocracy
+						}
+					}
+					activate_law = law_type:law_autocracy
+				}
+				
+			}
+        }  
+
+        } 
+
+
+
+        s:STATE_URUGUAY = {
+            region_state:UCO={
+                create_building={
+                    building="building_barracks"
+                    level=4
+                    reserves=1
+                    activate_production_methods={ "pm_irregular_infantry" "pm_no_artillery" "pm_cavalry_scouts" "pm_no_specialists" "pm_wound_dressing"  }
+                }
+				create_building={
+				building="building_maize_farm"
+				level=1
+				reserves=1
+				activate_production_methods={ "pm_simple_farming" "pm_citrus_orchards" "pm_tools_disabled" "pm_privately_owned" }
+			    }
+                create_building={
+                    building="building_livestock_ranch"
+                    level=1
+                    reserves=1
+                    activate_production_methods={ "pm_simple_ranch" "pm_privately_owned" "pm_standard_fences" "pm_unrefrigerated" "pm_open_air_stockyards" }
+                }	
+
+				create_pop = {
+					culture = platinean
+					size = 45192
+				}
+				create_pop = {
+					culture = brazilian
+					size = 14500
+				}
+				create_pop = {
+					culture = afro_caribeno
+					size = 24500
+				}
+				create_pop = {
+					culture = platinean
+					pop_type = aristocrats
+					size = 10755
+				}
+				create_pop = {
+					culture = platinean
+					pop_type = bureaucrats
+					size = 4591
+				}
+				create_pop = {
+					culture = platinean
+					pop_type = soldiers
+					size = 45192
+				}
+				create_pop = {
+					culture = platinean
+					pop_type = officers
+					size = 2520
+				}
+				
+                
+            }
+        }
+
+
+
+        c:UCO = {
+            save_scope_as = uco_scope
+			add_modifier = {
+				name = revolutionary_state
+				months = long_modifier_time
+			}
+			change_relations = {
+				country = c:PNI
+				value = 100
+			}
+
+			add_journal_entry = {
+				type = je_colorados_victory
+			}
+
+			effect_starting_pop_wealth_medium = yes
+			effect_starting_pop_literacy_low = yes
+			every_scope_pop = {
+				set_pop_qualifications = {
+					pop_type = aristocrats
+					qualifications = 0.2
+				}
+			}
+			every_scope_pop = {
+				set_pop_qualifications = {
+					pop_type = officers
+					qualifications = 0.2
+				}
+			}
+
+	    set_military_wage_level = very_high
+		set_tax_level = low
+        }
+
+	}
+
+	option = {
+		default_option = yes
+		name = journal_flavor_uruguay.1.a
+        default_option = yes
+        ai_chance = {
+			base = 1
+		}
+		c:UCO = {
+			trigger_event = { id = journal_flavor_uruguay.2 }
+		}
+        create_diplomatic_play = {
+			name = uruguay_civil_war
+			target_state = s:STATE_URUGUAY.region_state:UCO
+			
+			type = dp_revolution
+		}	
+	}
+	option = {
+		name = journal_flavor_uruguay.1.b
+        ai_chance = {
+			base = 0
+		}
+		c:UCO = {
+
+			trigger_event = { id = journal_flavor_uruguay.2 }
+
+
+		}
+        play_as = c:UCO
+        create_diplomatic_play = {
+			name = uruguay_civil_war
+			target_state = s:STATE_URUGUAY.region_state:UCO
+			
+			type = dp_revolution
+		}	
+
+	}
+}
+
+journal_flavor_uruguay.2 = {
+	type = country_event
+	placement = ROOT
+	title = journal_flavor_uruguay.2.t
+	desc = journal_flavor_uruguay.2.d
+	flavor =  journal_flavor_uruguay.2.f
+
+	duration = 2
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_aristocrats.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	trigger = {
+
+	}
+
+	immediate = {
+	
+	}
+
+	option = {
+		default_option = yes
+		name = journal_flavor_uruguay.2.a
+        default_option = yes
+        ai_chance = {
+			base = 1
+		}
+			create_character = {
+				first_name = "Fructuoso"
+				last_name = "Rivera"
+				ruler = yes
+				is_general = yes
+				birth_date = 1784.10.17
+				interest_group = ig_intelligentsia
+				ideology = ideology_moderate
+				traits = {
+					arrogant
+				}
+			}
+	}
+	option = {
+		default_option = yes
+		name = journal_flavor_uruguay.2.b
+        default_option = yes
+        ai_chance = {
+			base = 1
+		}
+			create_character = {
+				first_name = "Fructuoso"
+				last_name = "Rivera"
+				ruler = yes
+				is_general = yes
+				birth_date = 1784.10.17
+				interest_group = ig_intelligentsia
+				ideology = ideology_moderate
+				traits = {
+					arrogant
+				}
+			}
+		c:PNI = {
+			create_diplomatic_pact = {
+				country = c:UCO
+				type = protectorate
+			}	
+				set_owes_obligation_to = {
+				country = c:UCO
+				setting = yes
+			}
+		}
+
+	
+	}
+}
+
+journal_flavor_uruguay.3 = {
+	type = country_event
+	placement = ROOT
+	title = journal_flavor_uruguay.3.t
+	desc = journal_flavor_uruguay.3.d
+	flavor =  journal_flavor_uruguay.3.f
+
+	duration = 1
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_aristocrats.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	trigger = {
+
+	}
+
+	immediate = {
+		c:PNI = {
+			save_scope_as = pni_scope
+		}
+	}
+
+	option = {
+		default_option = yes
+		name = journal_flavor_uruguay.3.a
+        default_option = yes
+        ai_chance = {
+			base = 1
+		}
+		add_journal_entry = {
+			type = je_uruguay_civil_war
+		}
+		create_character = {
+			first_name = "Juan"
+			last_name = "Lavalleja"
+			is_general = yes
+			birth_date = 1797.10.17
+			interest_group = ig_armed_forces
+			ideology = ideology_moderate
+			traits = {
+				ambitious
+			}
+		}	
+	}
+	option = {
+		name = journal_flavor_uruguay.3.b
+        ai_chance = {
+			base = 0
+		}
+		ig:ig_landowners = {
+			add_modifier = {
+				name = fructoso_rivera_landowners
+				months = long_modifier_time
+			}
+		}	
+		add_modifier = {
+				name = fructoso_rivera_legitimacy
+				months = long_modifier_time
+		}	
+		change_relations = {
+			country = c:BRZ
+			value = -75
+		}
+
+	}
+}
