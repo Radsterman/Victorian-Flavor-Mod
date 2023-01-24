@@ -324,44 +324,277 @@ journal_flavor_company_collapse.3 = {
 				save_scope_as = event_location
 			}
 
+				
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_BRITISH_COLUMBIA
+					}
+				}
 				if = {
-					limit = { exists = c:CSC }
-					random_scope_state = {
-						limit = {
-							state_region = s:STATE_BRITISH_COLUMBIA
+					limit = {
+						exists = c:NWT
+						any_neighbouring_state = {
+							owner = c:NWT
 						}
-						set_state_owner = c:CSC
 					}
-					random_scope_state = {
-						limit = {
-							state_region = s:STATE_WASHINGTON
+						random_scope_state = {
+							limit = {
+								state_region = s:STATE_BRITISH_COLUMBIA
+							}
+							set_state_owner = c:NWT
 						}
-						set_state_owner = c:CSC
+				}
+				else_if = {
+					limit = {
+						exists = c:RAC
+						any_neighbouring_state = {
+							owner = c:RAC
+						}
 					}
+
+						random_scope_state = {
+							limit = {
+								state_region = s:STATE_BRITISH_COLUMBIA
+							}
+							set_state_owner = c:RAC
+						}
 				}
 				else = {
-					create_country = {
-						tag = CSC
-						origin = this
-						state = s:STATE_BRITISH_COLUMBIA.region_state:COL
+					if = {
+						limit = { exists = c:CSC }
+						random_scope_state = {
+							limit = {
+								state_region = s:STATE_BRITISH_COLUMBIA
+							}
+							set_state_owner = c:CSC
+						}
+					}
+					else = {
+						create_country = {
+							tag = CSC
+							origin = this
+							state = s:STATE_BRITISH_COLUMBIA.region_state:COL
+						}
 					}
 				}
-				random_scope_state = {
-						limit = {
+			}
+			if = {
+					limit = {
+						any_scope_state = {
 							state_region = s:STATE_WASHINGTON
 						}
-						set_state_owner = c:CSC
+					}
+				if = {
+					limit = {
+						exists = c:USA
+					}
+					if = {
+						limit = {
+							any_neighbouring_state = {
+								owner = c:USA
+							}
+						}
+						random_scope_state = {
+							limit = {
+								state_region = s:STATE_WASHINGTON
+							}
+							set_state_owner = c:USA
+						}
+						
+					}
+				}
+				else_if = {
+					limit = {
+						exists = c:MEX
+						any_neighbouring_state = {
+							owner = c:MEX
+						}
+					}
+
+						random_scope_state = {
+							limit = {
+								state_region = s:STATE_WASHINGTON
+							}
+							set_state_owner = c:MEX
+						}
+						
+					
+				}
+				else = {
+					if = {
+						limit = { exists = c:CSC }
+						random_scope_state = {
+							limit = {
+								state_region = s:STATE_WASHINGTON
+							}
+							set_state_owner = c:CSC
+						}
+					}
+					else = {
+						create_country = {
+							tag = CSC
+							origin = this
+							state = s:STATE_WASHINGTON.region_state:COL
+						}
+					}
+				}
+			}
+			if = {
+					limit = {
+						any_scope_state = {
+							state_region = s:STATE_WASHINGTON
+						}
+					}
+				if = {
+					limit = {
+						exists = c:USA
+						any_neighbouring_state = {
+							owner = c:USA
+						}
+					}
+
+						random_scope_state = {
+							limit = {
+								state_region = s:STATE_WASHINGTON
+							}
+							set_state_owner = c:USA
+						}
+						
+					
+				}
+				else_if = {
+					limit = {
+						exists = c:MEX
+						any_neighbouring_state = {
+							owner = c:MEX
+						}
+					}
+
+						random_scope_state = {
+							limit = {
+								state_region = s:STATE_WASHINGTON
+							}
+							set_state_owner = c:MEX
+						}
+						
+					
+				}
+				else = {
+					if = {
+						limit = { exists = c:CSC }
+						random_scope_state = {
+							limit = {
+								state_region = s:STATE_WASHINGTON
+							}
+							set_state_owner = c:CSC
+						}
+					}
+					else = {
+						create_country = {
+							tag = CSC
+							origin = this
+							state = s:STATE_WASHINGTON.region_state:COL
+						}
+					}
+				}
+			}
+
+			if = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_IDAHO
+					}
 				}
 				if = {
-					limit = { exists = c:NZP }
-					every_scope_state = {
-						limit = {
-							OR = { 
+					limit = {
+						exists = c:USA
+						any_neighbouring_state = {
+							owner = c:USA
+						}
+					}
+						random_scope_state = {
+							limit = {
 								state_region = s:STATE_IDAHO
-								state_region = s:STATE_OREGON
-								state_region = s:STATE_WYOMING
-								state_region = s:STATE_MONTANA						
 							}
+							set_state_owner = c:USA
+						}
+				}
+				else_if = {
+					limit = {
+						exists = c:MEX
+						any_neighbouring_state = {
+							owner = c:MEX
+						}
+					}
+						random_scope_state = {
+							limit = {
+								state_region = s:STATE_IDAHO
+							}
+							set_state_owner = c:MEX
+						}
+				}
+				else = {
+					if = {
+						limit = { exists = c:NZP }
+						random_scope_state = {
+							limit = {
+								state_region = s:STATE_IDAHO
+							}
+							set_state_owner = c:NZP
+						}
+					}
+					else = {
+						create_country = {
+							tag = NZP
+							origin = this
+							state = s:STATE_IDAHO.region_state:COL
+						}
+					}
+				}
+			}
+
+		if = {
+			limit = {
+				any_scope_state = {
+					state_region = s:STATE_OREGON
+				}
+			}
+			if = {
+				limit = {
+					exists = c:USA
+					any_neighbouring_state = {
+						owner = c:USA
+					}
+				}
+
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_OREGON
+						}
+						set_state_owner = c:USA
+					}
+			}
+			else_if = {
+				limit = {
+					exists = c:MEX
+					any_neighbouring_state = {
+						owner = c:MEX
+					}
+				}
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_OREGON
+						}
+						set_state_owner = c:MEX
+					}
+			}
+			else = {
+				if = {
+					limit = { exists = c:NZP }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_OREGON
 						}
 						set_state_owner = c:NZP
 					}
@@ -370,20 +603,123 @@ journal_flavor_company_collapse.3 = {
 					create_country = {
 						tag = NZP
 						origin = this
-						state = s:STATE_IDAHO.region_state:COL
+						state = s:STATE_OREGON.region_state:COL
 					}
-					every_scope_state = {
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				any_scope_state = {
+					state_region = s:STATE_WYOMING
+				}
+			}
+			if = {
+				limit = {
+					exists = c:USA
+					any_neighbouring_state = {
+						owner = c:USA
+					}
+				}
+					random_scope_state = {
 						limit = {
-							OR = { 
-								state_region = s:STATE_IDAHO
-								state_region = s:STATE_OREGON
-								state_region = s:STATE_WYOMING
-								state_region = s:STATE_MONTANA						
-							}
+							state_region = s:STATE_WYOMING
+						}
+						set_state_owner = c:USA
+					}
+			}
+			else_if = {
+				limit = {
+					exists = c:MEX
+					any_neighbouring_state = {
+						owner = c:MEX
+					}
+				}
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_WYOMING
+						}
+						set_state_owner = c:MEX
+					}
+			}
+			else = {
+				if = {
+					limit = { exists = c:NZP }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_WYOMING
 						}
 						set_state_owner = c:NZP
-					}			
+					}
 				}
+				else = {
+					create_country = {
+						tag = NZP
+						origin = this
+						state = s:STATE_WYOMING.region_state:COL
+					}
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				any_scope_state = {
+					state_region = s:STATE_MONTANA	
+				}
+			}
+			if = {
+				limit = {
+					exists = c:USA
+					any_neighbouring_state = {
+						owner = c:USA
+					}
+				}
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_MONTANA	
+						}
+						set_state_owner = c:USA
+					}
+					
+			}
+			else_if = {
+				limit = {
+					exists = c:MEX
+					any_neighbouring_state = {
+						owner = c:MEX
+					}
+				}
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_MONTANA	
+						}
+						set_state_owner = c:MEX
+					}
+					
+
+			}
+			else = {
+				if = {
+					limit = { exists = c:NZP }
+					random_scope_state = {
+						limit = {
+							state_region = s:STATE_MONTANA	
+						}
+						set_state_owner = c:NZP
+					}
+				}
+				else = {
+					create_country = {
+						tag = NZP
+						origin = this
+						state = s:STATE_MONTANA.region_state:COL
+					}
+				}
+			}
+		}
+
 				
 				if = {
 					limit = { exists = c:COL }
