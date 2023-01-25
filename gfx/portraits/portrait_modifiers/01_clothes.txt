@@ -1186,56 +1186,88 @@
            }
         }
     }
-arabic_clothes = {
-    dna_modifiers = {
-        accessory = {
-            mode = add
-            gene = outfits
-            template = arabic_outfits
-            range = { 0 1 } # For the randomness to work correctly
+	arabic_clothes = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = outfits
+				template = arabic_outfits
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				arabic_clothes_trigger = yes
+				armed_forces_clothes_trigger = no
+			}
+		}
+	}
+	arabic_coats = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = coats
+				template = arabic_coats
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 500
+				AND = {
+					arabic_clothes_trigger = yes
+					OR = {
+						military_clothes_trigger = yes
+						officers_clothes_pop_trigger = yes
+						AND = {
+							armed_forces_clothes_trigger = yes
+							OR = { 
+								politician_clothes_trigger = yes
+								ruler_clothes_trigger = yes
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+    ottoman_clothes = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = coats
+                template = ottoman_coats
+                range = { 0 1 } # For the randomness to work correctly
+            }
+
+            accessory = {
+                mode = add
+                gene = legwear
+                template = ottoman_legwear
+                range = { 0 1 } # For the randomness to work correctly
+            }
         }
-    }
-    weight = {
-        base = 0
-        modifier = {
-            add = 100
-            arabic_clothes_trigger = yes
-            armed_forces_clothes_trigger = no
-        }
-    }
-}
-arabic_coats = {
-    dna_modifiers = {
-        accessory = {
-            mode = add
-            gene = coats
-            template = arabic_coats
-            range = { 0 1 } # For the randomness to work correctly
-        }
-    }
-    weight = {
-        base = 0
-        modifier = {
-            add = 500
-            AND = {
-                arabic_clothes_trigger = yes
-                OR = {
-                    military_clothes_trigger = yes
-                    officers_clothes_pop_trigger = yes
-                    AND = {
-                        armed_forces_clothes_trigger = yes
-                        OR = { 
-                            politician_clothes_trigger = yes
-                            ruler_clothes_trigger = yes
-                        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 5000
+                exists = scope:character
+                scope:character = {
+                    owner = {
+                        exists = c:TUR
+                        c:TUR = this
+                    }
+                    OR = {
+                        military_clothes_trigger = yes
+                        monarchy_clothes_trigger = yes
                     }
                 }
             }
         }
     }
-}
-
-
      ethiopian_clothes = {
         dna_modifiers = {
             accessory = {
