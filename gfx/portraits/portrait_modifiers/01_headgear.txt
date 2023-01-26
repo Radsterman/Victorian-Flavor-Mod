@@ -617,6 +617,57 @@
             }
         }
     }
+    ottoman_military_fez = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = arabic_fez
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 5000
+                exists = scope:character
+                scope:character = {
+                    owner = {
+                        exists = c:TUR
+                        c:TUR = this
+                    }
+                    OR = {
+                        military_clothes_trigger = yes
+                        monarchy_clothes_trigger = yes
+                    }
+                }
+            }
+            modifier = {
+                add = 5000
+                exists = scope:character
+                scope:character = {
+                    owner = {
+                        exists = c:TUR
+                        c:TUR = this
+                    }
+                    OR = {
+						soldier_clothes_pop_trigger = yes
+                        officers_clothes_pop_trigger = yes
+                    }
+                }
+            }
+			modifier = {
+				add = 1500
+				AND = {
+					#arabic_clothes_pop_trigger = yes
+					OR = {
+						soldier_clothes_pop_trigger = yes
+						officers_clothes_pop_trigger = yes
+					}
+				}
+			}
+        }
+    }
     african_headgear = {
         dna_modifiers = {
             accessory = {
