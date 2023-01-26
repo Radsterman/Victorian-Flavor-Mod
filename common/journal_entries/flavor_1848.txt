@@ -317,6 +317,123 @@
 				set_variable = springtime_secession
 			}
 
+			if = {
+				limit = {
+					NOT = { has_variable = springtime_civil_war }
+					is_in_civil_war = yes
+				}
+				post_notification = springtime_worsened
+				change_variable = {
+					name = springtime_revolt
+					add = 1
+				}
+				set_variable = springtime_civil_war
+			}
+
+			if = {
+				limit = {
+					NOT = { has_variable = springtime_default}
+					in_default = no 
+				}
+				post_notification = springtime_worsened
+				change_variable = {
+					name = springtime_revolt
+					add = 1
+				}
+				set_variable = springtime_default
+			}
+
+			if = {
+				limit = {
+					NOT = { has_variable = springtime_chain_reaction}
+					has_global_variable = completed_1848_buildup
+				}
+				post_notification = springtime_worsened
+				change_variable = {
+					name = springtime_revolt
+					add = 1
+				}
+				set_variable = sspringtime_chain_reaction
+			}
+
+			#Positive Triggers
+			if = {
+				limit = {
+					NOT = { has_variable = springtime_protected_speech }
+					has_law = law_type:law_protected_speech
+				}
+				post_notification = springtime_bettered
+				change_variable = {
+					name = springtime_revolt
+					subtract = 1
+				}
+
+				set_variable = springtime_protected_speech
+			}
+			else_if = {
+				limit = {
+					has_variable = springtime_protected_speech
+					NOT = { has_law = law_type:law_protected_speech }
+				}
+				post_notification = springtime_worsened
+				change_variable = {
+					name = springtime_revolt
+					add = 1
+				}
+				remove_variable = springtime_protected_speech
+			}
+			
+			if = {
+				limit = {
+					NOT = { has_variable = springtime_guaranteed_liberties }
+					has_law = law_type:law_guaranteed_liberties
+				}
+				post_notification = springtime_bettered
+				change_variable = {
+					name = springtime_revolt
+					subtract = 1
+				}
+
+				set_variable = springtime_guaranteed_liberties
+			}
+			else_if = {
+				limit = {
+					has_variable = springtime_guaranteed_liberties
+					NOT = { has_law = law_type:law_guaranteed_liberties}
+				}
+				post_notification = springtime_worsened
+				change_variable = {
+					name = springtime_revolt
+					add = 1
+				}
+				remove_variable = springtime_guaranteed_liberties
+			}
+			if = {
+				limit = {
+					NOT = { has_variable = springtime_universal_suffrage }
+					has_law = law_type:law_universal_suffrage
+				}
+				post_notification = springtime_bettered
+				change_variable = {
+					name = springtime_revolt
+					subtract = 1
+				}
+
+				set_variable = springtime_universal_suffrage
+			}
+			else_if = {
+				limit = {
+					has_variable = springtime_universal_suffrage
+					NOT = { has_law = law_type:law_universal_suffrage}
+				}
+				post_notification = springtime_worsened
+				change_variable = {
+					name = springtime_revolt
+					add = 1
+				}
+				remove_variable = springtime_universal_suffrage
+			}
+			
 		}
 	}
 
