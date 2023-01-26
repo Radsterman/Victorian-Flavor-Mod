@@ -27,13 +27,11 @@
 					is_incorporated = yes
 					turmoil >= 0.15
 				}
-				any_neighbouring_state = {
-					owner = {
-						OR = {
-							#Add other relevant journals later
-							has_journal_entry = je_1848_buildup
-							has_journal_entry = je_1848
-						}
+				any_country = {
+					OR = {
+						#Add other relevant journals later
+						has_journal_entry = je_1848_buildup
+						has_journal_entry = je_1848
 					}
 				}
 			}
@@ -42,6 +40,9 @@
 	}
 
 	immediate = {
+
+		post_notification = haiti_stops_paying_france
+
 		random_law = {
 			limit = { type = law_type:law_monarchy }
 			save_scope_as = monarchy_scope
@@ -59,6 +60,10 @@
 			save_scope_as = theocracy_scope
 		}
 		random_law = {
+			limit = { type = law_type:law_censorship }
+			save_scope_as = censorship_scope
+		}
+		random_law = {
 			limit = { type = law_type:law_right_of_assembly }
 			save_scope_as = assembly_scope
 		}
@@ -66,10 +71,22 @@
 			limit = { type = law_type:law_protected_speech }
 			save_scope_as = protected_scope
 		}
+		random_law = {
+			limit = { type = law_type:law_guaranteed_liberties }
+			save_scope_as = liberties_scope
+		}
+		random_law = {
+			limit = { type = law_type:law_universal_suffrage }
+			save_scope_as = suffrage_scope
+		}
+
+		je:je_1848 = {
+			save_scope_as = journal_scope
+		}
 
 	}
 
-	fail = {
+	complete = {
 		scope:journal_entry = {
 			is_goal_complete = yes
 		}
@@ -82,7 +99,7 @@
 		add = 5
 	}
 
-	on_fail = {
+	on_complete = {
 		add_journal_entry = {
 			type = je_1848
 		}
