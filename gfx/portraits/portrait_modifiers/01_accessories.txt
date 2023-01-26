@@ -300,4 +300,79 @@
 			}
 		}
 	}
+    ottoman_accessories = {
+        dna_modifiers = {
+            accessory = {
+                 mode = add
+                 gene = medals
+                 template = generic_medals
+                 range = { 0 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                 mode = add
+                 gene = epaulettes
+                 template = all_epaulettes
+                 range = { 0.65 0.75 } # For the randomness to work correctly
+            }
+            accessory = {
+                 mode = add
+                 gene = belts
+                 template = all_belts
+                 range = { 0.45 0.55 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+               add = 10001
+                exists = scope:character
+                scope:character = {
+                    owner = {
+                        exists = c:TUR
+                        c:TUR = this
+                    }
+                    OR = {
+                        military_clothes_trigger = yes
+                        monarchy_clothes_trigger = yes
+						officers_clothes_pop_trigger = yes
+                    }
+                }
+            }
+        }
+	}
+    ottoman_accessories_officer = {
+        dna_modifiers = {
+            accessory = {
+                 mode = add
+                 gene = epaulettes
+                 template = all_epaulettes
+                 range = { 0.65 0.75 } # For the randomness to work correctly
+            }
+            accessory = {
+                 mode = add
+                 gene = belts
+                 template = all_belts
+                 range = { 0.2 0.3 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+			modifier = {
+				add = 1500
+				scope:pop = {
+                    owner = {
+                        exists = c:TUR
+                        c:TUR = this
+                    }
+				}
+				AND = {
+					#arabic_clothes_pop_trigger = yes
+					OR = {
+						soldier_clothes_pop_trigger = yes
+						officers_clothes_pop_trigger = yes
+					}
+				}
+			}
+        }
+    }
 }
