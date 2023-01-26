@@ -3,7 +3,11 @@
 
 	is_shown_when_inactive = {
 		country_is_in_europe = yes
-		has_technology_researched = nationalism
+		OR = {
+			has_technology_researched = egalitarianism
+			has_technology_researched = nationalism
+		}
+		
 	}
 
     possible = {
@@ -27,21 +31,43 @@
 					is_incorporated = yes
 					turmoil >= 0.15
 				}
-				any_country = {
-					OR = {
-						#Add other relevant journals later
-						has_journal_entry = je_1848_buildup
-						has_journal_entry = je_1848
+				OR = {
+					has_global_variable = peoples_springtime_happening
+					any_country = {
+						OR = {
+							has_journal_entry = je_1848_buildup
+							has_journal_entry = je_springtime_of_the_peoples
+						}
 					}
 				}
 			}
 		}
-		
 	}
 
 	immediate = {
 
-		post_notification = haiti_stops_paying_france
+		set_variable = {
+			name = springtime_revolt
+			value = 0
+		}
+
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable =  1848_started
+				}
+			}
+			set_global_variable = 1848_started
+
+			every_country = {
+				limit = {
+					country_is_in_europe = yes
+				}
+				post_notification = springtime_triggered
+			}
+		}
+
+		
 
 		random_law = {
 			limit = { type = law_type:law_monarchy }
@@ -96,12 +122,12 @@
 	}
 
 	goal_add_value = {
-		add = 5
+		add = 4
 	}
 
 	on_complete = {
 		add_journal_entry = {
-			type = je_1848
+			type = je_springtime_of_the_peoples
 		}
 	}
 
@@ -110,6 +136,190 @@
 	}
 
 	progressbar = yes
+
+	on_weekly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					NOT = { has_variable = springtime_autocracy }
+					has_law = law_type:law_autocracy
+				}
+				post_notification = springtime_worsened
+				change_variable = {
+					name = springtime_revolt
+					add = 1
+				}
+				set_variable = springtime_autocracy
+			}
+			else_if = {
+				limit = {
+					has_variable = springtime_autocracy 
+					NOT = { has_law = law_type:law_autocracy }
+				}
+				post_notification = springtime_bettered
+				change_variable = {
+					name = springtime_revolt
+					subtract = 1
+				}
+				remove_variable = springtime_autocracy
+			}
+
+			if = {
+				limit = {
+					NOT = { has_variable = springtime_monarchy }
+					has_law = law_type:law_monarchy
+				}
+				post_notification = springtime_worsened
+				change_variable = {
+					name = springtime_revolt
+					add = 1
+				}
+				set_variable = springtime_monarchy
+			}
+			else_if = {
+				limit = {
+					has_variable = springtime_monarchy 
+					NOT = { has_law = law_type:law_monarchy }
+				}
+				post_notification = springtime_bettered
+				change_variable = {
+					name = springtime_revolt
+					subtract = 1
+				}
+				remove_variable = springtime_monarchy
+			}
+
+			if = {
+				limit = {
+					NOT = { has_variable = springtime_censorship }
+					has_law = law_type:law_censorship
+				}
+				post_notification = springtime_worsened
+				change_variable = {
+					name = springtime_revolt
+					add = 1
+				}
+				set_variable = springtime_censorship
+			}
+			else_if = {
+				limit = {
+					has_variable = springtime_censorship
+					NOT = { has_law = law_type:law_censorship }
+				}
+				post_notification = springtime_bettered
+				change_variable = {
+					name = springtime_revolt
+					subtract = 1
+				}
+				remove_variable = springtime_censorship
+			}
+
+			if = {
+				limit = {
+					NOT = { has_variable = springtime_theocracy }
+					has_law = law_type:law_theocracy
+				}
+				post_notification = springtime_worsened
+				change_variable = {
+					name = springtime_revolt
+					add = 1
+				}
+				set_variable = springtime_theocracy
+			}
+			else_if = {
+				limit = {
+					has_variable = springtime_theocracy
+					NOT = { has_law = law_type:law_theocracy }
+				}
+				post_notification = springtime_bettered
+				change_variable = {
+					name = springtime_revolt
+					subtract = 1
+				}
+				remove_variable = springtime_theocracy
+			}
+
+			if = {
+				limit = {
+					NOT = { has_variable = springtime_outlawed_dissent }
+					has_law = law_type:law_outlawed_dissent
+				}
+				post_notification = springtime_worsened
+				change_variable = {
+					name = springtime_revolt
+					add = 1
+				}
+				set_variable = springtime_outlawed_dissent
+			}
+			else_if = {
+				limit = {
+					has_variable = springtime_outlawed_dissent
+					NOT = { has_law = law_type:law_outlawed_dissent }
+				}
+				post_notification = springtime_bettered
+				change_variable = {
+					name = springtime_revolt
+					subtract = 1
+				}
+				remove_variable = springtime_outlawed_dissent
+			}
+
+			if = {
+				limit = {
+					NOT = { has_variable = springtime_discrimination }
+					any_scope_culture = {
+						AND = {
+							has_discrimination_trait = european_heritage
+							culture_is_discriminated_in = ROOT
+						}
+					}
+				}
+				post_notification = springtime_worsened
+				change_variable = {
+					name = springtime_revolt
+					add = 1
+				}
+				set_variable = springtime_discrimination
+			}
+			else_if = {
+				limit = {
+					has_variable = springtime_discrimination
+					any_scope_culture = {
+						NAND = {
+							has_discrimination_trait = european_heritage
+							culture_is_discriminated_in = ROOT
+						}
+					}
+				}
+				post_notification = springtime_bettered
+				change_variable = {
+					name = springtime_revolt
+					subtract = 1
+				}
+				remove_variable = springtime_discrimination
+			}
+
+			if = {
+				limit = {
+					NOT = { has_variable = springtime_secession }
+					any_scope_culture = {
+						culture_secession_progress = {
+							target = ROOT
+							value > 0.5
+						}
+					}
+				}
+				post_notification = springtime_worsened
+				change_variable = {
+					name = springtime_revolt
+					add = 1
+				}
+				set_variable = springtime_secession
+			}
+
+		}
+	}
+
 
 	timeout = 1900
 
