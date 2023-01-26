@@ -21,8 +21,6 @@ italy_flavor.1 = {
 	duration = 3
 
 	trigger = {
-		exists = c:SIC
-		this = c:SIC
 		owns_entire_state_region = STATE_SICILY
 		AND = {
 			game_date < 1837.7.1
@@ -42,7 +40,7 @@ italy_flavor.1 = {
 				save_scope_as = sicily_scope
 			}
 		}
-		set_variable = {
+		set_global_variable = {
 			name = sicilian_rev_possible_var
 			value = yes
 		}
@@ -52,15 +50,18 @@ italy_flavor.1 = {
 		name = italy_flavor.1.a
 		default_option = yes
 
-		s:STATE_SICILY.region_state:SIC = {
-			add_modifier = {
-				name = sicily_cholera_1
-				months = short_modifier_time
-			}
-			add_radicals = {
-				value = 0.1
+		s:STATE_SICILY = {
+			random_scope_state = {
+				add_modifier = {
+					name = sicily_cholera_1
+					months = short_modifier_time
+				}
+				add_radicals = {
+					value = 0.1
+				}
 			}
 		}
+
 		add_modifier = {
 			name = sicily_cholera_cost
 			multiplier = money_amount_multiplier_medium
@@ -83,13 +84,15 @@ italy_flavor.1 = {
 	option = {
 		name = italy_flavor.1.b
 
-		s:STATE_SICILY.region_state:SIC = {
-			add_modifier = {
-				name = sicily_cholera_2
-				months = short_modifier_time
-			}
-			add_radicals = {
-				value = 0.2
+		s:STATE_SICILY = {
+			random_scope_state = {
+				add_modifier = {
+					name = sicily_cholera_2
+					months = short_modifier_time
+				}
+				add_radicals = {
+					value = 0.2
+				}
 			}
 		}
 
