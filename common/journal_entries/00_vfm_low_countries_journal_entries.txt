@@ -38,3 +38,66 @@
 
 	should_be_pinned_by_default = yes
 }
+je_treaty_of_london_1867 = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+	complete = {
+		year > 1867
+		c:LUX = {
+			is_subject_of = c:NET
+		}
+	}
+	on_complete = {
+		trigger_event = {
+			id = low_countries_events.2
+		}	
+	}
+	is_shown_when_inactive = {
+		THIS = c:NET
+	}
+	possible = {
+		THIS = c:NET
+		exists = c:LBG
+		c:LBG = {
+			is_subject_of = c:NET
+		}
+	}
+	should_be_pinned_by_default = yes
+}
+je_luxembourg_separation = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+	#complete = {
+	#	c:NET = {
+	#		owns_entire_state_region = STATE_LUXEMBOURG
+	#	}
+	#}
+	
+	
+	fail = {
+		OR = {
+			AND = {
+				is_ai = yes
+				year > 1890
+			}
+			ruler = {
+				is_female = yes
+			}
+		}
+	}
+	on_fail = {
+		c:LUX = {
+			make_independent = yes
+		}
+	}
+	is_shown_when_inactive = {
+		THIS = c:NET
+	}
+	possible = {
+		THIS = c:NET
+		exists = c:LUX
+		c:LUX = {
+			is_subject_of = c:NET
+		}
+	}
+}
