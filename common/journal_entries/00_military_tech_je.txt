@@ -1,0 +1,147 @@
+﻿je_rifling = {
+    icon = "gfx/interface/icons/event_icons/event_military.dds"
+    is_shown_when_inactive = {
+        has_technology_researched = percussion_cap
+    }
+    possible = {
+        has_technology_researched = rifling
+        army_size >= 20
+    }
+    complete = {
+        any_scope_building = { 
+            is_building_type = building_arms_industry
+            OR = {
+                has_active_production_method = pm_rifles
+                has_active_production_method = pm_repeaters
+                has_active_production_method = pm_bolt_action_rifles
+            }
+            level >= 3
+            occupancy >= 0.75
+        }
+		can_research = repeaters
+    }
+    on_complete = {
+        trigger_event = { 
+            id = military_tech_events.401 
+        }
+    }
+	
+	fail = {
+		has_technology_researched = repeaters
+	}
+	
+    timeout = 3650
+}
+
+je_machine_guns = {
+    icon = "gfx/interface/icons/event_icons/event_military.dds"
+    is_shown_when_inactive = {
+        is_player = yes
+        has_technology_researched = handcranked_machine_gun
+    }
+    possible = {
+        has_technology_researched = automatic_machine_guns
+        army_size >= 20
+    }
+    complete = {
+        country_pm_usage = {
+            target = ROOT
+            production_method = pm_machine_gunners
+            value > 0.20
+        }
+        any_scope_war = {
+            any_scope_front = {
+                any_scope_character = {
+                    owner = ROOT
+                    commander_pm_usage = {
+                        target = ROOT
+                        production_method = pm_machine_gunners
+                        value > 0.5
+                    }
+                }
+            }
+        }
+    }
+    on_complete = {
+        trigger_event = { 
+            id = military_tech_events.402
+        }
+    }
+    timeout = 3650
+}
+
+je_ironclads = {
+    icon = "gfx/interface/icons/event_icons/event_naval.dds"
+    is_shown_when_inactive = {
+        is_player = yes
+        has_technology_researched = screw_frigate
+    }
+    possible = {
+        has_technology_researched = ironclad_tech
+        navy_size >= 30
+    }
+    complete = {
+        country_pm_usage = {
+            target = ROOT
+            production_method = pm_ironclads
+            value > 0.20
+        }
+        any_scope_character = {
+            has_role = admiral
+            OR = {
+                has_commander_order = patrol_coast
+                has_commander_order = raid_convoys
+                has_commander_order = naval_invasion
+            }
+            commander_pm_usage = {
+                target = ROOT
+                production_method = pm_ironclads
+                value > 0.30
+            }
+        }
+    }
+    on_complete = {
+        trigger_event = { 
+            id = military_tech_events.403
+        }
+    }
+    timeout = 3650
+}
+
+je_monitors = {
+    icon = "gfx/interface/icons/event_icons/event_naval.dds"
+    is_shown_when_inactive = {
+        is_player = yes
+        has_technology_researched = screw_frigate
+    }
+    possible = {
+        has_technology_researched = monitor_tech
+        navy_size >= 20
+    }
+    complete = {
+        country_pm_usage = {
+            target = ROOT
+            production_method = pm_monitors
+            value > 0.20
+        }
+        any_scope_character = {
+            has_role = admiral
+            OR = {
+                has_commander_order = patrol_coast
+                has_commander_order = raid_convoys
+                has_commander_order = naval_invasion
+            }
+            commander_pm_usage = {
+                target = ROOT
+                production_method = pm_monitors
+                value > 0.30
+            }
+        }
+    }
+    on_complete = {
+        trigger_event = { 
+            id = military_tech_events.404
+        }
+    }
+    timeout = 3650
+}
