@@ -1,0 +1,78 @@
+﻿je_corn_laws = {
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	is_shown_when_inactive = {
+		NOT = { has_variable = corn_laws_abolished }
+		ig:ig_landowners = {
+			is_marginal = no
+		}
+		OR = {
+			has_export_priority_tariffs = g:grain
+			has_law = law_type:law_isolationism
+			has_law = law_type:law_mercantilism
+		}
+	}
+
+	possible = {
+		has_export_priority_tariffs = g:grain
+		OR = {
+			has_law = law_type:law_isolationism
+			has_law = law_type:law_mercantilism
+		}
+		ig:ig_landowners = {
+			is_powerful = yes
+			is_in_government = yes
+		}
+	}
+
+	complete = {
+		NOT = {
+			has_export_priority_tariffs = g:grain
+		}
+	}
+
+	on_complete = {
+		set_variable = corn_laws_abolished
+		trigger_event = { id = corn_laws.1 }
+		show_as_tooltip = {
+			if = {
+				limit = {
+					ig:ig_landowners = {
+						is_in_government = yes
+						leader = {
+							NOT = { has_ideology = ideology_market_liberal }
+						}
+					}
+				}
+				ig:ig_landowners = {
+					add_modifier = {
+						name = repealed_corn_laws
+						months = long_modifier_time
+					}
+				}
+			}
+			add_loyalists = {
+				value = 0.1
+				pop_type = laborers
+			}
+		}
+	}
+
+	invalid = {
+		ig:ig_landowners = {
+			is_marginal = yes
+		}
+	}
+
+	on_monthly_pulse = {
+		random_events = {
+			100 = 0
+			10 = corn_laws.2
+			10 = corn_laws.3
+			10 = corn_laws.4
+		}
+	}
+
+	weight = 100
+	should_be_pinned_by_default = yes
+}
