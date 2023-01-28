@@ -1,0 +1,101 @@
+﻿# triggered by on_law_enactment_started
+je_abolish_monarchy = {
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					NOT = { has_law = law_type:law_monarchy }
+					NOT = {
+						any_civil_war = {
+							civil_war_progress > 0.5
+							is_civil_war_type = revolution
+						}
+					}
+					NOT = {
+						any_interest_group = {
+							law_stance = {
+								law = law_type:law_monarchy
+								value > neutral
+							}
+							is_powerful = yes
+						}
+					}
+				}
+				change_variable = {
+					name = abolishing_monarchy_var
+					add = 1
+				}
+			}
+		}
+	}
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+		NOT = { has_law = law_type:law_monarchy }
+		NOT = {
+			any_civil_war = {
+				civil_war_progress > 0.5
+				is_civil_war_type = revolution
+			}
+		}
+		NOT = {
+			any_interest_group = {
+				law_stance = {
+					law = law_type:law_monarchy
+					value > neutral
+				}
+				is_powerful = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = 1848.2
+		}
+		if = {
+			limit = { has_journal_entry = je_warlord_china }
+			post_notification = warlord_china_explosion_point_remove
+			change_variable = {
+				name = china_warlord_explosion
+				subtract = 1
+			}
+			set_variable = china_warlord_abolished_monarchy
+		}
+		if = {
+			limit = { has_journal_entry = je_1848_buildup }
+			post_notification = springtime_bettered
+			change_variable = {
+				name = springtime_revolt
+				subtract = 1
+			}
+		}
+	}
+
+	invalid = {
+		NOR = {
+			is_enacting_law = law_type:law_presidential_republic
+			is_enacting_law = law_type:law_parliamentary_republic
+			is_enacting_law = law_type:law_council_republic
+			has_law = law_type:law_presidential_republic
+			has_law = law_type:law_parliamentary_republic
+			has_law = law_type:law_council_republic
+		}
+	}
+
+	current_value = {
+		value = root.var:abolishing_monarchy_var
+	}
+
+	goal_add_value = {
+		add = 60
+	}
+
+	progressbar = yes
+
+	weight = 100
+}

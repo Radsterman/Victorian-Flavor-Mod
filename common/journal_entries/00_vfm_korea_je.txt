@@ -1,5 +1,5 @@
 ﻿je_hanja_issue = {
-	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+	icon = "gfx/interface/icons/event_icons/event_academia.dds"
 
 	complete = {
 		any_scope_building = {
@@ -21,7 +21,7 @@
 }
 
 je_sadae = {
-	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+	icon = "gfx/interface/icons/event_icons/event_diplomacy.dds"
 
 	complete = {
 		top_overlord = {
@@ -44,7 +44,19 @@ je_sadae = {
 	}
 
 	invalid = {
-		NOT = { is_subject_of = c:CHI }
+		AND = {
+			NOT = {
+				c:CHI = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = tributary
+						is_initiator = yes
+					}
+				}
+			}
+			NOT = { is_subject_of = c:CHI }
+		}
+		
 	}
 
 	on_complete = {

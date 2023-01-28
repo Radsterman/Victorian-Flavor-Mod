@@ -285,7 +285,7 @@ CAU = {
 			c:RUS = {
 				has_diplomatic_pact = {
 					who = c:CAU
-					type = puppet
+					type = dependency
 					is_initiator = yes
 				}
 			}
@@ -679,7 +679,11 @@ KOR = { # Korea
 		trigger = {
 			
 			scope:actor = {
-				is_subject = yes
+				OR = {
+					is_subject = yes
+					is_subject_type = subject_type_tributary
+				}
+				
 				 has_law = law_type:law_monarchy
 			}
 		}
@@ -695,6 +699,7 @@ KOR = { # Korea
 		
 		scope:actor = {
 			 is_subject = no
+			 NOT = { is_subject_type = subject_type_tributary }
 			 has_law = law_type:law_monarchy
 		}
 	}
