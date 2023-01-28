@@ -16,7 +16,7 @@ italy_1848.1 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/springtime_of_nation"
 
-	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
 
 	duration = 3
 
@@ -117,7 +117,7 @@ italy_1848.2 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/springtime_of_nation"
 
-	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
 
 	duration = 3
 
@@ -598,7 +598,7 @@ italy_1848.7 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/springtime_of_nation"
 
-	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
 
 	duration = 0
 
@@ -689,7 +689,7 @@ italy_1848.8 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/springtime_of_nation"
 
-	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
 
 	duration = 1
 
@@ -762,7 +762,7 @@ italy_1848.9 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/political_extremism"
 
-	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+	icon = "gfx/interface/icons/event_icons/event_protest.dds.dds"
 
 	duration = 1
 
@@ -840,7 +840,7 @@ italy_1848.10 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/springtime_of_nation"
 
-	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
 
 	duration = 1
 
@@ -1619,7 +1619,7 @@ italy_1848.20 = {
 		this = c:PAP
 		owns_entire_state_region = STATE_LAZIO
 		NOT = {
-			has_variable = roman_rep_happened_var
+			has_global_variable = roman_rep_happened_var
 		}
 		game_date >= 1849.2.9
 		has_technology_researched = nationalism
@@ -1761,7 +1761,7 @@ italy_1848.21 = {
 			strata = middle
 			value = 0.05
 		}
-		set_variable = {
+		set_global_variable = {
 			name = roman_rep_war_var
 			value = yes
 		}
@@ -1804,8 +1804,10 @@ italy_1848.22 = {
 	duration = 1
 
 	trigger = {
-		has_variable = roman_rep_war_var
-		owns_entire_state_region = STATE_LAZIO
+		has_global_variable = roman_rep_war_var
+		c:FRA = {
+			owns_entire_state_region = STATE_LAZIO
+		}
 		exists = c:RMR
 	}
 
@@ -1816,7 +1818,6 @@ italy_1848.22 = {
 		s:STATE_LAZIO = {
 			remove_claim = c:FRA
 		}
-		remove_variable = roman_rep_war_var
 	}
 
     option = {
@@ -1863,6 +1864,50 @@ italy_1848.22 = {
 	    ai_chance = {
 			base = 1	
 		}
+	}
+}
+
+#(HIDDEN) Roman Republic Wins 
+italy_1848.31 = {
+	type = country_event
+	placement = root
+	hidden = yes
+
+	title = italy_1848.31.t
+	desc = italy_1848.31.d
+	flavor = italy_1848.31.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_military_parade.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/military_parade"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	duration = 0
+
+	trigger = {
+		has_global_variable = roman_rep_war_var
+		c:FRA = {
+			has_claim = s:STATE_LAZIO
+		}
+		c:RMR = {
+			owns_entire_state_region = STATE_LAZIO
+			has_truce_with = c:FRA
+		}
+		exists = c:RMR
+	}
+
+	immediate = {
+		s:STATE_LAZIO = {
+			remove_claim = c:FRA
+		}
+	}
+
+    ai_chance = {
+		base = 1	
 	}
 }
 
