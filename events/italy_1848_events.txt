@@ -21,12 +21,10 @@ italy_1848.1 = {
 	duration = 3
 
 	trigger = {
-		exists = c:SIC
-		this = c:SIC
 		owns_entire_state_region = STATE_SICILY
 		game_date >= 1848.1.12
 		has_technology_researched = nationalism
-		has_variable = sicilian_rev_possible_var
+		has_global_variable = sicilian_rev_possible_var
 		has_law = law_type:law_monarchy
 		OR = {
 			has_law = law_type:law_autocracy 
@@ -36,15 +34,15 @@ italy_1848.1 = {
 	}
 
 	immediate = {
-		c:SIC = {
-			save_scope_as = sic_scope
+		ROOT = {
+			save_scope_as = country_scope
 		}
 		s:STATE_SICILY = {
 			random_scope_state = {
 				save_scope_as = sicily_scope
 			}
 		}
-		remove_variable = sicilian_rev_possible_var
+		remove_global_variable = sicilian_rev_possible_var
 	}
 
 	option = {
@@ -53,8 +51,8 @@ italy_1848.1 = {
 
 		create_country = { # Sicily
 			tag = SCL
-			origin = this
-			state = s:STATE_SICILY.region_state:SIC
+			origin = ROOT
+			state = scope:sicily_scope
 			on_created = {
 				set_variable = {
 					name = sicilian_revolution_var1
@@ -88,9 +86,9 @@ italy_1848.1 = {
 			}
 		}
 		s:STATE_SICILY = {
-			add_claim = c:SIC
+			add_claim = ROOT
 		}
-		c:SIC = {
+		scope:country_scope = {
 			trigger_event = {
 				id = italy_1848.2
 				popup = yes
@@ -124,15 +122,10 @@ italy_1848.2 = {
 	duration = 3
 
 	trigger = {
-		exists = c:SIC
 		exists = c:SCL
-		this = c:SIC
 	}
 
 	immediate = {
-		c:SIC = {
-			save_scope_as = sic_scope
-		}
 		c:SCL = {
 			save_scope_as = sic_rev_scope
 		}
@@ -147,7 +140,7 @@ italy_1848.2 = {
 		name = italy_1848.2.a
 		default_option = yes
 
-		c:SIC = {
+		ROOT = {
 	    	create_diplomatic_play = {
 				target_country = c:SCL
 				war = yes
@@ -175,7 +168,8 @@ italy_1848.2 = {
 
     option = {
      	name = italy_1848.2.b
-		c:SIC = {
+
+		ROOT = {
 			change_relations = {
 				country = c:SCL
 				value = -50
@@ -187,6 +181,9 @@ italy_1848.2 = {
 		add_modifier = {
 		    name = sicilian_revolution_lost_2
 			months = long_modifier_time
+		}
+		trigger_event = {
+			id = italy_1848.4
 		}
 
      	ai_chance = {
@@ -216,7 +213,7 @@ italy_1848.2 = {
      	name = italy_1848.2.c
 
      	play_as = c:SCL
-		c:SIC = {
+		ROOT = {
 	    	create_diplomatic_play = {
 				target_country = c:SCL
 				war = yes
@@ -268,8 +265,11 @@ italy_1848.3 = {
 	}
 
 	immediate = {
-		c:SIC = {
-			save_scope_as = sic_scope
+		random_country = {
+			limit = {
+				has_claim = s:STATE_SICILY
+			}
+			save_scope_as = country_scope
 		}
 		c:SCL = {
 	    	ruler = {
@@ -304,7 +304,7 @@ italy_1848.3 = {
 		hidden_effect = {
 			trigger_event = {
 				id = italy_1848.5
-				
+				days = 1 #This is needed or the character gets replaced by a generic one
 			}
 		}
 
@@ -582,9 +582,10 @@ italy_1848.6 = {
 }
 
 #AUS (HIDDEN) Creation of Republic of San Marco
+
 italy_1848.7 = {
 	type = country_event
-	placement = root
+	hidden = yes
 
 	title = italy_1848.7.t
 	desc = italy_1848.7.d
@@ -622,12 +623,6 @@ italy_1848.7 = {
 
 	immediate = {
 		set_variable = san_marco_created
-	}
-
-	option = {
-		name = italy_1848.7.a
-		default_option = yes
-
 		create_country = { #Republic of San Marco
 			tag = SMR
 			origin = this
@@ -643,9 +638,6 @@ italy_1848.7 = {
 						name = san_marco_ig_str
 						months = long_modifier_time
 					}
-				}
-				ig:ig_armed_forces = {
-					add_ruling_interest_group = yes
 				}
 				create_character = {
 					# Daniele Manin
@@ -674,14 +666,12 @@ italy_1848.7 = {
 		}
 		trigger_event = {
 			id = italy_1848.8
+			days = 1 #This is needed or the loc won't show the SMR flag
 			popup = yes
 		}
-
-	    ai_chance = {
-			base = 1	
-		}
-    }
+	}
 }
+
 
 #AUS Republic of San Marco
 italy_1848.8 = {
@@ -1017,27 +1007,36 @@ italy_1848.11 = {
 				save_scope_as = venetia_scope
 			}
 		}
+
 	}
 
 	option = {
 		name = italy_1848.11.a
 
 		default_option = yes
+
+		s:STATE_LOMBARDY = {
+			add_claim = c:AUS
+		}
+		s:STATE_VENETIA = {
+			add_claim = c:AUS
+		}
+		s:STATE_LOMBARDY = {
+			add_claim = c:SAR
+		}
+		s:STATE_VENETIA = {
+			add_claim = c:SAR
+		}
 		annex = c:MLN
 		create_diplomatic_pact = {
 			country = c:SMR
 			type = alliance
 		}
 	   	create_diplomatic_play = {
-			target_country = c:AUS
+			target_state = s:STATE_LOMBARDY.region_state:AUS
 			war = yes
 			type = dp_first_italian_war
 
-			add_war_goal = {
-				holder = c:SAR
-				type = return_state
-				target_state = s:STATE_LOMBARDY.region_state:AUS
-			}
 			add_war_goal = {
 				holder = c:AUS
 				type = return_state
@@ -1052,23 +1051,13 @@ italy_1848.11 = {
 	    add_modifier = {
 			name = italian_vol # Remove at war's end
 	    }
-		s:STATE_LOMBARDY = {
-			add_claim = c:SAR
-		}
-		s:STATE_LOMBARDY = {
-			add_claim = c:AUS
-		}
-		s:STATE_VENETIA = {
-			add_claim = c:AUS
-		}
 		set_variable = {
 			name = first_italian_war_var
 			value = yes
 		}
-		set_variable = {
-			name = first_italian_war_happened
-			value = yes
-		}
+
+		set_global_variable = first_italian_war_happened
+
 		change_relations = {
 			country = c:AUS
 			value = -75
@@ -1295,7 +1284,7 @@ italy_1848.15 = {
 	}
 }
 
-#SAR Positive Plebescite
+#SAR Positive Plebiscite
 italy_1848.16 = {
 	type = country_event
 	placement = root
@@ -1628,7 +1617,7 @@ italy_1848.20 = {
 	trigger = {
 		exists = c:PAP
 		this = c:PAP
-		owns_entire_state_region = STATE_LATIUM
+		owns_entire_state_region = STATE_LAZIO
 		NOT = {
 			has_variable = roman_rep_happened_var
 		}
@@ -1695,7 +1684,6 @@ italy_1848.20 = {
 		c:FRA = {
 			trigger_event = {
 				id = italy_1848.21
-				
 			}
 		}
 
