@@ -579,9 +579,10 @@ italy_1848.6 = {
 }
 
 #AUS (HIDDEN) Creation of Republic of San Marco
+
 italy_1848.7 = {
 	type = country_event
-	placement = root
+	hidden = yes
 
 	title = italy_1848.7.t
 	desc = italy_1848.7.d
@@ -619,12 +620,6 @@ italy_1848.7 = {
 
 	immediate = {
 		set_variable = san_marco_created
-	}
-
-	option = {
-		name = italy_1848.7.a
-		default_option = yes
-
 		create_country = { #Republic of San Marco
 			tag = SMR
 			origin = this
@@ -640,9 +635,6 @@ italy_1848.7 = {
 						name = san_marco_ig_str
 						months = long_modifier_time
 					}
-				}
-				ig:ig_armed_forces = {
-					add_ruling_interest_group = yes
 				}
 				create_character = {
 					# Daniele Manin
@@ -671,14 +663,12 @@ italy_1848.7 = {
 		}
 		trigger_event = {
 			id = italy_1848.8
+			days = 1 #This is needed or the loc won't show the SMR flag
 			popup = yes
 		}
-
-	    ai_chance = {
-			base = 1	
-		}
-    }
+	}
 }
+
 
 #AUS Republic of San Marco
 italy_1848.8 = {
@@ -1014,27 +1004,36 @@ italy_1848.11 = {
 				save_scope_as = venetia_scope
 			}
 		}
+
 	}
 
 	option = {
 		name = italy_1848.11.a
 
 		default_option = yes
+
+		s:STATE_LOMBARDY = {
+			add_claim = c:AUS
+		}
+		s:STATE_VENETIA = {
+			add_claim = c:AUS
+		}
+		s:STATE_LOMBARDY = {
+			add_claim = c:SAR
+		}
+		s:STATE_VENETIA = {
+			add_claim = c:SAR
+		}
 		annex = c:MLN
 		create_diplomatic_pact = {
 			country = c:SMR
 			type = alliance
 		}
 	   	create_diplomatic_play = {
-			target_country = c:AUS
+			target_state = s:STATE_LOMBARDY.region_state:AUS
 			war = yes
 			type = dp_first_italian_war
 
-			add_war_goal = {
-				holder = c:SAR
-				type = return_state
-				target_state = s:STATE_LOMBARDY.region_state:AUS
-			}
 			add_war_goal = {
 				holder = c:AUS
 				type = return_state
@@ -1049,15 +1048,6 @@ italy_1848.11 = {
 	    add_modifier = {
 			name = italian_vol # Remove at war's end
 	    }
-		s:STATE_LOMBARDY = {
-			add_claim = c:SAR
-		}
-		s:STATE_LOMBARDY = {
-			add_claim = c:AUS
-		}
-		s:STATE_VENETIA = {
-			add_claim = c:AUS
-		}
 		set_variable = {
 			name = first_italian_war_var
 			value = yes
@@ -1291,7 +1281,7 @@ italy_1848.15 = {
 	}
 }
 
-#SAR Positive Plebescite
+#SAR Positive Plebiscite
 italy_1848.16 = {
 	type = country_event
 	placement = root
@@ -1691,7 +1681,6 @@ italy_1848.20 = {
 		c:FRA = {
 			trigger_event = {
 				id = italy_1848.21
-				
 			}
 		}
 
