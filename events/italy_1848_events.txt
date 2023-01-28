@@ -579,7 +579,6 @@ italy_1848.6 = {
 }
 
 #AUS (HIDDEN) Creation of Republic of San Marco
-
 italy_1848.7 = {
 	type = country_event
 	hidden = yes
@@ -605,7 +604,7 @@ italy_1848.7 = {
 		owns_entire_state_region = STATE_VENETIA
 		game_date >= 1848.3.17
 		has_technology_researched = nationalism
-		NOT = { has_variable = san_marco_created }
+		NOT = { has_global_variable = san_marco_created }
 		OR = {
 			c:AUS = {
 				owns_entire_state_region = STATE_VENETIA
@@ -619,11 +618,16 @@ italy_1848.7 = {
 	}
 
 	immediate = {
-		set_variable = san_marco_created
+		set_global_variable = san_marco_created
+		s:STATE_VENETIA = {
+			random_scope_state = {
+				save_scope_as = venetia_scope
+			}
+		}
 		create_country = { #Republic of San Marco
 			tag = SMR
 			origin = this
-			state = s:STATE_VENETIA.region_state:AUS
+			state = scope:venetia_scope
 			on_created = {
 				activate_law = law_type:law_presidential_republic
 				activate_law = law_type:law_universal_suffrage
@@ -655,7 +659,7 @@ italy_1848.7 = {
 					name = san_marco_var
 					value = yes
 				}
-				change_relations = {
+				change_relations = { #CHANGE
 					country = c:SAR
 					value = 50
 			    }
@@ -712,7 +716,7 @@ italy_1848.8 = {
 		name = italy_1848.8.a
 		default_option = yes
 
-		change_relations = {
+		change_relations = { #CHANGE
 			country = c:SMR
 			value = -100
 	    }
@@ -839,9 +843,82 @@ italy_1848.10 = {
 	duration = 1
 
 	immediate = {
-		c:SAR = {
-			save_scope_as = sar_scope
+
+		if = {
+			limit = {
+				exists = c:SAR
+				c:SAR = {
+					is_subject = no
+				}
+			}
+			c:SAR = {
+				save_scope_as = ita_scope
+			}
 		}
+
+		if = {
+			limit = {
+				OR = {
+					NOT = {
+						exists = c:SAR
+					}
+					c:SAR = {
+						is_subject = yes
+					}
+				}
+			}
+			random_country = {
+				limit = {
+					is_player = no
+					is_subject = no
+					NOT = {
+						country = c:SMR
+					}
+					OR = {
+						country_has_primary_culture = cu:north_italian
+						country_has_primary_culture = cu:south_italian
+					}
+					country_rank >= rank_value:minor_power
+					OR = {
+						any_neighbouring_state = {
+							owner = c:AUS
+						}
+						any_neighbouring_state = {
+							owner = c:SMR
+						}
+						any_neighbouring_state = {
+							owner = c:MLN
+						}
+					}
+				}
+				save_scope_as = ita_scope
+			}
+		}
+
+		random_country = {
+			limit = {
+				OR = {
+					country_has_primary_culture = cu:north_italian
+					country_has_primary_culture = cu:south_italian
+				}
+				country_rank >= rank_value:minor_power
+				OR = {
+					any_neighbouring_state = {
+						owner = c:AUS
+					}
+					any_neighbouring_state = {
+						owner = c:SMR
+					}
+					any_neighbouring_state = {
+						owner = c:MLN
+					}
+				}
+				is_player = yes
+			}
+			save_scope_as = ita_scope
+		}
+
+
 		s:STATE_LOMBARDY = {
 			random_scope_state = {
 				save_scope_as = lombardy_scope
@@ -850,7 +927,7 @@ italy_1848.10 = {
 		create_country = { #Milan
 			tag = MLN
 			origin = this
-			state = s:STATE_LOMBARDY.region_state:AUS
+			state = scope:lombardy_scope
 			on_created = {
 				activate_law = law_type:law_presidential_republic
 				activate_law = law_type:law_universal_suffrage
@@ -881,10 +958,6 @@ italy_1848.10 = {
 					name = five_days_var
 					value = yes
 				}
-				change_relations = {
-					country = c:SAR
-					value = 100
-			    }
 			}		
 		}
 		hidden_effect = {
@@ -907,8 +980,16 @@ italy_1848.10 = {
 			country = c:MLN
 			value = -100
 	    }
+	    hidden_effect = {
+    	    c:MLN = {
+				change_relations = {
+					country = scope:ita_scope
+					value = 100
+			    }
+		    }
+	    }
 
-		c:SAR = {
+		scope:ita_scope = {
 			trigger_event = {
 				id = italy_1848.11
 			}
@@ -925,7 +1006,10 @@ italy_1848.10 = {
 		s:STATE_LOMBARDY.region_state:AUS = {
 			set_state_owner = c:MLN
 		}
-		c:SAR = {
+		trigger_event = {
+			id = italy_1848.9
+    	}
+		scope:ita_scope = {
 			trigger_event = {
 				id = italy_1848.12
 			}
@@ -943,7 +1027,7 @@ italy_1848.10 = {
 			value = -100
 	    }
 		play_as = c:MLN
-		c:SAR = {
+		scope:ita_scope = {
 			trigger_event = {
 				id = italy_1848.11
 			}
@@ -955,7 +1039,7 @@ italy_1848.10 = {
 	}
 }
 
-#SAR First Italian War of Independence
+#ITALIAN_MAJOR First Italian War of Independence
 italy_1848.11 = {
 	type = country_event
 	placement = scope:lombardy_scope
@@ -979,7 +1063,7 @@ italy_1848.11 = {
 		c:MLN = {
 			save_scope_as = sar_scope
 		}
-		c:SMR = {
+		c:SMR = { #CHANGE
 			save_scope_as = smr_scope
 		}
 		c:AUS = {
@@ -1009,10 +1093,10 @@ italy_1848.11 = {
 		s:STATE_VENETIA = {
 			add_claim = c:AUS
 		}
-		s:STATE_LOMBARDY = {
+		s:STATE_LOMBARDY = { #CHANGE
 			add_claim = c:SAR
 		}
-		s:STATE_VENETIA = {
+		s:STATE_VENETIA = { #CHANGE
 			add_claim = c:SAR
 		}
 		annex = c:MLN
@@ -1021,19 +1105,19 @@ italy_1848.11 = {
 			type = alliance
 		}
 	   	create_diplomatic_play = {
-			target_state = s:STATE_LOMBARDY.region_state:AUS
+			target_state = scope:lombardy_scope
 			war = yes
 			type = dp_first_italian_war
 
 			add_war_goal = {
 				holder = c:AUS
 				type = return_state
-				target_state = s:STATE_LOMBARDY.region_state:SAR
+				target_state = scope:lombardy_scope
 			}
 			add_war_goal = {
 				holder = c:AUS
 				type = return_state
-				target_state = s:STATE_VENETIA.region_state:SMR
+				target_state = scope:venetia_scope
 			}
 	    }
 	    add_modifier = {
