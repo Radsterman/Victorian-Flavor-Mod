@@ -1,0 +1,268 @@
+﻿namespace = victoria
+
+# For GBR
+victoria.1 = {
+	type = country_event
+
+	title = victoria.1.t
+	desc = victoria.1.d
+	flavor = victoria.1.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = ruler
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	duration = 3
+
+	trigger = {
+		# triggered by je_victoria
+	}
+
+	immediate = {
+		ruler = {
+			save_scope_as = queen_victoria
+		}
+		c:HAN = {
+			remove_diplomatic_pact = {
+				country = c:GBR
+				type = personal_union
+			}
+			create_character = {
+				first_name = Ernest_Augustus
+				last_name = Hannover
+				ruler = yes
+				noble = yes
+				birth_date = 1771.6.5
+				interest_group = ig_landowners
+				ideology = ideology_royalist
+				traits = {
+					basic_political_operator
+					arrogant
+				}
+			}
+			create_character = {
+				first_name = George
+				last_name = Hannover
+				heir = yes
+				noble = yes
+				birth_date = 1819.5.27
+				interest_group = ig_landowners
+				ideology = ideology_royalist
+				traits = {
+					arrogant
+				}
+			}
+			save_scope_as = hannover_victoria_scope
+		}
+		if = {
+			limit = {
+				c:GBR = {
+					has_diplomatic_pact = {
+						who = c:HAM
+		     			type = customs_union
+					}
+				}
+			}
+			c:GBR = {
+				remove_diplomatic_pact = {
+					country = c:HAM
+					type = customs_union
+				}
+			}
+		}
+		if = {
+			limit = {
+				c:GBR = {
+					has_diplomatic_pact = {
+						who = c:BRE
+		     			type = customs_union
+					}
+				}
+			}
+			c:GBR = {
+				remove_diplomatic_pact = {
+					country = c:BRE
+					type = customs_union
+				}
+			}
+		}
+		if = {
+			limit = {
+				c:GBR = {
+					has_diplomatic_pact = {
+						who = c:OLD
+		     			type = customs_union
+					}
+				}
+			}
+			c:GBR = {
+				remove_diplomatic_pact = {
+					country = c:OLD
+					type = customs_union
+				}
+			}
+		}
+		if = {
+			limit = {
+				c:GBR = {
+					has_diplomatic_pact = {
+						who = c:BRA
+		     			type = customs_union
+					}
+				}
+			}
+			c:GBR = {
+				remove_diplomatic_pact = {
+					country = c:BRA
+					type = customs_union
+				}
+			}
+		}
+	}
+	option = {
+		name = victoria.1.a # God save the Queen!
+		ruler = {
+			add_modifier = {
+				name = queen_victoria_mod
+			}
+		}
+		show_as_tooltip = {
+			c:HAN = {
+				remove_diplomatic_pact = {
+					country = c:GBR
+					type = personal_union
+				}
+			}
+		}
+		custom_tooltip = victoria.1.tt
+		hidden_effect = {
+			c:HAN = {
+				trigger_event = { id = victoria.2 }
+			}
+		}
+		every_country = {
+			limit = {
+				has_interest_marker_in_region = region_north_germany
+			}
+			post_notification = victoria_notification
+		}
+	}
+}
+
+# For Hannover
+victoria.2 = {
+	type = country_event
+
+	title = victoria.2.t
+	desc = victoria.2.d
+	flavor = victoria.2.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:ernest_augustus
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	duration = 3
+
+	trigger = {
+		# triggered by je_victoria
+	}
+
+	immediate = {
+		ruler = {
+			save_scope_as = ernest_augustus
+		}
+		if = {
+			limit = {
+				exists = c:HAM
+				c:HAM = {
+					NOT = { 
+						has_diplomatic_pact = {
+							who = c:HAM
+							type = customs_union
+						}
+					}
+				}
+			}
+			create_diplomatic_pact = {
+				country = c:HAM
+				type = customs_union
+			}
+		}
+		if = {
+			limit = {
+				exists = c:BRE
+				c:BRE = {
+					NOT = { 
+						has_diplomatic_pact = {
+							who = c:BRE
+							type = customs_union
+						}
+					}
+				}
+			}
+			create_diplomatic_pact = {
+				country = c:BRE
+				type = customs_union
+			}
+		}
+		if = {
+			limit = {
+				exists = c:OLD
+				c:OLD = {
+					NOT = { 
+						has_diplomatic_pact = {
+							who = c:OLD
+							type = customs_union
+						}
+					}
+				}
+			}
+			create_diplomatic_pact = {
+				country = c:OLD
+				type = customs_union
+			}
+		}
+		if = {
+			limit = {
+				exists = c:BRA
+				c:BRA = {
+					NOT = { 
+						has_diplomatic_pact = {
+							who = c:BRA
+							type = customs_union
+						}
+					}
+				}
+			}
+			create_diplomatic_pact = {
+				country = c:BRA
+				type = customs_union
+			}
+		}
+	}
+	option = {
+		name = victoria.2.a
+		show_as_tooltip = {
+			c:HAN = {
+				remove_diplomatic_pact = {
+					country = c:GBR
+					type = personal_union
+				}
+			}
+		}
+		custom_tooltip = victoria.2.tt
+	}
+}
+
+# Say the line Bart!
+# *sigh* victoria.3 when?
