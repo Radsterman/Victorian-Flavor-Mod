@@ -1730,6 +1730,7 @@ italy_1848.20 = {
 					activate_law = law_type:law_universal_suffrage
 					activate_law = law_type:law_right_of_assembly
 					set_next_election_date = 1852.1.1
+					add_primary_culture = cu:north_italian
 					ig:ig_intelligentsia = {
 						add_ruling_interest_group = yes
 						add_modifier = {
@@ -2092,21 +2093,18 @@ italy_1848.24 = {
 		c:TUS = {
 			is_subject = no
 		}
-		random_country = {
-			limit = {
-				has_variable = free_north_italy_2
-			}
+		any_country = {
+			has_variable = free_north_italy_2
 		}
-
 	}
 
 	immediate = {
-		remove_variable = free_north_italy_2
 		random_country = {
 			limit = {
 				has_variable = italian_state
 			}
 			save_scope_as = ita_scope
+			remove_variable = free_north_italy_2
 		}
 		c:TUS = {
 			save_scope_as = tus_scope
@@ -2121,6 +2119,7 @@ italy_1848.24 = {
 			trigger_event = {
 				id = italy_1848.25
 			}
+
 		}
 
 	    ai_chance = {
@@ -2271,23 +2270,21 @@ italy_1848.27 = {
 	trigger = {
 		exists = c:RMR
 		c:RMR = this
-		random_country = {
-			limit = {
-				has_variable = free_north_italy_3
-				NOT = {
-					this = c:PAP
-				}
+		any_country = {
+			has_variable = free_north_italy_3
+			NOT = {
+				this = c:PAP
 			}
 		}
 	}
 
 	immediate = {
-		remove_variable = free_north_italy_3
 		random_country = {
 			limit = {
 				has_variable = italian_state
 			}
 			save_scope_as = ita_scope
+			remove_variable = free_north_italy_3
 		}
 		c:RMR = {
 			save_scope_as = rmr_scope
@@ -2314,10 +2311,13 @@ italy_1848.27 = {
 
 		custom_tooltip = italy_1848.27.tt1
 
-		s:STATE_TUSCANY = {
+		s:STATE_ROMAGNA = {
 			add_claim = scope:ita_scope
 		}
-		s:STATE_EMILIA = {
+		s:STATE_UMBRIA = {
+			add_claim = scope:ita_scope
+		}
+		s:STATE_LAZIO = {
 			add_claim = scope:ita_scope
 		}
 		scope:ita_scope = {
@@ -2352,13 +2352,6 @@ italy_1848.28 = {
 	duration = 1
 
 	trigger = {
-		has_variable = free_north_italy_3
-		exists = c:RMR
-		NOT = {
-			c:FRA = {
-				has_claim = s:STATE_LAZIO
-			}
-		}
 	}
 
 	immediate = {
@@ -2452,17 +2445,10 @@ italy_1848.30 = {
 	duration = 1
 
 	trigger = {
-		random_country = {
-			limit = {
-				has_variable = free_north_italy_3
-				NOT = {
-					this = c:PAP
-				}
-			}
-		}
-		exists = c:PAP
+		has_variable = free_north_italy_3
 		c:PAP = {
 			owns_entire_state_region = STATE_ROMAGNA
+			is_player = no
 		}
 	}
 
@@ -2472,8 +2458,8 @@ italy_1848.30 = {
 				has_variable = italian_state
 			}
 			save_scope_as = ita_scope
+			remove_variable = free_north_italy_3
 		}
-		remove_variable = free_north_italy_3
 		c:PAP = {
 			save_scope_as = pap_scope
 		}
