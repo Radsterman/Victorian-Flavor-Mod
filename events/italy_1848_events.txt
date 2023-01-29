@@ -659,10 +659,6 @@ italy_1848.7 = {
 					name = san_marco_var
 					value = yes
 				}
-				change_relations = { #CHANGE
-					country = c:SAR
-					value = 50
-			    }
 			}		
 		}
 		trigger_event = {
@@ -716,7 +712,7 @@ italy_1848.8 = {
 		name = italy_1848.8.a
 		default_option = yes
 
-		change_relations = { #CHANGE
+		change_relations = {
 			country = c:SMR
 			value = -100
 	    }
@@ -1009,6 +1005,16 @@ italy_1848.10 = {
 		trigger_event = {
 			id = italy_1848.9
     	}
+    	hidden_effect = {
+			create_truce = {
+				country = c:MLN
+				months = 60
+			}
+			create_truce = {
+				country = c:SMR
+				months = 60
+			}
+		}
 		scope:ita_scope = {
 			trigger_event = {
 				id = italy_1848.12
@@ -1026,7 +1032,6 @@ italy_1848.10 = {
 			country = c:MLN
 			value = -100
 	    }
-		play_as = c:MLN
 		scope:ita_scope = {
 			trigger_event = {
 				id = italy_1848.11
@@ -1063,7 +1068,7 @@ italy_1848.11 = {
 		c:MLN = {
 			save_scope_as = sar_scope
 		}
-		c:SMR = { #CHANGE
+		c:SMR = {
 			save_scope_as = smr_scope
 		}
 		c:AUS = {
@@ -1093,11 +1098,11 @@ italy_1848.11 = {
 		s:STATE_VENETIA = {
 			add_claim = c:AUS
 		}
-		s:STATE_LOMBARDY = { #CHANGE
-			add_claim = c:SAR
+		s:STATE_LOMBARDY = {
+			add_claim = ROOT
 		}
-		s:STATE_VENETIA = { #CHANGE
-			add_claim = c:SAR
+		s:STATE_VENETIA = {
+			add_claim = ROOT
 		}
 		annex = c:MLN
 		create_diplomatic_pact = {
@@ -1105,7 +1110,7 @@ italy_1848.11 = {
 			type = alliance
 		}
 	   	create_diplomatic_play = {
-			target_state = scope:lombardy_scope
+			target_state = s:STATE_LOMBARDY.region_state:AUS
 			war = yes
 			type = dp_first_italian_war
 
@@ -1127,12 +1132,18 @@ italy_1848.11 = {
 			name = first_italian_war_var
 			value = yes
 		}
-
+		set_variable = {
+			name = italian_state
+			value = yes
+		}
 		set_global_variable = first_italian_war_happened
-
 		change_relations = {
 			country = c:AUS
 			value = -75
+	    }
+		change_relations = { 
+			country = c:SMR
+			value = 50
 	    }
 		c:AUS = {
 			add_journal_entry = {
@@ -1169,6 +1180,14 @@ italy_1848.11 = {
 		add_radicals = {
 			value = large_radicals
 		}
+		change_relations = { 
+			country = c:SMR
+			value = -25
+	    }
+		change_relations = { 
+			country = c:MLN
+			value = -25
+	    }
 
 	    ai_chance = {
 			base = 5
@@ -1176,7 +1195,7 @@ italy_1848.11 = {
 	}
 }
 
-#SAR Austria doesn't fight Venice and Milan
+#ITALIAN_MAJOR Austria doesn't fight Venice and Milan
 italy_1848.12 = {
 	type = country_event
 	placement = root
@@ -1234,6 +1253,10 @@ italy_1848.12 = {
 			name = free_north_italy_1
 			value = yes
 		}
+		set_variable = {
+			name = italian_state
+			value = yes
+		}
 
 	    ai_chance = {
 			base = 99
@@ -1273,13 +1296,6 @@ italy_1848.13 = {
 		
 		default_option = yes
 
-		c:SAR = {
-			trigger_event = {
-				id = italy_1848.14
-				days = 15
-			}
-		}
-
 	    ai_chance = {
 			base = 1
 		}
@@ -1307,8 +1323,11 @@ italy_1848.15 = {
 	duration = 1
 
 	immediate = {
-		c:SAR = {
-			save_scope_as = sar_scope
+		random_country = {
+			limit = {
+				has_variable = italian_state
+			}
+			save_scope_as = ita_scope
 		}
 		c:SMR = {
 			save_scope_as = smr_scope
@@ -1320,7 +1339,7 @@ italy_1848.15 = {
 		
 		default_option = yes
 
-		c:SAR = {
+		scope:ita_scope = {
 			trigger_event = {
 				id = italy_1848.16
 				days = 15
@@ -1334,7 +1353,7 @@ italy_1848.15 = {
 	option = {
 		name = italy_1848.15.b
 
-		c:SAR = {
+		scope:ita_scope = {
 			trigger_event = {
 				id = italy_1848.17
 				days = 15
@@ -1363,7 +1382,7 @@ italy_1848.16 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
 
-	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
 
 	duration = 1
 
@@ -1460,7 +1479,7 @@ italy_1848.17 = {
     	}
 
 	    ai_chance = {
-			base = 75
+			base = 80
 		}
 	}
 
@@ -1479,12 +1498,12 @@ italy_1848.17 = {
 		}
 
 	    ai_chance = {
-			base = 25
+			base = 20
 		}
 	}
 }
 
-#SAR Wins First Independence War
+#ITALIAN_MAJOR Wins First Independence War
 italy_1848.18 = {
 	type = country_event
 	placement = root
@@ -1500,13 +1519,12 @@ italy_1848.18 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/unspecific/military_parade"
 
-	icon = "gfx/interface/icons/event_icons/event_default.dds"
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
 	duration = 1
 
 	trigger = {
-		exists = c:SAR
-		this = c:SAR
+		has_variable = first_italian_war_var
 		is_at_war = no
 		owns_entire_state_region = STATE_LOMBARDY
 		OR = {
@@ -1515,9 +1533,7 @@ italy_1848.18 = {
 				owns_entire_state_region = STATE_VENETIA
 			}
 		}
-		c:SAR = {
-			has_variable = first_italian_war_var
-		}
+
 	}
 
 	immediate = {
@@ -1540,10 +1556,14 @@ italy_1848.18 = {
 		
 		default_option = yes
 
-
-		c:MLN = {
-			trigger_event = {
-				id = italy_1848.13
+		if = {
+			limit = {
+				exists = c:MLN
+			}
+			c:MLN = {
+				trigger_event = {
+					id = italy_1848.13
+				}
 			}
 		}
 		if = {
@@ -1965,7 +1985,7 @@ italy_1848.31 = {
 	}
 }
 
-#SAR Parma and Modena joins us
+#ITALIAN_MAJOR Parma and Modena joins us
 italy_1848.23 = {
 	type = country_event
 	placement = root
@@ -1994,6 +2014,14 @@ italy_1848.23 = {
 		OR = {
 			exists = c:MOD
 			exists = c:PAR
+		}
+		OR = {
+			c:MOD = {
+				is_subject = no
+			}
+			c:PAR = {
+				is_subject = no
+			}
 		}
 	}
 
