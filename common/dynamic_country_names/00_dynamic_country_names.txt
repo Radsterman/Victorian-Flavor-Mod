@@ -603,11 +603,11 @@ BNJ = { # Banjar
 
 BOL = {
 	dynamic_country_name = {
-		name = dyn_c_peru_bolivia
-		adjective = dyn_c_peru_bolivia_adj
+		name = dyn_c_confederacion_peru_boliviana
+		adjective = dyn_c_bol_state_adj
 		
 		is_main_tag_only = yes
-		priority = 1
+		priority = 550
 		
 		trigger = {
 			scope:actor = {
@@ -616,6 +616,35 @@ BOL = {
 			}
 		}
 	}
+	
+	dynamic_country_name = {
+		name = dyn_c_bol_state
+		adjective = dyn_c_bol_state_adj
+
+		is_main_tag_only = yes
+		priority = 1
+
+		trigger = {
+			exists = c:PEU 
+			c:BOL = {
+				has_diplomatic_pact = {
+					who = c:PEU
+					type = puppet
+					is_initiator = yes
+				}
+			}
+			AND = {
+				exists = c:ESP
+			c:BOL = {
+				has_diplomatic_pact = {
+					who = c:ESP
+					type = puppet
+					is_initiator = yes
+				}
+			}
+		}
+	}
+}
 }
 
 BRE = { # Bremen
