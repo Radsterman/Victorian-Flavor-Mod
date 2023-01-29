@@ -868,7 +868,7 @@ italy_1848.10 = {
 					is_player = no
 					is_subject = no
 					NOT = {
-						country = c:SMR
+						this = c:SMR
 					}
 					OR = {
 						country_has_primary_culture = cu:north_italian
@@ -1366,7 +1366,7 @@ italy_1848.15 = {
 	}
 }
 
-#SAR Positive Plebiscite
+#ITALIAN_MAJOR Positive Plebiscite
 italy_1848.16 = {
 	type = country_event
 	placement = root
@@ -1425,7 +1425,7 @@ italy_1848.16 = {
 	}
 }
 
-#SAR Negative Plebescite
+#ITALIAN_MAJOR Negative Plebescite
 italy_1848.17 = {
 	type = country_event
 	placement = root
@@ -2006,11 +2006,7 @@ italy_1848.23 = {
 	duration = 1
 
 	trigger = {
-		exists = c:SAR
-		c:SAR = this
-		c:SAR = {
-			has_variable = free_north_italy_1
-		}
+		has_variable = free_north_italy_1
 		OR = {
 			exists = c:MOD
 			exists = c:PAR
@@ -2032,26 +2028,36 @@ italy_1848.23 = {
 		c:PAR = {
 			save_scope_as = par_scope
 		}
-		c:SAR = {
-			remove_variable = free_north_italy_1
-		}
+		remove_variable = free_north_italy_1
 	}
 
     option = {
 		name = italy_1848.23.a
 		default_option = yes
 
-		c:SAR = {
+		if = {
+			limit = {
+				c:PAR = {
+					is_subject = no
+				}
+			}
 			annex = c:PAR
+		}
+		if = {
+			limit = {
+				c:MOD = {
+					is_subject = no
+				}
+			}
 			annex = c:MOD
-			set_variable = {
-				name = free_north_italy_2
-				value = yes
-			}
-			set_variable = {
-				name = free_north_italy_3
-				value = yes
-			}
+		}
+		set_variable = {
+			name = free_north_italy_2
+			value = yes
+		}
+		set_variable = {
+			name = free_north_italy_3
+			value = yes
 		}
 
 	    ai_chance = {
@@ -2083,17 +2089,24 @@ italy_1848.24 = {
 	trigger = {
 		exists = c:TUS
 		c:TUS = this
-		c:SAR = {
-			has_variable = free_north_italy_2
+		c:TUS = {
+			is_subject = no
 		}
+		random_country = {
+			limit = {
+				has_variable = free_north_italy_2
+			}
+		}
+
 	}
 
 	immediate = {
-		c:SAR = {
-			remove_variable = free_north_italy_2
-		}
-		c:SAR = {
-			save_scope_as = sar_scope
+		remove_variable = free_north_italy_2
+		random_country = {
+			limit = {
+				has_variable = italian_state
+			}
+			save_scope_as = ita_scope
 		}
 		c:TUS = {
 			save_scope_as = tus_scope
@@ -2104,7 +2117,7 @@ italy_1848.24 = {
 		name = italy_1848.24.a
 		default_option = yes
 
-		c:SAR = {
+		scope:ita_scope = {
 			trigger_event = {
 				id = italy_1848.25
 			}
@@ -2121,12 +2134,12 @@ italy_1848.24 = {
 		custom_tooltip = italy_1848.24.tt1
 
 		s:STATE_TUSCANY = {
-			add_claim = c:SAR
+			add_claim = scope:ita_scope
 		}
 		s:STATE_EMILIA = {
-			add_claim = c:SAR
+			add_claim = scope:ita_scope
 		}
-		c:SAR = {
+		scope:ita_scope = {
 			trigger_event = {
 				id = italy_1848.26
 			}
@@ -2137,7 +2150,7 @@ italy_1848.24 = {
 	}
 }
 
-#SAR Tuscany Votes For Annexation
+#ITALIAN_MAJOR Tuscany Votes For Annexation
 italy_1848.25 = {
 	type = country_event
 	placement = root
@@ -2158,9 +2171,7 @@ italy_1848.25 = {
 	duration = 1
 
 	immediate = {
-		c:SAR = {
-			remove_variable = free_north_italy_2
-		}
+		remove_variable = free_north_italy_2
 		c:TUS = {
 			save_scope_as = tus_scope
 		}
@@ -2179,7 +2190,7 @@ italy_1848.25 = {
 	}
 }
 
-#SAR Tuscany Votes For Independence
+#ITALIAN_MAJOR Tuscany Votes For Independence
 italy_1848.26 = {
 	type = country_event
 	placement = root
@@ -2200,9 +2211,7 @@ italy_1848.26 = {
 	duration = 1
 
 	immediate = {
-		c:SAR = {
-			remove_variable = free_north_italy_2
-		}
+		remove_variable = free_north_italy_2
 		c:TUS = {
 			save_scope_as = tus_scope
 		}
@@ -2262,17 +2271,23 @@ italy_1848.27 = {
 	trigger = {
 		exists = c:RMR
 		c:RMR = this
-		c:SAR = {
-			has_variable = free_north_italy_3
+		random_country = {
+			limit = {
+				has_variable = free_north_italy_3
+				NOT = {
+					this = c:PAP
+				}
+			}
 		}
 	}
 
 	immediate = {
-		c:SAR = {
-			remove_variable = free_north_italy_3
-		}
-		c:SAR = {
-			save_scope_as = sar_scope
+		remove_variable = free_north_italy_3
+		random_country = {
+			limit = {
+				has_variable = italian_state
+			}
+			save_scope_as = ita_scope
 		}
 		c:RMR = {
 			save_scope_as = rmr_scope
@@ -2283,7 +2298,7 @@ italy_1848.27 = {
 		name = italy_1848.27.a
 		default_option = yes
 
-		c:SAR = {
+		scope:ita_scope = {
 			trigger_event = {
 				id = italy_1848.29
 			}
@@ -2300,12 +2315,12 @@ italy_1848.27 = {
 		custom_tooltip = italy_1848.27.tt1
 
 		s:STATE_TUSCANY = {
-			add_claim = c:SAR
+			add_claim = scope:ita_scope
 		}
 		s:STATE_EMILIA = {
-			add_claim = c:SAR
+			add_claim = scope:ita_scope
 		}
-		c:SAR = {
+		scope:ita_scope = {
 			trigger_event = {
 				id = italy_1848.28
 			}
@@ -2316,7 +2331,7 @@ italy_1848.27 = {
 	}
 }
 
-#SAR Roman Republic Votes For Independence
+#ITALIAN_MAJOR Roman Republic Votes For Independence
 italy_1848.28 = {
 	type = country_event
 	placement = root
@@ -2337,9 +2352,7 @@ italy_1848.28 = {
 	duration = 1
 
 	trigger = {
-		c:SAR = {
-			has_variable = free_north_italy_3
-		}
+		has_variable = free_north_italy_3
 		exists = c:RMR
 		NOT = {
 			c:FRA = {
@@ -2349,9 +2362,7 @@ italy_1848.28 = {
 	}
 
 	immediate = {
-		c:SAR = {
-			remove_variable = free_north_italy_3
-		}
+		remove_variable = free_north_italy_3
 		c:RMR = {
 			save_scope_as = rmr_scope
 		}
@@ -2381,7 +2392,7 @@ italy_1848.28 = {
 	}
 }
 
-#SAR Roman Republic Votes For Annexation
+#ITALIAN_MAJOR Roman Republic Votes For Annexation
 italy_1848.29 = {
 	type = country_event
 	placement = root
@@ -2402,9 +2413,7 @@ italy_1848.29 = {
 	duration = 1
 
 	immediate = {
-		c:SAR = {
-			remove_variable = free_north_italy_3
-		}
+		remove_variable = free_north_italy_3
 		c:RMR = {
 			save_scope_as = rmr_scope
 		}
@@ -2422,7 +2431,7 @@ italy_1848.29 = {
 	}
 }
 
-#SAR Romagna Votes For Annexation
+#ITALIAN_MAJOR Romagna Votes For Annexation
 italy_1848.30 = {
 	type = country_event
 	placement = root
@@ -2443,10 +2452,13 @@ italy_1848.30 = {
 	duration = 1
 
 	trigger = {
-		exists = c:SAR
-		this = c:SAR
-		c:SAR = {
-			has_variable = free_north_italy_3
+		random_country = {
+			limit = {
+				has_variable = free_north_italy_3
+				NOT = {
+					this = c:PAP
+				}
+			}
 		}
 		exists = c:PAP
 		c:PAP = {
@@ -2455,9 +2467,13 @@ italy_1848.30 = {
 	}
 
 	immediate = {
-		c:SAR = {
-			remove_variable = free_north_italy_3
+		random_country = {
+			limit = {
+				has_variable = italian_state
+			}
+			save_scope_as = ita_scope
 		}
+		remove_variable = free_north_italy_3
 		c:PAP = {
 			save_scope_as = pap_scope
 		}
@@ -2472,8 +2488,8 @@ italy_1848.30 = {
 		name = italy_1848.30.a
 		default_option = yes
 
-		s:STATE_ROMAGNA.region_state:PAP = {
-			set_state_owner = c:SAR
+		scope:romagna_scope = {
+			set_state_owner = scope:ita_scope
 		}
 
 	    ai_chance = {
