@@ -2125,7 +2125,6 @@ italy_1848.24 = {
 			trigger_event = {
 				id = italy_1848.25
 			}
-
 		}
 
 	    ai_chance = {
@@ -2240,7 +2239,7 @@ italy_1848.26 = {
     	}
 
 	    ai_chance = {
-			base = 1	
+			base = 90	
 		}
 	}
 
@@ -2248,7 +2247,7 @@ italy_1848.26 = {
 		name = italy_1848.26.b
 
 	    ai_chance = {
-			base = 1	
+			base = 10	
 		}
 	}
 }
@@ -2308,7 +2307,7 @@ italy_1848.27 = {
 		}
 
 	    ai_chance = {
-			base = 90	
+			base = 95	
 		}
 	}
 
@@ -2332,7 +2331,7 @@ italy_1848.27 = {
 			}
 		}
 	    ai_chance = {
-			base = 10	
+			base = 5	
 		}
 	}
 }
@@ -2378,7 +2377,7 @@ italy_1848.28 = {
     	}
 
 	    ai_chance = {
-			base = 1	
+			base = 90	
 		}
 	}
 
@@ -2386,7 +2385,7 @@ italy_1848.28 = {
 		name = italy_1848.28.b
 
 	    ai_chance = {
-			base = 1	
+			base = 10	
 		}
 	}
 }
@@ -2483,6 +2482,185 @@ italy_1848.30 = {
 		scope:romagna_scope = {
 			set_state_owner = scope:ita_scope
 		}
+
+	    ai_chance = {
+			base = 1	
+		}
+	}
+}
+
+#PAP Plebiscites in Romagna
+italy_1848.35 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.35.t
+	desc = italy_1848.35.d
+	flavor = italy_1848.35.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 1
+
+	trigger = {
+		exists = c:PAP
+		c:PAP = this
+		c:PAP = {
+			is_player = yes
+		}
+		owns_entire_state_region = STATE_ROMAGNA
+		any_country = {
+			has_variable = free_north_italy_3
+		}
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_variable = italian_state
+			}
+			save_scope_as = ita_scope
+			remove_variable = free_north_italy_3
+		}
+		c:PAP = {
+			save_scope_as = pap_scope
+		}
+		s:STATE_ROMAGNA = {
+			random_scope_state = {
+				save_scope_as = romagna_scope
+			}
+		}
+	}
+
+    option = {
+		name = italy_1848.35.a
+
+		default_option = yes
+
+		scope:ita_scope = {
+			trigger_event = {
+				id = italy_1848.30
+			}
+		}
+    	hidden_effect = {
+			create_truce = {
+				country = scope:ita_scope
+				months = 60
+			}
+		}
+
+	    ai_chance = {
+			base = 90	
+		}
+	}
+    option = {
+		name = italy_1848.35.b
+
+		custom_tooltip = italy_1848.35.tt1
+
+		s:STATE_ROMAGNA = {
+			add_claim = scope:ita_scope
+		}
+		scope:ita_scope = {
+			trigger_event = {
+				id = italy_1848.36
+			}
+		}
+
+	    ai_chance = {
+			base = 10	
+		}
+	}
+}
+
+#ITALIAN_MAJOR Romagna Votes For Independence
+italy_1848.36 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.36.t
+	desc = italy_1848.36.d
+	flavor = italy_1848.36.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+		s:STATE_ROMAGNA = {
+			random_scope_state = {
+				save_scope_as = romagna_scope
+			}
+		}
+		s:STATE_UMBRIA = {
+			random_scope_state = {
+				save_scope_as = umbria_scope
+			}
+		}
+		random_country = {
+			limit = {
+				has_variable = italian_state
+			}
+			save_scope_as = ita_scope
+		}
+	}
+
+    option = {
+		name = italy_1848.36.a
+		default_option = yes
+
+		scope:romagna_scope = {
+			set_state_owner = scope:ita_scope
+		}
+		c:PAP = {
+	    	create_diplomatic_play = {
+				target_state = scope:romagna_scope
+				war = yes
+				type = dp_conquer_state
+	    	}
+		}
+
+	    ai_chance = {
+			base = 1	
+		}
+	}
+
+    option = {
+		name = italy_1848.36.b
+
+		scope:romagna_scope = {
+			set_state_owner = scope:ita_scope
+		}
+    	create_diplomatic_play = {
+			target_state = scope:umbria_scope
+			war = yes
+			type = dp_conquer_state
+    	}
+
+	    ai_chance = {
+			base = 1	
+		}
+	}
+
+    option = {
+		name = italy_1848.36.c
 
 	    ai_chance = {
 			base = 1	
