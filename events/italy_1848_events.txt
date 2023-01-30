@@ -18,7 +18,7 @@ italy_1848.1 = {
 
 	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
 
-	duration = 3
+	duration = 1
 
 	trigger = {
 		owns_entire_state_region = STATE_SICILY
@@ -119,7 +119,7 @@ italy_1848.2 = {
 
 	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
 
-	duration = 3
+	duration = 1
 
 	trigger = {
 		exists = c:SCL
@@ -174,6 +174,12 @@ italy_1848.2 = {
 				country = c:SCL
 				value = -50
 		    }
+        	hidden_effect = {
+				create_truce = {
+					country = c:SCL
+					months = 60
+				}
+			}
 		}
 		add_radicals = {
 			value = large_radicals
@@ -2477,6 +2483,183 @@ italy_1848.30 = {
 		scope:romagna_scope = {
 			set_state_owner = scope:ita_scope
 		}
+
+	    ai_chance = {
+			base = 1	
+		}
+	}
+}
+
+#SCL Plebiscite For Annexation
+italy_1848.32 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.32.t
+	desc = italy_1848.32.d
+	flavor = italy_1848.32.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 1
+
+	trigger = {
+		exists = c:SCL
+		c:SCL = this
+		owns_entire_state_region = STATE_SICILY
+		any_country = {
+			has_variable = italian_state
+			owns_entire_state_region = STATE_PIEDMONT
+			owns_entire_state_region = STATE_LOMBARDY
+			owns_entire_state_region = STATE_EMILIA
+			owns_entire_state_region = STATE_TUSCANY
+			owns_entire_state_region = STATE_ROMAGNA
+			NOT = {
+				this = c:SCL
+				has_variable = free_south_italy
+			}
+		}
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_variable = italian_state
+			}
+			save_scope_as = ita_scope
+			set_variable = free_south_italy
+		}
+		c:SCL = {
+			save_scope_as = scl_scope
+		}
+	}
+
+    option = {
+		name = italy_1848.32.a
+		default_option = yes
+
+		scope:ita_scope = {
+			trigger_event = {
+				id = italy_1848.33
+			}
+		}
+
+	    ai_chance = {
+			base = 90	
+		}
+	}
+
+    option = {
+		name = italy_1848.32.b
+
+		custom_tooltip = italy_1848.32.tt1
+
+		s:STATE_SICILY = {
+			add_claim = scope:ita_scope
+		}
+		scope:ita_scope = {
+			trigger_event = {
+				id = italy_1848.34
+			}
+		}
+	    ai_chance = {
+			base = 10	
+		}
+	}
+}
+
+#ITALIAN_MAJOR Sicily Votes For Annexation
+italy_1848.33 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.33.t
+	desc = italy_1848.33.d
+	flavor = italy_1848.33.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 1
+
+	immediate = {
+		remove_variable = free_north_italy_3
+		c:SCL = {
+			save_scope_as = scl_scope
+		}
+	}
+
+    option = {
+		name = italy_1848.33.a
+		default_option = yes
+
+		annex = c:SCL
+
+	    ai_chance = {
+			base = 1	
+		}
+	}
+}
+
+#ITALIAN_MAJOR Roman Republic Votes For Independence
+italy_1848.34 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.34.t
+	desc = italy_1848.34.d
+	flavor = italy_1848.34.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+		c:SCL = {
+			save_scope_as = scl_scope
+		}
+	}
+
+    option = {
+		name = italy_1848.34.a
+		default_option = yes
+
+    	create_diplomatic_play = {
+			target_country = c:SCL
+			war = yes
+			type = dp_annex_war
+    	}
+
+	    ai_chance = {
+			base = 1	
+		}
+	}
+
+    option = {
+		name = italy_1848.34.b
 
 	    ai_chance = {
 			base = 1	
