@@ -962,7 +962,91 @@ BIC = { # British East India Company
 					c:GBR = {
 						has_diplomatic_pact = {
 							who = c:BIC
-							type = dominion
+							type = chartered_company
+							is_initiator = yes
+						}
+					}
+				}
+			}
+		}
+	}
+	flag_definition = {
+		coa = BIC_dictatorship
+		subject_canton = sub_BIC_cypher
+		priority = 20
+		trigger = { 
+			coa_def_independent_trigger = yes
+			coa_def_dictatorship_flag_trigger = yes
+		}
+	}	
+}
+
+MPR = { # Madras Presidency
+	flag_definition = { # this is the raj flag
+		coa = BIC
+		coa_with_overlord_canton = BIC_subject
+		allow_overlord_canton = yes
+		priority = 1
+	}
+	flag_definition = { # this is the company flag
+		coa = BIC_republic
+		coa_with_overlord_canton = BIC_republic
+		allow_overlord_canton = yes
+		overlord_canton_scale = { 0.5 0.5 }
+		priority = 10
+		trigger = { 
+			coa_def_republic_flag_trigger = yes
+			OR = {
+				coa_def_independent_trigger = yes
+
+				AND = {
+					exists = c:GBR
+					c:GBR = {
+						has_diplomatic_pact = {
+							who = c:MPR
+							type = chartered_company
+							is_initiator = yes
+						}
+					}
+				}
+			}
+		}
+	}
+	flag_definition = {
+		coa = BIC_dictatorship
+		subject_canton = sub_BIC_cypher
+		priority = 20
+		trigger = { 
+			coa_def_independent_trigger = yes
+			coa_def_dictatorship_flag_trigger = yes
+		}
+	}	
+}
+
+BPR = { # Bombay Presidency
+	flag_definition = { # this is the raj flag
+		coa = BIC
+		coa_with_overlord_canton = BIC_subject
+		allow_overlord_canton = yes
+		priority = 1
+	}
+	flag_definition = { # this is the company flag
+		coa = BIC_republic
+		coa_with_overlord_canton = BIC_republic
+		allow_overlord_canton = yes
+		overlord_canton_scale = { 0.5 0.5 }
+		priority = 10
+		trigger = { 
+			coa_def_republic_flag_trigger = yes
+			OR = {
+				coa_def_independent_trigger = yes
+
+				AND = {
+					exists = c:GBR
+					c:GBR = {
+						has_diplomatic_pact = {
+							who = c:BPR
+							type = chartered_company
 							is_initiator = yes
 						}
 					}
@@ -1680,7 +1764,7 @@ CEY = { # Ceylon
 	}	
 	flag_definition = {
 		coa = CEY_subject_GBR
-		allow_overlord_canton = no	
+		allow_overlord_canton = yes	
 		priority = 50
 		trigger = { 
 			OR = {
