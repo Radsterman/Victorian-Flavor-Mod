@@ -1,0 +1,91 @@
+﻿je_avert_sepoy_mutiny = {
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	complete = {
+		custom_tooltip = {
+			text = je_avert_sepoy_mutiny_tt_1
+			has_variable = consolidated_colonial_rule
+		}
+		custom_tooltip = {
+			text = je_avert_sepoy_mutiny_tt_2
+			has_variable = reformed_indies
+		}
+	}
+
+	fail = {
+		has_any_secessionists_broken_out = yes
+	}
+
+	invalid = {
+		NOT = {
+			owns_entire_state_region = STATE_DELHI
+		}
+	}
+
+	on_fail = {
+		trigger_event = { id = raj.6 }
+		top_overlord = {
+			trigger_event = { id = raj.1 }
+		}
+	}
+
+	on_timeout = {
+		trigger_event = { id = raj.6 }
+		top_overlord = {
+			trigger_event = { id = raj.1 }
+		}
+	}
+
+	on_monthly_pulse = {
+		random_events = {
+			11 = 0
+			1 = raj.3
+			1 = raj.4
+			1 = raj.5
+		}
+	}
+
+	timeout = 7300
+
+	weight = 100
+	should_be_pinned_by_default = yes
+}
+
+je_sepoy_mutiny = {
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	complete = {
+		trigger_if = {
+			limit = { exists = c:MUG }
+			c:MUG = { is_country_alive = no }
+		}
+		highest_secession_progress < 0.3
+		has_any_secessionists_broken_out = no
+		is_at_war = no
+	}
+
+	on_complete = {
+		if = {
+			limit = {
+				exists = c:GBR
+				is_subject_of = c:GBR
+				c:GBR = {
+					is_country_alive = yes
+					NOT = { has_variable = british_raj_var }
+				}
+			}
+			c:GBR = {
+				trigger_event = { id = raj.1 days = 0 popup = yes }
+			}
+		}
+		else = {
+			add_modifier = {
+				name = company_crushed_mutiny
+				months = normal_modifier_time
+			}
+		}
+	}
+
+	weight = 100
+	should_be_pinned_by_default = yes
+}

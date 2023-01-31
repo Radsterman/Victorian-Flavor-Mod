@@ -121,12 +121,40 @@
 			}
 			else_if = {
 				limit = {
-					c:BIC = ROOT
+					OR = {
+						c:BIC = ROOT
+					}
 				}
 
 				every_in_list = {
 					variable = past_overlord 
 					trigger_event = { id = journal_flavor_company_collapse.10 }
+				}
+
+			}
+			else_if = {
+				limit = {
+					OR = {
+						c:MPR = ROOT
+					}
+				}
+
+				every_in_list = {
+					variable = past_overlord 
+					trigger_event = { id = journal_flavor_company_collapse.11 }
+				}
+
+			}
+			else_if = {
+				limit = {
+					OR = {
+						c:BPR = ROOT
+					}
+				}
+
+				every_in_list = {
+					variable = past_overlord 
+					trigger_event = { id = journal_flavor_company_collapse.12 }
 				}
 
 			}
@@ -150,7 +178,21 @@ je_autonomy = {
 	is_shown_when_inactive = {
 		is_subject_type = subject_type_chartered_company
 		NOT = {
-			c:BIC = ROOT
+			OR = {
+				c:BIC = ROOT
+				AND = {
+					c:MPR = ROOT
+					c:MPR = {
+						overlord = c:BIC
+					}
+				}
+				AND = {
+					c:BPR = ROOT
+					c:BPR = {
+						overlord = c:BIC
+					}
+				}	
+			}
 		}
 	}
 
@@ -477,4 +519,85 @@ je_company_bankruptcy = {
 	}
     should_be_pinned_by_default = yes
 	weight = 1000
+}
+
+
+je_relocate_bic = {
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	is_shown_when_inactive = {
+		NOT = {
+			c:BIC = {
+				is_player = yes
+			}
+		}
+		OR = {
+			AND = {
+				exists = c:BPR
+				c:BPR = root
+			}
+			AND = {
+				exists = c:MPR
+				c:MPR = root
+			}
+		}
+	}
+
+    possible = {
+		overlord = c:BIC
+		overlord = {
+			is_subject_type = subject_type_chartered_company
+		}
+	}
+
+	complete = {
+		overlord = {
+			root.gdp >this.gdp 
+		}
+	}
+
+
+	invalid = {
+		OR = {
+			NOT = {
+				overlord = c:BIC
+			}
+			overlord = {
+				NOT = {is_subject_type = subject_type_chartered_company}
+			}
+			NOT = {is_subject_type = subject_type_chartered_company}
+		}
+	}
+
+	on_complete = {
+		annex = c:BIC
+		change_tag = BIC
+
+		if = {
+			limit = {
+				exists = c:MPR
+				NOT = {
+					c:MPR = ROOT
+				}
+			}
+			create_diplomatic_pact = {
+				country = c:MPR
+				type = dependency
+			}	
+		}
+		if = {
+			limit = {
+				exists = c:BPR
+				NOT = {
+					c:BPR = ROOT
+				}
+			}
+			create_diplomatic_pact = {
+				country = c:BPR
+				type = dependency
+			}	
+		}
+	}
+
+	weight = 10000
 }

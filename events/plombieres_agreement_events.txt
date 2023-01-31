@@ -15,7 +15,7 @@ plombieres_agreement.8 = { #SAR An agreement with France?
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
 
-	icon = "gfx/interface/icons/event_icons/event_default.dds"
+	icon = "gfx/interface/icons/event_icons/event_diplomacy.dds"
 
 	duration = 3
 
@@ -26,7 +26,7 @@ plombieres_agreement.8 = { #SAR An agreement with France?
 		c:AUS = {
 			save_scope_as = aus_scope
 		}
-		c:SAR = {
+		ROOT = {
 			save_scope_as = sar_scope
 		}
 	}
@@ -35,13 +35,11 @@ plombieres_agreement.8 = { #SAR An agreement with France?
 		name = plombieres_agreement.8.a
 		default_option = yes
 
-		c:SAR = {
-			trigger_event = {
-				id = plombieres_agreement.1
-				days = 2
-				popup = yes
-			}
+		trigger_event = {
+			id = plombieres_agreement.1
+			popup = yes
 		}
+
 	    ai_chance = {
 			base = 1	
 		}
@@ -63,9 +61,9 @@ plombieres_agreement.1 = { #SAR The Meeting
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
 
-	icon = "gfx/interface/icons/event_icons/event_default.dds"
+	icon = "gfx/interface/icons/event_icons/event_diplomacy.dds"
 
-	duration = 3
+	duration = 1
 
 	immediate = {
 		c:FRA = {
@@ -92,8 +90,8 @@ plombieres_agreement.1 = { #SAR The Meeting
 				limit = {
 					owner = {
 						OR = {
-							c:SAR = THIS
-							is_subject_of = c:SAR
+							ROOT = THIS
+							is_subject_of = ROOT
 						}
 					}
 				}
@@ -105,8 +103,8 @@ plombieres_agreement.1 = { #SAR The Meeting
 				limit = {
 					owner = {
 						OR = {
-							c:SAR = THIS
-							is_subject_of = c:SAR
+							ROOT = THIS
+							is_subject_of = ROOT
 						}
 					}
 				}
@@ -119,10 +117,13 @@ plombieres_agreement.1 = { #SAR The Meeting
 		name = plombieres_agreement.1.a
 		default_option = yes
 		custom_tooltip = plombieres_agreement.1.tt1
+
+		set_variable = savoy_owner
+
 		c:FRA = {
 			trigger_event = {
 				id = plombieres_agreement.2
-				days = 2
+				days = 10
 				popup = yes
 			}
 		}
@@ -157,7 +158,7 @@ plombieres_agreement.2 = { #FRA An Agreement With Sardinia?
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
 
-	icon = "gfx/interface/icons/event_icons/event_default.dds"
+	icon = "gfx/interface/icons/event_icons/event_diplomacy.dds"
 
 	duration = 3
 
@@ -168,16 +169,21 @@ plombieres_agreement.2 = { #FRA An Agreement With Sardinia?
 		c:AUS = {
 			save_scope_as = aus_scope
 		}
-		c:SAR = {
+
+		random_country = {
+			limit = {
+				has_variable = savoy_owner
+			}
 			save_scope_as = sar_scope
 		}
+
 		s:STATE_SAVOY = {
 			random_scope_state = {
 				limit = {
 					owner = {
 						OR = {
-							c:SAR = THIS
-							is_subject_of = c:SAR
+							scope:sar_scope = THIS
+							is_subject_of = scope:sar_scope
 						}
 					}
 				}
@@ -189,8 +195,8 @@ plombieres_agreement.2 = { #FRA An Agreement With Sardinia?
 				limit = {
 					owner = {
 						OR = {
-							c:SAR = THIS
-							is_subject_of = c:SAR
+							scope:sar_scope = THIS
+							is_subject_of = scope:sar_scope
 						}
 					}
 				}
@@ -203,10 +209,10 @@ plombieres_agreement.2 = { #FRA An Agreement With Sardinia?
 		name = plombieres_agreement.2.a
 		default_option = yes
 		custom_tooltip = plombieres_agreement.2.tt1
-		c:SAR = {
+		scope:sar_scope = {
 			trigger_event = {
 				id = plombieres_agreement.3
-				days = 2
+				days = 10
 				popup = yes
 			}
 		}
@@ -216,10 +222,10 @@ plombieres_agreement.2 = { #FRA An Agreement With Sardinia?
 	}
 	option = {
 		name = plombieres_agreement.2.b
-		c:SAR = {
+		scope:sar_scope = {
 			trigger_event = {
 				id = plombieres_agreement.4
-				days = 2
+				days = 10
 				popup = yes
 			}
 		}
@@ -241,7 +247,7 @@ plombieres_agreement.2 = { #FRA An Agreement With Sardinia?
 				c:AUS = {
 					relations:root >= relations_threshold:friendly 
 				}
-				add = -100
+				add = 100
 			}
 			modifier = {
 				trigger = {
@@ -276,7 +282,7 @@ plombieres_agreement.3 = { #SAR Plombières Agreement
 
 	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
-	duration = 3
+	duration = 1
 
 	immediate = {
 		c:FRA = {
@@ -290,8 +296,8 @@ plombieres_agreement.3 = { #SAR Plombières Agreement
 				limit = {
 					owner = {
 						OR = {
-							c:SAR = THIS
-							is_subject_of = c:SAR
+							ROOT = THIS
+							is_subject_of = ROOT
 						}
 					}
 				}
@@ -303,8 +309,8 @@ plombieres_agreement.3 = { #SAR Plombières Agreement
 				limit = {
 					owner = {
 						OR = {
-							c:SAR = THIS
-							is_subject_of = c:SAR
+							ROOT = THIS
+							is_subject_of = ROOT
 						}
 					}
 				}
@@ -325,15 +331,18 @@ plombieres_agreement.3 = { #SAR Plombières Agreement
 			name = plombieres_agreement
 			months = 60
 		}
+
+		set_variable = italian_provocateur
+
 		c:AUS = {
 			trigger_event = {
 				id = plombieres_agreement.5
-				days = 0
+				days = 10
 				popup = yes
 			}
 	    }
 		s:STATE_LOMBARDY = {
-			add_claim = c:SAR
+			add_claim = ROOT
 		}
 	    ai_chance = {
 			base = 1
@@ -358,7 +367,7 @@ plombieres_agreement.4 = { #SAR France has refused
 
 	icon = "gfx/interface/icons/event_icons/event_default.dds"
 
-	duration = 3
+	duration = 1
 
 	immediate = {
 		c:FRA = {
@@ -372,7 +381,7 @@ plombieres_agreement.4 = { #SAR France has refused
 	option = {
 		name = plombieres_agreement.4.a
 		default_option = yes
-		c:SAR = {
+		ROOT = {
 			change_relations = {
 			country = c:FRA
 			value = -50
@@ -405,15 +414,20 @@ plombieres_agreement.5 = { #AUS Second Italian War of Independence
 
 	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
-	duration = 3
+	duration = 1
 
 	immediate = {
 		c:FRA = {
 			save_scope_as = fra_scope
 		}
-		c:SAR = {
+
+		random_country = {
+			limit = {
+				has_variable = italian_provocateur
+			}
 			save_scope_as = sar_scope
 		}
+
 		s:STATE_LOMBARDY = {
 			random_scope_state = {
 				limit = {
@@ -436,18 +450,18 @@ plombieres_agreement.5 = { #AUS Second Italian War of Independence
 
 		c:AUS = {
 		    create_diplomatic_play = {
-				target_country = c:SAR
+				target_country = scope:sar_scope
 				war = yes
 				type = dp_second_italian_war
 
 				add_war_goal = {
-					holder = c:SAR
+					holder = scope:sar_scope
 					type = return_state
 					target_state = s:STATE_LOMBARDY.region_state:AUS
 				}
 		    }
 		}
-		c:SAR = {
+		scope:sar_scope = {
 			trigger_event = {
 				id = plombieres_agreement.6
 				popup = yes
@@ -467,17 +481,17 @@ plombieres_agreement.5 = { #AUS Second Italian War of Independence
 		name = plombieres_agreement.5.b
 
 		s:STATE_LOMBARDY.region_state:AUS = {
-			set_state_owner = c:SAR
+			set_state_owner = scope:sar_scope
 		}
 		add_modifier = {
 		    name = second_italian_war_lost
 			months = normal_modifier_time
 		}
 		change_relations = {
-			country = c:SAR
+			country = scope:sar_scope
 			value = -70
 		}
-		c:SAR = {
+		scope:sar_scope = {
 			trigger_event = {
 				id = plombieres_agreement.7
 				popup = yes
@@ -525,11 +539,16 @@ plombieres_agreement.6 = { #SAR Austria Attacks Us
 
 	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
-	duration = 3
+	duration = 1
 
 	immediate = {
 		c:AUS = {
 			save_scope_as = aus_scope
+		}
+		s:STATE_LOMBARDY = {
+			random_scope_state = {
+				save_scope_as = lombardy_scope
+			}
 		}
 	}
 
@@ -562,7 +581,7 @@ plombieres_agreement.7 = { #SAR Austria backs down
 
 	icon = "gfx/interface/icons/event_icons/event_default.dds"
 
-	duration = 3
+	duration = 1
 
 	immediate = {
 		c:FRA = {
