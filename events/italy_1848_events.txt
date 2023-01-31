@@ -1,9 +1,12 @@
 ﻿namespace = italy_1848
 
-#SIC Sicilian Revolution
+#(HIDDEN) Sicilian Revolution
 italy_1848.1 = {
 	type = country_event
 	placement = scope:sicily_scope
+
+	hidden = yes
+
 
 	title = italy_1848.1.t
 	desc = italy_1848.1.d
@@ -16,9 +19,9 @@ italy_1848.1 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/springtime_of_nation"
 
-	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
 
-	duration = 3
+	duration = 1
 
 	trigger = {
 		owns_entire_state_region = STATE_SICILY
@@ -34,6 +37,7 @@ italy_1848.1 = {
 	}
 
 	immediate = {
+		remove_global_variable = sicilian_rev_possible_var
 		ROOT = {
 			save_scope_as = country_scope
 		}
@@ -42,13 +46,6 @@ italy_1848.1 = {
 				save_scope_as = sicily_scope
 			}
 		}
-		remove_global_variable = sicilian_rev_possible_var
-	}
-
-	option = {
-		name = italy_1848.1.a
-		default_option = yes
-
 		create_country = { # Sicily
 			tag = SCL
 			origin = ROOT
@@ -91,14 +88,11 @@ italy_1848.1 = {
 		scope:country_scope = {
 			trigger_event = {
 				id = italy_1848.2
+				days = 1 #This is needed or the loc won't show the SCL flag
 				popup = yes
 			}
 		}
-
-	    ai_chance = {
-			base = 1	
-		}
-    }
+	}
 }
 
 #SIC Sicilian Revolution
@@ -117,9 +111,9 @@ italy_1848.2 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/springtime_of_nation"
 
-	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
 
-	duration = 3
+	duration = 1
 
 	trigger = {
 		exists = c:SCL
@@ -128,6 +122,9 @@ italy_1848.2 = {
 	immediate = {
 		c:SCL = {
 			save_scope_as = sic_rev_scope
+		}
+		ROOT = {
+			save_scope_as = country_scope
 		}
 		s:STATE_SICILY = {
 			random_scope_state = {
@@ -174,6 +171,12 @@ italy_1848.2 = {
 				country = c:SCL
 				value = -50
 		    }
+        	hidden_effect = {
+				create_truce = {
+					country = c:SCL
+					months = 60
+				}
+			}
 		}
 		add_radicals = {
 			value = large_radicals
@@ -396,9 +399,6 @@ italy_1848.4 = {
 
 	duration = 3
 
-	trigger = {
-	}
-
 	immediate = {
 		c:SCL = {
 			save_scope_as = sic_rev_scope
@@ -582,7 +582,6 @@ italy_1848.6 = {
 }
 
 #AUS (HIDDEN) Creation of Republic of San Marco
-
 italy_1848.7 = {
 	type = country_event
 	hidden = yes
@@ -598,7 +597,7 @@ italy_1848.7 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/springtime_of_nation"
 
-	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
 
 	duration = 0
 
@@ -608,7 +607,7 @@ italy_1848.7 = {
 		owns_entire_state_region = STATE_VENETIA
 		game_date >= 1848.3.17
 		has_technology_researched = nationalism
-		NOT = { has_variable = san_marco_created }
+		NOT = { has_global_variable = san_marco_created }
 		OR = {
 			c:AUS = {
 				owns_entire_state_region = STATE_VENETIA
@@ -622,11 +621,16 @@ italy_1848.7 = {
 	}
 
 	immediate = {
-		set_variable = san_marco_created
+		set_global_variable = san_marco_created
+		s:STATE_VENETIA = {
+			random_scope_state = {
+				save_scope_as = venetia_scope
+			}
+		}
 		create_country = { #Republic of San Marco
 			tag = SMR
 			origin = this
-			state = s:STATE_VENETIA.region_state:AUS
+			state = scope:venetia_scope
 			on_created = {
 				activate_law = law_type:law_presidential_republic
 				activate_law = law_type:law_universal_suffrage
@@ -658,10 +662,6 @@ italy_1848.7 = {
 					name = san_marco_var
 					value = yes
 				}
-				change_relations = {
-					country = c:SAR
-					value = 50
-			    }
 			}		
 		}
 		trigger_event = {
@@ -689,7 +689,7 @@ italy_1848.8 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/springtime_of_nation"
 
-	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
 
 	duration = 1
 
@@ -762,12 +762,9 @@ italy_1848.9 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/political_extremism"
 
-	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+	icon = "gfx/interface/icons/event_icons/event_protest.dds.dds"
 
 	duration = 1
-
-	trigger = {
-	}
 
 	immediate = {
 		c:SMR = {
@@ -840,17 +837,87 @@ italy_1848.10 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/springtime_of_nation"
 
-	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
 
 	duration = 1
 
-	trigger = {
-
-	}
 	immediate = {
-		c:SAR = {
-			save_scope_as = sar_scope
+
+		if = {
+			limit = {
+				exists = c:SAR
+				c:SAR = {
+					is_subject = no
+				}
+			}
+			c:SAR = {
+				save_scope_as = ita_scope
+			}
 		}
+
+		if = {
+			limit = {
+				OR = {
+					NOT = {
+						exists = c:SAR
+					}
+					c:SAR = {
+						is_subject = yes
+					}
+				}
+			}
+			random_country = {
+				limit = {
+					is_player = no
+					is_subject = no
+					NOT = {
+						this = c:SMR
+					}
+					OR = {
+						country_has_primary_culture = cu:north_italian
+						country_has_primary_culture = cu:south_italian
+					}
+					country_rank >= rank_value:minor_power
+					OR = {
+						any_neighbouring_state = {
+							owner = c:AUS
+						}
+						any_neighbouring_state = {
+							owner = c:SMR
+						}
+						any_neighbouring_state = {
+							owner = c:MLN
+						}
+					}
+				}
+				save_scope_as = ita_scope
+			}
+		}
+
+		random_country = {
+			limit = {
+				OR = {
+					country_has_primary_culture = cu:north_italian
+					country_has_primary_culture = cu:south_italian
+				}
+				country_rank >= rank_value:minor_power
+				OR = {
+					any_neighbouring_state = {
+						owner = c:AUS
+					}
+					any_neighbouring_state = {
+						owner = c:SMR
+					}
+					any_neighbouring_state = {
+						owner = c:MLN
+					}
+				}
+				is_player = yes
+			}
+			save_scope_as = ita_scope
+		}
+
+
 		s:STATE_LOMBARDY = {
 			random_scope_state = {
 				save_scope_as = lombardy_scope
@@ -859,7 +926,7 @@ italy_1848.10 = {
 		create_country = { #Milan
 			tag = MLN
 			origin = this
-			state = s:STATE_LOMBARDY.region_state:AUS
+			state = scope:lombardy_scope
 			on_created = {
 				activate_law = law_type:law_presidential_republic
 				activate_law = law_type:law_universal_suffrage
@@ -890,10 +957,6 @@ italy_1848.10 = {
 					name = five_days_var
 					value = yes
 				}
-				change_relations = {
-					country = c:SAR
-					value = 100
-			    }
 			}		
 		}
 		hidden_effect = {
@@ -916,8 +979,16 @@ italy_1848.10 = {
 			country = c:MLN
 			value = -100
 	    }
+	    hidden_effect = {
+    	    c:MLN = {
+				change_relations = {
+					country = scope:ita_scope
+					value = 100
+			    }
+		    }
+	    }
 
-		c:SAR = {
+		scope:ita_scope = {
 			trigger_event = {
 				id = italy_1848.11
 			}
@@ -934,7 +1005,20 @@ italy_1848.10 = {
 		s:STATE_LOMBARDY.region_state:AUS = {
 			set_state_owner = c:MLN
 		}
-		c:SAR = {
+		trigger_event = {
+			id = italy_1848.9
+    	}
+    	hidden_effect = {
+			create_truce = {
+				country = c:MLN
+				months = 60
+			}
+			create_truce = {
+				country = c:SMR
+				months = 60
+			}
+		}
+		scope:ita_scope = {
 			trigger_event = {
 				id = italy_1848.12
 			}
@@ -951,8 +1035,7 @@ italy_1848.10 = {
 			country = c:MLN
 			value = -100
 	    }
-		play_as = c:MLN
-		c:SAR = {
+		scope:ita_scope = {
 			trigger_event = {
 				id = italy_1848.11
 			}
@@ -964,7 +1047,7 @@ italy_1848.10 = {
 	}
 }
 
-#SAR First Italian War of Independence
+#ITALIAN_MAJOR First Italian War of Independence
 italy_1848.11 = {
 	type = country_event
 	placement = scope:lombardy_scope
@@ -983,9 +1066,6 @@ italy_1848.11 = {
 	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
 	duration = 1
-
-	trigger = {
-	}
 
 	immediate = {
 		c:MLN = {
@@ -1022,10 +1102,10 @@ italy_1848.11 = {
 			add_claim = c:AUS
 		}
 		s:STATE_LOMBARDY = {
-			add_claim = c:SAR
+			add_claim = ROOT
 		}
 		s:STATE_VENETIA = {
-			add_claim = c:SAR
+			add_claim = ROOT
 		}
 		annex = c:MLN
 		create_diplomatic_pact = {
@@ -1040,12 +1120,12 @@ italy_1848.11 = {
 			add_war_goal = {
 				holder = c:AUS
 				type = return_state
-				target_state = s:STATE_LOMBARDY.region_state:SAR
+				target_state = scope:lombardy_scope
 			}
 			add_war_goal = {
 				holder = c:AUS
 				type = return_state
-				target_state = s:STATE_VENETIA.region_state:SMR
+				target_state = scope:venetia_scope
 			}
 	    }
 	    add_modifier = {
@@ -1055,12 +1135,18 @@ italy_1848.11 = {
 			name = first_italian_war_var
 			value = yes
 		}
-
+		set_variable = {
+			name = italian_state
+			value = yes
+		}
 		set_global_variable = first_italian_war_happened
-
 		change_relations = {
 			country = c:AUS
 			value = -75
+	    }
+		change_relations = { 
+			country = c:SMR
+			value = 50
 	    }
 		c:AUS = {
 			add_journal_entry = {
@@ -1097,6 +1183,14 @@ italy_1848.11 = {
 		add_radicals = {
 			value = large_radicals
 		}
+		change_relations = { 
+			country = c:SMR
+			value = -25
+	    }
+		change_relations = { 
+			country = c:MLN
+			value = -25
+	    }
 
 	    ai_chance = {
 			base = 5
@@ -1104,7 +1198,7 @@ italy_1848.11 = {
 	}
 }
 
-#SAR Austria doesn't fight Venice and Milan
+#ITALIAN_MAJOR Austria doesn't fight Venice and Milan
 italy_1848.12 = {
 	type = country_event
 	placement = root
@@ -1123,9 +1217,6 @@ italy_1848.12 = {
 	icon = "gfx/interface/icons/event_icons/event_default.dds"
 
 	duration = 1
-
-	trigger = {
-	}
 
 	immediate = {
 		c:SMR = {
@@ -1165,6 +1256,10 @@ italy_1848.12 = {
 			name = free_north_italy_1
 			value = yes
 		}
+		set_variable = {
+			name = italian_state
+			value = yes
+		}
 
 	    ai_chance = {
 			base = 99
@@ -1199,20 +1294,10 @@ italy_1848.13 = {
 
 	duration = 1
 
-	trigger = {
-	}
-
 	option = {
 		name = italy_1848.13.a
 		
 		default_option = yes
-
-		c:SAR = {
-			trigger_event = {
-				id = italy_1848.14
-				days = 15
-			}
-		}
 
 	    ai_chance = {
 			base = 1
@@ -1240,12 +1325,12 @@ italy_1848.15 = {
 
 	duration = 1
 
-	trigger = {
-	}
-
 	immediate = {
-		c:SAR = {
-			save_scope_as = sar_scope
+		random_country = {
+			limit = {
+				has_variable = italian_state
+			}
+			save_scope_as = ita_scope
 		}
 		c:SMR = {
 			save_scope_as = smr_scope
@@ -1257,7 +1342,7 @@ italy_1848.15 = {
 		
 		default_option = yes
 
-		c:SAR = {
+		scope:ita_scope = {
 			trigger_event = {
 				id = italy_1848.16
 				days = 15
@@ -1271,7 +1356,7 @@ italy_1848.15 = {
 	option = {
 		name = italy_1848.15.b
 
-		c:SAR = {
+		scope:ita_scope = {
 			trigger_event = {
 				id = italy_1848.17
 				days = 15
@@ -1284,7 +1369,7 @@ italy_1848.15 = {
 	}
 }
 
-#SAR Positive Plebiscite
+#ITALIAN_MAJOR Positive Plebiscite
 italy_1848.16 = {
 	type = country_event
 	placement = root
@@ -1300,12 +1385,9 @@ italy_1848.16 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
 
-	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
 
 	duration = 1
-
-	trigger = {
-	}
 
 	immediate = {
 		c:SMR = {
@@ -1346,7 +1428,7 @@ italy_1848.16 = {
 	}
 }
 
-#SAR Negative Plebescite
+#ITALIAN_MAJOR Negative Plebescite
 italy_1848.17 = {
 	type = country_event
 	placement = root
@@ -1365,9 +1447,6 @@ italy_1848.17 = {
 	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
 
 	duration = 1
-
-	trigger = {
-	}
 
 	immediate = {
 		c:SMR = {
@@ -1403,7 +1482,7 @@ italy_1848.17 = {
     	}
 
 	    ai_chance = {
-			base = 75
+			base = 80
 		}
 	}
 
@@ -1422,12 +1501,12 @@ italy_1848.17 = {
 		}
 
 	    ai_chance = {
-			base = 25
+			base = 20
 		}
 	}
 }
 
-#SAR Wins First Independence War
+#ITALIAN_MAJOR Wins First Independence War
 italy_1848.18 = {
 	type = country_event
 	placement = root
@@ -1443,13 +1522,12 @@ italy_1848.18 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/unspecific/military_parade"
 
-	icon = "gfx/interface/icons/event_icons/event_default.dds"
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
 	duration = 1
 
 	trigger = {
-		exists = c:SAR
-		this = c:SAR
+		has_variable = first_italian_war_var
 		is_at_war = no
 		owns_entire_state_region = STATE_LOMBARDY
 		OR = {
@@ -1458,9 +1536,7 @@ italy_1848.18 = {
 				owns_entire_state_region = STATE_VENETIA
 			}
 		}
-		c:SAR = {
-			has_variable = first_italian_war_var
-		}
+
 	}
 
 	immediate = {
@@ -1483,10 +1559,14 @@ italy_1848.18 = {
 		
 		default_option = yes
 
-
-		c:MLN = {
-			trigger_event = {
-				id = italy_1848.13
+		if = {
+			limit = {
+				exists = c:MLN
+			}
+			c:MLN = {
+				trigger_event = {
+					id = italy_1848.13
+				}
 			}
 		}
 		if = {
@@ -1619,7 +1699,7 @@ italy_1848.20 = {
 		this = c:PAP
 		owns_entire_state_region = STATE_LAZIO
 		NOT = {
-			has_variable = roman_rep_happened_var
+			has_global_variable = roman_rep_happened_var
 		}
 		game_date >= 1849.2.9
 		has_technology_researched = nationalism
@@ -1653,6 +1733,7 @@ italy_1848.20 = {
 					activate_law = law_type:law_universal_suffrage
 					activate_law = law_type:law_right_of_assembly
 					set_next_election_date = 1852.1.1
+					add_primary_culture = cu:north_italian
 					ig:ig_intelligentsia = {
 						add_ruling_interest_group = yes
 						add_modifier = {
@@ -1735,9 +1816,6 @@ italy_1848.21 = {
 
 	duration = 1
 
-	trigger = {
-	}
-
 	immediate = {
 		c:RMR = {
 			save_scope_as = rmr_scope
@@ -1761,7 +1839,7 @@ italy_1848.21 = {
 			strata = middle
 			value = 0.05
 		}
-		set_variable = {
+		set_global_variable = {
 			name = roman_rep_war_var
 			value = yes
 		}
@@ -1804,8 +1882,10 @@ italy_1848.22 = {
 	duration = 1
 
 	trigger = {
-		has_variable = roman_rep_war_var
-		owns_entire_state_region = STATE_LAZIO
+		has_global_variable = roman_rep_war_var
+		c:FRA = {
+			owns_entire_state_region = STATE_LAZIO
+		}
 		exists = c:RMR
 	}
 
@@ -1816,7 +1896,6 @@ italy_1848.22 = {
 		s:STATE_LAZIO = {
 			remove_claim = c:FRA
 		}
-		remove_variable = roman_rep_war_var
 	}
 
     option = {
@@ -1866,7 +1945,51 @@ italy_1848.22 = {
 	}
 }
 
-#SAR Parma and Modena joins us
+#(HIDDEN) Roman Republic Wins 
+italy_1848.31 = {
+	type = country_event
+	placement = root
+	hidden = yes
+
+	title = italy_1848.31.t
+	desc = italy_1848.31.d
+	flavor = italy_1848.31.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_military_parade.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/military_parade"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	duration = 0
+
+	trigger = {
+		has_global_variable = roman_rep_war_var
+		c:FRA = {
+			has_claim = s:STATE_LAZIO
+		}
+		c:RMR = {
+			owns_entire_state_region = STATE_LAZIO
+			has_truce_with = c:FRA
+		}
+		exists = c:RMR
+	}
+
+	immediate = {
+		s:STATE_LAZIO = {
+			remove_claim = c:FRA
+		}
+	}
+
+    ai_chance = {
+		base = 1	
+	}
+}
+
+#ITALIAN_MAJOR Parma and Modena joins us
 italy_1848.23 = {
 	type = country_event
 	placement = root
@@ -1887,14 +2010,18 @@ italy_1848.23 = {
 	duration = 1
 
 	trigger = {
-		exists = c:SAR
-		c:SAR = this
-		c:SAR = {
-			has_variable = free_north_italy_1
-		}
+		has_variable = free_north_italy_1
 		OR = {
 			exists = c:MOD
 			exists = c:PAR
+		}
+		OR = {
+			c:MOD = {
+				is_subject = no
+			}
+			c:PAR = {
+				is_subject = no
+			}
 		}
 	}
 
@@ -1905,26 +2032,36 @@ italy_1848.23 = {
 		c:PAR = {
 			save_scope_as = par_scope
 		}
-		c:SAR = {
-			remove_variable = free_north_italy_1
-		}
+		remove_variable = free_north_italy_1
 	}
 
     option = {
 		name = italy_1848.23.a
 		default_option = yes
 
-		c:SAR = {
+		if = {
+			limit = {
+				c:PAR = {
+					is_subject = no
+				}
+			}
 			annex = c:PAR
+		}
+		if = {
+			limit = {
+				c:MOD = {
+					is_subject = no
+				}
+			}
 			annex = c:MOD
-			set_variable = {
-				name = free_north_italy_2
-				value = yes
-			}
-			set_variable = {
-				name = free_north_italy_3
-				value = yes
-			}
+		}
+		set_variable = {
+			name = free_north_italy_2
+			value = yes
+		}
+		set_variable = {
+			name = free_north_italy_3
+			value = yes
 		}
 
 	    ai_chance = {
@@ -1956,17 +2093,21 @@ italy_1848.24 = {
 	trigger = {
 		exists = c:TUS
 		c:TUS = this
-		c:SAR = {
+		c:TUS = {
+			is_subject = no
+		}
+		any_country = {
 			has_variable = free_north_italy_2
 		}
 	}
 
 	immediate = {
-		c:SAR = {
+		random_country = {
+			limit = {
+				has_variable = italian_state
+			}
+			save_scope_as = ita_scope
 			remove_variable = free_north_italy_2
-		}
-		c:SAR = {
-			save_scope_as = sar_scope
 		}
 		c:TUS = {
 			save_scope_as = tus_scope
@@ -1977,7 +2118,7 @@ italy_1848.24 = {
 		name = italy_1848.24.a
 		default_option = yes
 
-		c:SAR = {
+		scope:ita_scope = {
 			trigger_event = {
 				id = italy_1848.25
 			}
@@ -1993,13 +2134,32 @@ italy_1848.24 = {
 
 		custom_tooltip = italy_1848.24.tt1
 
-		s:STATE_TUSCANY = {
-			add_claim = c:SAR
+		if = {
+			limit = {
+				scope:ita_scope = {
+					NOT = {
+						has_claim = s:STATE_TUSCANY
+					}
+				}
+			}
+			s:STATE_TUSCANY = {
+				add_claim = scope:ita_scope
+			}
 		}
-		s:STATE_EMILIA = {
-			add_claim = c:SAR
+		if = {
+			limit = {
+				scope:ita_scope = {
+					NOT = {
+						has_claim = s:STATE_EMILIA
+					}
+				}
+			}
+			s:STATE_EMILIA = {
+				add_claim = scope:ita_scope
+			}
 		}
-		c:SAR = {
+
+		scope:ita_scope = {
 			trigger_event = {
 				id = italy_1848.26
 			}
@@ -2010,7 +2170,7 @@ italy_1848.24 = {
 	}
 }
 
-#SAR Tuscany Votes For Annexation
+#ITALIAN_MAJOR Tuscany Votes For Annexation
 italy_1848.25 = {
 	type = country_event
 	placement = root
@@ -2030,13 +2190,8 @@ italy_1848.25 = {
 
 	duration = 1
 
-	trigger = {
-	}
-
 	immediate = {
-		c:SAR = {
-			remove_variable = free_north_italy_2
-		}
+		remove_variable = free_north_italy_2
 		c:TUS = {
 			save_scope_as = tus_scope
 		}
@@ -2047,7 +2202,12 @@ italy_1848.25 = {
 		default_option = yes
 
 		annex = c:TUS
-		annex = c:LUC
+		if = {
+			limit = {
+				exists = c:LUC
+			}
+			annex = c:LUC
+		}
 
 	    ai_chance = {
 			base = 1	
@@ -2055,7 +2215,7 @@ italy_1848.25 = {
 	}
 }
 
-#SAR Tuscany Votes For Independence
+#ITALIAN_MAJOR Tuscany Votes For Independence
 italy_1848.26 = {
 	type = country_event
 	placement = root
@@ -2075,13 +2235,8 @@ italy_1848.26 = {
 
 	duration = 1
 
-	trigger = {
-	}
-
 	immediate = {
-		c:SAR = {
-			remove_variable = free_north_italy_2
-		}
+		remove_variable = free_north_italy_2
 		c:TUS = {
 			save_scope_as = tus_scope
 		}
@@ -2105,7 +2260,7 @@ italy_1848.26 = {
     	}
 
 	    ai_chance = {
-			base = 1	
+			base = 90	
 		}
 	}
 
@@ -2113,7 +2268,7 @@ italy_1848.26 = {
 		name = italy_1848.26.b
 
 	    ai_chance = {
-			base = 1	
+			base = 10	
 		}
 	}
 }
@@ -2141,17 +2296,21 @@ italy_1848.27 = {
 	trigger = {
 		exists = c:RMR
 		c:RMR = this
-		c:SAR = {
+		any_country = {
 			has_variable = free_north_italy_3
+			NOT = {
+				this = c:PAP
+			}
 		}
 	}
 
 	immediate = {
-		c:SAR = {
+		random_country = {
+			limit = {
+				has_variable = italian_state
+			}
+			save_scope_as = ita_scope
 			remove_variable = free_north_italy_3
-		}
-		c:SAR = {
-			save_scope_as = sar_scope
 		}
 		c:RMR = {
 			save_scope_as = rmr_scope
@@ -2162,14 +2321,14 @@ italy_1848.27 = {
 		name = italy_1848.27.a
 		default_option = yes
 
-		c:SAR = {
+		scope:ita_scope = {
 			trigger_event = {
 				id = italy_1848.29
 			}
 		}
 
 	    ai_chance = {
-			base = 90	
+			base = 95	
 		}
 	}
 
@@ -2178,24 +2337,55 @@ italy_1848.27 = {
 
 		custom_tooltip = italy_1848.27.tt1
 
-		s:STATE_TUSCANY = {
-			add_claim = c:SAR
+		if = {
+			limit = {
+				scope:ita_scope = {
+					NOT = {
+						has_claim = s:STATE_ROMAGNA
+					}
+				}
+			}
+			s:STATE_ROMAGNA = {
+				add_claim = scope:ita_scope
+			}
 		}
-		s:STATE_EMILIA = {
-			add_claim = c:SAR
+		if = {
+			limit = {
+				scope:ita_scope = {
+					NOT = {
+						has_claim = s:STATE_UMBRIA
+					}
+				}
+			}
+			s:STATE_UMBRIA = {
+				add_claim = scope:ita_scope
+			}
 		}
-		c:SAR = {
+		if = {
+			limit = {
+				scope:ita_scope = {
+					NOT = {
+						has_claim = s:STATE_LAZIO
+					}
+				}
+			}
+			s:STATE_LAZIO = {
+				add_claim = scope:ita_scope
+			}
+		}
+
+		scope:ita_scope = {
 			trigger_event = {
 				id = italy_1848.28
 			}
 		}
 	    ai_chance = {
-			base = 10	
+			base = 5	
 		}
 	}
 }
 
-#SAR Roman Republic Votes For Independence
+#ITALIAN_MAJOR Roman Republic Votes For Independence
 italy_1848.28 = {
 	type = country_event
 	placement = root
@@ -2216,21 +2406,10 @@ italy_1848.28 = {
 	duration = 1
 
 	trigger = {
-		c:SAR = {
-			has_variable = free_north_italy_3
-		}
-		exists = c:RMR
-		NOT = {
-			c:FRA = {
-				has_claim = s:STATE_LAZIO
-			}
-		}
 	}
 
 	immediate = {
-		c:SAR = {
-			remove_variable = free_north_italy_3
-		}
+		remove_variable = free_north_italy_3
 		c:RMR = {
 			save_scope_as = rmr_scope
 		}
@@ -2247,7 +2426,7 @@ italy_1848.28 = {
     	}
 
 	    ai_chance = {
-			base = 1	
+			base = 90	
 		}
 	}
 
@@ -2255,12 +2434,12 @@ italy_1848.28 = {
 		name = italy_1848.28.b
 
 	    ai_chance = {
-			base = 1	
+			base = 10	
 		}
 	}
 }
 
-#SAR Roman Republic Votes For Annexation
+#ITALIAN_MAJOR Roman Republic Votes For Annexation
 italy_1848.29 = {
 	type = country_event
 	placement = root
@@ -2280,13 +2459,8 @@ italy_1848.29 = {
 
 	duration = 1
 
-	trigger = {
-	}
-
 	immediate = {
-		c:SAR = {
-			remove_variable = free_north_italy_3
-		}
+		remove_variable = free_north_italy_3
 		c:RMR = {
 			save_scope_as = rmr_scope
 		}
@@ -2304,7 +2478,7 @@ italy_1848.29 = {
 	}
 }
 
-#SAR Romagna Votes For Annexation
+#ITALIAN_MAJOR Romagna Votes For Annexation
 italy_1848.30 = {
 	type = country_event
 	placement = root
@@ -2325,19 +2499,19 @@ italy_1848.30 = {
 	duration = 1
 
 	trigger = {
-		exists = c:SAR
-		this = c:SAR
-		c:SAR = {
-			has_variable = free_north_italy_3
-		}
-		exists = c:PAP
+		has_variable = free_north_italy_3
 		c:PAP = {
 			owns_entire_state_region = STATE_ROMAGNA
+			is_player = no
 		}
 	}
 
 	immediate = {
-		c:SAR = {
+		random_country = {
+			limit = {
+				has_variable = italian_state
+			}
+			save_scope_as = ita_scope
 			remove_variable = free_north_italy_3
 		}
 		c:PAP = {
@@ -2354,9 +2528,397 @@ italy_1848.30 = {
 		name = italy_1848.30.a
 		default_option = yes
 
-		s:STATE_ROMAGNA.region_state:PAP = {
-			set_state_owner = c:SAR
+		scope:romagna_scope = {
+			set_state_owner = scope:ita_scope
 		}
+
+	    ai_chance = {
+			base = 1	
+		}
+	}
+}
+
+#PAP Plebiscites in Romagna
+italy_1848.35 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.35.t
+	desc = italy_1848.35.d
+	flavor = italy_1848.35.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 1
+
+	trigger = {
+		exists = c:PAP
+		c:PAP = this
+		c:PAP = {
+			is_player = yes
+		}
+		owns_entire_state_region = STATE_ROMAGNA
+		any_country = {
+			has_variable = free_north_italy_3
+		}
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_variable = italian_state
+			}
+			save_scope_as = ita_scope
+			remove_variable = free_north_italy_3
+		}
+		c:PAP = {
+			save_scope_as = pap_scope
+		}
+		s:STATE_ROMAGNA = {
+			random_scope_state = {
+				save_scope_as = romagna_scope
+			}
+		}
+	}
+
+    option = {
+		name = italy_1848.35.a
+
+		default_option = yes
+
+		scope:ita_scope = {
+			trigger_event = {
+				id = italy_1848.30
+			}
+		}
+    	hidden_effect = {
+			create_truce = {
+				country = scope:ita_scope
+				months = 60
+			}
+		}
+
+	    ai_chance = {
+			base = 90	
+		}
+	}
+    option = {
+		name = italy_1848.35.b
+
+		custom_tooltip = italy_1848.35.tt1
+
+		if = {
+			limit = {
+				scope:ita_scope = {
+					NOT = {
+						has_claim = s:STATE_ROMAGNA
+					}
+				}
+			}
+			s:STATE_ROMAGNA = {
+				add_claim = scope:ita_scope
+			}
+		}
+
+		scope:ita_scope = {
+			trigger_event = {
+				id = italy_1848.36
+			}
+		}
+
+	    ai_chance = {
+			base = 10	
+		}
+	}
+}
+
+#ITALIAN_MAJOR Romagna Votes For Independence
+italy_1848.36 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.36.t
+	desc = italy_1848.36.d
+	flavor = italy_1848.36.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+		s:STATE_ROMAGNA = {
+			random_scope_state = {
+				save_scope_as = romagna_scope
+			}
+		}
+		s:STATE_UMBRIA = {
+			random_scope_state = {
+				save_scope_as = umbria_scope
+			}
+		}
+		random_country = {
+			limit = {
+				has_variable = italian_state
+			}
+			save_scope_as = ita_scope
+		}
+		scope:romagna_scope = {
+			set_state_owner = scope:ita_scope
+		}
+	}
+
+    option = {
+		name = italy_1848.36.a
+		default_option = yes
+
+		custom_tooltip = italy_1848.36.tt1
+
+		c:PAP = {
+	    	create_diplomatic_play = {
+				target_state = scope:romagna_scope
+				war = no
+				type = dp_conquer_state
+	    	}
+		}
+
+	    ai_chance = {
+			base = 75	
+		}
+	}
+
+    option = {
+		name = italy_1848.36.b
+
+		custom_tooltip = italy_1848.36.tt1
+
+    	create_diplomatic_play = {
+			target_state = scope:umbria_scope
+			war = no
+			type = dp_conquer_state
+
+			add_war_goal = {
+				holder = c:PAP
+				type = conquer_state
+				target_state = scope:romagna_scope
+			}
+    	}
+
+	    ai_chance = {
+			base = 15	
+		}
+	}
+
+    option = {
+		name = italy_1848.36.c
+
+		scope:romagna_scope = {
+			set_state_owner = c:PAP
+		}
+    	hidden_effect = {
+			create_truce = {
+				country = c:PAP
+				months = 60
+			}
+		}
+
+	    ai_chance = {
+			base = 10	
+		}
+	}
+}
+
+#SCL Plebiscite For Annexation
+italy_1848.32 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.32.t
+	desc = italy_1848.32.d
+	flavor = italy_1848.32.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 1
+
+	trigger = {
+		exists = c:SCL
+		c:SCL = this
+		is_at_war = no
+		owns_entire_state_region = STATE_SICILY
+		any_country = {
+			OR = {
+				country_has_primary_culture = cu:north_italian
+				country_has_primary_culture = cu:south_italian
+			}
+			country_rank >= rank_value:major_power
+			has_journal_entry = je_italian_unification
+			OR = {
+				has_law = law_type:law_wealth_voting
+				has_law = law_type:law_census_voting
+				has_law = law_type:law_universal_suffrage
+			}
+			owns_entire_state_region = STATE_PIEDMONT
+			owns_entire_state_region = STATE_LOMBARDY
+			owns_entire_state_region = STATE_EMILIA
+			owns_entire_state_region = STATE_TUSCANY
+			owns_entire_state_region = STATE_ROMAGNA
+			NOT = {
+				this = c:SCL
+				has_variable = free_south_italy
+			}
+		}
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_variable = italian_state
+			}
+			save_scope_as = ita_scope
+			set_variable = free_south_italy
+		}
+		c:SCL = {
+			save_scope_as = scl_scope
+		}
+	}
+
+    option = {
+		name = italy_1848.32.a
+		default_option = yes
+
+		scope:ita_scope = {
+			trigger_event = {
+				id = italy_1848.33
+			}
+		}
+
+	    ai_chance = {
+			base = 90	
+		}
+	}
+
+    option = {
+		name = italy_1848.32.b
+
+		change_relations = {
+			country = scope:ita_scope
+			value = -25
+	    }
+	    ai_chance = {
+			base = 10	
+		}
+	}
+}
+
+#ITALIAN_MAJOR Sicily Votes For Annexation
+italy_1848.33 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.33.t
+	desc = italy_1848.33.d
+	flavor = italy_1848.33.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 1
+
+	immediate = {
+		remove_variable = free_north_italy_3
+		c:SCL = {
+			save_scope_as = scl_scope
+		}
+	}
+
+    option = {
+		name = italy_1848.33.a
+		default_option = yes
+
+		annex = c:SCL
+
+	    ai_chance = {
+			base = 1	
+		}
+	}
+}
+
+#ITALIAN_MAJOR Sicily Votes For Independence
+italy_1848.34 = {
+	type = country_event
+	placement = root
+
+	title = italy_1848.34.t
+	desc = italy_1848.34.d
+	flavor = italy_1848.34.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+		c:SCL = {
+			save_scope_as = scl_scope
+		}
+	}
+
+    option = {
+		name = italy_1848.34.a
+		default_option = yes
+
+    	create_diplomatic_play = {
+			target_country = c:SCL
+			war = yes
+			type = dp_annex_war
+    	}
+
+	    ai_chance = {
+			base = 1	
+		}
+	}
+
+    option = {
+		name = italy_1848.34.b
 
 	    ai_chance = {
 			base = 1	
