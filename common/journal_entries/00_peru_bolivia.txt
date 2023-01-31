@@ -52,35 +52,45 @@
 	should_be_pinned_by_default = yes
 }
 
-#je_peru_unification= { #I'll check on if and how to integrate this later
-#	icon = "gfx/interface/icons/event_icons/event_scales.dds"
-#
-#	complete = {
-#		is_subject = no 
-#		OR = {
-#			c:NEU = { is_subject_of = c:BOL }
-#			c:NEU = { is_subject = no }	
-#		}
-#		
-#
-#	}
-#
-#	on_complete = {
-#            annex = c:NEU
-#	}
-#
-#	fail = {
-#		OR = {
-#			NOT = { exists = c:NEU }
-#		}
-#	}
-#
-#	goal_add_value = {
-#		value = 120
-#	}
-#
-#	weight = 10000
-#}
+je_peru_unification = { #Feel free to replace this later
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+	is_shown_when_inactive = {
+		exists = c:PEU
+		c:PEU = ROOT
+		exists = c:ESP
+	}
+
+	possible = {
+		is_subject_type = subject_type_real_union
+	}
+
+	complete = {
+		is_subject = no 
+		OR = {
+			c:ESP = { is_subject_of = c:BOL }
+			c:ESP = { is_subject = no }	
+		}
+		
+
+	}
+
+	on_complete = {
+            annex = c:ESP
+	}
+
+	fail = {
+		OR = {
+			NOT = { exists = c:ESP }
+		}
+	}
+
+	goal_add_value = {
+		value = 120
+	}
+
+	weight = 10000
+}
 #
 #je_debug_interest = {
 #	icon = "gfx/interface/icons/event_icons/event_scales.dds"
