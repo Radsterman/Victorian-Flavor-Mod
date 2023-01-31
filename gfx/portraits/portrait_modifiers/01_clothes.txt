@@ -961,8 +961,24 @@
                 exists = scope:character
                 scope:character = {
                     owner = {
-                        exists = c:PRU
-                        c:PRU = this
+						OR = {
+							AND = {
+								exists = c:PRU
+								c:PRU = this
+							}
+							AND = {
+								exists = c:GER
+								c:GER = this
+							}
+							AND = {
+								exists = c:NGF
+								c:NGF = this
+							}
+							AND = {
+								exists = c:SGF
+								c:SGF = this
+							}
+						}
                     }
                     OR = {
                         AND = {
@@ -3046,6 +3062,83 @@ buddhist_religious_clothes = {
                         }
                     }
                 }
+            }
+        }
+    }
+}
+    
+chinese_western_military_clothes = {
+    dna_modifiers = {
+        accessory = {
+            mode = add
+            gene = coats
+            template = prussian_coats
+            range = { 0 1 } # For the randomness to work correctly
+        }
+
+        accessory = {
+            mode = add
+            gene = legwear
+            template = european_legwear
+            range = { 0 1 } # For the randomness to work correctly
+        }
+    }
+
+    weight = {
+        base = 0
+        modifier = {
+            add = 5000
+            exists = scope:character
+            scope:character = {
+                owner = {
+					OR = {
+						country_has_primary_culture = cu:han
+						country_has_primary_culture = cu:hakka
+						country_has_primary_culture = cu:min
+						country_has_primary_culture = cu:yue
+					}
+                }
+                OR = {
+                    military_clothes_trigger = yes
+                    monarchy_clothes_trigger = yes
+                }
+				has_variable = western_uniforms
+            }
+        }
+    }
+}
+    
+japanese_western_military_clothes = {
+    dna_modifiers = {
+        accessory = {
+            mode = add
+            gene = coats
+            template = prussian_coats
+            range = { 0 1 } # For the randomness to work correctly
+        }
+
+        accessory = {
+            mode = add
+            gene = legwear
+            template = european_legwear
+            range = { 0 1 } # For the randomness to work correctly
+        }
+    }
+
+    weight = {
+        base = 0
+        modifier = {
+            add = 5000
+            exists = scope:character
+            scope:character = {
+                owner = {
+					country_has_primary_culture = cu:japanese
+                }
+                OR = {
+                    military_clothes_trigger = yes
+                    monarchy_clothes_trigger = yes
+                }
+				has_variable = western_uniforms
             }
         }
     }
