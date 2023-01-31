@@ -2688,9 +2688,20 @@ italy_1848.32 = {
 	trigger = {
 		exists = c:SCL
 		c:SCL = this
+		is_at_war = no
 		owns_entire_state_region = STATE_SICILY
 		any_country = {
-			has_variable = italian_state
+			OR = {
+				country_has_primary_culture = cu:north_italian
+				country_has_primary_culture = cu:south_italian
+			}
+			country_rank >= rank_value:major_power
+			has_journal_entry = je_italian_unification
+			OR = {
+				has_law = law_type:law_wealth_voting
+				has_law = law_type:law_census_voting
+				has_law = law_type:law_universal_suffrage
+			}
 			owns_entire_state_region = STATE_PIEDMONT
 			owns_entire_state_region = STATE_LOMBARDY
 			owns_entire_state_region = STATE_EMILIA
@@ -2734,16 +2745,10 @@ italy_1848.32 = {
     option = {
 		name = italy_1848.32.b
 
-		custom_tooltip = italy_1848.32.tt1
-
-		s:STATE_SICILY = {
-			add_claim = scope:ita_scope
-		}
-		scope:ita_scope = {
-			trigger_event = {
-				id = italy_1848.34
-			}
-		}
+		change_relations = {
+			country = scope:ita_scope
+			value = -25
+	    }
 	    ai_chance = {
 			base = 10	
 		}
