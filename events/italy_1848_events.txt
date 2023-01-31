@@ -1,9 +1,12 @@
 ﻿namespace = italy_1848
 
-#SIC Sicilian Revolution
+#(HIDDEN) Sicilian Revolution
 italy_1848.1 = {
 	type = country_event
 	placement = scope:sicily_scope
+
+	hidden = yes
+
 
 	title = italy_1848.1.t
 	desc = italy_1848.1.d
@@ -34,6 +37,7 @@ italy_1848.1 = {
 	}
 
 	immediate = {
+		remove_global_variable = sicilian_rev_possible_var
 		ROOT = {
 			save_scope_as = country_scope
 		}
@@ -42,13 +46,6 @@ italy_1848.1 = {
 				save_scope_as = sicily_scope
 			}
 		}
-		remove_global_variable = sicilian_rev_possible_var
-	}
-
-	option = {
-		name = italy_1848.1.a
-		default_option = yes
-
 		create_country = { # Sicily
 			tag = SCL
 			origin = ROOT
@@ -91,14 +88,11 @@ italy_1848.1 = {
 		scope:country_scope = {
 			trigger_event = {
 				id = italy_1848.2
+				days = 1 #This is needed or the loc won't show the SCL flag
 				popup = yes
 			}
 		}
-
-	    ai_chance = {
-			base = 1	
-		}
-    }
+	}
 }
 
 #SIC Sicilian Revolution
@@ -128,6 +122,9 @@ italy_1848.2 = {
 	immediate = {
 		c:SCL = {
 			save_scope_as = sic_rev_scope
+		}
+		ROOT = {
+			save_scope_as = country_scope
 		}
 		s:STATE_SICILY = {
 			random_scope_state = {
