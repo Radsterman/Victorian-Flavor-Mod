@@ -105,6 +105,46 @@ je_reform_indies = {
 			}
 		}
 		set_variable = reformed_indies
+
+		if = {
+			limit = {
+				OR = {
+					is_subject_type = subject_type_chartered_company
+					is_subject_type = subject_type_puppet
+				}
+			}
+			top_overlord = {
+				create_diplomatic_pact = {
+					country = root
+					type = dominion
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				exists = c:MPR
+				c:MPR = {
+					AND = {
+						is_player = no
+						is_subject_of = c:BIC
+					}
+				}
+			}
+			annex = c:MPR
+		}
+		if = {
+			limit = {
+				exists = c:BPR
+				c:MPR = {
+					AND = {
+						is_player = no
+						is_subject_of = c:BIC
+					}
+				}
+			}
+			annex = c:BPR
+		}
 	}
 
 	current_value = {
@@ -130,21 +170,6 @@ je_ethical_policy = {
 	}
 
 	on_complete = {
-		if = {
-			limit = {
-				OR = {
-					is_subject_type = subject_type_chartered_company
-					is_subject_type = subject_type_puppet
-				}
-			}
-			top_overlord = {
-				create_diplomatic_pact = {
-					country = root
-					type = dominion
-				}
-			}
-		}
-
 		trigger_event = { id = east_indies.3 }
 	}
 
