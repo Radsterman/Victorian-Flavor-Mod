@@ -2134,12 +2134,31 @@ italy_1848.24 = {
 
 		custom_tooltip = italy_1848.24.tt1
 
-		s:STATE_TUSCANY = {
-			add_claim = scope:ita_scope
+		if = {
+			limit = {
+				scope:ita_scope = {
+					NOT = {
+						has_claim = s:STATE_TUSCANY
+					}
+				}
+			}
+			s:STATE_TUSCANY = {
+				add_claim = scope:ita_scope
+			}
 		}
-		s:STATE_EMILIA = {
-			add_claim = scope:ita_scope
+		if = {
+			limit = {
+				scope:ita_scope = {
+					NOT = {
+						has_claim = s:STATE_EMILIA
+					}
+				}
+			}
+			s:STATE_EMILIA = {
+				add_claim = scope:ita_scope
+			}
 		}
+
 		scope:ita_scope = {
 			trigger_event = {
 				id = italy_1848.26
@@ -2183,7 +2202,12 @@ italy_1848.25 = {
 		default_option = yes
 
 		annex = c:TUS
-		annex = c:LUC
+		if = {
+			limit = {
+				exists = c:LUC
+			}
+			annex = c:LUC
+		}
 
 	    ai_chance = {
 			base = 1	
@@ -2313,15 +2337,43 @@ italy_1848.27 = {
 
 		custom_tooltip = italy_1848.27.tt1
 
-		s:STATE_ROMAGNA = {
-			add_claim = scope:ita_scope
+		if = {
+			limit = {
+				scope:ita_scope = {
+					NOT = {
+						has_claim = s:STATE_ROMAGNA
+					}
+				}
+			}
+			s:STATE_ROMAGNA = {
+				add_claim = scope:ita_scope
+			}
 		}
-		s:STATE_UMBRIA = {
-			add_claim = scope:ita_scope
+		if = {
+			limit = {
+				scope:ita_scope = {
+					NOT = {
+						has_claim = s:STATE_UMBRIA
+					}
+				}
+			}
+			s:STATE_UMBRIA = {
+				add_claim = scope:ita_scope
+			}
 		}
-		s:STATE_LAZIO = {
-			add_claim = scope:ita_scope
+		if = {
+			limit = {
+				scope:ita_scope = {
+					NOT = {
+						has_claim = s:STATE_LAZIO
+					}
+				}
+			}
+			s:STATE_LAZIO = {
+				add_claim = scope:ita_scope
+			}
 		}
+
 		scope:ita_scope = {
 			trigger_event = {
 				id = italy_1848.28
@@ -2562,9 +2614,19 @@ italy_1848.35 = {
 
 		custom_tooltip = italy_1848.35.tt1
 
-		s:STATE_ROMAGNA = {
-			add_claim = scope:ita_scope
+		if = {
+			limit = {
+				scope:ita_scope = {
+					NOT = {
+						has_claim = s:STATE_ROMAGNA
+					}
+				}
+			}
+			s:STATE_ROMAGNA = {
+				add_claim = scope:ita_scope
+			}
 		}
+
 		scope:ita_scope = {
 			trigger_event = {
 				id = italy_1848.36
@@ -2617,50 +2679,67 @@ italy_1848.36 = {
 			}
 			save_scope_as = ita_scope
 		}
+		scope:romagna_scope = {
+			set_state_owner = scope:ita_scope
+		}
 	}
 
     option = {
 		name = italy_1848.36.a
 		default_option = yes
 
-		scope:romagna_scope = {
-			set_state_owner = scope:ita_scope
-		}
+		custom_tooltip = italy_1848.36.tt1
+
 		c:PAP = {
 	    	create_diplomatic_play = {
 				target_state = scope:romagna_scope
-				war = yes
+				war = no
 				type = dp_conquer_state
 	    	}
 		}
 
 	    ai_chance = {
-			base = 1	
+			base = 75	
 		}
 	}
 
     option = {
 		name = italy_1848.36.b
 
-		scope:romagna_scope = {
-			set_state_owner = scope:ita_scope
-		}
+		custom_tooltip = italy_1848.36.tt1
+
     	create_diplomatic_play = {
 			target_state = scope:umbria_scope
-			war = yes
+			war = no
 			type = dp_conquer_state
+
+			add_war_goal = {
+				holder = c:PAP
+				type = conquer_state
+				target_state = scope:romagna_scope
+			}
     	}
 
 	    ai_chance = {
-			base = 1	
+			base = 15	
 		}
 	}
 
     option = {
 		name = italy_1848.36.c
 
+		scope:romagna_scope = {
+			set_state_owner = c:PAP
+		}
+    	hidden_effect = {
+			create_truce = {
+				country = c:PAP
+				months = 60
+			}
+		}
+
 	    ai_chance = {
-			base = 1	
+			base = 10	
 		}
 	}
 }
