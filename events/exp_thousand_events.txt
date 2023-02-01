@@ -1,6 +1,7 @@
 ﻿namespace = exp_thousand
 
-exp_thousand.1 = { #SAR An agreement with France?
+#ITALIAN_MAJOR Expedition of The Thousand
+exp_thousand.1 = { 
 	type = country_event
 	placement = ROOT
 
@@ -19,12 +20,12 @@ exp_thousand.1 = { #SAR An agreement with France?
 
 	duration = 3
 
+	trigger = {
+	}
+
 	immediate = {
 		c:SIC = {
 			save_scope_as = sic_scope
-		}
-		ROOT = {
-			save_scope_as = root_scope
 		}
 	}
 
@@ -38,6 +39,7 @@ exp_thousand.1 = { #SAR An agreement with France?
 				popup = yes
 			}
 		}
+		set_variable = garibaldi_redshirts
 
 	    ai_chance = {
 			base = 99	
@@ -48,6 +50,294 @@ exp_thousand.1 = { #SAR An agreement with France?
 
 	    ai_chance = {
 			base = 1	
+		}
+    }
+}
+
+#SIC Expedition of The Thousand
+exp_thousand.2 = { 
+	type = country_event
+	placement = ROOT
+
+	title = exp_thousand.2.t
+	desc = exp_thousand.2.d
+	flavor = exp_thousand.2.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	duration = 1
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_variable = garibaldi_redshirts
+			}
+			save_scope_as = ita_scope
+		}
+		random_list = {
+			8 = {
+				set_variable = garibaldi_redshirst_success
+			}
+			2 = {
+				set_variable = garibaldi_redshirst_fail
+			}
+		}
+	}
+
+	option = {
+		name = exp_thousand.2.a
+		default_option = yes
+
+	    ai_chance = {
+			base = 1	
+		}
+    }
+}
+
+#SIC Garibaldi Wins
+exp_thousand.3 = { 
+	type = country_event
+	placement = ROOT
+
+	title = exp_thousand.3.t
+	desc = exp_thousand.3.d
+	flavor = exp_thousand.3.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_devastation.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	duration = 1
+
+	trigger = {
+		has_variable = garibaldi_redshirst_success
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_variable = garibaldi_redshirts
+			}
+			save_scope_as = ita_scope
+		}
+		remove_variable = garibaldi_redshirst_success
+	}
+
+	option = {
+		name = exp_thousand.3.a
+		default_option = yes
+
+		scope:ita_scope = {
+			trigger_event = {
+				id = exp_thousand.4
+				days = 30
+				popup = yes
+			}
+		}
+
+	    ai_chance = {
+			base = 1	
+		}
+    }
+}
+
+#ITALIAN_MAJOR Garibaldi Wins
+exp_thousand.4 = { 
+	type = country_event
+	placement = ROOT
+
+	title = exp_thousand.4.t
+	desc = exp_thousand.4.d
+	flavor = exp_thousand.4.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_military_parade.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/military_parade"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	duration = 1
+
+	immediate = {
+		c:SIC = {
+			save_scope_as = sic_scope
+		}
+		s:STATE_UMBRIA = {
+			random_scope_state = {
+				save_scope_as = umbria_scope
+			}
+		}
+	}
+
+	option = {
+		name = exp_thousand.4.a
+		default_option = yes
+
+		scope:umbria_scope = {
+			set_state_owner = ROOT
+		}
+		s:STATE_LAZIO = {
+			set_owner_of_provinces = {
+				country = ROOT
+				provinces = {x3040A0}
+			}
+		}
+		annex = c:SIC
+    	hidden_effect = {
+			create_truce = {
+				country = c:PAP
+				months = 60
+			}
+		}
+
+	    ai_chance = {
+			base = 1	
+		}
+    }
+}
+
+#SIC Garibaldi Lose
+exp_thousand.5 = { 
+	type = country_event
+	placement = ROOT
+
+	title = exp_thousand.5.t
+	desc = exp_thousand.5.d
+	flavor = exp_thousand.5.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_military_parade.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/military_parade"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	duration = 1
+
+	trigger = {
+		has_variable = garibaldi_redshirst_fail
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_variable = garibaldi_redshirts
+			}
+			save_scope_as = ita_scope
+		}
+		c:PAP = {
+			save_scope_as = pap_scope
+		}
+		remove_variable = garibaldi_redshirst_fail
+	}
+
+	option = {
+		name = exp_thousand.5.a
+		default_option = yes
+
+		scope:ita_scope = {
+			trigger_event = {
+				id = exp_thousand.6
+				days = 30
+				popup = yes
+			}
+		}
+
+	    ai_chance = {
+			base = 1	
+		}
+    }
+}
+
+#ITALIAN_MAJOR Garibaldi Lose
+exp_thousand.6 = { 
+	type = country_event
+	placement = ROOT
+
+	title = exp_thousand.6.t
+	desc = exp_thousand.6.d
+	flavor = exp_thousand.6.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	duration = 1
+
+	immediate = {
+		c:SIC = {
+			save_scope_as = sic_scope
+		}
+		s:STATE_UMBRIA = {
+			random_scope_state = {
+				save_scope_as = umbria_scope
+			}
+		}
+	}
+
+	option = {
+		name = exp_thousand.6.a
+		default_option = yes
+
+		scope:umbria_scope = {
+			set_state_owner = ROOT
+		}
+		s:STATE_LAZIO = {
+			set_owner_of_provinces = {
+				country = ROOT
+				provinces = {x3040A0}
+			}
+		}
+    	create_diplomatic_play = {
+			target_country = c:SIC
+			war = yes
+			type = dp_annex_war
+    	}
+    	hidden_effect = {
+			create_truce = {
+				country = c:PAP
+				months = 60
+			}
+		}
+		c:SIC = {
+			trigger_event = {
+				id = exp_thousand.7
+				popup = yes
+			}
+		}
+
+	    ai_chance = {
+			base = 70	
+		}
+    }
+
+	option = {
+		name = exp_thousand.6.b
+
+	    ai_chance = {
+			base = 30	
 		}
     }
 }
