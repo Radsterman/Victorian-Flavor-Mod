@@ -4,11 +4,18 @@
 
 	immediate = {
 		c:SIC = {
-			save_scope_as = sic
+			save_scope_as = sic_scope
 			add_journal_entry = {
 				type = je_exp_thousand_SIC
 			}
 		}
+		random_country = {
+			limit = {
+				owns_entire_state_region = STATE_MALTA
+			}
+			save_scope_as = malta_scope
+		}
+		set_variable = choose_commander
 	}
 
 	complete = {
@@ -26,20 +33,19 @@
 		in_default = no
 		taking_loans = no
 		is_unification_candidate = ITA
+
+    	custom_tooltip = {
+    		text = exp_thousand_commander
+			has_variable = thousand_commander
+		}
     }
 
     on_complete = {
-
+    	trigger_event = {
+    		id = exp_thousand.1
+    	}
     }
-
-    fail = {
-
-    }
-
-    on_fail = {
-
-    }
-
+    
 	status_desc = {
 		first_valid = {
 			triggered_desc = {
