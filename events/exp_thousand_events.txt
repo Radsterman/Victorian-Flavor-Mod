@@ -1,5 +1,81 @@
 ﻿namespace = exp_thousand
 
+exp_thousand.7 = { 
+	type = country_event
+	placement = ROOT
+
+	title = exp_thousand.7.t
+	desc = exp_thousand.7.d
+	flavor = exp_thousand.7.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	duration = 3
+
+	trigger = {
+		NOT = {
+			OR = {
+				this = c:SIC
+				this = c:PAP
+			}
+			exists = c:ITA
+			has_global_variable = exp_thousand_happened 
+		}
+		exists = c:SIC
+		owns_entire_state_region = STATE_PIEDMONT
+		owns_entire_state_region = STATE_LOMBARDY
+		owns_entire_state_region = STATE_EMILIA
+		owns_entire_state_region = STATE_ROMAGNA
+		owns_entire_state_region = STATE_TUSCANY
+		has_technology_researched = pan-nationalism
+		OR = {
+			country_has_primary_culture = cu:north_italian
+			country_has_primary_culture = cu:south_italian
+		}
+		country_rank >= rank_value:major_power
+		c:SIC = {
+			any_civil_war = {
+				is_civil_war_type = revolution
+				civil_war_progress >= 1
+			}
+		}
+	}
+
+	immediate = {
+		set_global_variable = exp_thousand_happened
+		c:SIC = {
+			save_scope_as = sic_scope
+		}
+	}
+
+	option = {
+		name = exp_thousand.7.a
+		default_option = yes
+
+		add_journal_entry = {
+			type = je_exp_thousand
+		}
+
+	    ai_chance = {
+			base = 99	
+		}
+    }
+	option = {
+		name = exp_thousand.7.b
+
+	    ai_chance = {
+			base = 1	
+		}
+    }
+}
+
 #ITALIAN_MAJOR Expedition of The Thousand
 exp_thousand.1 = { 
 	type = country_event
