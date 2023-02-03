@@ -1,0 +1,231 @@
+﻿namespace = italian_unification
+
+# Unified italian_unification
+italian_unification.1 = {
+	type = country_event
+	placement = ROOT
+
+	title = italian_unification.1.t
+	desc = italian_unification.1.d
+	flavor = italian_unification.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		ruler.interest_group = {
+			save_scope_as = ruler_ig_scope
+		}
+	}
+
+	option = {
+		name = italian_unification.1.a
+		default_option = yes
+		# prestige
+		add_modifier = {
+			name = italian_unifier_prestige
+			months = long_modifier_time
+		}
+	}
+	option = {
+		name = german_unification.1.b
+		# ruler IG attraction
+		scope:ruler_ig_scope = {
+			add_modifier = {
+				name = italian_unifiers_ig
+				months = normal_modifier_time
+			}
+		}
+	}
+}
+
+# Annex an Italian country
+italian_unification.2 = {
+	type = country_event
+	placement = ROOT
+
+	title = italian_unification.2.t
+	desc = italian_unification.2.d
+	flavor = italian_unification.2.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	duration = 1
+
+	trigger = {
+		any_neighbouring_state = {
+			owner = {
+				OR = {
+					country_has_primary_culture = cu:north_italian
+					country_has_primary_culture = cu:south_italian
+				}
+				OR = {
+					is_subject = no
+					is_subject_of = ROOT
+				}
+				has_diplomatic_pact = {
+					who = ROOT
+					type = customs_union
+				}
+				country_rank <= rank_value:minor_power
+				relations:root >= relations_threshold:amicable
+				is_player = no
+				NOT = { has_variable = italian_minor_dont_annex }
+			}
+		}
+	}
+
+	immediate = {
+		random_neighbouring_state = {
+			limit = {
+				owner = {
+					OR = {
+						country_has_primary_culture = cu:north_italian
+						country_has_primary_culture = cu:south_italian
+					}
+					OR = {
+						is_subject = no
+						is_subject_of = ROOT
+					}
+					has_diplomatic_pact = {
+						who = ROOT
+						type = customs_union
+					}
+					country_rank <= rank_value:minor_power
+					relations:root >= relations_threshold:amicable
+					is_player = no
+					NOT = { has_variable = italian_minor_dont_annex }
+				}
+			}
+			owner = {
+				save_scope_as = italian_annex_country
+			}
+		}
+	}
+
+	option = {
+		name = italian_unification.2.a
+		default_option = yes
+		create_incident = {
+			country = scope:italian_annex_country
+			value = 10
+		}
+		annex = scope:italian_annex_country
+		ai_chance = {
+			base = 1
+		}
+	}
+	option = {
+		name = italian_unification.2.b
+		change_relations = {
+			country = scope:italian_annex_country
+			value = 20
+		}
+		scope:italian_annex_country = {
+			set_variable = {
+				name = italian_minor_dont_annex
+				months = normal_modifier_time
+			}
+		}
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+# Garibaldi
+italian_unification.3 = {
+	type = country_event
+	placement = ROOT
+
+	title = italian_unification.3.t
+	desc = italian_unification.3.d
+	flavor = italian_unification.3.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	duration = 3
+
+	trigger = {
+		NOT = { has_global_variable = garibaldi_variable }
+		NOT = { has_variable = garibaldi_var }
+		game_date < 1882.1.1
+	}
+
+	immediate = {
+		set_global_variable = garibaldi_variable
+		set_variable = garibaldi_var
+	}
+
+	option = {
+		name = italian_unification.3.a
+		default_option = yes
+		create_character = {
+			first_name = Giuseppe
+			last_name = Garibaldi
+			is_general = yes
+			interest_group = ig_armed_forces
+			female = no
+			birth_date = 1807.7.4
+			dna = dna_giuseppe_garibaldi
+			ideology = ideology_republican_leader
+			traits = {
+				resupply_commander
+				surveyor
+				expert_artillery_commander
+			}
+			on_created = {
+				add_modifier = {
+					name = garibaldi_popularity
+				}
+			}
+		}
+	}
+	option = {
+		name = italian_unification.3.b
+		create_character = {
+			first_name = Giuseppe
+			last_name = Garibaldi
+			ig_leader = yes
+			interest_group = ig_armed_forces
+			female = no
+			birth_date = 1807.7.4
+			dna = dna_giuseppe_garibaldi
+			ideology = ideology_republican_leader
+			traits = {
+				meticulous
+				cautious
+			}
+			on_created = {
+				add_modifier = {
+					name = garibaldi_popularity
+				}
+			}
+		}
+	}
+}
