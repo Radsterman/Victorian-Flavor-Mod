@@ -1,38 +1,7 @@
-je_centralize_iran = {
-	icon = "gfx/interface/icons/event_icons/event_fire.dds"
-
-	complete = {
-		has_technology_researched = centralization
-        NOT = { has_law = law_type:law_hereditary_bureaucrats }
-	}
-
-	on_complete = {
-		trigger_event = { id = iran_abolish_autonomy.1 } # Inherit the Khanates and Emirates
-		hidden_effect = {
-			add_journal_entry = {
-				type = je_centralize_iran_process
-			}
-			add_journal_entry = {
-				type = je_persia_integrate_khans
-			}
-			add_journal_entry = {
-				type = je_persia_reclaim_coast
-			}
-			add_journal_entry = {
-				type = je_persia_integrate_qaenat
-			}
-			add_journal_entry = {
-				type = je_persia_integrate_herat
-			}
-		}
-	}
-
-    should_be_pinned_by_default = yes
-	weight = 100
-}
-
 je_centralize_iran_process = {
-	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	immediate = {trigger_event = { id = iran_abolish_autonomy.1 }}
 
 	complete = {
 		custom_tooltip = {
@@ -75,19 +44,37 @@ je_centralize_iran_process = {
 }
 
 je_persia_integrate_khans = {
-	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	icon = "gfx/interface/icons/event_icons/event_centralization.dds"
 
 	complete = {
-		custom_tooltip = {
-			text = integrate_khanates_iran
-			has_variable = wip_pp
+		OR = {
+			NOT = { has_law = law_type:law_hereditary_bureaucrats }
+			AND = {
+				owns_entire_state_region = STATE_KHORASAN
+				owns_entire_state_region = STATE_LURISTAN
+				owns_entire_state_region = STATE_TABRIZ
+			}
 		}
+		
+		bureaucracy >= 0 
+		approaching_bureaucracy_shortage = no
 	}
 
 	on_complete = {
-		custom_tooltip = {
-			text = integrate_khanates_iran_je_txt
-			set_variable = integrated_khanates_iran
+		set_variable = integrated_khanates_iran
+		every_country = {
+			limit = {
+				is_subject_of = c:PER
+				OR = {
+					country_has_primary_culture = cu:kurdish
+					country_has_primary_culture = cu:turkmen
+					this = c:ARB
+				}
+			}
+			save_scope_as = khanate_annex_target
+			c:PER = {
+				annex = scope:khanate_annex_target
+			}
 		}
 	}
 
@@ -95,19 +82,46 @@ je_persia_integrate_khans = {
 }
 
 je_persia_reclaim_coast = {
-	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	icon = "gfx/interface/icons/event_icons/event_naval.dds"
 
 	complete = {
-		custom_tooltip = {
-			text = integrate_khanates_iran
-			has_variable = wip_pp
+		OR = {
+			custom_tooltip = {
+				text = integrate_khanates_iran
+				has_variable = wip_pp
+			}
+			AND = {
+				owns_entire_state_region = STATE_LARISTAN
+				owns_entire_state_region = STATE_FARS
+			}
 		}
+		}
+
+		bureaucracy >= 0 
+		approaching_bureaucracy_shortage = no
 	}
 
 	on_complete = {
-		custom_tooltip = {
-			text = reclaim_coast_iran_je_txt
-			set_variable = reclaimed_coast_iran
+		set_variable = reclaimed_coast_iran
+		every_country = {
+			limit = {
+				has_diplomatic_pact = {
+					who = c:PER
+					type = tributary
+					is_initiator = no
+				}
+				OR = {
+					has_state_in_state_region = STATE_FARS
+					has_state_in_state_region = STATE_LARISTAN
+				}
+				any_scope_state = {
+					is_coastal = yes
+				}
+			}
+			save_scope_as = coast_annex_target
+			c:PER = {
+				annex = scope:coast_annex_target
+			}
 		}
 	}
 
@@ -115,33 +129,62 @@ je_persia_reclaim_coast = {
 }
 
 je_persia_integrate_qaenat = {
-	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	icon = "gfx/interface/icons/event_icons/event_colonial.dds"
 
 	complete = {
-		custom_tooltip = {
-			text = integrate_khanates_iran
-			has_variable = wip_pp
+		exists = c:QZM
+		c:QZM = {
+			relations:root >= relations_threshold:amicable
 		}
+		bureaucracy >= 0 
+		approaching_bureaucracy_shortage = no
 	}
 
 	on_complete = {
-		custom_tooltip = {
-			text = integrate_qaenat_iran_je_txt
-			set_variable = integrated_qaenat_iran
+		set_variable = integrated_qaenat_iran
+		annex = c:QZM
+	}
+
+	invalid = {
+		OR = {
+			NOT = {
+				exists = c:QZM
+			}
+			NOT = {
+				c:QZM = {
+					is_subject_of = c:PER
+				}
+			}
 		}
+	}
+
+	on_invalid = {
+		set_variable = integrated_qaenat_iran
 	}
 
 	weight = 10000
 }
 
 je_persia_integrate_herat = {
-	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
 
 	complete = {
-		custom_tooltip = {
-			text = integrate_khanates_iran
-			has_variable = wip_pp
+		OR = {
+			c:HER ={
+				is_subject_of = c:PER
+			}
+			AND = {
+				custom_tooltip = {
+					text = herat_conquered_tt
+					exists = c:HER
+					c:PER = {
+						has_state_in_state_region = STATE_WESTERN_AFGHANISTAN
+					}
+				}
+			}
+			
 		}
+		
 	}
 
 	on_complete = {
