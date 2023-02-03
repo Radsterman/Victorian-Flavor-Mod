@@ -53,6 +53,39 @@ exp_thousand.7 = {
 		c:SIC = {
 			save_scope_as = sic_scope
 		}
+
+		create_character = {
+			first_name = Ignazio	
+			last_name = Ribotti
+			ig_leader = no
+			interest_group = ig_armed_forces
+			female = no
+			birth_date = 1809.11.12
+			ideology = ideology_moderate
+			traits = {
+			}
+			on_created = {
+				set_variable = {
+					name = ignazio_ribotti
+				}
+			}
+		}
+		create_character = {
+			first_name = Rosolino	
+			last_name = Pilo
+			ig_leader = no
+			interest_group = ig_trade_unions
+			female = no
+			birth_date = 1820.7.15
+			ideology = ideology_republican
+			traits = {
+			}
+			on_created = {
+				set_variable = {
+					name = rosolino_pilo
+				}
+			}
+		}
 	}
 
 	option = {
@@ -101,6 +134,22 @@ exp_thousand.8 = {
 
 	immediate = {
 		remove_variable = choose_commander
+		c:SIC = {
+			save_scope_as = sic_scope
+		}
+
+		random_scope_character = {
+			limit = {has_variable = giuseppe_garibaldi}
+			save_scope_as = garibaldi
+		}
+		random_scope_character = {
+			limit = {has_variable = ignazio_ribotti}
+			save_scope_as = ribotti
+		}
+		random_scope_character = {
+			limit = {has_variable = rosolino_pilo}
+			save_scope_as = pilo
+		}
 	}
 
 	option = {
@@ -108,6 +157,9 @@ exp_thousand.8 = {
 		default_option = yes
 
 		set_variable = thousand_commander
+		scope:garibaldi = {
+			save_scope_as = exp_commander
+		}
 		ig:ig_intelligentsia = {
 			add_modifier = {
 				name = expedition_commander
@@ -123,6 +175,9 @@ exp_thousand.8 = {
 		name = exp_thousand.8.b
 
 		set_variable = thousand_commander
+		scope:ribotti {
+			save_scope_as = exp_commander
+		}
 		ig:ig_armed_forces = {
 			add_modifier = {
 				name = expedition_commander
@@ -138,6 +193,9 @@ exp_thousand.8 = {
 		name = exp_thousand.8.c
 
 		set_variable = thousand_commander
+		scope:pilo {
+			save_scope_as = exp_commander
+		}
 		ig:ig_trade_unions = {
 			add_modifier = {
 				name = expedition_commander

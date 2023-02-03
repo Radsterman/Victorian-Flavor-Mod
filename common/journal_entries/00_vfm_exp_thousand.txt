@@ -45,7 +45,7 @@
     		id = exp_thousand.1
     	}
     }
-    
+
 	status_desc = {
 		first_valid = {
 			triggered_desc = {
@@ -60,33 +60,42 @@
 	should_be_pinned_by_default = yes
 }
 
-
-
-
-
-
-
 je_exp_thousand_SIC = {
 
 	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
 
 	immediate = {
+		random_country = {
+			limit = {
+				has_journal_entry = je_exp_thousand
+			}
+			save_scope_as = ita_scope
+		}
 	}
 
 	complete = {
-
+		radical_fraction = {
+			value < 0.15
+		}
+		any_scope_state = {
+			turmoil < 0.1
+		}	
+		any_interest_group = {
+			ig_approval >= -5
+		}
     }
 
     on_complete = {
-
+    	set_global_variable = exp_thousand_limited
     }
 
     fail = {
-
-    }
-
-    on_fail = {
-
+	    custom_tooltip = {
+    		text = exp_thousand_SIC_fail
+	    	any_country = {
+	    		has_variable = garibaldi_redshirts
+	    	}
+	    }
     }
 
 	status_desc = {
