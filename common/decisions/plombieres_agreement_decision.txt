@@ -11,28 +11,29 @@
 		country_rank >= rank_value:minor_power
 		is_subject = no
 		is_at_war = no
-		has_technology_researched = pan-nationalism
-		owns_entire_state_region = STATE_PIEDMONT
-		owns_entire_state_region = STATE_SAVOY
+		any_neighbouring_state = {
+			owner = c:FRA
+		}
+		any_neighbouring_state = {
+			owner = c:AUS
+		}
+		has_state_in_state_region = STATE_SAVOY
 		has_state_in_state_region = STATE_PROVENCE
+
+		NOT = {
+			hidden = {
+				has_variable = plombieres_agreement_happened
+			}
+		}
 		OR = {
 			c:AUS = {
-				owns_entire_state_region = STATE_LOMBARDY
+				country_or_subject_owns_entire_state_region = STATE_LOMBARDY
 				is_subject = no
 			}
-			any_country = {
-				is_subject_of = c:AUS
-				owns_entire_state_region = STATE_LOMBARDY
-			}
 		}
-		NOT = {
-			year >= 1880
-		}
+
 		c:FRA = {
 			relations:root >= relations_threshold:amicable 
-			is_at_war = no
-		}
-		c:SAR = {
 			is_at_war = no
 		}
 	}
@@ -44,12 +45,15 @@
 			}
 		}
 		set_variable = {
+			name = plombieres_agreement_happened
+			value = yes
+		}
+		set_variable = {
 			name = plombieres_agreement_var
 			value = yes
 		}
 		trigger_event = {
-			id = plombieres_agreement.6
-			days = 0
+			id = plombieres_agreement.8
 			popup = yes
 		}
 	}

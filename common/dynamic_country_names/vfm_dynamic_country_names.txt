@@ -269,7 +269,7 @@ CAU = {
 			c:RUS = {
 				has_diplomatic_pact = {
 					who = c:CAU
-					type = puppet
+					type = dependency
 					is_initiator = yes
 				}
 			}
@@ -650,4 +650,128 @@ RGT = {
 			}
 		}
 	}
+}
+
+KOR = { # Korea
+	dynamic_country_name = { # Joseon
+		name = dyn_c_korea_joseon
+		adjective = dyn_c_korea_joseon_adj
+		
+		is_main_tag_only = yes
+		priority = 1
+		
+		trigger = {
+			
+			scope:actor = {
+				OR = {
+					is_subject = yes
+					is_subject_type = subject_type_tributary
+				}
+				
+				 has_law = law_type:law_monarchy
+			}
+		}
+	}
+	dynamic_country_name = { # Joseon
+	name = dyn_c_korea_great_joseon
+	adjective = dyn_c_korea_great_joseon_adj
+	
+	is_main_tag_only = yes
+	priority = 10
+	
+	trigger = {
+		
+		scope:actor = {
+			 is_subject = no
+			 NOT = { is_subject_type = subject_type_tributary }
+			 has_law = law_type:law_monarchy
+		}
+	}
+}
+	dynamic_country_name = { # Chaoxian
+		name = dyn_c_korea_chaoxian
+		adjective = dyn_c_korea_chaoxian_adj
+		
+		is_main_tag_only = yes
+		priority = 2
+		
+		trigger = {
+			coa_def_chinese_ensign_trigger = yes
+		}
+	}
+    dynamic_country_name = { # Korean Empire
+		name = dyn_c_korea_empire
+		adjective = dyn_c_korea_empire_adj
+		
+		is_main_tag_only = yes
+		priority = 1500
+		
+		trigger = {
+			scope:actor = { 
+				is_subject = no
+				has_law = law_type:law_autocracy
+				NOT = { has_law = law_type:law_monarchy }
+			}
+		}
+	}
+	dynamic_country_name = { # Ilminist Korea
+		name = dyn_c_korea_ilmin
+		adjective = dyn_c_korea_ilmin_adj
+		
+		is_main_tag_only = yes
+		priority = 1500
+		
+		trigger = {
+			scope:actor = {
+				NOT = { 
+					is_subject_type = subject_type_tributary 
+					has_law = law_type:law_council_republic
+				}
+				OR = {
+					has_law = law_type:law_parliamentary_republic
+					has_law = law_type:law_presidential_republic
+				}
+				OR = {
+					has_law = law_type:law_ethnostate
+					has_law = law_type:law_national_supremacy
+				}
+				has_law = law_type:law_autocracy
+			}
+		}
+	}
+	dynamic_country_name = { # Republic of Korea
+		name = dyn_c_korea_republic
+		adjective = dyn_c_korea_republic_adj
+		
+		is_main_tag_only = yes
+		priority = 1500
+		
+		trigger = {
+			scope:actor = {
+				NOT = { 
+					is_subject_type = subject_type_tributary 
+					has_law = law_type:law_council_republic
+				}
+				OR = {
+					has_law = law_type:law_parliamentary_republic
+					has_law = law_type:law_presidential_republic
+				}
+			}
+		}
+	} 
+	dynamic_country_name = { # People's Republic of Korea
+		name = dyn_c_korea_prepublic
+		adjective = dyn_c_korea_prepublic_adj
+		
+		is_main_tag_only = yes
+		priority = 1500
+		
+		trigger = {
+			scope:actor = {
+				NOT = { is_subject_type = subject_type_tributary }
+				has_law = law_type:law_council_republic
+			}
+		}
+	}
+    
 }

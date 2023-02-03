@@ -330,6 +330,23 @@ SWE = {
 	}
 }
 
+GRN = {
+	dynamic_country_name = {
+		name = dyn_c_greenland_decentralized
+		adjective = dyn_c_greenland_decentralizedadj
+		
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {			
+				is_country_type = decentralized
+			}
+		}
+	}
+}
+
 ACE = { # Sumatra
 	dynamic_country_name = {
 		name = dyn_c_sumatra
@@ -801,11 +818,19 @@ FIN = { # Finland
 		trigger = {
 			exists = c:RUS
 			c:RUS = {
-				has_diplomatic_pact = {
-					who = c:FIN
-					type = personal_union
-					is_initiator = yes
+				OR = {
+					has_diplomatic_pact = {
+						who = c:FIN
+						type = personal_union
+						is_initiator = yes
+					}
+					has_diplomatic_pact = {
+						who = c:FIN
+						type = real_union
+						is_initiator = yes
+					}
 				}
+
 			}
 		}
 	}
@@ -1058,21 +1083,6 @@ KTI = { # Kutai
 				owns_entire_state_region = STATE_EAST_BORNEO
 				owns_entire_state_region = STATE_NORTH_BORNEO
 			}
-		}
-	}
-}
-
-KOR = { # Korea
-	dynamic_country_name = { # Joseon
-		name = dyn_c_korea_joseon
-		adjective = dyn_c_korea_joseon_adj
-		
-		is_main_tag_only = yes
-		priority = 10
-		
-		trigger = {
-			exists = scope:actor
-			scope:actor = { has_law = law_type:law_monarchy }
 		}
 	}
 }

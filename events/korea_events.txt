@@ -1,0 +1,258 @@
+﻿namespace = kor
+
+kor.1 = { #Hangul event
+  type = country_event
+  
+  title = kor.1.t
+  desc = kor.1.d
+  flavor = kor.1.f
+  
+  event_image = {
+    video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
+  }
+  
+  icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+  
+  on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+  on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+  
+  duration = 3
+  
+  trigger = {
+    #Complete the issue of hanja journal entry
+  }
+  
+  option = { #embrace hangul
+    name = kor.1.a
+    default_option = yes
+    add_modifier = {
+      name = modifier_kor_hangul
+    }
+    remove_modifier = modifier_kor_ill_fitting_writing_system
+    if = { 
+      limit = { is_subject_of = c:CHI }
+      change_relations = {
+        country = c:CHI
+        value = -30
+      }
+    }
+  }
+  option = { #keep hanja
+    name = kor.1.b
+    add_modifier = {
+      name = modifier_kor_kept_hanja
+      is_decaying = yes
+      months = 60
+    }
+    if = { 
+      limit = { is_subject_of = c:CHI }
+      change_relations = {
+        country = c:CHI
+        value = 30
+      }
+    }
+  }
+  option = { #use both
+    name = kor.1.c
+    remove_modifier = modifier_kor_ill_fitting_writing_system
+    if = { 
+      limit = { is_subject_of = c:CHI }
+      change_relations = {
+        country = c:CHI
+        value = -5
+      }
+    }
+  }
+
+}
+
+#kor.2 = { #gyeongbokgung event
+#  type = country_event
+#  placement = ROOT
+#
+#  title = kor.2.t
+#  desc = kor.2.d
+#  flavor = kor.2.f
+#  
+#  event_image = {
+#    video = "gfx/event_pictures/asia_confucianism_shinto.bk2"
+#  }
+#
+#  icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+#  
+#  on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+#  on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+#  
+#  duration = 3
+#
+#  trigger = {
+#    year > 1845
+#    exists = c:KOR
+#    this = c:KOR
+#    NOT = { has_global_variable = gyeongbokgung_restored }
+#  }
+#
+#  immediate = {
+#    set_global_variable = gyeongbokgung_restored
+#  }
+#
+#  option = { #Restore the palace
+#    name = kor.2.a
+#    default_option = yes
+#    add_modifier = {
+#      name = modifier_kor_restoration_of_gyeongbokgung
+#      months = 86
+#    }
+#  }
+#  option = { #Don't restore the palace
+#    name = kor.2.b
+#    add_modifier = {
+#      name = modifier_kor_delapidated_palace
+#      months = 48
+#    }
+#  }
+
+#}
+
+kor.3 = { #China Appeased
+  type = country_event
+  
+  title = kor.3.t
+  desc = kor.3.d
+  flavor = kor.3.f
+  
+	event_image = {
+		video = "gfx/event_pictures/unspecific_military_parade.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/military_parade"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+  
+  duration = 3
+  
+  trigger = {
+    #Complete the issue of hanja journal entry
+  }
+
+  immediate = {
+    c:CHI = {
+      save_scope_as = chi_scope
+    }
+  }
+  
+  option = { 
+    name = kor.3.a
+    default_option = yes
+    if = {
+      limit = {
+        c:CHI = {
+          OR = {
+            has_technology_researched = multilateral_alliances
+            num_alliances < 1
+          }	
+        }
+      }
+      c:CHI ={
+        create_diplomatic_pact = {
+          country = c:KOR
+          type = alliance
+        }
+      }
+    }
+		c:CHI ={
+			create_diplomatic_pact = {
+				country = c:KOR
+				type = customs_union
+			}
+		}
+
+  }
+
+}
+
+kor.4 = { #China Angered
+  type = country_event
+  
+  title = kor.4.t
+  desc = kor.4.d
+  flavor = kor.4.f
+  
+	event_image = {
+		video = "gfx/event_pictures/asia_union_leader.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/asia/union_leader"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+  
+  duration = 3
+  
+  trigger = {
+    #Complete the issue of hanja journal entry
+  }
+
+  immediate = {
+    c:KOR= {
+      save_scope_as = kor_scope
+    }
+  }
+  
+  option = { 
+    name = kor.4.a
+    default_option = yes
+    ai_chance = { base = 1 }
+
+    if = {
+      limit = {
+        is_country_type = recognized
+      }
+      create_diplomatic_play = {
+        name = korean_subjugation
+      
+        target_country = c:KOR
+        
+        type = dp_make_puppet
+  
+        add_war_goal = {
+          holder = c:KOR
+          type = independence
+          target_state = s:STATE_BEIJING.region_state:CHI
+        }
+  
+      }
+    }
+    else = {
+      create_diplomatic_play = {
+        name = korean_subjugation
+      
+        target_country = c:KOR
+        
+        type = dp_make_vassal
+  
+        add_war_goal = {
+          holder = c:KOR
+          type = independence
+          target_state = s:STATE_BEIJING.region_state:CHI
+        }
+  
+      }
+    }
+
+    
+  }
+  option = { #keep hanja
+    name = kor.4.b
+
+    ai_chance = { base = 0 }
+    
+    add_modifier = {
+			name = china_let_korea_go
+			months = short_modifier_time
+		}
+  }
+
+}
+
