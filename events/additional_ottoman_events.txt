@@ -602,14 +602,6 @@ tanzimat_events.11 = {
 				save_scope_as = damascus_state
 			}
 		}
-		#every_scope_country = {
-		#	limit = {
-		#		has_interest_marker_in_region = region_middle_east
-		#	}
-		#	add_journal_entry = {
-		#		type = je_druze_christian_war_foreign
-		#	}
-		#}
 	}
 	option = { #Let's hope it doesn't get too bad
 		name = tanzimat_events.11.a
@@ -1051,41 +1043,87 @@ tanzimat_events.16 = {
 	}
 }
 
-##Foreign country contemplates intervention
-#tanzimat_events.17 = {
-#	type = state_event
-#	placement = scope:mount_lebanon_state
-#	title = tanzimat_events.17.t
-#	desc = tanzimat_events.17.d
-#	flavor =  tanzimat_events.17.f
-#	
-#	duration = 1
-#	event_image = {
-#		video = "gfx/event_pictures/middleeast_police_breaking_door.bk2"
-#	}
-#	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-#	on_opened_soundeffect = "event:/SFX/Events/middleeast/police_breaking_door"
-#	icon = "gfx/interface/icons/event_icons/event_fire.dds"
-#	trigger = {
-#		has_journal_entry = je_druze_christian_war_foreign
-#	}
-#	
-#	option = { #We must intervene strongly
-#		name = tanzimat_events.17.a
-#		default_option = yes
-#	}
-#	
-#	option = { #We will petition the Sultan for action
-#		name = tanzimat_events.17.b
-#		default_option = yes
-#	}
-#	
-#	option = { #Take no action, we cannot risk it
-#		name = tanzimat_events.17.c
-#		default_option = yes
-#	}
-#}
-#
+# "The Events" (massacres of Aleppo)
+tanzimat_events.17 = {
+	type = state_event
+	placement = s:STATE_SYRIA
+	title = tanzimat_events.17.t
+	desc = tanzimat_events.17.d
+	flavor =  tanzimat_events.17.f
+	duration = 1
+	event_image = {
+		video = "gfx/event_pictures/middleeast_police_breaking_door.bk2"
+	}
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/police_breaking_door"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	trigger = {
+		ROOT = {
+			owns_entire_state_region = STATE_SYRIA
+		}
+		NOT = {
+			has_variable = aleppo_massacres
+		}
+	}
+	immediate = {
+		set_variable = aleppo_massacres
+	}
+	option = { #We have the big guns
+		name = tanzimat_events.17.a
+		default_option = yes
+		trigger = {
+			any_scope_building = {
+				is_building_type = building_barracks
+				OR = {
+					has_active_production_method = pm_mobile_artillery
+					has_active_production_method = pm_shrapnel_artillery
+					has_active_production_method = pm_siege_artillery
+				}
+			}
+		}
+		s:STATE_SYRIA.state_region = {
+			add_devastation = 10
+		}
+		s:STATE_SYRIA = {
+			add_radicals = {
+				value = small_radicals
+				religion = rel:sunni
+			}
+			add_radicals = {
+				value = small_radicals
+				religion = rel:oriental_orthodox
+			}
+		}
+	}
+	option = { #This will take a long time to solve
+		name = tanzimat_events.17.b
+		trigger = {
+			NOT = {
+				any_scope_building = {
+					is_building_type = building_barracks
+					OR = {
+						has_active_production_method = pm_mobile_artillery
+						has_active_production_method = pm_shrapnel_artillery
+						has_active_production_method = pm_siege_artillery
+					}
+				}
+			}
+		}
+		s:STATE_SYRIA.state_region = {
+			add_devastation = 20
+		}
+		s:STATE_SYRIA = {
+			add_radicals = {
+				value = large_radicals
+				religion = rel:sunni
+			}
+			add_radicals = {
+				value = large_radicals
+				religion = rel:oriental_orthodox
+			}
+		}
+	}
+}
 
 
 
