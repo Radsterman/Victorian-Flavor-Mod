@@ -20,9 +20,6 @@ exp_thousand.1 = {
 
 	duration = 3
 
-	trigger = {
-	}
-
 	immediate = {
 		c:SIC = {
 			save_scope_as = sic_scope
@@ -79,16 +76,20 @@ exp_thousand.2 = {
 	duration = 1
 
 	immediate = {
-		random_scope_character = {
-			limit = {has_variable = thousand_commander}
-			save_scope_as = exp_commander
-		}
+
 		random_country = {
 			limit = {
 				has_variable = garibaldi_redshirts
 			}
 			save_scope_as = ita_scope
 		}
+		scope:ita_scope = {
+			random_scope_character = {
+				limit = {has_variable = thousand_commander}
+				save_scope_as = exp_commander
+			}		
+		}
+
 		if = {
 			limit = {
 				has_global_variable = exp_thousand_limited
@@ -152,15 +153,18 @@ exp_thousand.3 = {
 	}
 
 	immediate = {
-		random_scope_character = {
-			has_variable = exp_commander
-			save_scope_as = exp_commander
-		}
+
 		random_country = {
 			limit = {
 				has_variable = garibaldi_redshirts
 			}
 			save_scope_as = ita_scope
+		}
+		scope:ita_scope = {
+			random_scope_character = {
+				limit = {has_variable = thousand_commander}
+				save_scope_as = exp_commander
+			}		
 		}
 		remove_variable = garibaldi_redshirst_success
 	}
@@ -204,9 +208,17 @@ exp_thousand.4 = {
 	duration = 1
 
 	immediate = {
-		random_scope_character = {
-			has_variable = exp_commander
-			save_scope_as = exp_commander
+		random_country = {
+			limit = {
+				has_variable = garibaldi_redshirts
+			}
+			save_scope_as = ita_scope
+		}
+		scope:ita_scope = {
+			random_scope_character = {
+				limit = {has_variable = thousand_commander}
+				save_scope_as = exp_commander
+			}		
 		}
 		ruler = {
 			save_scope_as = ruler_scope
@@ -218,6 +230,11 @@ exp_thousand.4 = {
 			random_scope_state = {
 				save_scope_as = umbria_scope
 			}
+		}
+		remove_variable = garibaldi_redshirts
+		scope:exp_commander = {
+			set_character_busy = no
+			remove_variable = thousand_commander
 		}
 	}
 
@@ -273,15 +290,17 @@ exp_thousand.5 = {
 	}
 
 	immediate = {
-		random_scope_character = {
-			has_variable = exp_commander
-			save_scope_as = exp_commander
-		}
 		random_country = {
 			limit = {
 				has_variable = garibaldi_redshirts
 			}
 			save_scope_as = ita_scope
+		}
+		scope:ita_scope = {
+			random_scope_character = {
+				limit = {has_variable = thousand_commander}
+				save_scope_as = exp_commander
+			}		
 		}
 		c:PAP = {
 			save_scope_as = pap_scope
@@ -328,9 +347,17 @@ exp_thousand.6 = {
 	duration = 1
 
 	immediate = {
-		random_scope_character = {
-			has_variable = exp_commander
-			save_scope_as = exp_commander
+		random_country = {
+			limit = {
+				has_variable = garibaldi_redshirts
+			}
+			save_scope_as = ita_scope
+		}
+		scope:ita_scope = {
+			random_scope_character = {
+				limit = {has_variable = thousand_commander}
+				save_scope_as = exp_commander
+			}		
 		}
 		c:SIC = {
 			save_scope_as = sic_scope
@@ -339,6 +366,11 @@ exp_thousand.6 = {
 			random_scope_state = {
 				save_scope_as = umbria_scope
 			}
+		}
+		remove_variable = garibaldi_redshirts
+		scope:exp_commander = {
+			set_character_busy = no
+			remove_variable = thousand_commander
 		}
 	}
 
@@ -552,14 +584,7 @@ exp_thousand.8 = {
 	option = {
 		name = exp_thousand.8.b
 
-		random_scope_character = {
-			limit = {
-				has_role = general
-				is_ruler = no
-				NOT = {
-					has_variable = giuseppe_garibaldi
-				}
-			}
+		scope:exp_random_general = {
 			set_character_busy = yes
 			set_variable = thousand_commander
 		}
