@@ -1,0 +1,555 @@
+﻿namespace = exp_thousand
+
+#ITALIAN_MAJOR Expedition of The Thousand
+exp_thousand.1 = { 
+	type = country_event
+	placement = ROOT
+
+	title = exp_thousand.1.t
+	desc = exp_thousand.1.d
+	flavor = exp_thousand.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	duration = 3
+
+	immediate = {
+		c:SIC = {
+			save_scope_as = sic_scope
+		}
+		random_scope_character = {
+			limit = {has_variable = thousand_commander}
+			save_scope_as = exp_commander
+		}
+	}
+
+	option = {
+		name = exp_thousand.1.a
+		default_option = yes
+
+		c:SIC = {
+			trigger_event = {
+				id = exp_thousand.2
+				popup = yes
+			}
+		}
+		set_variable = garibaldi_redshirts
+
+	    ai_chance = {
+			base = 99	
+		}
+    }
+}
+
+#SIC Expedition of The Thousand
+exp_thousand.2 = { 
+	type = country_event
+	placement = ROOT
+
+	title = exp_thousand.2.t
+	desc = exp_thousand.2.d
+	flavor = exp_thousand.2.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	duration = 1
+
+	immediate = {
+
+		random_country = {
+			limit = {
+				has_variable = garibaldi_redshirts
+			}
+			save_scope_as = ita_scope
+		}
+		scope:ita_scope = {
+			random_scope_character = {
+				limit = {has_variable = thousand_commander}
+				save_scope_as = exp_commander
+			}		
+		}
+
+		if = {
+			limit = {
+				has_global_variable = exp_thousand_limited
+			}
+			random_list = {
+				5 = {
+					set_variable = garibaldi_redshirst_success
+				}
+				5 = {
+					set_variable = garibaldi_redshirst_fail
+				}
+			}
+		}
+		if = {
+			limit = {
+				NOT = {has_global_variable = exp_thousand_limited}
+			}
+			random_list = {
+				8 = {
+					set_variable = garibaldi_redshirst_success
+				}
+				2 = {
+					set_variable = garibaldi_redshirst_fail
+				}
+			}
+		}
+	}
+
+	option = {
+		name = exp_thousand.2.a
+		default_option = yes
+
+	    ai_chance = {
+			base = 1	
+		}
+    }
+}
+
+#SIC Garibaldi Wins
+exp_thousand.3 = { 
+	type = country_event
+	placement = ROOT
+
+	title = exp_thousand.3.t
+	desc = exp_thousand.3.d
+	flavor = exp_thousand.3.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_devastation.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	duration = 1
+
+	trigger = {
+		has_variable = garibaldi_redshirst_success
+	}
+
+	immediate = {
+
+		random_country = {
+			limit = {
+				has_variable = garibaldi_redshirts
+			}
+			save_scope_as = ita_scope
+		}
+		scope:ita_scope = {
+			random_scope_character = {
+				limit = {has_variable = thousand_commander}
+				save_scope_as = exp_commander
+			}		
+		}
+		remove_variable = garibaldi_redshirst_success
+	}
+
+	option = {
+		name = exp_thousand.3.a
+		default_option = yes
+
+		scope:ita_scope = {
+			trigger_event = {
+				id = exp_thousand.4
+				days = 30
+				popup = yes
+			}
+		}
+
+	    ai_chance = {
+			base = 1	
+		}
+    }
+}
+
+#ITALIAN_MAJOR Garibaldi Wins
+exp_thousand.4 = { 
+	type = country_event
+	placement = ROOT
+
+	title = exp_thousand.4.t
+	desc = exp_thousand.4.d
+	flavor = exp_thousand.4.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_military_parade.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/military_parade"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	duration = 1
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_variable = garibaldi_redshirts
+			}
+			save_scope_as = ita_scope
+		}
+		scope:ita_scope = {
+			random_scope_character = {
+				limit = {has_variable = thousand_commander}
+				save_scope_as = exp_commander
+			}		
+		}
+		ruler = {
+			save_scope_as = ruler_scope
+		}
+		c:SIC = {
+			save_scope_as = sic_scope
+		}
+		s:STATE_UMBRIA = {
+			random_scope_state = {
+				save_scope_as = umbria_scope
+			}
+		}
+		remove_variable = garibaldi_redshirts
+		scope:exp_commander = {
+			set_character_busy = no
+			remove_variable = thousand_commander
+		}
+	}
+
+	option = {
+		name = exp_thousand.4.a
+		default_option = yes
+
+		annex = c:SIC
+
+	    ai_chance = {
+			base = 1	
+		}
+    }
+}
+
+#SIC Garibaldi Lose
+exp_thousand.5 = { 
+	type = country_event
+	placement = ROOT
+
+	title = exp_thousand.5.t
+	desc = exp_thousand.5.d
+	flavor = exp_thousand.5.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_military_parade.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/military_parade"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	duration = 1
+
+	trigger = {
+		has_variable = garibaldi_redshirst_fail
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_variable = garibaldi_redshirts
+			}
+			save_scope_as = ita_scope
+		}
+		scope:ita_scope = {
+			random_scope_character = {
+				limit = {has_variable = thousand_commander}
+				save_scope_as = exp_commander
+			}		
+		}
+		c:PAP = {
+			save_scope_as = pap_scope
+		}
+		remove_variable = garibaldi_redshirst_fail
+	}
+
+	option = {
+		name = exp_thousand.5.a
+		default_option = yes
+
+		scope:ita_scope = {
+			trigger_event = {
+				id = exp_thousand.6
+				days = 30
+				popup = yes
+			}
+		}
+
+	    ai_chance = {
+			base = 1	
+		}
+    }
+}
+
+#ITALIAN_MAJOR Garibaldi Lose
+exp_thousand.6 = { 
+	type = country_event
+	placement = ROOT
+
+	title = exp_thousand.6.t
+	desc = exp_thousand.6.d
+	flavor = exp_thousand.6.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	duration = 1
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_variable = garibaldi_redshirts
+			}
+			save_scope_as = ita_scope
+		}
+		scope:ita_scope = {
+			random_scope_character = {
+				limit = {has_variable = thousand_commander}
+				save_scope_as = exp_commander
+			}		
+		}
+		c:SIC = {
+			save_scope_as = sic_scope
+		}
+		remove_variable = garibaldi_redshirts
+		scope:exp_commander = {
+			set_character_busy = no
+			remove_variable = thousand_commander
+		}
+	}
+
+	option = {
+		name = exp_thousand.6.a
+		default_option = yes
+
+		create_incident = {
+			country = c:SIC
+			value = 30
+		}
+
+	    ai_chance = {
+			base = 1	
+		}
+    }
+}
+
+exp_thousand.7 = { 
+	type = country_event
+	placement = ROOT
+
+	title = exp_thousand.7.t
+	desc = exp_thousand.7.d
+	flavor = exp_thousand.7.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	duration = 3
+
+	trigger = {
+		NOT = {
+			OR = {
+				this = c:SIC
+				this = c:PAP
+			}
+			exists = c:ITA
+			has_global_variable = exp_thousand_happened 
+		}
+		exists = c:SIC
+		owns_entire_state_region = STATE_PIEDMONT
+		owns_entire_state_region = STATE_LOMBARDY
+		owns_entire_state_region = STATE_EMILIA
+		owns_entire_state_region = STATE_ROMAGNA
+		owns_entire_state_region = STATE_TUSCANY
+		has_technology_researched = pan-nationalism
+		OR = {
+			country_has_primary_culture = cu:north_italian
+			country_has_primary_culture = cu:south_italian
+		}
+		country_rank >= rank_value:major_power
+		c:SIC = {
+			OR = {
+				any_civil_war = {
+					is_civil_war_type = revolution
+					civil_war_progress >= 1
+				}
+				any_scope_state = {
+					turmoil >= 0.25
+				}
+				radical_fraction = {
+					value >= 0.3
+				}
+			}
+		}
+	}
+
+	immediate = {
+		set_global_variable = exp_thousand_happened
+		c:SIC = {
+			save_scope_as = sic_scope
+		}
+	}
+
+	option = {
+		name = exp_thousand.7.a
+		default_option = yes
+
+		add_journal_entry = {
+			type = je_exp_thousand
+		}
+
+	    ai_chance = {
+			base = 99	
+		}
+    }
+	option = {
+		name = exp_thousand.7.b
+
+	    ai_chance = {
+			base = 1		
+		}
+    }
+}
+
+exp_thousand.8 = { 
+	type = country_event
+	placement = ROOT
+
+	title = exp_thousand.8.t
+	desc = exp_thousand.8.d
+	flavor = exp_thousand.8.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	duration = 1
+
+	trigger = {
+		has_variable = choose_commander
+	}
+
+	immediate = {
+		remove_variable = choose_commander
+		c:SIC = {
+			save_scope_as = sic_scope
+		}
+
+		if = {
+			limit = {
+				any_scope_character = {
+					has_variable = giuseppe_garibaldi
+				}
+			}
+			random_scope_character = {
+				limit = {has_variable = giuseppe_garibaldi}
+				save_scope_as = garibaldi
+			}
+		}
+		random_scope_character = {
+			limit = {
+				has_role = general
+				is_ruler = no
+				NOT = {
+					has_variable = giuseppe_garibaldi
+				}
+			}
+			save_scope_as = exp_random_general
+		}
+	}
+
+	option = {
+		name = exp_thousand.8.a
+		default_option = yes
+		
+		trigger = {
+			any_scope_character = {
+				has_variable = giuseppe_garibaldi
+			}
+		}
+
+		if = {
+			limit = {
+				any_scope_character = {
+					has_variable = giuseppe_garibaldi
+				}
+			}
+			random_scope_character = {
+				limit = {has_variable = giuseppe_garibaldi}
+				set_character_busy = yes
+				set_variable = thousand_commander
+			}
+		}
+		ig:ig_intelligentsia = {
+			add_modifier = {
+				name = expedition_commander
+				months = long_modifier_time
+			}
+		}
+		set_variable =  has_thousand_commander
+
+	    ai_chance = {
+			base = 90	
+		}
+    }
+
+	option = {
+		name = exp_thousand.8.b
+
+		scope:exp_random_general = {
+			set_character_busy = yes
+			set_variable = thousand_commander
+		}
+		ig:ig_armed_forces = {
+			add_modifier = {
+				name = expedition_commander
+				months = long_modifier_time
+			}
+		}
+		set_variable =  has_thousand_commander
+
+	    ai_chance = {
+			base = 10		
+		}
+    }
+}
