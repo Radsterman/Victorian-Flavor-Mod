@@ -52,7 +52,60 @@
 	should_be_pinned_by_default = yes
 }
 
-je_peru_unification = { #Feel free to replace this later
+je_peru_bolivia_the_feeble_union = { 
+	icon = "gfx/interface/icons/event_icons/event_centralization.dds"
+
+	on_monthly_pulse = {
+		effect = {
+			change_variable = {
+				name = peru_the_feeble_union_var
+				add = 1
+			}
+		}
+	}
+
+	is_shown_when_inactive = {
+		exists = c:PEU
+		c:PEU = ROOT
+		exists = c:ESP
+	}
+
+	possible = {
+		is_subject_type = subject_type_real_union
+	}
+
+	complete = {
+		scope:journal_entry = { is_goal_complete = yes }
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = journal_flavor_peru.1
+		}
+	}
+
+	fail = {
+		c:BOL = {
+			relations:root >= relations_threshold:cordial
+		}
+	}
+
+	current_value = {
+		value = root.var:peru_the_feeble_union_var
+	}
+
+	goal_add_value = {
+		value = 14
+	}
+
+	progressbar = yes
+
+	weight = 10000
+
+	should_be_pinned_by_default = yes
+}
+
+je_peru_restoration = { #Feel free to replace this later
 	icon = "gfx/interface/icons/event_icons/event_scales.dds"
 
 	is_shown_when_inactive = {
@@ -68,11 +121,8 @@ je_peru_unification = { #Feel free to replace this later
 	complete = {
 		is_subject = no 
 		OR = {
-			c:ESP = { is_subject_of = c:BOL }
 			c:ESP = { is_subject = no }	
 		}
-		
-
 	}
 
 	on_complete = {
@@ -90,27 +140,25 @@ je_peru_unification = { #Feel free to replace this later
 	}
 
 	weight = 10000
+
+	should_be_pinned_by_default = yes
 }
-#
-#je_debug_interest = {
-#	icon = "gfx/interface/icons/event_icons/event_scales.dds"
-#
-#	complete = {
-#		game_date >= 1836.5.1
-#	}
-#
-#
-#	on_complete = {
-#        c:USA = {
-#            add_declared_interest = region_andes
-#        }
-#		c:BRZ = {
-#            add_declared_interest = region_andes
-#        }
-#	}
-#
-#
-#
-#	weight = 10000
-#}
-#
+
+je_debug_interest = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+	complete = {
+		game_date >= 1836.5.1
+	}
+
+	on_complete = {
+        c:USA = {
+            add_declared_interest = region_andes
+        }
+		c:BRZ = {
+            add_declared_interest = region_andes
+        }
+	}
+
+	weight = 10000
+}
