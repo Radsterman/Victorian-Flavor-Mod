@@ -23,9 +23,21 @@ je_eight_banners = {
 	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
 	complete = {
-		ig:ig_armed_forces = {
-			is_marginal = yes
+		OR = {
+			AND = {
+				has_technology_researched = enlistment_offices
+				OR = {
+					has_law = law_type:law_professional_army
+					has_law = law_type:law_mass_conscription
+				}
+				
+			}
+			ig:ig_armed_forces = {
+				is_marginal = yes
+			}
 		}
+		has_technology_researched = general_staff
+
 	}
 
 	fail = {
@@ -34,11 +46,21 @@ je_eight_banners = {
 		}
 	}
 
-	on_complete = {
+	invalid = {
+		NOT = {
+			country_has_primary_culture = cu:manchu
+		}
+	}
+
+	on_invalid = {
 		trigger_event = { id = journal_flavor_china.1 }
 	}
 
 	on_complete = {
+		trigger_event = { id = journal_flavor_china.1 }
+	}
+
+	on_fail = {
 		trigger_event = { id = journal_flavor_china.2 }
 	}
 
