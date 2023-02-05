@@ -1,0 +1,259 @@
+﻿### State geography triggers
+
+state_is_in_europe = {
+	OR = {
+		region = sr:region_north_germany
+		region = sr:region_south_germany
+		region = sr:region_england
+		region = sr:region_gaelic
+		region = sr:region_iberia
+		region = sr:region_france
+		region = sr:region_occitania
+		region = sr:region_rhine
+		region = sr:region_low_countries
+		region = sr:region_north_italy
+		region = sr:region_south_italy
+		region = sr:region_poland
+		region = sr:region_hungary
+		region = sr:region_west_balkans
+		region = sr:region_east_balkans
+		region = sr:region_greece
+		region = sr:region_baltic
+		region = sr:region_ruthenia
+		region = sr:region_scandinavia
+		region = sr:region_central_russia
+		region = sr:region_dnieper
+		region = sr:region_barents
+		region = sr:region_volga
+	}
+}
+
+state_is_in_north_america = {
+	OR = {
+		region = sr:region_canada
+		region = sr:region_new_england
+		region = sr:region_pacific_coast
+		region = sr:region_great_plains
+		region = sr:region_the_midwest
+		region = sr:region_dixie
+	}
+}
+
+state_is_in_central_america = {
+	OR = {
+		region = sr:region_mexico
+		region = sr:region_central_america
+		region = sr:region_caribbean
+	}
+}
+
+state_is_in_south_america = {
+	OR = {
+		region = sr:region_brazil	
+		region = sr:region_la_plata
+		region = sr:region_andes	
+		region = sr:region_gran_colombia	
+		region = sr:region_central_america
+	}
+}
+
+state_is_in_americas = {
+	OR = {
+		state_is_in_north_america = yes
+		state_is_in_central_america = yes
+		state_is_in_south_america = yes
+	}
+}
+
+state_is_in_africa = {
+	OR = {
+		region = sr:region_nile_basin
+		region = sr:region_ethiopia
+		region = sr:region_north_africa
+		region = sr:region_senegal
+		region = sr:region_niger
+		region = sr:region_congo
+		region = sr:region_southern_africa
+		region = sr:region_zanj		
+	}
+}
+
+state_is_in_middle_east = {
+	OR = {
+		region = sr:region_anatolia
+		region = sr:region_arabic
+		region = sr:region_persia
+		region = sr:region_caucasus
+	}
+}
+
+state_is_in_central_asia = {
+	OR = {
+		region = sr:region_himalayas
+		region = sr:region_central_asia
+	}
+}
+
+state_is_in_india = {
+	OR = {
+		region = sr:region_south_india
+		region = sr:region_north_india		
+	}
+}
+
+state_is_in_east_asia = {
+	OR = {
+		region = sr:region_south_china
+		region = sr:region_north_china
+		region = sr:region_manchuria
+		region = sr:region_japan
+		region = sr:region_west_siberia
+		region = sr:region_east_siberia
+	}
+}
+
+state_is_in_china = {
+	OR = {
+		region = sr:region_south_china
+		region = sr:region_north_china
+		# not counting manchuria here deliberately
+	}
+}
+
+state_is_in_southeast_asia = {
+	OR = {
+		region = sr:region_indonesia
+		region = sr:region_indochina
+	}
+}
+### Country geography triggers
+# exists = capital checks are necessary only because we may test these triggers and scope switch to capitals before states are initialized properly
+
+country_is_in_europe = {
+	exists = capital
+	capital = {
+		state_is_in_europe = yes
+	}
+}
+
+country_is_in_north_america = {
+	exists = capital
+	capital = {
+		state_is_in_north_america = yes
+	}
+}
+
+country_is_in_central_america = {
+	exists = capital
+	capital = {
+		state_is_in_central_america = yes
+	}
+}
+
+country_is_in_south_america = {
+	exists = capital
+	capital = {
+		state_is_in_south_america = yes
+	}
+}
+
+country_is_in_africa = {
+	exists = capital
+	capital = {
+		state_is_in_africa = yes
+	}
+}
+
+country_is_in_middle_east = {
+	exists = capital
+	capital = {
+		state_is_in_middle_east = yes
+	}
+}
+
+country_is_in_central_asia = {
+	exists = capital
+	capital = {
+		state_is_in_central_asia = yes
+	}
+}
+
+country_is_in_india = {
+	exists = capital
+	capital = {
+		state_is_in_india = yes
+	}
+}
+
+country_is_in_east_asia = {
+	exists = capital
+	capital = {
+		state_is_in_east_asia = yes
+	}
+}
+
+country_is_in_southeast_asia = {
+	exists = capital
+	capital = {
+		state_is_in_southeast_asia = yes
+	}
+}
+
+### Climate triggers
+
+is_arabic_farmland = {
+	OR = {
+		region = sr:region_anatolia
+		region = sr:region_arabic
+		region = sr:region_persia
+		region = sr:region_central_asia
+		region = sr:region_nile_basin
+		region = sr:region_north_africa
+		region = sr:region_senegal
+		region = sr:region_niger
+		region = sr:region_congo
+		region = sr:region_ethiopia
+		region = sr:region_zanj
+		region = sr:region_southern_africa
+	}
+}
+
+is_asian_farmland = {
+	OR = {
+		region = sr:region_indochina
+		region = sr:region_indonesia
+		region = sr:region_south_china
+		region = sr:region_north_china
+		region = sr:region_manchuria
+		region = sr:region_japan
+	}
+}
+
+is_subtropic_farmland = {
+	OR = {
+		region = sr:region_mexico
+		region = sr:region_central_america
+		region = sr:region_gran_colombia
+		region = sr:region_andes
+		region = sr:region_brazil
+		region = sr:region_la_plata
+		region = sr:region_caribbean
+	}
+}
+
+is_arid_region = {
+	OR = {
+		region = sr:region_oceania
+		region = sr:region_congo
+		region = sr:region_southern_africa
+		region = sr:region_niger
+		region = sr:region_zanj
+		region = sr:region_ethiopia
+		region = sr:region_nile_basin
+		region = sr:region_north_africa
+		region = sr:region_senegal
+		region = sr:region_anatolia
+		region = sr:region_arabic
+		region = sr:region_persia
+	}
+}
