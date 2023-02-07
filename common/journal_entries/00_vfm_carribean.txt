@@ -1,21 +1,36 @@
 ﻿je_the_dominican_uprising = {
-	icon = "gfx/interface/icons/event_icons/event_military.dds"
+	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
 
 	is_shown_when_inactive = {
 		THIS = c:HAI
 	}
 	
 	possible = {
-		owns_entire_state_region = s:STATE_SANTO_DOMINGO
-		has_modifier = {
-			modifier_french_independence_payments
+		owns_entire_state_region = STATE_SANTO_DOMINGO
+		has_modifier = modifier_french_independence_payments
+		taking_loans = yes
+		any_scope_state = {	
+			state_region = s:STATE_SANTO_DOMINGO
+			turmoil > 0.05
+		}
+	}
+
+	immediate = {
+		add_radicals = {
+			culture = cu:caribeno
+			value = large_radicals
 		}
 	}
 
 	fail = {
-		year > 1845
-		has_modifier = {
-			modifier_french_independence_payments
+		has_modifier = modifier_french_independence_payments
+		OR = {
+			year > 1845
+			in_default = yes
+			any_scope_state = {	
+				state_region = s:STATE_SANTO_DOMINGO
+				turmoil > 0.10
+			}
 		}
 	}
 
@@ -23,7 +38,19 @@
 		create_country = {
 			tag = DOM
 			origin = THIS
-			state = s:STATE_SANTO_DOMINGO
+			state = s:STATE_SANTO_DOMINGO.region_state:HAI
+		}
+		remove_primary_culture = cu:caribeno
+	}
+
+	complete = {
+		NOT = {
+			has_modifier = modifier_french_independence_payments
+			taking_loans = yes
+		}
+		any_scope_state = {	
+			state_region = s:STATE_SANTO_DOMINGO
+			turmoil < 0.025
 		}
 	}
 
