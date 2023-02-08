@@ -1,5 +1,6 @@
 ﻿dp_taiping_rebellion = {
 	war_goal = annex_country
+	mirror_war_goal = yes
 	allow_negotiated_peace = no
 	
 	texture = "gfx/interface/icons/war_goals/annex_country.dds"
@@ -18,8 +19,8 @@
 	additional_involvement_trigger = {
 		NOT = { is_country_type = decentralized }
 		aggressive_diplomatic_plays_permitted = yes
-	
-		scope:target = {
+
+		scope:target_country = {
 			capital = {
 				region = {
 					save_temporary_scope_as = target_capital_region
@@ -29,7 +30,7 @@
 		
 		OR = {
 			has_interest_marker_in_region = scope:target_capital_region
-			is_home_country_for = scope:target
+			is_home_country_for = scope:target_country
 		}
 	}
 	
@@ -62,7 +63,7 @@ dp_unify_china = {
 			has_variable = chinese_central_government
 		}
 		
-		scope:target = {
+		scope:target_country = {
 			NOT = { is_country_type = decentralized }
 			aggressive_diplomatic_plays_permitted = yes
 			OR = {
@@ -108,13 +109,17 @@ dp_liberate_subject = {
 	possible = {
 		NOT = { is_country_type = decentralized }
 		aggressive_diplomatic_plays_permitted = yes
-		NOT = { is_subject_of = scope:target }
-		scope:target = {
+		NOT = { is_subject_of = scope:target_country }	
+		scope:target_country = {
 			NOT = { is_country_type = decentralized }
 			is_subject = yes
 			NOT = { is_subject_type = subject_type_chartered_company }
 			NOT = { is_subject_of = root }
 		}
+		custom_tooltip = {
+			text = DIPLO_ACTION_OVERLORD_RELATIONS_CORDIAL_OR_GREATER_NOT
+			scope:target_country.overlord.relations:root < relations_threshold:cordial
+		}	
 	}
 
 	on_weekly_pulse = {}
@@ -251,11 +256,17 @@ dp_unify_ethiopia = {
 	possible = {
 		NOT = { is_country_type = decentralized }
 		is_subject = no
-		can_form_nation = ETH
-		scope:target = {
+		custom_tooltip = {
+			text = ETH_tt
+			can_form_nation = ETH
+		}
+		scope:target_country = {
 			NOT = { is_country_type = decentralized }
 			aggressive_diplomatic_plays_permitted = yes
-			can_form_nation = ETH
+			custom_tooltip = {
+				text = ETH_tt
+				can_form_nation = ETH
+			}
 		}
 	}
 	
@@ -308,13 +319,18 @@ dp_unify_india = {
         
        
 		has_technology_researched = pan-nationalism
-		is_subject = no
-		can_form_nation = BHT
-		scope:target = {
-			NOT = { is_country_type = decentralized }
-			aggressive_diplomatic_plays_permitted = yes
+		is_subject = no 
+		custom_tooltip = {
+			text = BHT_tt
 			can_form_nation = BHT
 		}
+		scope:target_country = {
+			NOT = { is_country_type = decentralized }
+			aggressive_diplomatic_plays_permitted = yes
+			custom_tooltip = {
+				text = BHT_tt
+				can_form_nation = BHT
+			}
 	}
 	
 	on_weekly_pulse = {}

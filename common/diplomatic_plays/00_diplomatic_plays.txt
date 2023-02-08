@@ -6,11 +6,15 @@
 	possible = {
 		NOT = { is_country_type = decentralized }
 		aggressive_diplomatic_plays_permitted = yes
-		NOT = { is_subject_of = scope:target }
-		scope:target = {
+		NOT = { is_subject_of = scope:target_country }		
+		scope:target_country = {
 			NOT = { is_country_type = decentralized }
 			NOT = { is_subject_of = root }
 		}
+		custom_tooltip = {
+			text = DIPLO_ACTION_RELATIONS_CORDIAL_OR_GREATER_NOT
+			scope:target_country.relations:root < relations_threshold:cordial
+		}	
 	}
 
 	on_weekly_pulse = {}
@@ -29,10 +33,14 @@ dp_regime_change = {
 	possible = {
 		NOT = { is_country_type = decentralized }
 		aggressive_diplomatic_plays_permitted = yes
-		NOT = { is_subject_of = scope:target }
-		scope:target = {
+		NOT = { is_subject_of = scope:target_country }	
+		scope:target_country = {
 			NOT = { is_country_type = decentralized }
 		}
+		custom_tooltip = {
+			text = DIPLO_ACTION_RELATIONS_CORDIAL_OR_GREATER_NOT
+			scope:target_country.relations:root < relations_threshold:cordial
+		}	
 	}
 
 	on_weekly_pulse = {}
@@ -50,10 +58,14 @@ dp_ban_slavery = {
 	possible = {
 		NOT = { is_country_type = decentralized }
 		aggressive_diplomatic_plays_permitted = yes
-		NOT = { is_subject_of = scope:target }
-		scope:target = {
+		NOT = { is_subject_of = scope:target_country }	
+		scope:target_country = {
 			NOT = { is_country_type = decentralized }
 		}
+		custom_tooltip = {
+			text = DIPLO_ACTION_RELATIONS_CORDIAL_OR_GREATER_NOT
+			scope:target_country.relations:root < relations_threshold:cordial
+		}	
 	}
 
 	on_weekly_pulse = {}
@@ -71,11 +83,15 @@ dp_conquer_state = {
 	possible = {
 		NOT = { is_country_type = decentralized }
 		aggressive_diplomatic_plays_permitted = yes
-		NOT = { is_subject_of = scope:target }
-		scope:target = {
+		NOT = { is_subject_of = scope:target_country }	
+		scope:target_country = {
 			NOT = { is_country_type = decentralized }
 			NOT = { is_subject_of = root }
-		}			
+		}
+		custom_tooltip = {
+			text = DIPLO_ACTION_RELATIONS_CORDIAL_OR_GREATER_NOT
+			scope:target_country.relations:root < relations_threshold:cordial
+		}	
 	}
 	
 	on_weekly_pulse = {}
@@ -95,10 +111,14 @@ dp_return_state = {
 	possible = {
 		NOT = { is_country_type = decentralized }
 		aggressive_diplomatic_plays_permitted = yes
-		NOT = { is_subject_of = scope:target }
-		scope:target = {
+		NOT = { is_subject_of = scope:target_country }	
+		scope:target_country = {
 			NOT = { is_country_type = decentralized }
 			NOT = { is_subject_of = root }
+		}	
+		custom_tooltip = {
+			text = DIPLO_ACTION_RELATIONS_CORDIAL_OR_GREATER_NOT
+			scope:target_country.relations:root < relations_threshold:cordial
 		}			
 	}
 	
@@ -118,18 +138,15 @@ dp_take_treaty_port = {
 	possible = {
 		NOT = { is_country_type = decentralized }
 		aggressive_diplomatic_plays_permitted = yes
-		NOT = { is_subject_of = scope:target }
-		scope:target = {
+		NOT = { is_subject_of = scope:target_country }
+		scope:target_country = {
 			NOT = { is_country_type = decentralized }
 			NOT = { is_subject_of = root }
 		}
-		OR = {
-			country_rank > scope:target.market.owner.country_rank
-			AND = {
-				is_country_type = recognized
-				scope:target = { is_country_type = unrecognized }
-			}
-		}		
+		custom_tooltip = {
+			text = DIPLO_ACTION_RELATIONS_CORDIAL_OR_GREATER_NOT
+			scope:target_country.relations:root < relations_threshold:cordial
+		}				
 	}
 	
 	on_weekly_pulse = {}
@@ -146,7 +163,11 @@ dp_make_dominion = {
 	texture = "gfx/interface/icons/war_goals/make_dominion.dds"
 	
 	possible = {
-		aggressive_diplomatic_plays_permitted = yes		
+		aggressive_diplomatic_plays_permitted = yes	
+		custom_tooltip = {
+			text = DIPLO_ACTION_RELATIONS_CORDIAL_OR_GREATER_NOT
+			scope:target_country.relations:root < relations_threshold:cordial
+		}		
 	}
 	
 	on_weekly_pulse = {}
@@ -162,7 +183,11 @@ dp_make_vassal = {
 	texture = "gfx/interface/icons/war_goals/make_vassal.dds"
 	
 	possible = {
-		aggressive_diplomatic_plays_permitted = yes			
+		aggressive_diplomatic_plays_permitted = yes
+		custom_tooltip = {
+			text = DIPLO_ACTION_RELATIONS_CORDIAL_OR_GREATER_NOT
+			scope:target_country.relations:root < relations_threshold:cordial
+		}				
 	}
 	
 	on_weekly_pulse = {}
@@ -194,7 +219,19 @@ dp_transfer_subject = {
 	texture = "gfx/interface/icons/war_goals/transfer_subject.dds"
 	
 	possible = {	
-		aggressive_diplomatic_plays_permitted = yes	
+		NOT = { is_country_type = decentralized }
+		aggressive_diplomatic_plays_permitted = yes
+		NOT = { is_subject_of = scope:target_country }	
+		scope:target_country = {
+			NOT = { is_country_type = decentralized }
+			is_subject = yes
+			NOT = { is_subject_of = root }
+			NOT = { is_subject_type = subject_type_personal_union }
+		}	
+		custom_tooltip = {
+			text = DIPLO_ACTION_OVERLORD_RELATIONS_CORDIAL_OR_GREATER_NOT
+			scope:target_country.overlord.relations:root < relations_threshold:cordial
+		}	
 	}
 	
 	on_weekly_pulse = {}
@@ -212,7 +249,7 @@ dp_annex_subject = {
 	possible = {
 		NOT = { is_country_type = decentralized }
 		aggressive_diplomatic_plays_permitted = yes
-		scope:target = {
+		scope:target_country = {
 			NOT = { is_country_type = decentralized }
 			is_direct_subject_of = root
 			OR = {
@@ -245,13 +282,17 @@ dp_force_recognition = {
 	possible = {
 		is_country_type = unrecognized
 		aggressive_diplomatic_plays_permitted = yes
-		NOT = { is_subject_of = scope:target }
-		scope:target = {
+		NOT = { is_subject_of = scope:target_country }
+		scope:target_country = {
 			OR = {
 				is_country_type = recognized
 				is_country_type = colonial
 			}		
 			NOT = { is_subject_of = root }
+		}		
+		custom_tooltip = {
+			text = DIPLO_ACTION_RELATIONS_CORDIAL_OR_GREATER_NOT
+			scope:target_country.relations:root < relations_threshold:cordial
 		}			
 	}
 	
@@ -282,14 +323,14 @@ dp_revolution = {
 		scope:initiator = {
 			is_revolutionary = yes
 		}
-		scope:initiator.civil_war_origin_country = scope:target
+		scope:initiator.civil_war_origin_country = scope:target_country
 	}
 
 	additional_involvement_trigger = {
 		NOT = { is_country_type = decentralized }
 		aggressive_diplomatic_plays_permitted = yes
 	
-		scope:target = {
+		scope:target_country = {
 			capital = {
 				region = {
 					save_temporary_scope_as = target_capital_region
@@ -333,7 +374,7 @@ dp_secession = {
 	}		
 	
 	possible = {
-		scope:target = {
+		scope:target_country = {
 			is_secessionist = yes
 		}
 	}
@@ -342,7 +383,7 @@ dp_secession = {
 		NOT = { is_country_type = decentralized }
 		aggressive_diplomatic_plays_permitted = yes
 	
-		scope:target = {
+		scope:target_country = {
 			capital = {
 				region = {
 					save_temporary_scope_as = target_capital_region
@@ -352,7 +393,7 @@ dp_secession = {
 		
 		OR = {
 			has_interest_marker_in_region = scope:target_capital_region
-			is_home_country_for = scope:target
+			is_home_country_for = scope:target_country
 		}
 	}
 	
@@ -375,8 +416,8 @@ dp_contain_threat = {
 	possible = {
 		NOT = { is_country_type = decentralized }
 		aggressive_diplomatic_plays_permitted = yes
-		NOT = { is_subject_of = scope:target }
-		scope:target = {
+		NOT = { is_subject_of = scope:target_country }
+		scope:target_country = {
 			NOT = { is_country_type = decentralized }
 			NOT = { is_subject_of = root }
 		}	
@@ -386,7 +427,7 @@ dp_contain_threat = {
 		}	
 		custom_tooltip = {
 			text = DIPLO_PLAY_OUTRAGED_TRIGGER
-			"scope:target.infamy" >= infamy_threshold:pariah
+			"scope:target_country.infamy" >= infamy_threshold:pariah
 		}
 	}
 
@@ -404,7 +445,7 @@ dp_contain_threat = {
 }
 
 dp_native_uprising = {
-	war_goal = annex_native
+	war_goal = colonization_rights
 	
 	requires_interest_marker = no
 	
@@ -415,7 +456,7 @@ dp_native_uprising = {
 	}
 	
 	possible = {
-		scope:target = {
+		scope:target_country = {
 			is_country_type = decentralized
 		}
 	}
@@ -533,7 +574,7 @@ dp_unify_arabia = {
 		is_subject = no
 		can_form_nation = ARA
 
-		scope:target = {
+		scope:target_country = {
 			NOT = { is_country_type = decentralized }
 			aggressive_diplomatic_plays_permitted = yes
 			custom_tooltip = {
@@ -563,11 +604,17 @@ dp_unify_indonesia = {
 		NOT = { is_country_type = decentralized }
 		has_technology_researched = pan-nationalism
 		is_subject = no
-		can_form_nation = IDN
-		scope:target = {
+		custom_tooltip = {
+			text = IDN_tt
+			can_form_nation = IDN
+		}
+		scope:target_country = {
 			NOT = { is_country_type = decentralized }
 			aggressive_diplomatic_plays_permitted = yes
-			can_form_nation = IDN
+			custom_tooltip = {
+				text = IDN_tt
+				can_form_nation = IDN
+			}
 		}
 	}
 	
