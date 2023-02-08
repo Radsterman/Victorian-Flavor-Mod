@@ -1,0 +1,99 @@
+﻿namespace = journal_flavor_china
+
+journal_flavor_china.1 = {
+	type = country_event
+	placement = root
+
+	title = journal_flavor_china.1.t
+	desc = journal_flavor_china.1.d
+	flavor = journal_flavor_china.1.f
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_military_parade.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/military_parade"
+
+
+	duration = 3
+
+	immediate = {
+		ig:ig_armed_forces= {
+			save_scope_as = armed_forces_ig
+		}
+	}
+	
+	trigger = {
+		# triggered by journal entry
+	}
+
+	option = {
+		name = journal_flavor_china.1.a
+		default_option = yes
+
+		custom_tooltip = {
+			text = beiyang_army_tt
+			ig:ig_armed_forces= {
+				set_interest_group_name = ig_beiyang_army
+			}
+		}
+	
+        add_modifier = {
+			name = modernized_army
+			months = very_long_modifier_time
+		}
+	}
+
+}
+
+journal_flavor_china.2 = {
+	type = country_event
+	placement = root
+
+	title = journal_flavor_china.2.t
+	desc = journal_flavor_china.2.d
+	flavor = journal_flavor_china.2.f
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_war_civilians.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/war_civilians"
+
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+
+	duration = 3
+
+	trigger = {
+		# triggered by journal entry
+	}
+
+	immediate = {
+		ig:ig_armed_forces= {
+			save_scope_as = armed_forces_ig
+		}
+		cu:manchu = {
+			save_scope_as = manchu_culture
+		}
+		cu:han = {
+			save_scope_as = han_culture
+		}
+	
+	}
+	
+
+	option = {
+		name = journal_flavor_china.2.a
+		default_option = yes
+		remove_primary_culture = cu:han
+		add_radicals = {
+			culture = cu:han
+			value = very_large_radicals
+		}
+	}
+	
+}

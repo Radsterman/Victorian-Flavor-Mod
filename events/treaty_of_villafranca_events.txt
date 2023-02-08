@@ -17,7 +17,7 @@ treaty_of_villafranca.1 = { #SAR Treaty of Villafranca
 
 	icon = "gfx/interface/icons/event_icons/event_default.dds"
 
-	duration = 3
+	duration = 1
 
 	trigger = {
 		is_subject = no
@@ -35,28 +35,12 @@ treaty_of_villafranca.1 = { #SAR Treaty of Villafranca
 		}
 		s:STATE_LOMBARDY = {
 			random_scope_state = {
-				limit = {
-					owner = {
-						OR = {
-							ROOT = THIS
-							is_subject_of = ROOT
-						}
-					}
-				}
-			save_scope_as = lombardy_scope
+				save_scope_as = lombardy_scope
 			}
 		}
 		s:STATE_SAVOY = {
 			random_scope_state = {
-				limit = {
-					owner = {
-						OR = {
-							ROOT = THIS
-							is_subject_of = ROOT
-						}
-					}
-				}
-			save_scope_as = savoy_scope
+				save_scope_as = savoy_scope
 			}
 		}
 		s:STATE_PROVENCE = {
@@ -73,6 +57,8 @@ treaty_of_villafranca.1 = { #SAR Treaty of Villafranca
 			}
 		}
 		set_variable = villafranca_signatory
+		set_variable = free_north_italy_1
+		set_variable = italian_state
 	}
 
 	option = {
@@ -92,14 +78,12 @@ treaty_of_villafranca.1 = { #SAR Treaty of Villafranca
 		    }
 		    trigger_event = {
 				id = treaty_of_villafranca.3
-				days = 2
 				popup = yes
 			}
 		}
 		c:AUS = {
 		    trigger_event = {
 				id = treaty_of_villafranca.4
-				days = 2
 				popup = yes
 			}
 		}
@@ -119,9 +103,34 @@ treaty_of_villafranca.1 = { #SAR Treaty of Villafranca
 	}
 	option = {
 		name = treaty_of_villafranca.1.b
+
 		remove_diplomatic_pact = {
 			country = c:FRA
 			type = defensive_pact
+		}
+		if = {
+			limit = {
+				c:FRA = {
+					NOT = {
+						has_claim = s:STATE_SAVOY
+					}
+				}
+			}
+			s:STATE_SAVOY = {
+				add_claim = c:FRA
+			}
+		}
+		if = {
+			limit = {
+				c:FRA = {
+					NOT = {
+						has_claim = s:STATE_PROVENCE
+					}
+				}
+			}
+			s:STATE_PROVENCE = {
+				add_claim = c:FRA
+			}
 		}
 		c:FRA = {
 			change_relations = {
@@ -130,14 +139,12 @@ treaty_of_villafranca.1 = { #SAR Treaty of Villafranca
 		    }
 		    trigger_event = {
 				id = treaty_of_villafranca.2
-				days = 2
 				popup = yes
 			}
 		}
 		c:AUS = {
 		    trigger_event = {
 				id = treaty_of_villafranca.4
-				days = 0
 				popup = yes
 			}
 		}
@@ -148,13 +155,6 @@ treaty_of_villafranca.1 = { #SAR Treaty of Villafranca
 		}
 		remove_modifier = plombieres_agreement
 		custom_tooltip = treaty_of_villafranca.2.tt1
-		c:FRA = {
-			trigger_event = {
-				id = treaty_of_villafranca.2
-				days = 2
-				popup = yes
-			}
-		}
 		ai_chance = {
 			base = 5
 		}
@@ -195,41 +195,17 @@ treaty_of_villafranca.2 = { #FRA Sardinia doesn't honour the agreement
 		}
 		s:STATE_LOMBARDY = {
 			random_scope_state = {
-				limit = {
-					owner = {
-						OR = {
-							scope:sar_scope = THIS
-							is_subject_of = scope:sar_scope
-						}
-					}
-				}
-			save_scope_as = lombardy_scope
+				save_scope_as = lombardy_scope
 			}
 		}
 		s:STATE_SAVOY = {
 			random_scope_state = {
-				limit = {
-					owner = {
-						OR = {
-							scope:sar_scope = THIS
-							is_subject_of = scope:sar_scope
-						}
-					}
-				}
-			save_scope_as = savoy_scope
+				save_scope_as = savoy_scope
 			}
 		}
 		s:STATE_PROVENCE = {
 			random_scope_state = {
-				limit = {
-					owner = {
-						OR = {
-							scope:sar_scope = THIS
-							is_subject_of = scope:sar_scope
-						}
-					}
-				}
-			save_scope_as = provence_scope
+				save_scope_as = provence_scope
 			}
 		}
 	}
@@ -285,41 +261,17 @@ treaty_of_villafranca.3 = { #FRA Sardinia honours the agreement
 		}
 		s:STATE_LOMBARDY = {
 			random_scope_state = {
-				limit = {
-					owner = {
-						OR = {
-							scope:sar_scope = THIS
-							is_subject_of = scope:sar_scope
-						}
-					}
-				}
-			save_scope_as = lombardy_scope
+				save_scope_as = lombardy_scope
 			}
 		}
 		s:STATE_SAVOY = {
 			random_scope_state = {
-				limit = {
-					owner = {
-						OR = {
-							scope:sar_scope = THIS
-							is_subject_of = scope:sar_scope
-						}
-					}
-				}
-			save_scope_as = savoy_scope
+				save_scope_as = savoy_scope
 			}
 		}
 		s:STATE_PROVENCE = {
 			random_scope_state = {
-				limit = {
-					owner = {
-						OR = {
-							scope:sar_scope = THIS
-							is_subject_of = scope:sar_scope
-						}
-					}
-				}
-			save_scope_as = provence_scope
+				save_scope_as = provence_scope
 			}
 		}
 	}
@@ -372,15 +324,7 @@ treaty_of_villafranca.4 = { #AUS Defeat
 		}
 		s:STATE_LOMBARDY = {
 			random_scope_state = {
-				limit = {
-					owner = {
-						OR = {
-							scope:sar_scope = THIS
-							is_subject_of = scope:sar_scope
-						}
-					}
-				}
-			save_scope_as = lombardy_scope
+				save_scope_as = lombardy_scope
 			}
 		}
 	}
