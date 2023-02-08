@@ -25,14 +25,10 @@ italy_1848.1 = {
 
 	trigger = {
 		owns_entire_state_region = STATE_SICILY
-		game_date >= 1848.1.12
-		has_technology_researched = nationalism
+		has_journal_entry = je_springtime_of_the_peoples
 		has_global_variable = sicilian_rev_possible_var
-		has_law = law_type:law_monarchy
-		OR = {
-			has_law = law_type:law_autocracy 
-			has_law = law_type:law_oligarchy
-			has_law = law_type:law_landed_voting
+		NOT = {
+			exists = c:ITA
 		}
 	}
 
@@ -513,15 +509,9 @@ italy_1848.6 = {
 		exists = c:SAR
 		this = c:SAR
 		owns_entire_state_region = STATE_PIEDMONT
-		has_technology_researched = nationalism
-		has_law = law_type:law_monarchy
+		has_journal_entry = je_springtime_of_the_peoples
 		NOT = {
 			has_variable = albertine_statute
-		}
-		OR = {
-			has_law = law_type:law_autocracy 
-			has_law = law_type:law_oligarchy
-			has_law = law_type:law_landed_voting
 		}
 	}
 
@@ -605,8 +595,7 @@ italy_1848.7 = {
 		exists = c:AUS
 		this = c:AUS
 		owns_entire_state_region = STATE_VENETIA
-		game_date >= 1848.3.17
-		has_technology_researched = nationalism
+		has_journal_entry = je_springtime_of_the_peoples
 		NOT = { has_global_variable = san_marco_created }
 		OR = {
 			c:AUS = {
@@ -1615,8 +1604,14 @@ italy_1848.19 = {
 		this = c:SAR
 		is_at_war = no
 		c:AUS = {
-			owns_entire_state_region = STATE_LOMBARDY
-			owns_entire_state_region = STATE_VENETIA
+			OR = {
+				has_state_in_state_region = STATE_LOMBARDY
+				has_state_in_state_region = STATE_VENETIA
+			}
+			OR = {
+				owns_entire_state_region = STATE_LOMBARDY
+				owns_entire_state_region = STATE_VENETIA	
+			}
 		}
 		c:SAR = {
 			has_variable = first_italian_war_var
@@ -1701,17 +1696,7 @@ italy_1848.20 = {
 		NOT = {
 			has_global_variable = roman_rep_happened_var
 		}
-		game_date >= 1849.2.9
-		has_technology_researched = nationalism
-		OR = {
-			has_law = law_type:law_monarchy
-			has_law = law_type:law_theocracy
-		}
-		OR = {
-			has_law = law_type:law_autocracy 
-			has_law = law_type:law_oligarchy
-			has_law = law_type:law_landed_voting
-		}
+		has_journal_entry = je_springtime_of_the_peoples
 	}
 
     option = {
@@ -2121,6 +2106,7 @@ italy_1848.24 = {
 		scope:ita_scope = {
 			trigger_event = {
 				id = italy_1848.25
+				popup = yes
 			}
 		}
 
@@ -2162,6 +2148,7 @@ italy_1848.24 = {
 		scope:ita_scope = {
 			trigger_event = {
 				id = italy_1848.26
+				popup = yes
 			}
 		}
 	    ai_chance = {
@@ -2296,6 +2283,9 @@ italy_1848.27 = {
 	trigger = {
 		exists = c:RMR
 		c:RMR = this
+		c:RMR = {
+			is_subject = no
+		}
 		any_country = {
 			has_variable = free_north_italy_3
 			NOT = {
@@ -2531,6 +2521,13 @@ italy_1848.30 = {
 		scope:romagna_scope = {
 			set_state_owner = scope:ita_scope
 		}
+		c:PAP = {
+		change_relations = {
+				country = ROOT
+				value = -50
+		    }	
+		}
+
 
 	    ai_chance = {
 			base = 1	
@@ -2659,9 +2656,6 @@ italy_1848.36 = {
 
 	duration = 1
 
-	trigger = {
-	}
-
 	immediate = {
 		s:STATE_ROMAGNA = {
 			random_scope_state = {
@@ -2767,6 +2761,10 @@ italy_1848.32 = {
 	trigger = {
 		exists = c:SCL
 		c:SCL = this
+		c:SCL = {
+			is_at_war = no
+			is_subject = no
+		}
 		is_at_war = no
 		owns_entire_state_region = STATE_SICILY
 		any_country = {
@@ -2913,7 +2911,7 @@ italy_1848.34 = {
     	}
 
 	    ai_chance = {
-			base = 1	
+			base = 95	
 		}
 	}
 
@@ -2921,7 +2919,7 @@ italy_1848.34 = {
 		name = italy_1848.34.b
 
 	    ai_chance = {
-			base = 1	
+			base = 5
 		}
 	}
 }
