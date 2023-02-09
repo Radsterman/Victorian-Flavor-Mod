@@ -67,11 +67,13 @@ je_peru_bolivia_the_feeble_union = {
 	is_shown_when_inactive = {
 		exists = c:PEU
 		c:PEU = ROOT
-		exists = c:ESP
 	}
 
 	possible = {
 		is_subject_type = subject_type_real_union
+		c:BOL = {
+			relations:root <= relations_threshold:cordial
+		}
 	}
 
 	complete = {
@@ -85,8 +87,17 @@ je_peru_bolivia_the_feeble_union = {
 	}
 
 	fail = {
-		c:BOL = {
-			relations:root >= relations_threshold:cordial
+		AND = {
+			OR = {
+				c:BOL = {
+			      relations:root >= relations_threshold:cordial
+		        }
+			}
+			OR = {
+				c:PEU = {
+					is_at_war = yes
+				}
+			}		
 		}
 	}
 
@@ -95,7 +106,7 @@ je_peru_bolivia_the_feeble_union = {
 	}
 
 	goal_add_value = {
-		value = 14
+		value = 20
 	}
 
 	progressbar = yes
