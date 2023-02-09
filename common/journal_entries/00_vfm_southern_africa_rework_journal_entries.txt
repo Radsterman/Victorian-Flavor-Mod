@@ -62,6 +62,16 @@ je_the_forming_of_the_oranje_vrystaat = {
 		change_tag = ORA
 		set_global_variable = ora_exists
 	}
+
+	invalid = {
+		exists = c:ORA
+	}
+
+	on_invalid = {
+		set_global_variable = ora_exists
+		remove_modifier = adjunct_volksraad
+	}
+
 	should_be_pinned_by_default = yes
 }
 je_climax_of_the_great_trek = {
@@ -75,14 +85,28 @@ je_climax_of_the_great_trek = {
 			}
 	}
 	on_complete = {
-		hidden_effect = {
-			s:STATE_ZAMBEZI.region_state:RZW = { set_state_owner = c:MTB }
+		if={
+			limit = {
+				NOT = { owns_entire_state_region = STATE_TRANSVAAL }
+			}
+			s:STATE_TRANSVAAL.region_state:MTB = { set_state_owner = c:ZOU }
 		}
-		s:STATE_TRANSVAAL.region_state:MTB = { set_state_owner = c:TRN }
-		remove_modifier = adjunct_volksraad
+		
 		change_tag = TRN
+		remove_modifier = adjunct_volksraad
 		set_global_variable = trn_exists
 	}
+
+	
+	invalid = {
+		exists = c:TRN
+	}
+
+	on_invalid = {
+		set_global_variable = trn_exists
+		remove_modifier = adjunct_volksraad
+	}
+
 	should_be_pinned_by_default = yes
 }
 je_form_griqualand_west = {
