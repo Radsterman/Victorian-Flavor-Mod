@@ -1,0 +1,69 @@
+﻿je_canton_system = {
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	complete = {
+		OR = {
+			AND = {
+				NOT = { has_law = law_type:law_isolationism }
+				NOT = { has_law = law_type:law_closed_borders }
+			}
+			has_modifier = opium_wars_lost
+		}
+	}
+
+	on_complete = {
+		remove_modifier = canton_system
+	}
+
+    should_be_pinned_by_default = yes
+	weight = 100
+}
+
+je_eight_banners = {
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	complete = {
+		OR = {
+			AND = {
+				has_technology_researched = enlistment_offices
+				OR = {
+					has_law = law_type:law_professional_army
+					has_law = law_type:law_mass_conscription
+				}
+				
+			}
+			ig:ig_armed_forces = {
+				is_marginal = yes
+			}
+		}
+		has_technology_researched = general_staff
+
+	}
+
+	fail = {
+		ig:ig_armed_forces = {
+			is_powerful = yes
+		}
+	}
+
+	invalid = {
+		NOT = {
+			country_has_primary_culture = cu:manchu
+		}
+	}
+
+	on_invalid = {
+		trigger_event = { id = journal_flavor_china.1 }
+	}
+
+	on_complete = {
+		trigger_event = { id = journal_flavor_china.1 }
+	}
+
+	on_fail = {
+		trigger_event = { id = journal_flavor_china.2 }
+	}
+
+    should_be_pinned_by_default = yes
+	weight = 100
+}

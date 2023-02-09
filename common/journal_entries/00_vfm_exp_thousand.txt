@@ -1,0 +1,117 @@
+﻿je_exp_thousand = {
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	immediate = {
+		c:SIC = {
+			save_scope_as = sic_scope
+			add_journal_entry = {
+				type = je_exp_thousand_SIC
+			}
+		}
+		random_country = {
+			limit = {
+				owns_entire_state_region = STATE_MALTA
+			}
+			save_scope_as = malta_scope
+		}
+		set_variable = choose_commander
+	}
+
+	complete = {
+		any_country = {
+			limit = {
+				owns_entire_state_region = STATE_MALTA
+			}
+			relations:root >= relations_threshold:cordial
+		}
+		this.gdp > c:SIC.gdp
+		c:SIC = {
+			is_at_war = no
+		}
+		is_at_war = no
+		in_default = no
+		taking_loans = no
+		is_unification_candidate = ITA
+
+    	custom_tooltip = {
+    		text = exp_thousand_commander
+			has_variable = has_thousand_commander
+		}
+    }
+
+    on_complete = {
+    	trigger_event = {
+    		id = exp_thousand.1
+    	}
+    }
+
+    invalid = {
+    	NOT = {
+    		exists = c:SIC
+    	}
+    }
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = exp_thousand_goal
+			}
+		}
+	}
+
+	timeout = 730
+	weight = 200
+
+	should_be_pinned_by_default = yes
+}
+
+je_exp_thousand_SIC = {
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_journal_entry = je_exp_thousand
+			}
+			save_scope_as = ita_scope
+		}
+	}
+
+	complete = {
+		radical_fraction = {
+			value < 0.15
+		}
+		any_scope_state = {
+			turmoil < 0.1
+		}	
+		any_interest_group = {
+			ig_approval >= -5
+		}
+    }
+
+    on_complete = {
+    	set_global_variable = exp_thousand_limited
+    }
+
+    fail = {
+	    custom_tooltip = {
+    		text = exp_thousand_SIC_fail
+	    	any_country = {
+	    		has_variable = garibaldi_redshirts
+	    	}
+	    }
+    }
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = exp_thousand_SIC_goal
+			}
+		}
+	}
+	weight = 1000
+
+	should_be_pinned_by_default = yes
+}
