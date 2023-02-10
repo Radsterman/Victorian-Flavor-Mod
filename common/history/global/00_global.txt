@@ -378,5 +378,66 @@ GLOBAL = {
 			days = 7
 		}
 	}
+	
+	#VFM GAME RULES HISTORY
+	
+	if = {
+		limit = {
+			has_game_rule = no_micro_european_nations
+		}
+		c:AUS = {
+			annex = c:LIE
+		}
+	}
+
+	if = {
+		limit = {
+			has_game_rule = no_real_unions
+		}
+		every_country = {
+			while = {
+				limit = {
+					any_subject_or_below = {
+						count > 0
+						is_subject_type = subject_type_real_union
+					}
+				}
+				every_subject_or_below = {
+					limit = {
+						is_subject_type = subject_type_real_union
+					}
+					save_scope_as = real_union_subject
+					overlord = {
+						annex = scope:real_union_subject
+					}
+				}
+			}
+		}
+	}
+
+	if = {
+		limit = {
+			has_game_rule = no_dependencies
+		}
+		every_country = {
+			while = {
+				limit = {
+					any_subject_or_below = {
+						count > 0
+						is_subject_type = subject_type_dependency
+					}
+				}
+				every_subject_or_below = {
+					limit = {
+						is_subject_type = subject_type_dependency
+					}
+					save_scope_as = dependency_subject
+					overlord = {
+						annex = scope:dependency_subject
+					}
+				}
+			}
+		}
+	}
 
 }
