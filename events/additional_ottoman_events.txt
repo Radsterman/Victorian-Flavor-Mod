@@ -1120,7 +1120,7 @@ tanzimat_events.17 = {
 			}
 		}
 		scope:aleppo_state.state_region = {
-			add_devastation = 20
+			add_devastation = 30
 		}
 		scope:aleppo_state = {
 			add_radicals = {
@@ -1135,7 +1135,7 @@ tanzimat_events.17 = {
 	}
 }
 
-# Albanian rebellion
+# Albanian uprising in response to centralisation policies
 tanzimat_events.18 = {
 	type = state_event
 	placement = s:STATE_ALBANIA
@@ -1154,7 +1154,23 @@ tanzimat_events.18 = {
 			owns_entire_state_region = STATE_ALBANIA
 		}
 		s:STATE_ALBANIA = {
-			turmoil > 0.2
+			turmoil > 0.1
+		}
+		OR = {
+			is_enacting_law = law_type:law_appointed_bureaucrats
+			is_enacting_law = law_type:law_professional_army
+			is_enacting_law = law_type:law_national_militia
+			is_enacting_law = law_type:law_mass_conscription
+			is_enacting_law = law_type:law_national_guard
+			is_enacting_law = law_type:law_secret_police
+			is_enacting_law = law_type:law_public_schools
+			is_enacting_law = law_type:law_interventionism
+			is_enacting_law = law_type:law_agrarianism
+			is_enacting_law = law_type:law_laissez_faire
+			is_enacting_law = law_type:law_command_economy
+		}
+		NOT = {
+			has_variable = tur_albania_politics_event
 		}
 	}
 	immediate = {
@@ -1168,15 +1184,39 @@ tanzimat_events.18 = {
 				save_scope_as = albania_state
 			}
 		}
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+		set_variable = {
+			name = tur_albania_politics_event
+			days = 365
+		}
 	}
-	option = { #
+	cancellation_trigger = {
+		NOT = { currently_enacting_law = scope:current_law_scope }
+	}
+	option = { #Compromise and scale back their implementation in Albania
 		name = tanzimat_events.18.a
 		default_option = yes
-		
+		add_enactment_modifier = {
+			name = tur_albanian_law_concessions
+		}
 	}
-	option = { #
+	option = { #Put them down forcefully
 		name = tanzimat_events.17.b
-		
+		scope:albania_state = {
+			add_radicals = {
+				value = very_large_radicals
+				culture = cu:albanian
+			}
+		}
+		scope:albania_state.state_region = {
+			add_devastation = 10
+		}
+		add_modifier = {
+			name = tur_albanian_crackdown
+			months = normal_modifier_time
+		}
 	}
 }
 
