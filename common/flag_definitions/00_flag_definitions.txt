@@ -8100,10 +8100,112 @@ ZIM = { # Zimbabwe
 		priority = 1
 	}
 }
+
 LBG = { # Limburg
 	flag_definition = {
 		coa = LBG
 		subject_canton = LBG
 		priority = 1
+	}
+
+CSA = {
+ # Confederate States of America
+	flag_definition = {
+		coa = CSA
+		subject_canton = sub_CSA_canton_stars
+		priority = 1		
+		allow_overlord_canton = yes
+		overlord_canton_scale = { 0.5 @[third*2.005] }
+	}
+	flag_definition = {
+		coa = CSA_stainless
+		subject_canton = sub_CSA_canton_saltire
+		priority = 10
+		allow_overlord_canton = yes
+		overlord_canton_scale = { 0.5 @[third*2] }
+		trigger = { 
+			NAND = {
+				exists = c:USA
+				c:USA = {
+					has_journal_entry = je_acw_war
+				}
+			}
+			scope:actor = { 
+				has_ruling_interest_group = ig_armed_forces
+			}
+		}
+	}
+	flag_definition = {
+		coa = CSA_blood_stained
+		subject_canton = sub_CSA_canton_saltire
+		priority = 15
+		allow_overlord_canton = yes
+		overlord_canton_scale = { 0.5 @[third*2] }
+		trigger = { 
+			NAND = {
+				exists = c:USA
+				c:USA = {
+					has_journal_entry = je_acw_war
+				}
+			}
+			scope:actor = { 
+				has_ruling_interest_group = ig_armed_forces
+				has_ruling_interest_group_count = 1
+			}
+		}
+	}
+	flag_definition = {
+		coa = CSA_battle_flag
+		subject_canton = sub_CSA_canton_saltire
+		priority = 20
+		trigger = { 
+			NAND = {
+				exists = c:USA
+				c:USA = {
+					has_journal_entry = je_acw_war
+				}
+			}
+			scope:actor = { 
+				has_ruling_interest_group = ig_armed_forces
+			}
+			OR = {
+				coa_def_military_junta_flag_trigger = yes
+				coa_def_dictatorship_flag_trigger = yes
+			}
+		}
+	}
+	flag_definition = {
+		coa = CSA_theocracy
+		subject_canton = CSA_theocracy
+		priority = 20
+		trigger = { 
+			NAND = {
+				exists = c:USA
+				c:USA = {
+					has_journal_entry = je_acw_war
+				}
+			}
+			coa_def_theocracy_flag_trigger = yes
+		}
+	}	
+	flag_definition = {
+		coa = CSA_communist
+		priority = 1500
+		trigger = { 
+			NAND = {
+				exists = c:USA
+				c:USA = {
+					has_journal_entry = je_acw_war
+				}
+			}
+			coa_def_communist_flag_trigger = yes
+		}
+	}
+	flag_definition = {
+		coa = CSA_subject_MEX
+		priority = 30
+		trigger = { 
+			coa_def_mexican_ensign_trigger = yes
+		}
 	}
 }

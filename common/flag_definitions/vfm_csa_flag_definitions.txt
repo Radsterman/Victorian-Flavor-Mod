@@ -1,103 +1,16 @@
-﻿CSA = { # Confederate States of America
-	flag_definition = {
-		coa = CSA
-		subject_canton = sub_CSA_canton_stars
-		priority = 1		
-		allow_overlord_canton = yes
-		overlord_canton_scale = { 0.5 @[third]*2.005 }
-	}
-	flag_definition = {
-		coa = CSA_stainless
-		subject_canton = sub_CSA_canton_saltire
-		priority = 10
-		allow_overlord_canton = yes
-		overlord_canton_scale = { 0.5 @[third]*2 }
-		trigger = { 
-			NAND = {
-				exists = c:USA
-				c:USA = {
-					has_journal_entry = je_acw_war
-				}
-			}
-			scope:actor = { 
-				has_ruling_interest_group = ig_armed_forces
-			}
-		}
-	}
-	flag_definition = {
-		coa = CSA_blood_stained
-		subject_canton = sub_CSA_canton_saltire
-		priority = 15
-		allow_overlord_canton = yes
-		overlord_canton_scale = { 0.5 @[third]*2 }
-		trigger = { 
-			NAND = {
-				exists = c:USA
-				c:USA = {
-					has_journal_entry = je_acw_war
-				}
-			}
-			scope:actor = { 
-				has_ruling_interest_group = ig_armed_forces
-				has_ruling_interest_group_count = 1
-			}
-		}
-	}
-	flag_definition = {
-		coa = CSA_battle_flag
-		subject_canton = sub_CSA_canton_saltire
-		priority = 20
-		trigger = { 
-			NAND = {
-				exists = c:USA
-				c:USA = {
-					has_journal_entry = je_acw_war
-				}
-			}
-			scope:actor = { 
-				has_ruling_interest_group = ig_armed_forces
-			}
-			OR = {
-				coa_def_military_junta_flag_trigger = yes
-				coa_def_dictatorship_flag_trigger = yes
-			}
-		}
-	}
-	flag_definition = {
-		coa = CSA_theocracy
-		subject_canton = CSA_theocracy
-		priority = 20
-		trigger = { 
-			NAND = {
-				exists = c:USA
-				c:USA = {
-					has_journal_entry = je_acw_war
-				}
-			}
-			coa_def_theocracy_flag_trigger = yes
-		}
-	}	
-	flag_definition = {
-		coa = CSA_communist
-		priority = 1500
-		trigger = { 
-			NAND = {
-				exists = c:USA
-				c:USA = {
-					has_journal_entry = je_acw_war
-				}
-			}
-			coa_def_communist_flag_trigger = yes
-		}
-	}
-	flag_definition = {
-		coa = CSA_subject_MEX
-		priority = 30
-		trigger = { 
-			coa_def_mexican_ensign_trigger = yes
-		}
-	}
+﻿@coa_width = 768
+@coa_height = 512
+@canton_scale_cross_x = @[ ( 333 / coa_width ) + 0.001 ]
+@canton_scale_cross_y = @[ ( 205 / coa_height ) + 0.001 ]
+@canton_scale_sweden_x = @[ ( 255 / coa_width ) + 0.001 ]
+@canton_scale_sweden_y = @[ ( 204 / coa_height ) + 0.001 ]
+@canton_scale_norway_x = @[ ( 192 / coa_width ) + 0.001 ]
+@canton_scale_norway_y = @[ ( 192 / coa_height ) + 0.001 ]
+@canton_scale_denmark_x = @[ ( 220 / coa_width ) + 0.001 ]
+@canton_scale_denmark_y = @[ ( 220 / coa_height ) + 0.001 ]
+@third = @[1/3]
 
+CSA = {
 	### DUPLICATE FOR DURING THE ACW THAT REMOVES THE REVOLUTIONARY TEAR IN THE FLAG
 
 	flag_definition = {
@@ -106,7 +19,7 @@
 		priority = 2		
 		allow_overlord_canton = yes
 		allow_revolutionary_indicator = no
-		overlord_canton_scale = { 0.5 @[third]*2.005 }
+		overlord_canton_scale = { 0.5 @[third*2.005] }
 		trigger = {
 			exists = c:USA
 			c:USA = {
