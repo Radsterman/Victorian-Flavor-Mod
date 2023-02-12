@@ -1203,7 +1203,7 @@ tanzimat_events.18 = {
 		}
 	}
 	option = { #Put them down forcefully
-		name = tanzimat_events.17.b
+		name = tanzimat_events.18.b
 		scope:albania_state = {
 			add_radicals = {
 				value = very_large_radicals
@@ -1220,5 +1220,75 @@ tanzimat_events.18 = {
 	}
 }
 
+##Greek rebels revolt while at war
+tanzimat_events.19 = {
+	type = state_event
+	placement = s:STATE_MACEDONIA
+	title = tanzimat_events.19.t
+	desc = tanzimat_events.19.d
+	flavor =  tanzimat_events.19.f
+	duration = 1
+	event_image = {
+		video = "gfx/event_pictures/middleeast_police_breaking_door.bk2"
+	}
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/police_breaking_door"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	trigger = {
+		NOT = { 
+			has_variable = greek_rebel_cooldown 
+		}
+		any_scope_state = {
+			is_incorporated = yes
+			is_homeland = cu:greek
+		}
+		any_scope_pop = {
+			culture_accepted = no
+			has_pop_culture = cu:greek
+		}
+		any_diplomatic_play = {
+			is_war = yes
+			any_scope_play_involved = {
+				THIS = ROOT
+			}
+		}
+		any_country = {
+			is_diplomatic_play_enemy_of = ROOT
+			country_rank >= rank_value:major_power
+			religion = {
+				has_discrimination_trait = christian
+			}
+		}
+	}
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				any_scope_pop = {
+					culture = cu:greek
+				}
+			}
+			save_scope_as = greek_rebel_state
+			set_variable = {
+				name = greek_rebel_state_var
+				days = 360
+			}
+		}
+		set_variable = {
+			name = greek_rebel_cooldown
+			months = short_modifier_time
+		}
+	}
+
+	option = { #Ah hell
+		name = tanzimat_events.19.a
+		scope:greek_rebel_state = {
+			add_radicals = {
+				value = very_large_radicals
+				culture = cu:greek
+			}
+		}
+	}
+}
 
 
