@@ -821,7 +821,7 @@ exp_thousand.105 = {
 	duration = 1
 
 	trigger = {
-		NOT = { has_variable = thousand_calatafimi}
+		NOT = {has_variable = thousand_calatafimi}
 	}
 
 	immediate = {
@@ -878,6 +878,91 @@ exp_thousand.105 = {
 
 	    ai_chance = {
 			base = 20
+		}
+    }
+}
+
+# Battle of Reggio
+exp_thousand.106 = { 
+	type = country_event
+	placement = ROOT
+
+	title = exp_thousand.106.t
+	desc = exp_thousand.106.d
+	flavor = exp_thousand.106.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	duration = 1
+
+	trigger = {
+		NOT = {has_variable = thousand_reggio}
+	}
+
+	immediate = {
+		s:STATE_CALABRIA = {
+			save_scope_as = calabria_scope
+		}
+		c:SIC = {
+			save_scope_as = sic_scope
+		}
+		random_scope_character = {
+			limit = {has_variable = thousand_commander}
+			save_scope_as = exp_commander
+		}	
+		set_variable = thousand_reggio	
+	}
+
+	option = {
+		name = exp_thousand.106.a
+		default_option = yes
+
+		add_small_peril_effect = yes
+
+		random_list = {
+			85 = {
+				expedition_minor_progress_effect = yes
+				set_variable = thousand_reggio_win
+			}
+			15 = {
+				add_small_peril_effect = yes
+				set_variable = thousand_reggio_lose
+			}
+		}
+		hidden_effect = {
+			trigger_event = { id = exp_thousand.107 days = 14 }
+		}
+
+	    ai_chance = {
+			base = 90	
+		}
+    }
+	option = {
+		name = exp_thousand.106.b
+
+		random_list = {
+			70 = {
+				expedition_minor_progress_effect = yes
+				set_variable = thousand_reggio_win
+			}
+			30 = {
+				add_small_peril_effect = yes
+				set_variable = thousand_reggio_lose
+			}
+		}
+		hidden_effect = {
+			trigger_event = { id = exp_thousand.107 days = 14 }
+		}
+
+	    ai_chance = {
+			base = 10
 		}
     }
 }
