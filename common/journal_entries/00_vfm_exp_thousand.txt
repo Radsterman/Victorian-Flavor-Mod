@@ -23,7 +23,7 @@
 			limit = {
 				owns_entire_state_region = STATE_MALTA
 			}
-			relations:root >= relations_threshold:cordial
+			relations:root >= 10
 		}
 		this.gdp > c:SIC.gdp
 		c:SIC = {
@@ -41,9 +41,9 @@
     }
 
     on_complete = {
-    	trigger_event = {
-    		id = exp_thousand.1
-    	}
+		add_journal_entry = {
+			type = je_exp_thousand_ongoing
+		}
     }
 
     invalid = {
@@ -61,7 +61,7 @@
 	}
 
 	timeout = 730
-	weight = 200
+	weight = 1000
 
 	should_be_pinned_by_default = yes
 }
@@ -115,3 +115,95 @@ je_exp_thousand_SIC = {
 
 	should_be_pinned_by_default = yes
 }
+
+
+je_exp_thousand_ongoing = {
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	on_monthly_pulse = {
+		random_events = {
+			100 = 0
+			10 = expedition_events.20 #posts a notification
+			99 = exp_thousand.101 #the landing
+			50 = exp_thousand.102 #calatafimi battle
+			20 = exp_thousand.103 #population joins us
+			10 = exp_thousand.104 #reinforcements
+			10 = exp_thousand.105 #milazzo battle
+			30 = exp_thousand.106 #reggio battle
+			50 = exp_thousand.107 #capture of Naples
+			20 = exp_thousand.108 #volturno battle
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = thousand_commander
+			}
+			save_scope_as = exp_commander
+		}
+		c:SIC = {
+			save_scope_as = sic_scope
+		}
+		trigger_event = { id = exp_thousand.101 days = 7 }
+	}
+	complete = {
+		custom_tooltip = {
+			text = je_expedition_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+    }
+
+    on_complete = {
+		c:SIC = {
+			trigger_event = { id = exp_thousand.3 }
+		}
+		remove_modifier = modifier_large_expedition_cost
+    }
+
+    fail = {
+		custom_tooltip = {
+			text = je_expedition_fail
+			var:expedition_peril >= 7
+		}
+    }
+
+	on_fail = {
+		c:SIC = {
+			trigger_event = { id = exp_thousand.5 }
+		}
+		remove_modifier = modifier_large_expedition_cost
+	}
+
+	current_value = {
+		value = var:expedition_progress
+	}
+
+	goal_add_value = {
+		add = 7
+	}
+
+    invalid = {
+    	NOT = {
+    		exists = c:SIC
+    	}
+    }
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = exp_thousand_ongoing_goal
+			}
+		}
+	}
+
+	progressbar = yes
+
+	weight = 1000
+
+	should_be_pinned_by_default = yes
+}
+

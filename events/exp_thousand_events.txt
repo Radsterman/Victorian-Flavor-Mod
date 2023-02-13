@@ -501,6 +501,7 @@ exp_thousand.8 = {
 	option = {
 		name = exp_thousand.8.a
 		default_option = yes
+		custom_tooltip = expedition_costs_tt
 		
 		trigger = {
 			any_scope_character = {
@@ -508,6 +509,10 @@ exp_thousand.8 = {
 			}
 		}
 
+		add_modifier = {
+			name = modifier_large_expedition_cost
+			multiplier = money_amount_multiplier_medium
+		}
 		if = {
 			limit = {
 				any_scope_character = {
@@ -535,7 +540,12 @@ exp_thousand.8 = {
 
 	option = {
 		name = exp_thousand.8.b
+		custom_tooltip = expedition_costs_tt
 
+		add_modifier = {
+			name = modifier_large_expedition_cost
+			multiplier = money_amount_multiplier_medium
+		}
 		scope:exp_random_general = {
 			set_character_busy = yes
 			set_variable = thousand_commander
@@ -550,6 +560,185 @@ exp_thousand.8 = {
 
 	    ai_chance = {
 			base = 10		
+		}
+    }
+}
+
+
+
+################################## EXPEDITION EVENTS ##################################
+
+
+# The Landing
+exp_thousand.101 = { 
+	type = country_event
+	placement = ROOT
+
+	title = exp_thousand.101.t
+	desc = exp_thousand.101.d
+	flavor = exp_thousand.101.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	duration = 1
+
+	trigger = {
+		NOT = { has_variable = thousand_landing }
+	}
+
+	immediate = {
+		c:SIC = {
+			save_scope_as = sic_scope
+		}
+		random_scope_character = {
+			limit = {has_variable = thousand_commander}
+			save_scope_as = exp_commander
+		}	
+		set_variable = thousand_landing	
+	}
+
+	option = {
+		name = exp_thousand.101.a
+		default_option = yes
+
+		expedition_minor_progress_effect = yes
+		hidden_effect = {
+			trigger_event = { id = exp_thousand.102 days = 3 }
+		}
+
+	    ai_chance = {
+			base = 1	
+		}
+    }
+}
+
+# Battle of Calatafimi
+exp_thousand.102 = { 
+	type = country_event
+	placement = ROOT
+
+	title = exp_thousand.102.t
+	desc = exp_thousand.102.d
+	flavor = exp_thousand.102.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	duration = 1
+
+	trigger = {
+		NOT = { has_variable = thousand_calatafimi}
+	}
+
+	immediate = {
+		c:SIC = {
+			save_scope_as = sic_scope
+		}
+		random_scope_character = {
+			limit = {has_variable = thousand_commander}
+			save_scope_as = exp_commander
+		}	
+		set_variable = thousand_calatafimi	
+	}
+
+	option = {
+		name = exp_thousand.102.a
+		default_option = yes
+
+		random_list = {
+			75 = {
+				expedition_minor_progress_effect = yes
+				set_variable = thousand_calatafimi_win
+			}
+			25 = {
+				add_small_peril_effect = yes
+				set_variable = thousand_calatafimi_lose
+			}
+		}
+
+	    ai_chance = {
+			base = 85	
+		}
+    }
+	option = {
+		name = exp_thousand.102.b
+
+		add_small_peril_effect = yes
+
+		random_list = {
+			90 = {
+				expedition_minor_progress_effect = yes
+				set_variable = thousand_calatafimi_win
+			}
+			10 = {
+				add_small_peril_effect = yes
+				set_variable = thousand_calatafimi_lose
+			}
+		}
+
+	    ai_chance = {
+			base = 15
+		}
+    }
+}
+
+# Palermo insurrection
+exp_thousand.103 = { 
+	type = country_event
+	placement = ROOT
+
+	title = exp_thousand.103.t
+	desc = exp_thousand.103.d
+	flavor = exp_thousand.103.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_military_parade.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/military_parade"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	duration = 1
+
+	trigger = {
+		NOT = { has_variable = thousand_palermo_insurrection}
+		has_variable = thousand_calatafimi_win
+	}
+
+	immediate = {
+		c:SIC = {
+			save_scope_as = sic_scope
+		}
+		random_scope_character = {
+			limit = {has_variable = thousand_commander}
+			save_scope_as = exp_commander
+		}	
+		set_variable = thousand_palermo_insurrection	
+	}
+
+	option = {
+		name = exp_thousand.103.a
+		default_option = yes
+
+		expedition_minor_progress_effect = yes
+
+	    ai_chance = {
+			base = 1	
 		}
     }
 }
