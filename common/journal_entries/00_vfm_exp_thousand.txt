@@ -32,7 +32,6 @@
 		is_at_war = no
 		in_default = no
 		taking_loans = no
-		is_unification_candidate = ITA
 
     	custom_tooltip = {
     		text = exp_thousand_commander
@@ -124,9 +123,7 @@ je_exp_thousand_ongoing = {
 	on_monthly_pulse = {
 		random_events = {
 			100 = 0
-			10 = expedition_events.20 #posts a notification
-			50 = exp_thousand.107 #capture of Naples
-			20 = exp_thousand.108 #volturno battle
+			10 = expedition_events.20
 		}
 	}
 
@@ -139,13 +136,25 @@ je_exp_thousand_ongoing = {
 		}
 		c:SIC = {
 			save_scope_as = sic_scope
+			trigger_event = { id = exp_thousand.2 }
 		}
 		trigger_event = { id = exp_thousand.101 days = 7 }
+
+		set_variable = garibaldi_redshirts
+
+		set_variable = {
+			name = expedition_progress
+			value = 0
+		}
+		set_variable = {
+			name = expedition_peril
+			value = 1
+		}
 	}
 
 	complete = {
 		custom_tooltip = {
-			text = je_expedition_success
+			text = je_exp_thousand_complete
 			scope:journal_entry = {
 				is_goal_complete = yes
 			}
@@ -161,8 +170,8 @@ je_exp_thousand_ongoing = {
 
     fail = {
 		custom_tooltip = {
-			text = je_expedition_fail
-			var:expedition_peril >= 4
+			text = je_exp_thousand_fail
+			var:expedition_peril >= 5
 		}
     }
 
@@ -198,6 +207,8 @@ je_exp_thousand_ongoing = {
 	progressbar = yes
 
 	weight = 1000
+
+	timeout = 273
 
 	should_be_pinned_by_default = yes
 }

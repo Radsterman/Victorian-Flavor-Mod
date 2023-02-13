@@ -1,53 +1,5 @@
 ﻿namespace = exp_thousand
 
-#ITALIAN_MAJOR Expedition of The Thousand
-exp_thousand.1 = { 
-	type = country_event
-	placement = ROOT
-
-	title = exp_thousand.1.t
-	desc = exp_thousand.1.d
-	flavor = exp_thousand.1.f
-
-	event_image = {
-		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
-
-	icon = "gfx/interface/icons/event_icons/event_military.dds"
-
-	duration = 3
-
-	immediate = {
-		c:SIC = {
-			save_scope_as = sic_scope
-		}
-		random_scope_character = {
-			limit = {has_variable = thousand_commander}
-			save_scope_as = exp_commander
-		}
-	}
-
-	option = {
-		name = exp_thousand.1.a
-		default_option = yes
-
-		c:SIC = {
-			trigger_event = {
-				id = exp_thousand.2
-				popup = yes
-			}
-		}
-		set_variable = garibaldi_redshirts
-
-	    ai_chance = {
-			base = 99	
-		}
-    }
-}
-
 #SIC Expedition of The Thousand
 exp_thousand.2 = { 
 	type = country_event
@@ -69,7 +21,6 @@ exp_thousand.2 = {
 	duration = 1
 
 	immediate = {
-
 		random_country = {
 			limit = {
 				has_variable = garibaldi_redshirts
@@ -81,33 +32,6 @@ exp_thousand.2 = {
 				limit = {has_variable = thousand_commander}
 				save_scope_as = exp_commander
 			}		
-		}
-
-		if = {
-			limit = {
-				has_global_variable = exp_thousand_limited
-			}
-			random_list = {
-				5 = {
-					set_variable = garibaldi_redshirst_success
-				}
-				5 = {
-					set_variable = garibaldi_redshirst_fail
-				}
-			}
-		}
-		if = {
-			limit = {
-				NOT = {has_global_variable = exp_thousand_limited}
-			}
-			random_list = {
-				8 = {
-					set_variable = garibaldi_redshirst_success
-				}
-				2 = {
-					set_variable = garibaldi_redshirst_fail
-				}
-			}
 		}
 	}
 
@@ -141,12 +65,7 @@ exp_thousand.3 = {
 
 	duration = 1
 
-	trigger = {
-		has_variable = garibaldi_redshirst_success
-	}
-
 	immediate = {
-
 		random_country = {
 			limit = {
 				has_variable = garibaldi_redshirts
@@ -159,7 +78,7 @@ exp_thousand.3 = {
 				save_scope_as = exp_commander
 			}		
 		}
-		remove_variable = garibaldi_redshirst_success
+		remove_variable = garibaldi_redshirts
 	}
 
 	option = {
@@ -263,10 +182,6 @@ exp_thousand.5 = {
 
 	duration = 1
 
-	trigger = {
-		has_variable = garibaldi_redshirst_fail
-	}
-
 	immediate = {
 		random_country = {
 			limit = {
@@ -283,7 +198,6 @@ exp_thousand.5 = {
 		c:PAP = {
 			save_scope_as = pap_scope
 		}
-		remove_variable = garibaldi_redshirst_fail
 	}
 
 	option = {
@@ -634,6 +548,10 @@ exp_thousand.102 = {
 
 	duration = 1
 
+	trigger = {
+		has_journal_entry = je_exp_thousand_ongoing
+	}
+
 	immediate = {
 		c:SIC = {
 			save_scope_as = sic_scope
@@ -649,12 +567,12 @@ exp_thousand.102 = {
 		default_option = yes
 
 		random_list = {
-			75 = {
+			8 = {
 				expedition_minor_progress_effect = yes
 				set_variable = thousand_calatafimi_win
 			}
-			25 = {
-				add_small_peril_effect = yes
+			2 = {
+				expedition_lose_progress_effect = yes
 			}
 		}
 		hidden_effect = {
@@ -671,12 +589,12 @@ exp_thousand.102 = {
 		add_small_peril_effect = yes
 
 		random_list = {
-			90 = {
+			9 = {
 				expedition_minor_progress_effect = yes
 				set_variable = thousand_calatafimi_win
 			}
-			10 = {
-				add_small_peril_effect = yes
+			1 = {
+				expedition_lose_progress_effect = yes
 			}
 		}
 		hidden_effect = {
@@ -712,6 +630,7 @@ exp_thousand.103 = {
 	trigger = {
 		NOT = { has_variable = thousand_palermo_insurrection}
 		has_variable = thousand_calatafimi_win
+		has_journal_entry = je_exp_thousand_ongoing
 	}
 
 	immediate = {
@@ -758,6 +677,10 @@ exp_thousand.104 = {
 
 	duration = 1
 
+	trigger = {
+		has_journal_entry = je_exp_thousand_ongoing
+	}
+
 	immediate = {
 		c:SIC = {
 			save_scope_as = sic_scope
@@ -803,6 +726,10 @@ exp_thousand.105 = {
 
 	duration = 1
 
+	trigger = {
+		has_journal_entry = je_exp_thousand_ongoing
+	}
+
 	immediate = {
 		c:SIC = {
 			save_scope_as = sic_scope
@@ -818,11 +745,11 @@ exp_thousand.105 = {
 		default_option = yes
 
 		random_list = {
-			70 = {
-				expedition_minor_progress_effect = yes
+			75 = {
+				expedition_moderate_progress_effect = yes
 			}
-			30 = {
-				add_small_peril_effect = yes
+			25 = {
+				expedition_lose_progress_effect = yes
 			}
 		}
 		hidden_effect = {
@@ -839,11 +766,11 @@ exp_thousand.105 = {
 		add_small_peril_effect = yes
 
 		random_list = {
-			85 = {
-				expedition_minor_progress_effect = yes
+			9 = {
+				expedition_moderate_progress_effect = yes
 			}
-			15 = {
-				add_small_peril_effect = yes
+			1 = {
+				expedition_lose_progress_effect = yes
 			}
 		}
 		hidden_effect = {
@@ -876,6 +803,10 @@ exp_thousand.106 = {
 
 	duration = 1
 
+	trigger = {
+		has_journal_entry = je_exp_thousand_ongoing
+	}
+
 	immediate = {
 		c:SIC = {
 			save_scope_as = sic_scope
@@ -893,11 +824,11 @@ exp_thousand.106 = {
 		add_small_peril_effect = yes
 
 		random_list = {
-			85 = {
+			9 = {
 				expedition_minor_progress_effect = yes
 			}
-			15 = {
-				add_small_peril_effect = yes
+			1 = {
+				expedition_lose_progress_effect = yes
 			}
 		}
 		hidden_effect = {
@@ -912,11 +843,11 @@ exp_thousand.106 = {
 		name = exp_thousand.106.b
 
 		random_list = {
-			70 = {
+			8 = {
 				expedition_minor_progress_effect = yes
 			}
-			30 = {
-				add_small_peril_effect = yes
+			2 = {
+				expedition_lose_progress_effect = yes
 			}
 		}
 		hidden_effect = {
@@ -948,6 +879,10 @@ exp_thousand.107 = {
 	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
 	duration = 1
+
+	trigger = {
+		has_journal_entry = je_exp_thousand_ongoing
+	}
 
 	immediate = {
 		c:SIC = {
@@ -997,6 +932,10 @@ exp_thousand.108 = {
 
 	duration = 1
 
+	trigger = {
+		has_journal_entry = je_exp_thousand_ongoing
+	}
+
 	immediate = {
 		c:SIC = {
 			save_scope_as = sic_scope
@@ -1017,11 +956,11 @@ exp_thousand.108 = {
 		add_small_peril_effect = yes
 
 		random_list = {
-			70 = {
-				expedition_minor_progress_effect = yes
+			75 = {
+				expedition_moderate_progress_effect = yes
 			}
-			30 = {
-				add_small_peril_effect = yes
+			25 = {
+				expedition_lose_progress_effect = yes
 			}
 		}
 
@@ -1033,11 +972,11 @@ exp_thousand.108 = {
 		name = exp_thousand.108.b
 
 		random_list = {
-			50 = {
-				expedition_minor_progress_effect = yes
+			6 = {
+				expedition_moderate_progress_effect = yes
 			}
-			50 = {
-				add_medium_peril_effect = yes
+			4 = {
+				expedition_lose_progress_effect = yes
 			}
 		}
 
