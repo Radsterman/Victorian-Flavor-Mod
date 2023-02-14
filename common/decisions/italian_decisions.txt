@@ -1,0 +1,125 @@
+﻿plombieres_agreement_decision = {
+	is_shown = {	
+		NOT = { 
+			has_variable = plombieres_agreement_var 
+		}
+		has_journal_entry = je_plombieres_agreement
+	}
+
+	possible = {
+		is_at_war = no
+		country_rank >= rank_value:minor_power
+		is_subject = no
+		any_neighbouring_state = {
+			owner = c:FRA
+		}
+		any_neighbouring_state = {
+			owner = c:AUS
+		}
+		has_state_in_state_region = STATE_SAVOY
+		has_state_in_state_region = STATE_PROVENCE
+
+		NOT = {
+			hidden = {
+				has_variable = plombieres_agreement_happened
+			}
+		}
+		c:AUS = {
+			AND = {
+				OR = {
+					has_state_in_state_region = STATE_LOMBARDY
+					country_or_subject_owns_entire_state_region = STATE_LOMBARDY
+				}
+				is_subject = no
+			}
+		}
+
+		c:FRA = {
+			relations:root >= relations_threshold:amicable 
+			is_at_war = no
+		}
+	}
+
+	when_taken = {
+		hidden_effect = {
+			c:FRA = {
+				save_scope_as = fra_scope
+			}
+		}
+		set_variable = {
+			name = plombieres_agreement_happened
+			value = yes
+		}
+		set_variable = {
+			name = plombieres_agreement_var
+			value = yes
+		}
+		trigger_event = {
+			id = plombieres_agreement.8
+			popup = yes
+		}
+	}
+
+	ai_chance = {
+		base = 100
+		modifier = {
+			trigger = { 
+				OR = {
+					weekly_net_fixed_income > money_amount_multiplier_medium
+					gold_reserves > 100000
+				}
+			}
+			add = 15
+		}
+		modifier = {
+			trigger = { 
+				gold_reserves > 350000 
+			}
+			add = 30
+			}	
+		modifier = {
+			trigger = {
+				gold_reserves < -350000 
+			}
+			add = -30
+			}	
+		modifier = {
+			trigger = {
+				OR = {
+					has_diplomatic_pact = {
+						who = c:AUS								
+						type = alliance					
+					}
+					has_diplomatic_pact = {
+						who = c:AUS								
+						type = defensive_pact					
+					}
+					has_diplomatic_pact = {
+						who = c:AUS								
+						type = customs_union					
+					}
+				}
+			}
+			add = -75
+		}
+		modifier = {
+			trigger = {
+				has_strategy = ai_strategy_armed_isolationism
+			}
+			add = -50
+			}		
+		modifier = {
+			trigger = {
+				is_at_war = yes
+			}
+			add = -100	
+			}
+		modifier = {
+			trigger = {
+				is_diplomatic_play_committed_participant = yes
+			}
+		 	add = -20
+		}			
+	}
+	weight = 500
+}
