@@ -215,6 +215,7 @@ AFG = { # Afghanistan
 }
 
 AFS = {
+<<<<<<< HEAD
 	flag_definition = {
 		coa = AFS
 		subject_canton = AFS
@@ -230,8 +231,80 @@ AFS = {
 			}
 		}
 	}
+=======
+    flag_definition = {
+        coa = AFS
+        subject_canton = AFS
+        allow_overlord_canton = no
+        priority = 100
+        trigger = {
+            exists= c:AFS
+            scope:actor = { capital = { region = sr:region_congo } }
+        }
+    }
+    flag_definition = {
+        coa = AFS_orange
+        subject_canton = AFS
+        allow_overlord_canton = no
+        priority = 100
+        trigger = {
+            exists= c:AFS
+            scope:actor = { capital = { region = sr:region_southern_africa } }
+        }
+    }
+    flag_definition = {
+        coa = AFS_zambezi
+        subject_canton = AFS
+        allow_overlord_canton = no
+        priority = 100
+        trigger = {
+            exists= c:AFS
+            scope:actor = { capital = { region = sr:region_zanj } }
+        }
+    }
+    flag_definition = {
+        coa = AFS_nile
+        subject_canton = AFS
+        allow_overlord_canton = no
+        priority = 100
+        trigger = {
+            exists= c:AFS
+            scope:actor = { capital = { region = sr:region_nile_basin } }
+        }
+    }
+    flag_definition = {
+        coa = AFS_niger
+        subject_canton = AFS
+        allow_overlord_canton = no
+        priority = 100
+        trigger = {
+            exists= c:AFS
+            scope:actor = {
+            	capital = {
+            		OR = {
+            			region = sr:region_senegal
+            			region = sr:region_niger
+            		} 
+            	}
+            }
+        }
+    }
+    flag_definition = {
+        coa = AFS_sahara
+        subject_canton = AFS
+        allow_overlord_canton = no
+        priority = 100
+        trigger = {
+            exists= c:AFS
+            scope:actor = { capital = { region = sr:region_north_africa } }
+        }
+    }
+}
+>>>>>>> a8f5913f (V1.06-1.3.2 combined)
 
+AIT = { # Ait Abbas
 	flag_definition = {
+<<<<<<< HEAD
 		coa = AFS_orange
 		subject_canton = AFS
 		allow_overlord_canton = no
@@ -312,6 +385,11 @@ AFS = {
 				}
 			}
 		}
+=======
+		coa = AIT
+		subject_canton = AIT
+		priority = 1
+>>>>>>> a8f5913f (V1.06-1.3.2 combined)
 	}
 }
 
@@ -4137,17 +4215,111 @@ ISR = { # Israel
 
 ITA = { # Italy
 	flag_definition = {
-		coa = ITA
-		subject_canton = ITA
+		coa = ITA_republic
+		subject_canton = ITA_republic
 		priority = 1
 	}
+	flag_definition = {
+		coa = ITA_papal
+		subject_canton = ITA_papal
+		priority = 15
+		
+		trigger = {
+			NOT = { exists = c:PAP } # Can't be Pope if the Pope is still in control of another country!
+			coa_def_theocracy_flag_trigger = yes
+		}
+	}
+
+	### Different monarchist Italies ###
+
+	# Sardinia-Piedmont Italy
+	flag_definition = {
+		coa = ITA
+		priority = 15
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				has_law = law_type:law_monarchy
+				was_formed_from = SAR
+			}
+		}
+	}
+
+	## Two Sicilies Italy
+	flag_definition = {
+		coa = ITA_sicilian
+		subject_canton = ITA_sicilian
+		priority = 15
+		trigger = { 
+			exists = scope:actor
+			scope:actor = {
+				has_law = law_type:law_monarchy
+				was_formed_from = SIC
+			}
+		}
+	}
+
+	# Tuscany Italy
+	flag_definition = {
+		coa = ITA_tuscan
+		priority = 15
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				has_law = law_type:law_monarchy
+				was_formed_from = TUS
+			}
+		}
+	}
+
+	# Modena Italy
+	flag_definition = {
+		coa = ITA_modenan
+		priority = 15
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				has_law = law_type:law_monarchy
+				was_formed_from = MOD
+			}
+		}
+	}
+
+	# Parma Italy
+	flag_definition = {
+		coa = ITA_parmesan
+		priority = 15
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				has_law = law_type:law_monarchy
+				was_formed_from = PAR
+			}
+		}
+	}
+
+	# Lucca Italy
+	flag_definition = {
+		coa = ITA_luccan
+		priority = 15
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				has_law = law_type:law_monarchy
+				was_formed_from = LUC
+			}
+		}
+	}
+
+	### end of country-specific flags ###
+
 	flag_definition = {
 		coa = ITA_republic
 		priority = 10
 		trigger = { 
 			coa_def_republic_flag_trigger = yes
 		}
-	}	
+	}
 	flag_definition = {
 		coa = ITA_dictatorship
 		subject_canton = ITA_dictatorship
@@ -5062,7 +5234,10 @@ MAL = {	# Mali
 	}
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> a8f5913f (V1.06-1.3.2 combined)
 MAS = { # Mascara
 	flag_definition = {
 		coa = MAS

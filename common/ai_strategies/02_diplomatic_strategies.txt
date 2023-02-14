@@ -253,7 +253,11 @@ ai_strategy_colonial_expansion = {
 	
 	diplomatic_play_neutrality = {
 		value = 25
+<<<<<<< HEAD
 	}	
+=======
+	}
+>>>>>>> a8f5913f (V1.06-1.3.2 combined)
 	
 	diplomatic_play_boldness = {
 		value = -15
@@ -265,17 +269,17 @@ ai_strategy_colonial_expansion = {
 	
 	# Added to value from default strategy
 	aggression = {
-		value = 0.5
+		value = 0.25
 		if = {
 			limit = { 
 				NOT = { is_country_type = unrecognized }
 				scope:target_country = { is_country_type = unrecognized } 
 			}
-			add = 2.5			
+			add = 0.75			
 			
 			if = {
 				limit = { has_technology_researched = civilizing_mission }
-				add = 2.5
+				add = 1.0
 			}			
 		}
 
@@ -288,7 +292,29 @@ ai_strategy_colonial_expansion = {
 				}					
 			}
 			multiply = 0.1
-		}			
+		}	
+
+		# More aggressive against ideological enemies, a bit less aggressive against ideological allies
+		if = {
+			limit = {
+				"ai_ideological_opinion(scope:target_country)" < 0
+			}
+			
+			multiply = {
+				value = "ai_ideological_opinion(scope:target_country)"
+				multiply = -0.2
+				add = 1
+				max = 4.0
+			}				
+		}	
+		else = {
+			multiply = {
+				value = "ai_ideological_opinion(scope:target_country)"
+				multiply = -0.05
+				add = 1
+				min = 0.5
+			}			
+		}		
 	}
 	
 	building_group_weights = {
@@ -515,6 +541,7 @@ ai_strategy_economic_imperialism = {
 	
 	diplomatic_play_neutrality = {
 		value = 10
+<<<<<<< HEAD
 	}
 	
 	diplomatic_play_boldness = {
@@ -525,6 +552,18 @@ ai_strategy_economic_imperialism = {
 		value = -0.1
 	}
 
+=======
+	}
+	
+	diplomatic_play_boldness = {
+		value = -10
+	}
+	
+	recklessness = {
+		value = -0.1
+	}
+	
+>>>>>>> a8f5913f (V1.06-1.3.2 combined)
 	aggression = {
 		value = 0.5
 		if = {
@@ -532,11 +571,11 @@ ai_strategy_economic_imperialism = {
 				NOT = { is_country_type = unrecognized }
 				scope:target_country = { is_country_type = unrecognized } 
 			}
-			add = 1.5
+			add = 0.5
 			
 			if = {
 				limit = { has_technology_researched = civilizing_mission }
-				add = 2.5
+				add = 0.5
 			}			
 		}
 		
@@ -575,7 +614,29 @@ ai_strategy_economic_imperialism = {
 				}					
 			}
 			multiply = 0.25
-		}		
+		}	
+
+		# More aggressive against ideological enemies, a bit less aggressive against ideological allies
+		if = {
+			limit = {
+				"ai_ideological_opinion(scope:target_country)" < 0
+			}
+			
+			multiply = {
+				value = "ai_ideological_opinion(scope:target_country)"
+				multiply = -0.2
+				add = 1
+				max = 4.0
+			}				
+		}	
+		else = {
+			multiply = {
+				value = "ai_ideological_opinion(scope:target_country)"
+				multiply = -0.05
+				add = 1
+				min = 0.5
+			}			
+		}			
 	}
 	
 	building_group_weights = {
@@ -944,11 +1005,19 @@ ai_strategy_unify_italy = {
 	type = diplomatic
 		
 	undesirable_infamy_level = {
+<<<<<<< HEAD
 		value = 50
 	}
 	
 	unacceptable_infamy_level = {
 		value = 100
+=======
+		value = 25
+	}
+	
+	unacceptable_infamy_level = {
+		value = 50
+>>>>>>> a8f5913f (V1.06-1.3.2 combined)
 	}
 	
 	ideological_opinion_effect_mult = {
@@ -964,10 +1033,13 @@ ai_strategy_unify_italy = {
 	}
 	
 	diplomatic_play_boldness = {
+<<<<<<< HEAD
 		value = 50
+=======
+		value = 75
+>>>>>>> a8f5913f (V1.06-1.3.2 combined)
 	}
 	
-	# Added to value from default strategy
 	obligation_value = {
 		value = 0
 	
@@ -997,10 +1069,10 @@ ai_strategy_unify_italy = {
 					OR = {
 						country_has_primary_culture = cu:north_italian
 						country_has_primary_culture = cu:south_italian
-					}				
+					}	
 				}
 			}
-			add = 10
+			add = 2.75
 		}
 
 		# Less aggressive against countries we're just antagonistic against, rather than belligerent/domineering
@@ -1012,7 +1084,29 @@ ai_strategy_unify_italy = {
 				}					
 			}
 			multiply = 0.25
-		}			
+		}	
+
+		# More aggressive against ideological enemies, a bit less aggressive against ideological allies
+		if = {
+			limit = {
+				"ai_ideological_opinion(scope:target_country)" < 0
+			}
+			
+			multiply = {
+				value = "ai_ideological_opinion(scope:target_country)"
+				multiply = -0.2
+				add = 1
+				max = 4.0
+			}				
+		}	
+		else = {
+			multiply = {
+				value = "ai_ideological_opinion(scope:target_country)"
+				multiply = -0.05
+				add = 1
+				min = 0.5
+			}			
+		}		
 	}
 
 	building_group_weights = {
@@ -1029,7 +1123,17 @@ ai_strategy_unify_italy = {
 								is_homeland = cu:north_italian
 								is_homeland = cu:south_italian
 							}
-						}					
+						}
+						owner = {
+							NOR = { 
+								is_supporting_unification_candidate = { who = root country_formation = GER }
+								is_subject_of = root
+								has_diplomatic_pact = {
+									who = scope:target_country
+									type = customs_union
+								}							
+							}						
+						}						
 					}	
 					can_reach_target_state = yes
 				}
@@ -1051,7 +1155,10 @@ ai_strategy_unify_italy = {
 				}
 				add = 100
 			}
-		}		
+		}
+		unification_leadership = {
+			value = 1000
+		}			
 	}	
 	
 	secret_goal_scores = {
@@ -1064,7 +1171,14 @@ ai_strategy_unify_italy = {
 							country_has_primary_culture = cu:south_italian
 						}
 						NOT = { is_unification_candidate = ITA }
-						is_supporting_unification_candidate = { who = root country_formation = ITA }
+						OR = { 
+							is_supporting_unification_candidate = { who = root country_formation = ITA }
+							is_subject_of = root
+							has_diplomatic_pact = {
+								who = scope:target_country
+								type = customs_union
+							}							
+						}	
 					}
 				}
 				add = 1000
@@ -1078,8 +1192,15 @@ ai_strategy_unify_italy = {
 							country_has_primary_culture = cu:north_italian
 							country_has_primary_culture = cu:south_italian
 						}					
-						NOT = { is_unification_candidate = ITA }
-						NOT = { is_supporting_unification_candidate = { who = root country_formation = ITA } }
+						NOR = { 
+							is_unification_candidate = ITA
+							is_supporting_unification_candidate = { who = root country_formation =ITA }
+							is_subject_of = root
+							has_diplomatic_pact = {
+								who = scope:target_country
+								type = customs_union
+							}							
+						}	
 					}
 				}
 				add = 1000
@@ -1088,34 +1209,14 @@ ai_strategy_unify_italy = {
 		conquer = {				
 			if = {
 				limit = {
-					scope:target_country = {
-						OR = {
-							country_has_primary_culture = cu:north_italian
-							country_has_primary_culture = cu:south_italian
-						}					
-						is_unification_candidate = ITA
-						NOT = { is_supporting_unification_candidate = { who = root country_formation = ITA } }
-					}
-				}
-				add = 1000
-			}			
-		}	
-		antagonize = {				
-			if = {
-				limit = {
-					scope:target_country = {
+					scope:target_country = {				
 						is_unification_candidate = ITA
 					}
 				}
 				add = 1000
 			}			
 		}		
-	}	
-
-	wargoal_weights = {
-		conquer_state = 2.0
-		return_state = 2.0
-	}	
+	}
 		
 	possible = {
 		is_unification_candidate = ITA	
@@ -1349,7 +1450,11 @@ ai_strategy_unify_china = {
 	diplomatic_play_boldness = {
 		value = 50
 	}
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> a8f5913f (V1.06-1.3.2 combined)
 	obligation_value = {
 		value = 0
 	
@@ -1364,7 +1469,11 @@ ai_strategy_unify_china = {
 	recklessness = {
 		value = 0.5
 	}	
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> a8f5913f (V1.06-1.3.2 combined)
 	aggression = {
 		value = 0.5
 		
@@ -1372,7 +1481,7 @@ ai_strategy_unify_china = {
 			limit = { 
 				scope:target_country = { can_form_nation = CHI }
 			}
-			add = 10
+			add = 2.5
 		}
 
 		# Less aggressive against countries we're just antagonistic against, rather than belligerent/domineering
@@ -1384,7 +1493,29 @@ ai_strategy_unify_china = {
 				}					
 			}
 			multiply = 0.25
-		}			
+		}
+
+		# More aggressive against ideological enemies, a bit less aggressive against ideological allies
+		if = {
+			limit = {
+				"ai_ideological_opinion(scope:target_country)" < 0
+			}
+			
+			multiply = {
+				value = "ai_ideological_opinion(scope:target_country)"
+				multiply = -0.2
+				add = 1
+				max = 4.0
+			}				
+		}	
+		else = {
+			multiply = {
+				value = "ai_ideological_opinion(scope:target_country)"
+				multiply = -0.05
+				add = 1
+				min = 0.5
+			}			
+		}		
 	}
 
 	building_group_weights = {
@@ -1445,6 +1576,7 @@ ai_strategy_unify_china = {
 						can_form_nation = CHI
 					}
 				}
+<<<<<<< HEAD
 				add = 200
 			}		
 		}		
@@ -1455,6 +1587,8 @@ ai_strategy_unify_china = {
 						can_form_nation = CHI
 					}
 				}
+=======
+>>>>>>> a8f5913f (V1.06-1.3.2 combined)
 				add = 150
 				
 				if = {
@@ -1464,7 +1598,11 @@ ai_strategy_unify_china = {
 					add = 150
 				}	
 			}
+<<<<<<< HEAD
 		}		
+=======
+		}				
+>>>>>>> a8f5913f (V1.06-1.3.2 combined)
 		conquer = {				
 			if = {
 				limit = {
@@ -1478,11 +1616,6 @@ ai_strategy_unify_china = {
 		}			
 	}	
 
-	wargoal_weights = {
-		conquer_state = 2.0
-		return_state = 2.0
-	}	
-		
 	possible = {
 		NOT = { exists = c:CHI }
 		can_form_nation = CHI	

@@ -43,16 +43,23 @@ heavenly.1 = {
 			any_neighbouring_state = {
 				is_treaty_port = yes
 				owner = {
+<<<<<<< HEAD
 						religion = { #The Taiping Heavenly Kingdom was Protestant (therabouts), but the missionaries which spread Christian dogma to it were from Macao.
 							has_discrimination_trait = christian
 						}
 					}
+=======
+					religion = { #The Taiping Heavenly Kingdom was Protestant (therabouts), but the missionaries which spread Christian dogma to it were from Macao.
+						has_discrimination_trait = christian
+					}
+				}
+>>>>>>> a8f5913f (V1.06-1.3.2 combined)
 			}
 		}
 	}
 	immediate = {
 		random_scope_state = {
-			limit = {
+			limit = { 
 				is_incorporated = yes
 				any_scope_pop = {
 					NOT = {
@@ -221,8 +228,13 @@ heavenly.2 = {
 
 	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
 
+<<<<<<< HEAD
 	duration = 3	
 
+=======
+	duration = 3
+	
+>>>>>>> a8f5913f (V1.06-1.3.2 combined)
 	cooldown = { months = very_long_modifier_time }
 
 	trigger = {
@@ -252,6 +264,55 @@ heavenly.2 = {
 			}
 			convert_population = {
 				target = rel:god_society value = 0.1
+			}
+		}
+		if = {
+			limit = {
+				empty_agitator_slots >= 1
+			}
+			if = {
+				limit = {
+					has_dlc_feature = voice_of_the_people_content
+					game_date < 1880.1.1
+				}
+				create_character = {
+					first_name = Hong
+					last_name = Xiuquan
+					historical = yes
+					birth_date = 1814.1.1
+					culture = cu:hakka
+					religion = rel:protestant
+					interest_group = ig_devout
+					ideology = ideology_theocrat
+					is_agitator = yes
+					traits = {
+						inspirational_orator
+						persistent
+						psychological_affliction
+					}
+					on_created = {
+						set_variable = hong_var
+						add_modifier = {
+							name = modifier_brother_of_christ
+							months = long_modifier_time
+						}
+					}
+				}
+			}
+			else = {
+				create_character = {
+					culture = cu:han
+					religion = rel:protestant
+					interest_group = ig_devout
+					ideology = ideology_theocrat
+					is_agitator = yes
+					on_created = {
+						add_modifier = {
+							name = modifier_brother_of_christ
+							months = long_modifier_time
+						}
+					}
+				}
 			}
 		}
 		if = {
@@ -362,7 +423,11 @@ heavenly.3 = {
 					NOT = {
 						has_variable = cult_center
 					}
+<<<<<<< HEAD
 					state_region = {
+=======
+					state_region = { 
+>>>>>>> a8f5913f (V1.06-1.3.2 combined)
 						OR = {
 							is_homeland = cu:han 
 							is_homeland = cu:hakka
@@ -569,8 +634,11 @@ heavenly.4 = {
 			change_variable = { name = gold_transfer divide = 3 }
 			set_variable = { name = gold_transfer_nil value = var:gold_transfer }
 			change_variable = { name = gold_transfer_nil divide = -1 }
+<<<<<<< HEAD
 
 			trigger_event = { id = heavenly.9 }
+=======
+>>>>>>> a8f5913f (V1.06-1.3.2 combined)
 		}
 		if = {
 			limit = { has_journal_entry = je_warlord_china }
@@ -725,6 +793,7 @@ heavenly.5 = {
 
 	event_image = {
 		video = "asia_union_leader"
+<<<<<<< HEAD
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -988,10 +1057,11 @@ heavenly.9 = {
 
 	event_image = {
 		video = "gfx/event_pictures/asia_union_leader.bk2"
+=======
+>>>>>>> a8f5913f (V1.06-1.3.2 combined)
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/asia/union_leader"
 
 	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
 
@@ -1002,6 +1072,7 @@ heavenly.9 = {
 	}
 immediate = {
 
+<<<<<<< HEAD
 				create_character = {
 					first_name = "Feng"
 					last_name = "Yunshan"
@@ -1111,6 +1182,245 @@ immediate = {
 			}
 
 
+=======
+	immediate = {
+		every_scope_state = {
+			limit = {
+				owner = ROOT
+				has_variable = saved_incorporated_state
+			}
+			set_state_owner = c:CHI #Just in case.
+			set_state_type = incorporated
+			remove_variable = saved_incorporated_state
+		}
+		root.religion = {
+			save_scope_as = state_religion_scope
+		}
+		root = {
+			save_scope_as = china_scope
+		}
+	}
+
+	option = { # mass re-conversions
+		name = heavenly.5.a
+		default_option = yes
+		custom_tooltip = {
+			text = mass_reconversion_tt
+			every_scope_state = {
+				limit = {
+					any_scope_pop = {
+						religion = rel:protestant
+					}
+				}
+				add_religion_standard_of_living_modifier = {
+					religion = rel:protestant
+					multiplier = -3
+				}
+				convert_population = {
+					target = rel:mahayana value = 0.1
+				}
+			}
+		}
+		ordered_country = {
+			limit = {
+				country_rank >= rank_value:great_power
+				religion = {
+					has_discrimination_trait = christian
+				}
+			}
+			order_by = country_rank
+			save_scope_as = christian_gp
+		}
+		create_incident = {
+			country = scope:christian_gp
+			value = 25
+		}
+		every_country = {
+			limit = {
+				country_rank >= rank_value:great_power
+				religion = {
+					has_discrimination_trait = christian
+				}
+			}
+			change_relations = {
+				country = root
+				value = -25
+			}
+		}
+	}
+	option = { # mercy and pardons
+		name = heavenly.5.b
+		add_loyalists = {
+			value = 0.2
+			religion = rel:protestant
+		}
+	}
+}
+
+
+# Aftermath event - TPG
+heavenly.6 = {
+	type = country_event
+	placement = ROOT
+
+	title = heavenly.6.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					exists = c:CHI
+				}
+				desc = heavenly.6.d1
+			}
+			triggered_desc = {
+				trigger = {
+					always = yes
+				}
+				desc = heavenly.6.d
+			}
+		}
+	}
+	flavor = heavenly.6.f
+
+	event_image = {
+		video = "asia_politician_parliament_motion"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+	duration = 3
+
+	trigger = {
+		# triggered by journal entry
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				exists = c:CHI
+			}
+			c:CHI = {
+				save_scope_as = china_scope
+			}
+		}
+		if = {
+			limit = {
+				ig:ig_intelligentsia = {
+					leader = {
+						OR = {
+							has_ideology = ideology:ideology_reformer
+							has_ideology = ideology:ideology_market_liberal
+						}
+					}
+				}
+			}
+			ig:ig_intelligentsia = {
+				leader = {
+					save_scope_as = hong_rengan_scope
+				}
+			}
+		}
+		cu:manchu = {
+			save_scope_as = manchu_culture
+		}
+	}
+
+	option = {
+		name = heavenly.6.a
+		default_option = yes
+		add_modifier = {
+			name = modifier_conversion_of_china
+			months = long_modifier_time
+		}
+	}
+	option = {
+		name = heavenly.6.b
+		trigger = {
+			NOT = {
+				ig:ig_intelligentsia = {
+					leader = {
+						OR = {
+							has_ideology = ideology:ideology_reformer
+							has_ideology = ideology:ideology_market_liberal
+						}
+					}
+				}
+			}
+		}
+		ig:ig_intelligentsia = {
+			add_modifier = {
+				name = modifier_accepted_new_treatise
+				months = normal_modifier_time
+			}
+		}
+		add_modifier = {
+			name = modifier_new_treatise_on_administration
+			months = long_modifier_time
+		}
+	}
+	option = {
+		name = heavenly.6.b1
+		trigger = {
+			ig:ig_intelligentsia = {
+				leader = {
+					OR = {
+						has_ideology = ideology:ideology_reformer
+						has_ideology = ideology:ideology_market_liberal
+					}
+				}
+			}
+		}
+		ig:ig_intelligentsia = {
+			add_modifier = {
+				name = modifier_accepted_new_treatise
+				months = normal_modifier_time
+			}
+		}
+		add_modifier = {
+			name = modifier_new_treatise_on_administration
+			months = long_modifier_time
+		}
+	}
+	option = {
+		name = heavenly.6.c
+		trigger = {
+			exists = c:CHI
+		}
+		ig:ig_armed_forces = {
+			leader = {
+				set_ideology = ideology:ideology_jingoist
+			}
+			add_modifier = {
+				name = hawkish_neighbor_relations
+				months = normal_modifier_time
+			}
+		}
+		add_modifier = {
+			name = modifier_second_crusade_against_manchu
+			months = long_modifier_time
+		}
+	}
+	option = {
+		name = heavenly.6.e
+		every_country = {
+			limit = {
+				country_rank >= rank_value:great_power
+				religion = {
+					has_discrimination_trait = christian
+				}
+			}
+			change_relations = {
+				country = c:TPG
+				value = 10
+			}
+		}
+		add_modifier = {
+			name = modifier_relations_with_west
+			months = long_modifier_time
+		}
+>>>>>>> a8f5913f (V1.06-1.3.2 combined)
 	}
 }
 

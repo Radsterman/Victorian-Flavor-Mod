@@ -2,6 +2,7 @@
 ### it is the selected nation info in lobby.
 
 template multiplayer_lobby_selected_country_info {
+	visible = "[LobbyView.HasSelectedPlayable]"
 	datacontext = "[LobbyView.AccessSelectedPlayable.AccessCountry]"
 	margin_top = 10
 	margin_bottom = 20
@@ -232,6 +233,7 @@ template multiplayer_lobby_selected_country_info {
 					minimumsize = { @lobby_panel_info_width -1 }
 					maximumsize = { @lobby_panel_info_width -1 }
 					
+<<<<<<< HEAD
 					#hbox = {
 					#layoutpolicy_horizontal = expanding
 					spacing = 5
@@ -244,6 +246,42 @@ template multiplayer_lobby_selected_country_info {
 								texture = "gfx/interface/icons/notification_icons/journal.dds"
 								size = { 30 30 }
 								parentanchor = hcenter|vcenter
+=======
+					### ARMY / NAVY
+					flowcontainer = {
+						direction = vertical
+						position = { 15 170 }
+						spacing = 5
+
+						flowcontainer = {
+							direction = vertical
+							
+							textbox = {
+								autoresize = yes
+								visible = "[Country.IsColonizable]"
+								raw_text = "#variable @battalions![Country.CalcConscriptableBattalions|0]#! "
+								tooltip = PANEL_MILITARY_NATIVE_POTENTIAL_BATTALIONS_TOOLTIP
+								using = fontsize_mega
+								align = left|nobaseline
+							}							
+							
+							textbox = {
+								autoresize = yes
+								visible = "[Not(Country.IsColonizable)]"
+								raw_text = "#variable @battalions![Country.GetBattalions|0]#! "
+								tooltip = PANEL_MILITARY_ARMY_CURRENT_BATTALIONS_TOOLTIP
+								using = fontsize_xxl
+								align = left|nobaseline
+							}
+
+							textbox = {
+								autoresize = yes
+								visible = "[Not(Country.IsColonizable)]"
+								raw_text = "#variable @flotillas![Country.GetWarships|0]#!"
+								tooltip = PANEL_MILITARY_NAVY_CURRENT_FLOTILLAS_TOOLTIP
+								using = fontsize_xxl
+								align = left|nobaseline
+>>>>>>> a8f5913f (V1.06-1.3.2 combined)
 							}
 						}
 						
@@ -891,11 +929,22 @@ template multiplayer_lobby_selected_country_info {
 					
 					### ARMY / NAVY
 					flowcontainer = {
+<<<<<<< HEAD
 						direction = horizontal
 						position = { 15 170 }
 						spacing = 20
 						margin_left = 140
 						visible = "[GetVariableSystem.HasValue( 'country_selection_info', 'statistics' )]"
+=======
+						margin_left = 15
+						direction = vertical
+						
+						textbox = {
+							using = fontsize_large
+							raw_text = "#bold [Country.GetName]#!"
+							autoresize = yes
+						}
+>>>>>>> a8f5913f (V1.06-1.3.2 combined)
 
 						flowcontainer = {
 							direction = vertical
