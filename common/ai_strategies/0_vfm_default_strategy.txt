@@ -328,8 +328,8 @@ ai_strategy_default = {
 			}
 			add = 1
 		}		
-	
-		# Opium wars aggressor should be confident
+
+		# Opium wars participants should both be confident
 		if = {
 			limit = {
 				has_journal_entry = je_opium_wars
@@ -340,7 +340,18 @@ ai_strategy_default = {
 			}
 			add = 1
 		}
-	
+
+		if = {
+			limit = {
+				has_variable = opium_wars_target
+				is_banning_goods = g:opium
+				scope:target_country = {
+					has_journal_entry = je_opium_wars
+				}
+			}
+			add = 1
+		}	
+		
 		# Ottomans should be extremely confident against owners of Syria and Egypt when they have the relevant JE's
 		if = {
 			limit = {
@@ -499,6 +510,51 @@ ai_strategy_default = {
 				}
 			}
 			add = 100
+		}
+
+		if = { #Carving up China
+			limit = {
+				country_rank >= rank_value:great_power
+				exists = c:CHI
+				any_country = {
+					NOT = { THIS = ROOT }
+					country_is_in_europe = yes
+					any_scope_state = {
+						OR = {
+							region = sr:region_north_china
+							region = sr:region_south_china
+							region = sr:region_manchuria
+						}
+						is_treaty_port = yes
+					}
+				}
+				scope:target_country = {
+					this ?= c:CHI
+				}
+			}
+			add = 25
+		}
+		else_if = {
+			limit = {
+				country_rank >= rank_value:great_power
+				exists = c:CHI
+				any_country = {
+					NOT = { THIS = ROOT }
+					country_rank >= rank_value:great_power
+					any_scope_state = {
+						OR = {
+							region = sr:region_north_china
+							region = sr:region_south_china
+							region = sr:region_manchuria
+						}
+						is_treaty_port = yes
+					}
+				}
+				scope:target_country = {
+					this ?= c:CHI
+				}
+			}
+			add = 75
 		}
 
 		# Ottomans should be extremely aggressive against owners of Syria and Egypt when they have the relevant JE's
@@ -676,6 +732,9 @@ ai_strategy_default = {
 
 		if = { #Russian Central Asia
 			limit = {
+				owns_entire_state_region = STATE_URALSK
+				owns_entire_state_region = STATE_AKMOLINSK
+				owns_entire_state_region = STATE_SEMIRECHE
 				scope:target_country = {
 					any_scope_state = {
 						OR = {
@@ -687,6 +746,7 @@ ai_strategy_default = {
 						}
 					}
 				}
+				can_reach_target_country = yes
 			}
 			add = 25
 		}
@@ -986,9 +1046,20 @@ ai_strategy_default = {
 	# How important is it that the AI maintains an interest in a specific strategic region (added on top of region value calculations set in defines)
 	# Using this value in other strategies will function additively
 	strategic_region_scores = {
+		region_anatolia = {
+			if = {
+				limit = { # Great Powers care about Egyptian-Ottoman conflict in Arabia/Anatolia early game
+					exists = c:TUR
+					c:TUR = { has_journal_entry = je_sick_man_syria }
+					country_rank = rank_value:great_power
+					navy_size >= 50
+				}
+				add = 1000
+			}
+		}	
 		region_arabic = {
 			if = {
-				limit = { # Great Powers care about Egyptian-Ottoman conflict in Arabia early game
+				limit = { # Great Powers care about Egyptian-Ottoman conflict in Arabia/Anatolia early game
 					exists = c:TUR
 					c:TUR = { has_journal_entry = je_sick_man_syria }
 					country_rank = rank_value:great_power
@@ -1216,6 +1287,38 @@ ai_strategy_default = {
 				}
 				add = 50
 			}
+		}	
+		region_north_china = {
+			if = {
+				limit = {
+					country_is_in_europe = yes
+					country_rank >= rank_value:great_power
+					any_country = {
+						country_rank >= rank_value:great_power
+						any_scope_state = {
+							region = sr:region_north_china
+							is_treaty_port = yes
+						}
+					}
+				}
+				add = 50
+			}
+		}	
+		region_manchuria = {
+			if = {
+				limit = {
+					country_is_in_europe = yes
+					country_rank >= rank_value:great_power
+					any_country = {
+						country_rank >= rank_value:great_power
+						any_scope_state = {
+							region = sr:region_manchuria
+							is_treaty_port = yes
+						}
+					}
+				}
+				add = 50
+			}
 		}			
 		region_south_china = {
 			if = {
@@ -1224,6 +1327,20 @@ ai_strategy_default = {
 				}
 				add = 1000
 			}			
+		}	
+		if = {
+			limit = {
+				country_is_in_europe = yes
+				country_rank >= rank_value:great_power
+				any_country = {
+					country_rank >= rank_value:great_power
+					any_scope_state = {
+						region = sr:region_south_china
+						is_treaty_port = yes
+					}
+				}
+			}
+			add = 50
 		}
 		region_pacific_coast = {
 			if = {
@@ -2061,6 +2178,7 @@ ai_strategy_default = {
 			#	limit = {
 			#		country_has_primary_culture = cu:russian
 			#		has_law = law_type:law_national_supremacy
+			#		has_technology_researched = nationalism
 			#		OR = {
 			#			AND = {	
 			#				exists = c:KZH
@@ -2302,6 +2420,7 @@ ai_strategy_default = {
 			#	limit = {
 			#		country_has_primary_culture = cu:russian
 			#		has_law = law_type:law_national_supremacy
+			#		has_technology_researched = nationalism
 			#		OR = {
 			#			AND = {	
 			#				exists = c:KZH
@@ -2731,6 +2850,9 @@ ai_strategy_default = {
 
 			if = { #Russian Central Asia
 				limit = {
+					owns_entire_state_region = STATE_URALSK
+					owns_entire_state_region = STATE_AKMOLINSK
+					owns_entire_state_region = STATE_SEMIRECHE
 					scope:target_state = {
 						OR = {
 							state_region = s:STATE_UZBEKIA
@@ -2738,8 +2860,9 @@ ai_strategy_default = {
 							state_region = s:STATE_KHIVA
 							state_region = s:STATE_TURKMENIA
 							state_region = s:STATE_TAJIKISTAN
+						}
 					}
-				}
+					can_reach_target_state = yes
 				}
 				add = 50
 			}				
@@ -2748,6 +2871,7 @@ ai_strategy_default = {
 			#	limit = {
 			#		country_has_primary_culture = cu:russian
 			#		has_law = law_type:law_national_supremacy
+			#		has_technology_researched = nationalism
 			#		OR = {
 			#			AND = {	
 			#				exists = c:KZH
@@ -2769,6 +2893,7 @@ ai_strategy_default = {
 			#				}
 			#			}
 			#		}
+			#		can_reach_target_state = yes
 			#	}
 			#	add = 50
 			#}
@@ -2950,7 +3075,7 @@ ai_strategy_default = {
 						has_variable = opium_wars_target
 					}
 				}
-				add = 50
+				add = 25
 			}
 			if = {
 				limit = {
@@ -2963,7 +3088,72 @@ ai_strategy_default = {
 					}					
 				}
 				add = 1000
-			}	
+			}
+			if = {
+				limit = {
+					has_journal_entry = je_opium_wars
+					scope:target_country = {
+						has_variable = opium_wars_target
+					}
+					scope:target_state = {
+						state_region = s:STATE_FORMOSA
+					}					
+				}
+				add = -100
+			}
+
+			if = { #Carving up China
+				limit = {
+					country_rank >= rank_value:great_power
+					exists = c:CHI
+					any_country = {
+						NOT = { THIS = ROOT }
+						country_is_in_europe = yes
+						any_scope_state = {
+							OR = {
+								region = sr:region_north_china
+								region = sr:region_south_china
+								region = sr:region_manchuria
+							}
+							is_treaty_port = yes
+						}
+					}
+					scope:target_state = {
+						OR = {
+							region = sr:region_north_china
+							region = sr:region_south_china
+							region = sr:region_manchuria
+						}
+					}
+				}
+				add = 25
+			}
+			else_if = {
+				limit = {
+					country_rank >= rank_value:great_power
+					exists = c:CHI
+					any_country = {
+						NOT = { THIS = ROOT }
+						country_rank >= rank_value:great_power
+						any_scope_state = {
+							OR = {
+								region = sr:region_north_china
+								region = sr:region_south_china
+								region = sr:region_manchuria
+							}
+							is_treaty_port = yes
+						}
+					}
+					scope:target_state = {
+						OR = {
+							region = sr:region_north_china
+							region = sr:region_south_china
+							region = sr:region_manchuria
+						}
+					}
+				}
+				add = 75
+			}
 
 			if = {
 				limit = {
@@ -3045,6 +3235,7 @@ ai_strategy_default = {
 			#	limit = {
 			#		country_has_primary_culture = cu:russian
 			#		has_law = law_type:law_national_supremacy
+			#		has_technology_researched = nationalism
 			#		OR = {
 			#			AND = {	
 			#				exists = c:KZH
@@ -3566,6 +3757,7 @@ ai_strategy_default = {
 			#	limit = {
 			#		country_has_primary_culture = cu:russian
 			#		has_law = law_type:law_national_supremacy
+			#		has_technology_researched = nationalism
 			#		OR = {
 			#			AND = {	
 			#				exists = c:KZH
@@ -3581,7 +3773,7 @@ ai_strategy_default = {
 			#			}
 			#		}
 			#	}
-			#	add = 100
+			#	add = 150
 			#}
 
 			min = 0
