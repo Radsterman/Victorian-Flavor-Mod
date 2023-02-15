@@ -22,9 +22,12 @@ heavenly.1 = {
 
 	trigger = {
 		NOT = {
-			root.religion = {
+			root.religion = { 
 				has_discrimination_trait = christian
 			}
+		}
+		NOT = {
+			has_modifier = opium_wars_addiction_modifier
 		}
 		any_scope_state = {
 			is_incorporated = yes
@@ -37,13 +40,12 @@ heavenly.1 = {
 						}
 				}
 			}
+			average_sol <= 7
 			any_neighbouring_state = {
 				is_treaty_port = yes
 				owner = {
-						OR = {
-							religion = rel:protestant
-							religion = rel:reformed
-							religion = rel:anglican
+						religion = { #The Taiping Heavenly Kingdom was Protestant (therabouts), but the missionaries which spread Christian dogma to it were from Macao.
+							has_discrimination_trait = christian
 						}
 					}
 			}
@@ -65,10 +67,8 @@ heavenly.1 = {
 				any_neighbouring_state = {
 					is_treaty_port = yes
 					owner = {
-						OR = {
-							religion = rel:protestant
-							religion = rel:reformed
-							religion = rel:anglican
+						religion = {
+							has_discrimination_trait = christian
 						}
 					}
 				}
@@ -78,12 +78,9 @@ heavenly.1 = {
 				limit = {
 					is_treaty_port = yes
 					owner = {
-						OR = {
-							religion = rel:protestant
-							religion = rel:reformed
-							religion = rel:anglican
+						religion = {
+							has_discrimination_trait = christian
 						}
-
 					}
 				}
 				save_scope_as = treaty_port_scope
@@ -251,7 +248,7 @@ heavenly.2 = {
 			}
 			add_modifier = {
 				name = god_worshippers
-				months = short_modifier_time
+				months = normal_modifier_time
 			}
 			convert_population = {
 				target = rel:god_society value = 0.1
@@ -281,7 +278,7 @@ heavenly.3 = {
 
 	duration = 3
 
-	cooldown = { months = 3 }
+	cooldown = { months = 6 }
 
 	trigger = {
 		any_scope_state = {
@@ -382,7 +379,7 @@ heavenly.4 = {
 					has_pop_religion = god_society
 					religion_accepted = no
 				}
-				radical_fraction = { value >= 0.30 }
+				radical_fraction = { value >= 0.15 }
 			}
 			save_scope_as = heavenly_kingdom_spawn
 		}
@@ -609,6 +606,20 @@ heavenly.5 = {
 				target = rel:mahayana value = 0.1
 			}
 		}
+		ordered_country = {
+			limit = {
+				country_rank >= rank_value:great_power
+				religion = {
+					has_discrimination_trait = christian
+				}
+			}
+			order_by = country_rank
+			save_scope_as = christian_gp
+		}
+		create_incident = {
+			country = scope:christian_gp
+			value = 25
+		}
 		every_country = {
 			limit = {
 				country_rank >= rank_value:great_power
@@ -616,9 +627,9 @@ heavenly.5 = {
 					has_discrimination_trait = christian
 				}
 			}
-			create_incident = {
+			change_relations  = {
 				country = root
-				value = 25
+				value = -25
 			}
 		}
 	}
@@ -626,19 +637,7 @@ heavenly.5 = {
 		name = heavenly.5.b
 		add_loyalists = {
 			value = 0.2
-			religion = rel:god_society
-		}
-		every_country = {
-			limit = {
-				country_rank >= rank_value:great_power
-				religion = {
-					has_discrimination_trait = christian
-				}
-			}
-			create_incident = {
-				country = root
-				value = 25
-			}
+			religion = rel:protestant
 		}
 	}
 }
