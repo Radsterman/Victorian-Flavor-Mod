@@ -703,6 +703,17 @@ ai_strategy_unify_china = {
 	}
 	
 	wargoal_scores = {
+		annex_country = {
+			if = {
+				limit = {
+					scope:target_country = {
+						can_form_nation = CHI
+					}
+					can_reach_target_country = yes
+				}
+				add = 300
+			}		
+		}	
 		conquer_state = {
 			if = {
 				limit = {
@@ -732,7 +743,7 @@ ai_strategy_unify_china = {
 					}
 					can_reach_target_state = yes
 				}
-				add = 100
+				add = 200
 			}
 		}		
 	}			
@@ -755,8 +766,15 @@ ai_strategy_unify_china = {
 						can_form_nation = CHI
 					}
 				}
-				add = 300
-			}			
+				add = 150
+				
+				if = {
+					limit = {
+						can_reach_target_country = no
+					}	
+					add = 150
+				}	
+			}
 		}		
 		conquer = {				
 			if = {
@@ -764,8 +782,9 @@ ai_strategy_unify_china = {
 					scope:target_country = {
 						can_form_nation = CHI
 					}
+					can_reach_target_country = yes
 				}
-				add = 300
+				add = 500
 			}				
 		}			
 	}	

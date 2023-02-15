@@ -628,6 +628,17 @@ ai_strategy_unify_ethiopia = {
 	}
 	
 	wargoal_scores = {
+		annex_country = {
+			if = {
+				limit = {
+					scope:target_country = {
+						can_form_nation = ETH
+					}
+					can_reach_target_country = yes
+				}
+				add = 300
+			}		
+		}
 		conquer_state = {
 			if = {
 				limit = {
@@ -659,7 +670,7 @@ ai_strategy_unify_ethiopia = {
 					}
 					can_reach_target_state = yes
 				}
-				add = 100
+				add = 200
 			}
 		}		
 	}
@@ -672,18 +683,15 @@ ai_strategy_unify_ethiopia = {
 						can_form_nation = ETH
 					}
 				}
-				subtract = 200
-			}		
-		}		
-		dominate = {		
-			if = {
-				limit = {
-					scope:target_country = {
-						can_form_nation = ETH
-					}
-				}
-				subtract = 300
-			}			
+				add = 150
+				
+				if = {
+					limit = {
+						can_reach_target_country = no
+					}	
+					add = 150
+				}	
+			}
 		}		
 		conquer = {				
 			if = {
@@ -691,8 +699,9 @@ ai_strategy_unify_ethiopia = {
 					scope:target_country = {
 						can_form_nation = ETH
 					}
+					can_reach_target_country = yes
 				}
-				add = 300
+				add = 500
 			}				
 		}			
 	}	
