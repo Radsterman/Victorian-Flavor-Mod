@@ -919,9 +919,7 @@ exp_thousand.106 = {
 			}
 		}
 
-		hidden_effect = {
-			trigger_event = { id = exp_thousand.107 days = 14 }
-		}
+		set_variable = thousand_naples
 
 	    ai_chance = {
 			base = 90	
@@ -954,9 +952,7 @@ exp_thousand.106 = {
 			}
 		}
 
-		hidden_effect = {
-			trigger_event = { id = exp_thousand.107 days = 14 }
-		}
+		set_variable = thousand_naples
 
 	    ai_chance = {
 			base = 10
@@ -985,7 +981,9 @@ exp_thousand.107 = {
 	duration = 1
 
 	trigger = {
-		has_journal_entry = je_exp_thousand_ongoing
+		has_variable = thousand_naples
+		var:expedition_progress < 8 
+		var:expedition_peril < 5
 	}
 
 	immediate = {
@@ -999,6 +997,7 @@ exp_thousand.107 = {
 			limit = {has_variable = thousand_commander}
 			save_scope_as = exp_commander
 		}	
+		remove_variable = thousand_naples
 	}
 
 	option = {
@@ -1006,14 +1005,13 @@ exp_thousand.107 = {
 		default_option = yes
 
 		expedition_minor_progress_effect = yes
-		hidden_effect = {
-			trigger_event = { id = exp_thousand.108 days = 20 }
-		}
+
+		set_variable = thousand_volturno
 
 	    ai_chance = {
 			base = 1	
 		}
-    }
+	}
 }
 
 # Battle of Volturno
@@ -1037,7 +1035,9 @@ exp_thousand.108 = {
 	duration = 1
 
 	trigger = {
-		has_journal_entry = je_exp_thousand_ongoing
+		has_variable = thousand_volturno
+		var:expedition_progress < 8 
+		var:expedition_peril < 5
 	}
 
 	immediate = {
@@ -1050,7 +1050,8 @@ exp_thousand.108 = {
 		random_scope_character = {
 			limit = {has_variable = thousand_commander}
 			save_scope_as = exp_commander
-		}	
+		}
+		remove_variable = thousand_volturno	
 	}
 
 	option = {
