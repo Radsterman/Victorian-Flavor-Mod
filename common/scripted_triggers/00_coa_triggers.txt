@@ -126,16 +126,16 @@ coa_secessionist_or_revolutionary_trigger = {
 ### scope is COUNTRY DEFINITION ###
 
 coa_def_independent_trigger = {
-	exists = scope:target
-	scope:target = { is_subject = no }
+	exists = scope:actor
+	scope:actor = { is_subject = no }
 }
 
 coa_def_lesser_subject_trigger = {
 	OR = {
-		NOT = { exists = scope:target }
+		NOT = { exists = scope:actor }
 		AND = {
-			exists = scope:target
-			scope:target = { 
+			exists = scope:actor
+			scope:actor = { 
 				OR = {
 					is_subject_type = subject_type_puppet
 					is_subject_type = subject_type_vassal
@@ -570,8 +570,6 @@ coa_def_kalmar_flag_trigger = {
 	exists = scope:actor
 	scope:actor = {
 		has_law = law_type:law_monarchy
-		ruler = {
-			has_culture = cu:danish
-		}
+		was_formed_from = DEN
 	}
 }
