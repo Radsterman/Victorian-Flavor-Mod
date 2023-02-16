@@ -510,6 +510,11 @@ exp_thousand.101 = {
 		c:SIC = {
 			save_scope_as = sic_scope
 		}
+		s:STATE_SICILY = {
+			random_scope_state = {
+				save_scope_as = sicily_scope
+			}
+		}
 		random_scope_character = {
 			limit = {has_variable = thousand_commander}
 			save_scope_as = exp_commander
@@ -1136,13 +1141,40 @@ exp_thousand.109 = { #Random event POSITIVE
 
 exp_thousand.110 = { #Random event NEGATIVE
 	type = country_event
-    placement = scope:current_expedition_location
+    placement = root
 	
-    hidden = yes
+	title = exp_thousand.110.t
+	desc = exp_thousand.110.d
+	flavor = exp_thousand.110.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
     duration = 1
 
-	immediate = {
-		add_small_peril_effect = yes
-	}
+    immediate = {
+		c:SIC = {
+			save_scope_as = sic_scope
+		}
+		random_scope_character = {
+			limit = {has_variable = thousand_commander}
+			save_scope_as = exp_commander
+		}
+    }
+
+	option = {
+		name = exp_thousand.110.a
+
+ 		add_small_peril_effect = yes
+
+	    ai_chance = {
+			base = 1
+		}
+    }
 }
