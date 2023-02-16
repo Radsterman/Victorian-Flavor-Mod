@@ -1062,7 +1062,7 @@ exp_thousand.108 = {
 		name = exp_thousand.108.a
 		default_option = yes
 
-		add_small_peril_effect = yes
+		add_medium_peril_effect = yes
 
 		if = {
 			limit = {
@@ -1094,6 +1094,8 @@ exp_thousand.108 = {
     }
 	option = {
 		name = exp_thousand.108.b
+
+		add_small_peril_effect = yes
 
 		if = {
 			limit = {
@@ -1170,11 +1172,110 @@ exp_thousand.110 = { #Random event NEGATIVE
 
 	option = {
 		name = exp_thousand.110.a
+		default_option = yes
 
  		add_small_peril_effect = yes
 
 	    ai_chance = {
 			base = 1
+		}
+    }
+}
+
+exp_thousand.111 = { #Random battle
+	type = country_event
+    placement = root
+	
+	title = exp_thousand.111.t
+	desc = exp_thousand.111.d
+	flavor = exp_thousand.111.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+    duration = 1
+
+    immediate = {
+		c:SIC = {
+			save_scope_as = sic_scope
+		}
+		random_scope_character = {
+			limit = {has_variable = thousand_commander}
+			save_scope_as = exp_commander
+		}
+    }
+
+	option = {
+		name = exp_thousand.111.a
+
+ 		add_small_peril_effect = yes
+
+		if = {
+			limit = {
+				has_global_variable = exp_thousand_limited
+			}		
+			random_list = {
+				6 = {
+					expedition_minor_progress_effect = yes
+				}
+				4 = {
+					expedition_lose_progress_effect = yes
+				}
+			}
+		}
+		else = {
+			random_list = {
+				7 = {
+					expedition_minor_progress_effect = yes
+				}
+				3 = {
+					expedition_lose_progress_effect = yes
+				}
+			}
+		}
+
+	    ai_chance = {
+			base = 75
+		}
+    }
+	option = {
+		name = exp_thousand.111.b
+
+ 		add_small_peril_effect = yes
+ 		add_small_peril_effect = yes
+
+		if = {
+			limit = {
+				has_global_variable = exp_thousand_limited
+			}		
+			random_list = {
+				75 = {
+					expedition_minor_progress_effect = yes
+				}
+				25 = {
+					expedition_lose_progress_effect = yes
+				}
+			}
+		}
+		else = {
+			random_list = {
+				85 = {
+					expedition_minor_progress_effect = yes
+				}
+				15 = {
+					expedition_lose_progress_effect = yes
+				}
+			}
+		}
+
+	    ai_chance = {
+			base = 25
 		}
     }
 }
