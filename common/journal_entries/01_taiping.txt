@@ -36,12 +36,6 @@
 				
 			}
 			is_capital = no
-			state_region = { 
-				OR = {
-					is_homeland = cu:han 
-					is_homeland = cu:hakka 
-				}
-			}
 			turmoil > 0.15
 		}
 	}
@@ -68,14 +62,7 @@
 				any_scope_pop = {
 					has_pop_religion = god_society
 				}
-				is_capital = no
-				state_region = { 
-					OR = {
-						is_homeland = cu:han 
-						is_homeland = cu:hakka 
-					}
-				}
-				turmoil > 0.15
+				NOT = { is_capital = yes }
 			}
 			add_modifier = {
 				name = god_worshippers
@@ -113,7 +100,7 @@
 				has_pop_religion = god_society
 				religion_accepted = no
 			}
-			turmoil >= 0.15
+			turmoil >= 0.3
 		}
 	}
 
@@ -141,17 +128,8 @@ je_taiping = {
 		}
 	}
 
-	immediate = {
-		c:TPG = {
-			save_scope_as = taiping_scope
-		}
-	}
-	
 	on_complete = {
 		trigger_event = { id = heavenly.5 days = 0 }
-		hidden_effect = {
-			remove_modifier = taiping_taiping_rebellion
-		}
 	}
 
 	fail = {
@@ -167,67 +145,6 @@ je_taiping = {
 				name = china_warlord_explosion
 				add = 10
 			}
-		}
-	}
-
-	hidden_effect = {
-		remove_modifier = taiping_taiping_rebellion
-		c:TPG = {
-			remove_modifier = taiping_taiping_rebellion
-		}
-	}
-
-	weight = 1000
-	should_be_pinned_by_default = yes
-
-	inheritable = no
-}
-
-je_taiping_revolution = {
-	icon = "gfx/interface/icons/event_icons/event_military.dds"
-
-	complete = {
-		OR = {
-			custom_tooltip = {
-				text = china_destroyed
-				hidden_trigger = {
-					NOT = {
-						exists = c:CHI
-					}
-				}
-			}
-			AND = {
-				exists = c:CHI
-				has_truce_with = c:CHI		
-			}
-		}
-		
-	}
-
-	immediate = {
-		c:CHI = {
-			save_scope_as = china_scope
-		}
-	}
-
-	on_complete = {
-		trigger_event = { id = heavenly.6 days = 0 }
-		custom_tooltip = {
-			text = rebellion_effects_remove
-			remove_modifier = taiping_taiping_rebellion
-			every_interest_group = {
-				limit = {
-					has_modifier = taiping_taiping_revolution
-				}
-				remove_modifier = taiping_taiping_revolution
-			}
-		}
-		
-	}
-
-	fail = {
-		NOT = {
-			exists = c:TPG
 		}
 	}
 
