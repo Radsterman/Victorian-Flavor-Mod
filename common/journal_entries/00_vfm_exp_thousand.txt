@@ -16,6 +16,7 @@
 			save_scope_as = malta_scope
 		}
 		set_variable = choose_commander
+		set_variable = garibaldi_redshirts
 	}
 
 	complete = {
@@ -32,6 +33,7 @@
 		is_at_war = no
 		in_default = no
 		taking_loans = no
+		gold_reserves > 0 
 
     	custom_tooltip = {
     		text = exp_thousand_commander
@@ -85,8 +87,10 @@ je_exp_thousand_SIC = {
 		any_scope_state = {
 			turmoil < 0.1
 		}	
-		any_interest_group = {
-			ig_approval >= -5
+		NOT = {
+			any_interest_group = {
+				ig_approval <= -5	
+			}
 		}
     }
 
@@ -124,6 +128,7 @@ je_exp_thousand_ongoing = {
 		random_events = {
 			100 = 0
 			10 = exp_thousand.109
+			10 = exp_thousand.110
 		}
 	}
 
@@ -139,8 +144,6 @@ je_exp_thousand_ongoing = {
 			trigger_event = { id = exp_thousand.2 }
 		}
 		trigger_event = { id = exp_thousand.101 days = 7 }
-
-		set_variable = garibaldi_redshirts
 
 		set_variable = {
 			name = expedition_progress
@@ -178,6 +181,14 @@ je_exp_thousand_ongoing = {
 
 	on_fail = {
 		c:SIC = {
+			trigger_event = { id = exp_thousand.5 }
+		}
+		remove_modifier = modifier_large_expedition_cost
+		remove_global_variable = exp_thousand_limited
+	}
+
+	on_timeout = {
+			c:SIC = {
 			trigger_event = { id = exp_thousand.5 }
 		}
 		remove_modifier = modifier_large_expedition_cost
@@ -231,7 +242,7 @@ je_exp_thousand_ongoing = {
 
 	weight = 1000
 
-	timeout = 243
+	timeout = 305
 
 	should_be_pinned_by_default = yes
 }

@@ -66,12 +66,6 @@ exp_thousand.3 = {
 	duration = 1
 
 	immediate = {
-		random_country = {
-			limit = {
-				has_variable = garibaldi_redshirts
-			}
-			save_scope_as = ita_scope
-		}
 		scope:ita_scope = {
 			random_scope_character = {
 				limit = {has_variable = thousand_commander}
@@ -120,12 +114,6 @@ exp_thousand.4 = {
 	duration = 1
 
 	immediate = {
-		random_country = {
-			limit = {
-				has_variable = garibaldi_redshirts
-			}
-			save_scope_as = ita_scope
-		}
 		scope:ita_scope = {
 			random_scope_character = {
 				limit = {has_variable = thousand_commander}
@@ -241,12 +229,6 @@ exp_thousand.6 = {
 	duration = 1
 
 	immediate = {
-		random_country = {
-			limit = {
-				has_variable = garibaldi_redshirts
-			}
-			save_scope_as = ita_scope
-		}
 		scope:ita_scope = {
 			random_scope_character = {
 				limit = {has_variable = thousand_commander}
@@ -493,7 +475,24 @@ exp_thousand.101 = {
 	placement = ROOT
 
 	title = exp_thousand.101.t
-	desc = exp_thousand.101.d
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = exp_thousand.101.d.1
+				trigger = {
+					NOT = {
+						has_global_variable = exp_thousand_limited
+					}
+				}
+			}
+			triggered_desc = {
+				desc = exp_thousand.101.d.2
+				trigger = {
+					has_global_variable = exp_thousand_limited
+				}
+			}
+		}
+	}
 	flavor = exp_thousand.101.f
 
 	event_image = {
@@ -1121,16 +1120,29 @@ exp_thousand.108 = {
     }
 }
 
-exp_thousand.109 = { #Random event 
+exp_thousand.109 = { #Random event POSITIVE
 	type = country_event
     placement = scope:current_expedition_location
 	
     hidden = yes
 
-    duration = 3
+    duration = 1
 
 	immediate = {
 		post_notification = expedition_progress_average
 		expedition_minor_progress_effect = yes
+	}
+}
+
+exp_thousand.110 = { #Random event NEGATIVE
+	type = country_event
+    placement = scope:current_expedition_location
+	
+    hidden = yes
+
+    duration = 1
+
+	immediate = {
+		add_small_peril_effect = yes
 	}
 }
