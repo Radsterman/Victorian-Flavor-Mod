@@ -2,7 +2,7 @@
 	icon = "gfx/interface/icons/event_icons/event_colonial.dds"
 
 	complete = {
-		is_at_war = no
+		country_or_subject_owns_entire_state_region = STATE_HOKKAIDO
 		OR = {
 			institution_investment_level = {
 				institution = institution_colonial_affairs
@@ -12,26 +12,16 @@
 	}
 
     fail = {
-		OR= {
-
-            	c:AIN = {
-					is_subject = yes
-					NOT = { is_subject_of = c:JAP }  
-                }
-      
-                NOT ={ 
-					c:AIN = {
-						any_scope_state = {
-							state_region = s:STATE_HOKKAIDO
-						}
-					}
-				}	
-    	}
-			c:AIN = {
-				country_rank > rank_value:minor_power
+		NOT = { country_or_subject_owns_entire_state_region = STATE_HOKKAIDO }
+		c:AIN = {
+			NOT = {
+				any_scope_state = {
+					state_region = s:STATE_HOKKAIDO
+				}
 			}
-	}
 
+		}
+	}
 
 	on_complete = {
 		trigger_event = { id = journal_flavor_japan.3 }
