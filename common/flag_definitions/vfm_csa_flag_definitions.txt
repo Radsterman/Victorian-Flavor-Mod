@@ -1,0 +1,311 @@
+﻿CSA = { # Confederate States of America
+	flag_definition = {
+		coa = CSA
+		subject_canton = sub_CSA_canton_stars
+		priority = 1		
+		allow_overlord_canton = yes
+		overlord_canton_scale = { 0.5 @[third*2.005] }
+	}
+	flag_definition = {
+		coa = CSA_stainless
+		subject_canton = sub_CSA_canton_saltire
+		priority = 10
+		allow_overlord_canton = yes
+		overlord_canton_scale = { 0.5 @[third*2] }
+		trigger = { 
+			NAND = {
+				exists = c:USA
+				c:USA = {
+					has_journal_entry = je_acw_war
+				}
+			}
+			scope:actor = { 
+				has_ruling_interest_group = ig_armed_forces
+			}
+		}
+	}
+	flag_definition = {
+		coa = CSA_blood_stained
+		subject_canton = sub_CSA_canton_saltire
+		priority = 15
+		allow_overlord_canton = yes
+		overlord_canton_scale = { 0.5 @[third*2] }
+		trigger = { 
+			NAND = {
+				exists = c:USA
+				c:USA = {
+					has_journal_entry = je_acw_war
+				}
+			}
+			scope:actor = { 
+				has_ruling_interest_group = ig_armed_forces
+				has_ruling_interest_group_count = 1
+			}
+		}
+	}
+	flag_definition = {
+		coa = CSA_battle_flag
+		subject_canton = sub_CSA_canton_saltire
+		priority = 20
+		trigger = { 
+			NAND = {
+				exists = c:USA
+				c:USA = {
+					has_journal_entry = je_acw_war
+				}
+			}
+			scope:actor = { 
+				has_ruling_interest_group = ig_armed_forces
+			}
+			OR = {
+				coa_def_military_junta_flag_trigger = yes
+				coa_def_dictatorship_flag_trigger = yes
+			}
+		}
+	}
+	flag_definition = {
+		coa = CSA_theocracy
+		subject_canton = CSA_theocracy
+		priority = 20
+		trigger = { 
+			NAND = {
+				exists = c:USA
+				c:USA = {
+					has_journal_entry = je_acw_war
+				}
+			}
+			coa_def_theocracy_flag_trigger = yes
+		}
+	}	
+	flag_definition = {
+		coa = CSA_communist
+		priority = 1500
+		trigger = { 
+			NAND = {
+				exists = c:USA
+				c:USA = {
+					has_journal_entry = je_acw_war
+				}
+			}
+			coa_def_communist_flag_trigger = yes
+		}
+	}
+	flag_definition = {
+		coa = CSA_subject_MEX
+		priority = 30
+		trigger = { 
+			coa_def_mexican_ensign_trigger = yes
+		}
+	}
+
+	### DUPLICATE FOR DURING THE ACW THAT REMOVES THE REVOLUTIONARY TEAR IN THE FLAG
+
+	flag_definition = {
+		coa = CSA
+		subject_canton = sub_CSA_canton_stars
+		priority = 2		
+		allow_overlord_canton = yes
+		allow_revolutionary_indicator = no
+		overlord_canton_scale = { 0.5 @[third*2.005] }
+		trigger = {
+			exists = c:USA
+			c:USA = {
+				has_journal_entry = je_acw_war
+			}
+		}
+	}
+	flag_definition = {
+		coa = CSA_stainless
+		subject_canton = sub_CSA_canton_saltire
+		priority = 10
+		allow_overlord_canton = yes
+		allow_revolutionary_indicator = no
+		overlord_canton_scale = { 0.5 @[third*2] }
+		trigger = { 
+			exists = c:USA
+			c:USA = {
+				has_journal_entry = je_acw_war
+			}
+			scope:actor = { 
+				has_ruling_interest_group = ig_armed_forces
+			}
+		}
+	}
+	flag_definition = {
+		coa = CSA_blood_stained
+		subject_canton = sub_CSA_canton_saltire
+		priority = 15
+		allow_overlord_canton = yes
+		allow_revolutionary_indicator = no
+		overlord_canton_scale = { 0.5 @[third*2] }
+		trigger = { 
+			exists = c:USA
+			c:USA = {
+				has_journal_entry = je_acw_war
+			}
+			scope:actor = { 
+				has_ruling_interest_group = ig_armed_forces
+				has_ruling_interest_group_count = 1
+			}
+		}
+	}
+	flag_definition = {
+		coa = CSA_battle_flag
+		subject_canton = sub_CSA_canton_saltire
+		priority = 20
+		allow_revolutionary_indicator = no
+		trigger = { 
+			exists = c:USA
+			c:USA = {
+				has_journal_entry = je_acw_war
+			}
+			scope:actor = { 
+				has_ruling_interest_group = ig_armed_forces
+			}
+			OR = {
+				coa_def_military_junta_flag_trigger = yes
+				coa_def_dictatorship_flag_trigger = yes
+			}
+		}
+	}
+	flag_definition = {
+		coa = CSA_theocracy
+		subject_canton = CSA_theocracy
+		priority = 20
+		allow_revolutionary_indicator = no
+		trigger = { 
+			exists = c:USA
+			c:USA = {
+				has_journal_entry = je_acw_war
+			}
+			coa_def_theocracy_flag_trigger = yes
+		}
+	}	
+	flag_definition = {
+		coa = CSA_communist
+		priority = 1500
+		allow_revolutionary_indicator = no
+		trigger = { 
+			exists = c:USA
+			c:USA = {
+				has_journal_entry = je_acw_war
+			}
+			coa_def_communist_flag_trigger = yes
+		}
+	}
+	#Stars and Bars Stars
+	flag_definition = {
+		coa = CSA_5
+		coa_with_overlord_canton = CSA_5
+		allow_overlord_canton = yes
+		priority = 5
+		trigger = { 
+			exists = c:CSA
+			c:CSA = {
+				any_scope_state = {
+					state_region = { NOT = { has_variable = usa_state_flag_block } }
+					OR = {
+						is_being_incorporated = yes
+						is_incorporated = yes
+					}
+					count = 5
+				}
+			}
+		}
+	}
+	flag_definition = {
+		coa = CSA_6
+		coa_with_overlord_canton = CSA_6
+		allow_overlord_canton = yes
+		priority = 5
+		trigger = { 
+			exists = c:CSA
+			c:CSA = {
+				any_scope_state = {
+					state_region = { NOT = { has_variable = usa_state_flag_block } }
+					OR = {
+						is_being_incorporated = yes
+						is_incorporated = yes
+					}
+					count = 6
+				}
+			}
+		}
+	}
+	flag_definition = {
+		coa = CSA_7
+		coa_with_overlord_canton = CSA_7
+		allow_overlord_canton = yes
+		priority = 5
+		trigger = { 
+			exists = c:CSA
+			c:CSA = {
+				any_scope_state = {
+					state_region = { NOT = { has_variable = usa_state_flag_block } }
+					OR = {
+						is_being_incorporated = yes
+						is_incorporated = yes
+					}
+					count = 7
+				}
+			}
+		}
+	}
+	flag_definition = {
+		coa = CSA_8
+		coa_with_overlord_canton = CSA_8
+		allow_overlord_canton = yes
+		priority = 5
+		trigger = { 
+			exists = c:CSA
+			c:CSA = {
+				any_scope_state = {
+					state_region = { NOT = { has_variable = usa_state_flag_block } }
+					OR = {
+						is_being_incorporated = yes
+						is_incorporated = yes
+					}
+					count = 8
+				}
+			}
+		}
+	}
+	flag_definition = {
+		coa = CSA_9
+		coa_with_overlord_canton = CSA_9
+		allow_overlord_canton = yes
+		priority = 5
+		trigger = { 
+			exists = c:CSA
+			c:CSA = {
+				any_scope_state = {
+					state_region = { NOT = { has_variable = usa_state_flag_block } }
+					OR = {
+						is_being_incorporated = yes
+						is_incorporated = yes
+					}
+					count = 9
+				}
+			}
+		}
+	}
+	flag_definition = {
+		coa = CSA_25
+		coa_with_overlord_canton = CSA_25
+		allow_overlord_canton = yes
+		priority = 5
+		trigger = { 
+			exists = c:CSA
+			c:CSA = {
+				any_scope_state = {
+					state_region = { NOT = { has_variable = usa_state_flag_block } }
+					OR = {
+						is_being_incorporated = yes
+						is_incorporated = yes
+					}
+					count >= 25
+				}
+			}
+		}
+	}
+}

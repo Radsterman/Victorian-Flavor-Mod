@@ -1,0 +1,247 @@
+# COPY-PASTED FOR NOW
+@panel_width_minus_30 = 510			
+@panel_width_minus_10 = 530			# used to be 450
+@panel_width = 540  				# used to be 460
+@panel_width_half = 270				# used to be 230
+@panel_width_plus_10 = 550  		# used to be 470
+@panel_width_plus_14 = 554			# used to be 474
+@panel_width_plus_14_half = 277		# used to be 237
+@panel_width_plus_20 = 560			# used to be 480
+@panel_width_plus_30 = 570			# used to be 490
+@panel_width_plus_70 = 610			# used to be 530
+
+types journal_entry_panel_types
+{
+	type journal_entry_panel = default_block_window {
+		name = "journal_entry_panel"
+		datacontext = "[JournalEntryPanel.AccessJournalEntry]"
+
+		blockoverride "animation_state_block" {
+			state = {
+				name = _show
+				start_sound = {
+					soundeffect = "event:/SFX/UI/Global/panel_show"
+				}
+			}
+		}
+		
+		blockoverride "window_header_name"
+		{
+			text = "[JournalEntry.GetName]"
+		}
+
+		blockoverride "window_header_name_line_two" {
+			text = "JOURNAL_ENTRY_HEADING"
+		}
+
+		blockoverride "scrollarea_content" {
+			flowcontainer = {
+				datacontext = "[JournalEntryPanel.AccessJournalEntry]"
+				direction = vertical
+				using = default_list_position
+				margin_top = 20
+				spacing = 20
+
+				widget = {
+					size = { 250 120 }
+					parentanchor = hcenter
+					
+					icon = {
+						parentanchor = hcenter
+						texture = "[JournalEntry.GetIcon]"
+						size = { 120 120 }
+					}
+					
+					# completion in progress
+					icon = {
+						visible = "[JournalEntry.IsProgressing]"
+						parentanchor = right|vcenter
+						size = { 50 50 }
+						texture = "gfx/interface/icons/generic_icons/green_checkmark.dds"
+						tooltip = "JOURNAL_ENTRY_IN_PROGRESS"
+						using = shimmer
+						
+						icon = {
+							parentanchor = center
+							using = rotate_glow_animation_02
+							size = { 300% 300% }
+							alpha = 0.5
+						}
+					}
+				}
+
+				textbox = {
+					visible = "[Not(StringIsEmpty(JournalEntry.GetStatusDesc))]"
+					text = "[JournalEntry.GetStatusDesc]"
+					autoresize = yes
+					multiline = yes
+					minimumsize = { @panel_width_minus_30 -1 }
+					maximumsize = { @panel_width_minus_30 -1 }
+					using = default_list_position
+					align = hcenter|nobaseline
+					using = fontsize_large
+
+					margin = { 20 20 }
+					
+					background = {
+						alpha = 0.5
+						using = entry_bg_fancy_dark
+					}
+				}
+					
+				textbox = {
+					text = "[JournalEntry.GetReason]"
+					autoresize = yes
+					multiline = yes
+					minimumsize = { @panel_width_minus_30 -1 }
+					maximumsize = { @panel_width_minus_30 -1 }
+					using = default_list_position
+					align = left|nobaseline
+					margin = { 5 0 }
+				}
+
+				textbox = {
+					visible = "[Not(StringIsEmpty(JournalEntry.GetProgressDesc))]"
+					text = "[JournalEntry.GetProgressDesc]"
+					autoresize = yes
+					multiline = yes
+					minimumsize = { @panel_width_minus_30 -1 }
+					maximumsize = { @panel_width_minus_30 -1 }
+					using = default_list_position
+					align = left|nobaseline
+
+					margin = { 20 20 }
+					background = {
+						using = entry_bg
+					}
+				}
+				
+				textbox = {
+					visible = "[Not(StringIsEmpty(JournalEntry.GetCompletionTooltip))]"
+					text = "[JournalEntry.GetCompletionTooltip]"
+					autoresize = yes
+					multiline = yes
+					minimumsize = { @panel_width_minus_30 -1 }
+					maximumsize = { @panel_width_minus_30 -1 }
+					using = default_list_position
+					align = left|nobaseline
+
+					margin = { 20 20 }
+					background = {
+						using = entry_bg_simple
+					}
+				}
+				
+				textbox = {
+					visible = "[Not(StringIsEmpty(JournalEntry.FailureTooltip))]"
+					text = "[JournalEntry.GetFailureTooltip]"
+					autoresize = yes
+					multiline = yes
+					minimumsize = { @panel_width_minus_30 -1 }
+					maximumsize = { @panel_width_minus_30 -1 }
+					using = default_list_position
+					align = left|nobaseline
+
+				}
+
+				textbox = {
+					text = "[JournalEntry.GetOnCompleteTooltip]"
+					autoresize = yes
+					multiline = yes
+					minimumsize = { @panel_width_minus_30 -1 }
+					maximumsize = { @panel_width_minus_30 -1 }
+					using = default_list_position
+					align = left|nobaseline
+				}
+
+				textbox = {
+					text = "[JournalEntry.GetOnFailTooltip]"
+					autoresize = yes
+					multiline = yes
+					minimumsize = { @panel_width_minus_30 -1 }
+					maximumsize = { @panel_width_minus_30 -1 }
+					using = default_list_position
+					align = left|nobaseline
+				}
+				
+				textbox = {
+					text = "[JournalEntry.GetOnTimeoutTooltip]"
+					autoresize = yes
+					multiline = yes
+					minimumsize = { @panel_width_minus_30 -1 }
+					maximumsize = { @panel_width_minus_30 -1 }
+					using = default_list_position
+					align = left|nobaseline
+				}
+				
+				# time out info
+				flowcontainer = {
+					visible = "[JournalEntry.CanTimeOut]"
+					spacing = 5
+					parentanchor = hcenter
+					
+					icon = {
+						size = { 30 30 }
+						texture = "gfx/interface/icons/generic_icons/clock.dds"
+					}
+					textbox = {
+						text = "[JournalEntry.GetTimeoutTooltip]"
+						autoresize = yes
+						align = left|nobaseline
+						using = fontsize_large
+						parentanchor = vcenter
+					}
+				}
+
+				divider_clean = {
+					visible = "[Or(JournalEntry.HasHowTutorialLesson, JournalEntry.HasWhyTutorialLesson)]"
+				}
+
+				flowcontainer = {
+					direction = vertical
+					parentanchor = hcenter
+					spacing = 10
+					
+					button = {
+						using = default_button
+						parentanchor = hcenter
+						size = { @panel_width_minus_30 60 }
+						text = "TELL_ME_HOW"
+						using = fontsize_large
+						tooltip = "[JournalEntry.CanStartTutorialLessonDesc]"
+						visible = "[JournalEntry.HasHowTutorialLesson]"
+						enabled = "[JournalEntry.CanStartTutorialLesson]"
+						onclick = "[JournalEntry.StartHowTutorialLesson]"
+						onclick = "[InformationPanelBar.OpenJournalEntryPanel(JournalEntry.AccessSelf)]"
+					}		
+					button = {
+						using = default_button
+						parentanchor = hcenter
+						size = { @panel_width_minus_30 60 }
+						text = "TELL_ME_WHY"
+						using = fontsize_large
+						tooltip = "[JournalEntry.CanStartTutorialLessonDesc]"
+						visible = "[JournalEntry.HasWhyTutorialLesson]"
+						enabled = "[JournalEntry.CanStartTutorialLesson]"
+						onclick = "[JournalEntry.StartWhyTutorialLesson]"
+						onclick = "[InformationPanelBar.OpenJournalEntryPanel(JournalEntry.AccessSelf)]"
+					}			
+				}
+			}
+		}
+
+		blockoverride "pin_visibility" {}
+
+		blockoverride "pin_properties" {
+			visible = "[JournalEntry.IsPinnedInOutliner]"
+			onclick = "[JournalEntry.TogglePinInOutliner]"
+			tooltip = "UNPIN_JOURNAL_ENTRY"
+		}
+
+		blockoverride "unpin_properties" {
+			visible = "[Not(JournalEntry.IsPinnedInOutliner)]"
+			onclick = "[JournalEntry.TogglePinInOutliner]"
+			tooltip = "PIN_JOURNAL_ENTRY"
+		}
+	}
+}

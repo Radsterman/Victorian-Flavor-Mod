@@ -258,12 +258,6 @@ on_yearly_pulse_country = {
 		4 = 0
 		1 = wedding.1 # on average, monarchs should marry within 5 years of coming of age
 	}
-
-	#Slavery Abolition
-	random_events = {
-		4 = 0
-		1 = slavery_law_events.7
-	}
 }
 on_half_yearly_pulse_country = {
 	random_events = {
@@ -550,7 +544,18 @@ on_new_ruler = {
 on_country_default = {
 	effect = {
 		add_modifier = country_default	
-
+		if = {
+			limit = {
+				has_journal_entry = je_warlord_china
+				NOT = { has_variable = china_warlord_explosion_default }
+			}
+			post_notification = warlord_china_explosion_point_add
+			change_variable = {
+				name = china_warlord_explosion
+				add = 1
+			}
+			set_variable = china_warlord_explosion_default
+		}
 	}
 }
 
@@ -1537,17 +1542,6 @@ on_revolution_start = {
 			}
 			set_variable = china_warlord_explosion_revolution
 		}
-		if = {
-			limit = {
-				has_journal_entry = je_meiji_restoration
-				scope:target = {
-					ig:ig_landowners = {
-						is_in_government = yes
-					}
-				}
-			}
-			set_variable = anti_shogunate_civil_war
-		}
 	}
 }
 
@@ -1555,325 +1549,6 @@ on_revolution_start = {
 # scope:target = Uprising country
 on_revolution_end = {
 	effect = {
-		if = {
-			limit = { 
-				ROOT = { 
-					has_variable = peccavi_ach_possible 
-				}
-			}
-			scope:target = { 
-				set_variable = peccavi_ach_possible 
-			}
-		}
-		
-		if = {
-			limit = { 
-				ROOT = { 
-					has_variable = perkeletankki_ach_possible 
-				}
-			}
-			scope:target = { 
-				set_variable = perkeletankki_ach_possible 
-			}
-		}
-		
-		if = {
-			limit = { 
-				ROOT = { 
-					has_variable = luxurious_luxembourg_ach_possible
-				}
-			}
-			scope:target = { 
-				set_variable = luxurious_luxembourg_ach_possible
-			}
-		}
-		
-		if = {
-			limit = { 
-				ROOT = { 
-					has_variable = anarchy_in_the_uk_ach_possible
-				}
-			}
-			scope:target = { 
-				set_variable = anarchy_in_the_uk_ach_possible
-			}
-		}
-		
-		if = {
-			limit = { 
-				ROOT = { 
-					has_variable = muhammed_alis_ambition_ach_possible
-				}
-			}
-			scope:target = { 
-				set_variable = muhammed_alis_ambition_ach_possible
-			}
-		}
-		
-		if = {
-			limit = { 
-				ROOT = { 
-					has_variable = an_empire_under_the_pun_ach_possible
-				}
-			}
-			scope:target = { 
-				set_variable = an_empire_under_the_pun_ach_possible
-			}
-		}
-		
-		if = {
-			limit = { 
-				ROOT = { 
-					has_variable = i_didnt_vote_for_pedro_ach_possible
-				}
-			}
-			scope:target = { 
-				set_variable = i_didnt_vote_for_pedro_ach_possible
-			}
-		}
-		
-		if = {
-			limit = { 
-				ROOT = { 
-					has_variable = go_west_young_man_ach_possible
-				}
-			}
-			scope:target = { 
-				set_variable = go_west_young_man_ach_possible
-			}
-		}
-		
-		if = {
-			limit = { 
-				ROOT = { 
-					has_variable = the_western_protectorate_ach_possible
-				}
-			}
-			scope:target = { 
-				set_variable = the_western_protectorate_ach_possible
-			}
-		}
-		
-		if = {
-			limit = { 
-				ROOT = { 
-					has_variable = the_paris_commune_ach_possible
-				}
-			}
-			scope:target = { 
-				set_variable = the_paris_commune_ach_possible
-			}
-		}
-		
-		if = {
-			limit = { 
-				ROOT = { 
-					has_variable = barbarys_back_ach_possible
-				}
-			}
-			scope:target = { 
-				set_variable = barbarys_back_ach_possible
-			}
-		}
-		
-		if = {
-			limit = { 
-				ROOT = { 
-					has_variable = miners_and_minors_ach_possible
-				}
-			}
-			scope:target = { 
-				set_variable = miners_and_minors_ach_possible
-			}
-		}
-		
-		if = {
-			limit = { 
-				ROOT = { 
-					has_variable = healthy_man_of_europe_ach_possible
-				}
-			}
-			scope:target = { 
-				set_variable = healthy_man_of_europe_ach_possible
-			}
-		}
-		
-		if = {
-			limit = { 
-				ROOT = { 
-					has_variable = habsburg_resurgence_ach_possible
-				}
-			}
-			scope:target = { 
-				set_variable = habsburg_resurgence_ach_possible
-			}
-		}
-		
-		if = {
-			limit = { 
-				ROOT = { 
-					has_variable = great_game_ach_possible
-				}
-			}
-			scope:target = { 
-				set_variable = great_game_ach_possible
-			}
-		}
-		
-		if = {
-			limit = { 
-				ROOT = { 
-					has_variable = bourbon_for_everyone_ach_possible
-				}
-			}
-			scope:target = { 
-				set_variable = bourbon_for_everyone_ach_possible
-			}
-		}
-		
-		if = {
-			limit = { 
-				ROOT = { 
-					has_variable = american_territory_ach_possible
-				}
-			}
-			scope:target = { 
-				set_variable = american_territory_ach_possible
-			}
-		}
-		
-		if = {
-			limit = { 
-				ROOT = { 
-					has_variable = broken_promises_ach_possible
-				}
-			}
-			scope:target = { 
-				set_variable = broken_promises_ach_possible
-			}
-		}
-		
-		if = {
-			limit = { 
-				ROOT = { 
-					has_variable = the_berlin_conference_ach_possible
-				}
-			}
-			scope:target = { 
-				set_variable = the_berlin_conference_ach_possible
-			}
-		}
-		
-		if = {
-			limit = { 
-				ROOT = { 
-					has_variable = belle_epoque_ach_possible
-				}
-			}
-			scope:target = { 
-				set_variable = belle_epoque_ach_possible
-			}
-		}
-		
-		if = {
-			limit = { 
-				ROOT = { 
-					has_variable = belle_epoque_ach_possible
-				}
-			}
-			scope:target = { 
-				set_variable = belle_epoque_ach_possible
-			}
-		}
-		
-		if = {
-			limit = { 
-				ROOT = { 
-					has_variable = serfs_up_ach_possible
-				}
-			}
-			scope:target = { 
-				set_variable = serfs_up_ach_possible
-			}
-		}
-		
-		if = {
-			limit = { 
-				ROOT = { 
-					has_variable = risorgimento_ach_possible
-				}
-			}
-			scope:target = { 
-				set_variable = risorgimento_ach_possible
-			}
-		}
-		
-		if = {
-			limit = { 
-				ROOT = { 
-					has_variable = three_hurrahs_ach_possible
-				}
-			}
-			scope:target = { 
-				set_variable = three_hurrahs_ach_possible
-			}
-		}
-		
-		if = {
-			limit = { 
-				ROOT = { 
-					has_variable = solomons_quest_ach_possible
-				}
-			}
-			scope:target = { 
-				set_variable = solomons_quest_ach_possible
-			}
-		}
-		
-		
-		if = {
-			limit = { 
-				ROOT = { 
-					has_variable = i_am_a_scandinavian_ach_possible
-				}
-			}
-			scope:target = { 
-				set_variable = i_am_a_scandinavian_ach_possible
-			}
-		}
-		
-		if = {
-			limit = { 
-				ROOT = { 
-					has_variable = reading_campaign_ach_possible
-				}
-			}
-			scope:target = { 
-				set_variable = reading_campaign_ach_possible
-			}
-		}
-		
-		if = {
-			limit = { 
-				ROOT = { 
-					has_variable = we_are_not_amused_ach_possible
-				}
-			}
-			scope:target = { 
-				set_variable = we_are_not_amused_ach_possible
-			}
-		}
-		
-		if = {
-			limit = { 
-				ROOT = { 
-					has_variable = star_swarmed_banner_ach_possible
-				}
-			}
-			scope:target = { 
-				set_variable = star_swarmed_banner_ach_possible
-			}
-		}
 	}
 }
 
@@ -1886,18 +1561,6 @@ on_civil_war_won = {
 				has_global_variable = achievement_revo_needed
 			}
 			set_global_variable = achievement_revolutionary
-		}
-		if = {
-			limit = {
-				has_journal_entry = je_meiji_restoration
-				has_variable = anti_shogunate_civil_war
-				has_variable = shogunate_var
-			}
-			change_variable = {
-				name = shogunate_var
-				add = 120
-			}
-			remove_variable = anti_shogunate_civil_war
 		}
 	}
 }
@@ -2250,7 +1913,4 @@ on_character_recruitment = {
 # scope:general = invading general
 # scope:state = location state
 on_naval_invasion = {
-	effect = {
-		post_notification = naval_invasion_against_us
-	}
 }

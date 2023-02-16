@@ -26,28 +26,17 @@ warlord_china_events.100 = { #Split china up into warlord states
 
 	immediate = {
 		set_global_variable = china_shatters
-		
 		set_variable = chinese_central_government
-		
 		if = {
-			limit = { exists = s:STATE_HUNAN.region_state:CHI }
-			create_country = {
-				tag = HNA
-				origin = this
-				state = s:STATE_HUNAN.region_state:CHI
-				on_created = {
-					warlord_setup_effect = yes
-					set_variable = warlord_state
+			limit = { 
+				exists = s:STATE_GUANGXI.region_state:CHI
+				NOT = { exists = c:GNG }
 				}
-			}
-			c:HNA = { save_scope_as = scope_HNA }
-		}
-		if = {
-			limit = { exists = s:STATE_GUANGXI.region_state:CHI }
 			create_country = { #Guangxi
 				tag = GNG
 				origin = this
 				state = s:STATE_GUANGXI.region_state:CHI
+
 				on_created = {
 					warlord_setup_effect = yes
 					set_variable = warlord_state
@@ -57,7 +46,10 @@ warlord_china_events.100 = { #Split china up into warlord states
 		}
 
 		if = {
-			limit = { exists = s:STATE_SOUTHERN_ANHUI.region_state:CHI }
+			limit = {
+				exists = s:STATE_SOUTHERN_ANHUI.region_state:CHI
+				NOT = { exists = c:AHU }
+				}
 			create_country = { #Anhui Clique
 				tag = AHU
 				origin = this
@@ -80,7 +72,10 @@ warlord_china_events.100 = { #Split china up into warlord states
 		}
 
 		if = {
-			limit = { exists = s:STATE_ZHILI.region_state:CHI }
+			limit = {
+				exists = s:STATE_ZHILI.region_state:CHI
+				NOT = { exists = c:ZHI }
+				}
 			create_country = { #Zhili Clique
 				tag = ZHI
 				origin = this
@@ -95,21 +90,10 @@ warlord_china_events.100 = { #Split china up into warlord states
 		}
 
 		if = {
-			limit = { exists = s:STATE_SOUTHERN_MANCHURIA.region_state:CHI }
-			create_country = { #Fengtian Clique
-				tag = MCH
-				origin = this
-				state = s:STATE_SOUTHERN_MANCHURIA.region_state:CHI
-				on_created = {
-					warlord_setup_effect = yes
-					set_variable = warlord_state
+			limit = {
+				exists = s:STATE_SHANXI.region_state:CHI
+				NOT = { exists = c:SHN }
 				}
-			}
-			c:MCH = { save_scope_as = scope_MCH }
-		}
-
-		if = {
-			limit = { exists = s:STATE_SHANXI.region_state:CHI }
 			create_country = {  #Shanxi
 				tag = SHN
 				origin = this
@@ -124,7 +108,10 @@ warlord_china_events.100 = { #Split china up into warlord states
 		}
 
 		if = {
-			limit = { exists = s:STATE_TIANSHAN.region_state:CHI }
+			limit = {
+				exists = s:STATE_TIANSHAN.region_state:CHI
+				NOT = { exists = c:XIN }
+				}
 			create_country = {  #Xinjiang Clique
 				tag = XIN
 				origin = this
@@ -150,7 +137,10 @@ warlord_china_events.100 = { #Split china up into warlord states
 		}
 
 		if = {
-			limit = { exists = s:STATE_YUNNAN.region_state:CHI }
+			limit = {
+				exists = s:STATE_YUNNAN.region_state:CHI
+				NOT = { exists = c:YUN }
+				}
 			create_country = {  #Yunnan
 				tag = YUN
 				origin = this
@@ -165,7 +155,10 @@ warlord_china_events.100 = { #Split china up into warlord states
 		}
 
 		if = {
-			limit = { exists = s:STATE_GUIZHOU.region_state:CHI }
+			limit = {
+				exists = s:STATE_GUIZHOU.region_state:CHI
+				NOT = { exists = c:GUI }
+				}
 			create_country = { #Guizhou
 				tag = GUI
 				origin = this
@@ -184,7 +177,40 @@ warlord_china_events.100 = { #Split china up into warlord states
 		}
 		
 		if = {
-			limit = { exists = s:STATE_GUANGDONG.region_state:CHI }
+			limit = {
+				exists = s:STATE_HUNAN.region_state:CHI
+				NOT = { exists = c:HNA }
+				}
+			create_country = {
+				tag = HNA
+				origin = this
+				state = s:STATE_HUNAN.region_state:CHI
+
+				on_created = {
+					warlord_setup_effect = yes
+					set_variable = warlord_state
+				}
+			}
+			c:HNA = { save_scope_as = scope_HNA }
+			if = {
+				limit = { exists = s:STATE_WESTERN_HUBEI.region_state:CHI }
+				s:STATE_WESTERN_HUBEI.region_state:CHI = { set_state_owner = c:HNA }
+			}
+			if = {
+				limit = { exists = s:STATE_EASTERN_HUBEI.region_state:CHI }
+				s:STATE_EASTERN_HUBEI.region_state:CHI = { set_state_owner = c:HNA }
+			}
+			if = {
+				limit = { exists = s:STATE_CHONGQING.region_state:CHI }
+				s:STATE_CHONGQING.region_state:CHI = { set_state_owner = c:HNA }
+			}
+		}
+
+		if = {
+			limit = {
+				exists = s:STATE_GUANGDONG.region_state:CHI
+				NOT = { exists = c:YUE }
+				}
 			create_country = { #Guangdong
 				tag = YUE
 				origin = this
@@ -225,7 +251,19 @@ warlord_china_events.100 = { #Split china up into warlord states
 		}
 		
 		if = {
-			limit = { exists = s:STATE_SICHUAN.region_state:CHI }
+			limit = { exists = s:STATE_QINGHAI.region_state:CHI }
+			c:TIB = { save_scope_as = scope_TIB }
+			if = {
+				limit = { exists = s:STATE_QINGHAI.region_state:CHI }
+				s:STATE_QINGHAI.region_state:CHI = { set_state_owner = c:TIB }
+			}
+		}
+
+		if = {
+			limit = {
+				exists = s:STATE_SICHUAN.region_state:CHI
+				NOT = { exists = c:SIH }
+				}
 			create_country = {
 				tag = SIH
 				origin = this
@@ -244,7 +282,10 @@ warlord_china_events.100 = { #Split china up into warlord states
 		}
 		
 		if = {
-			limit = { exists = s:STATE_SHANDONG.region_state:CHI }
+			limit = {
+				exists = s:STATE_SHANDONG.region_state:CHI
+				NOT = { exists = c:SHA }
+				}
 			create_country = {
 				tag = SHA
 				origin = this
@@ -259,7 +300,39 @@ warlord_china_events.100 = { #Split china up into warlord states
 		}
 
 		if = {
-			limit = { exists = s:STATE_NINGXIA.region_state:CHI }
+			limit = {
+				exists = s:STATE_ULIASTAI.region_state:CHI
+				NOT = { exists = c:MGL }
+				}
+			create_country = {
+				tag = MGL
+				origin = this
+				state = s:STATE_ULIASTAI.region_state:CHI
+
+				on_created = {
+					warlord_setup_effect = yes
+				}
+			}
+			c:MGL = { save_scope_as = scope_MGL }
+			if = {
+				limit = { exists = s:STATE_URGA.region_state:CHI }
+				s:STATE_URGA.region_state:CHI = { set_state_owner = c:MGL }
+			}
+			if = {
+				limit = { exists = s:STATE_ALXA.region_state:CHI }
+				s:STATE_ALXA.region_state:CHI = { set_state_owner = c:MGL }
+			}
+			if = {
+				limit = { exists = s:STATE_HINGGAN.region_state:CHI }
+				s:STATE_HINGGAN.region_state:CHI = { set_state_owner = c:MGL }
+			}
+		}
+		
+		if = {
+			limit = {
+				exists = s:STATE_NINGXIA.region_state:CHI
+				NOT = { exists = c:XIB }
+				}
 			create_country = {
 				tag = XIB
 				origin = this
@@ -286,7 +359,10 @@ warlord_china_events.100 = { #Split china up into warlord states
 		}
 
 		if = {
-			limit = { exists = s:STATE_ULIASTAI.region_state:CHI }
+			limit = {
+				exists = s:STATE_TUVA.region_state:CHI
+				NOT = { exists = c:TUV }
+				}
 			create_country = {
 				tag = TUV
 				origin = this
@@ -427,37 +503,6 @@ warlord_china_events.100 = { #Split china up into warlord states
 			exists = scope:scope_random_warlord_one
 			is_player = yes
 		}
-		custom_tooltip = warlord_china_implosion_tt
-		while = {
-			limit = {
-				any_scope_state = {
-					is_capital = no
-					any_neighbouring_state = {
-						owner = { has_variable = warlord_state }
-					}
-				}
-			}
-			random_country = {
-				limit = {
-					has_variable = warlord_state
-					any_neighbouring_state = {
-						is_capital = no
-						owner = ROOT
-					}
-				}
-				save_scope_as = test_scope
-			}
-			random_scope_state = {
-				limit = {
-					is_capital = no
-					any_neighbouring_state = {
-						owner = scope:test_scope
-					}
-				}
-				set_state_owner = scope:test_scope
-			}
-			clear_saved_scope = test_scope
-		}
 		play_as = scope:scope_random_warlord_one
 	}
 
@@ -466,37 +511,6 @@ warlord_china_events.100 = { #Split china up into warlord states
 		trigger = {
 			exists = scope:scope_random_warlord_two
 			is_player = yes
-		}
-		custom_tooltip = warlord_china_implosion_tt
-		while = {
-			limit = {
-				any_scope_state = {
-					is_capital = no
-					any_neighbouring_state = {
-						owner = { has_variable = warlord_state }
-					}
-				}
-			}
-			random_country = {
-				limit = {
-					has_variable = warlord_state
-					any_neighbouring_state = {
-						is_capital = no
-						owner = ROOT
-					}
-				}
-				save_scope_as = test_scope
-			}
-			random_scope_state = {
-				limit = {
-					is_capital = no
-					any_neighbouring_state = {
-						owner = scope:test_scope
-					}
-				}
-				set_state_owner = scope:test_scope
-			}
-			clear_saved_scope = test_scope
 		}
 		play_as = scope:scope_random_warlord_two
 	}
@@ -507,37 +521,6 @@ warlord_china_events.100 = { #Split china up into warlord states
 			exists = scope:scope_random_warlord_three
 			is_player = yes
 		}
-		custom_tooltip = warlord_china_implosion_tt
-		while = {
-			limit = {
-				any_scope_state = {
-					is_capital = no
-					any_neighbouring_state = {
-						owner = { has_variable = warlord_state }
-					}
-				}
-			}
-			random_country = {
-				limit = {
-					has_variable = warlord_state
-					any_neighbouring_state = {
-						is_capital = no
-						owner = ROOT
-					}
-				}
-				save_scope_as = test_scope
-			}
-			random_scope_state = {
-				limit = {
-					is_capital = no
-					any_neighbouring_state = {
-						owner = scope:test_scope
-					}
-				}
-				set_state_owner = scope:test_scope
-			}
-			clear_saved_scope = test_scope
-		}
 		play_as = scope:scope_random_warlord_three
 	}
 
@@ -547,74 +530,12 @@ warlord_china_events.100 = { #Split china up into warlord states
 			exists = scope:scope_random_warlord_four
 			is_player = yes
 		}
-		custom_tooltip = warlord_china_implosion_tt
-		while = {
-			limit = {
-				any_scope_state = {
-					is_capital = no
-					any_neighbouring_state = {
-						owner = { has_variable = warlord_state }
-					}
-				}
-			}
-			random_country = {
-				limit = {
-					has_variable = warlord_state
-					any_neighbouring_state = {
-						is_capital = no
-						owner = ROOT
-					}
-				}
-				save_scope_as = test_scope
-			}
-			random_scope_state = {
-				limit = {
-					is_capital = no
-					any_neighbouring_state = {
-						owner = scope:test_scope
-					}
-				}
-				set_state_owner = scope:test_scope
-			}
-			clear_saved_scope = test_scope
-		}
 		play_as = scope:scope_random_warlord_four
 	}
 
 	option = {
 		default_option = yes
 		name = warlord_china_events.100.a
-		custom_tooltip = warlord_china_implosion_tt
-		while = {
-			limit = {
-				any_scope_state = {
-					is_capital = no
-					any_neighbouring_state = {
-						owner = { has_variable = warlord_state }
-					}
-				}
-			}
-			random_country = {
-				limit = {
-					has_variable = warlord_state
-					any_neighbouring_state = {
-						is_capital = no
-						owner = ROOT
-					}
-				}
-				save_scope_as = test_scope
-			}
-			random_scope_state = {
-				limit = {
-					is_capital = no
-					any_neighbouring_state = {
-						owner = scope:test_scope
-					}
-				}
-				set_state_owner = scope:test_scope
-			}
-			clear_saved_scope = test_scope
-		}
 	}
 }
 
