@@ -594,17 +594,31 @@ italy_1848.7 = {
 	trigger = {
 		exists = c:AUS
 		this = c:AUS
-		owns_entire_state_region = STATE_VENETIA
-		has_journal_entry = je_springtime_of_the_peoples
+		has_state_in_state_region = STATE_VENETIA
+		OR = {
+			any_scope_state = { 
+				OR = {
+	    			state_region = { 
+						is_homeland = cu:north_italian 
+					} 
+					culture = cu:north_italian
+				}
+				turmoil >= 0.15
+				radical_fraction = {
+					value >= 0.2
+				}
+			}
+			has_journal_entry = je_springtime_of_the_peoples
+		}
 		NOT = { has_global_variable = san_marco_created }
 		OR = {
 			c:AUS = {
-				owns_entire_state_region = STATE_VENETIA
+				has_state_in_state_region = STATE_VENETIA
 				is_subject = no
 			}
 			any_country = {
 				is_subject_of = c:AUS
-				owns_entire_state_region = STATE_VENETIA
+				has_state_in_state_region = STATE_VENETIA
 			}
 		}
 	}
