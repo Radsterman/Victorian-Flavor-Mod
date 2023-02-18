@@ -284,9 +284,16 @@ exp_thousand.7 = {
 	trigger = {
 		NOT = {
 			OR = {
-				this = c:SIC
-				this = c:PAP
+				AND = {
+					exists = c:SIC	
+					this = c:SIC
+				}
+				AND = {
+					exists = c:PAP	
+					this = c:PAP
+				}
 			}
+			exists = c:SCL
 			exists = c:ITA
 			has_global_variable = exp_thousand_happened 
 		}
@@ -309,14 +316,16 @@ exp_thousand.7 = {
 					civil_war_progress >= 1
 				}
 				any_scope_state = {
-					turmoil >= 0.25
+					turmoil >= 0.15
 				}
 				radical_fraction = {
 					value >= 0.2
 				}
 				any_interest_group = {
+					is_marginal = no
 					is_insurrectionary = yes
 				}
+				has_journal_entry = je_springtime_of_the_peoples	
 			}
 		}
 	}
@@ -819,7 +828,7 @@ exp_thousand.105 = {
 		}
 
 	    ai_chance = {
-			base = 80	
+			base = 5	
 		}
     }
 	option = {
@@ -857,7 +866,7 @@ exp_thousand.105 = {
 		}
 
 	    ai_chance = {
-			base = 20
+			base = 5
 		}
     }
 }
@@ -929,7 +938,7 @@ exp_thousand.106 = {
 		set_variable = thousand_naples
 
 	    ai_chance = {
-			base = 90	
+			base = 75	
 		}
     }
 	option = {
@@ -962,7 +971,7 @@ exp_thousand.106 = {
 		set_variable = thousand_naples
 
 	    ai_chance = {
-			base = 10
+			base = 25
 		}
     }
 }

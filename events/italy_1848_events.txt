@@ -25,7 +25,18 @@ italy_1848.1 = {
 
 	trigger = {
 		owns_entire_state_region = STATE_SICILY
-		has_journal_entry = je_springtime_of_the_peoples
+		OR = {
+			any_scope_state = { 
+				state_region = s:STATE_SICILY
+				OR = {
+					turmoil >= 0.1
+					radical_fraction = {
+						value >= 0.15
+					}
+				}
+			}
+			has_journal_entry = je_springtime_of_the_peoples	
+		}
 		has_global_variable = sicilian_rev_possible_var
 		NOT = {
 			exists = c:ITA
