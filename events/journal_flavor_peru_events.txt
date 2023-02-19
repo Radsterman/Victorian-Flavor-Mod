@@ -28,53 +28,22 @@ journal_flavor_peru.1 = {
 		c:BOL = {
 			save_scope_as = bol_scope
 		}
-
-		random_scope_state = {
-			limit = {
-				state_region = s:STATE_ICA
-			}
-			save_scope_as = neu_spawn
-		}
-			
-	
-		create_country = {
-			tag = NEU
-			origin = this
-			state = scope:neu_spawn
-		}
-		c:NEU = {
-			save_scope_as = neu_scope
-		}
-        c:BOL = {
-            create_diplomatic_pact = {
-                    country = c:NEU
-                    type = real_union
-            }
-        }
 	}
 
 	option = {
-		default_option = yes
+		
 		name = journal_flavor_peru.1.a
 
-        random_scope_state = {
-				limit = {
-					state_region = s:STATE_AREQUIPA
-				}
-				set_state_owner = c:NEU
-				set_state_type = incorporated
-		}
-        random_scope_state = {
-				limit = {
-					state_region = s:STATE_TARAPACA
-				}
-				set_state_owner = c:NEU
-				set_state_type = incorporated
-		}
 		create_diplomatic_play = {
 			name = confederation_war
 			target_country = c:BOL
-			type = dp_independence
+			type = dp_independence	
+		}
+
+		hidden_effect = {
+			c:PEU = {
+				set_strategy = ai_restore_peruvian_sovereignty
+			}
 		}
 
         change_relations = {
@@ -85,32 +54,25 @@ journal_flavor_peru.1 = {
 			country = c:ARG
 			value = 100
 		}
-		add_journal_entry = { type = je_peru_unification }
+		
 		ai_chance = {
-			base = 1
+			base = 95
 		}
 	}
+
 	option = {
+
+		default_option = yes
+
 		name = journal_flavor_peru.1.b
 
-        random_scope_state = {
-				limit = {
-					state_region = s:STATE_AREQUIPA
-				}
-				set_state_owner = c:NEU
-				set_state_type = incorporated
+		add_radicals = {
+			strata = rich
+			value = 0.05
 		}
-        random_scope_state = {
-				limit = {
-					state_region = s:STATE_TARAPACA
-				}
-				set_state_owner = c:NEU
-				set_state_type = incorporated
-		}
-
-		add_journal_entry = { type = je_peru_unification }
+		
 		ai_chance = {
-			base = 0
+			base = 5
 		}
 	}
 }

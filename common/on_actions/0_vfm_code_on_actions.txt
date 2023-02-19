@@ -26,10 +26,9 @@ on_monthly_pulse_country = {
 		italy_1848.35
 		italy_flavor.1
 		italy_flavor.2
-		exp_thousand.3
-		exp_thousand.5
 		exp_thousand.7
 		exp_thousand.8
+		exp_thousand.108
 	}
 	# Election Events
 	random_events = {
@@ -72,6 +71,13 @@ on_monthly_pulse_country = {
 	}
 }
 
+on_weekly_pulse = {
+	events = {
+		exp_thousand.103
+		exp_thousand.107
+	}
+}
+
 # Root = Colony state
 on_colony_created = {
 	effect = {
@@ -79,16 +85,10 @@ on_colony_created = {
 			if = {
 				limit = {
 					has_journal_entry = je_tutorial_colonize_state
-					je:je_tutorial_colonize_state = {
-						NOT = {
-							has_variable = tut_colony_target
-						}
-					}
 				}
-				je:je_tutorial_colonize_state = {
+				root = {
 					set_variable = {
 						name = tut_colony_target
-						value = root
 					}
 				}
 			}
@@ -148,7 +148,7 @@ on_native_uprising = {
 		create_diplomatic_play = {
 			target_country = scope:native_nation
 			war = yes
-			type = dp_native_uprising_new
+			type = dp_native_uprising
 		}
 	}
 }
