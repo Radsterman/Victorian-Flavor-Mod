@@ -1,0 +1,218 @@
+﻿je_argentina_constitution = {
+	icon = "gfx/interface/icons/event_icons/event_scales"
+
+	complete = {
+
+		custom_tooltip = {
+			text = voting_franchise_yes_tt
+			country_has_voting_franchise = yes
+		}
+
+		NOT = {
+			ig:ig_armed_forces = {
+				OR = {
+					is_powerful = yes
+					is_in_government = yes
+				}
+				
+			}
+		}
+
+		bureaucracy > 0
+		approaching_bureaucracy_shortage = no
+		institution_investment_level = {
+			institution = institution_centralization
+			value >= 3
+		}
+	}
+
+	invalid = {
+		NOT = {
+			any_country = {
+				is_subject_type = subject_type_confederation
+				overlord = ROOT
+			}
+		}
+	}
+
+	on_complete = {
+		if={
+			limit = {
+				NOT = { exist = c:ARG }
+			}
+			change_tag = ARG
+		}
+		if= {
+			limit = {
+				exists = c:GNI
+			}
+			s:STATE_CHACO = {
+				add_claim = ROOT
+			}
+			s:STATE_SANTA_FE = {
+				add_claim = ROOT
+			}
+		}
+		if= {
+			limit = {
+				exists = c:PAT
+			}
+			s:STATE_RIO_NEGRO = {
+				add_claim = ROOT
+			}
+		}
+		every_country = {
+			limit = {
+				is_subject_type = subject_type_confederation
+				overlord = ROOT
+				is_player = no
+			}
+			save_scope_as = annex_scope
+			ROOT = {
+				annex = scope:annex_scope
+			}
+		}
+	}
+
+	timeout = 5475
+	on_timeout = {
+
+
+			if={
+				limit = { 
+					any_country = {
+						is_subject_type = subject_type_confederation
+						overlord = ROOT
+						is_player = yes
+					}
+				}
+				random_country = {
+					limit = {
+						is_subject_type = subject_type_confederation
+						overlord = ROOT
+						is_player = yes
+					}
+					save_scope_as = new_argentina_leader
+				}
+				scope:new_argentina_leader = {
+					custom_tooltip = {
+						text = argentine_constitution_timeout_tt
+					}
+					change_relations = {
+						country = ROOT
+						value = -100
+					}
+					create_diplomatic_pact = {
+						country = ROOT
+						type = rivalry
+					}
+				}
+				hidden_effect = {
+					remove_diplomatic_pact = {
+						country = scope:new_argentina_leader
+						type = confederation
+					}
+					every_country = {
+						limit = {
+							is_subject_type = subject_type_confederation
+							overlord = ROOT
+							NOT = { this = c:ENT }
+						}
+						save_scope_as = transfer_scope
+						scope:new_argentina_leader = {
+							create_diplomatic_pact = {
+								country = scope:transfer_scope
+								type = confederation
+							}
+						}
+					}
+				}
+			}
+		else_if={
+			limit = { 
+				exists = c:ENT 
+				c:ENT = {
+					is_subject_type = subject_type_confederation
+					overlord = ROOT
+				}
+			}
+			c:ENT = {
+				custom_tooltip = {
+					text = argentine_constitution_timeout_tt
+				}	
+				change_relations = {
+					country = ROOT
+					value = -100
+				}
+				create_diplomatic_pact = {
+					country = ROOT
+					type = rivalry
+				}
+			}
+			hidden_effect = {
+				remove_diplomatic_pact = {
+					country = c:ENT
+					type = confederation
+				}
+				every_country = {
+					limit = {
+						is_subject_type = subject_type_confederation
+						overlord = ROOT
+						NOT = { this = c:ENT }
+					}
+					save_scope_as = transfer_scope
+					c:ENT = {
+						create_diplomatic_pact = {
+							country = scope:transfer_scope
+							type = confederation
+						}
+					}
+				}
+			}
+		}
+		else = {
+			random_country = {
+				limit = {
+					is_subject_type = subject_type_confederation
+					overlord = ROOT
+				}
+				save_scope_as = new_argentina_leader
+			}
+			scope:new_argentina_leader = {
+				custom_tooltip = {
+					text = argentine_constitution_timeout_tt
+				}
+				change_relations = {
+					country = ROOT
+					value = -100
+				}
+				create_diplomatic_pact = {
+					country = ROOT
+					type = rivalry
+				}
+			}
+			hidden_effect = {
+				remove_diplomatic_pact = {
+					country = scope:new_argentina_leader
+					type = confederation
+				}
+				every_country = {
+					limit = {
+						is_subject_type = subject_type_confederation
+						overlord = ROOT
+						NOT = { this = c:ENT }
+					}
+					save_scope_as = transfer_scope
+					scope:new_argentina_leader = {
+						create_diplomatic_pact = {
+							country = scope:transfer_scope
+							type = confederation
+						}
+					}
+				}
+			}
+		}
+	}
+
+	weight = 20
+}
