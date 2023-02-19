@@ -1,0 +1,53 @@
+﻿defensive_pact_confederation = {
+	can_select = no
+	can_use_obligations = yes
+
+	potential = {
+		always = no
+	}	
+	
+	pact = {
+		is_defensive_pact = yes
+		
+		relations_progress_per_day = 1 # At 100, +1 relations
+		relations_improvement_max = 80		
+
+
+		actor_can_break = {
+			custom_tooltip = {
+				text = confederation_break_defensive_pact_tt
+				always = no
+			}
+		}
+
+		target_can_break = {
+			custom_tooltip = {
+				text = confederation_break_defensive_pact_tt
+				always = no
+			}
+		}
+
+		should_invalidate = {
+			OR = {
+				has_war_with = scope:target_country				
+				NOT = { is_subject_type = subject_type_confederation }
+				scope:target_country = { 
+					NOT = { is_subject_type = subject_type_confederation }
+				}
+				AND = {
+					scope:target_country = { is_non_customs_union_subject = yes }
+					scope:target_country = { is_subject_of = root }
+				}
+				AND = {
+					is_non_customs_union_subject = yes
+					is_subject_of = scope:target_country
+				}
+			}
+		}
+
+		break_effect = {
+			change_relations = { country = scope:target_country value = -30 }
+			create_truce = { country = scope:target_country months = 12 }
+		}
+	}
+}
