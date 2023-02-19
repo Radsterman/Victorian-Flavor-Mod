@@ -21,12 +21,14 @@ france_event.1 = {
 	duration = 3
 
 	trigger = {
-		exists = c:FRA
+		this ?= c:FRA
 		exists = c:SWI
-		this = c:FRA
 		game_date > 1836.1.1
 		NOT = {
-			has_variable = napoleon_3_switzerland
+			OR = {
+				has_variable = napoleon_3_switzerland
+				has_global_variable = french_revolution_happened
+			}
 		}
 	}
 
@@ -85,4 +87,97 @@ france_event.1 = {
 			base = 25	
 		}
     }
+}
+
+#French Revolution 
+france_event.2 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.2.t
+	desc = france_event.2.d
+	flavor = france_event.2.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_springtime_of_nations.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/springtime_of_nation"
+
+	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
+
+	duration = 3
+
+	trigger = {
+		this ?= c:FRA
+		NOT = {
+			has_global_variable = french_revolution_happened
+		}
+		OR = {
+			has_journal_entry = je_springtime_of_the_peoples
+			radical_fraction = {
+				value >= 0.25
+			}
+		}
+	}
+
+	immediate = {
+		c:GBR = {
+			save_scope_as = gbr_scope
+		}
+		ruler = {
+			save_scope_as = ruler_scope
+		}
+		set_global_variable = french_revolution_happened
+	}
+
+	option = {
+		name = france_event.2.a
+		default_option = yes
+
+		activate_law = law_type:law_presidential_republic
+		activate_law = law_type:law_universal_suffrage
+		activate_law = law_type:law_right_of_assembly
+
+        set_ruling_interest_groups = {
+        	ig_intelligentsia
+        }
+		custom_tooltip = {
+			text = france_event.2.tt1
+		}
+        hidden_effect = {
+        	trigger_event = { id = france_event.3 days = 1}
+		}
+
+	    ai_chance = {
+			base = 1
+		}
+    }
+}
+
+france_event.3 = {
+	type = country_event
+	placement = root
+
+	hidden = yes
+
+	duration = 0
+
+	immediate = {
+		create_character = {
+			# Louis Eugène Cavaignac
+			is_general = no
+			first_name = "Louis_Eugene"
+			last_name = "Cavaignac"
+			ruler = yes
+			birth_date = 1802.10.15
+			ig_leader = yes
+			interest_group = ig_intelligentsia
+			ideology = ideology_republican
+			traits = {
+				experienced_political_operator
+			}
+		}
+	}
 }
