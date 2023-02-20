@@ -1,1 +1,60 @@
-﻿
+﻿je_french_revolution_election = {
+
+	icon = "gfx/interface/icons/event_icons/event_election.dds"
+
+	immediate = {
+		ruler = {
+			save_scope_as = ruler_scope
+		}
+		random_scope_character = {
+			limit = {has_variable = napoleon3}
+			save_scope_as = napoleon3_scope
+		}
+		trigger_event = { id = france_event.4 days = 150}
+	}
+
+	complete = {
+    }
+
+    on_timeout = {
+		trigger_event = {
+			id = france_event.5
+			popup = yes
+		}
+    }
+
+    fail = {
+	    OR ={
+			custom_tooltip = {
+				text = je_french_revolution_election_fail.1
+	    		OR = {
+	    			has_law = law_type:law_monarchy
+	    			has_law = law_type:law_theocracy
+	    		}
+	    	}
+			custom_tooltip = {
+				text = je_french_revolution_election_fail.2
+	    		OR = {
+					has_law = law_type:law_autocracy
+					has_law = law_type:law_oligarchy
+					has_law = law_type:law_landed_voting
+					has_law = law_type:law_anarchy
+	    		}
+	    	}
+	    }
+    }
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_french_revolution_election_goal
+			}
+		}
+	}
+
+	timeout = 274
+
+	weight = 1
+
+	should_be_pinned_by_default = yes
+}
