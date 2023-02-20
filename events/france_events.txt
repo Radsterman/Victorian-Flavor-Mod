@@ -146,6 +146,13 @@ france_event.2 = {
 		custom_tooltip = {
 			text = france_event.2.tt1
 		}
+		create_character = {
+			template = louis_napoleon_character_template
+			set_variable = napoleon3
+		}
+		add_journal_entry = {
+			type = je_french_revolution_election
+		}
         hidden_effect = {
         	trigger_event = { id = france_event.3 days = 1}
 		}
@@ -159,9 +166,7 @@ france_event.2 = {
 france_event.3 = {
 	type = country_event
 	placement = root
-
 	hidden = yes
-
 	duration = 0
 
 	immediate = {
@@ -180,4 +185,96 @@ france_event.3 = {
 			}
 		}
 	}
+}
+
+#Rigged Elections?
+france_event.4 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.4.t
+	desc = france_event.4.d
+	flavor = france_event.4.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_politicians_arguing.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/asia/politician_parliament_motion"
+
+	icon = "gfx/interface/icons/event_icons/event_election.dds"
+
+	duration = 1
+
+	immediate = {
+		ruler = {
+			save_scope_as = ruler_scope
+		}
+		random_scope_character = {
+			limit = {has_variable = napoleon3}
+			save_scope_as = napoleon3_scope
+		}
+	}
+
+	option = {
+		name = france_event.4.a
+		default_option = yes
+
+	    ai_chance = {
+			base = 80
+		}
+    }
+	option = {
+		name = france_event.4.b
+
+		ig:ig_petty_bourgeoisie = {
+			add_modifier = {
+				name = elections_rigged_1
+				months = long_modifier_time
+			}
+		}
+		ig:ig_devout = {
+			add_modifier = {
+				name = elections_rigged_1
+				months = long_modifier_time
+			}
+		}
+		ig:ig_intelligentsia = {
+			add_modifier = {
+				name = elections_rigged_2
+				months = long_modifier_time
+			}
+		}
+
+	    ai_chance = {
+			base = 10
+		}
+    }
+	option = {
+		name = france_event.4.c
+
+		ig:ig_intelligentsia = {
+			add_modifier = {
+				name = elections_rigged_1
+				months = long_modifier_time
+			}
+		}
+		ig:ig_petty_bourgeoisie = {
+			add_modifier = {
+				name = elections_rigged_2
+				months = long_modifier_time
+			}
+		}
+		ig:ig_devout = {
+			add_modifier = {
+				name = elections_rigged_2
+				months = long_modifier_time
+			}
+		}
+
+	    ai_chance = {
+			base = 10
+		}
+    }
 }
