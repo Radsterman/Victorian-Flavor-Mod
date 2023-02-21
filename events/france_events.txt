@@ -148,10 +148,12 @@ france_event.2 = {
 		}
 		create_character = {
 			template = louis_napoleon_character_template
-			set_variable = napoleon3
+			on_created = {
+				set_variable = napoleon3
+			}
 		}
-		add_journal_entry = {
-			type = je_french_revolution_election
+		custom_tooltip = {
+			text = france_event.2.tt2
 		}
         hidden_effect = {
         	trigger_event = { id = france_event.3 days = 1}
@@ -183,6 +185,12 @@ france_event.3 = {
 			traits = {
 				experienced_political_operator
 			}
+			on_created = {
+				set_variable = cavaignac
+			}
+		}
+		add_journal_entry = {
+			type = je_french_revolution_election
 		}
 	}
 }
@@ -215,6 +223,10 @@ france_event.4 = {
 			limit = {has_variable = napoleon3}
 			save_scope_as = napoleon3_scope
 		}
+		random_scope_character = {
+			limit = {has_variable = cavaignac}
+			save_scope_as = cavaignac_scope
+		}
 	}
 
 	option = {
@@ -246,6 +258,7 @@ france_event.4 = {
 				months = long_modifier_time
 			}
 		}
+		set_variable = napoleon3_rigged
 
 	    ai_chance = {
 			base = 10
@@ -272,6 +285,7 @@ france_event.4 = {
 				months = long_modifier_time
 			}
 		}
+		set_variable = cavaignac_rigged
 
 	    ai_chance = {
 			base = 10
