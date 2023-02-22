@@ -216,9 +216,6 @@ france_event.4 = {
 	duration = 1
 
 	immediate = {
-		ruler = {
-			save_scope_as = ruler_scope
-		}
 		random_scope_character = {
 			limit = {has_variable = napoleon3}
 			save_scope_as = napoleon3_scope
@@ -289,6 +286,272 @@ france_event.4 = {
 
 	    ai_chance = {
 			base = 10
+		}
+    }
+}
+
+#Election days
+france_event.5 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.5.t
+	desc = france_event.5.d
+	flavor = france_event.5.f
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_election.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/election"
+
+	icon = "gfx/interface/icons/event_icons/event_election.dds"
+
+	duration = 1
+
+	immediate = {
+		random_scope_character = {
+			limit = {has_variable = napoleon3}
+			save_scope_as = napoleon3_scope
+		}
+		random_scope_character = {
+			limit = {has_variable = cavaignac}
+			save_scope_as = cavaignac_scope
+		}
+		ROOT = {
+			save_scope_as = fra_scope
+		}
+	}
+
+	option = {
+		name = france_event.5.a
+		default_option = yes
+
+		random_list = {
+			75 = {
+				custom_tooltip = france_event.5.tt1
+				set_variable = napoleon3_elected
+				modifier = {
+					if = {
+						limit = {
+							has_variable = napoleon3_rigged
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							OR = {
+								ig:ig_petty_bourgeoisie = {
+									ig_clout >= 0.15
+								}
+								ig:ig_armed_forces = {
+									ig_clout >= 0.15
+								}
+								ig:ig_devout = {
+									ig_clout >= 0.15
+								}
+							}
+						}
+					}
+					add = 5
+				}
+				modifier = {
+					if = {
+						limit = {
+							OR = {
+								ig:ig_petty_bourgeoisie = {
+									ig_clout > 0.3
+								}
+								ig:ig_armed_forces = {
+									ig_clout > 0.3
+								}
+								ig:ig_devout = {
+									ig_clout > 0.3
+								}
+							}
+						}
+					}
+					add = 10
+				}
+			}
+			25 = {
+				custom_tooltip = france_event.5.tt2
+				set_variable = cavaignac_elected
+				modifier = {
+					if = {
+						limit = {
+							has_variable = cavaignac_rigged
+						}
+					}
+					add = 30
+				}
+				modifier = {
+					if = {
+						limit = {
+							ig:ig_intelligentsia = {
+								ig_clout >= 0.15
+							}
+						}
+					}
+					add = 5
+				}
+				modifier = {
+					if = {
+						limit = {
+							ig:ig_intelligentsia = {
+								ig_clout > 0.3
+							}
+						}
+					}
+					add = 10
+				}
+			}
+		}
+
+	    ai_chance = {
+			base = 1
+		}
+    }
+}
+
+#Elections results - NAPOLEON 3 wins
+france_event.6 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.6.t
+	desc = france_event.6.d
+	flavor = france_event.6.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	icon = "gfx/interface/icons/event_icons/event_election.dds"
+
+	duration = 3
+
+	trigger = {
+		this ?= c:FRA
+		has_variable = napoleon3_elected
+	}
+
+	immediate = {
+		remove_variable = napoleon3_elected
+		random_scope_character = {
+			limit = {has_variable = napoleon3}
+			save_scope_as = napoleon3_scope
+		}
+		random_scope_character = {
+			limit = {has_variable = cavaignac}
+			save_scope_as = cavaignac_scope
+		}
+		ROOT = {
+			save_scope_as = fra_scope
+		}
+	}
+
+	option = {
+		name = france_event.6.a
+		default_option = yes
+
+		custom_tooltip = {
+			text = france_event.6.tt1
+			ruler = {
+				kill_character = yes
+			}
+		}
+		random_interest_group = {
+			limit = {
+				leader = scope:napoleon3_scope
+			}
+			add_modifier = {
+				name = french_republic_elections
+				months = normal_modifier_time
+			}
+		}
+		hidden_effect = {
+			create_character = {
+				template = louis_napoleon_character_template
+				ruler = yes
+			}
+		}
+        set_ruling_interest_groups = {
+        	ig_petty_bourgeoisie
+        	ig_armed_forces
+        	ig_devout
+        }
+
+	    ai_chance = {
+			base = 1
+		}
+    }
+}
+
+#Elections results - CAVAIGNAC wins
+france_event.7 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.7.t
+	desc = france_event.7.d
+	flavor = france_event.7.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	icon = "gfx/interface/icons/event_icons/event_election.dds"
+
+	duration = 3
+
+	trigger = {
+		this ?= c:FRA
+		has_variable = napoleon3_elected
+	}
+
+	immediate = {
+		remove_variable = napoleon3_elected
+		random_scope_character = {
+			limit = {has_variable = napoleon3}
+			save_scope_as = napoleon3_scope
+		}
+		random_scope_character = {
+			limit = {has_variable = cavaignac}
+			save_scope_as = cavaignac_scope
+		}
+	}
+
+	option = {
+		name = france_event.7.a
+		default_option = yes
+
+		custom_tooltip = france_event.7.tt1
+
+		random_interest_group = {
+			limit = {
+				leader = scope:cavaignac_scope
+			}
+			add_modifier = {
+				name = french_republic_elections
+				months = normal_modifier_time
+			}
+		}
+        set_ruling_interest_groups = {
+        	ig_intelligentsia
+        }
+
+	    ai_chance = {
+			base = 1
 		}
     }
 }
