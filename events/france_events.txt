@@ -153,7 +153,7 @@ france_event.2 = {
 			}
 		}
 		call_election = {
-			months = 1
+			months = 9
 		}
 		custom_tooltip = {
 			text = france_event.2.tt2
@@ -289,6 +289,14 @@ france_event.4 = {
 				add_momentum = momentum_large
 			}
 		}
+		if = {
+			limit = {
+				exists = py:radical_party
+			}
+			py:radical_party = {
+				add_momentum = momentum_large
+			}
+		}
 		ig:ig_intelligentsia = {
 			add_modifier = {
 				name = elections_rigged_1
@@ -385,7 +393,9 @@ france_event.6 = {
 		in_election_campaign = no
 		any_scope_character = {
 			is_ruler = yes
-			is_member_of_party = owner.py:conservative_party
+            interest_group = { 
+                is_member_of_party = owner.py:conservative_party
+            }
 		}
 	}
 
@@ -437,7 +447,9 @@ france_event.6 = {
 		}
 		random_interest_group = {
 			limit = {
-				leader = scope:napoleon3_scope
+				leader = {
+					has_variable = napoleon3
+				}
 			}
 			add_modifier = {
 				name = french_republic_elections
@@ -484,6 +496,13 @@ france_event.7 = {
 
 	trigger = {
 		has_variable = french_elections	
+		in_election_campaign = no
+		any_scope_character = {
+			is_ruler = yes
+            interest_group = { 
+                is_member_of_party = owner.py:liberal_party
+            }
+		}
 	}
 
 	immediate = {
@@ -494,6 +513,9 @@ france_event.7 = {
 		random_scope_character = {
 			limit = {has_variable = cavaignac}
 			save_scope_as = cavaignac_scope
+		}
+		ROOT = {
+			save_scope_as = fra_scope
 		}
 		remove_variable = french_elections
 		set_variable = cavaignac_elected
@@ -506,8 +528,8 @@ france_event.7 = {
 		custom_tooltip = france_event.7.tt1
 
 		random_interest_group = {
-			limit = {
-				leader = scope:cavaignac_scope
+			leader = {
+				has_variable = cavaignac
 			}
 			add_modifier = {
 				name = french_republic_elections
