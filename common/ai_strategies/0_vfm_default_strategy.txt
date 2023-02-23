@@ -56,6 +56,22 @@ ai_strategy_default = {
 	# Using this value in other strategies will function additively
 	diplomatic_play_neutrality = {
 		value = 50 
+
+		if = {
+			limit = {
+				any_diplomatic_play = {
+					any_scope_play_involved = {
+						count >= 2
+						country_rank = rank_value:great_power
+						is_diplomatic_play_committed_participant = yes
+						NOT = { has_technology_researched = multilateral_alliances }
+					}
+				}
+				country_rank >= rank_value:great_power
+				NOT = { has_technology_researched = multilateral_alliances }
+			}
+			add = 200
+		}
 	}
 	
 	# Added to base boldness in diplomatic plays	
