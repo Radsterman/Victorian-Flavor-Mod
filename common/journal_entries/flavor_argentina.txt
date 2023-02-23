@@ -36,48 +36,14 @@
 	}
 
 	on_complete = {
-		if={
-			limit = {
-				NOT = { exist = c:ARG }
-			}
-			change_tag = ARG
-		}
-		if= {
-			limit = {
-				exists = c:GNI
-			}
-			s:STATE_CHACO = {
-				add_claim = ROOT
-			}
-			s:STATE_SANTA_FE = {
-				add_claim = ROOT
-			}
-		}
-		if= {
-			limit = {
-				exists = c:PAT
-			}
-			s:STATE_RIO_NEGRO = {
-				add_claim = ROOT
-			}
-		}
-		every_country = {
-			limit = {
-				is_subject_type = subject_type_confederation
-				overlord = ROOT
-				is_player = no
-			}
-			save_scope_as = annex_scope
-			ROOT = {
-				annex = scope:annex_scope
-			}
-		}
+		trigger_event = { id = journal_flavor_argentina.1 }
+
 	}
 
-	timeout = 5475
+	timeout = 1
 	on_timeout = {
-
-
+		trigger_event = { id = journal_flavor_argentina.2 }
+		
 			if={
 				limit = { 
 					any_country = {
@@ -95,6 +61,7 @@
 					save_scope_as = new_argentina_leader
 				}
 				scope:new_argentina_leader = {
+					set_variable = argentina_leader_var
 					custom_tooltip = {
 						text = argentine_constitution_timeout_tt
 					}
@@ -105,6 +72,9 @@
 					create_diplomatic_pact = {
 						country = ROOT
 						type = rivalry
+					}
+					add_journal_entry = {
+						type = je_argentina_constitution_minor
 					}
 				}
 				hidden_effect = {
@@ -137,6 +107,7 @@
 				}
 			}
 			c:ENT = {
+				set_variable = argentina_leader_var
 				custom_tooltip = {
 					text = argentine_constitution_timeout_tt
 				}	
@@ -147,6 +118,9 @@
 				create_diplomatic_pact = {
 					country = ROOT
 					type = rivalry
+				}
+				add_journal_entry = {
+					type = je_argentina_constitution_minor
 				}
 			}
 			hidden_effect = {
@@ -179,6 +153,7 @@
 				save_scope_as = new_argentina_leader
 			}
 			scope:new_argentina_leader = {
+				set_variable = argentina_leader_var
 				custom_tooltip = {
 					text = argentine_constitution_timeout_tt
 				}
@@ -189,6 +164,9 @@
 				create_diplomatic_pact = {
 					country = ROOT
 					type = rivalry
+				}
+				add_journal_entry = {
+					type = je_argentina_constitution_minor
 				}
 			}
 			hidden_effect = {
@@ -212,6 +190,46 @@
 				}
 			}
 		}
+	}
+
+	weight = 20
+}
+
+je_argentina_constitution_minor = {
+	icon = "gfx/interface/icons/event_icons/event_scales"
+
+	complete = {
+
+		OR = {
+			country_or_subject_owns_entire_state_region = STATE_BUENOS_AIRES
+			OR = {
+				NOT = { exists = c:BUE }
+				c:BUE = {
+					is_subject_of = ROOT
+				}
+			}
+		}
+		
+
+		custom_tooltip = {
+			text = voting_franchise_yes_tt
+			country_has_voting_franchise = yes
+		}
+	}
+
+	invalid = {
+		NOT = {
+			any_country = {
+				is_subject_type = subject_type_confederation
+				overlord = ROOT
+			}
+		}
+	}
+
+	on_complete = {
+
+		trigger_event = { id = journal_flavor_argentina.1 }
+
 	}
 
 	weight = 20
