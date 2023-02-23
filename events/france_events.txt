@@ -152,6 +152,9 @@ france_event.2 = {
 				set_variable = napoleon3
 			}
 		}
+		call_election = {
+			months = 1
+		}
 		custom_tooltip = {
 			text = france_event.2.tt2
 		}
@@ -238,6 +241,19 @@ france_event.4 = {
 	option = {
 		name = france_event.4.b
 
+		if = {
+			limit = {
+				has_variable = napoleon_3_no_extradition
+			}
+			py:conservative_party = {
+				add_momentum = momentum_very_large
+			}	
+		}
+		else = {
+			py:conservative_party = {
+				add_momentum = momentum_large
+			}	
+		}
 		ig:ig_petty_bourgeoisie = {
 			add_modifier = {
 				name = elections_rigged_1
@@ -265,6 +281,14 @@ france_event.4 = {
 	option = {
 		name = france_event.4.c
 
+		if = {
+			limit = {
+				exists = py:liberal_party
+			}
+			py:liberal_party = {
+				add_momentum = momentum_large
+			}
+		}
 		ig:ig_intelligentsia = {
 			add_modifier = {
 				name = elections_rigged_1
@@ -291,7 +315,7 @@ france_event.4 = {
     }
 }
 
-#Election days
+#Elections
 france_event.5 = {
 	type = country_event
 	placement = ROOT
@@ -323,94 +347,12 @@ france_event.5 = {
 		ROOT = {
 			save_scope_as = fra_scope
 		}
+		set_variable = french_elections
 	}
 
 	option = {
 		name = france_event.5.a
 		default_option = yes
-
-		random_list = {
-			75 = {
-				custom_tooltip = france_event.5.tt1
-				set_variable = napoleon3_elected
-				modifier = {
-					if = {
-						limit = {
-							has_variable = napoleon3_rigged
-						}
-						add = 10
-					}
-				}
-				modifier = {
-					if = {
-						limit = {
-							OR = {
-								ig:ig_petty_bourgeoisie = {
-									ig_clout >= 0.15
-								}
-								ig:ig_armed_forces = {
-									ig_clout >= 0.15
-								}
-								ig:ig_devout = {
-									ig_clout >= 0.15
-								}
-							}
-						}
-						add = 5
-					}
-				}
-				modifier = {
-					if = {
-						limit = {
-							OR = {
-								ig:ig_petty_bourgeoisie = {
-									ig_clout > 0.3
-								}
-								ig:ig_armed_forces = {
-									ig_clout > 0.3
-								}
-								ig:ig_devout = {
-									ig_clout > 0.3
-								}
-							}
-						}
-						add = 10
-					}
-				}
-			}
-			25 = {
-				custom_tooltip = france_event.5.tt2
-				set_variable = cavaignac_elected
-				modifier = {
-					if = {
-						limit = {
-							has_variable = cavaignac_rigged
-						}
-						add = 30
-					}
-				}
-				modifier = {
-					if = {
-						limit = {
-							ig:ig_intelligentsia = {
-								ig_clout >= 0.15
-							}
-						}
-						add = 5
-					}
-				}
-				modifier = {
-					if = {
-						limit = {
-							ig:ig_intelligentsia = {
-								ig_clout > 0.3
-							}
-						}
-						add = 10
-					}
-				}
-			}
-		}
 
 	    ai_chance = {
 			base = 1
@@ -439,12 +381,22 @@ france_event.6 = {
 	duration = 3
 
 	trigger = {
-		this ?= c:FRA
-		has_variable = napoleon3_elected
+		has_variable = french_elections	
+		in_election_campaign = no
+		any_scope_character = {
+			is_ruler = yes
+			interest_group = {
+				any_interest_group = {
+					has_party = yes
+					party = {
+						conservative_party
+					}
+				}
+			}
+		}
 	}
 
 	immediate = {
-		remove_variable = napoleon3_elected
 		random_scope_character = {
 			limit = {has_variable = napoleon3}
 			save_scope_as = napoleon3_scope
@@ -456,6 +408,8 @@ france_event.6 = {
 		ROOT = {
 			save_scope_as = fra_scope
 		}
+		remove_variable = french_elections
+		set_variable = napoleon3_elected
 	}
 
 	option = {
@@ -536,12 +490,10 @@ france_event.7 = {
 	duration = 3
 
 	trigger = {
-		this ?= c:FRA
-		has_variable = napoleon3_elected
+		has_variable = french_elections
 	}
 
 	immediate = {
-		remove_variable = napoleon3_elected
 		random_scope_character = {
 			limit = {has_variable = napoleon3}
 			save_scope_as = napoleon3_scope
@@ -550,6 +502,8 @@ france_event.7 = {
 			limit = {has_variable = cavaignac}
 			save_scope_as = cavaignac_scope
 		}
+		remove_variable = french_elections
+		set_variable = cavaignac_elected
 	}
 
 	option = {
