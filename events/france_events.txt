@@ -117,7 +117,7 @@ france_event.2 = {
 		OR = {
 			has_journal_entry = je_springtime_of_the_peoples
 			radical_fraction = {
-				value >= 0.25
+				value >= 0.3
 			}
 		}
 	}
@@ -224,9 +224,36 @@ france_event.4 = {
 			limit = {has_variable = napoleon3}
 			save_scope_as = napoleon3_scope
 		}
+
 		random_scope_character = {
 			limit = {has_variable = cavaignac}
 			save_scope_as = cavaignac_scope
+		}
+
+		random_interest_group = {	
+			limit = {
+				is_member_of_party = owner.py:agrarian_party
+			}
+			save_scope_as = agrarian_ig
+		}
+		scope:agrarian_ig = {
+			leader = {
+				save_scope_as = agrarian_leader_scope
+				set_variable = agrarian_leader
+			}
+		}
+
+		random_interest_group = {	
+			limit = {
+				is_member_of_party = owner.py:radical_party
+			}
+			save_scope_as = radical_ig
+		}
+		scope:radical_ig = {
+			leader = {
+				save_scope_as = radical_leader_scope
+				set_variable = radical_leader
+			}
 		}
 	}
 
@@ -235,7 +262,7 @@ france_event.4 = {
 		default_option = yes
 
 	    ai_chance = {
-			base = 80
+			base = 70
 		}
     }
 	option = {
@@ -246,81 +273,156 @@ france_event.4 = {
 				has_variable = napoleon_3_no_extradition
 			}
 			py:conservative_party = {
-				add_momentum = momentum_very_large
+				add_momentum = 1.5
 			}	
 		}
 		else = {
 			py:conservative_party = {
-				add_momentum = momentum_large
+				add_momentum = 1
 			}	
 		}
-		ig:ig_petty_bourgeoisie = {
+
+		every_interest_group = {
+			limit = {
+				is_member_of_party = owner.py:conservative_party
+			}
 			add_modifier = {
 				name = elections_rigged_1
 				months = long_modifier_time
 			}
 		}
-		ig:ig_devout = {
-			add_modifier = {
-				name = elections_rigged_1
-				months = long_modifier_time
+		every_interest_group = {
+			limit = {
+				NOT = {
+					is_member_of_party = owner.py:conservative_party
+				}
 			}
-		}
-		ig:ig_intelligentsia = {
 			add_modifier = {
 				name = elections_rigged_2
 				months = long_modifier_time
 			}
 		}
+
 		set_variable = napoleon3_rigged
 
 	    ai_chance = {
-			base = 10
+			base = 15
 		}
     }
 	option = {
 		name = france_event.4.c
 
-		if = {
-			limit = {
-				exists = py:liberal_party
-			}
-			py:liberal_party = {
-				add_momentum = momentum_large
-			}
+		trigger = {
+			exists = py:liberal_party
 		}
-		if = {
-			limit = {
-				exists = py:radical_party
-			}
-			py:radical_party = {
-				add_momentum = momentum_large
-			}
+
+		py:liberal_party = {
+			add_momentum = 1
 		}
-		ig:ig_intelligentsia = {
+
+		every_interest_group = {
+			limit = {
+				is_member_of_party = owner.py:liberal_party
+			}
 			add_modifier = {
 				name = elections_rigged_1
 				months = long_modifier_time
 			}
 		}
-		ig:ig_petty_bourgeoisie = {
+		every_interest_group = {
+			limit = {
+				NOT = {
+					is_member_of_party = owner.py:liberal_party
+				}
+			}
 			add_modifier = {
 				name = elections_rigged_2
 				months = long_modifier_time
 			}
 		}
-		ig:ig_devout = {
-			add_modifier = {
-				name = elections_rigged_2
-				months = long_modifier_time
-			}
-		}
+
 		set_variable = cavaignac_rigged
 
 	    ai_chance = {
-			base = 10
+			base = 5
 		}
     }
+    option = {
+		name = france_event.4.g
+
+		trigger = {
+			exists = py:agrarian_party
+		}
+
+		py:agrarian_party = {
+			add_momentum = 1
+		}
+
+		every_interest_group = {
+			limit = {
+				is_member_of_party = owner.py:agrarian_party
+			}
+			add_modifier = {
+				name = elections_rigged_1
+				months = long_modifier_time
+			}
+		}
+		every_interest_group = {
+			limit = {
+				NOT = {
+					is_member_of_party = owner.py:agrarian_party
+				}
+			}
+			add_modifier = {
+				name = elections_rigged_2
+				months = long_modifier_time
+			}
+		}
+
+		set_variable = agrarian_rigged
+
+	    ai_chance = {
+			base = 5
+		}
+	}
+    option = {
+		name = france_event.4.h
+
+		trigger = {
+			exists = py:radical_party
+		}
+
+		py:radical_party = {
+			add_momentum = 1
+		}
+
+		every_interest_group = {
+			limit = {
+				is_member_of_party = owner.py:radical_party
+			}
+			add_modifier = {
+				name = elections_rigged_1
+				months = long_modifier_time
+			}
+		}
+		every_interest_group = {
+			limit = {
+				NOT = {
+					is_member_of_party = owner.py:radical_party
+				}
+			}
+			add_modifier = {
+				name = elections_rigged_2
+				months = long_modifier_time
+			}
+		}
+
+		set_variable = agrarian_rigged
+
+	    ai_chance = {
+			base = 5
+		}
+	}
 }
 
 #Elections
@@ -404,10 +506,6 @@ france_event.6 = {
 			limit = {has_variable = napoleon3}
 			save_scope_as = napoleon3_scope
 		}
-		random_scope_character = {
-			limit = {has_variable = cavaignac}
-			save_scope_as = cavaignac_scope
-		}
 		ROOT = {
 			save_scope_as = fra_scope
 		}
@@ -463,8 +561,8 @@ france_event.6 = {
 			}
 		}
         set_ruling_interest_groups = {
-        	ig_petty_bourgeoisie
-        	ig_armed_forces
+        	ig_petty_bourgeoisie 
+        	ig_armed_forces 
         	ig_devout
         }
 
@@ -507,10 +605,6 @@ france_event.7 = {
 
 	immediate = {
 		random_scope_character = {
-			limit = {has_variable = napoleon3}
-			save_scope_as = napoleon3_scope
-		}
-		random_scope_character = {
 			limit = {has_variable = cavaignac}
 			save_scope_as = cavaignac_scope
 		}
@@ -525,11 +619,15 @@ france_event.7 = {
 		name = france_event.7.a
 		default_option = yes
 
-		custom_tooltip = france_event.7.tt1
+		custom_tooltip = {
+			text = france_event.7.tt1
+		}
 
 		random_interest_group = {
-			leader = {
-				has_variable = cavaignac
+			limit = {
+				leader = {
+					has_variable = cavaignac
+				}
 			}
 			add_modifier = {
 				name = french_republic_elections
