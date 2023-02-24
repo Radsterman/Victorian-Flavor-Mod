@@ -152,6 +152,31 @@ france_event.2 = {
 				set_variable = napoleon3
 			}
 		}
+
+		random_interest_group = {	
+			limit = {
+				is_member_of_party = owner.py:agrarian_party
+			}
+			save_scope_as = agrarian_ig
+		}
+		scope:agrarian_ig = {
+			leader = {
+				set_variable = agrarian_leader
+			}
+		}
+
+		random_interest_group = {	
+			limit = {
+				is_member_of_party = owner.py:radical_party
+			}
+			save_scope_as = radical_ig
+		}
+		scope:radical_ig = {
+			leader = {
+				set_variable = radical_leader
+			}
+		}
+
 		call_election = {
 			months = 9
 		}
@@ -224,36 +249,17 @@ france_event.4 = {
 			limit = {has_variable = napoleon3}
 			save_scope_as = napoleon3_scope
 		}
-
 		random_scope_character = {
 			limit = {has_variable = cavaignac}
 			save_scope_as = cavaignac_scope
 		}
-
-		random_interest_group = {	
-			limit = {
-				is_member_of_party = owner.py:agrarian_party
-			}
-			save_scope_as = agrarian_ig
+		random_scope_character = {
+			limit = {has_variable = agrarian_leader}
+			save_scope_as = agrarian_leader_scope
 		}
-		scope:agrarian_ig = {
-			leader = {
-				save_scope_as = agrarian_leader_scope
-				set_variable = agrarian_leader
-			}
-		}
-
-		random_interest_group = {	
-			limit = {
-				is_member_of_party = owner.py:radical_party
-			}
-			save_scope_as = radical_ig
-		}
-		scope:radical_ig = {
-			leader = {
-				save_scope_as = radical_leader_scope
-				set_variable = radical_leader
-			}
+		random_scope_character = {
+			limit = {has_variable = radical_leader}
+			save_scope_as = radical_leader_scope
 		}
 	}
 
@@ -450,10 +456,6 @@ france_event.5 = {
 			limit = {has_variable = napoleon3}
 			save_scope_as = napoleon3_scope
 		}
-		random_scope_character = {
-			limit = {has_variable = cavaignac}
-			save_scope_as = cavaignac_scope
-		}
 		ROOT = {
 			save_scope_as = fra_scope
 		}
@@ -523,26 +525,6 @@ france_event.6 = {
 				kill_character = yes
 			}
 		}
-		hidden_effect = {
-			create_character = {
-				# Louis Eugène Cavaignac
-				is_general = no
-				first_name = "Louis_Eugene"
-				last_name = "Cavaignac"
-				ruler = yes
-				birth_date = 1802.10.15
-				ig_leader = yes
-				interest_group = ig_intelligentsia
-				ideology = ideology_republican
-				traits = {
-					experienced_political_operator 
-					persistent
-				}
-				on_created = {
-					set_variable = cavaignac
-				}
-			}
-		}
 		random_interest_group = {
 			limit = {
 				leader = {
@@ -558,6 +540,9 @@ france_event.6 = {
 			create_character = {
 				template = louis_napoleon_character_template
 				ruler = yes
+				on_created = {
+					set_variable = napoleon3
+				}
 			}
 		}
         set_ruling_interest_groups = {
@@ -622,7 +607,6 @@ france_event.7 = {
 		custom_tooltip = {
 			text = france_event.7.tt1
 		}
-
 		random_interest_group = {
 			limit = {
 				leader = {
@@ -636,6 +620,148 @@ france_event.7 = {
 		}
         set_ruling_interest_groups = {
         	ig_intelligentsia
+        }
+
+	    ai_chance = {
+			base = 1
+		}
+    }
+}
+
+#Elections results - Agrarian Party wins
+france_event.8 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.8.t
+	desc = france_event.8.d
+	flavor = france_event.8.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	icon = "gfx/interface/icons/event_icons/event_election.dds"
+
+	duration = 3
+	
+	trigger = {
+		has_variable = french_elections	
+		in_election_campaign = no
+		any_scope_character = {
+			is_ruler = yes
+            interest_group = { 
+                is_member_of_party = owner.py:agrarian_party
+            }
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {has_variable = agrarian_leader}
+			save_scope_as = agrarian_leader_scope
+		}
+		ROOT = {
+			save_scope_as = fra_scope
+		}
+		remove_variable = french_elections
+		set_variable = agrarian_leader_elected
+	}
+
+	option = {
+		name = france_event.8.a
+		default_option = yes
+
+		custom_tooltip = {
+			text = france_event.8.tt1
+		}
+		random_interest_group = {
+			limit = {
+				leader = {
+					has_variable = agrarian_leader
+				}
+			}
+			add_modifier = {
+				name = french_republic_elections
+				months = normal_modifier_time
+			}
+		}
+        set_ruling_interest_groups = {
+        	ig_rural_folk
+        }
+
+	    ai_chance = {
+			base = 1
+		}
+    }
+}
+
+#Elections results - Radical Party wins
+france_event.9 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.9.t
+	desc = france_event.9.d
+	flavor = france_event.9.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	icon = "gfx/interface/icons/event_icons/event_election.dds"
+
+	duration = 3
+	
+	trigger = {
+		has_variable = french_elections	
+		in_election_campaign = no
+		any_scope_character = {
+			is_ruler = yes
+            interest_group = { 
+                is_member_of_party = owner.py:radical_party
+            }
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {has_variable = radical_leader}
+			save_scope_as = radical_leader_scope
+		}
+		ROOT = {
+			save_scope_as = fra_scope
+		}
+		remove_variable = french_elections
+		set_variable = radical_leader_elected
+	}
+
+	option = {
+		name = france_event.9.a
+		default_option = yes
+
+		custom_tooltip = {
+			text = france_event.9.tt1
+		}
+		random_interest_group = {
+			limit = {
+				leader = {
+					has_variable = radical_leader
+				}
+			}
+			add_modifier = {
+				name = french_republic_elections
+				months = normal_modifier_time
+			}
+		}
+        set_ruling_interest_groups = {
+        	ig_rural_folk
         }
 
 	    ai_chance = {
