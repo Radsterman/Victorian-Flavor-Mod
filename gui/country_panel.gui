@@ -258,34 +258,34 @@ types country_panel_types
 				blockoverride "show_hat" {}
 				blockoverride "highlight" {}
 			}
-			dynamicgridbox = {
-            direction = vertical
-            margin_top = 10
-            margin_bottom = 10
-            spacing = 10
-            #datamodel = "[GetGlobalList('international_organizations')]"
-            #item = {
-            #    
-            #    button = {
-            #        size = { 350 30 }
-            #        using = default_button
-            #        text = "[Scope.AccessJournalEntry.GetName]"
-            #    }
-            #    
-            #}
-            
-            datacontext = "[Country.MakeScope.GetVariable('secretary_of_state').GetCharacter]"
 
-            character_portrait_medium_torso = {
-                blockoverride "show_hat" {}
-                blockoverride "highlight" {}
-            }
+			#HEIR PORTRAIT
+			character_portrait_medium = {
+				visible = "[Country.HasHeir]"
+				datacontext = "[Country.GetHeir]"
+				position = { 25 300 }
+				blockoverride "show_hat" {}
+				blockoverride "highlight" {}
+			}
 
-            text_single = {
-                text = "[Character.GetFullName]"
-            }
-                
-        }
+			#VICE PRESIDENT PORTRAIT
+			character_portrait_medium = {
+				visible = "[Country.MakeScope.Var('vice_president').IsSet]"
+				datacontext = "[Country.MakeScope.Var('vice_president').GetCharacter]"
+				position = { 25 300 }
+				blockoverride "show_hat" {}
+				blockoverride "highlight" {}
+			}
+
+			#PRIME MINISTER PORTRAIT
+			character_portrait_medium = {
+				visible = "[Country.MakeScope.Var('prime_minister').IsSet]"
+				datacontext = "[Country.MakeScope.Var('prime_minister').GetCharacter]"
+				position = { 162 300 }
+				blockoverride "show_hat" {}
+				blockoverride "highlight" {}
+			}
+
 			#GOVERNMENT
 			flowcontainer = {
 				position = { 0 400 }
