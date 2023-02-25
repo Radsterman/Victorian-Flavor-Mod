@@ -799,7 +799,7 @@ france_event.10 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/political_extremism"
 
-	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
 
 	duration = 1
 
@@ -812,6 +812,35 @@ france_event.10 = {
 			name = national_workshops_1
 			months = normal_modifier_time
 		}
+		every_interest_group = {
+			limit ={
+				law_stance = {
+					law = law_type:law_wage_subsidies
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = national_workshops_3
+				months = normal_modifier_time
+			}
+		}
+		every_interest_group = {
+			limit ={
+				law_stance = {
+					law = law_type:law_wage_subsidies
+					value < neutral
+				}
+			}
+			add_modifier = {
+				name = national_workshops_4
+				months = normal_modifier_time
+			}
+		}
+
+		hidden_effect = {
+			trigger_event = { id = france_event.11 days = 120}
+		}
+
 		set_variable = national_workshops
 
 	    ai_chance = {
@@ -825,8 +854,150 @@ france_event.10 = {
 			name = national_workshops_2
 			months = normal_modifier_time
 		}
-		custom_tooltip = france_event.10.tt1
+		every_interest_group = {
+			limit ={
+				law_stance = {
+					law = law_type:law_wage_subsidies
+					value < neutral
+				}
+			}
+			add_modifier = {
+				name = national_workshops_3
+				months = normal_modifier_time
+			}
+		}
+		every_interest_group = {
+			limit ={
+				law_stance = {
+					law = law_type:law_wage_subsidies
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = national_workshops_4
+				months = normal_modifier_time
+			}
+		}
+		trigger_event = { id = france_event.12 }
+
 		set_variable = no_national_workshops
+
+	    ai_chance = {
+			base = 10
+		}
+    }
+}
+
+#Abolition of the National Workshops?
+france_event.11 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.11.t
+	desc = france_event.11.d
+	flavor = france_event.11.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_capitalists_meeting.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/capitalists_meeting"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	duration = 1
+
+	immediate = {
+		random_interest_group = {
+			limit ={
+				law_stance = {
+					law = law_type:law_wage_subsidies
+					value < neutral
+				}
+			}
+			save_scope_as = abolitionist_ig
+		}
+		ROOT = {
+			save_scope_as = fra_scope
+		}
+	}
+
+	option = {
+		name = france_event.11.a
+		default_option = yes
+
+		activate_law = law_type:law_poor_laws
+
+		add_radicals = {
+			value = 0.05
+			strata = poor
+		}
+		s:STATE_ILE_DE_FRANCE = {
+			random_scope_state = {
+				add_radicals = {
+					value = 0.1
+					strata = poor
+				}
+			}
+		}
+		every_interest_group = {
+			limit ={
+				law_stance = {
+					law = law_type:law_wage_subsidies
+					value < neutral
+				}
+			}
+			add_modifier = {
+				name = national_workshops_3
+				months = normal_modifier_time
+			}
+		}
+		every_interest_group = {
+			limit ={
+				law_stance = {
+					law = law_type:law_wage_subsidies
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = national_workshops_4
+				months = normal_modifier_time
+			}
+		}
+		trigger_event = { id = france_event.12 }
+
+	    ai_chance = {
+			base = 90
+		}
+    }
+	option = {
+		name = france_event.11.b
+
+		every_interest_group = {
+			limit ={
+				law_stance = {
+					law = law_type:law_wage_subsidies
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = national_workshops_3
+				months = normal_modifier_time
+			}
+		}
+		every_interest_group = {
+			limit ={
+				law_stance = {
+					law = law_type:law_wage_subsidies
+					value < neutral
+				}
+			}
+			add_modifier = {
+				name = national_workshops_4
+				months = normal_modifier_time
+			}
+		}
 
 	    ai_chance = {
 			base = 10
