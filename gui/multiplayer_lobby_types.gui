@@ -1,0 +1,296 @@
+### this GUI can be modified however we want, it is not an imported file
+### it is the selected nation info in lobby.
+
+template multiplayer_lobby_selected_country_info {
+	datacontext = "[LobbyView.AccessSelectedPlayable.AccessCountry]"
+	margin_top = 10
+	margin_bottom = 20
+	
+	scrollarea = {
+		layoutpolicy_horizontal = expanding
+		layoutpolicy_vertical = expanding
+
+		scrollbarpolicy_horizontal = always_off
+		scrollbar_vertical = {
+			using = vertical_scrollbar		
+		}
+		background = {
+			using = entry_bg_simple
+			margin = { 1 0 }
+			margin_bottom = 2
+		}
+		
+		@lobby_panel_info_width = 390
+
+		scrollwidget = {
+			flowcontainer = {
+				direction = vertical
+				margin_bottom = 10
+			
+				### NATION NAME
+				widget = {
+					size = { @lobby_panel_info_width 60 }
+					
+					background = {
+						using = dark_area
+						
+						modify_texture = {
+							texture = "gfx/interface/masks/fade_horizontal_center.dds"
+							spriteType = Corneredstretched
+							spriteborder = { 0 0 }
+							blend_mode = alphamultiply
+							alpha = 0.2
+						}
+					}
+					
+					divider_clean = {
+						parentanchor = bottom
+					}
+					
+					flowcontainer = {
+						direction = vertical
+						parentanchor = center
+						
+						textbox = {
+							size = { @lobby_panel_info_width 30 }
+							elide = right
+							parentanchor = hcenter
+							raw_text = "#BOLD [Country.GetNameNoFlag]#!"
+							align = center|nobaseline
+							using = fontsize_mega
+						}
+						textbox = {
+							size = { @lobby_panel_info_width 20 }
+							elide = right
+							parentanchor = hcenter
+							raw_text = "#variable [Country.GetRank]#!"
+							align = center|nobaseline
+						}
+					}
+				}
+				
+				### FLAG / RANK / PORTRAIT / ARMY
+				container = {
+					minimumsize = { @lobby_panel_info_width -1 }
+
+					### FLAG
+					large_flag = {
+						position = { 15 10 }
+						
+						widget = {
+							size = { 100% 100% }
+							using = clickthrough_blocker
+						}
+					}
+					
+					rank_badge = {
+						size = { 65 65 }
+						position = { 10 75 }
+						
+						blockoverride "datacontext " {}
+						
+						blockoverride "rank_text" {
+							raw_text = "#BOLD [Country.GetCountryScorePositionDesc]"
+							visible = "[GreaterThan_int32( Country.GetCountryScorePosition, '(int32)99' )]"
+						}
+						blockoverride "rank_text_2" {
+							raw_text = "#BOLD [Country.GetCountryScorePositionDesc]"
+							visible = "[Not(GreaterThan_int32( Country.GetCountryScorePosition, '(int32)99' ))]"
+						}
+					}
+					
+					### PORTRAIT
+					character_portrait_large_torso = {
+						datacontext = "[Country.GetRuler]"
+						parentanchor = right
+						position = { -20 0 }
+						blockoverride "show_hat" {}
+					}
+					
+					### ARMY / NAVY
+					flowcontainer = {
+						direction = vertical
+						position = { 15 170 }
+						spacing = 5
+
+						flowcontainer = {
+							direction = vertical
+							
+							textbox = {
+								autoresize = yes
+								visible = "[Country.IsColonizable]"
+								raw_text = "#variable @battalions![Country.CalcConscriptableBattalions|0]#! "
+								tooltip = PANEL_MILITARY_NATIVE_POTENTIAL_BATTALIONS_TOOLTIP
+								using = fontsize_mega
+								align = left|nobaseline
+							}							
+							
+							textbox = {
+								autoresize = yes
+								visible = "[Not(Country.IsColonizable)]"
+								raw_text = "#variable @battalions![Country.GetBattalions|0]#! "
+								tooltip = PANEL_MILITARY_ARMY_CURRENT_BATTALIONS_TOOLTIP
+								using = fontsize_xxl
+								align = left|nobaseline
+							}
+
+							textbox = {
+								autoresize = yes
+								visible = "[Not(Country.IsColonizable)]"
+								raw_text = "#variable @flotillas![Country.GetWarships|0]#!"
+								tooltip = PANEL_MILITARY_NAVY_CURRENT_FLOTILLAS_TOOLTIP
+								using = fontsize_xxl
+								align = left|nobaseline
+							}
+						}
+					}
+				}
+				
+				### COUNTRY INFO
+				flowcontainer = {
+					direction = vertical
+					minimumsize = { @lobby_panel_info_width -1 }
+					maximumsize = { @lobby_panel_info_width -1 }
+					spacing = 10
+					
+					divider_clean = {}
+
+					flowcontainer = {
+						margin_left = 15
+						
+						flowcontainer = {
+							spacing = 10
+							minimumsize = { 175 -1 }
+							direction = vertical
+
+							country_gdp_info = {
+								blockoverride "tooltip" {
+									tooltip = "GDP_TOOLTIP"
+								}
+							}
+							country_population_info = {
+								blockoverride "tooltip" {
+									tooltip = "POP_TOOLTIP"
+								}
+							}
+							country_arable_land_info = {}					
+							literacy_info = {}
+						}
+						flowcontainer = {
+							spacing = 10
+							direction = vertical
+							
+							country_government_info = {}
+							country_religion_info = {}
+							country_culture_info = {
+								multiline = yes
+								maximumsize = { 175 -1 }
+							}	
+							standard_of_living_population_info = {
+								multiline = yes
+								maximumsize = { 175 -1 }
+
+								blockoverride "tooltip" {
+									tooltip = "AVG_STANDARD_OF_LIVING_COUNTRY"
+								}
+							}					
+						}
+					}
+
+					divider_clean = {}
+					
+					### FLAVOUR TEXT
+					flowcontainer = {
+						margin_left = 15
+						direction = vertical
+						
+						textbox = {
+							using = fontsize_large
+							raw_text = "#bold [Country.GetName]#!"
+							autoresize = yes
+						}
+
+						textbox = {
+							autoresize = yes
+							multiline = yes
+							maximumsize = { 350 -1 }
+							text = "[Country.GetFlavorText]"
+							margin_bottom = 10
+							default_format = "#lore"
+						}
+					}
+				}
+
+				diplomatic_info = {
+					blockoverride "empty_state" {}
+					
+					blockoverride "datamodel_wrap" {
+						datamodel_wrap = 3
+					}
+					
+					blockoverride "divider_size" {
+						size = { @lobby_panel_info_width 2 }
+					}
+
+					blockoverride "size" {
+						size = { @lobby_panel_info_width 38 }
+					}
+
+					blockoverride "flag_click" {}
+				}
+
+				flowcontainer = {
+					direction = vertical
+					maximumsize = { @lobby_panel_info_width -1 }
+
+					default_header = {
+						using = default_list_position
+						blockoverride "text" {
+							text = STATES
+						}
+					}
+
+					flowcontainer = {
+						datamodel = "[Country.AccessStates]"
+						direction = vertical
+
+						item = {
+							widget = {
+								size = { @lobby_panel_info_width 40 }
+								tooltipwidget = {
+									FancyTooltip_State = {}
+								}
+
+								divider_clean = {
+									parentanchor = hcenter|bottom
+								}
+
+								textbox = { 
+									text = "[State.GetNameNoFormatting]"
+									position = { 10 0 }
+									parentanchor = vcenter
+									autoresize = yes
+									align = nobaseline
+								}
+
+								flowcontainer = {
+									datamodel = "[State.AccessStateRegion.AccessTraits]"
+									parentanchor = vcenter|right
+									position = { -10 0 }
+									spacing = 5
+									item = {
+										icon = {
+											size = { 30 30 }
+											tooltip = "TOOLTIP_STATE_TRAIT"
+											texture = "[StateTrait.GetTexture]"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
