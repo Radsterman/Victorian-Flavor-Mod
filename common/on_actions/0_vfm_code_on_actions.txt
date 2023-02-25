@@ -199,45 +199,45 @@ on_character_death = {
 			}
 		}
 
-		#Vice President, if exists, replaces dead President in Presidential Republics
-		if = {
-			limit = {
-				is_ruler = yes
-				owner = {
-					has_law = law_type:law_presidential_republic
-				}
-				any_scope_character = {
-					has_variable = vice_president_trigger
-				}
-			}
-			owner = {
-				every_scope_character = {
-					limit = { has_variable = vice_president_trigger }
-					remove_variable = vice_president
-					remove_variable = vice_president_trigger
-					save_scope_as = former_vice_president
-				}
-				create_character = {
-					first_name = scope:former_vice_president
-					last_name = scope:former_vice_president
-					ruler = yes
-					culture = scope:former_vice_president
-					interest_group = scope:former_vice_president
-					ideology = scope:former_vice_president
-					birth_date = scope:former_vice_president
-					traits = scope:former_vice_president
-				}
-				create_character = {
-					on_created = {
-						set_variable = {
-							name = vice_president
-							value = prev
-						}
-						set_variable = vice_president_trigger
-					}
-				}
-			}
-		}
+		##Vice President, if exists, replaces dead President in Presidential Republics
+		#if = {
+		#	limit = {
+		#		is_ruler = yes
+		#		owner = {
+		#			has_law = law_type:law_presidential_republic
+		#		}
+		#		any_scope_character = {
+		#			has_variable = vice_president_trigger
+		#		}
+		#	}
+		#	owner = {
+		#		every_scope_character = {
+		#			limit = { has_variable = vice_president_trigger }
+		#			remove_variable = vice_president
+		#			remove_variable = vice_president_trigger
+		#			save_scope_as = former_vice_president
+		#		}
+		#		create_character = {
+		#			first_name = scope:former_vice_president
+		#			last_name = scope:former_vice_president
+		#			ruler = yes
+		#			culture = scope:former_vice_president
+		#			interest_group = scope:former_vice_president
+		#			ideology = scope:former_vice_president
+		#			birth_date = scope:former_vice_president
+		#			traits = scope:former_vice_president
+		#		}
+		#		create_character = {
+		#			on_created = {
+		#				set_variable = {
+		#					name = vice_president
+		#					value = prev
+		#				}
+		#				set_variable = vice_president_trigger
+		#			}
+		#		}
+		#	}
+		#}
 
 		#Succession to the Crown Act 1707, Parliament dissolved on Monarch death
 		if = {
@@ -252,13 +252,14 @@ on_character_death = {
 			}
 			owner = {
 				call_election = {
-					months = 6
+					months = 1
 				}
 			}
 		}
 	}
 }
 
+#BROKEN, USE BELOW ELECTION ON ACTIONS
 # Root = Country
 on_election_campaign_start = {
 	effect = {
@@ -266,10 +267,28 @@ on_election_campaign_start = {
 	}
 }
 
+#BROKEN, USE BELOW ELECTION ON ACTIONS
 # Root = Country
 on_election_campaign_end = {
 	effect = {
 		debug_log = "Election Campaign Ended"
+	}
+}
+
+on_election_started = {
+	trigger = { in_election_campaign = yes }
+	effect = { 
+		set_variable = election_onging
+	}
+}
+
+on_election_ended = {
+	trigger = {
+		in_election_campaign = no
+		has_variable = election_onging
+	}
+	effect = {
+		remove_variable = election_onging
 		
 		#Septennial Act 1715, 7 year maximum unless Parliament dissolved or Monarch dies
 		if = {
