@@ -1004,3 +1004,133 @@ france_event.11 = {
 		}
     }
 }
+
+#June Days Uprising
+france_event.12 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.12.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = france_event.12.d.1
+				trigger = {
+					has_variable = national_workshops
+				}
+			}
+			triggered_desc = {
+				desc = france_event.12.d.2
+				trigger = {
+					has_variable = no_national_workshops
+				}
+			}
+		}
+	}
+	flavor = {
+			first_valid = {
+			triggered_desc = {
+				desc = france_event.12.f.1
+				trigger = {
+					has_variable = national_workshops
+				}
+			}
+			triggered_desc = {
+				desc = france_event.12.f.2
+				trigger = {
+					has_variable = no_national_workshops
+				}
+			}
+		}
+	}
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_springtime_of_nations.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/springtime_of_nation"
+
+	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
+
+	duration = 1
+
+	option = {
+		name = france_event.12.a
+		default_option = yes
+
+		if = {
+			limit = {
+				has_variable = national_workshops					
+			}
+			random_list = {
+				90 = {
+					custom_tooltip = france_event.12.tt1
+					set_variable = june_days_no_revolution
+				}
+				10 = {
+					custom_tooltip = france_event.12.tt2
+					set_variable = june_days_revolution
+					modifier = {
+						if = {
+							limit = {
+								ig:ig_trade_unions = {
+									OR = {
+										ig_clout > 0.2
+										is_powerful = yes
+									}
+								}
+							}
+							add = 20
+						}
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_variable = no_national_workshops					
+			}
+			random_list = {
+				85 = {
+					custom_tooltip = france_event.12.tt1
+					set_variable = june_days_no_revolution
+				}
+				15 = {
+					custom_tooltip = france_event.12.tt2
+					set_variable = june_days_revolution
+					modifier = {
+						if = {
+							limit = {
+								ig:ig_trade_unions = {
+									OR = {
+										ig_clout > 0.2
+										is_powerful = yes
+									}
+								}
+							}
+							add = 20
+						}
+					}
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				has_variable = national_workshops
+			}
+			remove_variable = national_workshops
+		}
+		if = {
+			limit = {
+				has_variable = no_national_workshops
+			}
+			remove_variable = no_national_workshops
+		}
+
+	    ai_chance = {
+			base = 1
+		}
+    }
+}
