@@ -27,7 +27,7 @@ france_event.1 = {
 		NOT = {
 			OR = {
 				has_variable = napoleon_3_switzerland
-				has_global_variable = french_revolution_happened
+				has_variable = french_revolution_happened
 			}
 		}
 	}
@@ -112,7 +112,7 @@ france_event.2 = {
 	trigger = {
 		this ?= c:FRA
 		NOT = {
-			has_global_variable = french_revolution_happened
+			has_variable = french_revolution_happened
 		}
 		OR = {
 			has_journal_entry = je_springtime_of_the_peoples
@@ -129,7 +129,7 @@ france_event.2 = {
 		ruler = {
 			save_scope_as = ruler_scope
 		}
-		set_global_variable = french_revolution_happened
+		set_variable = french_revolution_happened
 	}
 
 	option = {
@@ -146,11 +146,10 @@ france_event.2 = {
 		custom_tooltip = {
 			text = france_event.2.tt1
 		}
-		create_character = {
-			template = louis_napoleon_character_template
-			on_created = {
-				set_variable = napoleon3
-			}
+		add_modifier = {
+			name = french_revolution
+			months = normal_modifier_time
+			is_decaying = yes
 		}
 
 		random_interest_group = {	
@@ -177,16 +176,18 @@ france_event.2 = {
 			}
 		}
 
-		call_election = {
-			months = 9
-		}
+
 		custom_tooltip = {
 			text = france_event.2.tt2
 		}
-		add_modifier = {
-			name = french_revolution
-			months = normal_modifier_time
-			is_decaying = yes
+		call_election = {
+			months = 9
+		}
+		create_character = {
+			template = louis_napoleon_character_template
+			on_created = {
+				set_variable = napoleon3
+			}
 		}
         hidden_effect = {
         	trigger_event = { id = france_event.3 days = 1}
