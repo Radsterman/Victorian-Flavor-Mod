@@ -1066,7 +1066,6 @@ france_event.12 = {
 			random_list = {
 				90 = {
 					custom_tooltip = france_event.12.tt1
-					set_variable = june_days_no_revolution
 				}
 				10 = {
 					custom_tooltip = france_event.12.tt2
@@ -1094,7 +1093,6 @@ france_event.12 = {
 			random_list = {
 				85 = {
 					custom_tooltip = france_event.12.tt1
-					set_variable = june_days_no_revolution
 				}
 				15 = {
 					custom_tooltip = france_event.12.tt2
@@ -1127,6 +1125,105 @@ france_event.12 = {
 				has_variable = no_national_workshops
 			}
 			remove_variable = no_national_workshops
+		}
+
+	    ai_chance = {
+			base = 1
+		}
+    }
+}
+
+#June Days Revolution
+france_event.13 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.13.t
+	desc = france_event.13.d
+	flavor = france_event.13.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_political_extremism.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/political_extremism"
+
+	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
+
+	duration = 1
+
+	trigger = {
+		has_variable = june_days_revolution
+	}
+
+	immediate = {
+		remove_variable = june_days_revolution
+		set_variable = fail_french_elections
+		random_interest_group = {
+			limit = {
+				is_interest_group_type = ig_trade_unions
+			}
+			save_scope_as = ig_trade_unions
+		}
+		ROOT = {
+			save_scope_as = fra_scope
+		}
+		ruler = {
+			save_scope_as = ruler_scope
+		}
+	}
+
+	option = {
+		name = france_event.13.a
+		default_option = yes
+
+		if = {
+			limit = {
+				NOT ={
+					has_law = law_wage_subsidies
+				}
+			}
+			activate_law = law_type:law_wage_subsidies
+		}
+		if = {
+			limit = {
+				NOT ={
+					has_law = law_universal_suffrage
+				}
+			}
+			activate_law = law_type:law_universal_suffrage
+		}
+		activate_law = law_type:law_council_republic
+
+		add_loyalists = {
+			value = 0.05
+			strata = poor
+		}
+		add_radicals = {
+			value = 0.15
+			strata = rich
+		}
+		add_radicals = {
+			value = 0.05
+			strata = middle
+		}
+        set_ruling_interest_groups = {
+        	ig_trade_unions
+        }
+		random_interest_group = {
+			limit = {
+				is_interest_group_type = ig_trade_unions
+			}
+			add_modifier = {
+				name = june_revolution
+				months = normal_modifier_time
+			}
+		}
+		hidden_effect = {
+			call_election = {
+				months = 60
+			}
 		}
 
 	    ai_chance = {
