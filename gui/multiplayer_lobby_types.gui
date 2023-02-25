@@ -197,7 +197,7 @@ template multiplayer_lobby_selected_country_info {
 									autoresize = yes
 									visible = "[Country.HasRuler]"
 									datacontext = "[Country.GetRuler]"
-									text = "[Character.GetPrimaryRoleTitle]: [Character.GetFullName]"
+									text = "[SelectLocalization(Character.IsRuler, Concept('concept_ruler', Character.GetPrimaryRoleTitle), Character.GetPrimaryRoleName)]: [Character.GetFullName]"
 									align = nobaseline
 									elide = right
 								}
@@ -206,7 +206,16 @@ template multiplayer_lobby_selected_country_info {
 									autoresize = yes
 									visible = "[Country.HasHeir]"
 									datacontext = "[Country.GetHeir]"
-									text = "[Character.GetPrimaryRoleTitle]: [Character.GetFullName]"
+									text = "[SelectLocalization(Character.IsHeir, Concept('concept_heir', Character.GetPrimaryRoleTitle), Character.GetPrimaryRoleName)]: [Character.GetFullName]"
+									align = nobaseline
+									elide = right
+								}
+								
+								textbox = {
+									autoresize = yes
+									visible = "[Country.MakeScope.Var('vice_president').IsSet]"
+									datacontext = "[Country.MakeScope.Var('vice_president').GetCharacter]"
+									text = "[SelectLocalization(Country.MakeScope.Var('vice_president').IsSet, Concept('concept_politician', Character.GetCustom('politician_role')), Character.GetPrimaryRoleName)]: [Character.GetFullName]"
 									align = nobaseline
 									elide = right
 								}
@@ -215,7 +224,7 @@ template multiplayer_lobby_selected_country_info {
 									autoresize = yes
 									visible = "[Country.MakeScope.Var('prime_minister').IsSet]"
 									datacontext = "[Country.MakeScope.Var('prime_minister').GetCharacter]"
-									text = "[Character.GetCustom('politician_role')]: [Character.GetFullName]"
+									text = "[SelectLocalization(Country.MakeScope.Var('prime_minister').IsSet, Concept('concept_politician', Character.GetCustom('politician_role')), Character.GetPrimaryRoleName)]: [Character.GetFullName]"
 									align = nobaseline
 									elide = right
 								}
