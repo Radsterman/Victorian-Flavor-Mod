@@ -47,6 +47,10 @@
 		}
     }
 
+    on_timeout = {
+    	set_variable = no_thousand_expedition
+    }
+
     invalid = {
     	NOT = {
     		exists = c:SIC
@@ -105,9 +109,13 @@ je_exp_thousand_SIC = {
 	    custom_tooltip = {
     		text = exp_thousand_SIC_fail
 	    	any_country = {
-	    		has_journal_entry = {
-	    			type = je_exp_thousand_ongoing
+	    		OR = {
+	    			has_variable = no_thousand_expedition
+		    		has_journal_entry = {
+		    			type = je_exp_thousand_ongoing
+		    		}
 	    		}
+
 	    	}
 	    }
     }
