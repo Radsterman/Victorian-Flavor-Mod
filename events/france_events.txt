@@ -1355,3 +1355,55 @@ france_event.15 = {
 		}
 	}
 }
+
+#Arc de Triomphe
+france_event.16 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.16.t
+	desc = france_event.16.d
+	flavor = france_event.16.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_military_parade.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/military_parade"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	duration = 3
+
+	trigger = {
+		this ?= c:FRA
+		game_date >= 1836.07.1
+		NOT = {
+			has_variable = arc_de_triomphe
+		}
+	}
+
+	immediate = {
+		ROOT = {
+			save_scope_as = fra_scope
+		}
+		ruler = {
+			save_scope_as = ruler_scope
+		}
+		set_variable = arc_de_triomphe
+	}
+
+	option = {
+		name = france_event.16.a
+		default_option = yes
+
+		add_modifier = {
+			name = arc_de_triomphe
+		}
+
+	    ai_chance = {
+			base = 1
+		}
+    }
+}
