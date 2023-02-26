@@ -15,7 +15,7 @@ template multiplayer_lobby_selected_country_info {
 			using = vertical_scrollbar		
 		}
 		background = {
-			using = entry_bg_simple
+			using = dark_area
 			margin = { 1 0 }
 			margin_bottom = 2
 		}
@@ -185,18 +185,23 @@ template multiplayer_lobby_selected_country_info {
 					flowcontainer = {
 						margin_left = 15
 						direction = vertical
-						margin_bottom = 10
 						
-						textbox = {
-							using = fontsize_large
-							raw_text = "#bold Background#!"
-							autoresize = yes
-						}
+						button_standard = {
+							name = "country_flavor_button"
+							layoutpolicy_horizontal = expanding
+							size = { 350 45 }
+							tooltip = "COUNTRY_FLAVOR_TEXT"
 
+							text = "country_flavor_button"
+							margin = { 60 0 }
+							onclick = "[GetVariableSystem.Toggle( 'country_flavor_text' )]"
+						}
+						
 						textbox = {
 							autoresize = yes
 							multiline = yes
 							maximumsize = { 350 -1 }
+							visible = "[GetVariableSystem.Exists( 'country_flavor_text' )]"
 							text = "[Country.GetFlavorText]"
 							default_format = "#lore"
 						}
@@ -485,7 +490,7 @@ template multiplayer_lobby_selected_country_info {
 								blockoverride "tooltip" {
 									tooltip = "AVG_STANDARD_OF_LIVING_COUNTRY"
 								}
-							}					
+							}			
 						}
 					}
 					
@@ -494,35 +499,45 @@ template multiplayer_lobby_selected_country_info {
 						direction = horizontal
 						position = { 15 170 }
 						spacing = 20
+						margin_left = 140
 
 						flowcontainer = {
 							direction = vertical
-							
-							textbox = {
-								autoresize = yes
-								visible = "[Country.IsColonizable]"
-								raw_text = "#variable @battalions![Country.CalcConscriptableBattalions|0]#! "
-								tooltip = PANEL_MILITARY_NATIVE_POTENTIAL_BATTALIONS_TOOLTIP
-								using = fontsize_mega
-								align = left|nobaseline
-							}							
-							
-							textbox = {
-								autoresize = yes
-								visible = "[Not(Country.IsColonizable)]"
-								raw_text = "#variable @battalions![Country.GetBattalions|0]#! "
-								tooltip = PANEL_MILITARY_ARMY_CURRENT_BATTALIONS_TOOLTIP
-								using = fontsize_xxl
-								align = left|nobaseline
-							}
 
-							textbox = {
-								autoresize = yes
-								visible = "[Not(Country.IsColonizable)]"
-								raw_text = "#variable @flotillas![Country.GetWarships|0]#!"
-								tooltip = PANEL_MILITARY_NAVY_CURRENT_FLOTILLAS_TOOLTIP
-								using = fontsize_xxl
-								align = left|nobaseline
+							#BATTALIONS
+							country_stats_entry = {	
+								visible = "[Not(CountryPanel.GetCountry.IsColonizable)]"
+								alpha = "[TransparentIfZero_int32(Country.GetBattalions)]"
+							
+								blockoverride "stats_tooltip" {
+									tooltip = PANEL_MILITARY_ARMY_OVERVIEW_TOOLTIP
+								}
+								blockoverride "information_icon" {
+									texture = "gfx/interface/icons/generic_icons/battalions.dds"
+								}
+								blockoverride "stats_label" {
+									text = "BATTALIONS"
+								}
+								blockoverride "stats_value" {
+									text = "[Country.GetRegularBattalions|v] + [Country.CalcConscriptableBattalions|v]"
+								}
+							}
+			
+							#FLOTTILAS
+							country_stats_entry = {
+								alpha = "[TransparentIfZero_int32(Country.GetWarships)]"
+								blockoverride "stats_tooltip" {
+									tooltip = PANEL_MILITARY_NAVY_CURRENT_FLOTILLAS_TOOLTIP
+								}
+								blockoverride "information_icon" {
+									texture = "gfx/interface/icons/generic_icons/flotillas.dds"
+								}
+								blockoverride "stats_label" {
+									text = "FLOTILLAS"
+								}
+								blockoverride "stats_value" {
+									raw_text = "#variable [Country.GetWarships|0]#!"
+								}
 							}
 						}
 					}
