@@ -133,6 +133,52 @@ template multiplayer_lobby_selected_country_info {
 							visible = "[Not(GreaterThan_int32( Country.GetCountryScorePosition, '(int32)99' ))]"
 						}
 					}
+					
+					### PORTRAIT
+					character_portrait_large_torso = {
+						datacontext = "[Country.GetRuler]"
+						parentanchor = right
+						position = { -20 0 }
+						blockoverride "show_hat" {}
+					}
+					
+					### ARMY / NAVY
+					flowcontainer = {
+						direction = vertical
+						position = { 15 170 }
+						spacing = 5
+
+						flowcontainer = {
+							direction = vertical
+							
+							textbox = {
+								autoresize = yes
+								visible = "[Country.IsColonizable]"
+								raw_text = "#variable @battalions![Country.CalcConscriptableBattalions|0]#! "
+								tooltip = PANEL_MILITARY_NATIVE_POTENTIAL_BATTALIONS_TOOLTIP
+								using = fontsize_mega
+								align = left|nobaseline
+							}							
+							
+							textbox = {
+								autoresize = yes
+								visible = "[Not(Country.IsColonizable)]"
+								raw_text = "#variable @battalions![Country.GetBattalions|0]#! "
+								tooltip = PANEL_MILITARY_ARMY_CURRENT_BATTALIONS_TOOLTIP
+								using = fontsize_xxl
+								align = left|nobaseline
+							}
+
+							textbox = {
+								autoresize = yes
+								visible = "[Not(Country.IsColonizable)]"
+								raw_text = "#variable @flotillas![Country.GetWarships|0]#!"
+								tooltip = PANEL_MILITARY_NAVY_CURRENT_FLOTILLAS_TOOLTIP
+								using = fontsize_xxl
+								align = left|nobaseline
+							}
+						}
+					}
 				}
 					#Pie Chart test, ignore
 					#type lobby_culture_piechart = chart {
@@ -496,10 +542,14 @@ template multiplayer_lobby_selected_country_info {
 					
 					### ARMY / NAVY
 					flowcontainer = {
-						direction = horizontal
-						position = { 15 170 }
-						spacing = 20
-						margin_left = 140
+						margin_left = 15
+						direction = vertical
+						
+						textbox = {
+							using = fontsize_large
+							raw_text = "#bold [Country.GetName]#!"
+							autoresize = yes
+						}
 
 						flowcontainer = {
 							direction = vertical

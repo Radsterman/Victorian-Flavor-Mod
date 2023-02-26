@@ -189,27 +189,19 @@
 
 			if = {
 				limit = {
-					any_country = {
-						NOT = { this = root }
+					any_scope_diplomatic_pact = {
 						OR = {
-							country_rank >= root.country_rank
-							army_size >= root.army_size
+							is_diplomatic_action_type = alliance
+							is_diplomatic_action_type = customs_union
+							is_diplomatic_action_type = defensive_pact
 						}
-						
-						OR = {
-							has_diplomatic_pact = {
-								who = scope:actor
-								type = alliance
+
+						"diplomatic_pact_other_country(root)" = {
+							OR = {
+								country_rank >= root.country_rank
+								army_size >= root.army_size
 							}
-							has_diplomatic_pact = {
-								who = scope:actor
-								type = customs_union
-							}
-							has_diplomatic_pact = {
-								who = scope:actor
-								type = defensive_pact
-							}									
-						}							
+						}
 					}
 				}
 				add = {

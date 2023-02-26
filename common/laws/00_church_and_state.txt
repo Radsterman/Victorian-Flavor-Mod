@@ -336,7 +336,20 @@ law_freedom_of_conscience = {
 	
 	pop_support = {
 		value = 0
-		
+		add = {
+			desc = "POP_ACADEMICS"
+			# Academics generally against religious perseecution
+			if = {
+				limit = {
+					owner = {
+						NOT = { has_law = law_type:law_total_separation }
+					}
+					is_pop_type = academics
+				}
+				value = 0.25
+			}
+		}
+
 		add = {
 			desc = "POP_ACADEMICS"
 			# Academics generally against religious persecution
@@ -358,7 +371,6 @@ law_freedom_of_conscience = {
 					owner = { NOT = { has_law = law_type:law_total_separation } }
 				}
 				add = 0.5
-
 				if = {
 					limit = { 
 						standard_of_living <= 10
@@ -424,23 +436,24 @@ law_total_separation = {
 				limit = {
 					is_pop_type = academics
 				}
-				value = 0.25	
+				value = 0.25
 			}
 		}
+
 		add = {
-			desc = "POP_DISCRIMINATED"		
+			desc = "POP_DISCRIMINATED"
 			if = {
-				limit = { 
-					religion_accepted = no
+				limit = {
+					is_pop_type = academics
 				}
-				add = 0.5		
+				add = 0.5
 
 				if = {
 					limit = { 
 						standard_of_living <= 10
 					}
 					add = 0.5
-				}				
+				}
 			}			
 		}
 	}

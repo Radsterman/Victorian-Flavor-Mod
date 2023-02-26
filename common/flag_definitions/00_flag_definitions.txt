@@ -1926,6 +1926,19 @@ CIR = { # Circassia
 		# coa_with_overlord_canton = CIR_subject			
 		priority = 1
 	}
+	flag_definition = {
+		coa = CIR_war
+		subject_canton = CIR_war
+		# allow_overlord_canton = yes		
+		# coa_with_overlord_canton = CIR_subject	
+		priority = 100		
+		trigger = {
+			exists = scope:actor
+			any_country = {
+				has_war_with = scope:actor
+			}
+		}
+	}
 }
 
 
@@ -3078,6 +3091,140 @@ GEO = { # Georgia
 	}		
 }
 
+GER = { # Germany
+	flag_definition = {
+		coa = GER_modern
+	}
+	flag_definition = {
+		coa = GER_modern
+		priority = 10
+		trigger = { 
+			coa_def_republic_flag_trigger = yes
+		}
+	}
+	flag_definition = {
+		coa = GER_dictatorship
+		priority = 15
+		trigger = { 
+			coa_def_dictatorship_flag_trigger = yes
+		}
+	}
+	flag_definition = {
+		coa = GER_communist
+		priority = 1500
+		trigger = { 
+			coa_def_communist_flag_trigger = yes
+		}
+	}	
+	flag_definition = {
+		coa = GER_fascist
+		subject_canton = GER_fascist
+		priority = 1500
+		trigger = { 
+			coa_def_fascist_flag_trigger = yes
+		}
+	}
+
+### country-specific Germany variants ###
+
+	flag_definition = {
+		coa = GER_bavarian
+		priority = 100
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				has_law = law_type:law_monarchy
+				was_formed_from = BAV
+			}
+		}
+	}	
+	flag_definition = {
+		coa = GER_austrian
+		priority = 100
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				has_law = law_type:law_monarchy
+				was_formed_from = AUS
+			}
+		}
+	}	
+
+	flag_definition = {
+		coa = GER_saxon
+		priority = 100
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				has_law = law_type:law_monarchy
+				was_formed_from = SAX
+			}
+		}
+	}
+
+	flag_definition = {
+		coa = GER_saxon_monarchist
+		priority = 150
+		trigger = {
+			coa_def_absolute_monarchy_flag_trigger = yes
+			exists = scope:actor
+			scope:actor = {
+				was_formed_from = SAX
+			}
+		}
+	}
+
+	flag_definition = {
+		coa = GER_hannover
+		priority = 100
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				has_law = law_type:law_monarchy
+				was_formed_from = HAN
+			}
+		}
+	}
+
+	flag_definition = {
+		coa = GER_wurttemberg
+		priority = 100
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				has_law = law_type:law_monarchy
+				was_formed_from = WUR
+			}
+		}
+	}
+	
+	# Black-White-Red tricolor is reserved for a Prussian monarchy
+	flag_definition = {
+		coa = GER
+		priority = 100
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				has_law = law_type:law_monarchy
+				was_formed_from = PRU
+			}
+		}
+	}
+	flag_definition = {
+		coa = GER_iron_cross
+		priority = 5
+		trigger = {
+			coa_def_autocracy_flag_trigger = yes
+			exists = scope:actor
+			scope:actor = {
+				was_formed_from = PRU
+			}
+		}
+	}	
+}
+
+### end of country-specific Germany variants ###
+
 GGR = { # Greater Germany
 	includes = GER
 	flag_definition = {
@@ -3893,12 +4040,106 @@ ITA = { # Italy
 		priority = 1
 	}
 	flag_definition = {
+		coa = ITA_papal
+		subject_canton = ITA_papal
+		priority = 15
+		
+		trigger = {
+			NOT = { exists = c:PAP } # Can't be Pope if the Pope is still in control of another country!
+			coa_def_theocracy_flag_trigger = yes
+		}
+	}
+
+	### Different monarchist Italies ###
+
+	# Sardinia-Piedmont Italy
+	flag_definition = {
+		coa = ITA
+		priority = 15
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				has_law = law_type:law_monarchy
+				was_formed_from = SAR
+			}
+		}
+	}
+
+	## Two Sicilies Italy
+	flag_definition = {
+		coa = ITA_sicilian
+		subject_canton = ITA_sicilian
+		priority = 15
+		trigger = { 
+			exists = scope:actor
+			scope:actor = {
+				has_law = law_type:law_monarchy
+				was_formed_from = SIC
+			}
+		}
+	}
+
+	# Tuscany Italy
+	flag_definition = {
+		coa = ITA_tuscan
+		priority = 15
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				has_law = law_type:law_monarchy
+				was_formed_from = TUS
+			}
+		}
+	}
+
+	# Modena Italy
+	flag_definition = {
+		coa = ITA_modenan
+		priority = 15
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				has_law = law_type:law_monarchy
+				was_formed_from = MOD
+			}
+		}
+	}
+
+	# Parma Italy
+	flag_definition = {
+		coa = ITA_parmesan
+		priority = 15
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				has_law = law_type:law_monarchy
+				was_formed_from = PAR
+			}
+		}
+	}
+
+	# Lucca Italy
+	flag_definition = {
+		coa = ITA_luccan
+		priority = 15
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				has_law = law_type:law_monarchy
+				was_formed_from = LUC
+			}
+		}
+	}
+
+	### end of country-specific flags ###
+
+	flag_definition = {
 		coa = ITA_republic
 		priority = 10
 		trigger = { 
 			coa_def_republic_flag_trigger = yes
 		}
-	}	
+	}
 	flag_definition = {
 		coa = ITA_dictatorship
 		subject_canton = ITA_dictatorship
