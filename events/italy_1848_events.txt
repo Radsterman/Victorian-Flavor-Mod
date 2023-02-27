@@ -1360,11 +1360,6 @@ italy_1848.15 = {
 		c:SMR = {
 			save_scope_as = smr_scope
 		}
-		s:STATE_LOMBARDY = {
-			random_scope_state = {
-				save_scope_as = lombardy_scope
-			}
-		}
 	}
 
 	option = {
@@ -1594,7 +1589,9 @@ italy_1848.18 = {
 		}
 		if = {
 			limit = {
-				exists = c:SMR
+				c:SMR ?= {
+					is_at_war = no
+				}
 			}
 			c:SMR = {
 				trigger_event = {
