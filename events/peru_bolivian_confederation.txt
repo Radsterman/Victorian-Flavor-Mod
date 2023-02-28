@@ -24,7 +24,7 @@ peru_bolivia_confederation.1 = { #Historical Context
 	desc = peru_bolivia_confederation.1.d
 	flavor =  peru_bolivia_confederation.1.f
 
-	duration = 2
+	duration = 1
 
 	event_image = {
 		video = "gfx/event_pictures/southamerica_war_civilians.bk2"
@@ -33,7 +33,7 @@ peru_bolivia_confederation.1 = { #Historical Context
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/southamerica/war_civilians"
 
-	icon = "gfx/interface/icons/event_icons/event_default.dds"
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
 	trigger = {
 		#triggered at the start
@@ -49,7 +49,7 @@ peru_bolivia_confederation.1 = { #Historical Context
 		c:BOL = {
 			save_scope_as = bol_scope
 		}
-	}
+	}	
 
     option = { 
 		default_option = yes
@@ -150,6 +150,12 @@ peru_bolivia_confederation.2 = { #Fin de la Revuelta
 			exists = c:PEU
 			c:PEU = THIS
 		}
+		c:PEU = {
+			trigger_event = {
+				id = peru_bolivia_confederation.10
+				days = 5
+			}
+		}
 	}
 
 	option = { 
@@ -166,10 +172,15 @@ peru_bolivia_confederation.2 = { #Fin de la Revuelta
 			}
 			set_global_variable = { name = coup_ended }
 		}
+		hidden_effect = {
+			c:CHL = {
+				trigger_event = peru_bolivia_confederation.13
+			}
+		}
 	}
 }
 
-peru_bolivia_confederation.3 = { #El destino del Perú
+peru_bolivia_confederation.3 = { #Division of Peru
 	type = country_event
 	placement = ROOT
 	title = peru_bolivia_confederation.3.t
@@ -187,11 +198,6 @@ peru_bolivia_confederation.3 = { #El destino del Perú
 
 	icon = "gfx/interface/icons/event_icons/event_default.dds"
 
-	immediate = {
-		c:PEU = {
-			save_scope_as = peu_scope
-		}
-	}
 
 	trigger = {
 		#triggered by JE
@@ -285,7 +291,7 @@ peru_bolivia_confederation.3 = { #El destino del Perú
 		}
 		change_relations = {
 			country = c:PEU
-			value = -50
+			value = -20
 		}
 		trigger_event = {
 			id = peru_bolivia_confederation.4
@@ -367,14 +373,6 @@ peru_bolivia_confederation.4 = { #Viva Peru del Sur
 
 		c:ESP = {
 			save_scope_as = esp_scope
-		}
-
-		c:BOL = {
-			save_scope_as = bol_scope
-		}
-
-		c:PEU = {
-			save_scope_as = peu_scope
 		}	
 	}
 
@@ -498,17 +496,6 @@ peru_bolivia_confederation.5 = { #Formalizacion
 	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
 
 	icon = "gfx/interface/icons/event_icons/event_default.dds"
-
-	immediate = {
-		c:PEU = {
-			save_scope_as = peu_scope
-		}
-
-		c:ESP = {
-			save_scope_as = esp_scope
-		}
-		
-	}
 	
 	trigger = {
 
@@ -518,16 +505,8 @@ peru_bolivia_confederation.5 = { #Formalizacion
 		default_option = yes
 		name = peru_bolivia_confederation.5.a
 		create_incident = {
-			value = 15
+			value = 10
 			country = c:PEU
-		}
-		change_relations = {
-			country = c:PEU
-			value = -30
-		}
-		change_relations = {
-			country = c:CHL
-			value = -60
 		}
 		trigger_event = {
 			id = peru_bolivia_confederation.7
@@ -536,7 +515,7 @@ peru_bolivia_confederation.5 = { #Formalizacion
 	}
 }
 
-peru_bolivia_confederation.6 = { #Formalizacion - Peru Unido
+peru_bolivia_confederation.6 = { #Formalizacion - One Peru
 	type = country_event
 	placement = ROOT
 	title = peru_bolivia_confederation.5.t
@@ -561,22 +540,12 @@ peru_bolivia_confederation.6 = { #Formalizacion - Peru Unido
 	option = {
 		default_option = yes
 		name = peru_bolivia_confederation.5.a
+		
 		create_incident = {
-			value = 15
+			value = 5
 			country = c:PEU
 		}
-		change_relations = {
-			country = c:PEU
-			value = -30
-		}
-		change_relations = {
-			country = c:ARG
-			value = -30
-		}
-		change_relations = {
-			country = c:CHL
-			value = -90
-		}
+
 		trigger_event = {
 			id = peru_bolivia_confederation.7
 			months = 6
@@ -632,7 +601,7 @@ peru_bolivia_confederation.7 = { #Pacto de Tacna
 	}
 }
 
-peru_bolivia_confederation.8 = { #Consolidacion
+peru_bolivia_confederation.8 = { #Consolidation 
 	type = country_event
 	placement = ROOT
 	title = peru_bolivia_confederation.8.t
@@ -648,7 +617,7 @@ peru_bolivia_confederation.8 = { #Consolidacion
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
 
-	icon = "gfx/interface/icons/event_icons/event_default.dds"
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
 	trigger = {
 		# triggered by JE
@@ -656,7 +625,8 @@ peru_bolivia_confederation.8 = { #Consolidacion
 
 	option = { 
 	    default_option = yes
-	    name = peru_bolivia_confederation.8.a
+	    name = peru_bolivia_confederation.8.a	
+		
 		c:BOL = {
           annex = c:PEU
         }
@@ -706,6 +676,8 @@ peru_bolivia_confederation.8 = { #Consolidacion
 				set_state_type = incorporated
 		    }
         }
+
+		change_tag = PBC
 	}
 }
 
@@ -728,6 +700,433 @@ peru_bolivia_confederation.9 = { #Elecciones
 		trigger_event = {
 			id = peru_bolivia_confederation.9
 			days = 3655
+		}
+	}
+}
+
+peru_bolivia_confederation.10 = { #Peru - Aliaga
+	type = country_event
+	placement = ROOT
+	title = peru_bolivia_confederation.10.t
+	desc = peru_bolivia_confederation.10.d
+	flavor = peru_bolivia_confederation.10.f
+	
+	duration = 1
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_aristocrats.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	trigger = {
+
+	}
+
+	immediate = {
+		c:CHL = {
+			save_scope_as = chl_scope
+		}
+	}
+	
+	option = { 
+		name = peru_bolivia_confederation.10.a
+		
+		change_relations = {
+			country = c:CHL
+			value = 25
+		}
+		change_relations = {
+			country = c:BOL
+			value = -20
+		}
+		add_loyalists = {
+			strata = rich
+			value = 0.15
+		}
+		add_radicals = {
+			strata = poor
+			value = 0.05
+		}
+		c:BOL = {
+			trigger_event = peru_bolivia_confederation.11
+		}
+
+		ai_chance = 75
+	}
+
+	option = { 
+		default_option = yes
+		name = peru_bolivia_confederation.10.b
+
+		change_relations = {
+			country = c:CHL
+			value = 15
+		}
+		change_relations = {
+			country = c:BOL
+			value = -10
+		}
+		add_radicals = {
+			strata = rich
+			value = 0.1
+		}
+		c:BOL = {
+			trigger_event = {
+				id = peru_bolivia_confederation.12
+			}
+		}
+
+		ai_chance = 25
+	}
+}
+
+peru_bolivia_confederation.11 = { #Bolivian reaction/notification of Aliaga - Worse
+ 	type = country_event
+	placement = ROOT
+	title = peru_bolivia_confederation.11.t
+	desc = peru_bolivia_confederation.11.d
+	flavor = peru_bolivia_confederation.11.f
+	
+	duration = 1
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_aristocrats.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	trigger = {
+
+	}
+
+	option = {
+		default_option = yes
+		name = peru_bolivia_confederation.11.a
+		change_relations = {
+			country = c:CHL
+			value = -25
+		}
+		add_radicals = {
+			value = 0.1	
+		}
+		ai_chance = 25
+	}
+
+	option = {
+		default_option = yes
+		name = peru_bolivia_confederation.11.b
+		change_relations = {
+			country = c:CHL
+			value = -25
+		}
+		change_relations = {
+			country = c:PEU
+			value = -10
+		}
+		add_loyalists = {
+			value = 0.05
+		}
+		ai_chance = 75
+	}
+}
+
+peru_bolivia_confederation.12 = { #Bolivian reaction/notification of Aliaga - Better
+ 	type = country_event
+	placement = ROOT
+	title = peru_bolivia_confederation.12.t
+	desc = peru_bolivia_confederation.12.d
+	flavor = peru_bolivia_confederation.12.f
+	
+	duration = 1
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_aristocrats.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	trigger = {
+
+	}
+
+	option = {
+		default_option = yes
+		name = peru_bolivia_confederation.11.a
+		change_relations = {
+			country = c:CHL
+			value = -20
+		}
+		add_radicals = {
+			value = 0.1	
+		}
+		ai_chance = 25
+	}
+
+	option = {
+		default_option = yes
+		name = peru_bolivia_confederation.11.b
+		change_relations = {
+			country = c:CHL
+			value = -20
+		}
+		change_relations = {
+			country = c:PEU
+			value = -10
+		}
+		add_loyalists = {
+			value = 0.05
+		}
+		ai_chance = 75
+	}
+}
+
+peru_bolivia_confederation.13 = { Portales Chile
+
+	type = country_event
+	placement = ROOT
+	title = peru_bolivia_confederation.13.t
+	desc = peru_bolivia_confederation.13.d
+	flavor = peru_bolivia_confederation.13.f
+
+	duration = 1
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
+	}
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	immediate = {
+		c:BOL = {
+			trigger_event = {
+				id = peru_bolivia_confederation.14
+				months = 10
+			}
+			save_scope_as = bol_scope
+		}
+	}
+
+	trigger = {
+
+	}
+
+	option = {
+		name = peru_bolivia_confederation.13.a
+		
+		create_diplomatic_pact = {
+			country = c:BOL
+			type = rivalry
+		}
+
+		change_relations = {
+			country = c:BOL
+			value = -20
+		}
+
+		add_loyalists = {
+			strata = rich
+			value = 0.05	
+		}
+
+		ai_chance = 25
+	}
+
+	option = {
+		default_option = yes
+		name = peru_bolivia_confederation.13.b
+
+		add_radicals = {
+			strata = rich
+			value = 0.07
+		}
+		ai_chance = 75
+	}
+}
+
+
+peru_bolivia_confederation.14 = { #Kill Portales Plot
+
+	type = country_event
+	placement = ROOT
+	title = peru_bolivia_confederation.14.t
+	desc = peru_bolivia_confederation.14.d
+	flavor = peru_bolivia_confederation.14.f
+
+	duration = 1
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
+	}
+
+	immediate = {
+		c:CHL = {
+			save_scope_as = chl_scope
+		}
+	}
+
+	trigger = {
+
+	}
+
+	option = {
+		name = peru_bolivia_confederation.14.a
+
+        c:CHL = {
+			trigger_event = {
+				id = peru_bolivia_confederation.15
+			}
+		}
+			
+		random_list = {
+
+			25 = {
+				c:CHL = {
+					trigger_event = peru_bolivia_confederation.16
+				}
+			}
+
+			75 = {
+				#nothing
+			}	
+		}
+
+		ai_chance = 50
+	}
+
+	option = {
+		default_option = yes
+		name = peru_bolivia_confederation.14.b
+
+		change_relations = {
+			country = c:CHL 
+			value = -20
+		}
+
+		hidden_effect = {
+			random_list = {
+
+				50 = {
+					c:CHL = {
+						trigger_event = peru_bolivia_confederation.15
+					}
+				}
+
+				50 = {
+					#nothing
+				}	
+			}
+		}
+	
+		ai_chance = 50
+	}
+}
+
+peru_bolivia_confederation.15 = { #Death of Portales
+
+	type = country_event
+	placement = ROOT
+	title = peru_bolivia_confederation.15.t
+	desc = peru_bolivia_confederation.15.d
+	flavor = peru_bolivia_confederation.15.f
+
+	duration = 1
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
+	}
+
+	immediate = {
+		c:CHL = {
+			random_scope_character = {
+				limit = {
+					has_variable = is_portales
+				}
+				save_scope_as = portales_scope
+		    }
+		}
+		scope:portales_scope = {
+			kill_character = yes
+		}
+	}
+
+	trigger = {
+
+	}
+
+	option = {
+
+		name = peru_bolivia_confederation.15.a
+
+		change_relations = {
+			country = c:BOL
+			value = -30
+		}
+		add_loyalists = {
+			value = 0.1
+		}
+
+		c:BOl = {
+			post_notification = rumors_have_spread_of_bolivias_involvement
+		}
+	}
+
+	option = {
+
+		default_option = yes
+		name = peru_bolivia_confederation.15.b
+
+		add_radicals = {
+			value = 0.1
+		}
+	}
+}
+
+peru_bolivia_confederation.16 = { #Proof of Santa Cruz's involvement in the plot
+	
+	type = country_event
+	placement = ROOT
+	title = peru_bolivia_confederation.16.t
+	desc = peru_bolivia_confederation.16.d
+	flavor = peru_bolivia_confederation.16.f
+
+	duration = 1
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
+	}
+
+	immediate = {
+		c:BOL = {
+			save_scope_as = bol_scope
+		}
+	}
+
+	trigger = {
+
+	}
+
+	option = {
+
+		is default_option = yes
+		name = peru_bolivia_confederation.16.a
+
+		change_relations = {
+			country = c:BOL
+			value = -50
+		}
+
+		c:BOL = {
+			post_notification = chile_found_proof_of_the_plot
 		}
 	}
 }
