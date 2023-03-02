@@ -1,0 +1,44 @@
+﻿je_patagonia = {
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	is_shown_when_inactive = {
+		exists = c:PAT
+		any_neighbouring_state = {
+			owner = c:PAT
+		}
+		OR = {
+			country_has_primary_culture = cu:south_andean
+			country_has_primary_culture = cu:platinean
+		}
+	}
+
+	possible = {
+		OR = {
+			has_law = law_type:law_colonial_exploitation
+			has_law = law_type:law_colonial_resettlement
+		}
+	}
+
+	complete = {
+		OR = {
+			country_or_subject_owns_entire_state_region = STATE_ARAUCANIA
+			AND = {
+				country_or_subject_owns_entire_state_region = STATE_PATAGONIA
+				country_or_subject_owns_entire_state_region = STATE_RIO_NEGRO
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { id = patagonia.1 }
+	}
+
+	on_monthly_pulse = {
+		random_events = {
+			100 = 0
+			10 = patagonia.2
+		}
+	}
+
+	weight = 20
+}
