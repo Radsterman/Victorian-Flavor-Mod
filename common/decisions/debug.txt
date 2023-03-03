@@ -1,0 +1,176 @@
+﻿#Annexes all of the world to the player country, useful for getting rid of split states and comparing goods potential
+#annex_world = {
+#	is_shown = {
+#	}
+#
+#	possible = {
+#	}
+#
+#	when_taken = {
+#		every_country = {
+#			while = {
+#				limit = {
+#					any_country = {
+#						count > 0
+#					}
+#				}
+#				every_country = {
+#					save_scope_as = annex_target
+#					ROOT = {
+#						annex = scope:annex_target
+#					}
+#				}
+#			}
+#		}
+#	}
+#
+#	ai_chance = {
+#		base = 0
+#	}
+#}
+
+dissolve_parliament = {
+	possible = {
+		NOT = { in_election_campaign = yes }
+	}
+	when_taken = {
+		call_election = {
+			months = 1
+		}
+	}
+}
+
+#create_secretary_of_state_variable = {
+#	when_taken = {
+#		ruler = {
+#			set_variable = secretary_of_state
+#		}
+#	}
+#}
+#
+create_secretary_of_state_global = {
+#   when_taken = {
+#		random_scope_character = {
+#			limit = {
+#				NOT = {
+#					has_variable = vice_president
+#					has_variable = prime_minister
+#					has_variable = secretary_of_state
+#					is_ruler = yes
+#					is_heir = yes
+#				}
+#				interest_group = {
+#					is_in_government = yes
+#					leader = PREV
+#				}
+#			}
+#			save_scope_as = test_character
+#		}
+#       set_variable = {
+#			name = prime_minister
+#			value = scope:test_character
+#       }
+#		scope:test_character = {
+#			set_variable = prime_minister_trigger
+#		}
+#   }
+	when_taken = {
+		ruler = {
+			kill_character = yes
+		}
+	}
+}
+
+variable_this_country = {
+    when_taken = {
+		random_scope_character = {
+			limit = {
+				NOT = {
+					has_variable = vice_president
+					has_variable = prime_minister
+					has_variable = secretary_of_state
+					is_ruler = yes
+					is_heir = yes
+					has_role = general
+					has_role = admiral
+				}
+				interest_group = {
+					is_marginal = no
+					is_interest_group_type = ig_rural_folk
+				}
+			}
+			save_scope_as = test_character
+		}
+        set_variable = {
+			name = vice_president
+			value = scope:test_character
+        }
+		scope:test_character = {
+			set_variable = vice_president_trigger
+		}
+    }
+}
+
+create_vice_president_debug = {
+    when_taken = {
+		random_scope_character = {
+			limit = {
+				NOT = {
+					has_variable = vice_president
+					has_variable = prime_minister
+					has_variable = secretary_of_state
+					is_ruler = yes
+					is_heir = yes
+				}
+			}
+			save_scope_as = test_character
+		}
+        #add_to_global_variable_list = { name = international_organizations target = this.je:je_german_confederation }
+        set_variable = {
+			name = vice_president
+			value = scope:test_character
+        }
+    }
+}
+
+create_secretary_of_state_debug = {
+    when_taken = {
+		random_scope_character = {
+			limit = {
+				NOT = {
+					has_variable = vice_president
+					has_variable = prime_minister
+					has_variable = secretary_of_state
+					is_ruler = yes
+					is_heir = yes
+				}
+			}
+			save_scope_as = test_character
+		}
+        set_variable = {
+			name = secretary_of_state
+			value = scope:test_character
+        }
+    }
+}
+
+create_prime_minister_debug = {
+    when_taken = {
+		random_scope_character = {
+			limit = {
+				NOT = {
+					has_variable = vice_president
+					has_variable = prime_minister
+					has_variable = secretary_of_state
+					is_ruler = yes
+					is_heir = yes
+				}
+			}
+			save_scope_as = test_character
+		}
+        set_variable = {
+			name = prime_minister
+			value = scope:test_character
+        }
+    }
+}

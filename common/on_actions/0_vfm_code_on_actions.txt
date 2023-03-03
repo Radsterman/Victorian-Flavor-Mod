@@ -166,3 +166,161 @@ on_capitulation = {
 		}
 	}
 }
+
+# Root = Character
+on_character_creation = {
+}
+
+# Root = Character
+on_character_death = {
+	effect = {
+		if = {
+			limit = {
+				is_ruler = yes
+				exists = c:HAW
+				owner = c:HAW
+				owner = {
+					has_law = law_type:law_monarchy
+					NOT = { has_variable = death_of_kamehameha }
+					NOT = { has_global_variable = gp_hawaii_interest }
+				}
+			}
+			owner = {
+				trigger_event = hawaii_events.1
+			}
+		}
+		
+		if = {
+			limit = {
+				has_variable = expedition_leader_var
+			}
+			owner = {
+				trigger_event = expedition_events.110
+			}
+		}
+
+		##Vice President, if exists, replaces dead President in Presidential Republics
+		#if = {
+		#	limit = {
+		#		is_ruler = yes
+		#		owner = {
+		#			has_law = law_type:law_presidential_republic
+		#		}
+		#		any_scope_character = {
+		#			has_variable = vice_president_trigger
+		#		}
+		#	}
+		#	owner = {
+		#		every_scope_character = {
+		#			limit = { has_variable = vice_president_trigger }
+		#			remove_variable = vice_president
+		#			remove_variable = vice_president_trigger
+		#			save_scope_as = former_vice_president
+		#		}
+		#		create_character = {
+		#			first_name = scope:former_vice_president
+		#			last_name = scope:former_vice_president
+		#			ruler = yes
+		#			culture = scope:former_vice_president
+		#			interest_group = scope:former_vice_president
+		#			ideology = scope:former_vice_president
+		#			birth_date = scope:former_vice_president
+		#			traits = scope:former_vice_president
+		#		}
+		#		create_character = {
+		#			on_created = {
+		#				set_variable = {
+		#					name = vice_president
+		#					value = prev
+		#				}
+		#				set_variable = vice_president_trigger
+		#			}
+		#		}
+		#	}
+		#}
+
+		#Succession to the Crown Act 1707, Parliament dissolved on Monarch death
+		if = {
+			limit = {
+				is_ruler = yes
+				exists = c:GBR
+				owner = c:GBR
+				owner = {
+					has_law = law_type:law_monarchy
+					country_has_voting_franchise = yes
+				}
+			}
+			owner = {
+				call_election = {
+					months = 1
+				}
+			}
+		}
+	}
+}
+
+#BROKEN, USE BELOW ELECTION ON ACTIONS
+# Root = Country
+on_election_campaign_start = {
+	effect = {
+		debug_log = "Election Campaign Started"
+	}
+}
+
+#BROKEN, USE BELOW ELECTION ON ACTIONS
+# Root = Country
+on_election_campaign_end = {
+	effect = {
+		debug_log = "Election Campaign Ended"
+	}
+}
+
+on_election_started = {
+	trigger = { in_election_campaign = yes }
+	effect = { 
+		set_variable = election_onging
+	}
+}
+
+on_election_ended = {
+	trigger = {
+		in_election_campaign = no
+		has_variable = election_onging
+	}
+	effect = {
+		remove_variable = election_onging
+		
+		#Septennial Act 1715, 7 year maximum unless Parliament dissolved or Monarch dies
+		if = {
+			limit = {
+				exists = c:GBR
+				this = c:GBR
+				c:GBR = {
+					has_law = law_type:law_monarchy
+					country_has_voting_franchise = yes
+				}
+			}
+			call_election = {
+				months = 84
+			}
+		}
+	}
+}
+
+# Root owner Country of the Law
+# executed when the law is activated for any reason. It's usually because it
+# has been enacted, but script can activate laws directly without going through
+# the enactment process. Normally, it's immediately preceded by
+# on_law_enactment_ended, but if a law is directly set by script, thus
+# bypassing the enactment process, this will execute while
+# on_law_enactment_ended will not
+#
+# NOTE: unlike the other on_law_<something> on-actions, at the point in time
+# when this is triggered the law that was enacted is no longer considered being
+# enacted. Therefore using the `currently_enacting_law` link will return the
+# null law
+on_law_activated = {
+	effect = {
+
+	}
+}
