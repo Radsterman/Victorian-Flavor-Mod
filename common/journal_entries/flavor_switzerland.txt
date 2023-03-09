@@ -88,3 +88,51 @@
 
 	weight = 20
 }
+
+je_sonderbund_war = {
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	
+	on_complete = {
+
+		every_country = {
+			limit = {
+				country_has_primary_culture = cu:swiss
+				NOT = {this = ROOT}
+			}
+			save_scope_as = annex_scope
+			ROOT = {
+				annex = scope:annex_scope
+			}
+		}
+	}
+	
+	complete = {
+
+		custom_tooltip = {
+			text = sonderbund_tt
+
+			NOT = {
+				any_country = {
+					AND = {
+						country_has_primary_culture = cu:swiss
+						NOT = {
+							this = ROOT
+						}
+						NOT = c:API
+						NOT = c:NTL
+					}
+				}
+			}
+		}
+
+	}
+
+
+	
+
+	
+
+
+	weight = 20
+}
