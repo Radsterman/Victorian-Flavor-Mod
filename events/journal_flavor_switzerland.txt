@@ -1,0 +1,109 @@
+﻿namespace = journal_flavor_switzerland
+
+journal_flavor_switzerland.1 = { 
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_switzerland.1.t
+	desc = journal_flavor_switzerland.1.d
+	flavor = journal_flavor_switzerland.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_military_parade.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/military_parade"
+
+	icon = "gfx/interface/icons/event_icons/event_centralization.dds"
+
+	duration = 1
+
+	immediate = {
+	}
+
+	option = {
+		name = journal_flavor_switzerland.1.a
+		default_option = yes
+		
+		every_country = {
+			limit = {
+				is_subject_type = subject_type_confederation
+				overlord = ROOT
+				is_player = no
+			}
+			save_scope_as = annex_scope
+			ROOT = {
+				annex = scope:annex_scope
+			}
+		}
+
+	    ai_chance = {
+			base = 1	
+		}
+    }
+}
+
+journal_flavor_switzerland.2 = { 
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_switzerland.2.t
+	desc = journal_flavor_switzerland.2.d
+	flavor = journal_flavor_switzerland.2.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_military_parade.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/military_parade"
+
+	icon = "gfx/interface/icons/event_icons/event_centralization.dds"
+
+	duration = 1
+
+	immediate = {
+	}
+
+	option = {
+		name = journal_flavor_switzerland.2.a
+		default_option = yes
+		
+		if = {
+			limit = {
+				country_has_state_religion = rel:reformed
+			}
+			every_country = {
+				limit = {
+					is_subject_type = subject_type_confederation
+					overlord = ROOT
+					country_has_state_religion = rel:reformed
+					is_player = no
+				}
+				save_scope_as = annex_scope
+				ROOT = {
+					annex = scope:annex_scope
+				}
+			}
+		}
+		else = {
+			every_country = {
+				limit = {
+					is_subject_type = subject_type_confederation
+					overlord = ROOT
+					country_has_state_religion = rel:catholic
+					is_player = no
+				}
+				save_scope_as = annex_scope
+				ROOT = {
+					annex = scope:annex_scope
+				}
+			}
+		}
+
+	    ai_chance = {
+			base = 1	
+		}
+    }
+}

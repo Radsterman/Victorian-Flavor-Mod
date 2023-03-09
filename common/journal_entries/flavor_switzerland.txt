@@ -1,0 +1,90 @@
+﻿je_switzerland_constitution = {
+	icon = "gfx/interface/icons/event_icons/event_scales"
+
+	is_shown_when_inactive = {
+		country_has_primary_culture = cu:swiss
+		OR={
+			is_subject_type = subject_type_confederation
+			any_country = {
+				is_subject_type = subject_type_confederation
+				overlord = ROOT
+			}
+		}
+	}
+
+	possible = {
+		any_country = {
+			is_subject_type = subject_type_confederation
+			overlord = ROOT
+		}
+	}
+
+	can_deactivate = yes
+
+	complete = {
+			AND = {
+				bureaucracy > 0
+				approaching_bureaucracy_shortage = no
+				institution_investment_level = {
+					institution = institution_centralization
+					value >= 2
+				}
+			}
+			AND = {
+				OR = {
+					AND = {
+						country_has_state_religion = rel:reformed
+						NOT = {
+							any_country = {
+								is_subject_type = subject_type_confederation
+								country_has_state_religion = rel:catholic
+								overlord = ROOT
+							}
+						}
+					}
+					AND = {
+						country_has_state_religion = rel:catholic
+						NOT = {
+							any_country = {
+								is_subject_type = subject_type_confederation
+								country_has_state_religion = rel:reformed
+								overlord = ROOT
+							}
+						}
+					}
+				}
+			}
+	}
+
+	fail = {
+		AND = {
+			institution_investment_level = {
+				institution = institution_centralization
+				value >= 2
+			}
+			OR = {
+				NOT = { has_law = law_type:law_religious_schools }
+				NOT = { has_law = law_type:law_censorship }
+			}
+		}
+	}
+
+	invalid = {
+		NOT = {
+			any_country = {
+				is_subject_type = subject_type_confederation
+				overlord = ROOT
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { id = journal_flavor_switzerland.1 }
+	}
+
+	on_fail = {
+		trigger_event = { id = journal_flavor_switzerland.2 }
+	}
+
+	weight = 20
+}
