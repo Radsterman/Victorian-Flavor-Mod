@@ -13,10 +13,13 @@
 	}
 
 	possible = {
-		any_country = {
-			is_subject_type = subject_type_confederation
-			overlord = ROOT
-		}
+		custom_tooltip = {
+			text = swiss_confederation_tt
+			any_country = {
+				is_subject_type = subject_type_confederation
+				overlord = ROOT
+			}
+	}
 	}
 
 	can_deactivate = yes
@@ -30,10 +33,29 @@
 					value >= 2
 				}
 			}
-			AND = {
+
+			OR = {
+				has_law = law_type:law_freedom_of_conscience
+				has_law = law_type:law_total_separation
+			}
+			
+
+			custom_tooltip = {
+				text = swiss_constitution_complete_tt
 				OR = {
 					AND = {
 						country_has_state_religion = rel:reformed
+						OR = {
+							NOT = {
+								any_country = {
+									country_has_primary_culture = cu:swiss
+									country_has_state_religion = rel:catholic
+	
+									relations:root < relations_threshold:amicable
+								}
+							}
+
+					
 						NOT = {
 							any_country = {
 								is_subject_type = subject_type_confederation
@@ -42,8 +64,20 @@
 							}
 						}
 					}
+					}
 					AND = {
 						country_has_state_religion = rel:catholic
+						OR = {
+							NOT = {
+								any_country = {
+									country_has_primary_culture = cu:swiss
+									country_has_state_religion = rel:reformed
+		
+											relations:root < relations_threshold:amicable
+
+								}
+							}
+						
 						NOT = {
 							any_country = {
 								is_subject_type = subject_type_confederation
@@ -52,21 +86,12 @@
 							}
 						}
 					}
+					}
 				}
 			}
-	}
+			
 
-	fail = {
-		AND = {
-			institution_investment_level = {
-				institution = institution_centralization
-				value >= 2
-			}
-			OR = {
-				NOT = { has_law = law_type:law_religious_schools }
-				NOT = { has_law = law_type:law_censorship }
-			}
-		}
+
 	}
 
 	invalid = {
@@ -82,7 +107,9 @@
 		trigger_event = { id = journal_flavor_switzerland.1 }
 	}
 
-	on_fail = {
+	timeout = 4383
+
+	on_timeout = {
 		trigger_event = { id = journal_flavor_switzerland.2 }
 	}
 
