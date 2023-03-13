@@ -186,7 +186,7 @@ ai_strategy_default = {
 	# How much value does the AI place on an obligation from another country?
 	# Using this value in other strategies will function additively
 	obligation_value = {
-		value = 15
+		value = 5
 	
 		# Compare ranks - higher rank than us has increased value, lower rank decreased value
 		add = {
@@ -212,7 +212,7 @@ ai_strategy_default = {
 					}			
 				}			
 			}
-			add = 20
+			add = 15
 		}
 		
 		# Rebellious AI wants to use the obligation to break free
@@ -429,7 +429,18 @@ ai_strategy_default = {
 					has_journal_entry = je_age_of_princes
 				}
 			}
-			add = 1
+			add = 0.5
+		}
+
+		#Italian Nightmare
+		if = {
+			limit = {
+				has_journal_entry = je_italian_unification
+				scope:target_country = {
+					has_journal_entry = je_italian_unification
+				}
+			}
+			add = 0.5
 		}
 
 		# Warlord China Thunderdome
@@ -548,7 +559,7 @@ ai_strategy_default = {
 					this ?= c:CHI
 				}
 			}
-			add = 25
+			add = 10
 		}
 		else_if = {
 			limit = {
@@ -570,10 +581,10 @@ ai_strategy_default = {
 					this ?= c:CHI
 				}
 			}
-			add = 75
+			add = 25
 		}
 
-		# Ottomans should be extremely aggressive against owners of Syria and Egypt when they have the relevant JE's
+		# Ottomans should be very aggressive against owners of Syria and Egypt when they have the relevant JE's
 		if = {
 			limit = {
 				OR = {
@@ -603,7 +614,7 @@ ai_strategy_default = {
 					}
 				}
 			}
-			add = 100
+			add = 25
 		}
 
 		# USA should be extremely aggressive against owners of their Manifest Destiny states
@@ -623,7 +634,7 @@ ai_strategy_default = {
 					}
 				}
 			}
-			add = 100
+			add = 25
 		}
 
 		# Extra french aggression for Haiti renouncing debt payments
@@ -637,7 +648,7 @@ ai_strategy_default = {
 					}
 				}				
 			}
-			add = 10
+			add = 5
 		}
 
 		# Extra aggression against Peru-Bolivia
@@ -654,29 +665,6 @@ ai_strategy_default = {
 			add = 25
 		}
 
-		# Ethiopian Thunderdome
-		if = {
-			limit = {
-				has_journal_entry = je_age_of_princes
-				scope:target_country = {
-					has_journal_entry = je_age_of_princes
-				}
-			}
-			add = 100
-		}
-
-		# Warlord China Thunderdome
-		if = {
-			limit = {
-				has_global_variable = china_shatters
-				has_variable = warlord_state
-				scope:target_country = {
-					has_variable = warlord_state
-				}
-			}
-			add = 100
-		}
-
 		# Veiled Protectorate
 		if = {
 			limit = {
@@ -686,7 +674,7 @@ ai_strategy_default = {
 					THIS = c:EGY
 				}
 			}
-			add = 25
+			add = 5
 		}
 
 		# East India Company vs its neighbors
@@ -710,7 +698,7 @@ ai_strategy_default = {
 					}
 				}
 			}
-			add = 25
+			add = 5
 		}
 
 		if = { #Russian Caucasus
@@ -726,7 +714,7 @@ ai_strategy_default = {
 					}
 				}
 			}
-			add = 25
+			add = 10
 	}
 	
 		if = { #Russian Far East
@@ -743,7 +731,7 @@ ai_strategy_default = {
 					}
 				}
 			}
-			add = 25
+			add = 10
 		}
 
 		if = { #Russian Central Asia
@@ -764,7 +752,7 @@ ai_strategy_default = {
 				}
 				can_reach_target_country = yes
 			}
-			add = 25
+			add = 10
 		}
 
 		# Aggression against Council Republics
@@ -779,7 +767,16 @@ ai_strategy_default = {
 					}
 				}
 			}
-			add = 75
+			add = 5
+		}
+		
+		if = { # The EIC/Raj should never go against its suzerain, as doing so is suicide
+			limit = {
+				exists = c:BIC
+				this = c:BIC
+				is_subject_of = scope:target_country
+			}
+			multiply = 0.0
 		}
 
 		if = { #Indian suzerain will be aggressive against Russia
@@ -829,7 +826,7 @@ ai_strategy_default = {
 					}
 				}
 			}
-			add = 25
+			add = 5
 		}
 	}
 	
@@ -1343,7 +1340,6 @@ ai_strategy_default = {
 				}
 				add = 1000
 			}			
-		}	
 		if = {
 			limit = {
 				country_is_in_europe = yes
@@ -1357,6 +1353,7 @@ ai_strategy_default = {
 				}
 			}
 			add = 50
+		}
 		}
 		region_pacific_coast = {
 			if = {
@@ -3247,12 +3244,12 @@ ai_strategy_default = {
 				add = 100
 			}
 
-			#if = {
-			#	limit = {
-			#		country_has_primary_culture = cu:russian
-			#		has_law = law_type:law_national_supremacy
-			#		has_technology_researched = nationalism
-			#		OR = {
+			if = {
+				limit = {
+					country_has_primary_culture = cu:russian
+					has_law = law_type:law_national_supremacy
+					has_technology_researched = nationalism
+					OR = {
 			#			AND = {	
 			#				exists = c:KZH
 			#				scope:target_country = {
@@ -3271,10 +3268,34 @@ ai_strategy_default = {
 			#					this = c:OZH
 			#				}
 			#			}
-			#		}
-			#	}
-			#	add = 100
-			#}
+			AND = {	
+				exists = c:KOK
+				scope:target_country = {
+					this = c:KOK
+				}
+			}
+			AND = {	
+				exists = c:KHI
+				scope:target_country = {
+					this = c:KHI
+				}
+			}
+			AND = {	
+				exists = c:BUK
+				scope:target_country = {
+					this = c:BUK
+				}
+			}
+			AND = {	
+				exists = c:AFG
+				scope:target_country = {
+					this = c:AFG
+				}
+			}
+					}
+				}
+				add = 100
+			}
 
 			if = { #Indian suzerain will be aggressive against Afganistan, if Afghanistan is threatened by Russia.
 				limit = {
@@ -3710,7 +3731,12 @@ ai_strategy_default = {
 		}		
 
 		revoke_claim = {
-			value = 10
+			if = {
+				limit = {
+					scope:target_state = { owner = root }
+				}
+				
+				add = 10
 			
 			add = {
 				value = scope:target_state.state_population
@@ -3736,6 +3762,7 @@ ai_strategy_default = {
 					scope:target_state = { is_incorporated = no }
 				}
 				multiply = 0.5
+				}				
 			}
 
 			min = 0
