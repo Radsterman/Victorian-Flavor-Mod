@@ -28,7 +28,17 @@ on_monthly_pulse_country = {
 		italy_flavor.2
 		exp_thousand.7
 		exp_thousand.8
+		exp_thousand.103
+		exp_thousand.107
 		exp_thousand.108
+		france_event.2
+		france_event.6
+		france_event.7
+		france_event.8
+		france_event.9
+		france_event.13
+		france_event.16
+		france_event.17
 	}
 	# Election Events
 	random_events = {
@@ -65,6 +75,15 @@ on_monthly_pulse_country = {
 		1 = election_other_parties_events.4
 		1 = election_other_parties_events.5
 		1 = ig_leaders.3
+	}
+	random_events = {
+		5 = france_event.1
+		7 = france_event.14
+	}
+}
+
+on_weekly_pulse = {
+	events = {
 	}
 }
 
@@ -252,6 +271,23 @@ on_character_death = {
 						}
 					}
 				}
+			}
+		}
+
+		if = {
+			limit = {
+				is_ruler = yes
+				exists = c:FRA
+				owner = c:FRA
+				owner = {
+					has_law = law_type:law_monarchy
+					has_variable = napoleon3_on_death
+				}
+			}
+			owner = {
+				remove_variable = napoleon3
+				remove_variable = napoleon3_elected
+				trigger_event = france_event.22
 			}
 		}
 

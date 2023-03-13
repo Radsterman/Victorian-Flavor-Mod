@@ -66,13 +66,18 @@ exp_thousand.3 = {
 	duration = 1
 
 	immediate = {
+		random_country = {
+			limit = {
+				has_variable = garibaldi_redshirts
+			}
+			save_scope_as = ita_scope
+		}
 		scope:ita_scope = {
 			random_scope_character = {
 				limit = {has_variable = thousand_commander}
 				save_scope_as = exp_commander
 			}		
 		}
-		remove_variable = garibaldi_redshirts
 	}
 
 	option = {
@@ -131,7 +136,6 @@ exp_thousand.4 = {
 				save_scope_as = umbria_scope
 			}
 		}
-		remove_variable = garibaldi_redshirts
 		scope:exp_commander = {
 			set_character_busy = no
 			remove_variable = thousand_commander
@@ -144,10 +148,54 @@ exp_thousand.4 = {
 		name = exp_thousand.4.a
 		default_option = yes
 
+		create_incident = {
+			country = c:PAP
+			value = 15
+		}
+
+		annex = c:SIC
+		every_state = {
+			limit = {
+				NOT = {
+					state_region = s:STATE_LAZIO
+				}
+				owner = c:PAP
+			}
+			set_state_owner = scope:ita_scope
+		}
+		s:STATE_LAZIO = {
+			set_owner_of_provinces = {
+				country = ROOT
+				provinces = { x3040A0 }
+			}
+		}
+
+		c:PAP = {
+			change_relations = {
+				country = ROOT
+				value = -50
+			}	
+		}
+    	hidden_effect = {
+			create_truce = {
+				country = c:PAP
+				months = 60
+			}
+		}
+
+		set_variable = umbria_marche_invasion
+
+	    ai_chance = {
+			base = 95	
+		}
+    }
+	option = {
+		name = exp_thousand.4.b
+
 		annex = c:SIC
 
 	    ai_chance = {
-			base = 1	
+			base = 5	
 		}
     }
 }
@@ -284,9 +332,16 @@ exp_thousand.7 = {
 	trigger = {
 		NOT = {
 			OR = {
-				this = c:SIC
-				this = c:PAP
+				AND = {
+					exists = c:SIC	
+					this = c:SIC
+				}
+				AND = {
+					exists = c:PAP	
+					this = c:PAP
+				}
 			}
+			exists = c:SCL
 			exists = c:ITA
 			has_global_variable = exp_thousand_happened 
 		}
@@ -309,11 +364,16 @@ exp_thousand.7 = {
 					civil_war_progress >= 1
 				}
 				any_scope_state = {
-					turmoil >= 0.25
+					turmoil >= 0.15
 				}
 				radical_fraction = {
-					value >= 0.3
+					value >= 0.2
 				}
+				any_interest_group = {
+					is_marginal = no
+					is_insurrectionary = yes
+				}
+				has_journal_entry = je_springtime_of_the_peoples	
 			}
 		}
 	}
@@ -816,7 +876,7 @@ exp_thousand.105 = {
 		}
 
 	    ai_chance = {
-			base = 80	
+			base = 5
 		}
     }
 	option = {
@@ -854,7 +914,7 @@ exp_thousand.105 = {
 		}
 
 	    ai_chance = {
-			base = 20
+			base = 5
 		}
     }
 }
@@ -926,7 +986,7 @@ exp_thousand.106 = {
 		set_variable = thousand_naples
 
 	    ai_chance = {
-			base = 90	
+			base = 75
 		}
     }
 	option = {
@@ -959,7 +1019,7 @@ exp_thousand.106 = {
 		set_variable = thousand_naples
 
 	    ai_chance = {
-			base = 10
+			base = 25
 		}
     }
 }
@@ -1213,6 +1273,7 @@ exp_thousand.111 = { #Random battle
 
 	option = {
 		name = exp_thousand.111.a
+		default_option = yes
 
  		add_small_peril_effect = yes
 

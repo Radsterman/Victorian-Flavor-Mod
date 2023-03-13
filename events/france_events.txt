@@ -1,0 +1,1902 @@
+﻿namespace = france_event
+
+#Napoleon 3 extradition from Switzerland
+france_event.1 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.1.t
+	desc = france_event.1.d
+	flavor = france_event.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_aristocrats.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	duration = 3
+
+	trigger = {
+		this ?= c:FRA
+		exists = c:SWI
+		game_date > 1836.1.1
+		NOT = {
+			OR = {
+				has_variable = napoleon_3_switzerland
+				has_variable = french_revolution_happened
+			}
+		}
+	}
+
+	immediate = {
+		c:SWI = {
+			save_scope_as = swi_scope
+		}
+		c:GBR = {
+			save_scope_as = gbr_scope
+		}
+		ruler = {
+			save_scope_as = ruler_scope
+		}
+		set_variable = napoleon_3_switzerland
+	}
+
+	option = {
+		name = france_event.1.a
+		default_option = yes
+
+		random_list = {
+			85 = {
+				custom_tooltip = france_event.1.tt1
+				set_variable = napoleon_3_extradition
+			}
+			15 = {
+				custom_tooltip = france_event.1.tt2
+				set_variable = napoleon_3_no_extradition
+			}
+		}
+		c:SWI = {
+			change_relations = {
+				country = ROOT
+				value = -25
+		    }	
+		}
+
+	    ai_chance = {
+			base = 85
+		}
+    }
+
+	option = {
+		name = france_event.1.b
+
+		custom_tooltip = france_event.1.tt2
+		set_variable = napoleon_3_no_extradition
+		c:SWI = {
+			change_relations = {
+				country = ROOT
+				value = 25
+		    }	
+		}
+
+	    ai_chance = {
+			base = 25	
+		}
+    }
+}
+
+#French Revolution 
+france_event.2 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.2.t
+	desc = france_event.2.d
+	flavor = france_event.2.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_springtime_of_nations.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/springtime_of_nation"
+
+	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
+
+	duration = 1
+
+	trigger = {
+		this ?= c:FRA
+		NOT = {
+			has_variable = french_revolution_happened
+		}
+		OR = {
+			has_journal_entry = je_springtime_of_the_peoples
+			radical_fraction = {
+				value >= 0.3
+			}
+		}
+	}
+
+	immediate = {
+		c:GBR = {
+			save_scope_as = gbr_scope
+		}
+		ruler = {
+			save_scope_as = ruler_scope
+		}
+		set_variable = french_revolution_happened
+	}
+
+	option = {
+		name = france_event.2.a
+		default_option = yes
+
+		activate_law = law_type:law_presidential_republic
+		activate_law = law_type:law_universal_suffrage
+		activate_law = law_type:law_right_of_assembly
+
+        set_ruling_interest_groups = {
+        	ig_intelligentsia
+        }
+		custom_tooltip = {
+			text = france_event.2.tt1
+		}
+		add_modifier = {
+			name = french_revolution
+			months = normal_modifier_time
+			is_decaying = yes
+		}
+
+		random_interest_group = {	
+			limit = {
+				is_member_of_party = owner.py:agrarian_party
+			}
+			save_scope_as = agrarian_ig
+		}
+		scope:agrarian_ig = {
+			leader = {
+				set_variable = agrarian_leader
+			}
+		}
+
+		random_interest_group = {	
+			limit = {
+				is_member_of_party = owner.py:radical_party
+			}
+			save_scope_as = radical_ig
+		}
+		scope:radical_ig = {
+			leader = {
+				set_variable = radical_leader
+			}
+		}
+
+		custom_tooltip = {
+			text = france_event.2.tt2
+		}
+		create_character = {
+			template = louis_napoleon_character_template
+			on_created = {
+				set_variable = napoleon3
+			}
+		}
+        hidden_effect = {
+        	trigger_event = { id = france_event.3 days = 1}
+        	if = {
+        		limit = {
+        			NOT = {
+        				has_law = law_type:law_wage_subsidies
+        			}
+        		}
+        		trigger_event = { id = france_event.10 days = 3}
+        	}
+		}
+
+	    ai_chance = {
+			base = 1
+		}
+    }
+}
+
+france_event.3 = {
+	type = country_event
+	placement = root
+	hidden = yes
+	duration = 0
+
+	immediate = {
+		create_character = {
+			# Louis Eugène Cavaignac
+			is_general = no
+			first_name = "Louis_Eugene"
+			last_name = "Cavaignac"
+			ruler = yes
+			birth_date = 1802.10.15
+			ig_leader = yes
+			interest_group = ig_intelligentsia
+			ideology = ideology_republican
+			traits = {
+				experienced_political_operator 
+				persistent
+			}
+			on_created = {
+				set_variable = cavaignac
+			}
+		}
+		add_journal_entry = {
+			type = je_french_revolution_election
+		}
+	}
+}
+
+#Rigged Elections?
+france_event.4 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.4.t
+	desc = france_event.4.d
+	flavor = france_event.4.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_politicians_arguing.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/asia/politician_parliament_motion"
+
+	icon = "gfx/interface/icons/event_icons/event_election.dds"
+
+	duration = 1
+
+	immediate = {
+		random_scope_character = {
+			limit = {has_variable = napoleon3}
+			save_scope_as = napoleon3_scope
+		}
+		random_scope_character = {
+			limit = {has_variable = cavaignac}
+			save_scope_as = cavaignac_scope
+		}
+		random_scope_character = {
+			limit = {has_variable = agrarian_leader}
+			save_scope_as = agrarian_leader_scope
+		}
+		random_scope_character = {
+			limit = {has_variable = radical_leader}
+			save_scope_as = radical_leader_scope
+		}
+	}
+
+	option = {
+		name = france_event.4.a
+		default_option = yes
+
+	    ai_chance = {
+			base = 70
+		}
+    }
+	option = {
+		name = france_event.4.b
+
+		if = {
+			limit = {
+				has_variable = napoleon_3_no_extradition
+			}
+			py:conservative_party = {
+				add_momentum = 1.5
+			}	
+		}
+		else = {
+			py:conservative_party = {
+				add_momentum = 1
+			}	
+		}
+
+		every_interest_group = {
+			limit = {
+				is_member_of_party = owner.py:conservative_party
+			}
+			add_modifier = {
+				name = elections_rigged_1
+				months = long_modifier_time
+			}
+		}
+		every_interest_group = {
+			limit = {
+				NOT = {
+					is_member_of_party = owner.py:conservative_party
+				}
+			}
+			add_modifier = {
+				name = elections_rigged_2
+				months = long_modifier_time
+			}
+		}
+
+		set_variable = napoleon3_rigged
+
+	    ai_chance = {
+			base = 15
+		}
+    }
+	option = {
+		name = france_event.4.c
+
+		trigger = {
+			exists = py:liberal_party
+		}
+
+		py:liberal_party = {
+			add_momentum = 1
+		}
+
+		every_interest_group = {
+			limit = {
+				is_member_of_party = owner.py:liberal_party
+			}
+			add_modifier = {
+				name = elections_rigged_1
+				months = long_modifier_time
+			}
+		}
+		every_interest_group = {
+			limit = {
+				NOT = {
+					is_member_of_party = owner.py:liberal_party
+				}
+			}
+			add_modifier = {
+				name = elections_rigged_2
+				months = long_modifier_time
+			}
+		}
+
+		set_variable = cavaignac_rigged
+
+	    ai_chance = {
+			base = 5
+		}
+    }
+    option = {
+		name = france_event.4.g
+
+		trigger = {
+			exists = py:agrarian_party
+		}
+
+		py:agrarian_party = {
+			add_momentum = 1
+		}
+
+		every_interest_group = {
+			limit = {
+				is_member_of_party = owner.py:agrarian_party
+			}
+			add_modifier = {
+				name = elections_rigged_1
+				months = long_modifier_time
+			}
+		}
+		every_interest_group = {
+			limit = {
+				NOT = {
+					is_member_of_party = owner.py:agrarian_party
+				}
+			}
+			add_modifier = {
+				name = elections_rigged_2
+				months = long_modifier_time
+			}
+		}
+
+		set_variable = agrarian_rigged
+
+	    ai_chance = {
+			base = 5
+		}
+	}
+    option = {
+		name = france_event.4.h
+
+		trigger = {
+			exists = py:radical_party
+		}
+
+		py:radical_party = {
+			add_momentum = 1
+		}
+
+		every_interest_group = {
+			limit = {
+				is_member_of_party = owner.py:radical_party
+			}
+			add_modifier = {
+				name = elections_rigged_1
+				months = long_modifier_time
+			}
+		}
+		every_interest_group = {
+			limit = {
+				NOT = {
+					is_member_of_party = owner.py:radical_party
+				}
+			}
+			add_modifier = {
+				name = elections_rigged_2
+				months = long_modifier_time
+			}
+		}
+
+		set_variable = agrarian_rigged
+
+	    ai_chance = {
+			base = 5
+		}
+	}
+}
+
+#Elections
+france_event.5 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.5.t
+	desc = france_event.5.d
+	flavor = france_event.5.f
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_election.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/election"
+
+	icon = "gfx/interface/icons/event_icons/event_election.dds"
+
+	duration = 1
+
+	immediate = {
+		random_scope_character = {
+			limit = {has_variable = napoleon3}
+			save_scope_as = napoleon3_scope
+		}
+		ROOT = {
+			save_scope_as = fra_scope
+		}
+		set_variable = french_elections
+		call_election = {
+			months = 6
+		}
+	}
+
+	option = {
+		name = france_event.5.a
+		default_option = yes
+
+	    ai_chance = {
+			base = 1
+		}
+    }
+}
+
+#Elections results - NAPOLEON 3 wins
+france_event.6 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.6.t
+	desc = france_event.6.d
+	flavor = france_event.6.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	icon = "gfx/interface/icons/event_icons/event_election.dds"
+
+	duration = 3
+	
+	trigger = {
+		has_variable = french_elections	
+		in_election_campaign = no
+		any_scope_character = {
+			is_ruler = yes
+            interest_group = { 
+                is_member_of_party = owner.py:conservative_party
+            }
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {has_variable = napoleon3}
+			save_scope_as = napoleon3_scope
+		}
+		ROOT = {
+			save_scope_as = fra_scope
+		}
+		remove_variable = french_elections
+		set_variable = napoleon3_elected
+	}
+
+	option = {
+		name = france_event.6.a
+		default_option = yes
+
+		custom_tooltip = {
+			text = france_event.6.tt1
+			ruler = {
+				kill_character = yes
+			}
+		}
+		random_interest_group = {
+			limit = {
+				leader = {
+					has_variable = napoleon3
+				}
+			}
+			add_modifier = {
+				name = french_republic_elections
+				months = normal_modifier_time
+			}
+		}
+		hidden_effect = {
+			create_character = {
+				template = louis_napoleon_character_template
+				ruler = yes
+				on_created = {
+					set_variable = napoleon3
+				}
+			}
+		}
+        set_ruling_interest_groups = {
+        	ig_petty_bourgeoisie 
+        	ig_armed_forces 
+        	ig_devout
+        }
+
+	    ai_chance = {
+			base = 1
+		}
+    }
+}
+
+#Elections results - CAVAIGNAC wins
+france_event.7 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.7.t
+	desc = france_event.7.d
+	flavor = france_event.7.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	icon = "gfx/interface/icons/event_icons/event_election.dds"
+
+	duration = 3
+
+	trigger = {
+		has_variable = french_elections	
+		in_election_campaign = no
+		any_scope_character = {
+			is_ruler = yes
+            interest_group = { 
+                is_member_of_party = owner.py:liberal_party
+            }
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {has_variable = cavaignac}
+			save_scope_as = cavaignac_scope
+		}
+		ROOT = {
+			save_scope_as = fra_scope
+		}
+		remove_variable = french_elections
+		set_variable = cavaignac_elected
+	}
+
+	option = {
+		name = france_event.7.a
+		default_option = yes
+
+		custom_tooltip = {
+			text = france_event.7.tt1
+		}
+		random_interest_group = {
+			limit = {
+				leader = {
+					has_variable = cavaignac
+				}
+			}
+			add_modifier = {
+				name = french_republic_elections
+				months = normal_modifier_time
+			}
+		}
+        set_ruling_interest_groups = {
+        	ig_intelligentsia
+        }
+
+	    ai_chance = {
+			base = 1
+		}
+    }
+}
+
+#Elections results - Agrarian Party wins
+france_event.8 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.8.t
+	desc = france_event.8.d
+	flavor = france_event.8.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	icon = "gfx/interface/icons/event_icons/event_election.dds"
+
+	duration = 3
+	
+	trigger = {
+		has_variable = french_elections	
+		in_election_campaign = no
+		any_scope_character = {
+			is_ruler = yes
+            interest_group = { 
+                is_member_of_party = owner.py:agrarian_party
+            }
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {has_variable = agrarian_leader}
+			save_scope_as = agrarian_leader_scope
+		}
+		ROOT = {
+			save_scope_as = fra_scope
+		}
+		remove_variable = french_elections
+		set_variable = agrarian_leader_elected
+	}
+
+	option = {
+		name = france_event.8.a
+		default_option = yes
+
+		custom_tooltip = {
+			text = france_event.8.tt1
+		}
+		random_interest_group = {
+			limit = {
+				leader = {
+					has_variable = agrarian_leader
+				}
+			}
+			add_modifier = {
+				name = french_republic_elections
+				months = normal_modifier_time
+			}
+		}
+        set_ruling_interest_groups = {
+        	ig_rural_folk
+        }
+
+	    ai_chance = {
+			base = 1
+		}
+    }
+}
+
+#Elections results - Radical Party wins
+france_event.9 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.9.t
+	desc = france_event.9.d
+	flavor = france_event.9.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	icon = "gfx/interface/icons/event_icons/event_election.dds"
+
+	duration = 3
+	
+	trigger = {
+		has_variable = french_elections	
+		in_election_campaign = no
+		any_scope_character = {
+			is_ruler = yes
+            interest_group = { 
+                is_member_of_party = owner.py:radical_party
+            }
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {has_variable = radical_leader}
+			save_scope_as = radical_leader_scope
+		}
+		ROOT = {
+			save_scope_as = fra_scope
+		}
+		remove_variable = french_elections
+		set_variable = radical_leader_elected
+	}
+
+	option = {
+		name = france_event.9.a
+		default_option = yes
+
+		custom_tooltip = {
+			text = france_event.9.tt1
+		}
+		random_interest_group = {
+			limit = {
+				leader = {
+					has_variable = radical_leader
+				}
+			}
+			add_modifier = {
+				name = french_republic_elections
+				months = normal_modifier_time
+			}
+		}
+        set_ruling_interest_groups = {
+        	ig_rural_folk
+        }
+
+	    ai_chance = {
+			base = 1
+		}
+    }
+}
+
+#National Workshops
+france_event.10 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.10.t
+	desc = france_event.10.d
+	flavor = france_event.10.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_political_extremism.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/political_extremism"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	duration = 1
+
+	option = {
+		name = france_event.10.a
+		default_option = yes
+
+		activate_law = law_type:law_wage_subsidies
+		add_modifier = {
+			name = national_workshops_1
+			months = normal_modifier_time
+		}
+		every_interest_group = {
+			limit ={
+				law_stance = {
+					law = law_type:law_wage_subsidies
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = national_workshops_3
+				months = normal_modifier_time
+			}
+		}
+		every_interest_group = {
+			limit ={
+				law_stance = {
+					law = law_type:law_wage_subsidies
+					value < neutral
+				}
+			}
+			add_modifier = {
+				name = national_workshops_4
+				months = normal_modifier_time
+			}
+		}
+
+		hidden_effect = {
+			trigger_event = { id = france_event.11 days = 120}
+		}
+
+		set_variable = national_workshops
+
+	    ai_chance = {
+			base = 90
+		}
+    }
+	option = {
+		name = france_event.10.b
+
+		add_modifier = {
+			name = national_workshops_2
+			months = normal_modifier_time
+		}
+		every_interest_group = {
+			limit ={
+				law_stance = {
+					law = law_type:law_wage_subsidies
+					value < neutral
+				}
+			}
+			add_modifier = {
+				name = national_workshops_3
+				months = normal_modifier_time
+			}
+		}
+		every_interest_group = {
+			limit ={
+				law_stance = {
+					law = law_type:law_wage_subsidies
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = national_workshops_4
+				months = normal_modifier_time
+			}
+		}
+		trigger_event = { id = france_event.12 }
+
+		set_variable = no_national_workshops
+
+	    ai_chance = {
+			base = 10
+		}
+    }
+}
+
+#Abolition of the National Workshops?
+france_event.11 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.11.t
+	desc = france_event.11.d
+	flavor = france_event.11.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_capitalists_meeting.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/capitalists_meeting"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	duration = 1
+
+	immediate = {
+		random_interest_group = {
+			limit ={
+				law_stance = {
+					law = law_type:law_wage_subsidies
+					value < neutral
+				}
+			}
+			save_scope_as = abolitionist_ig
+		}
+		ROOT = {
+			save_scope_as = fra_scope
+		}
+	}
+
+	option = {
+		name = france_event.11.a
+		default_option = yes
+
+		activate_law = law_type:law_poor_laws
+
+		add_radicals = {
+			value = 0.05
+			strata = poor
+		}
+		s:STATE_ILE_DE_FRANCE = {
+			random_scope_state = {
+				add_radicals = {
+					value = 0.1
+					strata = poor
+				}
+			}
+		}
+		every_interest_group = {
+			limit ={
+				law_stance = {
+					law = law_type:law_wage_subsidies
+					value < neutral
+				}
+			}
+			add_modifier = {
+				name = national_workshops_3
+				months = normal_modifier_time
+			}
+		}
+		every_interest_group = {
+			limit ={
+				law_stance = {
+					law = law_type:law_wage_subsidies
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = national_workshops_4
+				months = normal_modifier_time
+			}
+		}
+		trigger_event = { id = france_event.12 }
+
+	    ai_chance = {
+			base = 90
+		}
+    }
+	option = {
+		name = france_event.11.b
+
+		every_interest_group = {
+			limit ={
+				law_stance = {
+					law = law_type:law_wage_subsidies
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = national_workshops_3
+				months = normal_modifier_time
+			}
+		}
+		every_interest_group = {
+			limit ={
+				law_stance = {
+					law = law_type:law_wage_subsidies
+					value < neutral
+				}
+			}
+			add_modifier = {
+				name = national_workshops_4
+				months = normal_modifier_time
+			}
+		}
+
+	    ai_chance = {
+			base = 10
+		}
+    }
+}
+
+#June Days Uprising
+france_event.12 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.12.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = france_event.12.d.1
+				trigger = {
+					has_variable = national_workshops
+				}
+			}
+			triggered_desc = {
+				desc = france_event.12.d.2
+				trigger = {
+					has_variable = no_national_workshops
+				}
+			}
+		}
+	}
+	flavor = {
+			first_valid = {
+			triggered_desc = {
+				desc = france_event.12.f.1
+				trigger = {
+					has_variable = national_workshops
+				}
+			}
+			triggered_desc = {
+				desc = france_event.12.f.2
+				trigger = {
+					has_variable = no_national_workshops
+				}
+			}
+		}
+	}
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_springtime_of_nations.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/springtime_of_nation"
+
+	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
+
+	duration = 1
+
+	option = {
+		name = france_event.12.a
+		default_option = yes
+
+		if = {
+			limit = {
+				has_variable = national_workshops					
+			}
+			random_list = {
+				95 = {
+					custom_tooltip = france_event.12.tt1
+				}
+				5 = {
+					custom_tooltip = france_event.12.tt2
+					set_variable = june_days_revolution
+					modifier = {
+						if = {
+							limit = {
+								ig:ig_trade_unions = {
+									OR = {
+										ig_clout > 0.2
+										is_powerful = yes
+									}
+								}
+							}
+							add = 20
+						}
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_variable = no_national_workshops					
+			}
+			random_list = {
+				90 = {
+					custom_tooltip = france_event.12.tt1
+				}
+				10 = {
+					custom_tooltip = france_event.12.tt2
+					set_variable = june_days_revolution
+					modifier = {
+						if = {
+							limit = {
+								ig:ig_trade_unions = {
+									OR = {
+										ig_clout > 0.2
+										is_powerful = yes
+									}
+								}
+							}
+							add = 20
+						}
+					}
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				has_variable = national_workshops
+			}
+			remove_variable = national_workshops
+		}
+		if = {
+			limit = {
+				has_variable = no_national_workshops
+			}
+			remove_variable = no_national_workshops
+		}
+
+	    ai_chance = {
+			base = 1
+		}
+    }
+}
+
+#June Days Revolution
+france_event.13 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.13.t
+	desc = france_event.13.d
+	flavor = france_event.13.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_political_extremism.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/political_extremism"
+
+	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
+
+	duration = 1
+
+	trigger = {
+		has_variable = june_days_revolution
+	}
+
+	immediate = {
+		remove_variable = june_days_revolution
+		set_variable = fail_french_elections
+		random_interest_group = {
+			limit = {
+				is_interest_group_type = ig_trade_unions
+			}
+			save_scope_as = ig_trade_unions
+		}
+		ROOT = {
+			save_scope_as = fra_scope
+		}
+		ruler = {
+			save_scope_as = ruler_scope
+		}
+	}
+
+	option = {
+		name = france_event.13.a
+		default_option = yes
+
+		if = {
+			limit = {
+				NOT ={
+					has_law = law_wage_subsidies
+				}
+			}
+			activate_law = law_type:law_wage_subsidies
+		}
+		if = {
+			limit = {
+				NOT ={
+					has_law = law_universal_suffrage
+				}
+			}
+			activate_law = law_type:law_universal_suffrage
+		}
+		activate_law = law_type:law_council_republic
+
+		add_loyalists = {
+			value = 0.05
+			strata = poor
+		}
+		add_radicals = {
+			value = 0.15
+			strata = rich
+		}
+		add_radicals = {
+			value = 0.05
+			strata = middle
+		}
+        set_ruling_interest_groups = {
+        	ig_trade_unions
+        }
+		random_interest_group = {
+			limit = {
+				is_interest_group_type = ig_trade_unions
+			}
+			add_modifier = {
+				name = june_revolution
+				months = normal_modifier_time
+			}
+		}
+		hidden_effect = {
+			call_election = {
+				months = 60
+			}
+		}
+
+	    ai_chance = {
+			base = 1
+		}
+    }
+}
+
+#Napoleon 3 Coup
+france_event.14 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.14.t
+	desc = france_event.14.d
+	flavor = france_event.14.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	duration = 1
+
+	trigger = {
+		NOT ={
+			has_variable = napoleon3_coup	
+		}
+		ruler = {
+			has_variable = napoleon3
+		}
+		has_variable = french_revolution_happened
+	}
+
+	immediate = {
+		set_variable = napoleon3_coup
+		ROOT = {
+			save_scope_as = fra_scope
+		}
+		ruler = {
+			save_scope_as = ruler_scope
+		}
+	}
+
+	option = {
+		name = france_event.14.a
+		default_option = yes
+
+		activate_law = law_type:law_monarchy
+		activate_law = law_type:law_autocracy
+		if = {
+			limit = {
+				NOT ={
+					has_law = law_censorship
+				}
+			}
+			activate_law = law_type:law_censorship
+		}
+
+		random_interest_group = {
+			limit = {
+				is_interest_group_type = ig_petty_bourgeoisie
+			}
+			add_modifier = {
+				name = second_french_empire_1
+				months = normal_modifier_time
+			}
+		}
+		every_interest_group = {
+			limit ={
+				law_stance = {
+					law = law_type:law_monarchy
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = second_french_empire_2
+				months = normal_modifier_time
+			}
+		}
+		every_interest_group = {
+			limit ={
+				law_stance = {
+					law = law_type:law_monarchy
+					value < neutral
+				}
+			}
+			add_modifier = {
+				name = second_french_empire_3
+				months = normal_modifier_time
+			}
+		}
+
+		add_loyalists = {
+			value = 0.05
+			strata = rich
+		}
+
+		hidden_effect = {
+			trigger_event = { id = france_event.15 days = 2}
+		}
+
+	    ai_chance = {
+			base = 1
+		}
+    }
+}
+
+france_event.15 = {
+	type = country_event
+	placement = root
+	hidden = yes
+	duration = 0
+
+	immediate = {
+		ruler = {
+			kill_character = yes
+		}
+		create_character = {
+			template = napoleon3_character_template
+			ruler = yes
+			on_created = {
+				set_variable = napoleon3
+			}
+		}
+		set_variable = napoleon3_on_death
+	}
+}
+
+#Arc de Triomphe
+france_event.16 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.16.t
+	desc = france_event.16.d
+	flavor = france_event.16.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_world_fair.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/world_fair"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	duration = 3
+
+	trigger = {
+		this ?= c:FRA
+		game_date >= 1836.07.1
+		NOT = {
+			has_variable = arc_de_triomphe
+		}
+	}
+
+	immediate = {
+		ROOT = {
+			save_scope_as = fra_scope
+		}
+		ruler = {
+			save_scope_as = ruler_scope
+		}
+		set_variable = arc_de_triomphe
+	}
+
+	option = {
+		name = france_event.16.a
+		default_option = yes
+
+		add_modifier = {
+			name = arc_de_triomphe
+		}
+
+	    ai_chance = {
+			base = 1
+		}
+    }
+}
+
+#FRA French-Papal Alliance
+france_event.17 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.17.t
+	desc = france_event.17.d
+	flavor = france_event.17.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 3
+
+	trigger = {
+		this ?= c:FRA
+		c:PAP ?= {
+			has_state_in_state_region = STATE_LAZIO
+		}
+		ruler = {
+			has_variable = napoleon3
+		}
+        any_country = {
+            has_variable = umbria_marche_invasion
+        }
+        NOT = {
+        	has_variable = franco_papal_alliance_proposal
+        }
+	}
+
+	immediate = {
+		ROOT = {
+			save_scope_as = fra_scope
+		}
+		c:PAP = {
+			save_scope_as = pap_scope
+		}
+		ruler = {
+			save_scope_as = ruler_scope
+		}
+		random_country = {
+			limit = {
+				has_variable = umbria_marche_invasion
+			}
+			save_scope_as = ita_scope
+		}
+		s:STATE_UMBRIA = {
+			random_scope_state = {
+				save_scope_as = umbria_scope
+			}
+		}
+		random_interest_group = {
+			limit = {
+				is_interest_group_type = ig_devout
+			}
+			save_scope_as = ig_devout
+		}
+		set_variable = franco_papal_alliance_proposal
+	}
+
+	option = {
+		name = france_event.17.a
+		default_option = yes
+
+		scope:ig_devout = {
+			add_modifier = {
+				name = franco_papal_alliance_1
+				months = long_modifier_time
+			}
+		}
+		add_loyalists = {
+			value = 0.05
+			religion = rel:catholic
+		}
+		c:PAP = {
+			trigger_event = { id = france_event.18 days = 10}
+		}
+
+	    ai_chance = {
+			base = 80
+			modifier = {
+				trigger = {
+					ig:ig_devout = {
+						is_powerful = yes
+					}
+				}
+				add = 15
+			}
+			modifier = {
+				trigger = {
+					OR = {
+						has_variable = napoleon3_elected
+						has_variable = napoleon3_coup
+					}
+				}
+				add = 15
+			}
+		}
+    }
+	option = {
+		name = france_event.17.b
+
+		scope:ig_devout = {
+			add_modifier = {
+				name = franco_papal_alliance_2
+				months = long_modifier_time
+			}
+		}
+		add_radicals = {
+			value = 0.05
+			religion = rel:catholic
+		}
+
+	    ai_chance = {
+			base = 20
+			modifier = {
+				trigger = {
+					ig:ig_devout = {
+						is_marginal = no
+					}
+				}
+				add = 15
+			}
+		}
+    }
+}
+
+#PAP French-Papal Alliance
+france_event.18 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.18.t
+	desc = france_event.18.d
+	flavor = france_event.18.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 3
+
+	immediate = {
+		ROOT = {
+			save_scope_as = pap_scope
+		}
+		c:FRA = {
+			save_scope_as = fra_scope
+		}
+		ruler = {
+			save_scope_as = ruler_scope
+		}
+		random_country = {
+			limit = {
+				has_variable = umbria_marche_invasion
+			}
+			save_scope_as = ita_scope
+		}
+		s:STATE_UMBRIA = {
+			random_scope_state = {
+				save_scope_as = umbria_scope
+			}
+		}
+	}
+
+	option = {
+		name = france_event.18.a
+		default_option = yes
+
+		custom_tooltip = france_event.18.tt1
+		change_relations = {
+			country = c:FRA
+			value = 100
+	    }	
+		c:FRA = {
+			trigger_event = { id = france_event.19 }
+		}
+
+	    ai_chance = {
+			base = 95
+		}
+    }
+	option = {
+		name = france_event.18.b
+
+		c:FRA = {
+			trigger_event = { id = france_event.20 }
+		}
+
+	    ai_chance = {
+			base = 5
+		}
+    }
+}
+
+#FRA French-Papal Alliance 2
+france_event.19 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.19.t
+	desc = france_event.19.d
+	flavor = france_event.19.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 3
+
+	immediate = {
+		c:PAP = {
+			save_scope_as = pap_scope
+			ruler = {
+				save_scope_as = pope_scope
+			}
+		}
+		random_country = {
+			limit = {
+				has_variable = umbria_marche_invasion
+			}
+			save_scope_as = ita_scope
+		}
+	}
+
+	option = {
+		name = france_event.19.a
+		default_option = yes
+
+		create_diplomatic_pact = {
+			country = c:PAP
+			type = defensive_pact
+		}
+		scope:ita_scope = {
+			change_relations = {
+				country = ROOT
+				value = -30
+		    }	
+		    trigger_event = { id = france_event.21 }
+		}
+
+		custom_tooltip = france_event.19.tt1
+	
+	    ai_chance = {
+			base = 1
+		}
+    }
+}
+
+#FRA French-Papal Alliance 3
+france_event.20 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.20.t
+	desc = france_event.20.d
+	flavor = france_event.20.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 3
+
+	immediate = {
+		c:PAP = {
+			save_scope_as = pap_scope
+			ruler = {
+				save_scope_as = pope_scope
+			}
+		}
+		random_country = {
+			limit = {
+				has_variable = umbria_marche_invasion
+			}
+			save_scope_as = ita_scope
+		}
+	}
+
+	option = {
+		name = france_event.20.a
+		default_option = yes
+
+	    ai_chance = {
+			base = 95
+		}
+    }
+}
+
+#ITA French-Papal Alliance 4
+france_event.21 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.21.t
+	desc = france_event.21.d
+	flavor = france_event.21.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	duration = 3
+
+	immediate = {
+		c:PAP = {
+			save_scope_as = pap_scope
+		}
+		c:FRA = {
+			save_scope_as = fra_scope
+			ruler = {
+				save_scope_as = napoleon3_scope
+			}
+		}
+	}
+
+	option = {
+		name = france_event.21.a
+		default_option = yes
+
+		custom_tooltip = france_event.21.tt1
+
+	    ai_chance = {
+			base = 95
+		}
+    }
+}
+
+#Death of Napoleon 3
+france_event.22 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.22.t
+	desc = france_event.22.d
+	flavor = france_event.22.f
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_christianity.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	duration = 1
+
+	immediate = {
+		c:FRA = {
+			save_scope_as = fra_scope
+			ruler = {
+				save_scope_as = napoleon3_scope
+			}
+		}
+		remove_variable = napoleon3_on_death
+
+		create_character = {
+			# Napoléon IV
+			is_general = no
+			first_name = "Napoleon_IV"
+			last_name = "Bonaparte"
+			ruler = yes
+			birth_date = 1856.3.16
+			ig_leader = yes
+			interest_group = ig_petty_bourgeoisie
+			ideology = ideology_royalist
+			traits = {
+			}
+			on_created = {
+				set_variable = napoleon4
+			}
+		}
+		create_character = {
+			# Philippe d’Orléans
+			is_general = no
+			first_name = "Philippe"
+			last_name = "d_Orleans"
+			ruler = yes
+			birth_date = 1838.8.24
+			interest_group = ig_petty_bourgeoisie
+			ideology = ideology_royalist
+			traits = {
+			}
+			on_created = {
+				set_variable = count_of_paris
+			}
+		}
+
+		random_scope_character = {
+			limit = {has_variable = napoleon4}
+			save_scope_as = napoleon4_scope
+		}
+		random_scope_character = {
+			limit = {has_variable = count_of_paris}
+			save_scope_as = count_of_paris_scope
+		}
+	}
+
+	option = {
+		name = france_event.22.a
+		default_option = yes
+
+		remove_variable = napoleon3_coup
+
+		create_character = {
+			# Napoléon IV
+			is_general = no
+			first_name = "Napoleon_IV"
+			last_name = "Bonaparte"
+			ruler = yes
+			birth_date = 1856.3.16
+			ig_leader = yes
+			interest_group = ig_petty_bourgeoisie
+			ideology = ideology_royalist
+			traits = {
+			}
+			on_created = {
+				set_variable = napoleon4
+			}
+		}
+		set_variable = napoleon4_ruler
+
+	    ai_chance = {
+			base = 80
+		}
+    }
+	option = {
+		name = france_event.22.b
+
+		remove_variable = napoleon3_coup
+
+		create_character = {
+			# Philippe d’Orléans
+			is_general = no
+			first_name = "Philippe"
+			last_name = "d_Orleans"
+			ruler = yes
+			birth_date = 1838.8.24
+			ig_leader = yes
+			interest_group = ig_petty_bourgeoisie
+			ideology = ideology_royalist
+			traits = {
+			}
+			on_created = {
+				set_variable = count_of_paris
+			}
+		}
+		activate_law = law_type:law_universal_suffrage
+
+	    ai_chance = {
+			base = 10
+		}
+    }
+	option = {
+		name = france_event.22.c
+		remove_variable = napoleon3_coup
+
+		activate_law = law_type:law_presidential_republic
+		activate_law = law_type:law_universal_suffrage
+	    ai_chance = {
+			base = 10
+		}
+    }
+}
