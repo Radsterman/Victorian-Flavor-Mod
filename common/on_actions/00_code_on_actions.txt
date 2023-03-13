@@ -655,6 +655,20 @@ on_diplomatic_action_third_party_break_declined = {
 
 # Root = Diplomatic Action
 on_diplomats_expelled = {
+	effect = {
+		if = {
+			limit = {
+				scope:initiator = {
+					has_variable = we_are_not_amused_ach_possible
+				}
+				scope:target = c:FRA
+				scope:initiator = {
+					"relations(scope:target)" >= relations_threshold:cordial
+				}
+			}
+			set_variable = achievement_we_are_not_amused
+		}
+	}
 }
 
 # Root = Diplomatic Pact
@@ -1810,8 +1824,56 @@ on_revolution_end = {
 				set_variable = star_swarmed_banner_ach_possible
 			}
 		}
+
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = manifest_mexico_ach_possible
+				}
+			}
+			scope:target = { 
+				set_variable = manifest_mexico_ach_possible
+			}
+		}
+
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = grander_colombia_ach_possible
+				}
+			}
+			scope:target = { 
+				set_variable = grander_colombia_ach_possible
+			}
+		}
 	}
 }
+
+# Root = Country
+# scope:target = Uprising country
+on_secession_start = {
+	effect = {
+		if = {
+			limit = {
+				has_journal_entry = je_warlord_china
+				NOT = { has_variable = china_warlord_explosion_revolution }
+			}
+			post_notification = warlord_china_explosion_point_add
+			change_variable = {
+				name = china_warlord_explosion
+				add = 1
+			}
+			set_variable = china_warlord_explosion_revolution
+		}
+
+	}
+}
+
+# Root = Country
+# scope:target = Uprising country
+on_secession_end = {
+}
+
 
 # Root = Country
 # This action is triggered after `on_revolution_end`

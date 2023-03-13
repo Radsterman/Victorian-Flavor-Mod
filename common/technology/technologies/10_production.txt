@@ -10,6 +10,10 @@ sericulture = {
 	modifier = {
 		building_silk_plantation_throughput_mult = 0.25
 	}
+	
+	ai_weight = {
+		value = 1
+	}
 }
 
 enclosure = {
@@ -17,6 +21,10 @@ enclosure = {
 	era = era_1
 	texture = "gfx/interface/icons/invention_icons/enclosure.dds"
 	category = production
+	
+	ai_weight = {
+		value = 3 # Very important tech in general
+	}
 }
 
 manufacturies = {
@@ -25,6 +33,10 @@ manufacturies = {
 	era = era_1
 	texture = "gfx/interface/icons/invention_icons/manufacturies.dds"
 	category = production
+	
+	ai_weight = {
+		value = 3 # Very important tech in general
+	}
 }
 
 shaft_mining = {
@@ -36,6 +48,10 @@ shaft_mining = {
 	unlocking_technologies = {
 		enclosure
 		manufacturies
+	}
+	
+	ai_weight = {
+		value = 2 # Important tech in general
 	}
 }
 
@@ -51,6 +67,10 @@ cotton_gin = {
 	unlocking_technologies = {
 		manufacturies
 	}
+	
+	ai_weight = {
+		value = 1
+	}
 }
 
 lathe = {
@@ -61,6 +81,20 @@ lathe = {
 	
 	unlocking_technologies = {
 		cotton_gin
+	}
+	
+	ai_weight = {
+		value = 1
+		
+		if = {
+			limit = { 
+				OR = {
+					 has_strategy = ai_strategy_industrial_expansion
+					 has_strategy = ai_strategy_resource_expansion
+				}
+			}
+			add = 1
+		}		
 	}
 }
 
@@ -75,6 +109,10 @@ distillation = {
 	unlocking_technologies = {
 		manufacturies
 	}
+	
+	ai_weight = {
+		value = 1
+	}
 }
 
 steelworking = {
@@ -86,6 +124,20 @@ steelworking = {
 	unlocking_technologies = {
 		shaft_mining
 	}
+	
+	ai_weight = {
+		value = 1
+		
+		if = {
+			limit = { 
+				OR = {
+					 has_strategy = ai_strategy_industrial_expansion
+					 has_strategy = ai_strategy_resource_expansion
+				}
+			}
+			add = 1
+		}		
+	}
 }
 
 prospecting = {
@@ -96,6 +148,10 @@ prospecting = {
 	
 	unlocking_technologies = {
 		shaft_mining
+	}
+	
+	ai_weight = {
+		value = 1
 	}
 }
 
@@ -110,6 +166,10 @@ crystal_glass = {
 	unlocking_technologies = {
 		lathe
 	}
+	
+	ai_weight = {
+		value = 1
+	}
 }
 
 intensive_agriculture = {
@@ -123,6 +183,20 @@ intensive_agriculture = {
 	unlocking_technologies = {
 		enclosure
 	}
+	
+	ai_weight = {
+		value = 2 # Important tech for everyone
+		
+		if = {
+			limit = {
+				OR = {
+					has_strategy = ai_strategy_agricultural_expansion 
+					has_strategy = ai_strategy_plantation_economy
+				}		
+			}
+			add = 2
+		}
+	}
 }
 
 fractional_distillation = {
@@ -135,6 +209,10 @@ fractional_distillation = {
 	unlocking_technologies = {
 		distillation
 	}
+	
+	ai_weight = {
+		value = 1
+	}
 }
 
 canneries = {
@@ -145,6 +223,10 @@ canneries = {
 	
 	unlocking_technologies = {
 		lathe
+	}
+	
+	ai_weight = {
+		value = 1
 	}
 }
 
@@ -158,6 +240,10 @@ watertube_boiler = {
 	unlocking_technologies = {
 		atmospheric_engine
 	}
+	
+	ai_weight = {
+		value = 1
+	}
 }
 
 atmospheric_engine = {
@@ -169,6 +255,20 @@ atmospheric_engine = {
 	
 	unlocking_technologies = {
 		shaft_mining
+	}
+	
+	ai_weight = {
+		value = 1
+		
+		if = {
+			limit = { 
+				OR = {
+					 has_strategy = ai_strategy_industrial_expansion
+					 has_strategy = ai_strategy_resource_expansion
+				}
+			}
+			add = 2
+		}	
 	}
 }
 
@@ -188,6 +288,20 @@ railways = {
 		mechanical_tools
 		atmospheric_engine
 	}
+	
+	ai_weight = {
+		value = 2 # Important tech for everyone
+		
+		if = {
+			limit = { 
+				OR = {
+					 has_strategy = ai_strategy_industrial_expansion
+					 has_strategy = ai_strategy_resource_expansion
+				}
+			}
+			add = 2
+		}		
+	}
 }
 
 chemical_bleaching = {
@@ -199,6 +313,10 @@ chemical_bleaching = {
 
 	unlocking_technologies = {	
 		crystal_glass
+	}
+	
+	ai_weight = {
+		value = 1
 	}
 }
 
@@ -219,6 +337,10 @@ nitroglycerin = {
 		intensive_agriculture
 		prospecting
 	}
+	
+	ai_weight = {
+		value = 1
+	}
 }
 
 bessemer_process = {
@@ -231,6 +353,17 @@ bessemer_process = {
 	unlocking_technologies = {	
 		steelworking
 	}
+	
+	ai_weight = {
+		value = 1
+		
+		if = {
+			limit = { 
+				 has_strategy = ai_strategy_industrial_expansion
+			}
+			add = 1
+		}		
+	}
 }
 
 baking_powder = {
@@ -241,6 +374,10 @@ baking_powder = {
 	
 	unlocking_technologies = {
 		fractional_distillation
+	}
+	
+	ai_weight = {
+		value = 1
 	}
 }
 
@@ -259,6 +396,17 @@ mechanized_workshops = {
 		canneries
 		mechanical_tools
 	}
+	
+	ai_weight = {
+		value = 1
+		
+		if = {
+			limit = { 
+				 has_strategy = ai_strategy_industrial_expansion
+			}
+			add = 1
+		}		
+	}
 }
 
 mechanical_tools = {
@@ -270,6 +418,10 @@ mechanical_tools = {
 	unlocking_technologies = {
 		lathe
 		steelworking
+	}
+	
+	ai_weight = {
+		value = 1		
 	}
 }
 
@@ -285,6 +437,10 @@ improved_fertilizer = {
 	unlocking_technologies = {	
 		intensive_agriculture
 	}
+	
+	ai_weight = {
+		value = 1
+	}
 }
 
 steam_donkey = {
@@ -297,6 +453,20 @@ steam_donkey = {
 	unlocking_technologies = {	
 		intensive_agriculture
 	}
+	
+	ai_weight = {
+		value = 1
+		
+		if = {
+			limit = { 
+				OR = {
+					 has_strategy = ai_strategy_industrial_expansion
+					 has_strategy = ai_strategy_resource_expansion
+				}
+			}
+			add = 2
+		}	
+	}	
 }
 
 dynamite = {
@@ -315,6 +485,10 @@ dynamite = {
 	unlocking_technologies = {	
 		nitroglycerin
 	}
+	
+	ai_weight = {
+		value = 1
+	}
 }
 
 rubber_mastication = {
@@ -327,6 +501,20 @@ rubber_mastication = {
 		fractional_distillation
 		chemical_bleaching
 	}
+	
+	ai_weight = {
+		value = 1
+		
+		if = {
+			limit = { 
+				OR = {
+					 has_strategy = ai_strategy_industrial_expansion
+					 has_strategy = ai_strategy_resource_expansion
+				}
+			}
+			add = 3
+		}	
+	}
 }	
 
 rotary_valve_engine = {
@@ -337,6 +525,10 @@ rotary_valve_engine = {
 	
 	unlocking_technologies = {	
 		watertube_boiler
+	}
+	
+	ai_weight = {
+		value = 1
 	}
 }
 
@@ -353,7 +545,11 @@ reinforced_concrete = {
 	unlocking_technologies = {	
 		bessemer_process
 	}
-}	
+	
+	ai_weight = {
+		value = 1
+	}
+}
 
 threshing_machine = {
 	# Unlocks Steam Threshers PM on Rye, Wheat, Rice, Maize, Millet Farms
@@ -363,6 +559,20 @@ threshing_machine = {
 	
 	unlocking_technologies = {	
 		steam_donkey
+	}
+	
+	ai_weight = {
+		value = 1
+		
+		if = {
+			limit = { 
+				OR = {
+					has_strategy = ai_strategy_agricultural_expansion 
+					has_strategy = ai_strategy_plantation_economy
+				}
+			}
+			add = 1
+		}	
 	}
 }
 
@@ -377,6 +587,20 @@ pumpjacks = {
 		steam_donkey
 		dynamite
 	}
+	
+	ai_weight = {
+		value = 1
+		
+		if = {
+			limit = { 
+				OR = {
+					 has_strategy = ai_strategy_industrial_expansion
+					 has_strategy = ai_strategy_resource_expansion
+				}
+			}
+			add = 2
+		}	
+	}
 }
 
 aniline = {
@@ -387,6 +611,10 @@ aniline = {
 	
 	unlocking_technologies = {	
 		rubber_mastication
+	}
+	
+	ai_weight = {
+		value = 1
 	}
 }
 
@@ -399,6 +627,10 @@ open_hearth_process = {
 	unlocking_technologies = {	
 		bessemer_process
 	}
+	
+	ai_weight = {
+		value = 1
+	}
 }
 
 vulcanization = {
@@ -410,7 +642,11 @@ vulcanization = {
 	unlocking_technologies = {	
 		rubber_mastication
 	}
-}	
+	
+	ai_weight = {
+		value = 1
+	}
+}
 
 vacuum_canning = {
 	# Unlocks Vacuum Canning PM in Food Industries
@@ -420,6 +656,10 @@ vacuum_canning = {
 	
 	unlocking_technologies = {	
 		mechanized_workshops
+	}
+	
+	ai_weight = {
+		value = 1
 	}
 }
 
@@ -435,6 +675,10 @@ shift_work = {
 	unlocking_technologies = {	
 		mechanized_workshops
 	}
+	
+	ai_weight = {
+		value = 1
+	}
 }
 
 steel_railway_cars = {
@@ -447,6 +691,10 @@ steel_railway_cars = {
 	
 	unlocking_technologies = {	
 		railways
+	}
+	
+	ai_weight = {
+		value = 1
 	}
 }
 
@@ -465,6 +713,20 @@ electrical_generation = {
 	unlocking_technologies = {	
 		rotary_valve_engine
 	}
+	
+	ai_weight = {
+		value = 1
+		
+		if = {
+			limit = { 
+				OR = {
+					 has_strategy = ai_strategy_industrial_expansion
+					 has_strategy = ai_strategy_resource_expansion
+				}
+			}
+			add = 2
+		}	
+	}
 }
 
 ### ERA 4
@@ -478,6 +740,20 @@ mechanized_farming = {
 	unlocking_technologies = {	
 		threshing_machine
 	}
+	
+	ai_weight = {
+		value = 1
+		
+		if = {
+			limit = { 
+				OR = {
+					has_strategy = ai_strategy_agricultural_expansion 
+					has_strategy = ai_strategy_plantation_economy
+				}
+			}
+			add = 1
+		}	
+	}
 }
 
 art_silk = {
@@ -490,6 +766,10 @@ art_silk = {
 	unlocking_technologies = {	
 		aniline
 	}
+	
+	ai_weight = {
+		value = 1
+	}
 }
 
 automatic_bottle_blowers = {
@@ -500,6 +780,10 @@ automatic_bottle_blowers = {
 	
 	unlocking_technologies = {	
 		vulcanization
+	}
+	
+	ai_weight = {
+		value = 1
 	}
 }
 
@@ -514,6 +798,10 @@ conveyors = {
 		shift_work
 		electrical_generation
 	}
+	
+	ai_weight = {
+		value = 1
+	}
 }
 
 pasteurization = {
@@ -525,6 +813,10 @@ pasteurization = {
 	unlocking_technologies = {	
 		vacuum_canning
 		electrical_capacitors
+	}
+	
+	ai_weight = {
+		value = 1
 	}
 }
 
@@ -541,6 +833,20 @@ electric_railway = {
 		electrical_capacitors
 		steel_railway_cars
 	}	
+	
+	ai_weight = {
+		value = 1
+		
+		if = {
+			limit = { 
+				OR = {
+					 has_strategy = ai_strategy_industrial_expansion
+					 has_strategy = ai_strategy_resource_expansion
+				}
+			}
+			add = 1
+		}	
+	}
 }
 
 combustion_engine = {
@@ -555,6 +861,20 @@ combustion_engine = {
 	
 	unlocking_technologies = {	
 		rotary_valve_engine
+	}
+	
+	ai_weight = {
+		value = 1
+		
+		if = {
+			limit = { 
+				OR = {
+					 has_strategy = ai_strategy_industrial_expansion
+					 has_strategy = ai_strategy_resource_expansion
+				}
+			}
+			add = 1
+		}	
 	}
 }
 
@@ -575,6 +895,10 @@ pneumatic_tools = {
 		rotary_valve_engine
 		reinforced_concrete
 	}
+	
+	ai_weight = {
+		value = 1
+	}
 }
 
 nitrogen_fixation = {
@@ -587,6 +911,10 @@ nitrogen_fixation = {
 	unlocking_technologies = {
 		improved_fertilizer
 	}
+	
+	ai_weight = {
+		value = 1
+	}
 }
 
 electric_arc_process = {
@@ -597,6 +925,10 @@ electric_arc_process = {
 	
 	unlocking_technologies = {	
 		open_hearth_process
+	}
+	
+	ai_weight = {
+		value = 1
 	}
 }
 
@@ -609,6 +941,10 @@ steam_turbine = {
 	unlocking_technologies = {	
 		electrical_generation
 	}
+	
+	ai_weight = {
+		value = 1
+	}
 }
 
 plastics = {
@@ -619,6 +955,10 @@ plastics = {
 	
 	unlocking_technologies = {	
 		reinforced_concrete
+	}
+	
+	ai_weight = {
+		value = 1
 	}
 }
 
@@ -633,6 +973,20 @@ electrical_capacitors = {
 	unlocking_technologies = {	
 		electrical_generation
 	}
+	
+	ai_weight = {
+		value = 1
+		
+		if = {
+			limit = { 
+				OR = {
+					 has_strategy = ai_strategy_industrial_expansion
+					 has_strategy = ai_strategy_resource_expansion
+				}
+			}
+			add = 1
+		}	
+	}
 }
 
 radio = {
@@ -643,6 +997,10 @@ radio = {
 	
 	unlocking_technologies = {
 		telephone
+	}
+	
+	ai_weight = {
+		value = 1
 	}
 }
 
@@ -655,6 +1013,10 @@ telephone = {
 	unlocking_technologies = {
 		shift_work
 		electrical_generation
+	}
+	
+	ai_weight = {
+		value = 1
 	}
 }
 
@@ -669,6 +1031,10 @@ dough_rollers = {
 	unlocking_technologies = {
 		conveyors
 	}
+	
+	ai_weight = {
+		value = 1
+	}
 }
 
 flash_freezing = {
@@ -681,6 +1047,10 @@ flash_freezing = {
 	unlocking_technologies = {
 		pasteurization
 	}
+	
+	ai_weight = {
+		value = 1
+	}
 }
 
 oil_turbine = {
@@ -691,6 +1061,10 @@ oil_turbine = {
 	
 	unlocking_technologies = {	
 		steam_turbine
+	}
+	
+	ai_weight = {
+		value = 1
 	}
 }
 
@@ -705,6 +1079,10 @@ arc_welding = {
 		electric_arc_process
 		pneumatic_tools
 	}
+	
+	ai_weight = {
+		value = 1
+	}
 }
 
 compression_ignition = {
@@ -716,5 +1094,9 @@ compression_ignition = {
 	
 	unlocking_technologies = {
 		combustion_engine
+	}
+	
+	ai_weight = {
+		value = 1
 	}
 }
