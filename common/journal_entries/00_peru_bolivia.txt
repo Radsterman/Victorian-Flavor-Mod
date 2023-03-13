@@ -21,20 +21,17 @@
 	}
 
 	fail = {
-		AND = {
-			OR = {
-				NOT = { exists = c:ESP }
-				c:ESP = {
-					NOT = { is_subject_of = ROOT }
-				}
+		OR = {
+			NOT = { exists = c:ESP }
+			c:ESP = {
+				NOT = { is_subject_of = ROOT }
 			}
-			OR = {
-				NOT = { exists = c:PEU }
-				c:PEU = {
-					NOT = { is_subject_of = ROOT }
-				}
-			}		
-		}
+			
+			NOT = { exists = c:PEU }
+			c:PEU = {
+				NOT = { is_subject_of = ROOT }
+			}
+		}		
 	}
 
 	current_value = {
@@ -53,51 +50,70 @@
 }
 
 je_peru_bolivia_the_feeble_union = { 
-	icon = "gfx/interface/icons/event_icons/event_centralization.dds"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+
+	immediate = {
+		c:PEU = {
+			save_scope_as = peu_scope
+		}
+	}
 
 	on_monthly_pulse = {
 		effect = {
-			change_variable = {
-				name = peru_the_feeble_union_var
-				add = 1
+			if = {
+				limit = {
+					is_at_war = no
+					c:PEU = {
+						relations:root < relations_threshold:cordial
+					}
+				}
+				change_variable = {
+					name = peru_the_feeble_union_var
+					add = 1
+				}
 			}
 		}
 	}
 
 	is_shown_when_inactive = {
-		exists = c:PEU
-		c:PEU = ROOT
+		exists = c:BOL
+        THIS = c:BOL
+		c:PEU = {
+			is_subject_type = subject_type_confederation
+			is_subject_of = c:BOL
+		}
 	}
 
 	possible = {
-		is_subject_type = subject_type_real_union
-		c:BOL = {
-			relations:root <= relations_threshold:cordial
+		c:PEU = {
+			is_subject_of = c:BOL
+			is_subject_type = subject_type_confederation
+		}
+		c:PEU = {
+			relations:root < relations_threshold:cordial
 		}
 	}
 
 	complete = {
 		scope:journal_entry = { is_goal_complete = yes }
+		c:PEU = {
+			is_at_war = no
+		}
 	}
 
 	on_complete = {
-		trigger_event = {
-			id = journal_flavor_peru.1
+		c:PEU = {
+			trigger_event = {
+				id = journal_flavor_peru.1
+		    }
 		}
 	}
 
 	fail = {
-		AND = {
-			OR = {
-				c:BOL = {
-			      relations:root >= relations_threshold:cordial
-		        }
+		NOT = {
+			c:PEU = {
+				is_subject_of = c:BOL
 			}
-			OR = {
-				c:PEU = {
-					is_at_war = yes
-				}
-			}		
 		}
 	}
 
@@ -116,17 +132,17 @@ je_peru_bolivia_the_feeble_union = {
 	should_be_pinned_by_default = yes
 }
 
-je_peru_restoration = { #Feel free to replace this later
+je_peru_restoration = { 
 	icon = "gfx/interface/icons/event_icons/event_scales.dds"
 
 	is_shown_when_inactive = {
 		exists = c:PEU
-		c:PEU = ROOT
 		exists = c:ESP
+        THIS = c:PEU
 	}
 
 	possible = {
-		is_subject_type = subject_type_real_union
+		is_subject_type = subject_type_confederation
 	}
 
 	complete = {
@@ -153,23 +169,4 @@ je_peru_restoration = { #Feel free to replace this later
 	weight = 10000
 
 	should_be_pinned_by_default = yes
-}
-
-je_debug_interest = {
-	icon = "gfx/interface/icons/event_icons/event_scales.dds"
-
-	complete = {
-		game_date >= 1836.5.1
-	}
-
-	on_complete = {
-        c:USA = {
-            add_declared_interest = region_andes
-        }
-		c:BRZ = {
-            add_declared_interest = region_andes
-        }
-	}
-
-	weight = 10000
 }
