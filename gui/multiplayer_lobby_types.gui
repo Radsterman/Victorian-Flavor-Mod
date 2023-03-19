@@ -25,8 +25,13 @@ template multiplayer_lobby_selected_country_info {
 		scrollwidget = {
 			flowcontainer = {
 				direction = vertical
-				margin_bottom = 10
+				margin_bottom = 60
 			
+				#state = {
+				#	name = _show
+				#	on_start = "[InformationPanel.IsTabSelected('country_flavor)]"
+				#}
+				
 				### NATION NAME
 				widget = {
 					size = { @lobby_panel_info_width 60 }
@@ -71,6 +76,7 @@ template multiplayer_lobby_selected_country_info {
 				
 				### FLAG / RANK / PORTRAIT / ARMY
 				container = {
+				margin_bottom = 10
 					minimumsize = { @lobby_panel_info_width -1 }
 					
 					### PORTRAIT
@@ -78,6 +84,7 @@ template multiplayer_lobby_selected_country_info {
 						datacontext = "[Country.GetRuler]"
 						position = { 84 -10 }
 						blockoverride "show_hat" {}
+						blockoverride "rank_icon" {}
 					}
 
 					#HEIR PORTRAIT
@@ -87,6 +94,7 @@ template multiplayer_lobby_selected_country_info {
 						position = { 80 170 }
 						blockoverride "show_hat" {}
 						blockoverride "highlight" {}
+						blockoverride "rank_icon" {}
 					}
 			
 					#VICE PRESIDENT PORTRAIT
@@ -96,6 +104,7 @@ template multiplayer_lobby_selected_country_info {
 						position = { 80 170 }
 						blockoverride "show_hat" {}
 						blockoverride "highlight" {}
+						blockoverride "rank_icon" {}
 					}
 			
 					#PRIME MINISTER PORTRAIT
@@ -105,17 +114,60 @@ template multiplayer_lobby_selected_country_info {
 						position = { 225 170 }
 						blockoverride "show_hat" {}
 						blockoverride "highlight" {}
+						blockoverride "rank_icon" {}
+					}
+
+					#OVERLORD'S RULER PORTRAIT
+					character_portrait_small2 = {
+						visible = "[Country.IsSubject]"
+						datacontext = "[Country.GetOverlord.GetRuler]"
+						position = { 85 40 }
+						blockoverride "show_hat" {}
+						blockoverride "highlight" {}
+						blockoverride "rank_icon" {}
+					}
+			
+					#OVERLORD'S OVERLORD'S RULER PORTRAIT
+					character_portrait_small2 = {
+						visible = "[Country.GetOverlord.IsSubject]"
+						datacontext = "[Country.GetOverlord.GetOverlord.GetRuler]"
+						position = { 85 40 }
+						blockoverride "show_hat" {}
+						blockoverride "highlight" {}
+						blockoverride "rank_icon" {}
 					}
 
 					### FLAG
 					flag = {
-						position = { 20 30 }
+						position = { 15 30 }
 						
 						widget = {
 							size = { 100% 100% }
 							using = clickthrough_blocker
 						}
 					}
+
+					#### OVERLORD FLAG
+					#flag = {
+					#	position = { 15 90 }
+					#	visible = [Country.IsSubject]
+					#	datacontext = [Country.GetOverlord]
+					#	widget = {
+					#		size = { 100% 100% }
+					#		using = clickthrough_blocker
+					#	}
+					#}
+					#
+					#### OVERLORD's OVERLORD FLAG
+					#flag = {
+					#	position = { 15 150 }
+					#	visible = [Country.IsSubject]
+					#	datacontext = [Country.GetOverlord.GetOverlord]
+					#	widget = {
+					#		size = { 100% 100% }
+					#		using = clickthrough_blocker
+					#	}
+					#}
 					
 					rank_badge = {
 						size = { 80 80 }
@@ -171,45 +223,263 @@ template multiplayer_lobby_selected_country_info {
 					#		size = { 130% 110% }
 					#	}
 					#}
+					
+				### VISIBILITY BUTTONS
+				flowcontainer = {
+				
+					margin_bottom = 1
+					direction = horizontal
+					minimumsize = { @lobby_panel_info_width -1 }
+					maximumsize = { @lobby_panel_info_width -1 }
+					
+					#hbox = {
+					#layoutpolicy_horizontal = expanding
+					spacing = 5
+					
+						tab_button = {
+							size = { 61 45 }
+							tooltip = "COUNTRY_FLAVOR_TEXT"
+							onclick = "[GetVariableSystem.Set( 'country_selection_info', 'country_flavor' )]"
+							icon = {
+								texture = "gfx/interface/icons/notification_icons/journal.dds"
+								size = { 30 30 }
+								parentanchor = hcenter|vcenter
+							}
+						}
+						
+						tab_button = {
+							size = { 61 45 }
+							tooltip = "COUNTRY_STATISTICS_TEXT"
+							onclick = "[GetVariableSystem.Set( 'country_selection_info', 'country_statistics' )]"
+							icon = {
+								texture = "gfx/interface/icons/notification_icons/goods.dds"
+								size = { 30 30 }
+								parentanchor = hcenter|vcenter
+							}
+						}
+						
+						tab_button = {
+							size = { 60 45 }
+							tooltip = "COUNTRY_DIPLOMACY_TEXT"
+							onclick = "[GetVariableSystem.Set( 'country_selection_info', 'country_diplomacy' )]"
+							icon = {
+								texture = "gfx/interface/icons/notification_icons/influence.dds"
+								size = { 30 30 }
+								parentanchor = hcenter|vcenter
+							}
+						}
+						
+						tab_button = {
+							size = { 60 45 }
+							tooltip = "COUNTRY_POLITICS_TEXT"
+							onclick = "[GetVariableSystem.Set( 'country_selection_info', 'country_politics' )]"
+							icon = {
+								texture = "gfx/interface/icons/notification_icons/bureaucracy.dds"
+								size = { 30 30 }
+								parentanchor = hcenter|vcenter
+							}
+						}
+						
+						tab_button = {
+							size = { 60 45 }
+							icon = {
+								texture = "gfx/interface/icons/notification_icons/pops.dds"
+								size = { 30 30 }
+								parentanchor = hcenter|vcenter
+							}
+						}
+						
+						tab_button = {
+							size = { 60 45 }
+							tooltip = "COUNTRY_STATES_TEXT"
+							onclick = "[GetVariableSystem.Set( 'country_selection_info', 'states' )]"
+							icon = {
+								texture = "gfx/interface/icons/notification_icons/interest.dds"
+								size = { 30 30 }
+								parentanchor = hcenter|vcenter
+							}
+						}
+						#tab_buttons = {
+						#	##maximumsize = { @lobby_panel_info_width -1 }
+						#	##minimumsize = { @lobby_panel_info_width -1 }
+						#	##parentanchor = left	
+						#	# Flavor
+						#	blockoverride "first_button" {
+						#		icon = {
+						#			texture = "gfx/interface/icons/notification_icons/bureaucracy.dds"
+						#			size = { 30 30 }
+						#			parentanchor = hcenter|vcenter
+						#		}
+						#	}
+						#	blockoverride "first_button_tooltip" {
+						#		tooltip = "Background"
+						#	}
+						#	blockoverride "first_button_click" {
+						#		onclick = "[GetVariableSystem.Clear( 'country_selection_info' )]"
+						#	}
+						#	blockoverride "first_button_visibility" {
+						#		visible = "[Not( GetVariableSystem.Exists( 'country_selection_info' ) )]"
+						#	}
+						#	blockoverride "first_button_visibility_checked" {
+						#		visible = "[GetVariableSystem.Exists( 'country_selection_info' )]"
+						#	}
+						#	blockoverride "first_button_selected" {
+						#		icon = {
+						#			texture = "gfx/interface/icons/notification_icons/bureaucracy.dds"
+						#			size = { 30 30 }
+						#			parentanchor = hcenter|vcenter
+						#		}
+						#	}
+						#	# Statistics
+						#	blockoverride "second_button" {
+						#		icon = {
+						#			texture = "gfx/interface/icons/notification_icons/journal.dds"
+						#			size = { 30 30 }
+						#			parentanchor = hcenter|vcenter
+						#		}
+						#	}
+						#	blockoverride "second_button_tooltip" {
+						#		tooltip = "Statistics"
+						#	}
+						#	blockoverride "second_button_click" {
+						#		onclick = "[GetVariableSystem.Set( 'country_selection_info', 'country_statistics' )]"
+						#	}
+						#	blockoverride "second_button_visibility" {
+						#		visible = "[GetVariableSystem.HasValue( 'country_selection_info', 'country_statistics' )]"
+						#	}
+						#	blockoverride "second_button_visibility_checked" {
+						#		visible = "[NOT(GetVariableSystem.HasValue( 'country_selection_info', 'country_statistics' ))]"
+						#	}
+						#	blockoverride "second_button_selected" {
+						#		icon = {
+						#			texture = "gfx/interface/icons/notification_icons/journal.dds"
+						#			size = { 30 30 }
+						#			parentanchor = hcenter|vcenter
+						#		}
+						#	}							
+						#	
+						#	# Diplomacy
+						#	blockoverride "third_button" {
+						#		icon = {
+						#			texture = "gfx/interface/icons/notification_icons/influence.dds"
+						#			size = { 30 30 }
+						#			parentanchor = hcenter|vcenter
+						#		}
+						#	}
+						#	blockoverride "third_button_tooltip" {
+						#		tooltip = "Diplomacy"
+						#	}
+						#	blockoverride "third_button_click" {
+						#		onclick = "[GetVariableSystem.Set( 'country_selection_info', 'country_diplomacy' )]"
+						#	}
+						#	blockoverride "third_button_visibility" {
+						#		visible = "[GetVariableSystem.HasValue( 'country_selection_info', 'country_diplomacy' )]"
+						#	}
+						#	blockoverride "third_button_visibility_checked" {
+						#		visible = "[NOT(GetVariableSystem.HasValue( 'country_selection_info', 'country_diplomacy' ))]"
+						#	}
+						#	blockoverride "third_button_selected" {
+						#		text = "COUNTRY_PANEL_DIPLOMACY_TAB_SELECTED"
+						#	}
+						#	blockoverride "third_button_name" {
+						#		name = "tutorial_highlight_country_diplomacy_tab"
+						#	}
+						#	
+						#	# Politics
+						#	blockoverride "fourth_button" {
+						#		icon = {
+						#			texture = "gfx/interface/icons/notification_icons/laws.dds"
+						#			size = { 30 30 }
+						#			parentanchor = hcenter|vcenter
+						#		}
+						#	}
+						#	blockoverride "fourth_button_tooltip" {
+						#		tooltip = "Politics"
+						#	}
+						#	blockoverride "fourth_button_click" {
+						#		onclick = "[GetVariableSystem.Set( 'country_selection_info', 'country_politics' )]"
+						#	}
+						#	blockoverride "fourth_button_visibility" {
+						#		visible = "[GetVariableSystem.HasValue( 'country_selection_info', 'country_politics' )]"
+						#	}
+						#	blockoverride "fourth_button_visibility_checked" {
+						#		visible = "[NOT(GetVariableSystem.HasValue( 'country_selection_info', 'country_politics' ))]"
+						#	}
+						#	blockoverride "fourth_button_selected" {
+						#		icon = {
+						#			texture = "gfx/interface/icons/notification_icons/laws.dds"
+						#			size = { 30 30 }
+						#			parentanchor = hcenter|vcenter
+						#		}
+						#	}
+						#	
+						#	# Demographics
+						#	blockoverride "fifth_button" {
+						#		icon = {
+						#			texture = "gfx/interface/icons/notification_icons/pops.dds"
+						#			size = { 30 30 }
+						#			parentanchor = hcenter|vcenter
+						#		}
+						#	}
+						#	blockoverride "fifth_button_tooltip" {
+						#		tooltip = "Demographics"
+						#	}
+						#	blockoverride "fifth_button_click" {
+						#		onclick = "[GetVariableSystem.Set( 'country_selection_info', 'country_demographics' )]"
+						#	}
+						#	blockoverride "fifth_button_visibility" {
+						#		visible = "[GetVariableSystem.HasValue( 'country_selection_info', 'country_demographics' )]"
+						#	}
+						#	blockoverride "fifth_button_visibility_checked" {
+						#		visible = "[NOT(GetVariableSystem.HasValue( 'country_selection_info', 'country_demographics' ))]"
+						#	}
+						#	blockoverride "fifth_button_selected" {
+						#		icon = {
+						#			texture = "gfx/interface/icons/notification_icons/pops.dds"
+						#			size = { 30 30 }
+						#			parentanchor = hcenter|vcenter
+						#		}
+						#	}
+						#	blockoverride "fifth_button_name" {
+						#		name = "tutorial_highlight_country_interactions_tab"
+						#	}					
+						#}
+					#}
+				}
 				
 				### COUNTRY INFO
 				flowcontainer = {
 					direction = vertical
 					minimumsize = { @lobby_panel_info_width -1 }
 					maximumsize = { @lobby_panel_info_width -1 }
-					spacing = 5
-
-					divider_clean = {}
+					margin_top = 10
+					#background = {
+					#	using = dark_area
+					#	margin = { 1 0 }
+					#	margin_top = -43
+					#}
 					
-					### FLAVOUR TEXT
-					flowcontainer = {
-						margin_left = 15
-						direction = vertical
-						
-						button_standard = {
-							name = "country_flavor_button"
-							layoutpolicy_horizontal = expanding
-							size = { 350 45 }
-							tooltip = "COUNTRY_FLAVOR_TEXT"
 
-							text = "country_flavor_button"
-							margin = { 60 0 }
-							onclick = "[GetVariableSystem.Toggle( 'country_flavor_text' )]"
-						}
-						
-						textbox = {
-							autoresize = yes
-							multiline = yes
-							maximumsize = { 350 -1 }
-							visible = "[GetVariableSystem.Exists( 'country_flavor_text' )]"
-							text = "[Country.GetFlavorText]"
-							default_format = "#lore"
-						}
+
+					textbox = {
+						using = fontsize_large
+						raw_text = "#bold Background#!"
+						autoresize = yes
+						margin_left = 15
+						visible = "[GetVariableSystem.HasValue( 'country_selection_info', 'country_flavor' )]"
 					}
 					
-					divider_clean = {}
-					
-
+					textbox = {
+						autoresize = yes
+						margin_left = 15
+						margin_bottom = 10
+						multiline = yes
+						maximumsize = { 350 -1 }
+						visible = "[GetVariableSystem.HasValue( 'country_selection_info', 'country_flavor' )]"
+						text = "[Country.GetFlavorText]"
+						default_format = "#lore"
+					}
+						
 					#POLITICS
 					flowcontainer = {
 						position = { 0 400 }
@@ -217,10 +487,11 @@ template multiplayer_lobby_selected_country_info {
 						minimumsize = { 260 -1 }
 						spacing = 10
 						margin_bottom = 10
+						visible = "[GetVariableSystem.HasValue( 'country_selection_info', 'country_politics' )]"
 						
 						textbox = {
 							using = fontsize_large
-							raw_text = "#bold Politics#!"
+							raw_text = "#bold Internal Politics#!"
 							autoresize = yes
 							margin_left = 15
 						}
@@ -233,43 +504,163 @@ template multiplayer_lobby_selected_country_info {
 								spacing = 10
 								minimumsize = { 175 -1 }
 								direction = vertical
-		
-		
-								textbox = {
-									autoresize = yes
-									visible = "[Country.HasRuler]"
+	
+								flowcontainer = {
+									direction = vertical
+									layoutpolicy_horizontal = expanding
+									layoutpolicy_vertical = shrinking
 									datacontext = "[Country.GetRuler]"
-									text = "RULER_INFO_TEXT"
-									align = nobaseline
-									elide = right
+									visible = "[Country.HasRuler]"
+									
+									textbox = {
+										autoresize = yes
+										text = "RULER_INFO_TEXT"
+										align = nobaseline
+										elide = right
+									}
+									
+									flowcontainer = {
+										direction = horizontal
+										size = { 200 80 }
+										character_portrait_medium = {
+										}
+										vbox = {
+											layoutpolicy_horizontal = shrinking
+											### IG ICON
+											character_ig_button = {
+												size = { 40 40 }
+												blockoverride "in_government_icon" {}
+											}
+											### IDEOLOGY
+											icon = {
+												size = { 40 40 }
+												datacontext = "[Character.GetIdeology]"					
+												texture = "[Ideology.GetTexture]"
+												tooltipwidget = {
+													FancyTooltip_Ideology = {}
+												}
+											}
+										}
+									}
 								}
 								
-								textbox = {
-									autoresize = yes
-									visible = "[Country.HasHeir]"
+								flowcontainer = {
+									direction = vertical
+									layoutpolicy_horizontal = expanding
+									layoutpolicy_vertical = shrinking
 									datacontext = "[Country.GetHeir]"
-									text = "HEIR_INFO_TEXT"
-									align = nobaseline
-									elide = right
+									visible = "[Country.HasHeir]"
+									
+									textbox = {
+										autoresize = yes
+										text = "HEIR_INFO_TEXT"
+										align = nobaseline
+										elide = right
+									}
+									
+									flowcontainer = {
+										direction = horizontal
+										size = { 200 80 }
+										character_portrait_medium = {
+										}
+										vbox = {
+											layoutpolicy_horizontal = shrinking
+											### IG ICON
+											character_ig_button = {
+												size = { 40 40 }
+												blockoverride "in_government_icon" {}
+											}
+											### IDEOLOGY
+											icon = {
+												size = { 40 40 }
+												datacontext = "[Character.GetIdeology]"					
+												texture = "[Ideology.GetTexture]"
+												tooltipwidget = {
+													FancyTooltip_Ideology = {}
+												}
+											}
+										}
+									}
 								}
 								
-								textbox = {
-									autoresize = yes
-									visible = "[Country.MakeScope.Var('vice_president').IsSet]"
+								flowcontainer = {
+									direction = vertical
+									layoutpolicy_horizontal = expanding
+									layoutpolicy_vertical = shrinking
+									margin_bottom = 10
 									datacontext = "[Country.MakeScope.Var('vice_president').GetCharacter]"
-									text = "VICE_PRESIDENT_INFO_TEXT"
-									align = nobaseline
-									elide = right
+									visible = "[Country.MakeScope.Var('vice_president').IsSet]"
+									
+									textbox = {
+										autoresize = yes
+										text = "VICE_PRESIDENT_INFO_TEXT"
+										align = nobaseline
+										elide = right
+									}
+									
+									flowcontainer = {
+										direction = horizontal
+										size = { 200 80 }
+										character_portrait_medium = {
+										}
+										vbox = {
+											layoutpolicy_horizontal = shrinking
+											### IG ICON
+											character_ig_button = {
+												size = { 40 40 }
+												blockoverride "in_government_icon" {}
+											}
+											### IDEOLOGY
+											icon = {
+												size = { 40 40 }
+												datacontext = "[Character.GetIdeology]"					
+												texture = "[Ideology.GetTexture]"
+												tooltipwidget = {
+													FancyTooltip_Ideology = {}
+												}
+											}
+										}
+									}
+								}
+								flowcontainer = {
+									direction = vertical
+									layoutpolicy_horizontal = expanding
+									layoutpolicy_vertical = shrinking
+									datacontext = "[Country.MakeScope.Var('prime_minister').GetCharacter]"
+									visible = "[Country.MakeScope.Var('prime_minister').IsSet]"
+									
+									textbox = {
+										autoresize = yes
+										text = "PRIME_MINISTER_INFO_TEXT"
+										align = nobaseline
+										elide = right
+									}
+									
+									flowcontainer = {
+										direction = horizontal
+										size = { 200 80 }
+										character_portrait_medium = {
+										}
+										vbox = {
+											layoutpolicy_horizontal = shrinking
+											### IG ICON
+											character_ig_button = {
+												size = { 40 40 }
+												blockoverride "in_government_icon" {}
+											}
+											### IDEOLOGY
+											icon = {
+												size = { 40 40 }
+												datacontext = "[Character.GetIdeology]"					
+												texture = "[Ideology.GetTexture]"
+												tooltipwidget = {
+													FancyTooltip_Ideology = {}
+												}
+											}
+										}
+									}
 								}
 								
-								textbox = {
-									autoresize = yes
-									visible = "[Country.MakeScope.Var('prime_minister').IsSet]"
-									datacontext = "[Country.MakeScope.Var('prime_minister').GetCharacter]"
-									text = "PRIME_MINISTER_INFO_TEXT"
-									align = nobaseline
-									elide = right
-								}
 								#country_population_info = {
 								#	blockoverride "tooltip" {
 								#		tooltip = "POP_TOOLTIP"
@@ -434,19 +825,19 @@ template multiplayer_lobby_selected_country_info {
 							}
 						}
 					}
-					
-					divider_clean = {}
 
 					textbox = {
 						using = fontsize_large
 						raw_text = "#bold Statistics#!"
 						autoresize = yes
 						margin_left = 15
+						visible = "[GetVariableSystem.HasValue( 'country_selection_info', 'country_statistics' )]"
 					}
 					
 					flowcontainer = {
 						margin_left = 15
 						margin_bottom = 15
+						visible = "[GetVariableSystem.HasValue( 'country_selection_info', 'country_statistics' )]"
 						
 						flowcontainer = {
 							spacing = 5
@@ -500,6 +891,7 @@ template multiplayer_lobby_selected_country_info {
 						position = { 15 170 }
 						spacing = 20
 						margin_left = 140
+						visible = "[GetVariableSystem.HasValue( 'country_selection_info', 'statistics' )]"
 
 						flowcontainer = {
 							direction = vertical
@@ -544,6 +936,7 @@ template multiplayer_lobby_selected_country_info {
 				}
 
 				diplomatic_info = {
+				visible = "[GetVariableSystem.HasValue( 'country_selection_info', 'country_diplomacy' )]"
 					blockoverride "empty_state" {}
 					
 					blockoverride "datamodel_wrap" {
@@ -626,6 +1019,7 @@ template multiplayer_lobby_selected_country_info {
 				flowcontainer = {
 					direction = vertical
 					maximumsize = { @lobby_panel_info_width -1 }
+					visible = "[GetVariableSystem.HasValue( 'country_selection_info', 'states' )]"
 
 					default_header = {
 						using = default_list_position
