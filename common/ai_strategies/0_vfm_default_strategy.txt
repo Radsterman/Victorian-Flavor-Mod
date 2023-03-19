@@ -1,192 +1,26 @@
 ﻿# This is a special strategy that sets the default values for different AI scores
-# All AIs always load data from this strategy, which can then be either added to or overridden by data from its other strategies
 
 ai_strategy_default = {
 	icon = "gfx/interface/icons/ai_strategy_icons/placate_population.dds" # Never shown
 
-	# These are the tax levels the AI will try to stay within, though it can go above max tax level if in a financial emergency
-	# Using a different value in a strategy will override these values
 	desired_tax_level = medium
-	max_tax_level = high
-	min_tax_level = low
+	max_tax_level = very_high
+	min_tax_level = very_low
 	
-	# The AI will avoid getting this much infamy unless it's a wargoal it really wants
-	# Using a different value in a strategy will override this value
-	undesirable_infamy_level = {
-		value = 50
-	}
+	undesirable_infamy_level = 50
+	unacceptable_infamy_level = 100		
 	
-	# The AI will never deliberately add wargoals that will bring its infamy this high
-	# Using a different value in a strategy will override this value
-	unacceptable_infamy_level = {
-		value = 100
-	}
+	revolution_aversion = 5 # Chance each day that the AI will stop enacting a law that is going to spark a civil war (1 aversion should translate into ~25% chance of avoiding a civil war)
+	min_law_chance_to_pass = 50 # If base chance for law to pass is below this, don't enact it
+	max_progressiveness = 25 # How progressive is the AI willing to be when passing laws
+	max_regressiveness = 25 # How regressive is the AI willing to be when passing laws
 	
-	# How much is the AI's diplomatic acceptance, etc affected by government ideological differences
-	# Using a different value in a strategy will override this value
-	ideological_opinion_effect_mult = {
-		value = 1.0
-	}	
-	
-	# Chance each day that the AI will stop enacting a law that is going to spark a civil war (1 aversion should translate into ~25% chance of avoiding a civil war)
-	# Using a different value in a strategy will override this value
-	revolution_aversion = {
-		value = 5 
-	}
-	
-	# If base chance for law to pass is below this, don't enact it
-	# Using a different value in a strategy will override this value
-	min_law_chance_to_pass = {
-		value = 50
-	}
-
-	# How progressive is the AI willing to be when passing laws
-	# Using a different value in a strategy will override this value
-	max_progressiveness = {
-		value = 25
-	}  
-	
-	# How regressive is the AI willing to be when passing laws
-	# Using a different value in a strategy will override this value
-	max_regressiveness = {
-		value = 25 
-	}
-	
-	# Added to base neutrality in diplomatic plays	
-	# Using this value in other strategies will function additively
-	diplomatic_play_neutrality = {
-		value = 50 
-
-		if = {
-			limit = {
-				any_diplomatic_play = {
-					any_scope_play_involved = {
-						count >= 2
-						country_rank = rank_value:great_power
-						is_diplomatic_play_committed_participant = yes
-						NOT = { has_technology_researched = multilateral_alliances }
-					}
-				}
-				country_rank >= rank_value:great_power
-				NOT = { has_technology_researched = multilateral_alliances }
-			}
-			add = 200
-		}
-	}
-	
-	# Added to base boldness in diplomatic plays	
-	# Using this value in other strategies will function additively
-	diplomatic_play_boldness = {
-		value = 50 
-
-		if = { #Taiping should never surrender against China.
-			limit = {
-				exists = c:TPG
-				THIS = c:TPG
-				is_diplomatic_play_initiator = yes
-			}
-			add = 1000
-		}
-
-		if = { #Caucasian states should never surrender against Russia
-			limit = {
-				OR = {
-					AND = {		
-						exists = c:CIR
-						THIS = c:CIR	
-					}
-					AND = {		
-						exists = c:CHC
-						THIS = c:CHC	
-					}
-				}
-				c:RUS = {
-					is_diplomatic_play_initiator = yes
-				}
-			}
-			add = 1000
-		}
-
-		if = { #Likewise for Kazakhstan.
-			limit = {
-				exists = c:KAZ
-				THIS = c:KAZ
-				is_diplomatic_play_initiator = yes
-			}
-			add = 1000
-		}
-	} 
-		
-	# How many maneuvers are we OK with using up in the initial phase to add more wargoals
-	# Using this value in other strategies will function additively (values below 0 or above 1 have no further effect)
-	wargoal_maneuvers_fraction = {
-		value = 0.35
-		
-		if = {
-			limit = { 
-				scope:enemy_country.country_rank > country_rank 
-			}
-			
-			add = -0.1
-		}	
-	}
-	
-	# How many barracks relative to incorporated population should the AI have
-	# Using a different value in a strategy will override this value
-	wanted_army_ratio = {
-		value = 200000 # 1 barrack per 200k incorporated population
-	}
-	
-	# How many naval bases relative to incorporated coastal population should the AI have
-	# Using a different value in a strategy will override this value
-	wanted_navy_ratio = {
-		value = 400000 # 1 naval base per 400k coastal incorporated population
-	}	
-	
-	# Chance each update that the AI is willing to start changing a law (1 = 1%)
-	# Using this value in other strategies will function additively
-	change_law_chance = { 
-		value = 1
-	}
-	
-	# Which IGs should the AI try to put in power
-	# Using this value in other strategies will function additively
-	pro_interest_groups = {}
-	
-	# Which IGs should the AI try to avoid putting in power
-	# Using this value in other strategies will function additively
-	anti_interest_groups = {}	
-	
-	# Which institutions should the AI prefer to invest in
-	# Using this value in other strategies will function additively
-	institution_scores = {
-		institution_colonial_affairs = {	
-			value = 10		
-		}				
-		institution_social_security = {	
-			value = 10		
-		}
-		institution_workplace_safety = {	
-			value = 10		
-		}		
-		institution_schools = {	
-			value = 10	
-		}		
-		institution_police = {	
-			value = 10		
-		}		
-		institution_health_system = {	
-			value = 10	
-		}		
-		institution_home_affairs = {	
-			value = 10		
-		}				
-	}	
+	diplomatic_play_neutrality = 50 # Added to base neutrality in diplomatic plays	
+	diplomatic_play_boldness = 50 # Added to base boldness in diplomatic plays	
 	
 	# How much value does the AI place on an obligation from another country?
-	# Using this value in other strategies will function additively
 	obligation_value = {
-		value = 5
+		value = 15
 	
 		# Compare ranks - higher rank than us has increased value, lower rank decreased value
 		add = {
@@ -212,7 +46,7 @@ ai_strategy_default = {
 					}			
 				}			
 			}
-			add = 15
+			add = 20
 		}
 		
 		# Rebellious AI wants to use the obligation to break free
@@ -323,10 +157,28 @@ ai_strategy_default = {
 		max = 30
 	}
 	
-	# Recklessness multiplies the AI's estimation of its own strength, so at recklessness 2 it believes its forces to be twice as strong as they actually are
-	# The AI wants to have at least parity in what it believes its own forces to be and what the enemy forces are, so at recklessness 2 it's OK with only having 50% of the enemy strength
-	# Using this value in other strategies will function additively
-	recklessness = {
+	# How many maneuvers are we OK with using up in the initial phase to add more wargoals
+	# All strategies are added together here to produce a value from 0 to 1
+	wargoal_maneuvers_fraction = {
+		value = 0.35
+		
+		if = {
+			limit = { 
+				scope:enemy_country.country_rank > country_rank 
+			}
+			
+			add = -0.1
+		}	
+	}
+	
+	# Chance each update that the AI is willing to start changing a law (1 = 1%)
+	change_law_chance = { 
+		value = 1
+	}
+	
+	# Bravery multiplies the AI's estimation of its own strength, so at bravery 2 it believes its forces to be twice as strong as they actually are
+	# The AI wants to have at least parity in what it believes its own forces to be and what the enemy forces are, so at bravery 2 it's OK with only having 50% of the enemy strength
+	bravery = {
 		value = 1
 		
 		# Braver against pariah countries
@@ -344,8 +196,8 @@ ai_strategy_default = {
 			}
 			add = 1
 		}		
-
-		# Opium wars participants should both be confident
+	
+		# Opium wars aggressor should be confident
 		if = {
 			limit = {
 				has_journal_entry = je_opium_wars
@@ -356,18 +208,7 @@ ai_strategy_default = {
 			}
 			add = 1
 		}
-
-		if = {
-			limit = {
-				has_variable = opium_wars_target
-				is_banning_goods = g:opium
-				scope:target_country = {
-					has_journal_entry = je_opium_wars
-				}
-			}
-			add = 1
-		}	
-		
+	
 		# Ottomans should be extremely confident against owners of Syria and Egypt when they have the relevant JE's
 		if = {
 			limit = {
@@ -429,18 +270,7 @@ ai_strategy_default = {
 					has_journal_entry = je_age_of_princes
 				}
 			}
-			add = 0.5
-		}
-
-		#Italian Nightmare
-		if = {
-			limit = {
-				has_journal_entry = je_italian_unification
-				scope:target_country = {
-					has_journal_entry = je_italian_unification
-				}
-			}
-			add = 0.5
+			add = 1
 		}
 
 		# Warlord China Thunderdome
@@ -454,46 +284,24 @@ ai_strategy_default = {
 			}
 			add = 0.5
 		}
-
-		#Taiping
-		if = { 
-			limit = {
-				exists = c:TPG
-				THIS = c:TPG
-				scope:target_country = {
-					has_journal_entry = je_taiping
-				}
-			}
-			add = 3
 	}
 	
-		#Caucasus
-		if = {
-			limit = {
-				exists = c:CIR
-				THIS = c:CIR
-				scope:target_country = { 
-					this = c:RUS
-					}	
-				}
-			add = 5
-			}
-		if = { 
-			limit = {
-				exists = c:CHC
-				THIS = c:CHC
-				scope:target_country = {
-					this = c:RUS
-		}
-			}
-			add = 5
-		}
-	}
-	
-	# How likely is the AI to start a diplomatic play against another country if their attitude allows for it
-	# Using this value in other strategies will function additively
 	aggression = {
 		value = 0
+		
+		# AI should be aggressive against countries it has claims on if they have a larger army (WIP)
+		if = {
+			limit = {
+				can_reach_target_country = yes
+				scope:target_country = { 
+					any_scope_state = {
+						root = { has_claim = prev }
+					}	
+				country_rank >= scope:target_country.country_rank
+				}
+			}
+			add = 20
+		}
 			
 		# Higher aggression against pariah countries
 		if = {
@@ -539,52 +347,7 @@ ai_strategy_default = {
 			add = 100
 		}
 
-		if = { #Carving up China
-			limit = {
-				country_rank >= rank_value:great_power
-				exists = c:CHI
-				any_country = {
-					NOT = { THIS = ROOT }
-					country_is_in_europe = yes
-					any_scope_state = {
-						OR = {
-							region = sr:region_north_china
-							region = sr:region_south_china
-							region = sr:region_manchuria
-						}
-						is_treaty_port = yes
-					}
-				}
-				scope:target_country = {
-					this ?= c:CHI
-				}
-			}
-			add = 10
-		}
-		else_if = {
-			limit = {
-				country_rank >= rank_value:great_power
-				exists = c:CHI
-				any_country = {
-					NOT = { THIS = ROOT }
-					country_rank >= rank_value:great_power
-					any_scope_state = {
-						OR = {
-							region = sr:region_north_china
-							region = sr:region_south_china
-							region = sr:region_manchuria
-						}
-						is_treaty_port = yes
-					}
-				}
-				scope:target_country = {
-					this ?= c:CHI
-				}
-			}
-			add = 25
-		}
-
-		# Ottomans should be very aggressive against owners of Syria and Egypt when they have the relevant JE's
+		# Ottomans should be extremely aggressive against owners of Syria and Egypt when they have the relevant JE's
 		if = {
 			limit = {
 				OR = {
@@ -614,7 +377,7 @@ ai_strategy_default = {
 					}
 				}
 			}
-			add = 25
+			add = 100
 		}
 
 		# USA should be extremely aggressive against owners of their Manifest Destiny states
@@ -634,7 +397,7 @@ ai_strategy_default = {
 					}
 				}
 			}
-			add = 25
+			add = 100
 		}
 
 		# Extra french aggression for Haiti renouncing debt payments
@@ -648,7 +411,7 @@ ai_strategy_default = {
 					}
 				}				
 			}
-			add = 5
+			add = 10
 		}
 
 		# Extra aggression against Peru-Bolivia
@@ -665,6 +428,29 @@ ai_strategy_default = {
 			add = 25
 		}
 
+		# Ethiopian Thunderdome
+		if = {
+			limit = {
+				has_journal_entry = je_age_of_princes
+				scope:target_country = {
+					has_journal_entry = je_age_of_princes
+				}
+			}
+			add = 100
+		}
+
+		# Warlord China Thunderdome
+		if = {
+			limit = {
+				has_global_variable = china_shatters
+				has_variable = warlord_state
+				scope:target_country = {
+					has_variable = warlord_state
+				}
+			}
+			add = 100
+		}
+
 		# Veiled Protectorate
 		if = {
 			limit = {
@@ -674,7 +460,7 @@ ai_strategy_default = {
 					THIS = c:EGY
 				}
 			}
-			add = 5
+			add = 25
 		}
 
 		# East India Company vs its neighbors
@@ -698,210 +484,20 @@ ai_strategy_default = {
 					}
 				}
 			}
-			add = 5
-		}
-
-		if = { #Russian Caucasus
-			limit = {
-				country_has_primary_culture = cu:russian
-				has_law = law_type:law_national_supremacy
-				scope:target_country = {
-					any_scope_state = {
-						OR = {
-							state_region = s:STATE_KUBAN
-							state_region = s:STATE_DAGESTAN
-						}
-					}
-				}
-			}
-			add = 10
-	}
-	
-		if = { #Russian Far East
-			limit = {
-				has_journal_entry = je_the_eastern_border
-				scope:target_country = {
-					any_scope_state = {
-						OR = {
-							state_region = s:STATE_OUTER_MANCHURIA
-							state_region = s:STATE_JETISY
-							state_region = s:STATE_TOMSK
-							state_region = s:STATE_KIRGHIZIA
-						}
-					}
-				}
-			}
-			add = 10
-		}
-
-		if = { #Russian Central Asia
-			limit = {
-				owns_entire_state_region = STATE_URALSK
-				owns_entire_state_region = STATE_AKMOLINSK
-				owns_entire_state_region = STATE_SEMIRECHE
-				scope:target_country = {
-					any_scope_state = {
-						OR = {
-							state_region = s:STATE_UZBEKIA
-							state_region = s:STATE_KIRGHIZIA
-							state_region = s:STATE_KHIVA
-							state_region = s:STATE_TURKMENIA
-							state_region = s:STATE_TAJIKISTAN
-						}
-					}
-				}
-				can_reach_target_country = yes
-			}
-			add = 10
-		}
-
-		# Aggression against Council Republics
-		if = {
-			limit = {	
-				AND = {
-					NOT = {
-						has_law = law_type:law_council_republic
-					}
-					scope:target_country = {
-						has_law = law_type:law_council_republic	
-					}
-				}
-			}
-			add = 5
-		}
-		
-		if = { # The EIC/Raj should never go against its suzerain, as doing so is suicide
-			limit = {
-				exists = c:BIC
-				this = c:BIC
-				is_subject_of = scope:target_country
-			}
-			multiply = 0.0
-		}
-
-		if = { #Indian suzerain will be aggressive against Russia
-			limit = {
-				AND = {
-					c:RUS ?= {
-						any_scope_state = {
-							OR = {
-								state_region = s:STATE_UZBEKIA
-								state_region = s:STATE_KIRGHIZIA
-								state_region = s:STATE_KHIVA
-								state_region = s:STATE_TURKMENIA
-								state_region = s:STATE_TAJIKISTAN
-							}
-						}
-					}
-					ROOT = {
-						country_is_in_europe = yes
-		        		OR = {
-		        			any_scope_state = {
-		        				OR = {
-		    						region = sr:region_north_india
-		    						region = sr:region_south_india
-		    					}
-								count >= 3
-		        			}
-		        			any_country = {
-		        				is_subject_of = prev
-		        				any_scope_state = {
-		        					OR = {
-		        						region = sr:region_north_india
-		        						region = sr:region_south_india
-		        					}
-									count >= 3
-			        			}
-		        			}
-		        		}
-					}
-					scope:target_country = {
-						any_scope_state = {
-							OR = {
-								state_region = s:STATE_EASTERN_AFGHANISTAN
-								state_region = s:STATE_WESTERN_AFGHANISTAN
-								state_region = s:STATE_MOSCOW
-							}
-						}
-					}
-				}
-			}
-			add = 5
+			add = 25
 		}
 	}
 	
-	# How many levels of construction sector should the AI aim to have
-	# Using this value in other strategies will function additively
-	wanted_construction_sector_levels = {
-		value = 0
-		
-		add = {
-			value = gdp
-			divide = 2000000 # 1 construction sector per 2 million gdp								
-		}	
-
-		add = {
-			value = total_population
-			divide = 2000000 # 1 construction sector per 2 million pop					
-		}	
-		
-		if = {
-			limit = { has_law = law_type:law_traditionalism }
-			multiply = 0.75
-		}
-		
-		if = {
-			limit = { 
-				OR = {
-					has_law = law_type:law_land_based_taxation 
-					has_law = law_type:law_consumption_based_taxation
-				}
-			}
-			multiply = 0.75
-		}
-				
-		if = {
-			limit = { 
-				OR = {
-					has_strategy = ai_strategy_resource_expansion
-					has_strategy = ai_strategy_industrial_expansion				
-				}
-			}
-			multiply = 1.5		
-		}		
-
-		if = {
-			limit = { has_strategy = ai_strategy_placate_population }
-			multiply = 0.5		
-		}
-		
-		if = {
-			limit = { has_strategy = ai_strategy_maintain_mandate_of_heaven }
-			multiply = 0.1		
-		}		
-
-		min = 1
-		max = 100
-	}
+	wanted_construction_ratio = 1000000 # 1 level of construction sector per 1 million incorporated population
+	wanted_army_ratio = 200000 # 1 barrack per 200k incorporated population
+	wanted_navy_ratio = 400000 # 1 naval base per 400k coastal incorporated population
 	
-	# Add a multiplier to the score AI assigns to particular building groups (default 1)
-	# Using this value in other strategies will result in several multiplications
-	building_group_weights = {}
-	
-	# Which buildings should the AI subsidize
-	# Using a different value in a strategy will override this value
 	subsidies = {
 		building_power_plant = should_have
 		building_railway = should_have
 		building_trade_center = should_have		
 	}
 	
-	# Specifying values here will override subsidy priorities while at war
-	# Using a different value in a strategy will override this value
-	war_subsidies = {}	
-	
-	# How should the AI plan for production and trade of specific goods
-	# Using a different value in a strategy will override this value
 	goods_stances = {
 		small_arms = {
 			stance = wants_high_supply
@@ -1026,8 +622,6 @@ ai_strategy_default = {
 		}		
 	}
 	
-	# How many of its interests should the AI dedicate to regions with unrecognized and decentralized powers
-	# Using a different value in a strategy will override this value
 	colonial_interest_ratio = {
 		value = 0.0
 
@@ -1056,23 +650,10 @@ ai_strategy_default = {
 		}		
 	}
 
-	# How important is it that the AI maintains an interest in a specific strategic region (added on top of region value calculations set in defines)
-	# Using this value in other strategies will function additively
 	strategic_region_scores = {
-		region_anatolia = {
-			if = {
-				limit = { # Great Powers care about Egyptian-Ottoman conflict in Arabia/Anatolia early game
-					exists = c:TUR
-					c:TUR = { has_journal_entry = je_sick_man_syria }
-					country_rank = rank_value:great_power
-					navy_size >= 50
-				}
-				add = 1000
-			}
-		}	
 		region_arabic = {
 			if = {
-				limit = { # Great Powers care about Egyptian-Ottoman conflict in Arabia/Anatolia early game
+				limit = { # Great Powers care about Egyptian-Ottoman conflict in Arabia early game
 					exists = c:TUR
 					c:TUR = { has_journal_entry = je_sick_man_syria }
 					country_rank = rank_value:great_power
@@ -1229,16 +810,7 @@ ai_strategy_default = {
 				add = 1000
 			}				
 		}		
-		region_north_italy = {
-			if = {
-				limit = {
-					country_is_in_europe = yes
-					country_rank >= rank_value:great_power
-				}
-				add = 100
-			}
-		}	
-		region_south_italy = {
+		region_italy = {
 			if = {
 				limit = {
 					country_is_in_europe = yes
@@ -1247,25 +819,7 @@ ai_strategy_default = {
 				add = 100
 			}
 		}
-		region_west_balkans = {
-			if = {
-				limit = {
-					country_is_in_europe = yes
-					country_rank >= rank_value:great_power
-				}
-				add = 50
-			}
-		}
-		region_east_balkans = {
-			if = {
-				limit = {
-					country_is_in_europe = yes
-					country_rank >= rank_value:great_power
-				}
-				add = 50
-			}
-		}
-		region_greece = {
+		region_balkans = {
 			if = {
 				limit = {
 					country_is_in_europe = yes
@@ -1300,38 +854,6 @@ ai_strategy_default = {
 				}
 				add = 50
 			}
-		}	
-		region_north_china = {
-			if = {
-				limit = {
-					country_is_in_europe = yes
-					country_rank >= rank_value:great_power
-					any_country = {
-						country_rank >= rank_value:great_power
-						any_scope_state = {
-							region = sr:region_north_china
-							is_treaty_port = yes
-						}
-					}
-				}
-				add = 50
-			}
-		}	
-		region_manchuria = {
-			if = {
-				limit = {
-					country_is_in_europe = yes
-					country_rank >= rank_value:great_power
-					any_country = {
-						country_rank >= rank_value:great_power
-						any_scope_state = {
-							region = sr:region_manchuria
-							is_treaty_port = yes
-						}
-					}
-				}
-				add = 50
-			}
 		}			
 		region_south_china = {
 			if = {
@@ -1340,20 +862,6 @@ ai_strategy_default = {
 				}
 				add = 1000
 			}			
-		if = {
-			limit = {
-				country_is_in_europe = yes
-				country_rank >= rank_value:great_power
-				any_country = {
-					country_rank >= rank_value:great_power
-					any_scope_state = {
-						region = sr:region_south_china
-						is_treaty_port = yes
-					}
-				}
-			}
-			add = 50
-		}
 		}
 		region_pacific_coast = {
 			if = {
@@ -1445,9 +953,6 @@ ai_strategy_default = {
 		}		
 	}
 	
-	# How likely should the AI be to have a particular strategic desire towards another country
-	# Using this value in other strategies will function additively
-	# scope:target_country = target country
 	secret_goal_scores = {
 		none = {
 			value = 0
@@ -1519,33 +1024,6 @@ ai_strategy_default = {
 				max = 2.0
 			}				
 			
-			if = {
-				limit = {	
-					AND = {
-						has_law = law_type:law_council_republic
-						scope:target_country = {
-							has_law = law_type:law_council_republic	
-						}
-					}
-				}
-				add = 50
-			}
-
-			if = {
-				limit = {
-					AND = {
-						NOT = {
-							has_law = law_type:law_council_republic
-						}
-						scope:target_country = {
-							has_law = law_type:law_council_republic	
-						}
-					}
-					
-				}
-				multiply = 0.10
-			}
-	
 			if = {
 				limit = {
 					lenient_ai_behavior_trigger = yes
@@ -1635,21 +1113,6 @@ ai_strategy_default = {
 			
 			if = {
 				limit = {
-					AND = {
-						NOT = {
-							has_law = law_type:law_council_republic
-						}
-						scope:target_country = {
-							has_law = law_type:law_council_republic	
-						}
-					}
-					
-				}
-				multiply = 0.10
-			}		
-			
-			if = {
-				limit = {
 					lenient_ai_behavior_trigger = yes
 				}
 				multiply = 1.5
@@ -1716,33 +1179,6 @@ ai_strategy_default = {
 				min = 0.25
 				max = 2.0
 			}	
-
-			if = {
-				limit = {	
-					AND = {
-						has_law = law_type:law_council_republic
-						scope:target_country = {
-							has_law = law_type:law_council_republic	
-						}
-					}
-				}
-				multiply = 2
-			}
-
-			if = {
-				limit = {
-					AND = {
-						NOT = {
-							has_law = law_type:law_council_republic
-						}
-						scope:target_country = {
-							has_law = law_type:law_council_republic	
-						}
-					}
-					
-				}
-				multiply = 0.25
-			}
 
 			if = {
 				limit = {
@@ -1897,37 +1333,6 @@ ai_strategy_default = {
 				multiply = 0.0	
 			}
 			
-			if = {
-				limit = {
-					AND = {
-						NOT = {
-							has_law = law_type:law_council_republic
-						}
-						scope:target_country = {
-							has_law = law_type:law_council_republic	
-						}
-					}
-					
-				}
-				add = 100
-			}	
-			
-			if = {
-				limit = {
-					AND = {
-						country_rank = rank_value:great_power
-						NOT = {
-							has_law = law_type:law_council_republic
-						}
-						scope:target_country = {
-							has_law = law_type:law_council_republic	
-						}
-					}
-					
-				}
-				multiply = 3
-			}	
-
 			# Shouldn't usually upset diplomatic pacts unless they're bankrupt or infamous
 			if = {
 				limit = {
@@ -2170,52 +1575,6 @@ ai_strategy_default = {
 				add = 1000
 			}
 			
-			if = {
-				limit = {
-					country_has_primary_culture = cu:russian
-					has_law = law_type:law_national_supremacy
-					scope:target_country = {
-						any_scope_state = {
-							OR = {
-								state_region = s:STATE_KUBAN
-								state_region = s:STATE_DAGESTAN
-							}
-						}
-					}
-				}
-				add = 1000
-			}
-
-
-			#if = {
-			#	limit = {
-			#		country_has_primary_culture = cu:russian
-			#		has_law = law_type:law_national_supremacy
-			#		has_technology_researched = nationalism
-			#		OR = {
-			#			AND = {	
-			#				exists = c:KZH
-			#				scope:target_country = {
-			#					this = c:KZH
-			#				}
-			#			}
-			#			AND = {	
-			#				exists = c:UZH
-			#				scope:target_country = {
-			#					this = c:UZH
-			#				}
-			#			}
-			#			AND = {	
-			#				exists = c:OZH
-			#				scope:target_country = {
-			#					this = c:OZH
-			#				}
-			#			}
-			#		}
-			#	}
-			#	add = 50
-			#}
-			
 			multiply = {
 				value = "ai_ideological_opinion(scope:target_country)"
 				multiply = -0.05
@@ -2227,21 +1586,6 @@ ai_strategy_default = {
 			if = {
 				limit = { scope:target_country = { has_modifier = declared_bankruptcy } }
 				multiply = 2.0
-			}			
-			
-			if = {
-				limit = {
-					AND = {
-						NOT = {
-							has_law = law_type:law_council_republic
-						}
-						scope:target_country = {
-							has_law = law_type:law_council_republic	
-						}
-					}
-					
-				}
-				add = 250
 			}			
 			
 			if = {
@@ -2413,66 +1757,6 @@ ai_strategy_default = {
 				min = 0.25
 				max = 2.0
 			}			
-
-			if = {
-				limit = {
-					AND = {
-						NOT = {
-							has_law = law_type:law_council_republic
-						}
-						scope:target_country = {
-							has_law = law_type:law_council_republic	
-						}
-					}
-					
-				}
-				add = 250
-			}		
-
-			#if = {
-			#	limit = {
-			#		country_has_primary_culture = cu:russian
-			#		has_law = law_type:law_national_supremacy
-			#		has_technology_researched = nationalism
-			#		OR = {
-			#			AND = {	
-			#				exists = c:KZH
-			#				scope:target_country = {
-			#					this = c:KZH
-			#				}
-			#			}
-			#			AND = {	
-			#				exists = c:UZH
-			#				scope:target_country = {
-			#					this = c:UZH
-			#				}
-			#			}
-			#			AND = {	
-			#				exists = c:OZH
-			#				scope:target_country = {
-			#					this = c:OZH
-			#				}
-			#			}
-			#		}
-			#	}
-			#	add = 100
-			#}
-			
-			if = {
-				limit = {
-					AND = {
-						country_rank = rank_value:great_power
-						NOT = {
-							has_law = law_type:law_council_republic
-						}
-						scope:target_country = {
-							has_law = law_type:law_council_republic	
-						}
-					}
-					
-				}
-				multiply = 3
-			}	
 			
 			if = {
 				limit = {
@@ -2585,10 +1869,6 @@ ai_strategy_default = {
 		}			
 	}
 	
-	# How much should the AI value a wargoal against another country/state
-	# Using this value in other strategies will function additively
-	# scope:target_country = wargoal target country
-	# scope:target_state = wargoal target state (if any)
 	wargoal_scores = {
 		conquer_state = {
 			value = 0
@@ -2617,26 +1897,6 @@ ai_strategy_default = {
 					}	
 
 					if = {
-						limit = {
-							scope:target_state = { 
-								is_split_state = yes 
-								region = { 
-									any_scope_state = { owner = ROOT }
-								}
-							}
-						}
-						add = 40
-						if = {
-							limit = {
-								scope:target_state = { 
-									is_homeland_of_country_cultures = ROOT
-								}
-							}
-							add = 20
-						}
-					}
-
-					if = {
 						limit = { 
 							NOT = { has_strategic_land_adjacency = scope:target_state } 
 							scope:target_state = { has_port = no }
@@ -2645,21 +1905,12 @@ ai_strategy_default = {
 					}
 					
 					if = {
-						limit = { 
-							has_strategic_land_adjacency = scope:target_state
-							NOT = { is_adjacent = scope:target_state }
-						}
-						multiply = 0.5
-					}
-		
-					if = {
 						limit = {
 							has_strategic_land_adjacency = scope:target_country
 							NOT = { has_strategic_land_adjacency = scope:target_state }
 						}
 						multiply = 0.1
 					}					
-
 					else_if = {
 						limit = {
 							is_adjacent = scope:target_country
@@ -2702,26 +1953,6 @@ ai_strategy_default = {
 						value = scope:target_state.gdp
 						divide = 100000
 						max = 10						
-					}
-					
-					if = {
-						limit = {
-							scope:target_state = { 
-								is_split_state = yes 
-								region = { 
-									any_scope_state = { owner = ROOT }
-								}
-							}
-						}
-						add = 40
-						if = {
-							limit = {
-								scope:target_state = { 
-									is_homeland_of_country_cultures = ROOT
-								}
-							}
-							add = 20
-						}
 					}
 					
 					if = {
@@ -2848,71 +2079,6 @@ ai_strategy_default = {
 			
 			if = {
 				limit = {
-					has_journal_entry = je_the_eastern_border
-					scope:target_state = {
-						OR = {
-							state_region = s:STATE_OUTER_MANCHURIA
-							state_region = s:STATE_JETISY
-							state_region = s:STATE_TOMSK
-							state_region = s:STATE_KIRGHIZIA
-				}
-					}
-				}
-				add = 50
-			}
-
-			if = { #Russian Central Asia
-				limit = {
-					owns_entire_state_region = STATE_URALSK
-					owns_entire_state_region = STATE_AKMOLINSK
-					owns_entire_state_region = STATE_SEMIRECHE
-					scope:target_state = {
-						OR = {
-							state_region = s:STATE_UZBEKIA
-							state_region = s:STATE_KIRGHIZIA
-							state_region = s:STATE_KHIVA
-							state_region = s:STATE_TURKMENIA
-							state_region = s:STATE_TAJIKISTAN
-						}
-					}
-					can_reach_target_state = yes
-				}
-				add = 50
-			}				
-			
-			#if = {
-			#	limit = {
-			#		country_has_primary_culture = cu:russian
-			#		has_law = law_type:law_national_supremacy
-			#		has_technology_researched = nationalism
-			#		OR = {
-			#			AND = {	
-			#				exists = c:KZH
-			#				scope:target_state.owner = {
-			#					this = c:KZH
-			#	}
-			#	multiply = 1.5
-			#}
-			#			AND = {	
-			#				exists = c:UZH
-			#				scope:target_state.owner = {
-			#					this = c:UZH
-			#		}
-			#	}
-			#			AND = {	
-			#				exists = c:OZH
-			#				scope:target_state.owner = {
-			#					this = c:OZH
-			#				}
-			#			}
-			#		}
-			#		can_reach_target_state = yes
-			#	}
-			#	add = 50
-			#}
-		
-			if = {
-				limit = {
 					lenient_ai_behavior_trigger = yes
 					scope:target_state = { is_homeland_of_country_cultures = scope:target_country }
 				}
@@ -2927,75 +2093,20 @@ ai_strategy_default = {
 					}
 				}
 				multiply = 0
-			}
-			
-			min = 0
-			max = 100			
-		}
-		
-		return_state = {
-			value = 40
-
-			add = {
-				value = scope:target_state.state_population
-				divide = 100000
-				max = 40
-			}
-			
-			add = {
-				value = scope:target_state.gdp
-				divide = 100000
-				max = 40						
-			}					
-					
-			if = {
-				limit = {
-					has_strategic_land_adjacency = scope:target_state
-					scope:target_state = { 
-						is_split_state = yes 
-						region = { 
-							any_scope_state = { owner = ROOT }
-						}
-					}
-				}
-				add = 60
-				if = {
-					limit = {
-						scope:target_state = { 
-							is_homeland_of_country_cultures = ROOT
-						}
-					}
-					add = 30
-				}
-					}
-
-			if = {
-				limit = { 
-					NOT = { has_strategic_land_adjacency = scope:target_state } 
-					scope:target_state = { has_port = no }
-				}
-				multiply = 0.5
-			}
-			
-			if = {
-				limit = {
-					has_strategic_land_adjacency = scope:target_country
-					NOT = { has_strategic_land_adjacency = scope:target_state }
-				}
-				multiply = 0.1
-			}
+			}				
 			
 			if = {
 				limit = {
 					has_strategic_land_adjacency = scope:target_state
-					NOT = { is_adjacent = scope:target_state }
 				}
-				multiply = 0.5
+				multiply = 1.5
 			}
-			else_if = {
+			
+			if = {
 				limit = {
-					is_adjacent = scope:target_country
-					NOT = { is_adjacent = scope:target_state }
+					NOT = {
+						has_strategic_land_adjacency = scope:target_state
+					}
 				}
 				multiply = 0.5
 			}
@@ -3004,15 +2115,76 @@ ai_strategy_default = {
 				limit = {
 					scope:target_state = { is_homeland_of_country_cultures = root }
 				}
-				multiply = 1.5
+				multiply = 1.25
 			}
 
 			if = {
 				limit = {
-					lenient_ai_behavior_trigger = yes
-					scope:target_state = { is_homeland_of_country_cultures = scope:target_country }
+					can_reach_target_state = no
+				}
+				multiply = 0
+			}
+			
+			min = 0
+			max = 200			
+		}
+		
+		return_state = {
+			value = 50
+
+			add = {
+				value = scope:target_state.state_population
+				divide = 100000
+				max = 25						
+			}
+			
+			add = {
+				value = scope:target_state.gdp
+				divide = 100000
+				max = 25						
+			}					
+					
+			if = {
+				limit = {
+					has_claim = scope:target_state
+					OR = {
+						has_journal_entry = je_sick_man_syria
+						has_journal_entry = je_sick_man_egypt
 					}
-				multiply = 0.0
+				}
+				add = 50
+			}
+			
+			if = {
+				limit = {
+					can_reach_target_country = yes
+					is_country_type = unrecognized
+					scope:target_country = { is_country_type = unrecognized }						
+				}
+				add = 50
+			}
+			
+			if = {
+				limit = {
+					has_strategic_land_adjacency = scope:target_state
+				}
+				multiply = 2
+			}
+		
+			if = {
+				limit = {
+					scope:target_state = { is_homeland_of_country_cultures = root }
+				}
+				multiply = 1.25
+			}
+
+			if = {
+				limit = {
+					NOT = {
+						has_strategic_adjacency = scope:target_state
+					}
+				}
+				multiply = 0
 			}
 
 			min = 0
@@ -3088,7 +2260,7 @@ ai_strategy_default = {
 						has_variable = opium_wars_target
 					}
 				}
-				add = 25
+				add = 50
 			}
 			if = {
 				limit = {
@@ -3101,72 +2273,7 @@ ai_strategy_default = {
 					}					
 				}
 				add = 1000
-			}
-			if = {
-				limit = {
-					has_journal_entry = je_opium_wars
-					scope:target_country = {
-						has_variable = opium_wars_target
-					}
-					scope:target_state = {
-						state_region = s:STATE_FORMOSA
-					}					
-				}
-				add = -100
-			}
-
-			if = { #Carving up China
-				limit = {
-					country_rank >= rank_value:great_power
-					exists = c:CHI
-					any_country = {
-						NOT = { THIS = ROOT }
-						country_is_in_europe = yes
-						any_scope_state = {
-							OR = {
-								region = sr:region_north_china
-								region = sr:region_south_china
-								region = sr:region_manchuria
-							}
-							is_treaty_port = yes
-						}
-					}
-					scope:target_state = {
-						OR = {
-							region = sr:region_north_china
-							region = sr:region_south_china
-							region = sr:region_manchuria
-						}
-					}
-				}
-				add = 25
-			}
-			else_if = {
-				limit = {
-					country_rank >= rank_value:great_power
-					exists = c:CHI
-					any_country = {
-						NOT = { THIS = ROOT }
-						country_rank >= rank_value:great_power
-						any_scope_state = {
-							OR = {
-								region = sr:region_north_china
-								region = sr:region_south_china
-								region = sr:region_manchuria
-							}
-							is_treaty_port = yes
-						}
-					}
-					scope:target_state = {
-						OR = {
-							region = sr:region_north_china
-							region = sr:region_south_china
-							region = sr:region_manchuria
-						}
-					}
-				}
-				add = 75
-			}
+			}	
 
 			if = {
 				limit = {
@@ -3192,6 +2299,14 @@ ai_strategy_default = {
 					can_reach_target_state = no
 				}
 				multiply = 0
+			}
+
+			if = {
+				limit = {
+					has_claim = scope:target_state
+					scope:target_country = { has_treaty_port_in_country = root }
+				}
+				add = 25
 			}			
 
 			min = 0
@@ -3246,126 +2361,9 @@ ai_strategy_default = {
 
 			if = {
 				limit = {
-					country_has_primary_culture = cu:russian
-					has_law = law_type:law_national_supremacy
-					has_technology_researched = nationalism
-					OR = {
-			#			AND = {	
-			#				exists = c:KZH
-			#				scope:target_country = {
-			#					this = c:KZH
-			#				}
-			#			}
-			#			AND = {	
-			#				exists = c:UZH
-			#				scope:target_country = {
-			#					this = c:UZH
-			#				}
-			#			}
-			#			AND = {	
-			#				exists = c:OZH
-			#				scope:target_country = {
-			#					this = c:OZH
-			#				}
-			#			}
-			AND = {	
-				exists = c:KOK
-				scope:target_country = {
-					this = c:KOK
-				}
-			}
-			AND = {	
-				exists = c:KHI
-				scope:target_country = {
-					this = c:KHI
-				}
-			}
-			AND = {	
-				exists = c:BUK
-				scope:target_country = {
-					this = c:BUK
-				}
-			}
-			AND = {	
-				exists = c:AFG
-				scope:target_country = {
-					this = c:AFG
-				}
-			}
-					}
-				}
-				add = 100
-			}
-
-			if = { #Indian suzerain will be aggressive against Afganistan, if Afghanistan is threatened by Russia.
-				limit = {
-					AND = {
-						c:RUS ?= {
-							any_scope_state = {
-								OR = {
-									state_region = s:STATE_UZBEKIA
-									state_region = s:STATE_KIRGHIZIA
-									state_region = s:STATE_KHIVA
-									state_region = s:STATE_TURKMENIA
-									state_region = s:STATE_TAJIKISTAN
-								}
-							}
-						}
-						ROOT = {
-							country_is_in_europe = yes
-			        		OR = {
-			        			any_scope_state = {
-			        				OR = {
-			    						region = sr:region_north_india
-			    						region = sr:region_south_india
-			    					}
-									count >= 3
-			        			}
-			        			any_country = {
-			        				is_subject_of = prev
-			        				any_scope_state = {
-			        					OR = {
-			        						region = sr:region_north_india
-			        						region = sr:region_south_india
-			        					}
-										count >= 3
-				        			}
-			        			}
-			        		}
-						}
-						scope:target_country = {
-							any_scope_state = {
-								OR = {
-									state_region = s:STATE_EASTERN_AFGHANISTAN
-									state_region = s:STATE_WESTERN_AFGHANISTAN
-								}
-							}
-						}
-					}
-				}
-				add = 50
-			}
-
-			if = {
-				limit = {
 					lenient_ai_behavior_trigger = yes
 				}
 				multiply = 0.5
-			}
-
-			if = {
-				limit = {
-					AND = {
-						NOT = {
-							has_law = law_type:law_council_republic
-						}
-						scope:target_country = {
-							has_law = law_type:law_council_republic	
-						}
-					}
-					
-				}
-				add = 50
 			}
 
 			min = 0
@@ -3416,70 +2414,6 @@ ai_strategy_default = {
 				}
 				add = 100
 			}	
-
-			if = { #Indian suzerain will be aggressive against Afghanistan
-				limit = {
-					AND = {
-						c:RUS ?= {
-							any_scope_state = {
-								OR = {
-									state_region = s:STATE_UZBEKIA
-									state_region = s:STATE_KIRGHIZIA
-									state_region = s:STATE_KHIVA
-									state_region = s:STATE_TURKMENIA
-									state_region = s:STATE_TAJIKISTAN
-								}
-							}
-						}
-						ROOT = {
-							country_is_in_europe = yes
-			        		OR = {
-			        			any_scope_state = {
-			        				OR = {
-			    						region = sr:region_north_india
-			    						region = sr:region_south_india
-			    					}
-									count >= 3
-			        			}
-			        			any_country = {
-			        				is_subject_of = prev
-			        				any_scope_state = {
-			        					OR = {
-			        						region = sr:region_north_india
-			        						region = sr:region_south_india
-			        					}
-										count >= 3
-				        			}
-			        			}
-			        		}
-						}
-						scope:target_country = {
-							any_scope_state = {
-								OR = {
-									state_region = s:STATE_EASTERN_AFGHANISTAN
-									state_region = s:STATE_WESTERN_AFGHANISTAN
-								}
-							}
-						}
-					}
-				}
-				add = 50
-			}
-
-			if = {
-				limit = {
-					AND = {
-						NOT = {
-							has_law = law_type:law_council_republic
-						}
-						scope:target_country = {
-							has_law = law_type:law_council_republic	
-						}
-					}
-					
-				}
-				add = 50
-			}
 
 			if = {
 				limit = {
@@ -3539,24 +2473,16 @@ ai_strategy_default = {
 
 			if = {
 				limit = {
-					AND = {
-						NOT = {
-							has_law = law_type:law_council_republic
+					lenient_ai_behavior_trigger = yes
 				}
-						scope:target_country = {
-							has_law = law_type:law_council_republic	
-						}
-					}
-					
-				}
-				add = 50
+				multiply = 0.5
 			}	
 
 			if = {
 				limit = {
-					lenient_ai_behavior_trigger = yes
+					can_reach_target_country = no
 				}
-				multiply = 0.5
+				multiply = 0
 			}
 			
 			min = 0
@@ -3629,21 +2555,6 @@ ai_strategy_default = {
 				}
 				add = 10
 			}					
-
-			if = {
-				limit = {
-					AND = {
-						NOT = {
-							has_law = law_type:law_council_republic
-						}
-						scope:target_country = {
-							has_law = law_type:law_council_republic	
-						}
-					}
-					
-				}
-				add = 250
-			}						
 		}		
 		
 		open_market = {
@@ -3670,21 +2581,6 @@ ai_strategy_default = {
 					}
 				}
 				add = 75
-			}
-
-			if = {
-				limit = {
-					AND = {
-						NOT = {
-							has_law = law_type:law_council_republic
-						}
-						scope:target_country = {
-							has_law = law_type:law_council_republic	
-						}
-					}
-					
-				}
-				add = 50
 			}
 		}	
 
@@ -3731,12 +2627,7 @@ ai_strategy_default = {
 		}		
 
 		revoke_claim = {
-			if = {
-				limit = {
-					scope:target_state = { owner = root }
-				}
-				
-				add = 10
+			value = 10
 			
 			add = {
 				value = scope:target_state.state_population
@@ -3762,7 +2653,6 @@ ai_strategy_default = {
 					scope:target_state = { is_incorporated = no }
 				}
 				multiply = 0.5
-				}				
 			}
 
 			min = 0
@@ -3796,34 +2686,11 @@ ai_strategy_default = {
 				multiply = 0.0
 			}
 
-			#if = {
-			#	limit = {
-			#		country_has_primary_culture = cu:russian
-			#		has_law = law_type:law_national_supremacy
-			#		has_technology_researched = nationalism
-			#		OR = {
-			#			AND = {	
-			#				exists = c:KZH
-			#				scope:target_country = c:KZH
-			#			}
-			#			AND = {	
-			#				exists = c:UZH
-			#				scope:target_country = c:UZH
-			#			}
-			#			AND = {	
-			#				exists = c:OZH
-			#				scope:target_country = c:OZH
-			#			}
-			#		}
-			#	}
-			#	add = 150
-			#}
-
 			min = 0
 			max = 200			
 		}			
 		
-		colonization_rights = {
+		annex_native = {
 			value = 100
 		}	
 
@@ -3979,12 +2846,10 @@ ai_strategy_default = {
 		}		
 	}
 
-	# Trigger for whether this strategy can be randomly allocated to a country
 	possible = {
 		always = no
 	}
 	
-	# Chance that this strategy will be randomly allocated to a country
 	weight = {
 		value = 0		
 	}

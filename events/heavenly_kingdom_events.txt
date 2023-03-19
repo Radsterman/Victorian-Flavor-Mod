@@ -22,12 +22,9 @@ heavenly.1 = {
 
 	trigger = {
 		NOT = {
-			root.religion = { 
+			root.religion = {
 				has_discrimination_trait = christian
 			}
-		}
-		NOT = {
-			has_modifier = opium_wars_addiction_modifier
 		}
 		any_scope_state = {
 			is_incorporated = yes
@@ -40,12 +37,13 @@ heavenly.1 = {
 						}
 				}
 			}
-			average_sol < 10
 			any_neighbouring_state = {
 				is_treaty_port = yes
 				owner = {
-						religion = { #The Taiping Heavenly Kingdom was Protestant (therabouts), but the missionaries which spread Christian dogma to it were from Macao.
-							has_discrimination_trait = christian
+						OR = {
+							religion = rel:protestant
+							religion = rel:reformed
+							religion = rel:anglican
 						}
 					}
 			}
@@ -67,8 +65,10 @@ heavenly.1 = {
 				any_neighbouring_state = {
 					is_treaty_port = yes
 					owner = {
-						religion = {
-							has_discrimination_trait = christian
+						OR = {
+							religion = rel:protestant
+							religion = rel:reformed
+							religion = rel:anglican
 						}
 					}
 				}
@@ -78,9 +78,12 @@ heavenly.1 = {
 				limit = {
 					is_treaty_port = yes
 					owner = {
-						religion = {
-							has_discrimination_trait = christian
+						OR = {
+							religion = rel:protestant
+							religion = rel:reformed
+							religion = rel:anglican
 						}
+
 					}
 				}
 				save_scope_as = treaty_port_scope
@@ -205,7 +208,7 @@ heavenly.1 = {
 	}
 }
 
-# The God Worshipping Society
+# The God Worshipping god_society
 heavenly.2 = {
 	type = country_event
 	placement = scope:cult_state
@@ -223,9 +226,7 @@ heavenly.2 = {
 
 	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
 
-	duration = 3	
-
-	cooldown = { months = very_long_modifier_time }
+	duration = 3
 
 	trigger = {
 	}
@@ -250,7 +251,7 @@ heavenly.2 = {
 			}
 			add_modifier = {
 				name = god_worshippers
-				months = normal_modifier_time
+				months = short_modifier_time
 			}
 			convert_population = {
 				target = rel:god_society value = 0.1
@@ -280,7 +281,7 @@ heavenly.3 = {
 
 	duration = 3
 
-	cooldown = { months = 6 }
+	cooldown = { months = 3 }
 
 	trigger = {
 		any_scope_state = {
@@ -295,12 +296,6 @@ heavenly.3 = {
 					has_variable = cult_center
 				}
 				NOT = { is_capital = yes }
-				state_region = { 
-					OR = {
-						is_homeland = cu:han 
-						is_homeland = cu:hakka 
-					}
-				}
 			}
 		}
 	}
@@ -316,12 +311,6 @@ heavenly.3 = {
 					NOT = {
 						has_variable = cult_center
 					}
-					state_region = {
-						OR = {
-							is_homeland = cu:han 
-							is_homeland = cu:hakka
-						}
-					}
 					NOT = { is_capital = yes }
 				}
 			}
@@ -331,12 +320,6 @@ heavenly.3 = {
 					owner = ROOT
 					NOT = {
 						has_variable = cult_center
-					}
-					state_region = { 
-						OR = {
-							is_homeland = cu:han 
-							is_homeland = cu:hakka 
-						}
 					}
 					NOT = { is_capital = yes }
 				}
@@ -352,7 +335,7 @@ heavenly.3 = {
 		scope:cult_growth_state = {
 			add_modifier = {
 				name = god_worshippers
-				months = normal_modifier_time
+				months = short_modifier_time
 			}
 			convert_population = {
 				target = rel:god_society value = 0.1
@@ -391,14 +374,6 @@ heavenly.4 = {
 			}
 			remove_modifier = god_worshippers
 		}
-		c:CHI = {
-			every_scope_state = {
-				limit = {
-					is_incorporated = yes
-				}
-				set_variable = saved_incorporated_state
-			}
-		}		
 		random_scope_state = {
 			limit = {
     			state_region = { is_homeland = cu:han NOT = { is_homeland = cu:manchu } }
@@ -407,7 +382,7 @@ heavenly.4 = {
 					has_pop_religion = god_society
 					religion_accepted = no
 				}
-				radical_fraction = { value >= 0.15 }
+				radical_fraction = { value >= 0.30 }
 			}
 			save_scope_as = heavenly_kingdom_spawn
 		}
@@ -416,47 +391,24 @@ heavenly.4 = {
 			origin = this
 			state = scope:heavenly_kingdom_spawn
 			on_created = {
+		
+
 				ig:ig_devout = {
-					set_interest_group_name = ig_taiping_god_worshippers
 					remove_ideology = ideology_moralist
-					add_ideology = ideology_heavenly_kingdom_theocratic
-					add_modifier = {
-						name = taiping_god_worshippers
-						months = very_long_modifier_time
-						is_decaying = yes
+					add_ideology = ideology_taiping_moralist
+					remove_ideology = ideology_patriarchal
+					add_ideology = ideology_loyalist
 				}
-				}
+
 				if = {
 					limit = {
 						NOT = {
 							has_ruling_interest_group = ig_devout
 						}
 					}
-					ig:ig_devout = {
-						leader = {
-							set_ideology = ideology_theocrat
+					set_ruling_interest_groups = {
+						ig_devout
 					}
-						add_ruling_interest_group = yes
-					}
-				}
-				every_interest_group = {
-					limit = {
-						OR = {
-							is_interest_group_type = ig_intelligentsia
-							is_interest_group_type = ig_armed_forces
-							is_interest_group_type = ig_rural_folk
-							is_interest_group_type = ig_devout
-						}
-					}
-					add_modifier = {
-						name = taiping_taiping_revolution
-						months = long_modifier_time
-					}
-				}
-				add_modifier = {
-					name = taiping_land_socialization
-					months = long_modifier_time
-					is_decaying = yes
 				}
 				if = {
 					limit = {
@@ -485,14 +437,6 @@ heavenly.4 = {
 				if = {
 					limit = {
 						NOT = {
-							has_law = law_type:law_national_supremacy
-						}
-					}
-					activate_law = law_type:law_national_supremacy
-				}
-				if = {
-					limit = {
-						NOT = {
 							has_law = law_type:law_serfdom_banned
 						}
 					}
@@ -502,7 +446,7 @@ heavenly.4 = {
 		
 
 				add_modifier = {
-					name = taiping_army_modifier
+					name = uprising_conscription
 					months = normal_modifier_time
 				}	
 			}		
@@ -512,10 +456,6 @@ heavenly.4 = {
 			trigger_event = { id = heavenly.6 }
 
 			save_scope_as = heavenly_kingdom_scope
-			set_variable = { name = gold_transfer value = c:CHI.gold_reserves } #This shouldn't be in the immediate, but it will throw a million errors if you put it somewhere else. DO NOT TOUCH.
-			change_variable = { name = gold_transfer divide = 3 }
-			set_variable = { name = gold_transfer_nil value = var:gold_transfer }
-			change_variable = { name = gold_transfer_nil divide = -1 }
 		}
 		if = {
 			limit = { has_journal_entry = je_warlord_china }
@@ -523,16 +463,6 @@ heavenly.4 = {
 			change_variable = {
 				name = china_warlord_explosion
 				add = 1
-			}
-		}
-		add_modifier = {
-			name = taiping_taiping_rebellion
-			months = long_modifier_time
-		}
-		c:TPG = {		
-			add_modifier = {
-				name = taiping_taiping_rebellion
-				months = long_modifier_time
 			}
 		}
 	}
@@ -659,52 +589,25 @@ heavenly.5 = {
 		every_scope_state = {
 			limit = {
 				owner = ROOT
-				has_variable = saved_incorporated_state
+				has_variable = taiping_rebellion_state
 			}
 			set_state_owner = c:CHI #Just in case.
 			set_state_type = incorporated
-		}
-		root.religion = {
-			save_scope_as = state_religion_scope
-		}
-		root = {
-			save_scope_as = china_scope
 		}
 	}
 
 	option = { # mass re-conversions
 		name = heavenly.5.a
 		default_option = yes
-		custom_tooltip = {
-			text = mass_reconversion_tt
 		every_scope_state = {
 			limit = {
 				any_scope_pop = {
 					religion = rel:god_society
 				}
 			}
-				add_religion_standard_of_living_modifier = {
-					religion = rel:god_society
-					multiplier = -3
-				}
 			convert_population = {
 				target = rel:mahayana value = 0.1
 			}
-		}
-		}
-		ordered_country = {
-			limit = {
-				country_rank >= rank_value:great_power
-				religion = {
-					has_discrimination_trait = christian
-				}
-			}
-			order_by = country_rank
-			save_scope_as = christian_gp
-		}
-		create_incident = {
-			country = scope:christian_gp
-			value = 25
 		}
 		every_country = {
 			limit = {
@@ -713,9 +616,9 @@ heavenly.5 = {
 					has_discrimination_trait = christian
 				}
 			}
-			change_relations = {
+			create_incident = {
 				country = root
-				value = -25
+				value = 25
 			}
 		}
 	}
@@ -725,11 +628,22 @@ heavenly.5 = {
 			value = 0.2
 			religion = rel:god_society
 		}
+		every_country = {
+			limit = {
+				country_rank >= rank_value:great_power
+				religion = {
+					has_discrimination_trait = christian
+				}
+			}
+			create_incident = {
+				country = root
+				value = 25
+			}
+		}
 	}
 }
 
-
-# Aftermath event - TPG
+# Leader event
 heavenly.6 = {
 	type = country_event
 	placement = ROOT

@@ -1,5 +1,53 @@
 ﻿namespace = exp_thousand
 
+#ITALIAN_MAJOR Expedition of The Thousand
+exp_thousand.1 = { 
+	type = country_event
+	placement = ROOT
+
+	title = exp_thousand.1.t
+	desc = exp_thousand.1.d
+	flavor = exp_thousand.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	duration = 3
+
+	immediate = {
+		c:SIC = {
+			save_scope_as = sic_scope
+		}
+		random_scope_character = {
+			limit = {has_variable = thousand_commander}
+			save_scope_as = exp_commander
+		}
+	}
+
+	option = {
+		name = exp_thousand.1.a
+		default_option = yes
+
+		c:SIC = {
+			trigger_event = {
+				id = exp_thousand.2
+				popup = yes
+			}
+		}
+		set_variable = garibaldi_redshirts
+
+	    ai_chance = {
+			base = 99	
+		}
+    }
+}
+
 #SIC Expedition of The Thousand
 exp_thousand.2 = { 
 	type = country_event
@@ -21,6 +69,7 @@ exp_thousand.2 = {
 	duration = 1
 
 	immediate = {
+
 		random_country = {
 			limit = {
 				has_variable = garibaldi_redshirts
@@ -32,6 +81,33 @@ exp_thousand.2 = {
 				limit = {has_variable = thousand_commander}
 				save_scope_as = exp_commander
 			}		
+		}
+
+		if = {
+			limit = {
+				has_global_variable = exp_thousand_limited
+			}
+			random_list = {
+				5 = {
+					set_variable = garibaldi_redshirst_success
+				}
+				5 = {
+					set_variable = garibaldi_redshirst_fail
+				}
+			}
+		}
+		if = {
+			limit = {
+				NOT = {has_global_variable = exp_thousand_limited}
+			}
+			random_list = {
+				8 = {
+					set_variable = garibaldi_redshirst_success
+				}
+				2 = {
+					set_variable = garibaldi_redshirst_fail
+				}
+			}
 		}
 	}
 
@@ -65,7 +141,12 @@ exp_thousand.3 = {
 
 	duration = 1
 
+	trigger = {
+		has_variable = garibaldi_redshirst_success
+	}
+
 	immediate = {
+
 		random_country = {
 			limit = {
 				has_variable = garibaldi_redshirts
@@ -78,6 +159,7 @@ exp_thousand.3 = {
 				save_scope_as = exp_commander
 			}		
 		}
+		remove_variable = garibaldi_redshirst_success
 	}
 
 	option = {
@@ -119,6 +201,12 @@ exp_thousand.4 = {
 	duration = 1
 
 	immediate = {
+		random_country = {
+			limit = {
+				has_variable = garibaldi_redshirts
+			}
+			save_scope_as = ita_scope
+		}
 		scope:ita_scope = {
 			random_scope_character = {
 				limit = {has_variable = thousand_commander}
@@ -136,66 +224,21 @@ exp_thousand.4 = {
 				save_scope_as = umbria_scope
 			}
 		}
+		remove_variable = garibaldi_redshirts
 		scope:exp_commander = {
 			set_character_busy = no
 			remove_variable = thousand_commander
 		}
-		remove_variable = has_thousand_commander
-		remove_variable = thousand_palermo_insurrection
 	}
-	
+
 	option = {
 		name = exp_thousand.4.a
 		default_option = yes
 
-		create_incident = {
-			country = c:PAP
-			value = 15
-		}
-
-		annex = c:SIC
-		every_state = {
-			limit = {
-				NOT = {
-					state_region = s:STATE_LAZIO
-				}
-				owner = c:PAP
-			}
-			set_state_owner = scope:ita_scope
-		}
-		s:STATE_LAZIO = {
-			set_owner_of_provinces = {
-				country = ROOT
-				provinces = { x3040A0 }
-			}
-		}
-
-		c:PAP = {
-			change_relations = {
-				country = ROOT
-				value = -50
-			}	
-		}
-    	hidden_effect = {
-			create_truce = {
-				country = c:PAP
-				months = 60
-			}
-		}
-
-		set_variable = umbria_marche_invasion
-
-	    ai_chance = {
-			base = 95	
-		}
-    }
-	option = {
-		name = exp_thousand.4.b
-
 		annex = c:SIC
 
 	    ai_chance = {
-			base = 5	
+			base = 1	
 		}
     }
 }
@@ -220,6 +263,10 @@ exp_thousand.5 = {
 
 	duration = 1
 
+	trigger = {
+		has_variable = garibaldi_redshirst_fail
+	}
+
 	immediate = {
 		random_country = {
 			limit = {
@@ -236,6 +283,7 @@ exp_thousand.5 = {
 		c:PAP = {
 			save_scope_as = pap_scope
 		}
+		remove_variable = garibaldi_redshirst_fail
 	}
 
 	option = {
@@ -277,6 +325,12 @@ exp_thousand.6 = {
 	duration = 1
 
 	immediate = {
+		random_country = {
+			limit = {
+				has_variable = garibaldi_redshirts
+			}
+			save_scope_as = ita_scope
+		}
 		scope:ita_scope = {
 			random_scope_character = {
 				limit = {has_variable = thousand_commander}
@@ -291,8 +345,6 @@ exp_thousand.6 = {
 			set_character_busy = no
 			remove_variable = thousand_commander
 		}
-		remove_variable = has_thousand_commander
-		remove_variable = thousand_palermo_insurrection
 	}
 
 	option = {
@@ -301,7 +353,7 @@ exp_thousand.6 = {
 
 		create_incident = {
 			country = c:SIC
-			value = 15
+			value = 30
 		}
 
 	    ai_chance = {
@@ -332,16 +384,9 @@ exp_thousand.7 = {
 	trigger = {
 		NOT = {
 			OR = {
-				AND = {
-					exists = c:SIC	
-					this = c:SIC
-				}
-				AND = {
-					exists = c:PAP	
-					this = c:PAP
-				}
+				this = c:SIC
+				this = c:PAP
 			}
-			exists = c:SCL
 			exists = c:ITA
 			has_global_variable = exp_thousand_happened 
 		}
@@ -364,16 +409,11 @@ exp_thousand.7 = {
 					civil_war_progress >= 1
 				}
 				any_scope_state = {
-					turmoil >= 0.15
+					turmoil >= 0.25
 				}
 				radical_fraction = {
-					value >= 0.2
+					value >= 0.3
 				}
-				any_interest_group = {
-					is_marginal = no
-					is_insurrectionary = yes
-				}
-				has_journal_entry = je_springtime_of_the_peoples	
 			}
 		}
 	}
@@ -461,7 +501,6 @@ exp_thousand.8 = {
 	option = {
 		name = exp_thousand.8.a
 		default_option = yes
-		custom_tooltip = expedition_costs_tt
 		
 		trigger = {
 			any_scope_character = {
@@ -469,10 +508,6 @@ exp_thousand.8 = {
 			}
 		}
 
-		add_modifier = {
-			name = modifier_large_expedition_cost
-			multiplier = money_amount_multiplier_medium
-		}
 		if = {
 			limit = {
 				any_scope_character = {
@@ -491,7 +526,7 @@ exp_thousand.8 = {
 				months = long_modifier_time
 			}
 		}
-		set_variable = has_thousand_commander
+		set_variable =  has_thousand_commander
 
 	    ai_chance = {
 			base = 90	
@@ -500,12 +535,7 @@ exp_thousand.8 = {
 
 	option = {
 		name = exp_thousand.8.b
-		custom_tooltip = expedition_costs_tt
 
-		add_modifier = {
-			name = modifier_large_expedition_cost
-			multiplier = money_amount_multiplier_medium
-		}
 		scope:exp_random_general = {
 			set_character_busy = yes
 			set_variable = thousand_commander
@@ -516,827 +546,10 @@ exp_thousand.8 = {
 				months = long_modifier_time
 			}
 		}
-		set_variable = has_thousand_commander
+		set_variable =  has_thousand_commander
 
 	    ai_chance = {
 			base = 10		
-		}
-    }
-}
-
-
-
-################################## EXPEDITION EVENTS ##################################
-
-
-# The Landing
-exp_thousand.101 = { 
-	type = country_event
-	placement = ROOT
-
-	title = exp_thousand.101.t
-	desc = {
-		first_valid = {
-			triggered_desc = {
-				desc = exp_thousand.101.d.1
-				trigger = {
-					NOT = {
-						has_global_variable = exp_thousand_limited
-					}
-				}
-			}
-			triggered_desc = {
-				desc = exp_thousand.101.d.2
-				trigger = {
-					has_global_variable = exp_thousand_limited
-				}
-			}
-		}
-	}
-	flavor = exp_thousand.101.f
-
-	event_image = {
-		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
-
-	icon = "gfx/interface/icons/event_icons/event_military.dds"
-
-	duration = 1
-
-	immediate = {
-		c:SIC = {
-			save_scope_as = sic_scope
-		}
-		s:STATE_SICILY = {
-			random_scope_state = {
-				save_scope_as = sicily_scope
-			}
-		}
-		random_scope_character = {
-			limit = {has_variable = thousand_commander}
-			save_scope_as = exp_commander
-		}	
-	}
-
-	option = {
-		name = exp_thousand.101.a
-		default_option = yes
-
-		expedition_minor_progress_effect = yes
-		hidden_effect = {
-			trigger_event = { id = exp_thousand.102 days = 3 }
-		}
-
-	    ai_chance = {
-			base = 1	
-		}
-    }
-}
-
-# Battle of Calatafimi
-exp_thousand.102 = { 
-	type = country_event
-	placement = ROOT
-
-	title = exp_thousand.102.t
-	desc = exp_thousand.102.d
-	flavor = exp_thousand.102.f
-
-	event_image = {
-		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
-
-	icon = "gfx/interface/icons/event_icons/event_military.dds"
-
-	duration = 1
-
-	trigger = {
-		has_journal_entry = je_exp_thousand_ongoing
-	}
-
-	immediate = {
-		c:SIC = {
-			save_scope_as = sic_scope
-		}
-		random_scope_character = {
-			limit = {has_variable = thousand_commander}
-			save_scope_as = exp_commander
-		}	
-	}
-
-	option = {
-		name = exp_thousand.102.a
-		default_option = yes
-
-		if = {
-			limit = {
-				has_global_variable = exp_thousand_limited
-			}		
-			random_list = {
-				6 = {
-					expedition_minor_progress_effect = yes
-					set_variable = thousand_calatafimi_win
-				}
-				4 = {
-					expedition_lose_progress_effect = yes
-				}
-			}
-		}
-		else = {
-			random_list = {
-				8 = {
-					expedition_minor_progress_effect = yes
-					set_variable = thousand_calatafimi_win
-				}
-				2 = {
-					expedition_lose_progress_effect = yes
-				}
-			}
-		}
-
-		hidden_effect = {
-			trigger_event = { id = exp_thousand.104 days = 30 }
-		}
-
-	    ai_chance = {
-			base = 85	
-		}
-    }
-	option = {
-		name = exp_thousand.102.b
-
-		add_small_peril_effect = yes
-
-		if = {
-			limit = {
-				has_global_variable = exp_thousand_limited
-			}		
-			random_list = {
-				7 = {
-					expedition_minor_progress_effect = yes
-					set_variable = thousand_calatafimi_win
-				}
-				3 = {
-					expedition_lose_progress_effect = yes
-				}
-			}
-		}
-		else = {
-			random_list = {
-				9 = {
-					expedition_minor_progress_effect = yes
-					set_variable = thousand_calatafimi_win
-				}
-				1 = {
-					expedition_lose_progress_effect = yes
-				}
-			}
-		}
-
-		hidden_effect = {
-			trigger_event = { id = exp_thousand.104 days = 30 }
-		}
-
-	    ai_chance = {
-			base = 15
-		}
-    }
-}
-
-# Palermo insurrection
-exp_thousand.103 = { 
-	type = country_event
-	placement = ROOT
-
-	title = exp_thousand.103.t
-	desc = exp_thousand.103.d
-	flavor = exp_thousand.103.f
-
-	event_image = {
-		video = "gfx/event_pictures/unspecific_military_parade.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/unspecific/military_parade"
-
-	icon = "gfx/interface/icons/event_icons/event_military.dds"
-
-	duration = 1
-
-	trigger = {
-		NOT = { has_variable = thousand_palermo_insurrection }
-		NOT = { has_global_variable = exp_thousand_limited }
-		has_variable = thousand_calatafimi_win
-		has_journal_entry = je_exp_thousand_ongoing
-	}
-
-	immediate = {
-		c:SIC = {
-			save_scope_as = sic_scope
-		}
-		random_scope_character = {
-			limit = {has_variable = thousand_commander}
-			save_scope_as = exp_commander
-		}	
-		set_variable = thousand_palermo_insurrection	
-		remove_variable = thousand_calatafimi_win
-	}
-
-	option = {
-		name = exp_thousand.103.a
-		default_option = yes
-
-		expedition_minor_progress_effect = yes
-
-	    ai_chance = {
-			base = 1	
-		}
-    }
-}
-
-# Southern Army
-exp_thousand.104 = { 
-	type = country_event
-	placement = ROOT
-
-	title = exp_thousand.104.t
-	desc = exp_thousand.104.d
-	flavor = exp_thousand.104.f
-
-	event_image = {
-		video = "gfx/event_pictures/unspecific_military_parade.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/unspecific/military_parade"
-
-	icon = "gfx/interface/icons/event_icons/event_military.dds"
-
-	duration = 1
-
-	trigger = {
-		has_journal_entry = je_exp_thousand_ongoing
-	}
-
-	immediate = {
-		c:SIC = {
-			save_scope_as = sic_scope
-		}
-		random_scope_character = {
-			limit = {has_variable = thousand_commander}
-			save_scope_as = exp_commander
-		}	
-	}
-
-	option = {
-		name = exp_thousand.104.a
-		default_option = yes
-
-		expedition_minor_progress_effect = yes
-		hidden_effect = {
-			trigger_event = { id = exp_thousand.105 days = 50 }
-		}
-
-	    ai_chance = {
-			base = 1	
-		}
-    }
-}
-
-# Battle of Milazzo
-exp_thousand.105 = { 
-	type = country_event
-	placement = ROOT
-
-	title = exp_thousand.105.t
-	desc = exp_thousand.105.d
-	flavor = exp_thousand.105.f
-
-	event_image = {
-		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
-
-	icon = "gfx/interface/icons/event_icons/event_military.dds"
-
-	duration = 1
-
-	trigger = {
-		has_journal_entry = je_exp_thousand_ongoing
-	}
-
-	immediate = {
-		c:SIC = {
-			save_scope_as = sic_scope
-		}
-		random_scope_character = {
-			limit = {has_variable = thousand_commander}
-			save_scope_as = exp_commander
-		}	
-	}
-
-	option = {
-		name = exp_thousand.105.a
-		default_option = yes
-
-		if = {
-			limit = {
-				has_global_variable = exp_thousand_limited
-			}		
-			random_list = {
-				6 = {
-					expedition_minor_progress_effect = yes
-				}
-				4 = {
-					expedition_lose_progress_effect = yes
-				}
-			}
-		}
-		else = {
-			random_list = {
-				75 = {
-					expedition_moderate_progress_effect = yes
-				}
-				25 = {
-					expedition_lose_progress_effect = yes
-				}
-			}
-		}
-
-		hidden_effect = {
-			trigger_event = { id = exp_thousand.106 days = 30 }
-		}
-
-	    ai_chance = {
-			base = 5
-		}
-    }
-	option = {
-		name = exp_thousand.105.b
-
-		add_small_peril_effect = yes
-
-
-		if = {
-			limit = {
-				has_global_variable = exp_thousand_limited
-			}		
-			random_list = {
-				7 = {
-					expedition_minor_progress_effect = yes
-				}
-				3 = {
-					expedition_lose_progress_effect = yes
-				}
-			}
-		}
-		else = {
-			random_list = {
-				9 = {
-					expedition_moderate_progress_effect = yes
-				}
-				1 = {
-					expedition_lose_progress_effect = yes
-				}
-			}	
-		}
-
-		hidden_effect = {
-			trigger_event = { id = exp_thousand.106 days = 30 }
-		}
-
-	    ai_chance = {
-			base = 5
-		}
-    }
-}
-
-# Battle of Reggio
-exp_thousand.106 = { 
-	type = country_event
-	placement = ROOT
-
-	title = exp_thousand.106.t
-	desc = exp_thousand.106.d
-	flavor = exp_thousand.106.f
-
-	event_image = {
-		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
-
-	icon = "gfx/interface/icons/event_icons/event_military.dds"
-
-	duration = 1
-
-	trigger = {
-		has_journal_entry = je_exp_thousand_ongoing
-	}
-
-	immediate = {
-		c:SIC = {
-			save_scope_as = sic_scope
-		}
-		random_scope_character = {
-			limit = {has_variable = thousand_commander}
-			save_scope_as = exp_commander
-		}	
-	}
-
-	option = {
-		name = exp_thousand.106.a
-		default_option = yes
-
-		add_small_peril_effect = yes
-
-		if = {
-			limit = {
-				has_global_variable = exp_thousand_limited
-			}		
-			random_list = {
-				7 = {
-					expedition_minor_progress_effect = yes
-				}
-				3 = {
-					expedition_lose_progress_effect = yes
-				}
-			}
-		}
-		else = {
-			random_list = {
-				9 = {
-					expedition_minor_progress_effect = yes
-				}
-				1 = {
-					expedition_lose_progress_effect = yes
-				}
-			}
-		}
-
-		set_variable = thousand_naples
-
-	    ai_chance = {
-			base = 75
-		}
-    }
-	option = {
-		name = exp_thousand.106.b
-
-		if = {
-			limit = {
-				has_global_variable = exp_thousand_limited
-			}		
-			random_list = {
-				6 = {
-					expedition_minor_progress_effect = yes
-				}
-				4 = {
-					expedition_lose_progress_effect = yes
-				}
-			}
-		}
-		else = {
-			random_list = {
-				8 = {
-					expedition_minor_progress_effect = yes
-				}
-				2 = {
-					expedition_lose_progress_effect = yes
-				}
-			}
-		}
-
-		set_variable = thousand_naples
-
-	    ai_chance = {
-			base = 25
-		}
-    }
-}
-
-# Garibaldi's entry into Naples
-exp_thousand.107 = { 
-	type = country_event
-	placement = ROOT
-
-	title = exp_thousand.107.t
-	desc = exp_thousand.107.d
-	flavor = exp_thousand.107.f
-
-	event_image = {
-		video = "gfx/event_pictures/unspecific_military_parade.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/unspecific/military_parade"
-
-	icon = "gfx/interface/icons/event_icons/event_military.dds"
-
-	duration = 1
-
-	trigger = {
-		has_variable = thousand_naples
-		var:expedition_progress < 8 
-		var:expedition_peril < 5
-	}
-
-	immediate = {
-		c:SIC = {
-			save_scope_as = sic_scope
-			ruler = {
-				save_scope_as = ruler_scope
-			}
-		}
-		random_scope_character = {
-			limit = {has_variable = thousand_commander}
-			save_scope_as = exp_commander
-		}	
-		remove_variable = thousand_naples
-	}
-
-	option = {
-		name = exp_thousand.107.a
-		default_option = yes
-
-		expedition_minor_progress_effect = yes
-
-		set_variable = thousand_volturno
-
-	    ai_chance = {
-			base = 1	
-		}
-	}
-}
-
-# Battle of Volturno
-exp_thousand.108 = { 
-	type = country_event
-	placement = ROOT
-
-	title = exp_thousand.108.t
-	desc = exp_thousand.108.d
-	flavor = exp_thousand.108.f
-
-	event_image = {
-		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
-
-	icon = "gfx/interface/icons/event_icons/event_military.dds"
-
-	duration = 1
-
-	trigger = {
-		has_variable = thousand_volturno
-		var:expedition_progress < 8 
-		var:expedition_peril < 5
-	}
-
-	immediate = {
-		c:SIC = {
-			save_scope_as = sic_scope
-			ruler = {
-				save_scope_as = ruler_scope
-			}
-		}
-		random_scope_character = {
-			limit = {has_variable = thousand_commander}
-			save_scope_as = exp_commander
-		}
-		remove_variable = thousand_volturno	
-	}
-
-	option = {
-		name = exp_thousand.108.a
-		default_option = yes
-
-		add_medium_peril_effect = yes
-
-		if = {
-			limit = {
-				has_global_variable = exp_thousand_limited
-			}		
-			random_list = {
-				55 = {
-					expedition_minor_progress_effect = yes
-				}
-				45 = {
-					expedition_lose_progress_effect = yes
-				}
-			}
-		}
-		else = {
-			random_list = {
-				75 = {
-					expedition_moderate_progress_effect = yes
-				}
-				25 = {
-					expedition_lose_progress_effect = yes
-				}
-			}
-		}
-
-	    ai_chance = {
-			base = 80	
-		}
-    }
-	option = {
-		name = exp_thousand.108.b
-
-		add_small_peril_effect = yes
-
-		if = {
-			limit = {
-				has_global_variable = exp_thousand_limited
-			}		
-			random_list = {
-				45 = {
-					expedition_minor_progress_effect = yes
-				}
-				55 = {
-					expedition_lose_progress_effect = yes
-				}
-			}
-		}
-		else = {
-			random_list = {
-				6 = {
-					expedition_moderate_progress_effect = yes
-				}
-				4 = {
-					expedition_lose_progress_effect = yes
-				}
-			}
-		}
-
-	    ai_chance = {
-			base = 20
-		}
-    }
-}
-
-exp_thousand.109 = { #Random event POSITIVE
-	type = country_event
-    placement = scope:current_expedition_location
-	
-    hidden = yes
-
-    duration = 1
-
-	immediate = {
-		post_notification = expedition_progress_average
-		expedition_minor_progress_effect = yes
-	}
-}
-
-exp_thousand.110 = { #Random event NEGATIVE
-	type = country_event
-    placement = root
-	
-	title = exp_thousand.110.t
-	desc = exp_thousand.110.d
-	flavor = exp_thousand.110.f
-
-	event_image = {
-		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
-
-	icon = "gfx/interface/icons/event_icons/event_military.dds"
-
-    duration = 1
-
-    immediate = {
-		c:SIC = {
-			save_scope_as = sic_scope
-		}
-		random_scope_character = {
-			limit = {has_variable = thousand_commander}
-			save_scope_as = exp_commander
-		}
-    }
-
-	option = {
-		name = exp_thousand.110.a
-		default_option = yes
-
- 		add_small_peril_effect = yes
-
-	    ai_chance = {
-			base = 1
-		}
-    }
-}
-
-exp_thousand.111 = { #Random battle
-	type = country_event
-    placement = root
-	
-	title = exp_thousand.111.t
-	desc = exp_thousand.111.d
-	flavor = exp_thousand.111.f
-
-	event_image = {
-		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
-
-	icon = "gfx/interface/icons/event_icons/event_military.dds"
-
-    duration = 1
-
-    immediate = {
-		c:SIC = {
-			save_scope_as = sic_scope
-		}
-		random_scope_character = {
-			limit = {has_variable = thousand_commander}
-			save_scope_as = exp_commander
-		}
-    }
-
-	option = {
-		name = exp_thousand.111.a
-		default_option = yes
-
- 		add_small_peril_effect = yes
-
-		if = {
-			limit = {
-				has_global_variable = exp_thousand_limited
-			}		
-			random_list = {
-				6 = {
-					expedition_minor_progress_effect = yes
-				}
-				4 = {
-					expedition_lose_progress_effect = yes
-				}
-			}
-		}
-		else = {
-			random_list = {
-				7 = {
-					expedition_minor_progress_effect = yes
-				}
-				3 = {
-					expedition_lose_progress_effect = yes
-				}
-			}
-		}
-
-	    ai_chance = {
-			base = 75
-		}
-    }
-	option = {
-		name = exp_thousand.111.b
-
- 		add_small_peril_effect = yes
- 		add_small_peril_effect = yes
-
-		if = {
-			limit = {
-				has_global_variable = exp_thousand_limited
-			}		
-			random_list = {
-				75 = {
-					expedition_minor_progress_effect = yes
-				}
-				25 = {
-					expedition_lose_progress_effect = yes
-				}
-			}
-		}
-		else = {
-			random_list = {
-				85 = {
-					expedition_minor_progress_effect = yes
-				}
-				15 = {
-					expedition_lose_progress_effect = yes
-				}
-			}
-		}
-
-	    ai_chance = {
-			base = 25
 		}
     }
 }

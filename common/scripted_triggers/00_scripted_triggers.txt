@@ -327,7 +327,7 @@ in_volcanic_zone = {
 		region = sr:region_mexico
 		region = sr:region_pacific_coast
 		region = sr:region_zanj
-		region = sr:region_south_italy
+		region = sr:region_italy
 		state_region = s:STATE_ICELAND
 		state_region = s:STATE_HAWAIIAN_ISLANDS
 	}
@@ -1052,12 +1052,7 @@ language_accepted = {
 default_auto_expand_rule = { 
 	cash_reserves_ratio > 0.95
 	state.market_access > 0.5
-	owner = {
-		OR = {
-			construction_queue_government_duration < max_autoexpand_queue_weeks
-			has_wasted_construction = yes
-		}
-	}
+	owner.construction_queue_duration < max_autoexpand_queue_weeks
 }
 
 is_in_civil_war = {
@@ -1113,16 +1108,5 @@ is_peasant_under_serfdom = {
 	is_pop_type = peasants
 	owner = {
 		has_law = law_type:law_serfdom
-	}
-}
-
-has_radical_leftist_government = {
-	has_law = law_type:law_council_republic	
-}
-
-has_radical_leftist_economy = {
-	OR = {
-		has_law = law_type:law_command_economy	
-		has_law = law_type:law_cooperative_ownership
 	}
 }

@@ -39,9 +39,6 @@ DEFAULT = {
 			scope:actor = {
 				this = c:FSA
 			}
-			c:USA = {
-				has_journal_entry = je_acw_war			
-			}	
 		}
 	}
 	# Important ideologies
@@ -377,7 +374,11 @@ AFS = { #African Free State
 		
 		trigger = {
 			scope:actor = {
-				capital = { region = sr:region_congo }
+				any_state = {
+					owner = c:AFS
+					is_capital = yes
+					region = sr:region_congo
+				}
 			}
 		}
 	}
@@ -389,7 +390,11 @@ AFS = { #African Free State
 		
 		trigger = {
 			scope:actor = {
-				capital = { region = sr:region_southern_africa }
+				any_state = {
+					owner = c:AFS
+					is_capital = yes
+					region = sr:region_southern_africa
+				}
 			}
 		}
 	}
@@ -402,7 +407,11 @@ AFS = { #African Free State
 		
 		trigger = {
 			scope:actor = {
-				capital = { region = sr:region_zanj }
+				any_state = {
+					owner = c:AFS
+					is_capital = yes
+					region = sr:region_zanj
+				}
 			}
 		}
 	}
@@ -414,7 +423,11 @@ AFS = { #African Free State
 		
 		trigger = {
 			scope:actor = {
-				capital = { region = sr:region_nile_basin }
+				any_state = {
+					owner = c:AFS
+					is_capital = yes
+					region = sr:region_nile_basin
+				}
 			}
 		}
 	}
@@ -426,9 +439,10 @@ AFS = { #African Free State
 		
 		trigger = {
 			scope:actor = {
-				OR = {
-					capital = { region = sr:region_niger }
-					capital = { region = sr:region_senegal }
+				any_state = {
+					owner = c:AFS
+					is_capital = yes
+					region = sr:region_niger
 				}
 			}
 		}
@@ -441,7 +455,6 @@ AFS = { #African Free State
 		
 		trigger = {
 			scope:actor = {
-				capital = { region = sr:region_nile_basin }
 				any_state = {
 					owner = c:AFS
 					is_capital = yes
@@ -617,7 +630,7 @@ BOL = {
 			c:BOL = {
 				has_diplomatic_pact = {
 					who = c:PEU
-					type = confederation
+					type = real_union
 					is_initiator = yes
 				}
 			}
@@ -1521,7 +1534,7 @@ SIC = { # Two Sicilies
 			exists = scope:actor
 			scope:actor = {
 				owns_entire_state_region = STATE_SICILY
-				NOT = { has_state_in_state_region = STATE_CAMPANIA }
+				NOT = { owns_entire_state_region = STATE_CAMPANIA }
 			}
 		}
 	}
@@ -1536,7 +1549,7 @@ SIC = { # Two Sicilies
 			exists = scope:actor
 			scope:actor = {
 				NOT = { owns_entire_state_region = STATE_SICILY }
-				has_state_in_state_region = STATE_CAMPANIA
+				owns_entire_state_region = STATE_CAMPANIA
 			}
 		}
 	}
@@ -1858,7 +1871,9 @@ SCA = { # Scandinavia
 			exists = scope:actor
 			scope:actor = {
 				has_law = law_type:law_monarchy
-				was_formed_from = DEN
+				ruler = {
+					has_culture = cu:danish
+				}
 			}
 		}
 	}
