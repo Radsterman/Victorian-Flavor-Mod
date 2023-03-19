@@ -237,55 +237,55 @@ on_character_death = {
 			}
 		}
 
-		#Vice President, if exists, replaces dead President in Presidential Republics
-		if = {
-			limit = {
-				is_ruler = yes
-				owner = {
-					has_law = law_type:law_presidential_republic
-					has_variable = vice_president
-				}
-			}
-			owner = {
-				remove_variable = vice_president
-				every_scope_character = {
-					limit = { has_variable = vice_president_trigger }
-					remove_variable = vice_president_trigger
-					save_scope_as = former_vice_president
-				}
-				create_character = {
-					first_name = scope:former_vice_president
-					last_name = scope:former_vice_president
-					ruler = yes
-					culture = scope:former_vice_president
-					religion = scope:former_vice_president
-					interest_group = scope:former_vice_president
-					ideology = scope:former_vice_president
-					birth_date = scope:former_vice_president
-					traits = scope:former_vice_president
-					on_created = {
-						set_variable = vice_president_trigger
-						owner = {
-							set_variable = {
-								name = vice_president
-								value = PREV
-							}
-						}
-					}
-				}
-				create_character = {
-					on_created = {
-						set_variable = vice_president_trigger
-						owner = {
-							set_variable = {
-								name = vice_president
-								value = PREV
-							}
-						}
-					}
-				}
-			}
-		}
+		##Vice President, if exists, replaces dead President in Presidential Republics
+		#if = {
+		#	limit = {
+		#		is_ruler = yes
+		#		owner = {
+		#			has_law = law_type:law_presidential_republic
+		#			has_variable = vice_president
+		#		}
+		#	}
+		#	owner = {
+		#		remove_variable = vice_president
+		#		every_scope_character = {
+		#			limit = { has_variable = vice_president_trigger }
+		#			remove_variable = vice_president_trigger
+		#			save_scope_as = former_vice_president
+		#		}
+		#		create_character = {
+		#			first_name = scope:former_vice_president
+		#			last_name = scope:former_vice_president
+		#			ruler = yes
+		#			culture = scope:former_vice_president
+		#			religion = scope:former_vice_president
+		#			interest_group = scope:former_vice_president
+		#			ideology = scope:former_vice_president
+		#			birth_date = scope:former_vice_president
+		#			traits = scope:former_vice_president
+		#			on_created = {
+		#				set_variable = vice_president_trigger
+		#				owner = {
+		#					set_variable = {
+		#						name = vice_president
+		#						value = PREV
+		#					}
+		#				}
+		#			}
+		#		}
+		#		create_character = {
+		#			on_created = {
+		#				set_variable = vice_president_trigger
+		#				owner = {
+		#					set_variable = {
+		#						name = vice_president
+		#						value = PREV
+		#					}
+		#				}
+		#			}
+		#		}
+		#	}
+		#}
 
 		if = {
 			limit = {
@@ -386,24 +386,24 @@ on_election_ended = {
 # null law
 on_law_activated = {
 	effect = {
-		if = {
-			limit = {
-				AND = {
-					has_law = law_type:law_monarchy
-					country_has_voting_franchise = yes
-				}
-			}
-			create_character = {
-				on_created = {
-					set_variable = prime_minister_trigger
-					owner = {
-						set_variable = {
-							name = prime_minister
-							value = PREV
-						}
-					}
-				}
-			}
-		}
+		#if = {
+		#	limit = {
+		#		AND = {
+		#			has_law = law_type:law_monarchy
+		#			country_has_voting_franchise = yes
+		#		}
+		#	}
+		#	create_character = {
+		#		on_created = {
+		#			set_variable = prime_minister_trigger
+		#			owner = {
+		#				set_variable = {
+		#					name = prime_minister
+		#					value = PREV
+		#				}
+		#			}
+		#		}
+		#	}
+		#}
 	}
 }
