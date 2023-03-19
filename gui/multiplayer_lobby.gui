@@ -1,0 +1,1207 @@
+### this is an imported file. please make as little changes to this file as possible.
+### when you make a change please mark it very clearly using a pair of comment lines with the text '### v3' and '### to here'
+### texture paths and audio event ids are an exception to this and can be changed without marking
+
+JominiMultiplayerLobby = {
+	layer = layer_topfrontend
+
+	state = {
+		name = _show
+		on_start = "[GetVariableSystem.Set( 'mp_lobby_tabs', 'show_players' )]"
+
+		using = Animation_FadeIn_Standard
+		using = Sound_WindowShow_Standard
+	}
+
+	state = {
+		name = _hide
+		on_start = "[GetVariableSystem.Clear( 'tabs_open' )]"
+
+		using = Animation_FadeOut_Standard
+		using = Sound_WindowHide_Standard
+	}
+
+	blockoverride "left_panel_properties"
+	{
+		size = { 390 100% }
+		widgetid = "left"
+		visible = "[GameIsMultiplayer]"
+	}
+
+	blockoverride "lobby_view_back_onclick" {
+		onclick = "[ReturnToMenu]"
+	}
+
+	blockoverride "host_button"
+	{
+		text = "[SelectLocalization( IsIronmanEnabled, 'GAME_SETUP_IRONMAN_SINGLEPLAYER_ONLY', 'JOMINI_MULTIPLAYER_GUI_HOST_BUTTON' )]"
+	}
+
+	blockoverride "host_button_enabled"
+	{
+		enabled = "[And( And( JominiIsMultiplayerAccessible, JominiIsHostOrLocal ), Not( IsIronmanEnabled ) )]"
+	}
+
+	# blockoverride "lobby_module_background"
+	# {
+	# 	using = Background_Area_Dark
+	# 	margin = { 10 10 }
+	# }
+
+	blockoverride "playerbackgroundstyle"
+	{
+		using = Background_Area
+	}
+
+	blockoverride "jominimultiplayertextbox" {
+		default_format = "#medium"
+	}
+
+	blockoverride "buttonstyle" {
+		gfxtype = togglepushbuttongfx
+		effectname = "NoHighlight"
+
+		upframe = 1
+		uphoverframe = 2
+		uppressedframe = 3
+		downframe = 4
+		downhoverframe = 5
+		downpressedframe = 6
+		texture = "gfx/frontend/interface/buttons/button_entry_02.dds"
+		spriteType = Corneredstretched
+		spriteborder = { 20 20 }
+		framesize  = { 249 78 }
+
+		default_format = "#medium"
+	}
+
+	blockoverride "playerlist_playable" {
+	}
+
+	blockoverride "game_info" {
+		header_pattern = {
+			layoutpolicy_horizontal = expanding
+
+			blockoverride "header_text" {
+				### v3 replacement
+				text = "CLOCK_TEXT"
+				# text = "[GetCurrentDate.GetString]"
+				### to here
+
+			}
+
+			blockoverride "button_close" {
+				visible = no
+			}
+		}
+	}
+
+	blockoverride "selected_playable" {
+		state = {
+			name = "jomini_preselected_changed"
+			next = "preselected_shown"
+			alpha = 0.5
+		}
+
+		state = {
+			name = "preselected_shown"
+			alpha = 1
+			duration = 0.5
+			using = Animation_Curve_Default
+		}
+
+		### v3 replacement
+		using = multiplayer_lobby_selected_country_info
+		# datacontext = "[LobbyView.GetSelectedPlayable.GetCharacter]"
+		# 
+		# vbox = {
+		# 	layoutpolicy_horizontal = expanding
+		# 	layoutpolicy_vertical = expanding
+		# 	visible = "[Character.IsValid]"
+		# 	ignoreinvisible = yes
+		# 
+		# 	#### MAIN PORTRAIT ###
+		# 	vbox = {
+		# 		layoutpolicy_horizontal = expanding
+		# 		margin_left = -4
+		# 
+		# 		###############
+		# 		# Character box
+		# 		widget = {
+		# 			name = "main_characters"
+		# 			layoutpolicy_horizontal = expanding
+		# 			size = { 0 310 }
+		# 
+		# 			datacontext = "[GetIllustration( 'character_view_bg' )]"
+		# 
+		# 			background = {
+		# 				texture = "[Illustration.GetTexture( Character.Self )]"
+		# 				fittype = centercrop
+		# 				using = Mask_Rough_Edges
+		# 			}
+		# 
+		# 			### Liege
+		# 			container = {
+		# 				name = "liege"
+		# 				datacontext = "[LobbyView.GetSelectedPlayable.GetCharacter.GetLiege]"
+		# 				visible = "[And(Character.IsValid, Not(Character.IsSelected))]"
+		# 				parentanchor = bottom|left
+		# 				position = { 5 -125 }
+		# 
+		# 				portrait_head_small = {
+		# 
+		# 					blockoverride "portrait_transformation"
+		# 					{
+		# 						portrait_scale = { -1 1 }
+		# 						portrait_offset = { 1 0 }
+		# 					}
+		# 
+		# 					blockoverride "portrait_transformation"
+		# 					{
+		# 						portrait_scale = { -1 1 }
+		# 						portrait_offset = { 1 0 }
+		# 					}
+		# 
+		# 					blockoverride "opinion_box"
+		# 					{
+		# 						visible = no
+		# 					}
+		# 
+		# 					blockoverride "status_icons" {
+		# 						visible = no
+		# 					}
+		# 				}
+		# 
+		# 				text_label_center = {
+		# 					parentanchor = top|hcenter
+		# 					position = { -10 85 }
+		# 					text = "[liege|E]"
+		# 				}
+		# 
+		# 				icon = {
+		# 					name = "non_dejure_liege"
+		# 					visible = "[Not( Character.GetVassalContract.IsRightfulLiege )]"
+		# 					parentanchor = top|left
+		# 					position = { 65 80 }
+		# 
+		# 					size = { 35 35 }
+		# 					texture = "gfx/frontend/interface/icons/levy_tax_reduction.dds"
+		# 
+		# 					using = tooltip_ws
+		# 					tooltip = "MRW_TT_NOT_RIGHTFUL_LIEGE"
+		# 				}
+		# 			}
+		# 
+		# 			### Heir
+		# 			container = {
+		# 				name = "heir"
+		# 				datacontext = "[LobbyView.GetSelectedPlayable.GetCharacter.GetPlayerHeir]"
+		# 				visible = "[Character.IsValid]"
+		# 				parentanchor = bottom|left
+		# 				position = { 5 -10 }
+		# 
+		# 				portrait_head_small = {
+		# 					blockoverride "portrait_transformation"
+		# 					{
+		# 						portrait_scale = { -1 1 }
+		# 						portrait_offset = { 1 0 }
+		# 					}
+		# 
+		# 					blockoverride "opinion_box"
+		# 					{
+		# 						visible = no
+		# 					}
+		# 
+		# 					blockoverride "status_icons" {
+		# 						visible = no
+		# 					}
+		# 				}
+		# 
+		# 				text_label_center = {
+		# 					parentanchor = top|hcenter
+		# 					position = { 0 85 }
+		# 					name = "heir_label"
+		# 					text = "[heir|E]"
+		# 				}
+		# 			}
+		# 
+		# 			### Main Character
+		# 			portrait_body = {
+		# 				name = "tutorial_highlight_main_character_button"
+		# 				parentanchor = bottom|right
+		# 				position = { -10 20 }
+		# 				size = { 240 300 }
+		# 
+		# 				blockoverride "portrait_button" {
+		# 					size = { 280 421 }
+		# 				}
+		# 
+		# 				blockoverride "portrait_glow" {}
+		# 
+		# 				blockoverride "portrait_texture" {
+		# 					portrait_texture = "[Character.GetPortrait('environment_body', 'camera_character_view_main', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+		# 				}
+		# 
+		# 				blockoverride "mask" {
+		# 					mask = "gfx/interface/portraits/portrait_mask_character_view.dds"
+		# 				}
+		# 
+		# 				blockoverride "portrait_transformation"
+		# 				{
+		# 					portrait_scale = { -1 1 }
+		# 					portrait_offset = { 1 0 }
+		# 				}
+		# 
+		# 				blockoverride "portrait_opinion" {
+		# 					visible = no
+		# 				}
+		# 
+		# 				blockoverride "portrait_status_icons" {
+		# 					visible = no
+		# 				}
+		# 
+		# 				blockoverride "status_icons" {}
+		# 				blockoverride "coa" {}
+		# 				blockoverride "opinion_box" {}
+		# 			}
+		# 		}
+		# 	}
+		# 
+		# 	vbox = {
+		# 		layoutpolicy_horizontal = expanding
+		# 
+		# 		vbox = {
+		# 			layoutpolicy_horizontal = expanding
+		# 
+		# 			background = {
+		# 				using = Background_Area_Dark
+		# 				margin = { 5 0 }
+		# 			}
+		# 
+		# 			vbox = {
+		# 				layoutpolicy_horizontal = expanding
+		# 				margin_top = 10
+		# 				spacing = 5
+		# 
+		# 				text_single = {
+		# 					name = "character_name"
+		# 					layoutpolicy_horizontal = expanding
+		# 					text = "[Character.GetUINameNotMeNoTooltip], #low [Character.GetAge]#!"
+		# 					default_format = "#high"
+		# 					using = Font_Size_Medium
+		# 					fontsize_min = 14
+		# 					align = left|nobaseline
+		# 					max_width = 390
+		# 					autoresize = yes
+		# 
+		# 					tooltip = "[Character.GetCharacterViewNameNicknamedNoTooltipRegnal]"
+		# 				}
+		# 
+		# 				divider_light = {
+		# 					layoutpolicy_horizontal = expanding
+		# 				}
+		# 			}
+		# 
+		# 			hbox = {
+		# 				layoutpolicy_horizontal = expanding
+		# 
+		# 				vbox = {
+		# 					layoutpolicy_horizontal = expanding
+		# 					layoutpolicy_vertical = expanding
+		# 					margin = { 5 5 }
+		# 
+		# 					hbox = {
+		# 						layoutpolicy_horizontal = expanding
+		# 
+		# 						## Traits and modifiers
+		# 						fixedgridbox = {
+		# 							name = "personality_traits"
+		# 							datamodel = "[Character.GetTraitIndices]"
+		# 							flipdirection = yes
+		# 							addcolumn = 54
+		# 							addrow = 55
+		# 							maxhorizontalslots = 5
+		# 
+		# 							item = {
+		# 								icon_trait = {
+		# 									datacontext = "[GetTraitForIndex(uint16.GetUint)]"
+		# 									visible = "[Trait.IsPersonality]"
+		# 									blockoverride "icon_size"
+		# 									{
+		# 										size = { 55 55 }
+		# 									}
+		# 								}
+		# 							}
+		# 						}
+		# 
+		# 						expand = {}
+		# 					}
+		# 
+		# 					hbox = {
+		# 						layoutpolicy_horizontal = expanding
+		# 
+		# 						hbox = {
+		# 							name = "faith_and_culture"
+		# 
+		# 							button_religion_icon = {
+		# 								name = "faith_button"
+		# 								alwaystransparent = yes
+		# 								datacontext = "[Character.GetFaith]"
+		# 								size = { 45 45 }
+		# 							}
+		# 
+		# 							vbox = {
+		# 								margin_right = 10
+		# 								margin_left = 3
+		# 								minimumsize = { 80 0 }
+		# 
+		# 								text_single = {
+		# 									datacontext = "[Character.GetFaith]"
+		# 									layoutpolicy_horizontal = expanding
+		# 									text = "FAITH_LOBBY_WINDOW"
+		# 									default_format = "#clickable;italic"
+		# 									align = nobaseline
+		# 									max_width = 220
+		# 
+		# 									tooltipwidget = { faith_tooltip = {} }
+		# 								}
+		# 
+		# 								text_single = {
+		# 									datacontext = "[Character.GetCulture]"
+		# 									layoutpolicy_horizontal = expanding
+		# 									text = "CULTURE_LOBBY_WINDOW"
+		# 									default_format = "#clickable;italic"
+		# 									align = nobaseline
+		# 									max_width = 220
+		# 
+		# 									tooltipwidget = {
+		# 										culture_tooltip = {}
+		# 									}
+		# 								}
+		# 							}
+		# 						}
+		# 						expand = {}
+		# 					}
+		# 
+		# 
+		# 					expand = {}
+		# 				}
+		# 
+		# 				divider_light = {
+		# 					layoutpolicy_vertical = expanding
+		# 				}
+		# 
+		# 				### HOUSE COA ###
+		# 				vbox = {
+		# 					layoutpolicy_vertical = expanding
+		# 					margin = { 10 0 }
+		# 					margin_bottom = 5
+		# 
+		# 					vbox = {
+		# 						name = "house"
+		# 						margin_top = 5
+		# 						layoutpolicy_vertical = expanding
+		# 						maximumsize = { 100 0 }
+		# 						datacontext = "[Character.GetHouse]"
+		# 						visible = "[Character.HasDynasty]"
+		# 
+		# 						coa_house_medium = {
+		# 							alwaystransparent = yes
+		# 							using = tooltip_ws
+		# 
+		# 							icon = {
+		# 								name = "bastard"
+		# 								parentanchor = bottom|right
+		# 
+		# 								visible = "[Not(Character.IsLegitimateMemberOfHouse)]"
+		# 								framesize = { 40 40 }
+		# 								frame = 4
+		# 								size = { 20 20 }
+		# 								texture = "gfx/frontend/interface/icons/portraits/relation.dds"
+		# 								tooltip = "CV_TT_BASTARD"
+		# 							}
+		# 
+		# 							icon = {
+		# 								name = "head_icon"
+		# 								parentanchor = bottom|right
+		# 								size = { 20 20 }
+		# 								visible = "[LessThan_int32(Character.GetDynastyHeadRelationFrame('(bool)no'), '(int32)9')]"
+		# 
+		# 								texture = "gfx/frontend/interface/icons/portraits/relation.dds"
+		# 								framesize = { 40 40 }
+		# 								frame = "[Character.GetDynastyHeadRelationFrame('(bool)no')]"
+		# 								tooltip = "[Character.GetDynastyHeadTooltip]"
+		# 							}
+		# 						}
+		# 
+		# 						text_multi = {
+		# 							autoresize = yes
+		# 							max_width = 95
+		# 							margin = { 5 0 }
+		# 							text = "[DynastyHouse.GetBaseNameNoTooltip]"
+		# 							align = top|hcenter
+		# 						}
+		# 					}
+		# 
+		# 					expand = {}
+		# 				}
+		# 			}
+		# 		}
+		# 
+		# 		### REALM ###
+		# 		hbox = {
+		# 			layoutpolicy_horizontal = expanding
+		# 			margin = { 20 0 }
+		# 
+		# 			visible = "[Character.HasLandedTitles]"
+		# 
+		# 			widget = {
+		# 				size = { 85 100 }
+		# 				coa_realm_medium_crown = {
+		# 					name = "realm_flag"
+		# 					alwaystransparent = yes
+		# 					blockoverride "OnClickDefault" {}
+		# 				}
+		# 			}
+		# 
+		# 			vbox = {
+		# 				layoutpolicy_horizontal = expanding
+		# 
+		# 				text_multi = {
+		# 					name = "character_title"
+		# 					layoutpolicy_horizontal = expanding
+		# 					align = left
+		# 					autoresize = yes
+		# 					max_width = 280
+		# 					text = "[Character.GetPrimaryTitle.GetNameNoTooltip|U]"
+		# 					default_format = "#low"
+		# 					using = Font_Size_Medium
+		# 				}
+		# 
+		# 				text_single = {
+		# 					name = "government_type"
+		# 					layoutpolicy_horizontal = expanding
+		# 					text = "[Character.GetGovernment.GetName]"
+		# 					default_format = "#low"
+		# 				}
+		# 			}
+		# 
+		# 			expand = {}
+		# 		}
+		# 	}
+		# 
+		# 	spacer = {
+		# 		size = { 10 5 }
+		# 	}
+		# 
+		# 	scrollarea = {
+		# 		layoutpolicy_horizontal = expanding
+		# 		maximumsize = { -1 150 }
+		# 		autoresizescrollarea = yes
+		# 		scrollbarpolicy_horizontal = always_off
+		# 		visible = "[Character.HasDifficultyInfo]"
+		# 
+		# 		scrollwidget = {
+		# 			### DIFFICULTY ###
+		# 			vbox = {
+		# 				layoutpolicy_horizontal = expanding
+		# 				spacing = 5
+		# 				margin_bottom = 10
+		# 				visible = "[Character.HasDifficultyInfo]"
+		# 
+		# 				background = {
+		# 					using = Background_Area
+		# 					margin = { 10 0 }
+		# 				}
+		# 
+		# 				text_label_left = {
+		# 					name = "difficulty_label"
+		# 					layoutpolicy_horizontal = expanding
+		# 					margin = { 10 5 }
+		# 					text = "MULTIPLAYER_LOBBY_DIFFICULTY_HEADER"
+		# 				}
+		# 
+		# 				text_multi = {
+		# 					name = "difficulty"
+		# 					layoutpolicy_horizontal = expanding
+		# 					autoresize = yes
+		# 					text = "MULTIPLAYER_LOBBY_DIFFICULTY_INFO_TEXT"
+		# 					max_width = 380
+		# 				}
+		# 			}
+		# 		}
+		# 
+		# 		scrollbar_vertical = {
+		# 			using = Scrollbar_Vertical
+		# 		}
+		# 	}
+		# 
+		# 	spacer = {
+		# 		size = { 10 5 }
+		# 	}
+		# 
+		# 	expand = {}
+		# 
+		# 	divider_light = {
+		# 		layoutpolicy_horizontal = expanding
+		# 	}
+		# 
+		# 	spacer = { size = {0 8}}
+		# }
+		### to here
+	}
+
+	blockoverride "game_rules" {
+		vbox = {
+			layoutpolicy_horizontal = expanding
+			spacing = 5
+			margin_right = 10
+			margin_bottom = 15
+
+			flowcontainer_game_rules_mini = {
+				name = "game_rules_mini"
+				margin = { 10 5 }
+
+				blockoverride "tooltip_left_arrow" {
+					tooltip = "CYCLE_ACHIEVEMENTS"
+					using = tooltip_above
+				}
+				
+				blockoverride "tooltip_right_arrow" {
+					tooltip = "CYCLE_ACHIEVEMENTS"
+					using = tooltip_above
+				}
+			}
+
+			button_standard = {
+				name = "game_rules_button"
+				layoutpolicy_horizontal = expanding
+				size = { 350 45 }
+				tooltip = "MULTIPLAYER_LOBBY_OPEN_GAME_RULES"
+
+				button_rules = {
+					size = { 30 30 }
+					parentanchor = left|vcenter
+					position = { 5 0 }
+					alwaystransparent = yes
+				}
+
+				text = "GAME_RULES"
+				margin = { 60 0 }
+				onclick = "[OpenGameRules]"
+
+				hbox = {
+					margin = { 5 0 }
+					expand = {}
+					datacontext = "[GetGameRules]"
+
+					ironman_save_icon = {
+						visible = "[IsIronmanEnabled]"
+						size = { 30 30 }
+						tooltip = "IRONMAN_ENABLED"
+					}
+
+					ironman_disabled_icon = {
+						visible = "[Not( IsIronmanEnabled )]"
+						size = { 30 30 }
+						tooltip = "IRONMAN_DISABLED"
+					}
+					achievements_enabled_icon = {
+						visible = "[CanGetAchievements]"
+						size = { 30 30 }
+						tooltip = ACHIEVEMENTS_ENABLED
+					}
+					achievements_disabled_icon = {
+						visible = "[Not( CanGetAchievements )]"
+						size = { 30 30 }
+						tooltip = ACHIEVEMENTS_DISABLED
+						using = tooltip_nw
+					}
+				}
+			}
+
+			vbox = {
+				name = "select_and_customize_character"
+				### v3 replacement
+				datacontext = "[LobbyView.GetSelectedPlayable.GetCountry]"
+				# datacontext = "[LobbyView.GetSelectedPlayable.GetCharacter]"
+				### to here
+
+				### v3 outcomment
+				# button_standard = {
+				# 	name = "create_ruler"
+				# 	size = { 380 45 }
+				# 	visible = "[IsPreparationLobby]"
+				# 	datacontext = "[LobbyView.GetSelectedPlayable.GetCharacter]"
+				# 
+				# 	button_edit_text = {
+				# 		size = { 30 30 }
+				# 		parentanchor = left|vcenter
+				# 		position = { 5 0 }
+				# 		alwaystransparent = yes
+				# 	}
+				# 
+				# 	enabled = "[LobbyView.CanTryStartRulerDesigning( Character.Self )]"
+				# 
+				# 	tooltip = "[LobbyView.GetTryStartRulerDesigningDesc( Character.Self )]"
+				# 	text = "RULER_DESIGNER_OPEN"
+				# 
+				# 	onclick = "[LobbyView.UnReady]"
+				# 	onclick = "[TryStartRulerDesigning( Character.Self )]"
+				# }
+				### to here
+
+				vbox = {
+					layoutpolicy_horizontal = expanding
+					### v3 replacement
+					visible = "[Or(Or(Country.IsOtherPlayer, Country.IsLocalPlayer), And(Not(Country.IsValid), IsObserver))]"
+					# visible = "[Or(Or(Character.IsOtherPlayer, Character.IsLocalPlayer), And(Not(Character.IsValid), IsObserver))]"
+					### to here
+					
+					vbox = {
+						layoutpolicy_horizontal = expanding
+						margin = { 5 16 }
+
+						background = {
+							using = Background_Area_Dark
+						}
+
+						text_single = {
+							name = "player"
+							### v3 replacement
+							visible = "[Country.IsOtherPlayer]"
+							# visible = "[Character.IsOtherPlayer]"
+							### to here
+							text = "MULTIPLAYER_LOBBY_PLAYED_BY"
+							align = nobaseline
+							default_format = "#high"
+						}
+
+						text_single = {
+							name = "its_you"
+							### v3 replacement
+							visible = "[Country.IsLocalPlayer]"
+							# visible = "[Character.IsLocalPlayer]"
+							### to here
+							text = "MULTIPLAYER_LOBBY_PLAYED_BY_YOU"
+							align = nobaseline
+							default_format = "#high"
+						}
+
+						text_single = {
+							### v3 replacement
+							visible = "[And(Not(Country.IsValid), IsObserver)]"
+							# visible = "[And(Not(Character.IsValid), IsObserver)]"
+							### to here
+							size = { 380 100 }
+							align = center
+							text = "MULTIPLAYER_LOBBY_PLAY_OBSERVER"
+						}
+					}
+				}
+
+				vbox = {
+					layoutpolicy_horizontal = expanding
+					margin = { 10 10 }
+					### v3 replacement
+					visible = "[Not( Or( Country.IsOtherPlayer, Country.IsLocalPlayer ) )]"
+					# visible = "[Not( Or( Character.IsOtherPlayer, Character.IsLocalPlayer ) )]"
+					### to here
+
+					button_primary = {
+						layoutpolicy_horizontal = expanding
+						size = { 350 33 }
+						visible = "[And( GameIsMultiplayer, IsPreparationLobby )]"
+
+						text = "JOMINI_MULTIPLAYER_GUI_SELECT"
+						onclick = "[LobbyView.ControlSelected]"
+						tooltip = "[LobbyView.GetControlToolTip]"
+						enabled = "[LobbyView.CanControlSelected]"
+					}
+				}
+			}
+		}
+	}
+
+	### Chosen character name left side ###
+	blockoverride "readyness" {
+		hbox = {
+			layoutpolicy_horizontal = expanding
+			layoutpolicy_vertical = expanding
+			maximumsize = { 390 -1 }
+
+			text_multi = {
+				layoutpolicy_horizontal = expanding
+				text = "MULTIPLAYER_LOBBY_READY"
+				visible = "[And( LobbyPlayer.HasPlayable, Not( LobbyPlayer.IsObserver ) )]"
+				max_width = 245
+				autoresize = yes
+			}
+
+			text_single = {
+				layoutpolicy_horizontal = expanding
+				### v3 replacement
+				text = "MULTIPLAYER_LOBBY_NOT_READY"
+				# text = "[SelectLocalization( IsMachineRulerDesigning( LobbyPlayer.GetID ), 'MULTIPLAYER_LOBBY_RULER_DESIGNING', 'MULTIPLAYER_LOBBY_NOT_READY' )]"
+				### to here
+				visible = "[Not( Or( Or( LobbyPlayer.HasPlayable, LobbyPlayer.IsObserver ), LobbyPlayer.IsHotjoining ) )]"
+			}
+
+			text_single = {
+				layoutpolicy_horizontal = expanding
+				text = "JOMINI_MULTIPLAYER_GUI_OBSERVER"
+				visible = "[LobbyPlayer.IsObserver]"
+			}
+
+			text_single = {
+				layoutpolicy_horizontal = expanding
+				visible = "[LobbyPlayer.IsHotjoining]"
+				text = "MULTIPLAYER_LOBBY_JOIN_PROGRESS"
+			}
+
+			expand = {}
+		}
+	}
+
+	### MAPMODES, OBSERVE MODE ###
+	widget = {
+		parentanchor = bottom
+		size = { 100% 215 }
+		
+		### v3 alpha to hide lobby when transitioning into in-game
+		state = {
+			name = lobby_alpha_show
+			alpha = 1
+			duration = 0.5
+		}
+		state = {
+			name = lobby_alpha_hide
+			alpha = 0
+			duration = 0.5
+		}
+		###
+
+		vbox = {
+			layoutpolicy_vertical = expanding
+			expand = {}
+
+			hbox = {
+				layoutpolicy_horizontal = expanding
+				spacing = 30
+				margin_top = 120
+				margin_left = 540
+				margin_right = 390
+				margin_bottom = 6
+
+				hbox = {
+					spacing = 10
+
+					### v3 outcomment
+					#background = {
+					#	using = Background_Area_Dark
+					#	margin = { 10 15 }
+					#}
+
+					#background = {
+					#	using = Background_Area_Dark
+					#	margin = { 10 10 }
+					#
+					#	modify_texture = {
+					#		texture = "gfx/frontend/interface/component_masks/mask_fade_vertical_up.dds"
+					#		blend_mode = alphamultiply
+					#	}
+					#}
+					### to here
+
+					### v3 action button
+					button = {
+						using = tooltip_above
+						using = default_button_action
+					#JominiLobbyViewButton = {
+						size = { 200 40 }
+						onclick = "[SetRandomPlayableObserverCharacter]"
+						using = select_button_sound
+						text = "MULTIPLAYER_LOBBY_CHOOSE_RANDOM_CHARACTER"
+						tooltip = "MULTIPLAYER_LOBBY_PLAY_RANDOM_COUNTRY"
+					}
+
+					### v3 action button
+					button = {
+						using = default_button_action
+						using = tooltip_above
+						size = { 200 40 }
+						onclick = "[LobbyView.ToggleObserve]"
+						using = select_button_sound
+						text = "[SelectLocalization(LobbyView.IsObserver, 'JOMINI_MULTIPLAYER_GUI_DISABLE_OBSERVE', 'JOMINI_MULTIPLAYER_GUI_OBSERVE')]"
+						tooltip = "[SelectLocalization(IsIronmanEnabled, 'LOBBY_OBSERVER_MODE_ON_IRONMAN_TOOLTIP', 'MULTIPLAYER_LOBBY_PLAY_OBSERVER')]"
+						layoutpolicy_horizontal = expanding
+						enabled = "[Not(IsIronmanEnabled)]"
+
+						icon_observer = {
+							position = { -12 -2 }
+							parentanchor = right|vcenter
+							size = { 30 30 }
+						}
+					}
+					
+					hbox = {
+						margin_left = 50
+						spacing = 5
+			
+						### Country Map
+						button = {
+							size = { 40 40 }
+							tooltip = "COUNTRY"
+							using = default_button_action
+							onclick = "[SelectMapModeByKey('mm_default')]"
+							using = select_button_sound
+							icon = {
+								texture = "gfx/interface/icons/notification_icons/diplomatic_play.dds"
+								size = { 30 30 }
+								parentanchor = hcenter|vcenter
+							}
+						}
+			
+						### State Map
+						button = {
+							size = { 40 40 }
+							tooltip = "STATE"
+							using = default_button_action
+							onclick = "[SelectMapModeByKey('mm_state')]"
+							using = select_button_sound
+							icon = {
+								texture = "gfx/interface/icons/notification_icons/interest.dds"
+								size = { 30 30 }
+								parentanchor = hcenter|vcenter
+							}
+						}
+			
+						### Culture Map
+						button = {
+							size = { 40 40 }
+							tooltip = "CULTURE"
+							using = default_button_action
+							onclick = "[SelectMapModeByKey('mm_culture_overview')]"
+							using = select_button_sound
+							icon = {
+								texture = "gfx/interface/icons/notification_icons/character.dds"
+								size = { 30 30 }
+								parentanchor = hcenter|vcenter
+							}
+						}
+			
+						### Population Map
+						button = {
+							size = { 40 40 }
+							tooltip = "POPULATION"
+							using = default_button_action
+							onclick = "[SelectMapModeByKey('mm_population')]"
+							using = select_button_sound
+							icon = {
+								texture = "gfx/interface/icons/notification_icons/pops.dds"
+								size = { 30 30 }
+								parentanchor = hcenter|vcenter
+							}
+						}
+			
+						### Literacy Map
+						button = {
+							size = { 40 40 }
+							tooltip = "LITERACY"
+							using = default_button_action
+							onclick = "[SelectMapModeByKey('mm_literacy')]"
+							using = select_button_sound
+							icon = {
+								texture = "gfx/interface/icons/notification_icons/bureaucracy.dds"
+								size = { 30 30 }
+								parentanchor = hcenter|vcenter
+							}
+						}
+			
+						### SoL Map
+						button = {
+							size = { 40 40 }
+							tooltip = "STANDARD_OF_LIVING"
+							using = default_button_action
+							onclick = "[SelectMapModeByKey('mm_standard_of_living')]"
+							using = select_button_sound
+							icon = {
+								texture = "gfx/interface/icons/notification_icons/death.dds"
+								size = { 30 30 }
+								parentanchor = hcenter|vcenter
+							}
+						}
+			
+						### GDP Map
+						button = {
+							size = { 40 40 }
+							tooltip = "GDP"
+							using = default_button_action
+							onclick = "[SelectMapModeByKey('mm_gdp')]"
+							using = select_button_sound
+							icon = {
+								texture = "gfx/interface/icons/notification_icons/unused/money.dds"
+								size = { 30 30 }
+								parentanchor = hcenter|vcenter
+							}
+						}
+					}
+				}
+
+				expand = {}
+
+				### v3 outcomment
+				# map_modes = {
+				# 	scale = 0.8
+				# 	filter_mouse = all
+				# 	alwaystransparent = no
+				# 	hotkeys_HUD = {}
+				# }
+				### to here
+			}
+		}
+	}
+	
+	#v3 animation effect after pressing start (game start callback is at the end of the animation)
+	widget = {
+		size = { 100% 100% }
+		alwaystransparent = yes
+		
+		### CLOUDS
+		icon = {
+			size = { 100% 100% }
+			texture = "gfx/interface/animation/cloud_backdrop.dds"
+			parentanchor = center
+			alpha = 0
+			
+			state = {
+				name = game_start_animation_clouds_lobby
+				next = game_start_animation_clouds_lobby2
+				
+				scale = 1
+				alpha = 0
+			}
+			state = {
+				name = game_start_animation_clouds_lobby2
+				next = game_start_animation_clouds_lobby3
+				
+				duration = 1
+				
+				scale = 1.1
+				alpha = 1
+				
+				#this hides the lobby to prevent weird issues with the lobby interface popping up for a split second during the transition
+				on_start = "[PdxGuiTriggerAllAnimations('lobby_alpha_hide')]"
+				
+				#start button callbacks are here, so that the transition animation have time to play
+				on_finish = "[LobbyView.ControlSelected]"
+				on_finish = "[LobbyView.Ready]"
+			}
+			state = {
+				name = game_start_animation_clouds_lobby3
+
+				#this shows the lobby again after 1 second, so that it is visible when you come back to the lobby again
+				duration = 1
+				on_finish = "[PdxGuiTriggerAllAnimations('lobby_alpha_show')]"
+
+				scale = 1
+				alpha = 0
+			}
+		}
+		icon = {
+			size = { 100% 100% }
+			texture = "gfx/interface/animation/cloud_01.dds"
+			parentanchor = center
+			alpha = 0
+			
+			state = {
+				name = game_start_animation_clouds_lobby
+				next = game_start_animation_clouds_lobby2
+				
+				scale = 1
+				alpha = 0
+			}
+			state = {
+				name = game_start_animation_clouds_lobby2
+				next = game_start_animation_clouds_lobby3
+				
+				duration = 1
+
+				scale = 1.2
+				alpha = 1
+			}
+			state = {
+				name = game_start_animation_clouds_lobby3
+
+				scale = 1
+				alpha = 0
+			}
+		}
+		icon = {
+			size = { 100% 100% }
+			texture = "gfx/interface/animation/cloud_02.dds"
+			parentanchor = center
+			alpha = 0
+			
+			state = {
+				name = game_start_animation_clouds_lobby
+				next = game_start_animation_clouds_lobby2
+				
+				scale = 1
+				alpha = 0
+			}
+			state = {
+				name = game_start_animation_clouds_lobby2
+				next = game_start_animation_clouds_lobby3
+				
+				duration = 1
+
+				scale = 1.3
+				alpha = 1
+			}
+			state = {
+				name = game_start_animation_clouds_lobby3
+
+				scale = 1
+				alpha = 0
+			}
+		}
+		icon = {
+			size = { 100% 100% }
+			texture = "gfx/interface/animation/cloud_03.dds"
+			parentanchor = center
+			alpha = 0
+			
+			state = {
+				name = game_start_animation_clouds_lobby
+				next = game_start_animation_clouds_lobby2
+				
+				scale = 1
+				alpha = 0
+			}
+			state = {
+				name = game_start_animation_clouds_lobby2
+				next = game_start_animation_clouds_lobby3
+				
+				duration = 1
+
+				scale = 1.4
+				alpha = 1
+			}
+			state = {
+				name = game_start_animation_clouds_lobby3
+
+				scale = 1
+				alpha = 0
+			}
+		}
+		icon = {
+			size = { 100% 100% }
+			texture = "gfx/interface/animation/cloud_04.dds"
+			parentanchor = center
+			alpha = 0
+			
+			state = {
+				name = game_start_animation_clouds_lobby
+				next = game_start_animation_clouds_lobby2
+				
+				scale = 1
+				alpha = 0
+			}
+			state = {
+				name = game_start_animation_clouds_lobby2
+				next = game_start_animation_clouds_lobby3
+				
+				duration = 1
+				
+				scale = 1.5
+				alpha = 1
+			}
+			state = {
+				name = game_start_animation_clouds_lobby3
+
+				scale = 1
+				alpha = 0
+			}
+		}
+	}
+}
+
+JominiLobbyViewEndPreparationConfirmation = {}
+JominiMultiplayerJoinRequest = {
+	layer = layer_topfrontend
+}
+JominiMultiplayerOosMessage = {
+	blockoverride "oos_item" {
+		layoutpolicy_horizontal = expanding
+
+		hbox = {
+			### v3 replacement
+			datacontext = "[OosData.GetPlayable.GetCountry]"
+			# datacontext = "[OosData.GetPlayable.GetCharacter]"
+			### to here
+			layoutpolicy_horizontal = expanding
+
+			widget = {
+				### v3 replacement
+				size = { 105 106 }
+
+				large_flag = {
+					visible = "[And( Country.IsValid, Not( OosData.IsObserver ))]"
+					widgetanchor = center
+					parentanchor = center
+				}
+				# size = { 68 106 }
+				# 
+				# coa_realm_medium_crown = {
+				# 	visible = "[And( Character.IsValid, Not( OosData.IsObserver ))]"
+				# }
+				### to here
+			}
+
+			vbox = {
+				layoutpolicy_horizontal = expanding
+				margin = { 5 0 }
+
+				text_single = {
+					### v3 replacement
+					text = "[Country.GetNameNoFlag]"
+					visible = "[And( Country.IsValid, Not( OosData.IsObserver ))]"
+					# text = "[Character.GetName]"
+					# visible = "[And( Character.IsValid, Not( OosData.IsObserver ))]"
+					### to here
+					autoresize = yes
+					layoutpolicy_horizontal = expanding
+				}
+
+				text_single = {
+					text = "JOMINI_MULTIPLAYER_GUI_OBSERVER"
+					visible = "[OosData.IsObserver]"
+					autoresize = yes
+					layoutpolicy_horizontal = expanding
+				}
+
+				text_single = {
+					text = "JOMINI_MULTIPLAYER_GUI_OOS_MESSAGE_PLAYER_NAME"
+					max_width = 490
+					autoresize = yes
+					layoutpolicy_horizontal = expanding
+				}
+
+				text_single = {
+					text = "JOMINI_MULTIPLAYER_GUI_OOS_MESSAGE_TYPE"
+					max_width = 490
+					autoresize = yes
+					layoutpolicy_horizontal = expanding
+				}
+
+				text_multi = {
+					text = "JOMINI_MULTIPLAYER_GUI_OOS_MESSAGE_FOLDER"
+					max_width = 490
+					autoresize = yes
+					layoutpolicy_horizontal = expanding
+				}
+			}
+		}
+	}
+}

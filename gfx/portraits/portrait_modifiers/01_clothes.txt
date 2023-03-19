@@ -961,8 +961,24 @@
                 exists = scope:character
                 scope:character = {
                     owner = {
-                        exists = c:PRU
-                        c:PRU = this
+						OR = {
+							AND = {
+								exists = c:PRU
+								c:PRU = this
+							}
+							AND = {
+								exists = c:GER
+								c:GER = this
+							}
+							AND = {
+								exists = c:NGF
+								c:NGF = this
+							}
+							AND = {
+								exists = c:SGF
+								c:SGF = this
+							}
+						}
                     }
                     OR = {
                         AND = {
@@ -1253,7 +1269,7 @@
         weight = {
             base = 0
             modifier = {
-                add = 5000
+                add = 6000
                 exists = scope:character
                 scope:character = {
                     owner = {
@@ -1266,16 +1282,6 @@
                     }
                 }
             }
-			modifier = {
-				add = 1500
-				AND = {
-					#arabic_clothes_pop_trigger = yes
-					OR = {
-						soldier_clothes_pop_trigger = yes
-						officers_clothes_pop_trigger = yes
-					}
-				}
-			}
         }
     }
      ethiopian_clothes = {
@@ -3045,6 +3051,163 @@ buddhist_religious_clothes = {
                             has_law = law_type:law_theocracy
                         }
                     }
+                }
+            }
+        }
+    }
+}
+    
+chinese_western_military_clothes = {
+    dna_modifiers = {
+        accessory = {
+            mode = add
+            gene = coats
+            template = prussian_coats
+            range = { 0 1 } # For the randomness to work correctly
+        }
+
+        accessory = {
+            mode = add
+            gene = legwear
+            template = european_legwear
+            range = { 0 1 } # For the randomness to work correctly
+        }
+    }
+
+    weight = {
+        base = 0
+        modifier = {
+            add = 5000
+            exists = scope:character
+            scope:character = {
+                owner = {
+					OR = {
+						country_has_primary_culture = cu:han
+						country_has_primary_culture = cu:hakka
+						country_has_primary_culture = cu:min
+						country_has_primary_culture = cu:yue
+					}
+					has_variable = adopt_western_uniforms
+                }
+                OR = {
+                    military_clothes_trigger = yes
+                    monarchy_clothes_trigger = yes
+                }
+            }
+        }
+    }
+}
+    
+japanese_western_military_clothes = {
+    dna_modifiers = {
+        accessory = {
+            mode = add
+            gene = coats
+            template = prussian_coats
+            range = { 0 1 } # For the randomness to work correctly
+        }
+
+        accessory = {
+            mode = add
+            gene = legwear
+            template = european_legwear
+            range = { 0 1 } # For the randomness to work correctly
+        }
+    }
+
+    weight = {
+        base = 0
+        modifier = {
+            add = 5000
+            exists = scope:character
+            scope:character = {
+                owner = {
+					country_has_primary_culture = cu:japanese
+					has_variable = adopt_western_uniforms
+                }
+                OR = {
+                    military_clothes_trigger = yes
+                    monarchy_clothes_trigger = yes
+                }
+            }
+        }
+    }
+}
+    
+korean_western_military_clothes = {
+    dna_modifiers = {
+        accessory = {
+            mode = add
+            gene = coats
+            template = prussian_coats
+            range = { 0 1 } # For the randomness to work correctly
+        }
+
+        accessory = {
+            mode = add
+            gene = legwear
+            template = european_legwear
+            range = { 0 1 } # For the randomness to work correctly
+        }
+    }
+
+    weight = {
+        base = 0
+        modifier = {
+            add = 5000
+            exists = scope:character
+            scope:character = {
+                owner = {
+					country_has_primary_culture = cu:korean
+					has_variable = adopt_western_uniforms
+                }
+                OR = {
+                    military_clothes_trigger = yes
+                    monarchy_clothes_trigger = yes
+                }
+            }
+        }
+    }
+}
+    
+generic_western_asian_military_clothes = {
+        dna_modifiers = {
+             accessory = {
+                mode = add
+                gene = coats
+                template = european_coats
+                range = { 0 0.27 } # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = legwear
+                template = european_legwear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+
+    weight = {
+        base = 0
+        modifier = {
+            add = 2000
+            exists = scope:character
+            scope:character = {
+                owner = {
+					any_primary_culture = {
+						OR = {
+							has_discrimination_trait = east_asian_heritage
+							has_discrimination_trait = south_asian_heritage
+							has_discrimination_trait = southeast_asian_heritage
+							has_discrimination_trait = central_asian_heritage
+							has_discrimination_trait = north_asian_heritage
+							has_discrimination_trait = middle_eastern_heritage
+						}
+					}
+					has_variable = adopt_western_uniforms
+                }
+                OR = {
+                    military_clothes_trigger = yes
+                    monarchy_clothes_trigger = yes
                 }
             }
         }

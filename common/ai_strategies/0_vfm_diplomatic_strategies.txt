@@ -3,27 +3,42 @@
 	
 	type = diplomatic
 	
-	wanted_army_ratio = 200000 # 1 barrack per 200k incorporated population
-	wanted_navy_ratio = 400000 # 1 naval base per 400k coastal incorporated population
+	wanted_army_ratio = {
+		value = 200000
+	}
 	
-	undesirable_infamy_level = 25
-	unacceptable_infamy_level = 50
+	wanted_navy_ratio = {
+		value = 400000
+	}
 	
-	ideological_opinion_effect_mult = 1.5
+	undesirable_infamy_level = {
+		value = 25
+	}
+	
+	unacceptable_infamy_level = {
+		value = 50
+	}
+	
+	ideological_opinion_effect_mult = {
+		value = 1.5
+	}
 	
 	wargoal_maneuvers_fraction = {
 		value = -0.1
 	}	
 	
-	diplomatic_play_neutrality = 0 # Added to base neutrality in diplomatic plays
-	diplomatic_play_boldness = -25 # Added to base boldness in diplomatic plays	
-	
-	# Added to value from default strategy
-	bravery = {
-		value = -0.25
+	diplomatic_play_neutrality = {
+		value = 0
 	}
 	
-	# Added to value from default strategy
+	diplomatic_play_boldness = {
+		value = -25
+	}
+
+	recklessness = {
+		value = -0.25
+	}
+
 	aggression = {
 		value = 0.25	
 
@@ -32,11 +47,11 @@
 				NOT = { is_country_type = unrecognized }
 				scope:target_country = { is_country_type = unrecognized } 
 			}
-			add = 1
+			add = 0.25
 			
 			if = {
 				limit = { has_technology_researched = civilizing_mission }
-				add = 1.5
+				add = 0.5
 			}			
 		}
 
@@ -50,6 +65,28 @@
 			}
 			multiply = 0.1
 		}			
+
+		# More aggressive against ideological enemies, a bit less aggressive against ideological allies
+		if = {
+			limit = {
+				"ai_ideological_opinion(scope:target_country)" < 0
+			}
+			
+			multiply = {
+				value = "ai_ideological_opinion(scope:target_country)"
+				multiply = -0.2
+				add = 1
+				max = 4.0
+			}				
+		}	
+		else = {
+			multiply = {
+				value = "ai_ideological_opinion(scope:target_country)"
+				multiply = -0.05
+				add = 1
+				min = 0.5
+			}			
+		}		
 	}
 	 
 	building_group_weights = {
@@ -93,27 +130,42 @@ ai_strategy_territorial_expansion = {
 	
 	type = diplomatic
 	
-	wanted_army_ratio = 150000 # 1 barrack per 150k incorporated population
-	wanted_navy_ratio = 400000 # 1 naval base per 400k coastal incorporated population	
+	wanted_army_ratio = {
+		value = 150000
+	}
 	
-	undesirable_infamy_level = 50
-	unacceptable_infamy_level = 100
+	wanted_navy_ratio = {
+		value = 400000
+	}
 	
-	ideological_opinion_effect_mult = 0.75
+	undesirable_infamy_level = {
+		value = 50
+	}
+	
+	unacceptable_infamy_level = {
+		value = 100
+	}
+	
+	ideological_opinion_effect_mult = {
+		value = 0.75
+	}
 	
 	wargoal_maneuvers_fraction = {
 		value = 0.15
 	}		
 	
-	diplomatic_play_neutrality = 25 # Added to base neutrality in diplomatic plays
-	diplomatic_play_boldness = 25 # Added to base boldness in diplomatic plays		
-	
-	# Added to value from default strategy
-	bravery = {
-		value = 0.5
+	diplomatic_play_neutrality = {
+		value = 25
+	}	
+
+	diplomatic_play_boldness = {
+		value = 25
 	}
 	
-	# Added to value from default strategy
+	recklessness = {
+		value = 0.5
+	}
+
 	aggression = {
 		value = 1
 		
@@ -122,7 +174,7 @@ ai_strategy_territorial_expansion = {
 				NOT = { is_country_type = unrecognized }
 				scope:target_country = { is_country_type = unrecognized } 
 			}
-			add = 2
+			add = 1
 		}	
 
 		# Less aggressive against countries we're just antagonistic against, rather than belligerent/domineering
@@ -134,6 +186,28 @@ ai_strategy_territorial_expansion = {
 				}					
 			}
 			multiply = 0.25
+		}	
+
+		# More aggressive against ideological enemies, a bit less aggressive against ideological allies
+		if = {
+			limit = {
+				"ai_ideological_opinion(scope:target_country)" < 0
+					}
+			
+			multiply = {
+				value = "ai_ideological_opinion(scope:target_country)"
+				multiply = -0.2
+				add = 1
+				max = 4.0
+					}
+				}
+		else = {
+			multiply = {
+				value = "ai_ideological_opinion(scope:target_country)"
+				multiply = -0.05
+				add = 1
+				min = 0.5
+			}
 		}			
 	}
 
@@ -201,27 +275,42 @@ ai_strategy_armed_isolationism = {
 	
 	type = diplomatic
 	
-	wanted_army_ratio = 150000 # 1 barrack per 150k incorporated population
-	wanted_navy_ratio = 500000 # 1 naval base per 500k coastal incorporated population
+	wanted_army_ratio = {
+		value = 150000
+	}
 	
-	undesirable_infamy_level = 1
-	unacceptable_infamy_level = 25	
+	wanted_navy_ratio = {
+		value = 500000
+	}
 	
-	ideological_opinion_effect_mult = 0.75
+	undesirable_infamy_level = {
+		value = 1
+	}
+	
+	unacceptable_infamy_level = {
+		value = 25
+	}
+	
+	ideological_opinion_effect_mult = {
+		value = 0.75
+	}
 	
 	wargoal_maneuvers_fraction = {
 		value = -0.1
 	}		
 	
-	diplomatic_play_neutrality = 50 # Added to base neutrality in diplomatic plays
-	diplomatic_play_boldness = 0 # Added to base boldness in diplomatic plays		
-	
-	# Added to value from default strategy
-	bravery = {
-		value = -0.5
+	diplomatic_play_neutrality = {
+		value = 50
+	}	
+
+	diplomatic_play_boldness = {
+		value = 0
 	}
 	
-	# Added to value from default strategy
+	recklessness = {
+		value = -0.5
+	}
+
 	aggression = {
 		value = 0
 	}
@@ -277,22 +366,38 @@ ai_strategy_unify_germany = {
 	
 	type = diplomatic
 	
-	wanted_army_ratio = 150000 # 1 barrack per 150k incorporated population
-	wanted_navy_ratio = 400000 # 1 naval base per 400k coastal incorporated population
+	wanted_army_ratio = {
+		value = 150000
+	}
 	
-	undesirable_infamy_level = 50
-	unacceptable_infamy_level = 100
+	wanted_navy_ratio = {
+		value = 400000
+	}
 	
-	ideological_opinion_effect_mult = 0.5
+	undesirable_infamy_level = {
+		value = 50
+	}
+	
+	unacceptable_infamy_level = {
+		value = 100
+	}
+	
+	ideological_opinion_effect_mult = {
+		value = 0.5
+	}
 	
 	wargoal_maneuvers_fraction = {
 		value = 0.1
 	}		
 	
-	diplomatic_play_neutrality = 0 # Added to base neutrality in diplomatic plays
-	diplomatic_play_boldness = 50 # Added to base boldness in diplomatic plays		
+	diplomatic_play_neutrality = {
+		value = 0
+	}
+	
+	diplomatic_play_boldness = {
+		value = 50
+	}
 
-	# Added to value from default strategy
 	obligation_value = {
 		value = 0
 	
@@ -309,12 +414,10 @@ ai_strategy_unify_germany = {
 		}
 	}	
 
-	# Added to value from default strategy
-	bravery = {
+	recklessness = {
 		value = 0.5
 	}
-	
-	# Added to value from default strategy
+
 	aggression = {
 		value = 0.25
 		
@@ -493,11 +596,21 @@ ai_strategy_unify_ethiopia = {
 	
 	type = diplomatic
 	
-	wanted_army_ratio = 150000 # 1 barrack per 150k incorporated population
-	wanted_navy_ratio = 400000 # 1 naval base per 400k coastal incorporated population
+	wanted_army_ratio = {
+		value = 150000
+	}
 	
-	undesirable_infamy_level = 50
-	unacceptable_infamy_level = 100
+	wanted_navy_ratio = {
+		value = 400000
+	}
+	
+	undesirable_infamy_level = {
+		value = 50
+	}
+	
+	unacceptable_infamy_level = {
+		value = 100
+	}
 	
 	ideological_opinion_effect_mult = 0.5
 	
@@ -505,10 +618,14 @@ ai_strategy_unify_ethiopia = {
 		value = 0.1
 	}		
 		
-	diplomatic_play_neutrality = 0 # Added to base neutrality in diplomatic plays	
-	diplomatic_play_boldness = 50 # Added to base boldness in diplomatic plays
-		
-	# Added to value from default strategy
+	diplomatic_play_neutrality = {
+		value = 0
+	}
+	
+	diplomatic_play_boldness = {
+		value = 50
+	}
+
 	obligation_value = {
 		value = 0
 	
@@ -520,20 +637,51 @@ ai_strategy_unify_ethiopia = {
 		}
 	}			
 		
-	# Added to value from default strategy
-	bravery = {
-		value = 1
+	recklessness = {
+		value = 0.5
 	}	
-	
-	# Added to value from default strategy
+
 	aggression = {
-		value = 1
+		value = 0.5
 		
 		if = {
 			limit = { 
 				scope:target_country = { can_form_nation = ETH }
 			}
-			add = 10
+			add = 2.5
+		}
+
+		# Less aggressive against countries we're just antagonistic against, rather than belligerent/domineering
+		if = {
+			limit = {
+				has_attitude = {
+					who = scope:target_country
+					attitude = antagonistic
+				}					
+			}
+			multiply = 0.25
+		}	
+		
+		# More aggressive against ideological enemies, a bit less aggressive against ideological allies
+		if = {
+			limit = {
+				"ai_ideological_opinion(scope:target_country)" < 0
+			}
+			
+			multiply = {
+				value = "ai_ideological_opinion(scope:target_country)"
+				multiply = -0.2
+				add = 1
+				max = 4.0
+			}				
+		}	
+		else = {
+			multiply = {
+				value = "ai_ideological_opinion(scope:target_country)"
+				multiply = -0.05
+				add = 1
+				min = 0.5
+			}			
 		}			
 	}
 
@@ -542,6 +690,17 @@ ai_strategy_unify_ethiopia = {
 	}
 	
 	wargoal_scores = {
+		annex_country = {
+			if = {
+				limit = {
+					scope:target_country = {
+						can_form_nation = ETH
+					}
+					can_reach_target_country = yes
+				}
+				add = 300
+			}		
+		}
 		conquer_state = {
 			if = {
 				limit = {
@@ -573,7 +732,7 @@ ai_strategy_unify_ethiopia = {
 					}
 					can_reach_target_state = yes
 				}
-				add = 100
+				add = 200
 			}
 		}		
 	}
@@ -586,18 +745,15 @@ ai_strategy_unify_ethiopia = {
 						can_form_nation = ETH
 					}
 				}
-				subtract = 200
-			}		
-		}		
-		dominate = {		
-			if = {
-				limit = {
-					scope:target_country = {
-						can_form_nation = ETH
-					}
-				}
-				subtract = 300
-			}			
+				add = 150
+				
+				if = {
+					limit = {
+						can_reach_target_country = no
+					}	
+					add = 150
+				}	
+			}
 		}		
 		conquer = {				
 			if = {
@@ -605,17 +761,13 @@ ai_strategy_unify_ethiopia = {
 					scope:target_country = {
 						can_form_nation = ETH
 					}
+					can_reach_target_country = yes
 				}
-				add = 300
+				add = 500
 			}				
 		}			
 	}	
 
-	wargoal_weights = {
-		conquer_state = 2.0
-		return_state = 2.0
-	}	
-		
 	possible = {
 		NOT = { exists = c:ETH }
 		can_form_nation = ETH

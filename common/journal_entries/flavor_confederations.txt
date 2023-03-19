@@ -1,0 +1,76 @@
+﻿je_take_over_confederation = {
+	icon = "gfx/interface/icons/event_icons/event_diplomacy.dds"
+
+	is_shown_when_inactive = {
+		is_subject_type = subject_type_confederation
+		
+	}
+
+	possible = {
+		is_ai = no
+	}
+
+	complete = {
+		top_overlord = {
+			relations:root >= relations_threshold:amicable
+			root.gdp > this.gdp  
+		}
+	}
+
+
+	immediate = {
+		overlord = {
+			save_scope_as = overlord_scope
+		}
+	}
+
+	invalid = {
+		NOT = {
+			is_subject_type = subject_type_confederation
+		}
+	}
+
+	on_complete = {
+		overlord = {
+			save_scope_as = old_confederation_leader
+		}
+		every_country = {
+			limit = {
+				is_subject_type = subject_type_confederation
+				overlord = scope:old_confederation_leader
+				NOT = { this = ROOT }
+			}
+			save_scope_as = transfer_scope
+			ROOT = {
+				create_diplomatic_pact = {
+					country = scope:transfer_scope
+					type = confederation
+				}
+			}
+		}
+		hidden_effect = {
+			remove_diplomatic_pact = {
+				country = overlord
+				type = confederation
+			}
+			every_country = {
+				limit = {
+					is_subject_type = subject_type_confederation
+					overlord = ROOT
+					NOT = { this = scope:old_confederation_leader }
+				}
+				create_diplomatic_pact = {
+					country = scope:old_confederation_leader
+					type = defensive_pact_confederation
+				}
+			}
+		}
+		create_diplomatic_pact = {
+			country = scope:old_confederation_leader
+			type = confederation
+		}
+
+	}
+
+	weight = 20
+}
