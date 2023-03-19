@@ -19,9 +19,9 @@ base_values = {
 
 	country_revolution_secession_speed_add = 0.1
 	
-	state_education_access_wealth_add = 0.02
-	
-	country_minting_add = 250
+	state_education_access_wealth_add = 0.005
+
+	country_minting_add = 500
 
 	state_tax_capacity_add = 100
 	state_infrastructure_add = 3
@@ -31,13 +31,22 @@ base_values = {
 	state_rich_expected_sol = 15
 	state_expected_sol_from_literacy = 5
 	
-	character_health_add = 1	# Must be != 0. Even better if it's > 0
+	state_farmers_investment_pool_contribution_add = 0.05
+	state_shopkeepers_investment_pool_contribution_add = 0.05
+	state_aristocrats_investment_pool_contribution_add = 0.10
+	state_capitalists_investment_pool_contribution_add = 0.20	
 	
+	state_unincorporated_starting_wages_mult = -0.15 # To balance for unincorporated states not paying taxes
+
 	country_construction_add = 5
 	
 	building_mobilization_cost_mult = 0.6
 	
 	building_economy_of_scale_level_cap_add = 20
+}
+
+character_base_values = {
+	character_health_add = 1	# Must be != 0. Even better if it's > 0
 }
 
 discrimination = {
@@ -51,13 +60,28 @@ coastal_state = {
 
 working_conditions = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_gear_negative.dds
-	building_group_bg_mining_laborers_mortality_mult = 0.2
-	building_group_bg_mining_machinists_mortality_mult = 0.1
-	building_group_bg_mining_engineers_mortality_mult = 0.05
+	building_group_bg_mining_laborers_mortality_mult = 0.1
+	building_group_bg_mining_machinists_mortality_mult = 0.05
+	building_group_bg_mining_engineers_mortality_mult = 0.02
 	
-	building_group_bg_manufacturing_laborers_mortality_mult = 0.2
-	building_group_bg_manufacturing_machinists_mortality_mult = 0.1
-	building_group_bg_manufacturing_engineers_mortality_mult = 0.05
+	building_group_bg_logging_laborers_mortality_mult = 0.1
+	building_group_bg_logging_machinists_mortality_mult = 0.05
+	building_group_bg_logging_engineers_mortality_mult = 0.02
+	
+	building_group_bg_oil_extraction_laborers_mortality_mult = 0.1
+	building_group_bg_oil_extraction_machinists_mortality_mult = 0.05
+	building_group_bg_oil_extraction_engineers_mortality_mult = 0.02
+	
+	building_group_bg_light_industry_laborers_mortality_mult = 0.05
+	building_group_bg_light_industry_machinists_mortality_mult = 0.02
+	
+	building_group_bg_heavy_industry_laborers_mortality_mult = 0.1
+	building_group_bg_heavy_industry_machinists_mortality_mult = 0.05
+	building_group_bg_heavy_industry_engineers_mortality_mult = 0.02
+	
+	building_group_bg_infrastructure_laborers_mortality_mult = 0.1
+	building_group_bg_infrastructure_machinists_mortality_mult = 0.05
+	building_group_bg_infrastructure_engineers_mortality_mult = 0.02
 }
 
 malnourishment = {
@@ -88,7 +112,8 @@ declared_bankruptcy = {
 	country_loan_interest_rate_mult = 0.5
 	unit_offense_mult = -0.5
 	unit_defense_mult = -0.5
-	state_construction_mult = -0.5
+	state_radicals_from_sol_change_mult = 1.0
+	state_construction_mult = -0.75
 }
 
 incorporated_state = {
@@ -104,7 +129,6 @@ unincorporated_state = {
 
 market_capital_state = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_flag_positive.dds
-	state_migration_pull_mult = 0.25
 	state_infrastructure_mult = 0.25
 }
 
@@ -145,12 +169,14 @@ tax_modifier_high = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_fist_negative.dds
 	country_legitimacy_base_add = -5
 	state_radicals_from_sol_change_mult = 0.25
+	interest_group_in_government_attraction_mult = -0.1
 }	
 
 tax_modifier_very_high = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_fist_negative.dds
 	country_legitimacy_base_add = -10
 	state_radicals_from_sol_change_mult = 0.5
+	interest_group_in_government_attraction_mult = -0.2
 }	
 
 government_wages_very_low = {
@@ -270,14 +296,32 @@ pm_retooling = {
 
 pm_offense_defense_readjustment = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_rifle_negative.dds
-	unit_offense_mult = -0.75
-	unit_defense_mult = -0.75
+	unit_offense_mult = -0.8
+	unit_defense_mult = -0.8
+}
+
+pm_offense_defense_readjustment_minor = {
+	icon = gfx/interface/icons/timed_modifier_icons/modifier_rifle_negative.dds
+	unit_offense_mult = -0.20
+	unit_defense_mult = -0.20
 }
 
 insufficient_urbanization = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_gear_negative.dds
 	building_throughput_mult = -0.05
 }
+
+# Excess convoys increases trade competitiveness by +25% at 2x production to usage
+surplus_convoys = {
+	icon = gfx/interface/icons/timed_modifier_icons/modifier_gear_positive.dds
+	country_trade_route_competitiveness_mult = 0.25
+}
+
+# Insufficient convoys has no additional effect beyond weakening supply network
+insufficient_convoys = {
+	icon = gfx/interface/icons/timed_modifier_icons/modifier_gear_negative.dds
+}
+
 
 # Excess BUR increases construction speed by +10% at 2x production to usage
 efficient_bureaucracy = {
@@ -374,14 +418,12 @@ battle_navy_average_kill_rate = {
 # We need to rework how high and low population work in a state, but save it until after 1.2 fixes migration and arable land
 low_pop_state = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_flag_positive.dds
-	state_accepted_birth_rate_mult = 0.25
-	state_migration_pull_mult = 1.0
+	state_birth_rate_mult = 0.5
 }
 
 high_pop_state = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_flag_negative.dds
 	state_birth_rate_mult = -0.25
-	state_migration_pull_mult = -1.0
 }
 
 country_rivalry = {
@@ -408,8 +450,9 @@ infamy_pariah = {
 state_region_devastation = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_gear_negative.dds
 	state_infrastructure_mult = -1.0
-	state_mortality_mult = 1.0
-	state_migration_pull_mult = -1.0
+	state_mortality_mult = 2.0
+	state_migration_pull_mult = -2.0
+	state_construction_mult = -1.0
 }
 
 # Scales with deficiency in tax capacity
@@ -423,6 +466,7 @@ state_turmoil = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_coins_negative.dds
 	state_tax_waste_add = 0.25
 	state_migration_pull_mult = -0.5
+	state_construction_mult = -0.5
 }
 
 # Applied if state is above 'high turmoil' threshold
@@ -430,6 +474,7 @@ state_turmoil_high = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_coins_negative.dds
 	state_tax_waste_add = 0.5
 	state_migration_pull_mult = -0.75
+	state_construction_mult = -0.75
 }
 
 # Applied if state is above 'extreme turmoil' threshold
@@ -437,12 +482,13 @@ state_turmoil_extreme = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_coins_negative.dds
 	state_tax_waste_add = 1.0
 	state_migration_pull_mult = -1.0
+	state_construction_mult = -1.0
 }
 
 # Scales with country GDP / COUNTRY_GDP_MODIFIER_DIVISOR
 country_gdp = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_coins_positive.dds
-	country_minting_add = 0.5
+	country_minting_add = 1
 }
 
 # Scales with country literacy rate

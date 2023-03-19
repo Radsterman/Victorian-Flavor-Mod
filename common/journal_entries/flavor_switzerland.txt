@@ -1,0 +1,169 @@
+﻿je_switzerland_constitution = {
+	icon = "gfx/interface/icons/event_icons/event_scales"
+
+	is_shown_when_inactive = {
+		country_has_primary_culture = cu:swiss
+		OR={
+			is_subject_type = subject_type_confederation
+			any_country = {
+				is_subject_type = subject_type_confederation
+				overlord = ROOT
+			}
+		}
+	}
+
+	possible = {
+		custom_tooltip = {
+			text = swiss_confederation_tt
+			any_country = {
+				is_subject_type = subject_type_confederation
+				overlord = ROOT
+			}
+	}
+	}
+
+	can_deactivate = yes
+
+	complete = {
+			AND = {
+				bureaucracy > 0
+				approaching_bureaucracy_shortage = no
+				institution_investment_level = {
+					institution = institution_centralization
+					value >= 2
+				}
+			}
+
+			OR = {
+				has_law = law_type:law_freedom_of_conscience
+				has_law = law_type:law_total_separation
+			}
+			
+
+			custom_tooltip = {
+				text = swiss_constitution_complete_tt
+				OR = {
+					AND = {
+						country_has_state_religion = rel:reformed
+						OR = {
+							NOT = {
+								any_country = {
+									country_has_primary_culture = cu:swiss
+									country_has_state_religion = rel:catholic
+	
+									relations:root < relations_threshold:amicable
+								}
+							}
+
+					
+						NOT = {
+							any_country = {
+								is_subject_type = subject_type_confederation
+								country_has_state_religion = rel:catholic
+								overlord = ROOT
+							}
+						}
+					}
+					}
+					AND = {
+						country_has_state_religion = rel:catholic
+						OR = {
+							NOT = {
+								any_country = {
+									country_has_primary_culture = cu:swiss
+									country_has_state_religion = rel:reformed
+		
+											relations:root < relations_threshold:amicable
+
+								}
+							}
+						
+						NOT = {
+							any_country = {
+								is_subject_type = subject_type_confederation
+								country_has_state_religion = rel:reformed
+								overlord = ROOT
+							}
+						}
+					}
+					}
+				}
+			}
+			
+
+
+	}
+
+	invalid = {
+		NOT = {
+			any_country = {
+				is_subject_type = subject_type_confederation
+				overlord = ROOT
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { id = journal_flavor_switzerland.1 }
+	}
+
+	timeout = 4383
+
+	on_timeout = {
+		trigger_event = { id = journal_flavor_switzerland.2 }
+	}
+
+	weight = 20
+}
+
+je_sonderbund_war = {
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	
+	on_complete = {
+
+		every_country = {
+			limit = {
+				country_has_primary_culture = cu:swiss
+				NOT = {this = ROOT}
+			}
+			save_scope_as = annex_scope
+			ROOT = {
+				annex = scope:annex_scope
+			}
+		}
+	}
+	
+	complete = {
+
+
+		custom_tooltip = {
+			text = sonderbund_tt
+
+			NOT = {
+				any_country = {
+					country_has_primary_culture = cu:swiss
+					NOT = {
+						OR = {
+						this = c:API
+						this = c:NTL
+						this = ROOT
+						}
+					}
+				}
+			}
+		}
+
+
+
+
+	}
+
+
+	
+
+	
+
+
+	weight = 20
+}

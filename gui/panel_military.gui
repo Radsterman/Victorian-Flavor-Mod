@@ -1,0 +1,809 @@
+# COPY-PASTED FOR NOW
+@panel_width_minus_10 = 530			# used to be 450
+@panel_width = 540  				# used to be 460
+@panel_width_half = 270				# used to be 230
+@panel_width_plus_10 = 550  		# used to be 470
+@panel_width_plus_14 = 554			# used to be 474
+@panel_width_plus_14_half = 277		# used to be 237
+@panel_width_plus_20 = 560			# used to be 480
+@panel_width_plus_30 = 570			# used to be 490
+@panel_width_plus_70 = 610			# used to be 530
+
+types panel_military {
+	type tab_army = top_illu {
+		size = { @panel_width_plus_20 220 }
+
+		background = {
+			block "illu" {
+				texture = "gfx/interface/illustrations/top_illus/top_illu_army.dds"
+			}
+			using = top_illu_properties
+		}
+		
+		hbox = {
+			visible = "[InformationPanel.IsTabSelected('army')]"
+			margin = { 15 15 }
+			margin_top = 10
+			parentanchor = hcenter
+
+			# Battalions
+			military_panel_unit_info = {
+
+				### Mobilize button
+				button = {
+					enabled = "[IsValid( Country.MobilizeAllGenerals )]"
+					using = default_button
+					using = diplomatic_play_mobilize_button_sound
+					size = { 240 50 }
+					using = fontsize_large
+					onclick = "[PopupManager.ToggleMobilizeAllGenerals]"
+					tooltip = "[GetDesc( Country.MobilizeAllGenerals )]"
+
+					textbox = {
+						text = "MOBILIZE_ALL_GENERALS"
+						align = center|nobaseline
+						parentanchor = center
+						margin_left = 55
+						size = { 220 30 }
+						fontsize_min = 12
+						elide = right
+					}
+					mobilization_icon_big = {
+						parentanchor = left|vcenter
+						position = { 4 0 }
+					}
+				}
+			}
+
+			# Conscripts
+			military_panel_unit_info = {
+
+				blockoverride "header" {
+					text = "CONSCRIPTS"
+				}
+
+				blockoverride "current_unit_count" {
+					text = "PANEL_MILITARY_ARMY_CURRENT_CONSCRIPTS"
+					tooltip = "PANEL_MILITARY_ARMY_CURRENT_CONSCRIPTS_TOOLTIP"
+				}
+
+				blockoverride "with_general" {
+					text = "[Country.GetConscriptedBattalionsWithGeneralsRaw]"
+				}
+				blockoverride "with_general_hbox" {
+					tooltip = "MOBILIZED_CONSCRIPTS_WITH_GENERAL_TOOLTIP"
+					alpha = "[TransparentIfZero_int32(Country.GetConscriptedBattalionsWithGeneralsRaw)]"
+				}
+
+				blockoverride "in_garrison" {
+					text = "[Country.GetConscriptedBattalionsInGarrisonRaw]"
+				}
+
+				blockoverride "in_garrison_hbox" {
+					tooltip = "MOBILIZED_CONSCRIPTS_IN_GARRISON_TOOLTIP"
+					alpha = "[TransparentIfZero_int32(Country.GetConscriptedBattalionsInGarrisonRaw)]"
+				}
+
+				### Activate Conscripts
+				hbox = {
+					button = {
+						enabled = "[IsValid( Country.ActivateConscriptionCenters )]"
+						using = default_button_action
+						size = { 200 50 }
+						using = fontsize_large
+						onclick = "[GetLensToolbar.ActivateOption('activate_conscription_centers_lens_option')]"
+						tooltip = "[GetDesc( Country.ActivateConscriptionCenters )]"
+	
+						textbox = {
+							text = "MILITARY_PANEL_ACTIVATE_CONSCRIPTS"
+							align = center|nobaseline
+							parentanchor = center
+							margin_left = 55
+							size = { 220 30 }
+							fontsize_min = 12
+							elide = right
+						}
+	
+						conscription_icon_big = {
+							parentanchor = left|vcenter
+							position = { 4 0 }
+						}
+					}
+					#ALL CONSCRIPTS
+					#button = {
+					#	enabled = "[IsValid( Country.ActivateConscriptionCenters )]"
+					#	using = default_button_action
+					#	size = { 60 50 }
+					#	using = fontsize_large
+					#	onclick = "[GetLensToolbar.ActivateOption('activate_conscription_centers_lens_option')]"
+					#	tooltip = "[GetDesc( Country.ActivateConscriptionCenters )]"
+					#
+					#	textbox = {
+					#		text = "All"
+					#		align = center|nobaseline
+					#		parentanchor = center
+					#		size = { 220 30 }
+					#		fontsize_min = 12
+					#		elide = right
+					#	}
+					#}
+				}
+			}
+		}
+	}
+
+	type tab_navy = top_illu {
+		size = { @panel_width_plus_20 230 }
+
+		background = {
+			texture = "gfx/interface/illustrations/top_illus/top_illu_navy.dds"
+			using = top_illu_properties
+		}
+		
+		flowcontainer = {
+			margin = { 0 20 }
+			parentanchor = hcenter
+			direction = vertical
+
+			military_panel_flotilla_info = {
+			}
+
+			widget = { size = { 1 10 } }
+			supply_network_information_small = {
+			}
+			widget = { size = { 1 10 } }
+		}
+	}
+
+	type military_panel_unit_info = vbox {
+		layoutpolicy_vertical = expanding
+
+		textbox = {
+			autoresize = yes
+			margin_bottom = 10
+			default_format = "#title"
+			block "header" {
+				text = "REGULARS"
+			}
+		}
+
+		### ARMY / FORCELIMIT
+		textbox = {
+			block "current_unit_count" {
+				text = "PANEL_MILITARY_ARMY_CURRENT_REGULARS"
+				tooltip = "PANEL_MILITARY_ARMY_CURRENT_REGULARS_TOOLTIP"
+			}
+			autoresize = yes
+			align = left|nobaseline
+			using = fontsize_mega
+		}
+
+		widget = {
+			layoutpolicy_vertical = expanding
+			layoutpolicy_horizontal = expanding
+		}
+		
+		### With general
+		hbox = {
+			margin = { 2 0 }
+			block "with_general_hbox" {
+				tooltip = "MOBILIZED_REGULARS_WITH_GENERAL_TOOLTIP"
+				alpha = "[TransparentIfZero_int32(Country.GetRegularBattalionsWithGeneralsRaw)]"
+			}
+
+			layoutpolicy_horizontal = expanding
+
+			textbox = {
+				layoutpolicy_horizontal = expanding
+				autoresize = yes
+				text = "WITH_GENERALS"
+				align = left|nobaseline
+			}	
+			textbox = {
+				layoutpolicy_horizontal = expanding
+				autoresize = yes
+				default_format = "#v"
+
+				block "with_general" {
+					text = "[Country.GetRegularBattalionsWithGeneralsRaw]"
+				}
+				align = right|nobaseline
+			}
+		}
+		
+		### In garrison
+		hbox = {
+			margin = { 2 0 }
+			margin_bottom = 5
+
+			block "in_garrison_hbox" {
+				tooltip = "MOBILIZED_REGULARS_IN_GARRISON_TOOLTIP"
+				alpha = "[TransparentIfZero_int32(Country.GetRegularBattalionsInGarrisonRaw)]"
+			}
+			layoutpolicy_horizontal = expanding
+
+			textbox = {
+				layoutpolicy_horizontal = expanding
+				autoresize = yes
+				text = "IN_GARRISON"
+				align = left|nobaseline
+			}	
+			textbox = {
+				layoutpolicy_horizontal = expanding
+				autoresize = yes
+				default_format = "#v"
+
+				block "in_garrison" {
+					text = "[Country.GetRegularBattalionsInGarrisonRaw]"
+				}
+				align = right|nobaseline
+			}
+		}
+
+		widget = {
+			layoutpolicy_vertical = expanding
+			layoutpolicy_horizontal = expanding
+		}
+	}
+
+	type military_panel_flotilla_info = flowcontainer {
+		parentanchor = hcenter
+		direction = vertical 
+		spacing = 5
+
+		### ARMY / FORCELIMIT
+		flowcontainer = {
+			textbox = {
+				text = "PANEL_MILITARY_NAVY_CURRENT_FLOTILLAS"
+				tooltip = "PANEL_MILITARY_NAVY_CURRENT_FLOTILLAS_TOOLTIP"
+				autoresize = yes
+				align = left|nobaseline
+				parentanchor = vcenter
+				using = fontsize_mega
+			}
+		}
+
+		textbox = {
+			text = TOTAL_FLOTILLAS
+			parentanchor = hcenter
+			autoresize = yes
+			align = left|nobaseline
+		}
+
+	}
+
+	### MOBILIZATION CONTROLS
+	type mobilization_icon = widget {
+		visible = no
+		size = { 22 22 }
+		
+		icon = {
+			size = { 100% 100% }
+			texture = "gfx/interface/backgrounds/round_button_bg.dds"
+		}
+		icon = {
+			size = { 100% 100% }
+			framesize = { 120 120 }
+			texture = "gfx/interface/icons/generic_icons/mobilize_icon.dds"
+			block "frame" {
+				frame = 0
+			}
+		}
+	}
+	
+	type mobilization_icon_big = widget {
+		size = { 60 60 }
+		
+		icon = {
+			size = { 100% 100% }
+			texture = "gfx/interface/backgrounds/round_button_bg.dds"
+		}
+		
+		icon = {
+			parentanchor = center
+			framesize = { 120 120 }
+			size = { 100% 100% }
+			texture = "gfx/interface/icons/generic_icons/mobilize_icon.dds"
+			block "frame" {
+				frame = 0
+			}
+		}
+	}
+
+	type conscription_icon_big = widget {
+		size = { 60 60 }
+		
+		icon = {
+			size = { 100% 100% }
+			texture = "gfx/interface/backgrounds/round_button_bg.dds"
+		}
+		
+		icon = {
+			parentanchor = center
+			framesize = { 120 120 }
+			size = { 70% 70% }
+			texture = "gfx/interface/icons/lens_toolbar_icons/activate_conscription_centers_lens_option.dds"
+		}
+	}
+
+	type mobilization_controls = widget {
+		size = { 535 60 }
+
+		icon = {
+			texture = "gfx/interface/animation/smoke.dds"
+			size = { 560 180 }
+			parentanchor = bottom|hcenter
+			position = { 0 60 }
+			alpha = 0
+			
+			modify_texture = {
+				name = mask_01
+				texture = "gfx/interface/animation/smoke.dds"
+				spriteType = Corneredstretched
+				spriteborder = { 0 0 }
+				blend_mode = alphamultiply
+				
+				translate_uv = { 0 0 }
+			}
+			
+			modify_texture = {
+				name = mask_02
+				texture = "gfx/interface/animation/smoke.dds"
+				spriteType = Corneredstretched
+				spriteborder = { 0 0 }
+				blend_mode = alphamultiply
+				
+				translate_uv = { 0 -0.5 }
+			}
+		
+			state = {
+				name = mobilization_effect
+				next = 2
+				duration = 0.8
+				alpha = 1
+				
+				modify_texture = {
+					name = mask_01
+					translate_uv = { 0 0.4 }
+				}
+				modify_texture = {
+					name = mask_02
+					translate_uv = { 0 0 }
+				}
+			}
+		
+			state = {
+				name = 2
+				next = reset
+				duration = 2.5
+				using = Animation_Curve_EaseOut
+				alpha = 0
+				
+				modify_texture = {
+					name = mask_01
+					translate_uv = { 0 0.8 }
+				}
+				modify_texture = {
+					name = mask_02
+					translate_uv = { 0 1 }
+				}
+			}
+			
+			state = {
+				name = reset
+				
+				modify_texture = {
+					name = mask_01
+					translate_uv = { 0 0 }
+				}
+				modify_texture = {
+					name = mask_02
+					translate_uv = { 0 -0.5 }
+				}
+			}		
+		}
+		
+		button = {
+			using = default_button_primary_big_action
+			using = diplomatic_play_mobilize_button_sound
+			parentanchor = center
+			size = { 520 50 }
+			text = "MOBILIZE_ALL_GENERALS_BUTTON"
+			using = fontsize_large
+			onclick = "[PdxGuiTriggerAllAnimations('mobilization_effect')]"
+			onclick = "[PopupManager.ToggleMobilizeAllGenerals]"
+			enabled = "[IsValid( Country.MobilizeAllGenerals )]"
+			tooltip = "[GetDesc( Country.MobilizeAllGenerals )]"
+		}
+
+		margin_widget = {
+			parentanchor = center
+			margin = { 0 6 }
+			size = { 0 50 }
+			alpha = 0
+			
+			state = { 
+				name = mobilization_effect
+				next = effect2
+				size = { 530 50 }
+				duration = 0.2
+				alpha = 0.5
+				using = Animation_Curve_Default
+			}
+			state = { 
+				name = effect2
+				next = reset
+				size = { 530 50 }
+				duration = 0.4
+				alpha = 0
+				using = Animation_Curve_Default
+			}
+			state = { 
+				name = reset
+				size = { 0 50 }
+			}
+			
+			icon = {
+				size = { 50% 100% }
+				texture = "gfx/interface/animation/mobilize_effect.dds"
+			}
+			icon = {				
+				parentanchor = right
+				mirror = horizontal
+				size = { 50% 100% }
+				texture = "gfx/interface/animation/mobilize_effect.dds"				
+			}
+			
+			icon = {				
+				parentanchor = hcenter
+				size = { 60% 100% }
+				texture = "gfx/interface/animation/mobilize_effect2.dds"
+				alpha = 0.5
+			}
+		}
+		
+		mobilization_icon_big = {
+			parentanchor = vcenter
+		}
+	}
+
+	type military_panel_army_content = flowcontainer {
+		direction = vertical
+
+		tab_army = {}
+
+		default_header_2texts = {
+			using = default_list_position
+			
+			blockoverride "text1" {
+				text = "GENERALS_HEADER_COUNT"
+			}
+			blockoverride "text2" {
+				text = "MOBILIZED_BATTALIONS_HEADER_COUNT"
+				tooltip = "MOBILIZED_BATTALIONS_HEADER_TOOLTIP"
+			}
+		}
+
+		widget = { size = { 1 10 }}
+
+		commander_list = {}
+
+		widget = { size = { 1 10 }}
+
+		hq_list = {
+			blockoverride "empty_state" {
+				empty_state = {
+
+					blockoverride "visible" {
+						visible = "[IsDataModelEmpty(Hq.GetBuildingsWithUnitsInReserve)]"
+					}
+					
+					blockoverride "text" {
+						text = "NO_BATTALIONS_IN_HQ"
+					}
+				}
+			}
+		}
+
+		widget = { size = { 1 10 }}
+
+	}
+
+	type military_panel_garrison_content = flowcontainer {
+		direction = vertical
+
+		top_illu = {
+			size = { @panel_width_plus_20 150 }
+			background = {
+				block "illu" {
+					texture = "gfx/interface/illustrations/top_illus/top_illu_army.dds"
+				}
+				using = top_illu_properties
+			}
+	
+			flowcontainer = {
+				direction = vertical
+				parentanchor = center
+				margin = { 0 10 }
+				tooltip = "MILITARY_PANEL_POTENTIAL_GARRISON_TOOLTIP"
+
+				### Garrison / potential garrison
+				flowcontainer = {
+					parentanchor = hcenter
+
+					textbox = {
+						text = "MILITARY_PANEL_CURRENT_GARRISON"
+						autoresize = yes
+						align = left|nobaseline
+						parentanchor = vcenter
+						using = fontsize_mega
+					}
+					textbox = {
+						raw_text = " /"
+						autoresize = yes
+						align = left|nobaseline
+						parentanchor = bottom
+						using = fontsize_mega
+					}
+					textbox = {
+						text = "MILITARY_PANEL_POTENTIAL_GARRISON"
+						autoresize = yes
+						align = left|nobaseline
+						parentanchor = vcenter
+						using = fontsize_large
+						margin_top = 10
+					}
+				}
+				
+				textbox = {
+					text = "MILITARY_PANEL_GARRISON_TOTAL_DEFENSES"
+					parentanchor = hcenter
+					autoresize = yes
+				}
+			}
+		}
+
+		hq_garrison_tab_list = {}
+	}
+
+	type military_panel_navy_content = flowcontainer {
+		direction = vertical
+
+		tab_navy = {}
+
+		default_header_2texts = {
+			using = default_list_position
+			
+			blockoverride "text1" {
+				text = ADMIRALS_HEADER_COUNT
+			}
+			blockoverride "text2" {
+				text = ACTIVE_FLOTILLAS_HEADER_COUNT
+			}
+		}
+
+		widget = { size = { 1 10 }}
+		commander_list = {
+			blockoverride "datamodel" {
+				datamodel = "[Country.AccessAdmirals]"
+			}
+		}
+
+		widget = { size = { 1 10 }}
+
+		hq_list = {
+			blockoverride "datamodel_hq_entries" {
+				datamodel = "[PanelMilitary.GetNavalHQEntries]"
+			}
+
+			blockoverride "recruit_new_onclick" {
+				onclick = "[Hq.ZoomToHQ]"
+				onclick = "[PanelMilitary.OnClickRecruitAdmirals]"
+			}
+
+			blockoverride "recruit_text" {
+				text = "RECRUIT_ADMIRAL_BUTTON"
+			}
+
+			blockoverride "empty_state" {
+				empty_state = {
+
+					blockoverride "visible" {
+						visible = "[IsDataModelEmpty(Hq.GetBuildingsWithUnitsInReserve)]"
+					}
+
+					blockoverride "text" {
+						text = "NO_FLOTILLAS_IN_HQ"
+					}
+				}
+			}
+		}
+
+		widget = { size = { 1 10 }}
+	}
+
+	type panel_military = default_block_window {
+		name = "panel_military"
+		datacontext = "[PanelMilitary.AccessCountry]"
+			
+		blockoverride "animation_state_block" {
+			state = {
+				name = _show
+				start_sound = {
+					soundeffect = "event:/SFX/UI/SideBar/military"
+				}
+			}
+
+			state = {
+				name = _hide
+				start_sound = {
+					soundeffect = "event:/SFX/UI/SideBar/military_stop"
+				}
+			}
+		}
+		
+		blockoverride "window_header_name"
+		{
+			text = "MILITARY_PANEL"
+		}
+
+		blockoverride "fixed_top"
+		{
+			tab_buttons = {
+				# Army
+				blockoverride "first_button" {
+					text = "MILITARY_PANEL_TAB_ARMY"
+				}
+				blockoverride "first_button_tooltip" {
+					tooltip = "MILITARY_PANEL_TAB_ARMY"
+				}
+				blockoverride "first_button_click" {
+					onclick = "[InformationPanel.SelectTab('army')]"
+				}
+				blockoverride "first_button_visibility" {
+					visible = "[InformationPanel.IsTabSelected('army')]"
+				}
+				blockoverride "first_button_visibility_checked" {
+					visible = "[Not( InformationPanel.IsTabSelected('army') )]"
+				}
+				blockoverride "first_button_selected" {
+					text = "MILITARY_PANEL_TAB_ARMY_SELECTED"
+				}
+
+				# Garrisons
+				blockoverride "second_button" {
+					text = "MILITARY_PANEL_TAB_GARRISON"
+				}
+				blockoverride "second_button_tooltip" {
+					tooltip = "MILITARY_PANEL_TAB_GARRISON"
+				}
+				blockoverride "second_button_click" {
+					onclick = "[InformationPanel.SelectTab('garrison')]"
+				}
+				blockoverride "second_button_visibility" {
+					visible = "[InformationPanel.IsTabSelected('garrison')]"
+				}
+				blockoverride "second_button_visibility_checked" {
+					visible = "[Not( InformationPanel.IsTabSelected('garrison') )]"
+				}
+				blockoverride "second_button_selected" {
+					text = "MILITARY_PANEL_TAB_GARRISON_SELECTED"
+				}
+				
+				# Navy
+				blockoverride "third_button" {
+					text = "MILITARY_PANEL_TAB_NAVY"
+				}
+				blockoverride "third_button_tooltip" {
+					tooltip = "MILITARY_PANEL_TAB_NAVY"
+				}
+				blockoverride "third_button_click" {
+					onclick = "[InformationPanel.SelectTab('navy')]"
+				}
+				blockoverride "third_button_visibility" {
+					visible = "[InformationPanel.IsTabSelected('navy')]"
+				}
+				blockoverride "third_button_visibility_checked" {
+					visible = "[Not( InformationPanel.IsTabSelected('navy') )]"
+				}
+				blockoverride "third_button_selected" {
+					text = "MILITARY_PANEL_TAB_NAVY_SELECTED"
+				}
+			}
+		}
+
+		blockoverride "scrollarea_content" {
+			flowcontainer = {
+				using = default_list_position
+				direction = vertical
+				
+				military_panel_army_content = {
+					visible = "[InformationPanel.IsTabSelected('army')]"
+					using = default_fade_in_out
+				}
+
+				military_panel_garrison_content = {
+					visible = "[InformationPanel.IsTabSelected('garrison')]"
+					using = default_fade_in_out
+				}
+
+				military_panel_navy_content = {
+					visible = "[InformationPanel.IsTabSelected('navy')]"
+					using = default_fade_in_out
+				}
+
+				widget = { size = { 1 20 } }
+			}
+		}
+
+		blockoverride "fixed_bottom" {
+			fixed_bottom_spacer = {
+				visible = "[Not(InformationPanel.IsTabSelected('garrison'))]"
+			}
+				
+			widget = {
+				size = { @panel_width 50 }
+				visible = "[Not(InformationPanel.IsTabSelected('garrison'))]"
+
+				# Recruit button
+				button = {
+					using = default_button_map_interaction
+					parentanchor = center
+					size = { 520 50 }
+					using = fontsize_large
+					onclick = "[PanelMilitary.OnClickRecruitGenerals]"
+					enabled = yes
+					visible = "[InformationPanel.IsTabSelected('army')]"
+					using = default_content_fade
+
+					flowcontainer = {
+						parentanchor = center
+
+						icon = {
+							size = { 30 30 }
+							texture = "gfx/interface/buttons/button_icons/plus.dds"
+							parentanchor = vcenter
+						}
+						
+						textbox = {
+							parentanchor = vcenter
+							autoresize = yes
+							align = center|nobaseline
+							text = "RECRUIT_CHARACTER_GENERAL"
+						}
+
+					}
+				}
+				
+				button = {
+					using = default_button_map_interaction
+					parentanchor = center
+					size = { 520 50 }
+					using = fontsize_large
+					onclick = "[PanelMilitary.OnClickRecruitAdmirals]"
+					enabled = yes
+					visible = "[InformationPanel.IsTabSelected('navy')]"
+					using = default_content_fade
+
+					flowcontainer = {
+						parentanchor = center
+
+						icon = {
+							size = { 30 30 }
+							texture = "gfx/interface/buttons/button_icons/plus.dds"
+							parentanchor = vcenter
+						}
+						
+						textbox = {
+							parentanchor = vcenter
+							autoresize = yes
+							align = center|nobaseline
+							text = "RECRUIT_CHARACTER_ADMIRAL"
+						}
+
+					}
+				}
+			}
+		}
+	}
+}

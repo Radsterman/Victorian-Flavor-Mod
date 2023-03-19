@@ -251,6 +251,22 @@ GLOBAL = {
 		set_variable = i_am_a_scandinavian_ach_possible
 	}
 
+	#Grander Colombia
+	every_country = {
+		limit = {
+			can_form_nation = GCO
+		}
+		set_variable = grander_colombia_ach_possible
+	}
+
+	#Manifest Mexico
+	every_country = {
+		limit = {
+			this ?= c:MEX
+		}
+		set_variable = manifest_mexico_ach_possible
+	}
+
 	#Event Variables
 	
 	set_global_variable = {
@@ -305,6 +321,73 @@ GLOBAL = {
 		}
 	}
 
+	c:RUS = {
+		every_scope_state = {
+            limit = {
+                OR = {
+                    state_region = s:STATE_KUBAN
+                    state_region = s:STATE_DAGESTAN 
+                }
+            }
+            add_radicals = {
+                value = 1.5
+                culture = cu:circassian
+            }
+			add_radicals = {
+                value = very_large_radicals
+            }
+            add_radicals = {
+                value = 0.75
+                culture = cu:north_caucasian
+            }
+			add_radicals = {
+                value = very_large_radicals
+            }
+        }
+        create_truce = {
+			country = c:CIR
+			months = 60
+		}
+		create_truce = {
+			country = c:CHC
+			months = 60
+		}
+	}
+
+	c:CHI = {
+		random_scope_state = {
+			limit = {	
+				state_region = s:STATE_SICHUAN
+			}
+			add_radicals = {
+                value = large_radicals
+                culture = cu:han
+            }
+		}
+		random_scope_state = {
+			limit = {	
+				state_region = s:STATE_YUNNAN
+			}
+			add_radicals = {
+                value = small_radicals
+                culture = cu:han
+            }
+		}
+		random_scope_state = {
+			limit = {	
+				state_region = s:STATE_CHONGQING
+			}
+			add_radicals = {
+                value = medium_radicals
+                culture = cu:han
+            }
+		}
+		add_radicals = {
+			value = medium_radicals
+			culture = cu:han
+		}
+	}
+
 	c:HBC = {
 		add_to_variable_list = { name = past_overlord target = top_overlord }
 	}
@@ -343,6 +426,284 @@ GLOBAL = {
 		trigger_event = {
 			id = journal_flavor_uruguay.3
 			days = 7
+		}
+	}
+	
+	#VFM GAME RULES HISTORY
+	
+	if = {
+		limit = {
+			has_game_rule = no_micro_european_nations
+		}
+		c:AUS = {
+			annex = c:LIE
+		}
+		c:CAR = {
+			annex = c:ANR
+		}
+	}
+	
+	if = {
+		limit = {
+			has_game_rule = vanilla_german_minors
+		}
+		c:MEI = {
+			annex = c:GRZ
+		}
+		c:COB = {
+			annex = c:GRA
+			annex = c:ALN
+		}
+		c:SCW = {
+			annex = c:SND
+		}
+		c:HOL = {
+			annex = c:LAU
+		}
+		c:HOH = {
+			annex = c:HHN
+		}
+	}
+
+	if = {
+		limit = {
+			has_game_rule = no_NA_decentralized
+		}
+		c:USA = {
+			annex = c:ABS
+			annex = c:PWN
+			annex = c:ARP
+			annex = c:LKT
+		}
+		c:MEX = {
+			annex = c:COM
+			annex = c:UTE
+			annex = c:NVJ
+			annex = c:APC
+		}
+	}
+
+	if = {
+		limit = {
+			has_game_rule = no_confederations
+		}
+		c:BUE = {
+			annex = c:COE
+			annex = c:ENT
+			annex = c:TUC
+			annex = c:MDZ
+			annex = c:SLT
+			annex = c:SDE
+			annex = c:SFE
+			annex = c:CDA
+			annex = c:JUJ
+			annex = c:CMA
+			annex = c:LRJ
+			annex = c:SJN
+			annex = c:SLS
+			annex = c:MSS
+			s:STATE_CHACO = {
+				add_claim = c:BUE
+			}
+			s:STATE_SANTA_FE = {
+				add_claim = c:BUE
+			}
+			s:STATE_RIO_NEGRO = {
+				add_claim = c:BUE
+			}
+			change_tag = ARG
+		}
+		c:BEX = {
+			annex = c:GVA
+			annex = c:VAU
+			annex = c:SRN
+			annex = c:BSL
+			annex = c:AAU
+			annex = c:ZUR
+			annex = c:SHU
+			annex = c:THU
+			annex = c:APA
+			annex = c:GLL
+			annex = c:GLA
+			annex = c:GRS
+			annex = c:TIC
+			annex = c:NTL
+			annex = c:API
+			annex = c:VIS
+			annex = c:FRI
+			annex = c:URI
+			annex = c:OBW
+			annex = c:NID
+			annex = c:LNE
+			annex = c:ZUG
+			annex = c:SCZ
+
+			change_tag = SWI
+		}
+
+	}
+
+	if = {
+		limit = {
+			has_game_rule = no_polish_subjects
+		}
+		c:RUS = {
+			annex = c:CPL
+		}
+		c:PRU = {
+			annex = c:POS
+		}
+	}
+
+	if = {
+		limit = {
+			has_game_rule = congress_polish_subjects
+		}
+		c:RUS = {
+			annex = c:CPL
+		}
+	}
+
+	if = {
+		limit = {
+			has_game_rule = yes_polish_subjects
+		}
+		create_country = {
+			tag = c:GAL
+			origin = c:AUS
+			state = s:STATE_WEST_GALICIA
+			state = s:STATE_EAST_GALICIA
+		}
+	}
+
+	if = {
+		limit = {
+			has_game_rule = no_caucasus_subjects
+		}
+		c:RUS = {
+			annex = c:CAU
+			annex = c:MIN
+			annex = c:SVA
+			annex = c:ABK
+		}
+	}
+
+	if = {
+		limit = {
+			has_game_rule = no_baltic_subjects
+		}
+		c:RUS = {
+			annex = c:EST
+			annex = c:LVN
+			annex = c:CRL
+		}
+	}
+	
+	#if = {
+	#	limit = {
+	#		has_game_rule = no_real_unions
+	#	}
+	#	every_country = {
+	#		while = {
+	#			limit = {
+	#				any_subject_or_below = {
+	#					count > 0
+	#					is_subject_type = subject_type_real_union
+	#				}
+	#			}
+	#			every_subject_or_below = {
+	#				limit = {
+	#					is_subject_type = subject_type_real_union
+	#				}
+	#				save_scope_as = real_union_subject
+	#				overlord = {
+	#					annex = scope:real_union_subject
+	#				}
+	#			}
+	#		}
+	#	}
+	#}
+
+	if = {
+		limit = {
+			has_game_rule = no_dependencies
+		}
+		every_country = {
+			while = {
+				limit = {
+					any_subject_or_below = {
+						count > 0
+						is_subject_type = subject_type_dependency
+					}
+				}
+				every_subject_or_below = {
+					limit = {
+						is_subject_type = subject_type_dependency
+					}
+					save_scope_as = dependency_subject
+					overlord = {
+						annex = scope:dependency_subject
+					}
+				}
+			}
+		}
+	}
+
+
+	every_state = {
+		limit = {
+
+			owner = {
+				has_law = law_type:law_jizya
+			}
+			NOT = { has_modifier = jizya_state }
+
+			any_scope_pop = {
+				state = { save_temporary_scope_as = m_state }
+
+				culture = { 
+					has_homeland = scope:m_state
+					NOT = { is_primary_culture_of = root }
+					NOT = { 
+						#Check for muslim cultures to identify muslims,
+						#until I can figure out how to find majority religions of cultures.
+						OR = { 
+							has_discrimination_trait = middle_eastern_heritage
+							has_discrimination_trait = malay
+							has_discrimination_trait = iranian_turanian_culture_group
+							has_discrimination_trait = albanian_language
+							has_discrimination_trait = arab_speaking
+						}
+					}
+				}
+				#These muslim cultures don't fit into any specific trait group and need to be pointed out specifically
+				NOT = { 
+					OR = {
+					culture = cu:bosniak
+					culture = cu:tatar
+					culture = cu:fur
+					culture = cu:swahili
+					culture = cu:beja
+					culture = cu:afar
+					culture = cu:hausa
+					culture = cu:fulbe
+					culture = cu:dyula
+					culture = cu:haratin
+					culture = cu:mande
+					culture = cu:maures
+					culture = cu:songhai
+					culture = cu:tuareg
+					culture = cu:wolof
+					}
+				}
+
+				religion = {
+					NOT = { has_discrimination_trait = muslim }
+				}
+			}
+		}
+		add_modifier = {
+			name = jizya_state
 		}
 	}
 
