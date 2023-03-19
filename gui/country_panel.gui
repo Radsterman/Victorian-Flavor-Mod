@@ -244,11 +244,15 @@ types country_panel_types
 				# 3D flag, we want to render at a high resolution and downscale
 				# This increases the quality of the rendered gui flag
 				# Size can be modified but needs to be 16:9 due to how its rendered (converted 3d object)
-				flag_3d = {
-					position = { 5 13 }
+				flag_3d_animated = {
+					position = { 5 10 }
 					size = { 550 309 }	# Rendersize
-					scale = 0.45		# Downscale
+					scale = 0.45			# Downscale
 				}
+				#large_flag = {
+				#	position = { 58 13 }
+				#	scale = 1.5			# Downscale
+				#}
 			}
 
 			#RULER PORTRAIT
@@ -257,15 +261,7 @@ types country_panel_types
 				position = { 25 125 }
 				blockoverride "show_hat" {}
 				blockoverride "highlight" {}
-			}
-
-			#HEIR PORTRAIT
-			character_portrait_medium = {
-				visible = "[Country.HasHeir]"
-				datacontext = "[Country.GetHeir]"
-				position = { 25 300 }
-				blockoverride "show_hat" {}
-				blockoverride "highlight" {}
+				blockoverride "rank_icon" {}
 			}
 
 			#VICE PRESIDENT PORTRAIT
@@ -275,6 +271,7 @@ types country_panel_types
 				position = { 25 300 }
 				blockoverride "show_hat" {}
 				blockoverride "highlight" {}
+				blockoverride "rank_icon" {}
 			}
 
 			#PRIME MINISTER PORTRAIT
@@ -284,6 +281,37 @@ types country_panel_types
 				position = { 162 300 }
 				blockoverride "show_hat" {}
 				blockoverride "highlight" {}
+				blockoverride "rank_icon" {}
+			}
+
+			#HEIR PORTRAIT
+			character_portrait_medium = {
+				visible = "[Country.HasHeir]"
+				datacontext = "[Country.GetHeir]"
+				position = { 25 300 }
+				blockoverride "show_hat" {}
+				blockoverride "highlight" {}
+				blockoverride "rank_icon" {}
+			}
+
+			#OVERLORD'S RULER PORTRAIT
+			character_portrait_small2 = {
+				visible = "[Country.IsSubject]"
+				datacontext = "[Country.GetOverlord.GetRuler]"
+				position = { 25 170 }
+				blockoverride "show_hat" {}
+				blockoverride "highlight" {}
+				blockoverride "rank_icon" {}
+			}
+
+			#OVERLORD'S OVERLORD'S RULER PORTRAIT
+			character_portrait_small2 = {
+				visible = "[Country.GetOverlord.IsSubject]"
+				datacontext = "[Country.GetOverlord.GetOverlord.GetRuler]"
+				position = { 25 170 }
+				blockoverride "show_hat" {}
+				blockoverride "highlight" {}
+				blockoverride "rank_icon" {}
 			}
 
 			#GOVERNMENT
