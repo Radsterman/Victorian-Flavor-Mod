@@ -105,7 +105,23 @@ exp_thousand.4 = {
 
 	title = exp_thousand.4.t
 	desc = exp_thousand.4.d
-	flavor = exp_thousand.4.f
+	flavor = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = {
+						c:PAP ?= {
+							has_state_in_state_region = STATE_UMBRIA
+						}
+					}
+				}
+				desc = exp_thousand.4.f1
+			}
+			triggered_desc = {
+				desc = exp_thousand.4.f2
+			}
+		}
+	}	
 
 	event_image = {
 		video = "gfx/event_pictures/unspecific_military_parade.bk2"
@@ -145,6 +161,12 @@ exp_thousand.4 = {
 	}
 	
 	option = {
+		trigger = {
+			c:PAP ?= {
+				has_state_in_state_region = STATE_LAZIO
+				has_state_in_state_region = STATE_UMBRIA
+			}
+		}
 		name = exp_thousand.4.a
 		default_option = yes
 
@@ -190,12 +212,41 @@ exp_thousand.4 = {
 		}
     }
 	option = {
+		trigger = {
+			c:PAP ?= {
+				has_state_in_state_region = STATE_LAZIO
+				has_state_in_state_region = STATE_UMBRIA
+			}
+		}
 		name = exp_thousand.4.b
 
 		annex = c:SIC
 
 	    ai_chance = {
 			base = 5	
+		}
+    }
+	option = {
+		trigger = {
+			NOT = {
+				c:PAP ?= {
+					has_state_in_state_region = STATE_UMBRIA
+				}
+			}
+		}
+		name = exp_thousand.4.c
+
+		random_state = {
+			limit = {
+				state_region = s:STATE_CAMPANIA
+				owner = c:PAP
+			}
+			set_state_owner = scope:ita_scope
+		}
+		annex = c:SIC
+
+	    ai_chance = {
+			base = 1	
 		}
     }
 }
