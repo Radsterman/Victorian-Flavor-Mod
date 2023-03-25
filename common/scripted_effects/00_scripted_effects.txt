@@ -1,0 +1,557 @@
+﻿#	Example:
+# 
+#	example_effect = {
+#		x = 100
+#		y = 50
+#	}
+#
+#
+#	In a script file:
+#
+#	effect = {
+#		example_effect = yes
+#	}
+#
+
+save_neighbor_with_state = {
+	random_neighbouring_state = {
+		limit = {
+			owner = {
+				$CRITERIA$
+			}
+		}
+		save_scope_as = neighbor_state
+		owner = {
+			save_scope_as = neighbor_country
+		}
+
+		random_neighbouring_state = {
+			limit = {
+				owner = ROOT
+			}
+			save_scope_as = neighbor_neighbor_state
+		}
+	}
+}
+
+save_industrialized_pm_building_and_state = {
+	random_scope_building = {
+		limit = {
+			OR = {
+				AND = {
+					is_building_type = building_textile_mills
+					state = {
+						OR = {
+							is_production_method_active = {
+								building_type = building_textile_mills
+								production_method = pm_mechanized_looms
+							}
+							is_production_method_active = {
+								building_type = building_textile_mills
+								production_method = pm_automatic_power_looms
+							}
+						}
+					}
+				}
+				AND = {
+					is_building_type = building_furniture_manufacturies
+					state = {
+						OR = {
+							is_production_method_active = {
+								building_type = building_furniture_manufacturies
+								production_method = pm_mechanized_workshops
+							}
+							is_production_method_active = {
+								building_type = building_furniture_manufacturies
+								production_method = pm_watertube_boiler_building_furniture_manufacturies
+							}
+							is_production_method_active = {
+								building_type = building_furniture_manufacturies
+								production_method = pm_rotary_valve_engine_building_furniture_manufacturies
+							}
+							is_production_method_active = {
+								building_type = building_furniture_manufacturies
+								production_method = pm_assembly_lines_building_furniture_manufacturies
+							}
+						}
+					}
+				}
+				AND = {
+					is_building_type = building_tooling_workshops
+					state = {
+						OR = {
+							is_production_method_active = {
+								building_type = building_tooling_workshops
+								production_method = pm_watertube_boiler_building_tooling_workshops
+							}
+							is_production_method_active = {
+								building_type = building_tooling_workshops
+								production_method = pm_rotary_valve_engine_building_tooling_workshops
+							}
+							is_production_method_active = {
+								building_type = building_tooling_workshops
+								production_method = pm_assembly_lines_building_tooling_workshops
+							}
+						}
+					}
+				}
+				AND = {
+					is_building_type = building_paper_mills
+					state = {
+						OR = {
+							is_production_method_active = {
+								building_type = building_paper_mills
+								production_method = pm_watertube_boiler_building_paper_mills
+							}
+							is_production_method_active = {
+								building_type = building_paper_mills
+								production_method = pm_rotary_valve_engine_building_paper_mills
+							}
+						}
+					}
+				}
+				AND = {
+					is_building_type = building_steel_mills
+					state = {
+						OR = {
+							is_production_method_active = {
+								building_type = building_steel_mills
+								production_method = pm_watertube_boiler_building_steel_mills
+							}
+							is_production_method_active = {
+								building_type = building_steel_mills
+								production_method = pm_rotary_valve_engine_building_steel_mills
+							}
+						}
+					}
+				}
+				AND = {
+					is_building_type = building_motor_industry
+					state = {
+						OR = {
+							is_production_method_active = {
+								building_type = building_motor_industry
+								production_method = pm_watertube_boiler_building_motor_industry
+							}
+							is_production_method_active = {
+								building_type = building_motor_industry
+								production_method = pm_rotary_valve_engine_building_motor_industry
+							}
+						}
+					}
+				}
+			}
+		}
+
+		save_scope_as = industrialized_pm_building
+		state = {
+			save_scope_as = industrialized_pm_state
+		}
+	}
+}
+
+warlord_setup_effect = {
+	activate_law = law_type:law_autocracy 
+	activate_law = law_type:law_presidential_republic
+	activate_law = law_type:law_peasant_levies
+		
+	every_scope_character = {
+		random_list = {
+			80 =  {
+			}
+
+			20 = {
+				add_trait = bandit
+			}
+		}			
+	}
+}
+
+scripted_effect_parties_emergence = {
+	if = {
+		limit = {
+			country_has_voting_franchise = no
+		}
+		custom_tooltip = PARTIES_EMERGENCE
+	}
+
+	# Will immediately trigger elections and thus update parties so no need to call update_party_support here
+}
+
+scripted_effect_parties_disappearence = {
+	if = {
+		limit = {
+			country_has_voting_franchise = yes
+		}
+		custom_tooltip = PARTIES_DISAPPEARENCE
+	}
+
+	deactivate_parties = yes
+}
+
+liberate_slaves = {
+	every_scope_pop = {
+		limit = {
+			is_pop_type = slaves
+		}
+		if = {
+			limit = {
+				is_employed = yes
+			}
+			change_poptype = workplace.type.slaves_role
+		}
+		else = {
+			change_poptype = pop_type:laborers
+		}
+	}
+}
+
+enslave_discriminated_farm_workers = {
+	every_scope_pop = {
+		limit = {
+			is_pop_type = laborers
+			pop_is_discriminated = yes
+			OR = {
+				pop_employment_building_group = bg_agriculture
+				pop_employment_building_group = bg_ranching
+				pop_employment_building_group = bg_plantations			
+			}
+		}
+		change_poptype = pop_type:slaves
+	}
+}
+
+
+assign_taiping_states = {
+	if = {
+		limit = {
+			any_scope_state = {
+				has_variable = cult_center
+			}
+		}
+		every_scope_state = {
+			limit = {
+				has_variable = cult_center
+			}
+			save_scope_as = tpg_defector_state
+			custom_tooltip = {
+				text = taiping_state_defection
+				set_state_owner = c:TPG
+				set_state_type = incorporated
+				add_culture_standard_of_living_modifier = {
+					culture = cu:manchu
+					months = long_modifier_time
+					multiplier = -5
+				}
+			}
+		}
+		every_scope_state = {
+			limit = {
+				is_capital = no
+				NOT = { 
+					has_variable = cult_center 
+					state_region = { 
+						is_homeland = cu:manchu
+					}
+				}
+				any_neighbouring_state = {
+					has_variable = cult_center
+				}
+				turmoil >= 0.1
+			}
+			if = {
+				limit = {
+					this = {
+						state_region = { 
+							OR = {
+								is_homeland = cu:han 
+								is_homeland = cu:hakka 
+							}
+						}
+					}
+				}
+				save_scope_as = tpg_defector_state
+				custom_tooltip = {
+					text = taiping_state_defection
+					set_state_owner = c:TPG
+					set_state_type = incorporated
+					add_culture_standard_of_living_modifier = {
+						culture = cu:manchu
+						months = long_modifier_time
+						multiplier = -5
+					}
+				}
+				
+			}
+			else_if = {
+				random_list = {
+					50 = {
+						save_scope_as = tpg_defector_state
+						custom_tooltip = {
+							text = taiping_state_defection
+							set_state_owner = c:TPG
+							set_state_type = incorporated
+							add_culture_standard_of_living_modifier = {
+								culture = cu:manchu
+								months = long_modifier_time
+								multiplier = -5
+							}
+						}
+					}
+					50 = {
+						add_radicals = {
+							value = very_large_radicals
+							religion = rel:protestant
+						}
+						this.state_region = {
+							add_claim = c:TPG
+						}
+					}
+				}
+			}
+		}
+	}
+	hidden_effect = {
+		every_state = {
+			limit = {
+				owner = c:TPG
+			}
+			this.state_region = {
+				add_claim = c:CHI
+			}
+		}	
+	}
+}
+
+create_taiping_characters = {
+	if = {
+		limit = {
+			game_date < 1880.1.1
+		}
+		create_character = {
+			first_name = Hong
+			last_name = Xiuquan
+			birth_date = 1814.1.1
+			culture = cu:hakka
+			religion = rel:god_society
+			interest_group = ig_devout
+			dna = dna_hong_xiuquan
+			ideology = ideology_taiping_king
+			ruler = yes
+			traits = {
+				inspirational_orator
+				persistent
+				psychological_affliction
+			}
+		}
+		if = {
+			limit = {
+				game_date > 1847.1.1
+			}
+			create_character = {
+				first_name = Hong
+				last_name = Tianguifu
+				birth_date = 1846.6.6
+				culture = cu:hakka
+				religion = rel:god_society
+				interest_group = ig_devout
+				heir = yes
+				ideology = ideology_moderate
+				traits = {
+					reserved 
+				}
+			}
+		}
+	}
+	if = {
+		limit = {
+			game_date > 1841.1.1
+			game_date < 1880.1.1
+		}
+		create_character = {
+			first_name = Yang
+			last_name = Xiuqing
+			birth_date = 1821.9.23
+			culture = cu:han
+			religion = rel:god_society
+			is_general = yes
+			ig_leader = yes
+			interest_group = ig_armed_forces
+			hq = region_south_china
+			ideology = ideology_theocrat
+			commander_rank = commander_rank_3
+			traits = {
+				grifter
+				expert_political_operator
+				ambitious
+				demagogue
+			}
+		}
+	}
+	if = {
+		limit = {
+			game_date > 1840.1.1
+			game_date < 1880.1.1
+		}
+		create_character = {
+			first_name = Xiao
+			last_name = Chaogui
+			birth_date = 1820.1.1
+			culture = cu:hakka
+			religion = rel:god_society
+			is_general = yes
+			ig_leader = yes
+			interest_group = ig_devout
+			hq = region_south_china
+			ideology = ideology_theocrat
+			commander_rank = commander_rank_1
+			traits = {
+				reckless
+				charismatic
+				demagogue
+			}
+		}
+	}
+	if = {
+		limit = {
+			game_date > 1842.1.1
+			game_date < 1880.1.1
+		}
+		create_character = {
+			first_name = Hong
+			last_name = Rengan
+			birth_date = 1822.2.18
+			culture = cu:han
+			religion = rel:god_society
+			ig_leader = yes
+			interest_group = ig_intelligentsia
+			ideology = ideology_market_liberal
+			traits = {
+				innovative
+				persistent
+				basic_diplomat
+			}
+		}
+	}
+}
+
+# Vicky and the Expedition Machine
+ai_expedition_simulator_start = {
+	random_scope_character = {
+		limit = {
+			is_ruler = no
+			OR = {
+				has_role = general
+				has_role = admiral
+			}
+		}
+		set_variable = expedition_leader_var
+		set_character_busy = yes
+	}
+	set_variable = on_expedition
+	add_modifier = {
+		name = modifier_large_expedition_cost
+		multiplier = money_amount_multiplier_medium
+	}
+	if = {
+		limit = {
+			has_variable = AI_EXPEDITION_ANTARCTICA
+		}
+		random_list = {
+			3 = {
+				trigger_event = { id = cold.10 days = 365 }
+			}
+			2 = {
+				trigger_event = { id = cold.7 days = 365 }
+				set_variable = antarctica_expedition_success_var
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			has_variable = AI_EXPEDITION_NILE
+		}
+		random_list = {
+			3 = {
+				trigger_event = { id = expedition_events.512 days = 365 }
+				set_variable = failed_central_africa_expedition_var
+			}
+			2 = {
+				trigger_event = { id = expedition_events.511 days = 365 }
+				set_variable = central_africa_expedition_success_var
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			has_variable = AI_EXPEDITION_CONGO
+		}
+		random_list = {
+			3 = {
+				trigger_event = { id = expedition_events.612 days = 365 }
+			}
+			2 = {
+				trigger_event = { id = expedition_events.611 days = 365 }
+				set_variable = congo_river_expedition_success_var
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			has_variable = AI_EXPEDITION_NIGER
+		}
+		random_list = {
+			3 = {
+				trigger_event = { id = expedition_events.12 days = 365 }
+			}
+			2 = {
+				trigger_event = { id = expedition_events.11 days = 365 }
+				set_variable = niger_river_expedition_success_var
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			has_variable = AI_EXPEDITION_WAMERICA
+		}
+		random_list = {
+			2 = {
+				trigger_event = { id = expedition_events.205 days = 365 }
+			}
+			1 = {
+				trigger = { NOT = { has_global_variable = buenaventura_river_disproven } }
+				trigger_event = { id = expedition_events.300 days = 365 }
+				set_variable = west_america_expedition_success_var
+			}
+			1 = {
+				trigger = { NOT = { has_global_variable = oregon_trail_mapped } }
+				trigger_event = { id = expedition_events.301 days = 365 }
+				set_variable = west_america_expedition_success_var
+			}
+			1 = {
+				trigger = { NOT = { has_global_variable = great_salt_lake_mapped } }
+				trigger_event = { id = expedition_events.302 days = 365 }
+				set_variable = west_america_expedition_success_var
+			}
+		}
+	}
+	ai_expedition_simulator_end = yes
+}
+
+ai_expedition_simulator_end = {
+	remove_variable = on_expedition
+	remove_modifier = modifier_large_expedition_cost
+	remove_modifier = expedition_extra_expenses_modifier
+	random_scope_character = {
+		limit = {
+			has_variable = expedition_leader_var
+		}
+		remove_variable = expedition_leader_var
+	}
+	remove_variable = AI_EXPEDITION_ANTARCTICA
+	remove_variable = AI_EXPEDITION_NILE
+	remove_variable = AI_EXPEDITION_CONGO
+	remove_variable = AI_EXPEDITION_NIGER
+	remove_variable = AI_EXPEDITION_WAMERICA
+	remove_expedition_events_effect = yes
+}

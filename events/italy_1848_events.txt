@@ -7,25 +7,22 @@ italy_1848.1 = {
 
 	hidden = yes
 
-
-	title = italy_1848.1.t
-	desc = italy_1848.1.d
-	flavor = italy_1848.1.f
-
-	event_image = {
-		video = "gfx/event_pictures/europenorthamerica_springtime_of_nations.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/springtime_of_nation"
-
-	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
-
 	duration = 1
 
 	trigger = {
 		owns_entire_state_region = STATE_SICILY
-		has_journal_entry = je_springtime_of_the_peoples
+		OR = {
+			has_journal_entry = je_springtime_of_the_peoples
+			any_scope_state = {
+				state_region = s:STATE_SICILY
+				OR = {
+					radical_fraction = {
+						value >= 0.3
+					}
+					turmoil >= 0.2
+				}
+			}	
+		}
 		has_global_variable = sicilian_rev_possible_var
 		NOT = {
 			exists = c:ITA
@@ -133,16 +130,14 @@ italy_1848.2 = {
 		name = italy_1848.2.a
 		default_option = yes
 
-		ROOT = {
-	    	create_diplomatic_play = {
-				target_country = c:SCL
-				war = yes
-				type = dp_annex_war
-	    	}
-			change_relations = {
-				country = c:SCL
-				value = -75
-		    }
+		create_diplomatic_play = {
+			target_country = c:SCL
+			war = yes
+			type = dp_annex_war
+		}
+		change_relations = {
+			country = c:SCL
+			value = -75
 		}
 		add_journal_entry = {
 			type = je_sicilian_revolution
@@ -334,18 +329,7 @@ italy_1848.5 = {
 	type = country_event
 	placement = root
 
-	title = italy_1848.5.t
-	desc = italy_1848.5.d
-	flavor = italy_1848.5.f
-
-	event_image = {
-		video = "gfx/event_pictures/middleeast_upperclass_party.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/middleeast/upperclass_party"
-
-	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+	hidden = yes
 
 	duration = 0
 
@@ -368,6 +352,7 @@ italy_1848.5 = {
 				cautious
 			}
 		}
+
 
 	    ai_chance = {
 			base = 1	
@@ -509,7 +494,16 @@ italy_1848.6 = {
 		exists = c:SAR
 		this = c:SAR
 		owns_entire_state_region = STATE_PIEDMONT
-		has_journal_entry = je_springtime_of_the_peoples
+		OR = {
+			has_journal_entry = je_springtime_of_the_peoples
+			radical_fraction = {
+				value >= 0.3
+			}
+			any_scope_state = {
+				state_region = s:STATE_PIEDMONT
+				turmoil >= 0.2
+			}	
+		}
 		NOT = {
 			has_variable = albertine_statute
 		}
@@ -575,36 +569,37 @@ italy_1848.6 = {
 italy_1848.7 = {
 	type = country_event
 	hidden = yes
-
-	title = italy_1848.7.t
-	desc = italy_1848.7.d
-	flavor = italy_1848.7.f
-
-	event_image = {
-		video = "gfx/event_pictures/europenorthamerica_springtime_of_nations.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/springtime_of_nation"
-
-	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
-
 	duration = 0
 
 	trigger = {
 		exists = c:AUS
 		this = c:AUS
-		owns_entire_state_region = STATE_VENETIA
-		has_journal_entry = je_springtime_of_the_peoples
+		has_state_in_state_region = STATE_VENETIA
+		OR = {
+			any_scope_state = { 
+				AND = {	
+	    			state_region = { 
+						is_homeland = cu:north_italian 
+					}
+					OR = {
+						turmoil >= 0.15
+						radical_fraction = {
+							value >= 0.25
+						}
+					}
+				}
+			}
+			has_journal_entry = je_springtime_of_the_peoples
+		}
 		NOT = { has_global_variable = san_marco_created }
 		OR = {
 			c:AUS = {
-				owns_entire_state_region = STATE_VENETIA
+				has_state_in_state_region = STATE_VENETIA
 				is_subject = no
 			}
 			any_country = {
 				is_subject_of = c:AUS
-				owns_entire_state_region = STATE_VENETIA
+				has_state_in_state_region = STATE_VENETIA
 			}
 		}
 	}
@@ -751,7 +746,7 @@ italy_1848.9 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/political_extremism"
 
-	icon = "gfx/interface/icons/event_icons/event_protest.dds.dds"
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
 
 	duration = 1
 
@@ -1119,6 +1114,7 @@ italy_1848.11 = {
 	    }
 	    add_modifier = {
 			name = italian_vol # Remove at war's end
+			months = normal_modifier_time
 	    }
 		set_variable = {
 			name = first_italian_war_var
@@ -1519,13 +1515,6 @@ italy_1848.18 = {
 		has_variable = first_italian_war_var
 		is_at_war = no
 		owns_entire_state_region = STATE_LOMBARDY
-		OR = {
-			owns_entire_state_region = STATE_VENETIA
-			c:SMR = {
-				owns_entire_state_region = STATE_VENETIA
-			}
-		}
-
 	}
 
 	immediate = {
@@ -1560,7 +1549,9 @@ italy_1848.18 = {
 		}
 		if = {
 			limit = {
-				exists = c:SMR
+				c:SMR ?= {
+					is_at_war = no
+				}
 			}
 			c:SMR = {
 				trigger_event = {
@@ -1611,6 +1602,11 @@ italy_1848.19 = {
 			OR = {
 				owns_entire_state_region = STATE_LOMBARDY
 				owns_entire_state_region = STATE_VENETIA	
+			}
+		}
+		NOT = {
+			c:SAR = {
+				owns_entire_state_region = STATE_LOMBARDY
 			}
 		}
 		c:SAR = {
@@ -1696,7 +1692,16 @@ italy_1848.20 = {
 		NOT = {
 			has_global_variable = roman_rep_happened_var
 		}
-		has_journal_entry = je_springtime_of_the_peoples
+		OR = {
+			has_journal_entry = je_springtime_of_the_peoples
+			radical_fraction = {
+				value >= 0.3
+			}
+			any_scope_state = {
+				state_region = s:STATE_LAZIO
+				turmoil >= 0.2
+			}	
+		}
 	}
 
     option = {
@@ -1881,6 +1886,7 @@ italy_1848.22 = {
 		s:STATE_LAZIO = {
 			remove_claim = c:FRA
 		}
+		set_global_variable = roman_rep_happened_var
 	}
 
     option = {
@@ -1903,10 +1909,6 @@ italy_1848.22 = {
 					}
 					c:PAP = {
 						annex = c:RMR
-						set_variable = {
-							name = roman_rep_happened_var
-							value = yes
-						}
 					}
 					add_radicals = {
 						strata = poor
@@ -1936,19 +1938,6 @@ italy_1848.31 = {
 	placement = root
 	hidden = yes
 
-	title = italy_1848.31.t
-	desc = italy_1848.31.d
-	flavor = italy_1848.31.f
-
-	event_image = {
-		video = "gfx/event_pictures/unspecific_military_parade.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/unspecific/military_parade"
-
-	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
-
 	duration = 0
 
 	trigger = {
@@ -1967,10 +1956,6 @@ italy_1848.31 = {
 		s:STATE_LAZIO = {
 			remove_claim = c:FRA
 		}
-	}
-
-    ai_chance = {
-		base = 1	
 	}
 }
 

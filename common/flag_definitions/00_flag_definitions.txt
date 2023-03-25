@@ -221,6 +221,7 @@ AFS = {
 		allow_overlord_canton = no
 		priority = 100
 		trigger = {
+			exists= c:AFS
 			scope:actor = {
 				any_state = {
 					owner = c:AFS
@@ -236,6 +237,7 @@ AFS = {
 		allow_overlord_canton = no
 		priority = 100
 		trigger = {
+			exists= c:AFS
 			scope:actor = {
 				any_state = {
 					owner = c:AFS
@@ -251,6 +253,7 @@ AFS = {
 		allow_overlord_canton = no
 		priority = 100
 		trigger = {
+			exists= c:AFS
 			scope:actor = {
 				any_state = {
 					owner = c:AFS
@@ -266,6 +269,7 @@ AFS = {
 		allow_overlord_canton = no
 		priority = 100
 		trigger = {
+			exists= c:AFS
 			scope:actor = {
 				any_state = {
 					owner = c:AFS
@@ -281,6 +285,7 @@ AFS = {
 		allow_overlord_canton = no
 		priority = 100
 		trigger = {
+			exists= c:AFS
 			scope:actor = {
 				any_state = {
 					owner = c:AFS
@@ -299,6 +304,7 @@ AFS = {
 		allow_overlord_canton = no
 		priority = 100
 		trigger = {
+			exists= c:AFS
 			scope:actor = {
 				any_state = {
 					owner = c:AFS
@@ -323,48 +329,6 @@ ALB = { # Albania
 		}
 	}		
 }	
-
-ALD = { # Algeria
-	flag_definition = {
-		coa = ALD
-		subject_canton = ALD
-		allow_overlord_canton = yes
-		coa_with_overlord_canton = ALD_subject		
-		priority = 1
-	}
-	flag_definition = {
-		coa = MSC
-		subject_canton = MSC
-		allow_overlord_canton = yes
-		coa_with_overlord_canton = ALD_subject
-		priority = 10
-		trigger = { 
-			scope:actor = { capital = { state_region = s:STATE_TLEMCEN } }
-		}
-	}
-	flag_definition = {
-		coa = ALD_republic
-		subject_canton = ALD_republic
-		priority = 20
-		trigger = { 
-			coa_def_republic_flag_trigger = yes
-		}
-	}
-	flag_definition = {
-		coa = ALD_subject_FRA
-		priority = 30
-		trigger = { 
-			coa_def_french_ensign_trigger = yes
-		}
-	}
-	flag_definition = {
-		coa = ALD
-		priority = 30
-		trigger = { 
-			coa_def_turkish_ensign_trigger = yes
-		}
-	}	
-}
 
 AMZ = { # Amazonia
 	flag_definition = {
@@ -1875,6 +1839,16 @@ CHL = { # Chile
 		allow_overlord_canton = yes	
 		coa_with_overlord_canton = CHL_subject			
 		priority = 1
+	}
+	flag_definition = {
+		coa = CHL_republic
+		subject_canton = CHL_republic
+		allow_overlord_canton = yes	
+		coa_with_overlord_canton = CHL_subject			
+		priority = 10
+		trigger = { 
+			coa_def_dictatorship_flag_trigger = yes
+		}
 	}	
 	flag_definition = {
 		coa = CHL_monarchy
@@ -1951,6 +1925,19 @@ CIR = { # Circassia
 		# allow_overlord_canton = yes		
 		# coa_with_overlord_canton = CIR_subject			
 		priority = 1
+	}
+	flag_definition = {
+		coa = CIR_war
+		subject_canton = CIR_war
+		# allow_overlord_canton = yes		
+		# coa_with_overlord_canton = CIR_subject	
+		priority = 100		
+		trigger = {
+			exists = scope:actor
+			any_country = {
+				has_war_with = scope:actor
+			}
+		}
 	}
 }
 
@@ -2361,6 +2348,7 @@ DEI = { # Dutch East India Company
 #						who = c:DEI
 #						type = dominion
 #						is_initiator = yes
+#					}
 #				}
 #			}
 #		}
@@ -2731,9 +2719,17 @@ FRA = { # France
 		subject_canton = FRA
 		allow_overlord_canton = yes		
 		overlord_canton_scale = { 0.337 0.337 }			
-		priority = 10
+		priority = 2000
 		trigger = { 
-			coa_def_republic_flag_trigger = yes
+			OR = {
+				coa_def_republic_flag_trigger = yes
+				c:FRA = {
+					OR = {
+						has_variable = napoleon3_coup
+						has_variable = napoleon4_ruler
+					}
+				}
+			}
 		}
 	}	
 	flag_definition = {
@@ -2794,6 +2790,18 @@ FRA = { # France
 		priority = 1550
 		trigger = { 
 			coa_def_fascist_flag_trigger = yes
+		}
+	}
+	flag_definition = {
+		coa = FRA_radical_republic
+		subject_canton = FRA_radical_republic
+		priority = 2500
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				has_law = law_type:law_council_republic
+				country_has_voting_franchise = yes
+			}
 		}
 	}		
 }
@@ -3936,17 +3944,7 @@ ITA = { # Italy
 			exists = scope:actor
 			scope:actor = {
 				has_law = law_type:law_monarchy
-				ruler = {
-					has_culture = cu:south_italian
-				}
-				capital = { 
-					OR = {
-						state_region = s:STATE_SICILY 
-						state_region = s:STATE_CAMPANIA
-						state_region = s:STATE_ABRUZZO
-						state_region = s:STATE_APULIA
-					}
-				}
+				was_formed_from = SIC
 			}
 		}
 	}
@@ -3967,12 +3965,7 @@ ITA = { # Italy
 			exists = scope:actor
 			scope:actor = {
 				has_law = law_type:law_monarchy
-				ruler = {
-					has_culture = cu:north_italian
-				}
-				capital = { 
-					state_region = s:STATE_TUSCANY
-				}
+				was_formed_from = TUS
 			}
 		}
 	}
@@ -3983,12 +3976,7 @@ ITA = { # Italy
 		trigger = { 
 			exists = scope:actor
 			scope:actor = {
-				ruler = {
-					has_culture = cu:north_italian
-				}
-				capital = { 
-					state_region = s:STATE_VENETIA
-				}
+				was_formed_from = SMR
 			}
 		}
 	}
@@ -4106,91 +4094,6 @@ JAN = { # Jan Mayen
 			coa_def_republic_flag_trigger = yes
 		}
 	}		
-}
-
-JAP = { # Japan
-	flag_definition = {
-		coa = JAP
-		allow_overlord_canton = yes		
-		coa_with_overlord_canton = JAP_subject			
-		subject_canton = JAP
-		priority = 1		
-	}
-	flag_definition = {
-		coa = JAP_rising_sun
-		subject_canton = JAP_rising_sun		
-		priority = 10
-		trigger = {
-			coa_def_military_junta_flag_trigger = yes
-		}
-	}
-	flag_definition = {
-		coa = JAP_tokugawa
-		subject_canton = JAP_tokugawa
-		priority = 20
-		trigger = {
-			scope:actor = { NOT = { has_variable = meiji_var } }
-			coa_def_absolute_monarchy_flag_trigger = yes
-		}
-	}
-	flag_definition = {
-		coa = JAP_tokugawa_late
-		subject_canton = JAP_tokugawa_late
-		priority = 20
-		trigger = {
-			scope:actor = { NOT = { has_variable = meiji_var } }
-			coa_def_absolute_monarchy_flag_trigger = no
-			coa_def_monarchy_flag_trigger = yes
-		}
-	}
-	flag_definition = {
-		coa = JAP_absolute_monarchy
-		subject_canton = JAP_absolute_monarchy
-		priority = 20
-		trigger = {
-			scope:actor = { has_variable = meiji_var }
-			coa_def_absolute_monarchy_flag_trigger = yes
-		}
-	}
-	flag_definition = {
-		coa = JAP_republic
-		subject_canton = JAP_republic
-		priority = 10
-		trigger = { 
-			coa_def_republic_flag_trigger = yes
-		}
-	}	
-	flag_definition = {
-		coa = JAP_dictatorship
-		subject_canton = JAP_dictatorship
-		priority = 20
-		trigger = {
-			coa_def_dictatorship_flag_trigger = yes
-		}
-	}	
-	flag_definition = {
-		coa = JAP_theocracy
-		subject_canton = JAP_theocracy
-		priority = 20
-		trigger = { 
-			coa_def_theocracy_flag_trigger = yes
-		}
-	}	
-	flag_definition = {
-		coa = JAP_usa
-		priority = 30
-		trigger = { 
-			coa_def_american_ensign_trigger = yes
-		}
-	}	
-	flag_definition = {
-		coa = JAP_fascist
-		subject_canton = JAP_fascist
-		priority = 1500
-		trigger = { 
-			coa_def_fascist_flag_trigger = yes
-		}
-	}	
 }
 
 JAS = { # Jaisalmer
@@ -4505,30 +4408,6 @@ KOK = { # Kokand
 		priority = 50
 		trigger = { 
 			coa_def_british_ensign_trigger = yes
-		}
-	}	
-}
-
-KOR = { # Korea
-	flag_definition = {
-		coa = KOR
-		subject_canton = KOR	
-		allow_overlord_canton = yes		
-		coa_with_overlord_canton = KOR_subject			
-		priority = 1
-	}
-	flag_definition = {
-		coa = KOR_subject_CHI		
-		priority = 2
-		trigger = { 
-			coa_def_chinese_ensign_trigger = yes
-		}	
-	}
-	flag_definition = {
-		coa = KOR_communist
-		priority = 1500
-		trigger = { 
-			coa_def_communist_flag_trigger = yes
 		}
 	}	
 }
@@ -6551,42 +6430,6 @@ SAK = { # Siak
 	}
 }
 
-SAR = { # Sardignia-Piedmont
-	flag_definition = {
-		coa = SAR
-		subject_canton = SAR_canton
-		coa_with_overlord_canton = SAR_subject
-		overlord_canton_offset = { 0.067 0.1 }
-		overlord_canton_scale = { 0.4 0.4 }			
-		allow_overlord_canton = yes		
-		priority = 1
-	}
-	flag_definition = {
-		coa = SAR_republic
-		priority = 10
-		trigger = { 
-			coa_def_republic_flag_trigger = yes
-		}
-	}
-	flag_definition = {
-		coa = SAR_communist
-		priority = 1500
-		trigger = { 
-			coa_def_communist_flag_trigger = yes
-		}
-	}	
-	flag_definition = {
-		coa = SAR_subject_GBR
-		allow_overlord_canton = yes	
-		overlord_canton_offset = { 0.067 0.1 }
-		overlord_canton_scale = { 0.4 0.4 }			
-		priority = 50
-		trigger = { 
-			coa_def_british_ensign_trigger = yes
-		}
-	}		
-}
-
 SAS = { # South Australia
 	flag_definition = {
 		coa = SAS
@@ -6866,39 +6709,6 @@ SIA = { # Siam
 		}
 	}	
 }
-
-SIC = { # Two Sicilies
-	flag_definition = {
-		coa = SIC
-		coa_with_overlord_canton = SIC_subject		
-		allow_overlord_canton = yes				
-		subject_canton = SIC
-		priority = 1
-	}
-	flag_definition = {
-		coa = SIC_republic
-		subject_canton = SIC_republic
-		priority = 10
-		trigger = { 
-			coa_def_republic_flag_trigger = yes
-		}
-	}	
-	flag_definition = {
-		coa = SIC_dictatorship
-		subject_canton = SIC_dictatorship
-		priority = 20
-		trigger = {
-			coa_def_dictatorship_flag_trigger = yes
-		}
-	}	
-	flag_definition = {
-		coa = SIC_communist
-		priority = 1500
-		trigger = { 
-			coa_def_communist_flag_trigger = yes
-		}
-	}		
-}	
 
 SIK = { # Sikkim
 	flag_definition = {
@@ -8104,10 +7914,216 @@ ZIM = { # Zimbabwe
 		priority = 1
 	}
 }
-LBG = { # Limburg
+
+CSA = {
+	### DUPLICATE FOR DURING THE ACW THAT REMOVES THE REVOLUTIONARY TEAR IN THE FLAG
+
 	flag_definition = {
-		coa = LBG
-		subject_canton = LBG
-		priority = 1
+		coa = CSA
+		subject_canton = sub_CSA_canton_stars
+		priority = 2		
+		allow_overlord_canton = yes
+		allow_revolutionary_indicator = no
+		overlord_canton_scale = { 0.5 @[third*2.005] }
+		trigger = {
+			exists = c:USA
+			c:USA = {
+				has_journal_entry = je_acw_war
+			}
+		}
+	}
+	flag_definition = {
+		coa = CSA_stainless
+		subject_canton = sub_CSA_canton_saltire
+		priority = 10
+		allow_overlord_canton = yes
+		allow_revolutionary_indicator = no
+		overlord_canton_scale = { 0.5 @[third*2] }
+		trigger = { 
+			exists = c:USA
+			c:USA = {
+				has_journal_entry = je_acw_war
+			}
+			scope:actor = { 
+				has_ruling_interest_group = ig_armed_forces
+			}
+		}
+	}
+	flag_definition = {
+		coa = CSA_blood_stained
+		subject_canton = sub_CSA_canton_saltire
+		priority = 15
+		allow_overlord_canton = yes
+		allow_revolutionary_indicator = no
+		overlord_canton_scale = { 0.5 @[third*2] }
+		trigger = { 
+			exists = c:USA
+			c:USA = {
+				has_journal_entry = je_acw_war
+			}
+			scope:actor = { 
+				has_ruling_interest_group = ig_armed_forces
+				has_ruling_interest_group_count = 1
+			}
+		}
+	}
+	flag_definition = {
+		coa = CSA_battle_flag
+		subject_canton = sub_CSA_canton_saltire
+		priority = 20
+		allow_revolutionary_indicator = no
+		trigger = { 
+			exists = c:USA
+			c:USA = {
+				has_journal_entry = je_acw_war
+			}
+			scope:actor = { 
+				has_ruling_interest_group = ig_armed_forces
+			}
+			OR = {
+				coa_def_military_junta_flag_trigger = yes
+				coa_def_dictatorship_flag_trigger = yes
+			}
+		}
+	}
+	flag_definition = {
+		coa = CSA_theocracy
+		subject_canton = CSA_theocracy
+		priority = 20
+		allow_revolutionary_indicator = no
+		trigger = { 
+			exists = c:USA
+			c:USA = {
+				has_journal_entry = je_acw_war
+			}
+			coa_def_theocracy_flag_trigger = yes
+		}
+	}	
+	flag_definition = {
+		coa = CSA_communist
+		priority = 1500
+		allow_revolutionary_indicator = no
+		trigger = { 
+			exists = c:USA
+			c:USA = {
+				has_journal_entry = je_acw_war
+			}
+			coa_def_communist_flag_trigger = yes
+		}
+	}
+	#Stars and Bars Stars
+	flag_definition = {
+		coa = CSA_5
+		coa_with_overlord_canton = CSA_5
+		allow_overlord_canton = yes
+		priority = 5
+		trigger = { 
+			exists = c:CSA
+			c:CSA = {
+				any_scope_state = {
+					state_region = { NOT = { has_variable = usa_state_flag_block } }
+					OR = {
+						is_being_incorporated = yes
+						is_incorporated = yes
+					}
+					count = 5
+				}
+			}
+		}
+	}
+	flag_definition = {
+		coa = CSA_6
+		coa_with_overlord_canton = CSA_6
+		allow_overlord_canton = yes
+		priority = 5
+		trigger = { 
+			exists = c:CSA
+			c:CSA = {
+				any_scope_state = {
+					state_region = { NOT = { has_variable = usa_state_flag_block } }
+					OR = {
+						is_being_incorporated = yes
+						is_incorporated = yes
+					}
+					count = 6
+				}
+			}
+		}
+	}
+	flag_definition = {
+		coa = CSA_7
+		coa_with_overlord_canton = CSA_7
+		allow_overlord_canton = yes
+		priority = 5
+		trigger = { 
+			exists = c:CSA
+			c:CSA = {
+				any_scope_state = {
+					state_region = { NOT = { has_variable = usa_state_flag_block } }
+					OR = {
+						is_being_incorporated = yes
+						is_incorporated = yes
+					}
+					count = 7
+				}
+			}
+		}
+	}
+	flag_definition = {
+		coa = CSA_8
+		coa_with_overlord_canton = CSA_8
+		allow_overlord_canton = yes
+		priority = 5
+		trigger = { 
+			exists = c:CSA
+			c:CSA = {
+				any_scope_state = {
+					state_region = { NOT = { has_variable = usa_state_flag_block } }
+					OR = {
+						is_being_incorporated = yes
+						is_incorporated = yes
+					}
+					count = 8
+				}
+			}
+		}
+	}
+	flag_definition = {
+		coa = CSA_9
+		coa_with_overlord_canton = CSA_9
+		allow_overlord_canton = yes
+		priority = 5
+		trigger = { 
+			exists = c:CSA
+			c:CSA = {
+				any_scope_state = {
+					state_region = { NOT = { has_variable = usa_state_flag_block } }
+					OR = {
+						is_being_incorporated = yes
+						is_incorporated = yes
+					}
+					count = 9
+				}
+			}
+		}
+	}
+	flag_definition = {
+		coa = CSA_25
+		coa_with_overlord_canton = CSA_25
+		allow_overlord_canton = yes
+		priority = 5
+		trigger = { 
+			exists = c:CSA
+			c:CSA = {
+				any_scope_state = {
+					state_region = { NOT = { has_variable = usa_state_flag_block } }
+					OR = {
+						is_being_incorporated = yes
+						is_incorporated = yes
+					}
+					count >= 25
+				}
+			}
+		}
 	}
 }
