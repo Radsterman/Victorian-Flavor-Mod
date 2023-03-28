@@ -7,7 +7,7 @@
 	}
 
 	possible = {
-		is_ai = no
+		always = yes
 	}
 
 	complete = {
@@ -15,6 +15,7 @@
 			relations:root >= relations_threshold:amicable
 			root.gdp > this.gdp  
 		}
+		is_ai = no
 	}
 
 
@@ -28,6 +29,49 @@
 		NOT = {
 			is_subject_type = subject_type_confederation
 		}
+	}
+
+	fail = {
+		scope:overlord_scope = {
+			is_subject = yes
+		}
+	}
+
+	on_fail = {
+		if = {
+			limit = {
+				scope:overlord_scope = {
+					is_subject_type = subject_type_dominion
+				}
+			}
+			top_overlord = {
+				create_diplomatic_pact = {
+					country = ROOT
+					type = dominion
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				scope:overlord_scope = {
+					is_subject_type = subject_type_puppet
+				}
+			}
+			top_overlord = {
+				create_diplomatic_pact = {
+					country = ROOT
+					type = puppet
+				}
+			}
+		}
+		else = {
+			remove_diplomatic_pact = {
+				country = scope:overlord_scope
+				type = confederation
+			}
+		}
+
+
 	}
 
 	on_complete = {
