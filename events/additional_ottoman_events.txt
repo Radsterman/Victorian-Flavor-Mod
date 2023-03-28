@@ -225,10 +225,13 @@ vilayet_events.3 = { #Egypt response - Khedivate offered
 				}
 			}
 		}
-		change_relations = {
-			country = c:TUR
-			value = 100
+		owner = {
+			change_relations = {
+				country = c:EGY
+				value = 100
+			}
 		}
+
 		set_variable = khedivate_conferred
 		ai_chance = {
 			base = 90
@@ -288,10 +291,6 @@ vilayet_events.4 = { #Egypt response - no Khedivate offered
 					set_state_owner = c:TUR
 				}
 			}
-		}
-		change_relations = {
-			country = c:TUR
-			value = 100
 		}
 		ai_chance = {
 			base = 45
@@ -706,15 +705,17 @@ tanzimat_events.12 = {
 	}
 	option = { #The Kurds can't be trusted, reinforce the local garrisons
 		name = tanzimat_events.12.b
-		every_scope_state = {
-			limit = {
-				state_region = {
-					is_homeland = cu:kurdish
+		owner = {
+			every_scope_state = {
+				limit = {
+					state_region = {
+						is_homeland = cu:kurdish
+					}
 				}
-			}
-			add_radicals = {
-				value = small_radicals
-				culture = cu:kurdish
+				add_radicals = {
+					value = small_radicals
+					culture = cu:kurdish
+				}
 			}
 		}
 		scope:mount_lebanon_state.state_region = {
@@ -891,7 +892,7 @@ tanzimat_events.15 = {
 			random_scope_state = {
 				limit = {
 					owner = {
-						c:TUR = THIS
+						c:TUR = this
 					}
 				}
 				save_scope_as = mount_lebanon_state
@@ -901,41 +902,42 @@ tanzimat_events.15 = {
 			random_scope_state = {
 				limit = {
 					owner = {
-						c:TUR = THIS
-					}
-				}
+						c:TUR = this
+					}				}
 				save_scope_as = damascus_state
 			}
 		}
-		random_scope_character = {
-			limit = {
-				is_ruler = no
-				has_role = general
+		owner = {
+			random_scope_character = {
+				limit = {
+					is_ruler = no
+					has_role = general
+				}
+				save_scope_as = lebanon_pacifier_1
 			}
-			save_scope_as = lebanon_pacifier_1
-		}
 		
-		random_scope_character = {
-			limit = {
-				is_ruler = no
-				has_role = general
-				NOT = {
-					this = scope:lebanon_pacifier_1
+			random_scope_character = {
+				limit = {
+					is_ruler = no
+					has_role = general
+					NOT = {
+						this = scope:lebanon_pacifier_1
+					}
 				}
+				save_scope_as = lebanon_pacifier_2
 			}
-			save_scope_as = lebanon_pacifier_2
-		}
 
-		random_scope_character = {
-			limit = {
-				is_ruler = no
-				has_role = general
-				NOR = {
-					this = scope:lebanon_pacifier_1
-					this = scope:lebanon_pacifier_2
+			random_scope_character = {
+				limit = {
+					is_ruler = no
+					has_role = general
+					NOR = {
+						this = scope:lebanon_pacifier_1
+						this = scope:lebanon_pacifier_2
+					}
 				}
+				save_scope_as = lebanon_pacifier_3
 			}
-			save_scope_as = lebanon_pacifier_3
 		}
 		trigger_event = {
 			id = tanzimat_events.16
@@ -1026,11 +1028,13 @@ tanzimat_events.16 = {
 				save_scope_as = damascus_state
 			}
 		}
-		random_scope_character = {
-			limit = {
-				has_variable = pacifying_lebanon_var 
+		owner = {
+			random_scope_character = {
+				limit = {
+					has_variable = pacifying_lebanon_var 
+				}
+				save_scope_as = lebanon_pacifier
 			}
-			save_scope_as = lebanon_pacifier
 		}
 	}
 	event_image = {

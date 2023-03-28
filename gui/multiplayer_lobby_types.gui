@@ -1,0 +1,1074 @@
+### this GUI can be modified however we want, it is not an imported file
+### it is the selected nation info in lobby.
+
+template multiplayer_lobby_selected_country_info {
+	datacontext = "[LobbyView.AccessSelectedPlayable.AccessCountry]"
+	margin_top = 10
+	margin_bottom = 20
+	
+	scrollarea = {
+		layoutpolicy_horizontal = expanding
+		layoutpolicy_vertical = expanding
+
+		scrollbarpolicy_horizontal = always_off
+		scrollbar_vertical = {
+			using = vertical_scrollbar		
+		}
+		background = {
+			using = dark_area
+			margin = { 1 0 }
+			margin_bottom = 2
+		}
+		
+		@lobby_panel_info_width = 390
+
+		scrollwidget = {
+			flowcontainer = {
+				direction = vertical
+				margin_bottom = 60
+			
+				#state = {
+				#	name = _show
+				#	on_start = "[InformationPanel.IsTabSelected('country_flavor)]"
+				#}
+				
+				### NATION NAME
+				widget = {
+					size = { @lobby_panel_info_width 60 }
+					
+					background = {
+						using = dark_area
+						
+						modify_texture = {
+							texture = "gfx/interface/masks/fade_horizontal_center.dds"
+							spriteType = Corneredstretched
+							spriteborder = { 0 0 }
+							blend_mode = alphamultiply
+							alpha = 0.2
+						}
+					}
+					
+					divider_clean = {
+						parentanchor = bottom
+					}
+					
+					flowcontainer = {
+						direction = vertical
+						parentanchor = center
+						
+						textbox = {
+							size = { @lobby_panel_info_width 30 }
+							elide = right
+							parentanchor = hcenter
+							raw_text = "#BOLD [Country.GetNameNoFlag]#!"
+							align = center|nobaseline
+							using = fontsize_mega
+						}
+						textbox = {
+							size = { @lobby_panel_info_width 20 }
+							elide = right
+							parentanchor = hcenter
+							raw_text = "#variable [Country.GetRank]#!"
+							align = center|nobaseline
+						}
+					}
+				}
+				
+				### FLAG / RANK / PORTRAIT / ARMY
+				container = {
+				margin_bottom = 10
+					minimumsize = { @lobby_panel_info_width -1 }
+					
+					### PORTRAIT
+					character_portrait_large_torso = {
+						datacontext = "[Country.GetRuler]"
+						position = { 84 -10 }
+						blockoverride "show_hat" {}
+						blockoverride "rank_icon" {}
+					}
+
+					#HEIR PORTRAIT
+					character_portrait_medium = {
+						visible = "[Country.HasHeir]"
+						datacontext = "[Country.GetHeir]"
+						position = { 80 170 }
+						blockoverride "show_hat" {}
+						blockoverride "highlight" {}
+						blockoverride "rank_icon" {}
+					}
+			
+					#VICE PRESIDENT PORTRAIT
+					character_portrait_medium = {
+						visible = "[Country.MakeScope.Var('vice_president').IsSet]"
+						datacontext = "[Country.MakeScope.Var('vice_president').GetCharacter]"
+						position = { 80 170 }
+						blockoverride "show_hat" {}
+						blockoverride "highlight" {}
+						blockoverride "rank_icon" {}
+					}
+			
+					#PRIME MINISTER PORTRAIT
+					character_portrait_medium = {
+						visible = "[Country.MakeScope.Var('prime_minister').IsSet]"
+						datacontext = "[Country.MakeScope.Var('prime_minister').GetCharacter]"
+						position = { 225 170 }
+						blockoverride "show_hat" {}
+						blockoverride "highlight" {}
+						blockoverride "rank_icon" {}
+					}
+
+					#OVERLORD'S RULER PORTRAIT
+					character_portrait_small2 = {
+						visible = "[Country.IsSubject]"
+						datacontext = "[Country.GetOverlord.GetRuler]"
+						position = { 85 40 }
+						blockoverride "show_hat" {}
+						blockoverride "highlight" {}
+						blockoverride "rank_icon" {}
+					}
+			
+					#OVERLORD'S OVERLORD'S RULER PORTRAIT
+					character_portrait_small2 = {
+						visible = "[Country.GetOverlord.IsSubject]"
+						datacontext = "[Country.GetOverlord.GetOverlord.GetRuler]"
+						position = { 85 40 }
+						blockoverride "show_hat" {}
+						blockoverride "highlight" {}
+						blockoverride "rank_icon" {}
+					}
+
+					### FLAG
+					flag = {
+						position = { 15 30 }
+						
+						widget = {
+							size = { 100% 100% }
+							using = clickthrough_blocker
+						}
+					}
+
+					#### OVERLORD FLAG
+					#flag = {
+					#	position = { 15 90 }
+					#	visible = [Country.IsSubject]
+					#	datacontext = [Country.GetOverlord]
+					#	widget = {
+					#		size = { 100% 100% }
+					#		using = clickthrough_blocker
+					#	}
+					#}
+					#
+					#### OVERLORD's OVERLORD FLAG
+					#flag = {
+					#	position = { 15 150 }
+					#	visible = [Country.IsSubject]
+					#	datacontext = [Country.GetOverlord.GetOverlord]
+					#	widget = {
+					#		size = { 100% 100% }
+					#		using = clickthrough_blocker
+					#	}
+					#}
+					
+					rank_badge = {
+						size = { 80 80 }
+						position = { -20 10 }
+						parentanchor = right
+						
+						blockoverride "datacontext " {}
+						
+						blockoverride "rank_text" {
+							raw_text = "#BOLD [Country.GetCountryScorePositionDesc]"
+							visible = "[GreaterThan_int32( Country.GetCountryScorePosition, '(int32)99' )]"
+						}
+						blockoverride "rank_text_2" {
+							raw_text = "#BOLD [Country.GetCountryScorePositionDesc]"
+							visible = "[Not(GreaterThan_int32( Country.GetCountryScorePosition, '(int32)99' ))]"
+						}
+					}
+				}
+					#Pie Chart test, ignore
+					#type lobby_culture_piechart = chart {
+					#	using = default_list_position
+					#	piechart = {
+					#		parentanchor = center
+					#
+					#		block "piechartsize" {
+					#			size = { 40 40 }
+					#		}
+					#
+					#		blockoverride "datamodel" {
+					#			datamodel = "[GetCountry.AccessPopCulturesSortedByPopulation]"
+					#		}
+					#
+					#		item = {
+					#			pieslice = {
+					#				block "tooltip" {
+					#					datacontext = "[GetCountry]"
+					#					tooltip = "CULTURE_PIECHART"
+					#				}
+					#
+					#				block "pieslice" {
+					#					value = "[Culture.GetPopulationAsFloat(GetCountry)]"
+					#				}
+					#
+					#				block "color" {
+					#					color = "[Culture.GetColor]"
+					#				}
+					#			}
+					#		}
+					#	}
+					#	icon = {
+					#		texture = "gfx/interface/piechart/piechart_frame.dds"
+					#		parentanchor = center
+					#		size = { 130% 110% }
+					#	}
+					#}
+					
+				### VISIBILITY BUTTONS
+				flowcontainer = {
+				
+					margin_bottom = 1
+					direction = horizontal
+					minimumsize = { @lobby_panel_info_width -1 }
+					maximumsize = { @lobby_panel_info_width -1 }
+					
+					#hbox = {
+					#layoutpolicy_horizontal = expanding
+					spacing = 5
+					
+						tab_button = {
+							size = { 61 45 }
+							tooltip = "COUNTRY_FLAVOR_TEXT"
+							onclick = "[GetVariableSystem.Set( 'country_selection_info', 'country_flavor' )]"
+							icon = {
+								texture = "gfx/interface/icons/notification_icons/journal.dds"
+								size = { 30 30 }
+								parentanchor = hcenter|vcenter
+							}
+						}
+						
+						tab_button = {
+							size = { 61 45 }
+							tooltip = "COUNTRY_STATISTICS_TEXT"
+							onclick = "[GetVariableSystem.Set( 'country_selection_info', 'country_statistics' )]"
+							icon = {
+								texture = "gfx/interface/icons/notification_icons/goods.dds"
+								size = { 30 30 }
+								parentanchor = hcenter|vcenter
+							}
+						}
+						
+						tab_button = {
+							size = { 60 45 }
+							tooltip = "COUNTRY_DIPLOMACY_TEXT"
+							onclick = "[GetVariableSystem.Set( 'country_selection_info', 'country_diplomacy' )]"
+							icon = {
+								texture = "gfx/interface/icons/notification_icons/influence.dds"
+								size = { 30 30 }
+								parentanchor = hcenter|vcenter
+							}
+						}
+						
+						tab_button = {
+							size = { 60 45 }
+							tooltip = "COUNTRY_POLITICS_TEXT"
+							onclick = "[GetVariableSystem.Set( 'country_selection_info', 'country_politics' )]"
+							icon = {
+								texture = "gfx/interface/icons/notification_icons/bureaucracy.dds"
+								size = { 30 30 }
+								parentanchor = hcenter|vcenter
+							}
+						}
+						
+						tab_button = {
+							size = { 60 45 }
+							icon = {
+								texture = "gfx/interface/icons/notification_icons/pops.dds"
+								size = { 30 30 }
+								parentanchor = hcenter|vcenter
+							}
+						}
+						
+						tab_button = {
+							size = { 60 45 }
+							tooltip = "COUNTRY_STATES_TEXT"
+							onclick = "[GetVariableSystem.Set( 'country_selection_info', 'states' )]"
+							icon = {
+								texture = "gfx/interface/icons/notification_icons/interest.dds"
+								size = { 30 30 }
+								parentanchor = hcenter|vcenter
+							}
+						}
+						#tab_buttons = {
+						#	##maximumsize = { @lobby_panel_info_width -1 }
+						#	##minimumsize = { @lobby_panel_info_width -1 }
+						#	##parentanchor = left	
+						#	# Flavor
+						#	blockoverride "first_button" {
+						#		icon = {
+						#			texture = "gfx/interface/icons/notification_icons/bureaucracy.dds"
+						#			size = { 30 30 }
+						#			parentanchor = hcenter|vcenter
+						#		}
+						#	}
+						#	blockoverride "first_button_tooltip" {
+						#		tooltip = "Background"
+						#	}
+						#	blockoverride "first_button_click" {
+						#		onclick = "[GetVariableSystem.Clear( 'country_selection_info' )]"
+						#	}
+						#	blockoverride "first_button_visibility" {
+						#		visible = "[Not( GetVariableSystem.Exists( 'country_selection_info' ) )]"
+						#	}
+						#	blockoverride "first_button_visibility_checked" {
+						#		visible = "[GetVariableSystem.Exists( 'country_selection_info' )]"
+						#	}
+						#	blockoverride "first_button_selected" {
+						#		icon = {
+						#			texture = "gfx/interface/icons/notification_icons/bureaucracy.dds"
+						#			size = { 30 30 }
+						#			parentanchor = hcenter|vcenter
+						#		}
+						#	}
+						#	# Statistics
+						#	blockoverride "second_button" {
+						#		icon = {
+						#			texture = "gfx/interface/icons/notification_icons/journal.dds"
+						#			size = { 30 30 }
+						#			parentanchor = hcenter|vcenter
+						#		}
+						#	}
+						#	blockoverride "second_button_tooltip" {
+						#		tooltip = "Statistics"
+						#	}
+						#	blockoverride "second_button_click" {
+						#		onclick = "[GetVariableSystem.Set( 'country_selection_info', 'country_statistics' )]"
+						#	}
+						#	blockoverride "second_button_visibility" {
+						#		visible = "[GetVariableSystem.HasValue( 'country_selection_info', 'country_statistics' )]"
+						#	}
+						#	blockoverride "second_button_visibility_checked" {
+						#		visible = "[NOT(GetVariableSystem.HasValue( 'country_selection_info', 'country_statistics' ))]"
+						#	}
+						#	blockoverride "second_button_selected" {
+						#		icon = {
+						#			texture = "gfx/interface/icons/notification_icons/journal.dds"
+						#			size = { 30 30 }
+						#			parentanchor = hcenter|vcenter
+						#		}
+						#	}							
+						#	
+						#	# Diplomacy
+						#	blockoverride "third_button" {
+						#		icon = {
+						#			texture = "gfx/interface/icons/notification_icons/influence.dds"
+						#			size = { 30 30 }
+						#			parentanchor = hcenter|vcenter
+						#		}
+						#	}
+						#	blockoverride "third_button_tooltip" {
+						#		tooltip = "Diplomacy"
+						#	}
+						#	blockoverride "third_button_click" {
+						#		onclick = "[GetVariableSystem.Set( 'country_selection_info', 'country_diplomacy' )]"
+						#	}
+						#	blockoverride "third_button_visibility" {
+						#		visible = "[GetVariableSystem.HasValue( 'country_selection_info', 'country_diplomacy' )]"
+						#	}
+						#	blockoverride "third_button_visibility_checked" {
+						#		visible = "[NOT(GetVariableSystem.HasValue( 'country_selection_info', 'country_diplomacy' ))]"
+						#	}
+						#	blockoverride "third_button_selected" {
+						#		text = "COUNTRY_PANEL_DIPLOMACY_TAB_SELECTED"
+						#	}
+						#	blockoverride "third_button_name" {
+						#		name = "tutorial_highlight_country_diplomacy_tab"
+						#	}
+						#	
+						#	# Politics
+						#	blockoverride "fourth_button" {
+						#		icon = {
+						#			texture = "gfx/interface/icons/notification_icons/laws.dds"
+						#			size = { 30 30 }
+						#			parentanchor = hcenter|vcenter
+						#		}
+						#	}
+						#	blockoverride "fourth_button_tooltip" {
+						#		tooltip = "Politics"
+						#	}
+						#	blockoverride "fourth_button_click" {
+						#		onclick = "[GetVariableSystem.Set( 'country_selection_info', 'country_politics' )]"
+						#	}
+						#	blockoverride "fourth_button_visibility" {
+						#		visible = "[GetVariableSystem.HasValue( 'country_selection_info', 'country_politics' )]"
+						#	}
+						#	blockoverride "fourth_button_visibility_checked" {
+						#		visible = "[NOT(GetVariableSystem.HasValue( 'country_selection_info', 'country_politics' ))]"
+						#	}
+						#	blockoverride "fourth_button_selected" {
+						#		icon = {
+						#			texture = "gfx/interface/icons/notification_icons/laws.dds"
+						#			size = { 30 30 }
+						#			parentanchor = hcenter|vcenter
+						#		}
+						#	}
+						#	
+						#	# Demographics
+						#	blockoverride "fifth_button" {
+						#		icon = {
+						#			texture = "gfx/interface/icons/notification_icons/pops.dds"
+						#			size = { 30 30 }
+						#			parentanchor = hcenter|vcenter
+						#		}
+						#	}
+						#	blockoverride "fifth_button_tooltip" {
+						#		tooltip = "Demographics"
+						#	}
+						#	blockoverride "fifth_button_click" {
+						#		onclick = "[GetVariableSystem.Set( 'country_selection_info', 'country_demographics' )]"
+						#	}
+						#	blockoverride "fifth_button_visibility" {
+						#		visible = "[GetVariableSystem.HasValue( 'country_selection_info', 'country_demographics' )]"
+						#	}
+						#	blockoverride "fifth_button_visibility_checked" {
+						#		visible = "[NOT(GetVariableSystem.HasValue( 'country_selection_info', 'country_demographics' ))]"
+						#	}
+						#	blockoverride "fifth_button_selected" {
+						#		icon = {
+						#			texture = "gfx/interface/icons/notification_icons/pops.dds"
+						#			size = { 30 30 }
+						#			parentanchor = hcenter|vcenter
+						#		}
+						#	}
+						#	blockoverride "fifth_button_name" {
+						#		name = "tutorial_highlight_country_interactions_tab"
+						#	}					
+						#}
+					#}
+				}
+				
+				### COUNTRY INFO
+				flowcontainer = {
+					direction = vertical
+					minimumsize = { @lobby_panel_info_width -1 }
+					maximumsize = { @lobby_panel_info_width -1 }
+					margin_top = 10
+					#background = {
+					#	using = dark_area
+					#	margin = { 1 0 }
+					#	margin_top = -43
+					#}
+					
+
+
+					textbox = {
+						using = fontsize_large
+						raw_text = "#bold Background#!"
+						autoresize = yes
+						margin_left = 15
+						visible = "[GetVariableSystem.HasValue( 'country_selection_info', 'country_flavor' )]"
+					}
+					
+					textbox = {
+						autoresize = yes
+						margin_left = 15
+						margin_bottom = 10
+						multiline = yes
+						maximumsize = { 350 -1 }
+						visible = "[GetVariableSystem.HasValue( 'country_selection_info', 'country_flavor' )]"
+						text = "[Country.GetFlavorText]"
+						default_format = "#lore"
+					}
+						
+					#POLITICS
+					flowcontainer = {
+						position = { 0 400 }
+						direction = vertical
+						minimumsize = { 260 -1 }
+						spacing = 10
+						margin_bottom = 10
+						visible = "[GetVariableSystem.HasValue( 'country_selection_info', 'country_politics' )]"
+						
+						textbox = {
+							using = fontsize_large
+							raw_text = "#bold Internal Politics#!"
+							autoresize = yes
+							margin_left = 15
+						}
+					
+						flowcontainer = {
+							margin_left = 15
+							margin_bottom = 15
+							
+							flowcontainer = {
+								spacing = 10
+								minimumsize = { 175 -1 }
+								direction = vertical
+	
+								flowcontainer = {
+									direction = vertical
+									layoutpolicy_horizontal = expanding
+									layoutpolicy_vertical = shrinking
+									datacontext = "[Country.GetRuler]"
+									visible = "[Country.HasRuler]"
+									
+									textbox = {
+										autoresize = yes
+										text = "RULER_INFO_TEXT"
+										align = nobaseline
+										elide = right
+									}
+									
+									flowcontainer = {
+										direction = horizontal
+										size = { 200 80 }
+										character_portrait_medium = {
+										}
+										vbox = {
+											layoutpolicy_horizontal = shrinking
+											### IG ICON
+											character_ig_button = {
+												size = { 40 40 }
+												blockoverride "in_government_icon" {}
+											}
+											### IDEOLOGY
+											icon = {
+												size = { 40 40 }
+												datacontext = "[Character.GetIdeology]"					
+												texture = "[Ideology.GetTexture]"
+												tooltipwidget = {
+													FancyTooltip_Ideology = {}
+												}
+											}
+										}
+									}
+								}
+								
+								flowcontainer = {
+									direction = vertical
+									layoutpolicy_horizontal = expanding
+									layoutpolicy_vertical = shrinking
+									datacontext = "[Country.GetHeir]"
+									visible = "[Country.HasHeir]"
+									
+									textbox = {
+										autoresize = yes
+										text = "HEIR_INFO_TEXT"
+										align = nobaseline
+										elide = right
+									}
+									
+									flowcontainer = {
+										direction = horizontal
+										size = { 200 80 }
+										character_portrait_medium = {
+										}
+										vbox = {
+											layoutpolicy_horizontal = shrinking
+											### IG ICON
+											character_ig_button = {
+												size = { 40 40 }
+												blockoverride "in_government_icon" {}
+											}
+											### IDEOLOGY
+											icon = {
+												size = { 40 40 }
+												datacontext = "[Character.GetIdeology]"					
+												texture = "[Ideology.GetTexture]"
+												tooltipwidget = {
+													FancyTooltip_Ideology = {}
+												}
+											}
+										}
+									}
+								}
+								
+								flowcontainer = {
+									direction = vertical
+									layoutpolicy_horizontal = expanding
+									layoutpolicy_vertical = shrinking
+									margin_bottom = 10
+									datacontext = "[Country.MakeScope.Var('vice_president').GetCharacter]"
+									visible = "[Country.MakeScope.Var('vice_president').IsSet]"
+									
+									textbox = {
+										autoresize = yes
+										text = "VICE_PRESIDENT_INFO_TEXT"
+										align = nobaseline
+										elide = right
+									}
+									
+									flowcontainer = {
+										direction = horizontal
+										size = { 200 80 }
+										character_portrait_medium = {
+										}
+										vbox = {
+											layoutpolicy_horizontal = shrinking
+											### IG ICON
+											character_ig_button = {
+												size = { 40 40 }
+												blockoverride "in_government_icon" {}
+											}
+											### IDEOLOGY
+											icon = {
+												size = { 40 40 }
+												datacontext = "[Character.GetIdeology]"					
+												texture = "[Ideology.GetTexture]"
+												tooltipwidget = {
+													FancyTooltip_Ideology = {}
+												}
+											}
+										}
+									}
+								}
+								flowcontainer = {
+									direction = vertical
+									layoutpolicy_horizontal = expanding
+									layoutpolicy_vertical = shrinking
+									datacontext = "[Country.MakeScope.Var('prime_minister').GetCharacter]"
+									visible = "[Country.MakeScope.Var('prime_minister').IsSet]"
+									
+									textbox = {
+										autoresize = yes
+										text = "PRIME_MINISTER_INFO_TEXT"
+										align = nobaseline
+										elide = right
+									}
+									
+									flowcontainer = {
+										direction = horizontal
+										size = { 200 80 }
+										character_portrait_medium = {
+										}
+										vbox = {
+											layoutpolicy_horizontal = shrinking
+											### IG ICON
+											character_ig_button = {
+												size = { 40 40 }
+												blockoverride "in_government_icon" {}
+											}
+											### IDEOLOGY
+											icon = {
+												size = { 40 40 }
+												datacontext = "[Character.GetIdeology]"					
+												texture = "[Ideology.GetTexture]"
+												tooltipwidget = {
+													FancyTooltip_Ideology = {}
+												}
+											}
+										}
+									}
+								}
+								
+								#country_population_info = {
+								#	blockoverride "tooltip" {
+								#		tooltip = "POP_TOOLTIP"
+								#	}
+								#}
+								#country_arable_land_info = {}					
+								#literacy_info = {}
+							}
+							flowcontainer = {
+								spacing = 10
+								direction = vertical
+								
+								#country_government_info = {}
+								#country_religion_info = {}
+								#country_culture_info = {
+								#	multiline = yes
+								#	maximumsize = { 175 -1 }
+								#}	
+								#standard_of_living_population_info = {
+								#	multiline = yes
+								#	maximumsize = { 175 -1 }
+								#
+								#	blockoverride "tooltip" {
+								#		tooltip = "AVG_STANDARD_OF_LIVING_COUNTRY"
+								#	}
+								#}					
+							}
+						}
+						
+		
+						#flowcontainer = {
+						#	margin_left = 15
+						#	spacing = 10
+						#	direction = vertical
+						#	textbox = {
+						#		parentanchor = vcenter
+						#		autoresize = yes
+						#		multiline = yes
+						#		maximumsize = { 200 -1 }
+						#		minimumsize = { 200 -1 }
+						#		text = "COUNTRY_GOVERNMENT"
+						#		align = nobaseline
+						#		elide = right
+						#	}
+						#	textbox = {
+						#		parentanchor = vcenter
+						#		autoresize = yes
+						#		multiline = yes
+						#		maximumsize = { 200 -1 }
+						#		minimumsize = { 200 -1 }
+						#		text = "[Country.GetCapital.GetCityHubName]"
+						#		align = nobaseline
+						#		elide = right
+						#	}
+						#	#[Character.GetPrimaryRoleTitle]
+						#	textbox = {
+						#		parentanchor = vcenter
+						#		autoresize = yes
+						#		multiline = yes
+						#		maximumsize = { 200 -1 }
+						#		minimumsize = { 200 -1 }
+						#		visible = "[Country.MakeScope.Var('prime_minister').IsSet]"
+						#		datacontext = "[Country.MakeScope.Var('prime_minister').GetCharacter]"
+						#		text = "[Character.GetFullName]"
+						#		align = nobaseline
+						#		elide = right
+						#	}
+						#}
+						
+					
+						flowcontainer = {
+							margin_left = 15
+							align = center
+							dynamicgridbox = {
+								datamodel = "[Country.AccessInterestGroupsInGovernment]"
+								#This UI file was copied from V-F-M
+								datamodel_wrap = 6
+								flipdirection = yes
+								
+								using = entry_bg_fancy
+					
+								icon = {
+									parentanchor = vcenter
+									texture = "gfx/interface/icons/generic_icons/in_government_icon.dds"
+									size = { 25 25 }
+									position = { -2 -35 }
+								}
+								
+								item = {
+									widget = {
+										size = { 45 80 }
+										
+										flowcontainer = {
+											parentanchor = hcenter
+											direction = vertical
+											tooltip = "CLOUT_PIECHART"
+											spacing = 2
+											margin_top = 15
+											
+											widget = {
+												size = { 33 33 }
+												parentanchor = hcenter
+												
+												ig_button = {
+													size = { 100% 100% }
+													blockoverride "in_government_icon"{}
+												}
+											}
+											textbox = {
+												text = "[InterestGroup.GetClout|%0]"
+												autoresize = yes
+												parentanchor = hcenter
+												align = nobaseline
+											}
+										}
+									}
+								}
+							}
+							dynamicgridbox = {
+								datamodel = "[Country.AccessInterestGroupsInOpposition]"
+								datamodel_wrap = 6
+								flipdirection = yes
+								
+								using = entry_bg_fancy
+					
+								icon = {
+									parentanchor = vcenter
+									texture = "gfx/interface/icons/generic_icons/in_opposition_icon.dds"
+									size = { 25 25 }
+									position = { -2 -35 }
+								}
+								
+								item = {
+									widget = {
+										size = { 45 80 }
+										
+										flowcontainer = {
+											parentanchor = hcenter
+											direction = vertical
+											tooltip = "CLOUT_PIECHART"
+											spacing = 2
+											margin_top = 15
+											
+											widget = {
+												size = { 33 33 }
+												parentanchor = hcenter
+												
+												ig_button = {
+													size = { 100% 100% }
+													blockoverride "in_government_icon"{}
+												}
+											}
+											textbox = {
+												text = "[InterestGroup.GetClout|%0]"
+												autoresize = yes
+												parentanchor = hcenter
+												align = nobaseline
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+
+					textbox = {
+						using = fontsize_large
+						raw_text = "#bold Statistics#!"
+						autoresize = yes
+						margin_left = 15
+						visible = "[GetVariableSystem.HasValue( 'country_selection_info', 'country_statistics' )]"
+					}
+					
+					flowcontainer = {
+						margin_left = 15
+						margin_bottom = 15
+						visible = "[GetVariableSystem.HasValue( 'country_selection_info', 'country_statistics' )]"
+						
+						flowcontainer = {
+							spacing = 5
+							minimumsize = { 175 -1 }
+							direction = vertical
+
+
+						#	textbox = {
+						#		using = fontsize_medium
+						#		raw_text = "#BOLD [Country.GetPrimaryCulturesDesc]"
+						#		autoresize = yes
+						#	}
+						#£
+							country_gdp_info = {
+								blockoverride "tooltip" {
+									tooltip = "GDP_TOOLTIP"
+								}
+							}
+							country_population_info = {
+								blockoverride "tooltip" {
+									tooltip = "POP_TOOLTIP"
+								}
+							}
+							country_arable_land_info = {}					
+							literacy_info = {}
+						}
+						flowcontainer = {
+							spacing = 10
+							direction = vertical
+							
+							country_government_info = {}
+							country_religion_info = {}
+							country_culture_info = {
+								multiline = yes
+								maximumsize = { 175 -1 }
+							}	
+							standard_of_living_population_info = {
+								multiline = yes
+								maximumsize = { 175 -1 }
+
+								blockoverride "tooltip" {
+									tooltip = "AVG_STANDARD_OF_LIVING_COUNTRY"
+								}
+							}			
+						}
+					}
+					
+					### ARMY / NAVY
+					flowcontainer = {
+						direction = horizontal
+						position = { 15 170 }
+						spacing = 20
+						margin_left = 140
+						visible = "[GetVariableSystem.HasValue( 'country_selection_info', 'statistics' )]"
+
+						flowcontainer = {
+							direction = vertical
+
+							#BATTALIONS
+							country_stats_entry = {	
+								visible = "[Not(CountryPanel.GetCountry.IsColonizable)]"
+								alpha = "[TransparentIfZero_int32(Country.GetBattalions)]"
+							
+								blockoverride "stats_tooltip" {
+									tooltip = PANEL_MILITARY_ARMY_OVERVIEW_TOOLTIP
+								}
+								blockoverride "information_icon" {
+									texture = "gfx/interface/icons/generic_icons/battalions.dds"
+								}
+								blockoverride "stats_label" {
+									text = "BATTALIONS"
+								}
+								blockoverride "stats_value" {
+									text = "[Country.GetRegularBattalions|v] + [Country.CalcConscriptableBattalions|v]"
+								}
+							}
+			
+							#FLOTTILAS
+							country_stats_entry = {
+								alpha = "[TransparentIfZero_int32(Country.GetWarships)]"
+								blockoverride "stats_tooltip" {
+									tooltip = PANEL_MILITARY_NAVY_CURRENT_FLOTILLAS_TOOLTIP
+								}
+								blockoverride "information_icon" {
+									texture = "gfx/interface/icons/generic_icons/flotillas.dds"
+								}
+								blockoverride "stats_label" {
+									text = "FLOTILLAS"
+								}
+								blockoverride "stats_value" {
+									raw_text = "#variable [Country.GetWarships|0]#!"
+								}
+							}
+						}
+					}
+				}
+
+				diplomatic_info = {
+				visible = "[GetVariableSystem.HasValue( 'country_selection_info', 'country_diplomacy' )]"
+					blockoverride "empty_state" {}
+					
+					blockoverride "datamodel_wrap" {
+						datamodel_wrap = 3
+					}
+					
+					blockoverride "divider_size" {
+						size = { @lobby_panel_info_width 2 }
+					}
+
+					blockoverride "size" {
+						size = { @lobby_panel_info_width 38 }
+					}
+
+					blockoverride "flag_click" {}
+				}
+				
+				##Interests
+				#flowcontainer = {
+				#	parentanchor = hcenter
+				#	direction = vertical
+				#
+				#	default_header = {
+				#		blockoverride "text" {
+				#			text = INTERESTS
+				#		}
+				#	}
+				#
+				#	empty_state = {
+				#		blockoverride "visible" {
+				#			visible = "[IsDataModelEmpty(Country.AccessInterests)]"
+				#		}
+				#		blockoverride "text" {
+				#			text = "NO_INTERESTS"
+				#		}
+				#		blockoverride "margin" {
+				#			margin_top = 10
+				#			margin_bottom = 10
+				#		}				
+				#	}
+				#	
+				#	dynamicgridbox = {
+				#		visible = "[Not(IsDataModelEmpty(Country.AccessInterests))]"
+				#		datamodel = "[Country.AccessInterests]"
+				#		flipdirection = yes
+				#		datamodel_wrap = 2
+				#		parentanchor = hcenter
+				#	
+				#		item = {
+				#			flowcontainer = {
+				#				datacontext = "[Interest.GetStrategicRegion]"
+				#				direction = horizontal
+				#				onmousehierarchyenter = "[AccessHighlightManager.HighlightStrategicRegion(StrategicRegion.Self)]"
+				#				onmousehierarchyleave = "[AccessHighlightManager.RemoveHighlight]"
+				#				alwaystransparent = no
+				#
+				#				tooltipwidget = {
+				#					FancyTooltip_StrategicRegion = {}
+				#				}
+				#
+				#				background = {
+				#					using = entry_bg_simple
+				#				}	
+				#				
+				#				minimumsize = { 175 40 }
+				#
+				#				textbox = {
+				#					parentanchor = center					
+				#					text = "[StrategicRegion.GetNameNoFormatting]"
+				#					size = { 175 35 }
+				#					fontsize_min = 10
+				#					align = hcenter|nobaseline
+				#				}
+				#			}
+				#		}
+				#	}		
+				#}
+				
+				#States
+				flowcontainer = {
+					direction = vertical
+					maximumsize = { @lobby_panel_info_width -1 }
+					visible = "[GetVariableSystem.HasValue( 'country_selection_info', 'states' )]"
+
+					default_header = {
+						using = default_list_position
+						blockoverride "text" {
+							text = STATES
+						}
+					}
+
+					flowcontainer = {
+						datamodel = "[Country.AccessStates]"
+						direction = vertical
+
+						item = {
+							widget = {
+								size = { @lobby_panel_info_width 40 }
+								tooltipwidget = {
+									FancyTooltip_State = {}
+								}
+
+								divider_clean = {
+									parentanchor = hcenter|bottom
+								}
+
+								textbox = { 
+									text = "[State.GetNameNoFormatting]"
+									position = { 10 0 }
+									parentanchor = vcenter
+									autoresize = yes
+									align = nobaseline
+								}
+
+								flowcontainer = {
+									datamodel = "[State.AccessStateRegion.AccessTraits]"
+									parentanchor = vcenter|right
+									position = { -10 0 }
+									spacing = 5
+									item = {
+										icon = {
+											size = { 30 30 }
+											tooltip = "TOOLTIP_STATE_TRAIT"
+											texture = "[StateTrait.GetTexture]"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

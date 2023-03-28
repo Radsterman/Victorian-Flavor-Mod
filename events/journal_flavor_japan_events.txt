@@ -146,72 +146,45 @@ journal_flavor_japan.3 = {
 		name = journal_flavor_japan.3.a
 		default_option = yes
 		        ai_chance = { base = 1 }
-        c:AIN = {
-			trigger_event = { id = journal_flavor_japan.4 }
-		}
+
+				add_modifier = {
+					name = kaitakushi
+					months = normal_modifier_time
+				}
+
+				ig:ig_armed_forces = {
+					add_modifier = {
+						name = kaitakushi_armed_forces
+						months = normal_modifier_time
+					}
+				}
+
+				ig:ig_rural_folk = {
+					add_modifier = {
+						name = kaitakushi_rural
+						months = normal_modifier_time
+					}
+				}
 
 	}
     	option = {
 		name = journal_flavor_japan.3.b
                 ai_chance = { base = 0 }
-        change_relations = {
-			country = c:AIN
-			value = 20
-		}
 
-	}
-	
-}
+				ig:ig_armed_forces = {
+					add_modifier = {
+						name = kaitakushi_rejected_armed_forces
+						months = normal_modifier_time
+					}
+				}
 
-journal_flavor_japan.4 = {
-	type = country_event
-	placement = root
+				ig:ig_rural_folk = {
+					add_modifier = {
+						name = kaitakushi_rejected_rural
+						months = normal_modifier_time
+					}
+				}
 
-	title = journal_flavor_japan.4.t
-	desc = journal_flavor_japan.4.d
-	flavor = journal_flavor_japan.4.f
-
-	event_image = {
-		video = "gfx/event_pictures/asia_confucianism_shinto.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/asia/confucianism_shinto" 
-
-
-	icon = "gfx/interface/icons/event_icons/event_map.dds"
-
-	minor_left_icon = c:JAP
-	minor_right_icon = c:AIN
-
-	duration = 3
-
-	trigger = {
-		# triggered by journal entry
-	}
-
-	option = {
-		name = journal_flavor_japan.4.a
-		default_option = yes
-        ai_chance = { base = 1 }
-		
-        c:JAP = {
-            annex = c:AIN
-        }
-
-	}
-    	option = {
-		name = journal_flavor_japan.4.b
-        
-        ai_chance = { base = 0 }
-        s:STATE_HOKKAIDO = {
-				add_claim = c:JAP
-		}
-
-        change_relations = {
-			country = c:JAP
-			value = -100
-		}
 	}
 	
 }

@@ -178,6 +178,15 @@ plombieres_agreement.2 = { #FRA An Agreement With Sardinia?
 		}
 		ai_chance = {
 			base = 125
+			modifier = {
+				trigger = {
+					OR = {
+						has_variable = napoleon3_elected
+						has_variable = napoleon3_coup
+					}
+				}
+				add = 100
+			}
 		}
 	}
 	option = {
@@ -204,9 +213,11 @@ plombieres_agreement.2 = { #FRA An Agreement With Sardinia?
 				add = 50
 			}
 			modifier = {
-				c:AUS = {
-					relations:root >= relations_threshold:friendly 
-				}
+				trigger = {
+					c:AUS = {
+						relations:root >= relations_threshold:friendly 
+					}
+					}
 				add = 100
 			}
 			modifier = {
@@ -267,10 +278,15 @@ plombieres_agreement.3 = { #SAR Plombières Agreement
 		name = plombieres_agreement.3.a
 		default_option = yes
 
+
 		create_diplomatic_pact = {
 			country = c:FRA
 			type = defensive_pact
 		}
+		change_relations = {
+			country = c:FRA
+			value = 30
+	    }
 		add_modifier = {
 			name = plombieres_agreement
 			months = 60
@@ -325,12 +341,11 @@ plombieres_agreement.4 = { #SAR France has refused
 	option = {
 		name = plombieres_agreement.4.a
 		default_option = yes
-		ROOT = {
-			change_relations = {
+
+		change_relations = {
 			country = c:FRA
 			value = -50
-		    }
-		}
+	    }
 		set_variable = {
 			name = plombieres_failed
 			value = yes

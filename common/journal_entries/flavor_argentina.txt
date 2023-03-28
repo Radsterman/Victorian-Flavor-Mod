@@ -1,0 +1,260 @@
+﻿je_argentina_constitution = {
+	icon = "gfx/interface/icons/event_icons/event_scales"
+
+	complete = {
+
+		custom_tooltip = {
+			text = voting_franchise_yes_tt
+			country_has_voting_franchise = yes
+		}
+
+		NOT = {
+			ig:ig_armed_forces = {
+				OR = {
+					is_powerful = yes
+					is_in_government = yes
+				}
+				
+			}
+		}
+
+		bureaucracy > 0
+		approaching_bureaucracy_shortage = no
+		institution_investment_level = {
+			institution = institution_centralization
+			value >= 3
+		}
+	}
+
+	invalid = {
+		NOT = {
+			any_country = {
+				is_subject_type = subject_type_confederation
+				overlord = ROOT
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { id = journal_flavor_argentina.1 }
+
+	}
+
+	timeout = 5475
+	on_timeout = {
+		trigger_event = { id = journal_flavor_argentina.2 }
+		
+			if={
+				limit = { 
+					any_country = {
+						is_subject_type = subject_type_confederation
+						overlord = ROOT
+						is_player = yes
+					}
+				}
+				random_country = {
+					limit = {
+						is_subject_type = subject_type_confederation
+						overlord = ROOT
+						is_player = yes
+					}
+					save_scope_as = new_argentina_leader
+				}
+				scope:new_argentina_leader = {
+					set_variable = argentina_leader_var
+					custom_tooltip = {
+						text = argentine_constitution_timeout_tt
+					}
+					change_relations = {
+						country = ROOT
+						value = -100
+					}
+					create_diplomatic_pact = {
+						country = ROOT
+						type = rivalry
+					}
+					add_journal_entry = {
+						type = je_argentina_constitution_minor
+					}
+				}
+				hidden_effect = {
+					remove_diplomatic_pact = {
+						country = scope:new_argentina_leader
+						type = confederation
+					}
+					every_country = {
+						limit = {
+							is_subject_type = subject_type_confederation
+							overlord = ROOT
+							NOT = { this = c:ENT }
+						}
+						save_scope_as = transfer_scope
+						scope:new_argentina_leader = {
+							create_diplomatic_pact = {
+								country = scope:transfer_scope
+								type = confederation
+							}
+						}
+					}
+				}
+			}
+		else_if={
+			limit = { 
+				exists = c:ENT 
+				c:ENT = {
+					is_subject_type = subject_type_confederation
+					overlord = ROOT
+				}
+			}
+			c:ENT = {
+				set_variable = argentina_leader_var
+				custom_tooltip = {
+					text = argentine_constitution_timeout_tt
+				}	
+				change_relations = {
+					country = ROOT
+					value = -100
+				}
+				create_diplomatic_pact = {
+					country = ROOT
+					type = rivalry
+				}
+				add_journal_entry = {
+					type = je_argentina_constitution_minor
+				}
+			}
+			hidden_effect = {
+				remove_diplomatic_pact = {
+					country = c:ENT
+					type = confederation
+				}
+				every_country = {
+					limit = {
+						is_subject_type = subject_type_confederation
+						overlord = ROOT
+						NOT = { this = c:ENT }
+					}
+					save_scope_as = transfer_scope
+					c:ENT = {
+						create_diplomatic_pact = {
+							country = scope:transfer_scope
+							type = confederation
+						}
+					}
+				}
+			}
+		}
+		else = {
+			random_country = {
+				limit = {
+					is_subject_type = subject_type_confederation
+					overlord = ROOT
+				}
+				save_scope_as = new_argentina_leader
+			}
+			scope:new_argentina_leader = {
+				set_variable = argentina_leader_var
+				custom_tooltip = {
+					text = argentine_constitution_timeout_tt
+				}
+				change_relations = {
+					country = ROOT
+					value = -100
+				}
+				create_diplomatic_pact = {
+					country = ROOT
+					type = rivalry
+				}
+				add_journal_entry = {
+					type = je_argentina_constitution_minor
+				}
+			}
+			hidden_effect = {
+				remove_diplomatic_pact = {
+					country = scope:new_argentina_leader
+					type = confederation
+				}
+				every_country = {
+					limit = {
+						is_subject_type = subject_type_confederation
+						overlord = ROOT
+						NOT = { this = c:ENT }
+					}
+					save_scope_as = transfer_scope
+					scope:new_argentina_leader = {
+						create_diplomatic_pact = {
+							country = scope:transfer_scope
+							type = confederation
+						}
+					}
+				}
+			}
+		}
+	}
+
+	weight = 20
+}
+
+je_argentina_constitution_minor = {
+	icon = "gfx/interface/icons/event_icons/event_scales"
+
+	is_shown_when_inactive = {
+		any_country = {
+			is_subject_type = subject_type_confederation
+			overlord = ROOT
+		}
+		country_has_primary_culture = cu:platinean
+		NOT = { this = c:BUE }
+	}
+
+	possible = {
+		any_country = {
+			is_subject_type = subject_type_confederation
+			overlord = ROOT
+		}
+	}
+
+	can_deactivate = yes
+
+	complete = {
+
+		OR = {
+			country_or_subject_owns_entire_state_region = STATE_BUENOS_AIRES
+			OR = {
+				NOT = { exists = c:BUE }
+				c:BUE = {
+					is_subject_of = ROOT
+				}
+			}
+		}
+		
+		bureaucracy > 0
+		approaching_bureaucracy_shortage = no
+		institution_investment_level = {
+			institution = institution_centralization
+			value >= 2
+		}
+
+		custom_tooltip = {
+			text = voting_franchise_yes_tt
+			country_has_voting_franchise = yes
+		}
+	}
+
+	invalid = {
+		NOT = {
+			any_country = {
+				is_subject_type = subject_type_confederation
+				overlord = ROOT
+			}
+		}
+	}
+
+	on_complete = {
+
+		trigger_event = { id = journal_flavor_argentina.1 }
+
+	}
+
+	weight = 20
+}

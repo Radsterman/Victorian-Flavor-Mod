@@ -102,12 +102,24 @@ je_sick_man_syria = {
 						}
 					}
 					AND = {
-						owns_entire_state_region = STATE_SINAI
-						owns_entire_state_region = STATE_UPPER_EGYPT
-						owns_entire_state_region = STATE_MIDDLE_EGYPT
-						owns_entire_state_region = STATE_LOWER_EGYPT
-						owns_entire_state_region = STATE_EGYPTIAN_DESERT
-						owns_entire_state_region = STATE_MATRUH
+						AND = {
+							has_state_in_state_region = STATE_SINAI
+							has_state_in_state_region = STATE_UPPER_EGYPT
+							has_state_in_state_region = STATE_MIDDLE_EGYPT
+							has_state_in_state_region = STATE_LOWER_EGYPT
+							has_state_in_state_region = STATE_EGYPTIAN_DESERT
+							has_state_in_state_region = STATE_MATRUH
+						}
+						c:EGY = {
+							NOT = {
+								has_state_in_state_region = STATE_SINAI
+								has_state_in_state_region = STATE_UPPER_EGYPT
+								has_state_in_state_region = STATE_MIDDLE_EGYPT
+								has_state_in_state_region = STATE_LOWER_EGYPT
+								has_state_in_state_region = STATE_EGYPTIAN_DESERT
+								has_state_in_state_region = STATE_MATRUH
+							}
+						}
 					}
 				}
 			}
@@ -157,12 +169,24 @@ je_sick_man_egypt = {
 				}
 			}
 			AND = {
-				owns_entire_state_region = STATE_SINAI
-				owns_entire_state_region = STATE_UPPER_EGYPT
-				owns_entire_state_region = STATE_MIDDLE_EGYPT
-				owns_entire_state_region = STATE_LOWER_EGYPT
-				owns_entire_state_region = STATE_EGYPTIAN_DESERT
-				owns_entire_state_region = STATE_MATRUH
+				AND = {
+					has_state_in_state_region = STATE_SINAI
+					has_state_in_state_region = STATE_UPPER_EGYPT
+					has_state_in_state_region = STATE_MIDDLE_EGYPT
+					has_state_in_state_region = STATE_LOWER_EGYPT
+					has_state_in_state_region = STATE_EGYPTIAN_DESERT
+					has_state_in_state_region = STATE_MATRUH
+				}
+				c:EGY = {
+					NOT = {
+						has_state_in_state_region = STATE_SINAI
+						has_state_in_state_region = STATE_UPPER_EGYPT
+						has_state_in_state_region = STATE_MIDDLE_EGYPT
+						has_state_in_state_region = STATE_LOWER_EGYPT
+						has_state_in_state_region = STATE_EGYPTIAN_DESERT
+						has_state_in_state_region = STATE_MATRUH
+					}
+				}
 			}
 		}
 	}
@@ -296,7 +320,7 @@ je_sick_man_education = {
 
 	goal_add_value = {
 		value = root.literacy_rate
-		add = 0.35
+		add = 0.2
 	}
 
 	invalid = {
@@ -415,12 +439,13 @@ je_sick_man_army = {
 	}
 
 	complete = {
-		army_size >= 250
+		army_size >= 150
 		has_technology_researched = napoleonic_warfare
 		NOT = {
 			any_scope_building = {
 				is_building_type = building_barracks
 				OR = {
+					building_has_goods_shortage = yes
 					has_active_production_method = pm_irregular_infantry
 					has_active_production_method = pm_no_artillery
 					has_active_production_method = pm_cannon_artillery

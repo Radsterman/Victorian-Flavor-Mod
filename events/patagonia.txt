@@ -1,0 +1,197 @@
+﻿namespace = patagonia
+
+# Patagonia JE completion
+patagonia.1 = {
+	type = country_event
+	placement = ROOT
+
+	title = patagonia.1.t
+	desc = patagonia.1.d
+	flavor = patagonia.1.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_aristocrats.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	trigger = {
+		# complete je_patagonia
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				country_or_subject_owns_entire_state_region = STATE_ARAUCANIA
+			}
+			random_state = {
+				limit = {
+					state_region = s:STATE_ARAUCANIA
+				}
+				save_scope_as = patagonia_state
+			}
+		}
+		else = {
+			random_state = {
+				limit = {
+					state_region = s:STATE_PATAGONIA
+				}
+				save_scope_as = patagonia_state
+			}
+		}
+	}
+
+	option = {
+		name = patagonia.1.a
+		default_option = yes
+		if = {
+			limit = {
+				country_has_primary_culture = cu:south_andean
+			}
+			scope:patagonia_state = {
+				state_region = {
+					add_homeland = south_andean
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				country_has_primary_culture = cu:platinean
+			}
+			scope:patagonia_state = {
+				state_region = {
+					add_homeland = platinean
+				}
+			}
+		}
+		scope:patagonia_state = {
+			add_modifier = {
+				name = patagonian_settlement
+				months = long_modifier_time
+			}
+		}
+	}
+}
+
+patagonia.2 = {
+	type = country_event
+	placement = ROOT
+
+	title = patagonia.2.t
+	desc = patagonia.2.d
+	flavor = patagonia.2.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_native_american.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/native_american"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	trigger = {
+		any_scope_state = {
+			is_incorporated = no
+			any_neighbouring_state = {
+				owner = {
+					is_country_type = decentralized
+					NOT = { 
+						has_modifier = patagonia_supplied_with_weapons 
+					}
+				}
+			}
+		}
+		any_country = {
+			has_diplomatic_pact = {
+				who = ROOT
+				type = rivalry
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_incorporated = no
+				any_neighbouring_state = {
+					owner = {
+						is_country_type = decentralized
+					}
+					NOT = { 
+						has_modifier = patagonia_supplied_with_weapons 
+					}
+				}
+			}
+			save_scope_as = patagonia_state
+			random_neighbouring_state = {
+				limit = {
+					owner = {
+						is_country_type = decentralized
+					}
+				}
+				owner = {
+					save_scope_as = patagonia_country
+				}
+			}
+		}
+		random_country = {
+			limit = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = rivalry
+				}
+			}
+			save_scope_as = rival_country
+		}
+	}
+
+	option = { # slow down, attempt to de-escalate
+		name = patagonia.2.a
+		default_option = yes
+		scope:patagonia_state = {
+			add_modifier = {
+				name = patagonia_slow_down
+				months = normal_modifier_time
+			}
+		}
+		scope:patagonia_country = {
+			add_modifier = {
+				name = patagonia_supplied_with_weapons
+				months = normal_modifier_time
+			}
+			change_relations = {
+				country = scope:rival_country
+				value = 50
+			}
+		}
+	}
+	option = { # if they want a fight they'll get one
+		name = patagonia.2.b
+		change_relations = {
+			country = scope:rival_country
+			value = -20
+		}
+		change_tension = {
+			country = scope:patagonia_country
+			value = 25
+		}
+		scope:patagonia_country = {
+			add_modifier = {
+				name = patagonia_supplied_with_weapons
+				months = normal_modifier_time
+			}
+			change_relations = {
+				country = scope:rival_country
+				value = 50
+			}
+		}
+	}
+}

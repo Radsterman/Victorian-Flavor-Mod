@@ -258,6 +258,12 @@ on_yearly_pulse_country = {
 		4 = 0
 		1 = wedding.1 # on average, monarchs should marry within 5 years of coming of age
 	}
+
+	#Slavery Abolition
+	random_events = {
+		4 = 0
+		1 = slavery_law_events.7
+	}
 }
 on_half_yearly_pulse_country = {
 	random_events = {
@@ -318,8 +324,78 @@ on_monthly_pulse_state = {
 	random_events = {
 		10 = goldrush.5
 	}
+	effect = {
+		if = {
+			limit = {
+				ROOT = {
+					owner = {
+						has_law = law_type:law_jizya
+					}
+					NOT = { has_modifier = jizya_state }
+				
+					any_scope_pop = {
+						state = { save_temporary_scope_as = m_state }
+	
+						culture = { 
+							has_homeland = scope:m_state
+							NOT = { is_primary_culture_of = root }
+							NOT = { 
+								#Check for muslim cultures to identify muslims,
+								#until I can figure out how to find majority religions of cultures.
+								OR = { 
+									has_discrimination_trait = middle_eastern_heritage
+									has_discrimination_trait = malay
+									has_discrimination_trait = iranian_turanian_culture_group
+									has_discrimination_trait = albanian_language
+									has_discrimination_trait = arab_speaking
+								}
+							}
+						}
+						#These muslim cultures don't fit into any specific trait group and need to be pointed out specifically
+						NOT = { 
+							OR = {
+							culture = cu:bosniak
+							culture = cu:tatar
+							culture = cu:fur
+							culture = cu:swahili
+							culture = cu:beja
+							culture = cu:afar
+							culture = cu:hausa
+							culture = cu:fulbe
+							culture = cu:dyula
+							culture = cu:haratin
+							culture = cu:mande
+							culture = cu:maures
+							culture = cu:msonghai
+							culture = cu:tuareg
+							culture = cu:wolof
+							}
+						}
+	
+						religion = {
+							NOT = { has_discrimination_trait = muslim }
+						}
+					}
+				
+				}
+			}
+			add_modifier = jizya_state
+		}
+		else_if = {
+			limit = {
+				ROOT = {
+					owner = {
+						NOT = { has_law = law_type:law_jizya }
+					}
+					has_modifier = jizya_state
+				}
+			}
+			remove_modifier = jizya_state
+		}
+	}
 
 }
+
 on_half_yearly_pulse_state = {}
 on_yearly_pulse_state = {
 	random_events = {
@@ -502,40 +578,6 @@ on_diplomatic_play_started = {
 }
 
 # Root = Character
-on_character_creation = {
-}
-
-# Root = Character
-on_character_death = {
-	effect = {
-		if = {
-			limit = {
-				is_ruler = yes
-				exists = c:HAW
-				owner = c:HAW
-				owner = {
-					has_law = law_type:law_monarchy
-					NOT = { has_variable = death_of_kamehameha }
-					NOT = { has_global_variable = gp_hawaii_interest }
-				}
-			}
-			owner = {
-				trigger_event = hawaii_events.1
-			}
-		}
-		
-		if = {
-			limit = {
-				has_variable = expedition_leader_var
-			}
-			owner = {
-				trigger_event = expedition_events.110
-			}
-		}
-	}
-}
-
-# Root = Character
 on_new_ruler = {
 	#
 }
@@ -544,18 +586,7 @@ on_new_ruler = {
 on_country_default = {
 	effect = {
 		add_modifier = country_default	
-		if = {
-			limit = {
-				has_journal_entry = je_warlord_china
-				NOT = { has_variable = china_warlord_explosion_default }
-			}
-			post_notification = warlord_china_explosion_point_add
-			change_variable = {
-				name = china_warlord_explosion
-				add = 1
-			}
-			set_variable = china_warlord_explosion_default
-		}
+
 	}
 }
 
@@ -694,6 +725,20 @@ on_diplomatic_action_third_party_break_declined = {
 
 # Root = Diplomatic Action
 on_diplomats_expelled = {
+	effect = {
+		if = {
+			limit = {
+				scope:initiator = {
+					has_variable = we_are_not_amused_ach_possible
+				}
+				scope:target = c:FRA
+				scope:initiator = {
+					"relations(scope:target)" >= relations_threshold:cordial
+				}
+			}
+			set_variable = achievement_we_are_not_amused
+		}
+	}
 }
 
 # Root = Diplomatic Pact
@@ -1243,275 +1288,6 @@ on_production_method_changed = {
 	}
 }
 
-# Root = owner Country of the Law
-# executed when enactment of any law begins
-on_law_enactment_started = {
-	effect = {
-		if = {
-			limit = {
-				has_law = law_type:law_monarchy
-				OR = {
-					is_enacting_law = law_type:law_presidential_republic
-					is_enacting_law = law_type:law_parliamentary_republic
-					is_enacting_law = law_type:law_council_republic
-				}
-			}
-			set_variable = {
-				name = abolishing_monarchy_var
-				value = 0
-			}
-			add_journal_entry = { type =  je_abolish_monarchy }
-		}
-	}
-}
-
-# Root = owner Country of the Law
-# executed when the end of a checkpoint is reached and the result is success
-# (currently, this means the law will get enacted so it will be followed by
-# on_law_enactment_ended and on_law_enacted).
-#
-# NOTE: at the point in time when this on-action is triggered, the law
-# is still considered being enacted, therefore the `currently_enacting_law` link
-# will work as expected, even though the enactment is about to end
-on_law_checkpoint_success = {
-	effect = {
-
-	}
-}
-
-# Root = owner Country of the Law
-# executed when the end of a checkpoint is reached and the result is advance
-on_law_checkpoint_advance = {
-	random_events = {
-		10 = laws.1
-		10 = children_rights_events.1 
-		10 = free_speech_laws.1
-		10 = free_speech_laws.2
-		10 = labor_rights.1
-		10 = labor_rights.4
-		10 = children_rights_events.4
-		10 = welfare_laws.1
-		10 = welfare_laws.4
-		10 = welfare_laws.8
-		10 = migration_laws.1
-		10 = migration_laws.4
-		10 = bureaucracy.2
-		10 = colonization.1
-		10 = colonization.3
-		10 = rights_of_women_laws.1
-		10 = rights_of_women_laws.2
-		10 = internal_security_events.2
-		10 = slavery_law_events.1
-		10 = slavery_law_events.4
-		10 = laws_police.1
-		10 = anarchy.3
-		10 = tax.2
-		10 = tax.5
-		10 = theocracy.1
-		10 = citizenship_laws.1
-		10 = citizenship_laws.4
-		100 = 1848.1
-		100 = 1848.3
-		10 = education_laws.1
-		10 = education_laws.4
-		10 = distribution_of_power_laws.1
-		10 = council_republic_law_events.1
-		10 = distribution_of_power_laws.4
-		10 = monarchy_law_events.1
-		10 = monarchy_law_events.2
-		10 = economy_laws.1
-		10 = economy_laws.4
-		10 = meiji.4
-		10 = meiji.5
-		10 = meiji.6
-		10 = conscription_laws.1
-		10 = republic_laws.1
-		10 = internal_security_events.4
-		10 = healthcare_laws.1
-		10 = healthcare_laws.4
-		10 = anti_state_religion.1
-		10 = distribution_of_power_laws.7
-		10 = distribution_of_power_laws.10
-		10 = rights_of_women_laws.5
-		2 = generic_laws.1
-		2 = generic_laws.4
-		2 = generic_laws.7
-		2 = generic_laws.10
-		2 = ig_petitions.4 #Devout want State Religion
-		2 = ig_petitions.7 #Intelligentsia want free speech
-		2 = ig_petitions.19 #Armed forces want conscription
-		2 = ig_petitions.22 #Petite-Bourgeoisie want Restricted Citizenship
-		1 = law_notification.1
-	}
-	effect = {
-
-	}
-}
-
-# Root = owner Country of the Law
-# executed when the end of a checkpoint is reached and the result is debate
-on_law_checkpoint_debate = {
-	random_events = {
-		10 = children_rights_events.2
-		10 = free_speech_laws.5
-		10 = labor_rights.2
-		10 = labor_rights.5
-		10 = children_rights_events.6
-		10 = welfare_laws.2
-		10 = welfare_laws.5
-		10 = welfare_laws.9
-		10 = migration_laws.2
-		10 = migration_laws.5
-		10 = bureaucracy.3
-		10 = colonization.1
-		10 = free_speech_laws.5
-		10 = free_speech_laws.6
-		10 = internal_security_events.3
-		10 = slavery_law_events.2
-		10 = slavery_law_events.5
-		10 = laws_police.2
-		10 = anarchy.2
-		10 = tax.3
-		10 = tax.6
-		10 = theocracy.2
-		10 = citizenship_laws.2
-		10 = citizenship_laws.5
-		10 = education_laws.2
-		10 = education_laws.5
-		100 = 1848.1
-		100 = 1848.3
-		10 = distribution_of_power_laws.2
-		10 = council_republic_law_events.2
-		10 = distribution_of_power_laws.5
-		10 = monarchy_law_events.3
-		10 = economy_laws.2
-		10 = economy_laws.5
-		10 = isolation.2
-		10 = conscription_laws.2
-		10 = republic_laws.2
-		10 = internal_security_events.5
-		10 = healthcare_laws.2
-		10 = healthcare_laws.5
-		10 = anti_state_religion.2
-		10 = colonization.4
-		10 = distribution_of_power_laws.8
-		10 = distribution_of_power_laws.11
-		10 = rights_of_women_laws.4
-		10 = law_events.1
-		2 = generic_laws.3
-		2 = generic_laws.6
-		2 = generic_laws.9
-		2 = generic_laws.12
-		10 = ig_petitions.1 #Landowners want to reverse Suffrage
-		10 = ig_petitions.10 #Rural folk want no conscription
-		10 = ig_petitions.13 #Trade Unions want compulsory primary school
-		20 = ig_petitions.16 #Industrialists want no graduated taxes
-		1 = law_notification.2
-	}
-	effect = {
-	}
-	events = {
-		tanzimat_events.1
-		tanzimat_events.2
-		tanzimat_events.4
-	}
-}
-
-# Root = owner Country of the Law
-# executed when the end of a checkpoint is reached and the result is stall
-#
-# NOTE: at the point in time when this on-action is triggered, the law
-# is still considered being enacted, therefore the `currently_enacting_law` link
-# will work as expected, even if the resulting event is particularly bad and
-# will proceed to stop the enactment
-on_law_checkpoint_stall = {
-	random_events = {
-		10 = children_rights_events.3
-		10 = free_speech_laws.3
-		10 = free_speech_laws.4
-		10 = labor_rights.3
-		10 = labor_rights.6
-		10 = children_rights_events.5
-		10 = welfare_laws.3
-		10 = welfare_laws.6
-		10 = welfare_laws.10
-		10 = migration_laws.3
-		10 = migration_laws.6
-		10 = bureaucracy.1
-		10 = colonization.1
-		10 = colonization.2
-		10 = rights_of_women_laws.3
-		10 = internal_security_events.1
-		10 = slavery_law_events.3
-		10 = slavery_law_events.6
-		10 = laws_police.3
-		10 = anarchy.1
-		10 = tax.1
-		10 = tax.4
-		10 = theocracy.3
-		10 = citizenship_laws.3
-		10 = citizenship_laws.6
-		10 = education_laws.3
-		10 = education_laws.6
-		100 = 1848.1
-		100 = 1848.3
-		10 = distribution_of_power_laws.3
-		10 = council_republic_law_events.3
-		10 = distribution_of_power_laws.6
-		10 = monarchy_law_events.4
-		10 = economy_laws.3
-		10 = economy_laws.6
-		10 = isolation.1
-		10 = conscription_laws.3
-		10 = republic_laws.3
-		10 = internal_security_events.6
-		10 = healthcare_laws.3
-		10 = healthcare_laws.6
-		10 = anti_state_religion.3
-		10 = distribution_of_power_laws.9
-		10 = distribution_of_power_laws.12
-		10 = rights_of_women_laws.6
-		2 = generic_laws.2
-		2 = generic_laws.5
-		2 = generic_laws.8
-		2 = generic_laws.11
-		1 = law_notification.3
-	}
-	effect = {
-	}
-}
-
-# Root = owner Country of the Law
-# executed when enactment stops for any reason. Could be because the law has
-# been enacted, or because the enactment has been stopped by the player.
-#
-# NOTE: at the point in time when this on-action is triggered, the law
-# is still considered being enacted, therefore the `currently_enacting_law` link
-# will work as expected, even though the enactment is _just_ about to end
-on_law_enactment_ended = {
-	effect = {
-	}
-}
-
-# Root owner Country of the Law
-# executed when the law is activated for any reason. It's usually because it
-# has been enacted, but script can activate laws directly without going through
-# the enactment process. Normally, it's immediately preceded by
-# on_law_enactment_ended, but if a law is directly set by script, thus
-# bypassing the enactment process, this will execute while
-# on_law_enactment_ended will not
-#
-# NOTE: unlike the other on_law_<something> on-actions, at the point in time
-# when this is triggered the law that was enacted is no longer considered being
-# enacted. Therefore using the `currently_enacting_law` link will return the
-# null law
-on_law_activated = {
-	effect = {
-
-	}
-
-}
-
 # Root = Institution
 on_investment_increased = {
 	effect = {
@@ -1542,6 +1318,17 @@ on_revolution_start = {
 			}
 			set_variable = china_warlord_explosion_revolution
 		}
+		if = {
+			limit = {
+				has_journal_entry = je_meiji_restoration
+				scope:target = {
+					ig:ig_landowners = {
+						is_in_government = yes
+					}
+				}
+			}
+			set_variable = anti_shogunate_civil_war
+		}
 	}
 }
 
@@ -1549,8 +1336,364 @@ on_revolution_start = {
 # scope:target = Uprising country
 on_revolution_end = {
 	effect = {
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = peccavi_ach_possible 
+				}
+			}
+			scope:target = { 
+				set_variable = peccavi_ach_possible 
+			}
+		}
+		
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = perkeletankki_ach_possible 
+				}
+			}
+			scope:target = { 
+				set_variable = perkeletankki_ach_possible 
+			}
+		}
+		
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = luxurious_luxembourg_ach_possible
+				}
+			}
+			scope:target = { 
+				set_variable = luxurious_luxembourg_ach_possible
+			}
+		}
+		
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = anarchy_in_the_uk_ach_possible
+				}
+			}
+			scope:target = { 
+				set_variable = anarchy_in_the_uk_ach_possible
+			}
+		}
+		
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = muhammed_alis_ambition_ach_possible
+				}
+			}
+			scope:target = { 
+				set_variable = muhammed_alis_ambition_ach_possible
+			}
+		}
+		
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = an_empire_under_the_pun_ach_possible
+				}
+			}
+			scope:target = { 
+				set_variable = an_empire_under_the_pun_ach_possible
+			}
+		}
+		
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = i_didnt_vote_for_pedro_ach_possible
+				}
+			}
+			scope:target = { 
+				set_variable = i_didnt_vote_for_pedro_ach_possible
+			}
+		}
+		
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = go_west_young_man_ach_possible
+				}
+			}
+			scope:target = { 
+				set_variable = go_west_young_man_ach_possible
+			}
+		}
+		
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = the_western_protectorate_ach_possible
+				}
+			}
+			scope:target = { 
+				set_variable = the_western_protectorate_ach_possible
+			}
+		}
+		
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = the_paris_commune_ach_possible
+				}
+			}
+			scope:target = { 
+				set_variable = the_paris_commune_ach_possible
+			}
+		}
+		
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = barbarys_back_ach_possible
+				}
+			}
+			scope:target = { 
+				set_variable = barbarys_back_ach_possible
+			}
+		}
+		
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = miners_and_minors_ach_possible
+				}
+			}
+			scope:target = { 
+				set_variable = miners_and_minors_ach_possible
+			}
+		}
+		
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = healthy_man_of_europe_ach_possible
+				}
+			}
+			scope:target = { 
+				set_variable = healthy_man_of_europe_ach_possible
+			}
+		}
+		
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = habsburg_resurgence_ach_possible
+				}
+			}
+			scope:target = { 
+				set_variable = habsburg_resurgence_ach_possible
+			}
+		}
+		
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = great_game_ach_possible
+				}
+			}
+			scope:target = { 
+				set_variable = great_game_ach_possible
+			}
+		}
+		
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = bourbon_for_everyone_ach_possible
+				}
+			}
+			scope:target = { 
+				set_variable = bourbon_for_everyone_ach_possible
+			}
+		}
+		
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = american_territory_ach_possible
+				}
+			}
+			scope:target = { 
+				set_variable = american_territory_ach_possible
+			}
+		}
+		
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = broken_promises_ach_possible
+				}
+			}
+			scope:target = { 
+				set_variable = broken_promises_ach_possible
+			}
+		}
+		
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = the_berlin_conference_ach_possible
+				}
+			}
+			scope:target = { 
+				set_variable = the_berlin_conference_ach_possible
+			}
+		}
+		
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = belle_epoque_ach_possible
+				}
+			}
+			scope:target = { 
+				set_variable = belle_epoque_ach_possible
+			}
+		}
+		
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = serfs_up_ach_possible
+				}
+			}
+			scope:target = { 
+				set_variable = serfs_up_ach_possible
+			}
+		}
+		
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = risorgimento_ach_possible
+				}
+			}
+			scope:target = { 
+				set_variable = risorgimento_ach_possible
+			}
+		}
+		
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = three_hurrahs_ach_possible
+				}
+			}
+			scope:target = { 
+				set_variable = three_hurrahs_ach_possible
+			}
+		}
+		
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = solomons_quest_ach_possible
+				}
+			}
+			scope:target = { 
+				set_variable = solomons_quest_ach_possible
+			}
+		}
+		
+		
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = i_am_a_scandinavian_ach_possible
+				}
+			}
+			scope:target = { 
+				set_variable = i_am_a_scandinavian_ach_possible
+			}
+		}
+		
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = reading_campaign_ach_possible
+				}
+			}
+			scope:target = { 
+				set_variable = reading_campaign_ach_possible
+			}
+		}
+		
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = we_are_not_amused_ach_possible
+				}
+			}
+			scope:target = { 
+				set_variable = we_are_not_amused_ach_possible
+			}
+		}
+		
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = star_swarmed_banner_ach_possible
+				}
+			}
+			scope:target = { 
+				set_variable = star_swarmed_banner_ach_possible
+			}
+		}
+
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = manifest_mexico_ach_possible
+				}
+			}
+			scope:target = { 
+				set_variable = manifest_mexico_ach_possible
+			}
+		}
+
+		if = {
+			limit = { 
+				ROOT = { 
+					has_variable = grander_colombia_ach_possible
+				}
+			}
+			scope:target = { 
+				set_variable = grander_colombia_ach_possible
+			}
+		}
 	}
 }
+
+# Root = Country
+# scope:target = Uprising country
+on_secession_start = {
+	effect = {
+		if = {
+			limit = {
+				has_journal_entry = je_warlord_china
+				NOT = { has_variable = china_warlord_explosion_revolution }
+			}
+			post_notification = warlord_china_explosion_point_add
+			change_variable = {
+				name = china_warlord_explosion
+				add = 1
+			}
+			set_variable = china_warlord_explosion_revolution
+		}
+
+	}
+}
+
+# Root = Country
+# scope:target = Uprising country
+on_secession_end = {
+}
+
 
 # Root = Country
 # This action is triggered after `on_revolution_end`
@@ -1561,6 +1704,18 @@ on_civil_war_won = {
 				has_global_variable = achievement_revo_needed
 			}
 			set_global_variable = achievement_revolutionary
+		}
+		if = {
+			limit = {
+				has_journal_entry = je_meiji_restoration
+				has_variable = anti_shogunate_civil_war
+				has_variable = shogunate_var
+			}
+			change_variable = {
+				name = shogunate_var
+				add = 120
+			}
+			remove_variable = anti_shogunate_civil_war
 		}
 	}
 }
@@ -1738,20 +1893,6 @@ on_party_disbanded = {
 }
 
 # Root = Country
-on_election_campaign_start = {
-	effect = {
-		debug_log = "Election Campaign Started"
-	}
-}
-
-# Root = Country
-on_election_campaign_end = {
-	effect = {
-		debug_log = "Election Campaign Ended"
-	}
-}
-
-# Root = Country
 on_obligation_owed_by_us_expired = {
 	effect = {
 		post_notification = obligation_owed_by_us_expired
@@ -1913,4 +2054,7 @@ on_character_recruitment = {
 # scope:general = invading general
 # scope:state = location state
 on_naval_invasion = {
+	effect = {
+		post_notification = naval_invasion_against_us
+	}
 }

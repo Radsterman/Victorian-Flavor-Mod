@@ -1,0 +1,198 @@
+﻿
+je_annex_subject_overlord = {
+	icon = "gfx/interface/icons/event_icons/event_centralization.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				is_subject_of = ROOT
+				has_journal_entry = je_annex_subject_junior
+			}
+			save_scope_as = annex_target_scope
+		}
+
+		set_variable = {
+			name = annexing_subject_var
+			value = 0
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					NOT = { 
+						any_diplomatic_play = {
+							any_scope_play_involved = {
+								this = scope:annex_target_scope
+							}
+							OR = {
+								has_play_goal = transfer_subject
+								has_play_goal = liberate_subject
+							}
+						}
+					}
+				}
+				change_variable = {
+					name = annexing_subject_var
+					add = 1
+				}
+			}
+		}
+	}
+
+	current_value = {
+		value = root.var:annexing_subject_var
+	}
+
+	goal_add_value = {
+		add = 24
+	}
+
+	progressbar = yes
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}	
+
+    on_complete = {
+		if = {
+			limit = {
+				exists = scope:annex_target_scope
+			}
+			annex = scope:annex_target_scope
+		}
+    }
+
+	fail = {
+		OR = {
+			has_war_with = scope:annex_target_scope
+			scope:annex_target_scope = {
+				NOT = { is_subject_of = ROOT }
+			}
+		}
+	}
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = subject_integration_blocked
+				trigger = {
+					any_diplomatic_play = {
+						any_scope_play_involved = {
+							this = scope:annex_target_scope
+						}
+						OR = {
+							has_play_goal = transfer_subject
+							has_play_goal = liberate_subject
+						}
+					}
+				}
+			}
+			triggered_desc = {
+				desc = subject_integration_continues
+				trigger = { }
+			}
+		}
+	}
+
+	should_be_pinned_by_default = yes
+
+	weight = 10000
+}
+
+
+je_annex_subject_junior = {
+	icon = "gfx/interface/icons/event_icons/event_centralization.dds"
+
+	immediate = {
+		overlord = {
+			save_scope_as = overlord_scope
+		}
+		set_variable = {
+			name = being_annexed_var
+			value = 0
+		}
+	}
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					NOT = { 
+						any_diplomatic_play = {
+							any_scope_play_involved = {
+								this = root
+							}
+							OR = {
+								has_play_goal = transfer_subject
+								has_play_goal = liberate_subject
+							}
+						}
+					}
+				}
+				change_variable = {
+					name = being_annexed_var
+					add = 1
+				}
+			}
+		}
+	}
+
+	current_value = {
+		value = root.var:being_annexed_var
+	}
+
+	goal_add_value = {
+		add = 24
+	}
+
+	progressbar = yes
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}	
+
+    on_complete = {
+		overlord = {
+			annex = ROOT
+		}
+    }
+
+	fail = {
+		OR = {
+			has_war_with = overlord
+			NOT = { is_subject_of = scope:overlord_scope }
+		}
+	}
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = subject_integration_blocked
+				trigger = {
+					any_diplomatic_play = {
+						any_scope_play_involved = {
+							this = root
+						}
+						OR = {
+							has_play_goal = transfer_subject
+							has_play_goal = liberate_subject
+						}
+					}
+				}
+			}
+			triggered_desc = {
+				desc = subject_integration_continues
+				trigger = { }
+			}
+		}
+	}
+
+	should_be_pinned_by_default = yes
+
+	weight = 10000
+}
