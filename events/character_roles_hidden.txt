@@ -39,25 +39,55 @@ character_roles_hidden.2 = {
 		}
 	}
 	immediate = {
-		random_scope_character = {
+		if = {
 			limit = {
-				NOT = {
-					is_ruler = yes
-					is_heir = yes
-					has_role = general
-					has_role = admiral
-				}
-				interest_group = {
-					is_in_government = yes
+				random_scope_character = {
+					limit = {
+						NOT = {
+							is_ruler = yes
+							is_heir = yes
+							has_role = general
+							has_role = admiral
+						}
+						interest_group = {
+							is_in_government = yes
+						}
+					}
 				}
 			}
-			set_variable = vice_president_trigger
-			save_scope_as = new_vice_president
-			owner = {
-				set_variable = {
-					name = vice_president
-					value = PREV
+			random_scope_character = {
+				limit = {
+					NOT = {
+						is_ruler = yes
+						is_heir = yes
+						has_role = general
+						has_role = admiral
+					}
+					interest_group = {
+						is_in_government = yes
+					}
 				}
+				set_variable = vice_president_trigger
+				save_scope_as = new_vice_president
+				owner = {
+					set_variable = {
+						name = vice_president
+						value = PREV
+					}
+				}
+			}
+		}
+		else = {
+			create_character = {
+				on_created = {
+					set_variable = vice_president_trigger
+					owner = {
+						set_variable = {
+							name = vice_president
+							value = PREV
+						}
+					}
+				}		
 			}
 		}
 		random_scope_character = {
