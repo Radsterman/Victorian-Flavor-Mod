@@ -1,0 +1,44 @@
+﻿namespace = libya
+
+
+libya.1 = {
+	type = country_event
+	placement = ROOT
+	title = libya.1.t
+	desc = libya.1.d
+	flavor = libya.1.f
+	duration = 3
+	event_image = {
+		video = "gfx/event_pictures/middleeast_courtroom_upheaval.bk2"
+	}
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/courtroom_upheaval"
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+	trigger = {
+	}
+
+	immediate = {
+		set_variable = el_senussi_banished
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+			}
+			save_scope_as = barracks_state
+		}
+	}
+
+	option = {
+		name = libya.1.a
+		default_option = yes
+		custom_tooltip = {
+			text = el_senussi_army_tt
+			scope:barracks_state = {
+				create_building={
+					building="building_barracks"
+					level=1
+					reserves=1
+				}
+			}
+		}
+	}
+}
