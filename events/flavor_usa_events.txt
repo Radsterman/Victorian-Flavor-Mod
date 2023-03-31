@@ -1,0 +1,87 @@
+namespace = flavor_usa_events
+
+#Webster-Ashburton Placeholder - British
+flavor_usa_events.1 = {
+	type = country_event
+	placement = ROOT
+
+	title = flavor_usa_events.1.t
+	desc = flavor_usa_events.1.d
+	flavor = flavor_usa_events.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+	duration = 1
+
+	trigger = {
+		year >= 1842
+		exists = c:GBR
+		THIS = c:GBR
+		s:STATE_MAINE = {
+			any_scope_state = {
+				owner = {
+					is_subject_of = ROOT
+				}
+				has_claim_by = c:USA
+			}
+		}
+		s:STATE_MINNESOTA = {
+			any_scope_state = {
+				owner = {
+					is_subject_of = ROOT
+				}
+				has_claim_by = c:USA
+			}
+		}
+		NOT = { has_variable = webster_ashburton_complete }
+	}
+	
+	immediate = {
+		
+	}
+
+	option = { 
+		name = flavor_usa_events.1.a
+		default_option = yes
+		every_state = {
+			limit = {
+				OR = {
+					state_region = s:STATE_MAINE
+					state_region = s:STATE_MINNESOTA
+				}
+				owner = {
+					is_subject_of = ROOT
+				}
+				has_claim_by = c:USA
+			}
+			set_state_owner = c:USA
+		}
+		c:USA = {
+			change_relations = {
+				country = ROOT
+				value = 10
+			}
+		}
+		set_variable = webster_ashburton_complete
+		ai_chance = {
+			base = 100
+		}
+	}
+	option = { 
+		name = flavor_usa_events.1.b
+		c:USA = {
+			change_relations = {
+				country = ROOT
+				value = -20
+			}
+		}
+		set_variable = webster_ashburton_complete
+	}
+}
