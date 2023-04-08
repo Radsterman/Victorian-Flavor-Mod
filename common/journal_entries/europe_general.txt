@@ -11,57 +11,75 @@
 		OR = {
 			custom_tooltip = {
 				text = je_holy_alliance_monarchies
-				c:PRU ?= {
-					NOT = { has_law = law_type:law_monarchy }
+				OR = {
+					c:PRU ?= {
+						NOT = { has_law = law_type:law_monarchy }
+					}
+					c:AUS ?= {
+						NOT = { has_law = law_type:law_monarchy }
+					}
+					c:RUS ?= {
+						NOT = { has_law = law_type:law_monarchy }
+					}
 				}
-				c:AUS ?= {
-					NOT = { has_law = law_type:law_monarchy }
-				}
-				c:RUS ?= {
-					NOT = { has_law = law_type:law_monarchy }
+			}
+			custom_tooltip = {
+				text = je_holy_alliance_religion
+					OR = {
+					c:PRU ?= {
+						has_law = law_type:law_total_separation
+					}
+					c:AUS ?= {
+						has_law = law_type:law_total_separation
+					}
+					c:RUS ?= {
+						has_law = law_type:law_total_separation
+					}
 				}
 			}
 			custom_tooltip = {
 				text = je_holy_alliance_alliances
-				c:PRU ?= {
-					NOT = { 
-						has_diplomatic_pact = {
-							who = c:RUS
-							type = defensive_pact
+				OR = {
+					c:PRU ?= {
+						NOT = { 
+							has_diplomatic_pact = {
+								who = c:RUS
+								type = defensive_pact
+							}
+						}
+						NOT = { 
+							has_diplomatic_pact = {
+								who = c:AUS
+								type = defensive_pact
+							}
 						}
 					}
-					NOT = { 
-						has_diplomatic_pact = {
-							who = c:AUS
-							type = defensive_pact
+					c:AUS ?= {
+						NOT = { 
+							has_diplomatic_pact = {
+								who = c:RUS
+								type = defensive_pact
+							}
+						}
+						NOT = { 
+							has_diplomatic_pact = {
+								who = c:PRU
+								type = defensive_pact
+							}
 						}
 					}
-				}
-				c:AUS ?= {
-					NOT = { 
-						has_diplomatic_pact = {
-							who = c:RUS
-							type = defensive_pact
+					c:RUS ?= {
+						NOT = { 
+							has_diplomatic_pact = {
+								who = c:PRU
+								type = defensive_pact
+							}
 						}
-					}
-					NOT = { 
-						has_diplomatic_pact = {
-							who = c:PRU
-							type = defensive_pact
-						}
-					}
-				}
-				c:RUS ?= {
-					NOT = { 
-						has_diplomatic_pact = {
-							who = c:PRU
-							type = defensive_pact
-						}
-					}
-					NOT = { 
-						has_diplomatic_pact = {
-							who = c:AUS
-							type = defensive_pact
+						NOT = { 
+							has_diplomatic_pact = {
+								who = c:AUS
+								type = defensive_pact
+							}
 						}
 					}
 				}
