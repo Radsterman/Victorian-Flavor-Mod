@@ -1,0 +1,89 @@
+﻿namespace = egypt_collapse
+
+# start event
+egypt_collapse.1 = {
+	type = country_event
+	placement = root
+	title = {
+		first_valid = {
+			triggered_desc = {
+				desc = egypt_collapse.2.t
+				trigger = {
+					exists = c:EGY
+					c:EGY = THIS
+				}
+			}
+			triggered_desc = {
+				desc = egypt_collapse.2.t2
+				trigger = {
+					exists = c:TUR
+					c:TUR = THIS
+				}
+			}
+		}
+	}
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = egypt_collapse.2.d
+				trigger = {
+					exists = c:EGY
+					c:EGY = THIS
+				}
+			}
+			triggered_desc = {
+				desc = egypt_collapse.2.d2
+				trigger = {
+					exists = c:TUR
+					c:TUR = THIS
+				}
+			}
+		}
+	}
+	trigger = {
+		OR = {
+		  c:EGY = THIS
+		  c:TUR = THIS
+		}
+		AND = {
+			c:TUR = {
+				has_state_in_state_region = STATE_SINAI
+				has_state_in_state_region = STATE_UPPER_EGYPT
+				has_state_in_state_region = STATE_MIDDLE_EGYPT
+				has_state_in_state_region = STATE_LOWER_EGYPT
+				has_state_in_state_region = STATE_EGYPTIAN_DESERT
+				has_state_in_state_region = STATE_MATRUH
+			}
+			c:EGY = {
+				NOT = {
+					has_state_in_state_region = STATE_SINAI
+					has_state_in_state_region = STATE_UPPER_EGYPT
+					has_state_in_state_region = STATE_MIDDLE_EGYPT
+					has_state_in_state_region = STATE_LOWER_EGYPT
+					has_state_in_state_region = STATE_EGYPTIAN_DESERT
+					has_state_in_state_region = STATE_MATRUH
+				}
+			}
+		}
+	}
+	flavor = egypt_collapse.1.f
+	duration = 1
+	event_image = {
+		video = "gfx/event_pictures/unspecific_factory_closed.bk2"
+	}
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/factory_closed"
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+	trigger = {
+		
+	}
+
+	immediate = {
+		set_global_variable = egypt_collapsed_ottomans
+	}
+
+	option = {
+		name = egypt_collapse.1.a
+	}
+}
+
