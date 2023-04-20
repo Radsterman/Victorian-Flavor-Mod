@@ -126,9 +126,26 @@ ai_strategy_default = {
 			limit = { 
 				scope:enemy_country.country_rank > country_rank 
 			}
-			
 			add = -0.1
-		}	
+		}
+		if = {
+            limit = {
+                AND = {
+                    has_journal_entry = je_manifest_destiny_mexico
+                    scope:enemy_country = {
+                        OR = {
+                            has_state_in_state_region = STATE_CALIFORNIA
+                            has_state_in_state_region = STATE_NEVADA
+                            has_state_in_state_region = STATE_UTAH
+                            has_state_in_state_region = STATE_ARIZONA
+                            has_state_in_state_region = STATE_NEW_MEXICO
+                            has_state_in_state_region = STATE_TEXAS
+                        }
+                    }
+                }
+            }
+            add = 0.5
+        }
 	}
 	
 	# How many barracks relative to incorporated population should the AI have
@@ -465,7 +482,7 @@ ai_strategy_default = {
 				}
 			}
 			add = 3
-	}
+		}
 	
 		#Caucasus
 		if = {
@@ -2967,8 +2984,7 @@ ai_strategy_default = {
 					}
 					add = 30
 				}
-					}
-
+			}
 			if = {
 				limit = { 
 					NOT = { has_strategic_land_adjacency = scope:target_state } 
@@ -3013,6 +3029,26 @@ ai_strategy_default = {
 					scope:target_state = { is_homeland_of_country_cultures = scope:target_country }
 					}
 				multiply = 0.0
+			}
+
+			if = {
+				limit = {
+					has_journal_entry = je_manifest_destiny_mexico
+					scope:target_state = {
+						OR = {
+							state_region = s:STATE_CALIFORNIA
+							state_region = s:STATE_NEVADA
+							state_region = s:STATE_UTAH
+							state_region = s:STATE_ARIZONA
+							state_region = s:STATE_NEW_MEXICO
+							state_region = s:STATE_TEXAS
+							state_region = s:STATE_WYOMING
+							state_region = s:STATE_COLORADO
+							state_region = s:STATE_KANSAS
+						}
+					}
+				}
+				add = 120
 			}
 
 			min = 0
