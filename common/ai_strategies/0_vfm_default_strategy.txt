@@ -214,14 +214,14 @@ ai_strategy_default = {
 				limit = {
 					any_subject_or_below = {
 						OR = {
-							is_subject_type = dependency
-							is_subject_type = puppet
-							is_subject_type = vassal
+							is_subject_type = subject_type_dependency
+							is_subject_type = subject_type_puppet
+							is_subject_type = subject_type_vassal
 						}
 						is_adjacent = root
 					}
 				}
-				add = 2.5
+				add = 150
 			}
 		}			
 	}	
@@ -758,7 +758,7 @@ ai_strategy_default = {
 				}
 			}
 			add = 10
-	}
+		}
 	
 		if = { #Russian Far East
 			limit = {
@@ -774,7 +774,7 @@ ai_strategy_default = {
 					}
 				}
 			}
-			add = 10
+			add = 15
 		}
 
 		if = { #Russian Central Asia
@@ -795,7 +795,7 @@ ai_strategy_default = {
 				}
 				can_reach_target_country = yes
 			}
-			add = 10
+			add = 15
 		}
 
 		# Aggression against Council Republics
@@ -870,6 +870,71 @@ ai_strategy_default = {
 				}
 			}
 			add = 5
+		}
+			
+		#Aggression against unrecognized countries once colonization has begun and already owns state in region
+		if = {
+			limit = {
+				can_reach_target_country = yes
+				has_technology_researched = civilizing_mission
+				OR = {
+					is_country_type = recognized
+					is_country_type = colonial
+				}
+				scope:target_country = {
+					is_country_type = unrecognized
+					country_is_in_africa = no
+				}
+				has_interest_marker_in_region = scope:target_country.capital.region
+				scope:target_country.capital.region = {
+					any_scope_state = {
+						owner = this
+					}
+				}
+			}
+			add = 10
+		}
+		
+		if = {
+			limit = {
+				can_reach_target_country = yes
+				has_technology_researched = civilizing_mission
+				OR = {
+					is_country_type = recognized
+					is_country_type = colonial
+				}
+				scope:target_country = {
+					is_country_type = unrecognized
+					country_is_in_africa = yes
+				}
+				has_interest_marker_in_region = scope:target_country.capital.region
+				scope:target_country.capital.region = {
+					any_scope_state = {
+						owner = this
+					}
+				}
+			}
+			add = 15
+		}
+		
+		#Aggression against unrecognized countries if has claim in region
+		if = {
+			limit = {
+				can_reach_target_country = yes
+				has_technology_researched = civilizing_mission
+				OR = {
+					is_country_type = recognized
+					is_country_type = colonial
+				}
+				scope:target_country = {
+					is_country_type = unrecognized
+				}
+				has_interest_marker_in_region = scope:target_country.capital.region
+				scope:target_country.capital.region = {
+					has_claim_by = root
+				}
+			}
+			add = 10
 		}
 	}
 	
@@ -2057,11 +2122,11 @@ ai_strategy_default = {
 					NOT = { is_country_type = unrecognized }
 					scope:target_country = { is_country_type = unrecognized }
 				}
-				add = 50
+				add = 60
 				
 				if = {
 					limit = { has_technology_researched = civilizing_mission }
-					add = 50
+					add = 60
 				}					
 			}			
 			
@@ -2419,11 +2484,11 @@ ai_strategy_default = {
 					scope:target_country = { is_country_type = unrecognized }
 					scope:target_country = { NOT = { is_subject_of = root }	}
 				}
-				add = 25
+				add = 30
 				
 				if = {
 					limit = { has_technology_researched = civilizing_mission }
-					add = 25
+					add = 30
 				}					
 			}			
 			
@@ -2902,7 +2967,7 @@ ai_strategy_default = {
 							state_region = s:STATE_JETISY
 							state_region = s:STATE_TOMSK
 							state_region = s:STATE_KIRGHIZIA
-				}
+						}
 					}
 				}
 				add = 50
@@ -3087,12 +3152,12 @@ ai_strategy_default = {
 					has_journal_entry = je_sick_man_syria
 					scope:target_state = {
 						OR = {
-							state_region = STATE_ALEPPO
-							state_region = STATE_SYRIA
-							state_region = STATE_LEBANON
-							state_region = STATE_PALESTINE
-							state_region = STATE_TRANSJORDAN
-							state_region = STATE_ADANA
+							state_region = s:STATE_ALEPPO
+							state_region = s:STATE_SYRIA
+							state_region = s:STATE_LEBANON
+							state_region = s:STATE_PALESTINE
+							state_region = s:STATE_TRANSJORDAN
+							state_region = s:STATE_ADANA
 						}
 					}
 				}
@@ -3104,10 +3169,10 @@ ai_strategy_default = {
 					has_journal_entry = je_sick_man_egypt
 					scope:target_state = {
 						OR = {
-							state_region = STATE_SINAI
-							state_region = STATE_UPPER_EGYPT
-							state_region = STATE_MIDDLE_EGYPT
-							state_region = STATE_LOWER_EGYPT
+							state_region = s:STATE_SINAI
+							state_region = s:STATE_UPPER_EGYPT
+							state_region = s:STATE_MIDDLE_EGYPT
+							state_region = s:STATE_LOWER_EGYPT
 						}
 					}
 				}
@@ -3492,6 +3557,38 @@ ai_strategy_default = {
 			if = {
 				limit = {
 					can_reach_target_country = yes
+					has_technology_researched = colonization
+					OR = {
+						is_country_type = recognized
+						is_country_type = colonial
+					}
+					scope:target_country = {
+						is_country_type = unrecognized
+						country_is_in_africa = no
+					}
+				}
+				add = 15
+			}
+			
+			if = {
+				limit = {
+					can_reach_target_country = yes
+					has_technology_researched = colonization
+					OR = {
+						is_country_type = recognized
+						is_country_type = colonial
+					}
+					scope:target_country = {
+						is_country_type = unrecognized
+						country_is_in_africa = yes
+					}
+				}
+				add = 15
+			}
+			
+			if = {
+				limit = {
+					can_reach_target_country = yes
 					has_technology_researched = civilizing_mission
 					OR = {
 						is_country_type = recognized
@@ -3504,7 +3601,7 @@ ai_strategy_default = {
 						country_is_in_south_america = no
 					}
 				}
-				add = 30
+				add = 50
 			}
 			
 			if = {
@@ -3520,7 +3617,7 @@ ai_strategy_default = {
 						country_is_in_africa = yes
 					}
 				}
-				add = 20
+				add = 50
 			}
 
 			min = 0
