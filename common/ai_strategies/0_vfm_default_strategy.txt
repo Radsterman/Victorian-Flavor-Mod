@@ -199,7 +199,21 @@ ai_strategy_default = {
 			value = 10		
 		}			
 		institution_centralization = {	
-			value = 10		
+			value = 10	
+			
+			if = {
+				limit = {
+					any_subject_or_below = {
+						OR = {
+							is_subject_type = dependency
+							is_subject_type = puppet
+							is_subject_type = vassal
+						}
+						is_adjacent = root
+					}
+				}
+				add = 2.5
+			}
 		}			
 	}	
 	
@@ -3057,6 +3071,52 @@ ai_strategy_default = {
 					}
 				}
 				add = 120
+			}
+
+			if = {
+				limit = {
+					has_journal_entry = je_sick_man_syria
+					scope:target_state = {
+						OR = {
+							state_region = STATE_ALEPPO
+							state_region = STATE_SYRIA
+							state_region = STATE_LEBANON
+							state_region = STATE_PALESTINE
+							state_region = STATE_TRANSJORDAN
+							state_region = STATE_ADANA
+						}
+					}
+				}
+				add = 50
+			}
+
+			if = {
+				limit = {
+					has_journal_entry = je_sick_man_egypt
+					scope:target_state = {
+						OR = {
+							state_region = STATE_SINAI
+							state_region = STATE_UPPER_EGYPT
+							state_region = STATE_MIDDLE_EGYPT
+							state_region = STATE_LOWER_EGYPT
+						}
+					}
+				}
+				add = 30
+			}
+
+			if = {
+				limit = {
+					has_journal_entry = je_the_eastern_border
+					scope:target_state = {
+						OR = {
+							state_region = STATE_OUTER_MANCHURIA 
+							state_region = STATE_JETISY 
+							state_region = STATE_TOMSK
+						}
+					}
+				}
+				add = 50
 			}
 
 			min = 0
