@@ -146,6 +146,15 @@ ai_strategy_default = {
             }
             add = 0.6
         }
+		if = {
+            limit = {
+                OR = {
+                    has_journal_entry = je_sick_man_syria
+                    has_journal_entry = je_sick_man_egypt
+                }
+            }
+            add = 0.3
+        }
 	}
 	
 	# How many barracks relative to incorporated population should the AI have
@@ -3087,7 +3096,7 @@ ai_strategy_default = {
 						}
 					}
 				}
-				add = 50
+				add = 75
 			}
 
 			if = {
@@ -3102,7 +3111,7 @@ ai_strategy_default = {
 						}
 					}
 				}
-				add = 30
+				add = 50
 			}
 
 			if = {
@@ -3116,7 +3125,7 @@ ai_strategy_default = {
 						}
 					}
 				}
-				add = 50
+				add = 75
 			}
 
 			min = 0
@@ -3470,6 +3479,33 @@ ai_strategy_default = {
 					
 				}
 				add = 50
+			}
+			
+			if = {
+				limit = {
+					can_reach_target_country = yes
+					has_technology_researched = colonization
+					scope:target_country = {
+						country_is_in_africa = no
+						country_is_in_north_america = no
+						country_is_in_central_america = no
+						country_is_in_south_america = no
+						is_country_type = unrecognized
+					}
+				}
+				add = 30
+			}
+			
+			if = {
+				limit = {
+					can_reach_target_country = yes
+					has_technology_researched = civilizing_mission
+					scope:target_country = {
+						country_is_in_africa = yes
+						is_country_type = unrecognized
+					}
+				}
+				add = 20
 			}
 
 			min = 0
@@ -3922,6 +3958,18 @@ ai_strategy_default = {
 			#	}
 			#	add = 150
 			#}
+			
+			if = {
+				limit = {
+					can_reach_target_country = yes
+					has_technology_researched = civilizing_mission
+					scope:target_country = {
+						country_is_in_africa = yes
+						is_country_type = unrecognized
+					}
+				}
+				add = 75
+			}
 
 			min = 0
 			max = 200			
