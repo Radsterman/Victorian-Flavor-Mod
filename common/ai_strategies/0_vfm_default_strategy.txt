@@ -3284,8 +3284,16 @@ ai_strategy_default = {
 			if = {
 				limit = {
 					has_treaty_port_in_country = scope:target_country
+					scope:target_country = { country_rank < unrecognized_regional_power }
 				}
 				multiply = 0
+			}
+
+			if = {
+				limit = {
+					scope:target_country = { NOT = { is_country_type = unrecognized } }
+				}
+				multiply = 0.1
 			}
 			
 			if = {
@@ -3484,7 +3492,7 @@ ai_strategy_default = {
 			if = {
 				limit = {
 					can_reach_target_country = yes
-					has_technology_researched = colonization
+					has_technology_researched = civilizing_mission
 					OR = {
 						is_country_type = recognized
 						is_country_type = colonial
