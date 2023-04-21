@@ -70,7 +70,7 @@ ai_strategy_default = {
 				country_rank >= rank_value:great_power
 				NOT = { has_technology_researched = multilateral_alliances }
 			}
-			add = 50
+			add = 10
 		}
 	}
 	
@@ -3891,7 +3891,34 @@ ai_strategy_default = {
 
 			min = 0
 			max = 200				
-		}			
+		}
+
+		unification_leadership = {
+			value = 100
+		
+			#add = {
+			#	value = scope:target_country.gdp
+			#	divide = 100000
+			#	max = 100				
+			#}
+
+			if = {
+				limit = {
+					has_journal_entry = je_german_unification
+				}
+				add = 50
+			}
+
+			if = {
+				limit = {
+					has_strategic_adjacency = scope:target_country
+				}
+				multiply = 1.25
+			}
+
+			min = 0
+			max = 200				
+		}	
 
 		liberate_subject = {
 			value = 0	
