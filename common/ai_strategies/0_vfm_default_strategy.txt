@@ -871,6 +871,37 @@ ai_strategy_default = {
 			}
 			add = 5
 		}
+		
+        # Switzerland less aggressive and less likely to be target
+        if = {
+            limit = {
+                exists = c:SWI
+                THIS = c:SWI
+            }
+            add = -25
+        }
+		
+        # French conquest of Algeria
+		if = {
+			limit = {
+                exists = c:FRA
+                THIS = c:FRA
+				scope:target_country = {
+					any_scope_state = {
+						OR = {
+							state_region = s:STATE_TLEMCEN
+							state_region = s:STATE_ALGIERS
+							state_region = s:STATE_CONSTANTINE
+							state_region = s:STATE_TOUGGOURT
+							state_region = s:STATE_GHARDAIA
+							state_region = s:STATE_SAHARA
+							state_region = s:STATE_EAST_SAHARA
+						}
+					}
+				}
+			}
+			add = 100
+		}
 			
 		#Aggression against unrecognized countries once colonization has begun and already owns state in region
 		if = {
@@ -4081,6 +4112,26 @@ ai_strategy_default = {
 					}
 				}
 				add = 75
+			}
+		
+			# French conquest of Algeria
+			if = {
+				limit = {
+					exists = c:FRA
+					THIS = c:FRA
+					scope:target_country.capital = {
+						OR = {
+							state_region = s:STATE_TLEMCEN
+							state_region = s:STATE_ALGIERS
+							state_region = s:STATE_CONSTANTINE
+							state_region = s:STATE_TOUGGOURT
+							state_region = s:STATE_GHARDAIA
+							state_region = s:STATE_SAHARA
+							state_region = s:STATE_EAST_SAHARA
+						}
+					}
+				}
+				add = 100
 			}
 
 			min = 0
