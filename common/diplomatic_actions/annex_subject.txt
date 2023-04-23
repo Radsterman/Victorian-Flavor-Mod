@@ -270,6 +270,37 @@
 
 		propose_score = {
 			value = 10
+			
+			if = {
+				limit = {
+					scope:actor = {
+						NOT = { is_adjacent = root }
+					}
+				}
+				add = {
+					value = -20
+				}
+			}
+			
+			if = {
+				limit = {
+					any_subject_or_below = {
+						is_adjacent = root
+						is_adjacent = scope:actor
+					}
+					scope:actor = {
+						is_coastal = yes
+					}
+					NOT = {
+						scope:actor = {
+							NOT = { is_adjacent = root }
+						}
+					}
+				}
+				add = {
+					value = 20
+				}
+			}
 		}
 
 		propose_break_score = {
