@@ -2,15 +2,22 @@
 	icon = "gfx/interface/icons/event_icons/event_academia.dds"
 
 	complete = {
-		any_scope_building = {
-			is_building_type = building_university
-			occupancy > 0.9
-			level >= 5
+		OR = {
+			AND = {
+				any_scope_building = {
+					is_building_type = building_university
+					occupancy > 0.9
+					level >= 5
+				}
+				institution_investment_level = {
+					institution = institution_schools 
+					value >= 2
+				}
+			}
+			ig:ig_intelligentsia = {
+				is_powerful = yes
+			}
 		}
-		institution_investment_level = {
-	  		institution = institution_schools 
-	 		value >= 2
-  		}
 	}
 
 	on_complete = {
@@ -24,15 +31,18 @@ je_sadae = {
 	icon = "gfx/interface/icons/event_icons/event_diplomacy.dds"
 
 	complete = {
-		top_overlord = {
-			custom_tooltip = {
-				text = kor_chi_relations_tt
-				relations:root >= relations_threshold:amicable
+		OR = {
+			top_overlord = {
+				custom_tooltip = {
+					text = kor_chi_relations_tt
+					relations:root >= relations_threshold:amicable
+				}
+				custom_tooltip = {
+					text = kor_chi_obligation_tt
+					owes_obligation_to = root
+				}
 			}
-			custom_tooltip = {
-				text = kor_chi_obligation_tt
-				owes_obligation_to = root
-			}
+			GDP >= c:CHI.GDP
 		}
 	}
 
