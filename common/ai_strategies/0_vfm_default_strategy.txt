@@ -72,6 +72,28 @@ ai_strategy_default = {
 			}
 			add = 10
 		}
+				
+		#if = {
+		#	limit = {
+		#		has_diplomatic_pact = {
+		#			who = scope:target_country.top_overlord
+		#			type = rivalry
+		#		}							
+		#	}
+		#	subtract = 100
+		#}
+		#
+		#if = {
+		#	limit = {
+		#		scope:target_country = {
+		#			has_attitude = {
+		#				who = scope:target_country.top_overlord
+		#				attitude = rebellious
+		#			}
+		#		}						
+		#	}
+		#	subtract = 20
+		#}
 	}
 	
 	# Added to base boldness in diplomatic plays	
@@ -3088,6 +3110,40 @@ ai_strategy_default = {
 				multiply = 0
 			}
 			
+			if = {
+				limit = {
+					is_adjacent = scope:target_country
+					has_technology_researched = civilizing_mission
+					has_colonial_growth = yes
+					OR = {
+						is_country_type = recognized
+						is_country_type = colonial
+					}
+					scope:target_country = {
+						is_country_type = unrecognized
+						country_is_in_africa = no
+					}
+				}
+				add = 5
+			}
+			
+			if = {
+				limit = {
+					is_adjacent = scope:target_country
+					has_technology_researched = civilizing_mission
+					has_colonial_growth = yes
+					OR = {
+						is_country_type = recognized
+						is_country_type = colonial
+					}
+					scope:target_country = {
+						is_country_type = unrecognized
+						country_is_in_africa = yes
+					}
+				}
+				add = 5
+			}
+			
 			min = 0
 			max = 100			
 		}
@@ -3601,42 +3657,43 @@ ai_strategy_default = {
 				add = 50
 			}
 			
-			if = {
-				limit = {
-					can_reach_target_country = yes
-					has_technology_researched = colonization
-					OR = {
-						is_country_type = recognized
-						is_country_type = colonial
-					}
-					scope:target_country = {
-						is_country_type = unrecognized
-						country_is_in_africa = no
-					}
-				}
-				add = 15
-			}
-			
-			if = {
-				limit = {
-					can_reach_target_country = yes
-					has_technology_researched = colonization
-					OR = {
-						is_country_type = recognized
-						is_country_type = colonial
-					}
-					scope:target_country = {
-						is_country_type = unrecognized
-						country_is_in_africa = yes
-					}
-				}
-				add = 15
-			}
+			#if = {
+			#	limit = {
+			#		can_reach_target_country = yes
+			#		has_technology_researched = colonization
+			#		OR = {
+			#			is_country_type = recognized
+			#			is_country_type = colonial
+			#		}
+			#		scope:target_country = {
+			#			is_country_type = unrecognized
+			#			country_is_in_africa = no
+			#		}
+			#	}
+			#	add = 15
+			#}
+			#
+			#if = {
+			#	limit = {
+			#		can_reach_target_country = yes
+			#		has_technology_researched = colonization
+			#		OR = {
+			#			is_country_type = recognized
+			#			is_country_type = colonial
+			#		}
+			#		scope:target_country = {
+			#			is_country_type = unrecognized
+			#			country_is_in_africa = yes
+			#		}
+			#	}
+			#	add = 15
+			#}
 			
 			if = {
 				limit = {
 					can_reach_target_country = yes
 					has_technology_researched = civilizing_mission
+					has_colonial_growth = yes
 					OR = {
 						is_country_type = recognized
 						is_country_type = colonial
@@ -3655,6 +3712,7 @@ ai_strategy_default = {
 				limit = {
 					can_reach_target_country = yes
 					has_technology_researched = civilizing_mission
+					has_colonial_growth = yes
 					OR = {
 						is_country_type = recognized
 						is_country_type = colonial
@@ -4229,12 +4287,14 @@ ai_strategy_default = {
 				
 				if = {
 					limit = {
-						has_attitude = {
-							who = scope:target_country
-							attitude = rebellious
-						}				
+						scope:target_country = {
+							has_attitude = {
+								who = scope:target_country.top_overlord
+								attitude = rebellious
+							}
+						}						
 					}
-					add = 25
+					add = 35
 				}
 
 				if = {
