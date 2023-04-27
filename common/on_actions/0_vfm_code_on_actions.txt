@@ -108,23 +108,15 @@ on_weekly_pulse = {
 		exp_thousand.107
 	}
 	effect = {
-		if = {
-			limit = {
-				has_law = law_type:law_frontier_colonialism
-			}
-			every_scope_state = {
-				limit = {
-					is_under_colonization = yes
-				}
-				add_modifier = frontier_colonialism_modifier
-			}
-		}
 	}
 }
 
 # Root = Colony state
 on_colony_created = {
 	effect = {
+		owner = {
+			save_scope_as = colony_founder
+		}
 		owner = {
 			if = {
 				limit = {
@@ -164,6 +156,19 @@ on_colony_created = {
 					}
 				}
 			}
+		}
+		if = {
+			limit = {
+				owner = { has_law = law_type:law_frontier_colonialism }
+				NOT = {
+					any_neighbouring_state = {
+						is_incorporated = yes
+						owner = scope:colony_founder
+					}
+					#has_modifier = frontier_colonialism_modifier
+				}
+			}
+			add_modifier = frontier_colonialism_modifier
 		}
 	}
 }
@@ -654,6 +659,36 @@ on_law_activated = {
 	events = {
 	}
 	effect = {
+		if = {
+			limit = {
+				has_law = law_type:law_frontier_colonialism
+			}
+			every_scope_state = {
+				limit = {
+					is_under_colonization = yes
+					NOT = {
+						has_modifier = frontier_colonialism_modifier
+						any_neighbouring_state = {
+							is_incorporated = yes
+							owner = scope:colony_founder
+						}
+					}
+				}
+				add_modifier = frontier_colonialism_modifier
+			}
+		}
+		if = {
+			limit = {
+				NOT = { has_law = law_type:law_frontier_colonialism }
+			}
+			every_scope_state = {
+				limit = {
+					is_under_colonization = yes
+					has_modifier = frontier_colonialism_modifier
+				}
+				remove_modifier = frontier_colonialism_modifier
+			}
+		}
 		#if = {
 		#	limit = {
 		#		AND = {
