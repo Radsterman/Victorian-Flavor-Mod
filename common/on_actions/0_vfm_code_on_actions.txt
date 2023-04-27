@@ -162,7 +162,13 @@ on_colony_created = {
 				owner = { has_law = law_type:law_frontier_colonialism }
 				NOT = {
 					any_neighbouring_state = {
-						is_incorporated = yes
+						OR = {
+							is_incorporated = yes
+							any_neighbouring_state = {
+								is_incorporated = yes
+								owner = scope:colony_founder
+							}
+						}
 						owner = scope:colony_founder
 					}
 					#has_modifier = frontier_colonialism_modifier
