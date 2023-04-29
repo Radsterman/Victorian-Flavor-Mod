@@ -176,6 +176,27 @@ on_colony_created = {
 			}
 			add_modifier = frontier_colonialism_modifier
 		}
+		#temporary solution giving barracks to colonies to prevent being overrun
+		if = {
+			limit = {
+				owner = {
+					country_is_in_africa = no
+					is_ai = yes
+				}
+				is_under_colonization = yes
+				is_incorporated = no
+				OR = {
+					state_in_africa = yes
+				}
+				NOT = {
+					has_building = building_barracks
+				}
+			}
+			create_building = {
+				building = building_barracks
+				level = 1
+			}
+		}
 	}
 }
 
