@@ -1,19 +1,4 @@
-﻿CRL = { # Courland
-	flag_definition = {
-		coa = CRL
-		subject_canton = CRL
-		priority = 1
-	}
-	flag_definition = {
-		coa = CRL_russian
-		priority = 1000
-		trigger = {
-			coa_def_russian_ensign_trigger = yes
-		}
-	}
-}
-
-BUE = { 
+﻿BUE = { 
 	flag_definition = {
 		coa = BUE
 		subject_canton = BUE
@@ -395,6 +380,7 @@ NEW = { # Newfoundland
 		}
 	}
 }
+
 TRH = { # Turkestan
 	flag_definition = {
 		coa = TRH
@@ -409,6 +395,262 @@ TRH = { # Turkestan
 		priority = 20
 		trigger = {
 			coa_def_russian_subject_trigger = yes
+		}
+	}
+}
+
+AFS = {
+	flag_definition = {
+		coa = AFS
+		subject_canton = AFS
+		allow_overlord_canton = no
+		priority = 100
+		trigger = {
+			exists= c:AFS
+			scope:actor = {
+				any_state = {
+					owner = c:AFS
+					region = sr:region_congo
+				}
+			}
+		}
+	}
+
+	flag_definition = {
+		coa = AFS_orange
+		subject_canton = AFS
+		allow_overlord_canton = no
+		priority = 100
+		trigger = {
+			exists= c:AFS
+			scope:actor = {
+				any_state = {
+					owner = c:AFS
+					region = sr:region_southern_africa
+				}
+			}
+		}
+	}
+
+	flag_definition = {
+		coa = AFS_zambezi
+		subject_canton = AFS
+		allow_overlord_canton = no
+		priority = 100
+		trigger = {
+			exists= c:AFS
+			scope:actor = {
+				any_state = {
+					owner = c:AFS
+					region = sr:region_zanj
+				}
+			}
+		}
+	}
+
+	flag_definition = {
+		coa = AFS_nile
+		subject_canton = AFS
+		allow_overlord_canton = no
+		priority = 100
+		trigger = {
+			exists= c:AFS
+			scope:actor = {
+				any_state = {
+					owner = c:AFS
+					region = sr:region_nile_basin
+				}
+			}
+		}
+	}
+
+	flag_definition = {
+		coa = AFS_niger
+		subject_canton = AFS
+		allow_overlord_canton = no
+		priority = 100
+		trigger = {
+			exists= c:AFS
+			scope:actor = {
+				any_state = {
+					owner = c:AFS
+					OR = {
+						region = sr:region_niger
+						region = sr:region_senegal
+					}
+				}
+			}
+		}
+	}
+
+	flag_definition = {
+		coa = AFS_sahara
+		subject_canton = AFS
+		allow_overlord_canton = no
+		priority = 100
+		trigger = {
+			exists= c:AFS
+			scope:actor = {
+				any_state = {
+					owner = c:AFS
+					region = sr:region_north_africa
+				}
+			}
+		}
+	}
+
+}
+BIC = { # British East India Company
+	flag_definition = { # this is the raj flag
+		coa = BIC
+		coa_with_overlord_canton = BIC_subject
+		allow_overlord_canton = yes
+		priority = 1
+	}
+	flag_definition = { # this is the company flag
+		coa = BIC_republic
+		coa_with_overlord_canton = BIC_republic
+		allow_overlord_canton = yes
+		overlord_canton_scale = { 0.5 0.5 }
+		priority = 10
+		trigger = { 
+			coa_def_republic_flag_trigger = yes
+			OR = {
+				coa_def_independent_trigger = yes
+
+				AND = {
+					exists = c:GBR
+					c:GBR = {
+						has_diplomatic_pact = {
+							who = c:BIC
+							type = chartered_company
+							is_initiator = yes
+						}
+					}
+				}
+			}
+		}
+	}
+	flag_definition = {
+		coa = BIC_dictatorship
+		subject_canton = sub_BIC_cypher
+		priority = 20
+		trigger = { 
+			coa_def_independent_trigger = yes
+			coa_def_dictatorship_flag_trigger = yes
+		}
+	}	
+}
+
+BOL = { # Bolivia
+	flag_definition = {
+		coa = BOL_dictatorship
+		subject_canton = BOL_dictatorship
+		allow_overlord_canton = yes
+		coa_with_overlord_canton = BOL_subject
+		priority = 1
+	}
+	flag_definition = {
+		coa = BOL
+		subject_canton = BOL
+		allow_overlord_canton = yes
+		coa_with_overlord_canton = BOL_subject
+		priority = 100
+		trigger = {
+			coa_def_time_bol_flag_trigger = yes
+		}
+	}
+	flag_definition = {
+		coa = BOL_united
+		subject_canton = BOL_united
+		allow_overlord_canton = yes
+		coa_with_overlord_canton = BOL_subject
+		priority = 2000
+		trigger = {
+			coa_peru_bolivia_trigger = yes
+		}
+	}
+	flag_definition = {
+		coa = BOL_monarchy
+		subject_canton = BOL_monarchy
+		allow_overlord_canton = yes
+		coa_with_overlord_canton = BOL_subject
+		priority = 5
+		trigger = {
+			coa_def_monarchy_flag_trigger = yes
+		}
+	}
+	flag_definition = {
+		coa = BOL_communist
+		priority = 1500
+		trigger = {
+			coa_def_communist_flag_trigger = yes
+		}
+	}
+	flag_definition = {
+		coa = BOL_subject_SPA
+		priority = 50
+		trigger = {
+			coa_def_spanish_ensign_trigger = yes
+		}
+	}
+}
+
+BPR = { # Bombay Presidency
+	flag_definition = { # this is the raj flag
+		coa = BIC
+		coa_with_overlord_canton = BIC_subject
+		allow_overlord_canton = yes
+		priority = 1
+	}
+	flag_definition = { # this is the company flag
+		coa = BIC_republic
+		coa_with_overlord_canton = BIC_republic
+		allow_overlord_canton = yes
+		overlord_canton_scale = { 0.5 0.5 }
+		priority = 10
+		trigger = { 
+			coa_def_republic_flag_trigger = yes
+			OR = {
+				coa_def_independent_trigger = yes
+
+				AND = {
+					exists = c:GBR
+					c:GBR = {
+						has_diplomatic_pact = {
+							who = c:BPR
+							type = chartered_company
+							is_initiator = yes
+						}
+					}
+				}
+			}
+		}
+	}
+	flag_definition = {
+		coa = BIC_dictatorship
+		subject_canton = sub_BIC_cypher
+		priority = 20
+		trigger = { 
+			coa_def_independent_trigger = yes
+			coa_def_dictatorship_flag_trigger = yes
+		}
+	}	
+}
+
+CAL = { # California
+	flag_definition = {
+		coa = CAL
+		allow_overlord_canton = yes
+		subject_canton = CAL
+	}
+	flag_definition = {
+		coa = CAL_communist
+		#allow_overlord_canton = yes
+		subject_canton = CAL_communist_canton
+		priority = 1500
+		trigger = {
+			coa_def_communist_flag_trigger = yes
 		}
 	}
 }
@@ -470,58 +712,167 @@ CAR = { # Spain
 	}
 }
 
-BOL = { # Bolivia
-    flag_definition = {
-		coa = BOL_dictatorship
-		subject_canton = BOL_dictatorship
-		allow_overlord_canton = yes
-		coa_with_overlord_canton = BOL_subject
+CPL = { # Congress Poland
+	flag_definition = {
+		coa = CPL
+		subject_canton = CPL
+		priority = 1
+	}
+}
+
+CRL = { # Courland
+	flag_definition = {
+		coa = CRL
+		subject_canton = CRL
 		priority = 1
 	}
 	flag_definition = {
-		coa = BOL
-		subject_canton = BOL
-		allow_overlord_canton = yes
-		coa_with_overlord_canton = BOL_subject
-		priority = 100
+		coa = CRL_russian
+		priority = 1000
 		trigger = {
-			coa_def_time_bol_flag_trigger = yes
+			coa_def_russian_ensign_trigger = yes
 		}
 	}
+}
+
+ESP = { # Peru
 	flag_definition = {
-		coa = BOL_united
-		subject_canton = BOL_united
+		coa = NEU
+		subject_canton = NEU
 		allow_overlord_canton = yes
-		coa_with_overlord_canton = BOL_subject
-		priority = 2000
-		trigger = {
-			coa_peru_bolivia_trigger = yes
-		}
+		coa_with_overlord_canton = PEU_subject
+		priority = 1
 	}
 	flag_definition = {
-		coa = BOL_monarchy
-		subject_canton = BOL_monarchy
+		coa = PEU_monarchy
+		subject_canton = PEU_monarchy
 		allow_overlord_canton = yes
-		coa_with_overlord_canton = BOL_subject
+		coa_with_overlord_canton = PEU_subject
 		priority = 5
 		trigger = {
 			coa_def_monarchy_flag_trigger = yes
 		}
 	}
 	flag_definition = {
-		coa = BOL_communist
+		coa = PEU_absolute_monarchy
+		subject_canton = PEU_absolute_monarchy
+		priority = 20
+		trigger = {
+			coa_def_absolute_monarchy_flag_trigger = yes
+		}
+	}
+	flag_definition = {
+		coa = PEU_republic
+		subject_canton = PEU_republic
+		priority = 10
+		trigger = {
+			coa_def_republic_flag_trigger = yes
+		}
+	}
+	flag_definition = {
+		coa = PEU_communist
 		priority = 1500
 		trigger = {
 			coa_def_communist_flag_trigger = yes
 		}
 	}
 	flag_definition = {
-		coa = BOL_subject_SPA
+		coa = NEU
+		subject_canton = NEU
+		allow_overlord_canton = yes
+		coa_with_overlord_canton = PEU_subject
+		priority = 20
+		trigger = {
+			coa_def_dictatorship_flag_trigger = yes
+		}
+	}
+	flag_definition = {
+		coa = PEU_subject_SPA
 		priority = 50
 		trigger = {
 			coa_def_spanish_ensign_trigger = yes
 		}
 	}
+	flag_definition = {
+		coa = NEU
+		priority = 100
+		trigger = {
+			coa_def_bolivian_subject_trigger = yes
+		}
+	}
+}
+
+GAL = { # Galicia (Halych)
+	flag_definition = {
+		coa = GAL
+		subject_canton = GAL
+		priority = 1
+	}
+}
+
+LAT = { # Latvia
+	flag_definition = {
+		coa = LAT
+		subject_canton = LAT
+		allow_overlord_canton = yes
+		priority = 1
+	}
+	flag_definition = {
+		coa = LAT_communist
+		priority = 1500
+		trigger = {
+			coa_def_communist_flag_trigger = yes
+		}
+	}
+	flag_definition = {
+		coa = LAT_subject
+		priority = 20
+		trigger = {
+			coa_def_russian_subject_trigger = yes
+		}
+	}
+}
+
+MPR = { # Madras Presidency
+	flag_definition = { # this is the raj flag
+		coa = BIC
+		coa_with_overlord_canton = BIC_subject
+		allow_overlord_canton = yes
+		priority = 1
+	}
+	flag_definition = { # this is the company flag
+		coa = BIC_republic
+		coa_with_overlord_canton = BIC_republic
+		allow_overlord_canton = yes
+		overlord_canton_scale = { 0.5 0.5 }
+		priority = 10
+		trigger = { 
+			coa_def_republic_flag_trigger = yes
+			OR = {
+				coa_def_independent_trigger = yes
+
+				AND = {
+					exists = c:GBR
+					c:GBR = {
+						has_diplomatic_pact = {
+							who = c:MPR
+							type = chartered_company
+							is_initiator = yes
+						}
+					}
+				}
+			}
+		}
+	}
+	flag_definition = {
+		coa = BIC_dictatorship
+		subject_canton = sub_BIC_cypher
+		priority = 20
+		trigger = { 
+			coa_def_independent_trigger = yes
+			coa_def_dictatorship_flag_trigger = yes
+		}
+	}	
 }
 
 PEU = { # Peru
@@ -614,96 +965,6 @@ PBC = {
 
 }
 
-ESP = { # Peru
-	flag_definition = {
-		coa = NEU
-		subject_canton = NEU
-		allow_overlord_canton = yes
-		coa_with_overlord_canton = PEU_subject
-		priority = 1
-	}
-	flag_definition = {
-		coa = PEU_monarchy
-		subject_canton = PEU_monarchy
-		allow_overlord_canton = yes
-		coa_with_overlord_canton = PEU_subject
-		priority = 5
-		trigger = {
-			coa_def_monarchy_flag_trigger = yes
-		}
-	}
-	flag_definition = {
-		coa = PEU_absolute_monarchy
-		subject_canton = PEU_absolute_monarchy
-		priority = 20
-		trigger = {
-			coa_def_absolute_monarchy_flag_trigger = yes
-		}
-	}
-	flag_definition = {
-		coa = PEU_republic
-		subject_canton = PEU_republic
-		priority = 10
-		trigger = {
-			coa_def_republic_flag_trigger = yes
-		}
-	}
-	flag_definition = {
-		coa = PEU_communist
-		priority = 1500
-		trigger = {
-			coa_def_communist_flag_trigger = yes
-		}
-	}
-	flag_definition = {
-		coa = NEU
-		subject_canton = NEU
-		allow_overlord_canton = yes
-		coa_with_overlord_canton = PEU_subject
-		priority = 20
-		trigger = {
-			coa_def_dictatorship_flag_trigger = yes
-		}
-	}
-	flag_definition = {
-		coa = PEU_subject_SPA
-		priority = 50
-		trigger = {
-			coa_def_spanish_ensign_trigger = yes
-		}
-	}
-	flag_definition = {
-		coa = NEU
-		priority = 100
-		trigger = {
-			coa_def_bolivian_subject_trigger = yes
-		}
-	}
-}
-
-LAT = { # Latvia
-	flag_definition = {
-		coa = LAT
-		subject_canton = LAT
-		allow_overlord_canton = yes
-		priority = 1
-	}
-	flag_definition = {
-		coa = LAT_communist
-		priority = 1500
-		trigger = {
-			coa_def_communist_flag_trigger = yes
-		}
-	}
-	flag_definition = {
-		coa = LAT_subject
-		priority = 20
-		trigger = {
-			coa_def_russian_subject_trigger = yes
-		}
-	}
-}
-
 PER = { # Persia
 	flag_definition = {
 		coa = PER
@@ -764,14 +1025,6 @@ PER = { # Persia
 	}
 }
 
-GAL = { # Galicia (Halych)
-	flag_definition = {
-		coa = GAL
-		subject_canton = GAL
-		priority = 1
-	}
-}
-
 POS = { # Posen
 	flag_definition = {
 		coa = POS
@@ -785,14 +1038,6 @@ POS = { # Posen
 		trigger = {
 			coa_def_prussian_ensign_trigger = yes
 		}
-	}
-}
-
-CPL = { # Congress Poland
-	flag_definition = {
-		coa = CPL
-		subject_canton = CPL
-		priority = 1
 	}
 }
 
