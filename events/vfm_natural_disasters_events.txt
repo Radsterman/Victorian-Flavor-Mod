@@ -1,0 +1,90 @@
+﻿	namespace = vfm_natural_disaster_events
+
+vfm_natural_disaster_events.1 = { #Small Earthquake
+	type = state_event
+	placement = ROOT
+
+	title = vfm_natural_disaster_events.1.t
+	desc = vfm_natural_disaster_events.1.d
+	flavor = vfm_natural_disaster_events.1.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_devastation.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	trigger = {
+	    has_modifier = state_medeteranean_climate
+		any_scope_building = {
+			OR = {
+  				is_farm_building = yes
+  				is_plantation_building = yes
+  			}
+		}
+		NOT = { has_modifier = modifier_draught }
+	}
+	
+	option = { #move everyone there
+		name = vfm_natural_disaster_events.1.a
+		default_option = yes
+		add_modifier = {
+			name = modifier_draught
+			months = normal_modifier_time
+		}
+	}
+}
+
+goldrush.1 = { #gold discovered in a state
+	type = state_event
+	placement = ROOT
+	title = goldrush.1.t
+	desc = goldrush.1.d
+	flavor = goldrush.1.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_gold_prospectors.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	trigger = {
+		has_building = building_gold_fields
+		NOT = { has_modifier = state_gold_rush }
+	}
+
+	immediate = {
+		save_scope_as = goldrush_state
+	}
+
+	option = { #move everyone there
+		name = goldrush.1.a
+		default_option = yes
+		add_modifier = {
+			name = state_gold_rush
+			months = short_modifier_time
+		}
+	}
+	
+	option = { #explote it
+		name = goldrush.1.b
+		add_modifier = {
+			name = state_gold_rush_less_migration
+			months = short_modifier_time
+		}
+		add_modifier = {
+			name = state_gold_rush_explotation
+			months = short_modifier_time
+		}
+	}
+}
