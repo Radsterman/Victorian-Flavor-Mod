@@ -371,6 +371,351 @@ on_character_death = {
 	}
 }
 
+# Root = Releasing Country
+# scope:target = Released Country
+on_country_released_as_independent = {
+	effect = {
+		if = {
+			limit = {
+				OR = {
+					is_country_type = recognized
+					is_country_type = colonial
+				}
+				country_rank >= rank_value:great_power
+				scope:target = {
+					is_country_type = unrecognized
+				}
+			}
+			scope:target = {
+				set_country_type = recognized
+			}
+		}
+		if = {
+			limit = {
+				scope:target = {
+					country_has_primary_culture = cu:ashkenazi
+				}
+				NOT = {
+					s:STATE_PALESTINE = {
+						is_homeland = cu:ashkenazi
+					}
+				}
+			}
+			s:STATE_PALESTINE = {
+				add_homeland = sephardic
+				add_homeland = ashkenazi
+			}
+		}
+		scope:target = {
+			if = {
+				limit = {
+					country_has_state_religion = rel:theravada
+				}
+				ig:ig_devout = {
+					set_interest_group_name = ig_theravada_monks
+					remove_ideology = ideology_moralist
+					add_ideology = ideology_buddhist_moralist
+				}
+			}
+			if = {
+				limit = {
+					country_has_state_religion = rel:orthodox
+					OR = {
+						NOT = { exists = c:RUS }
+						NOT = { c:RUS = scope:target }
+					}
+				}
+				ig:ig_devout = {
+					set_interest_group_name = ig_orthodox_church
+					remove_ideology = ideology_patriarchal
+					add_ideology = ideology_orthodox_patriarch
+				}
+			}
+			if = {
+				limit = {
+					exists = c:RUS
+					c:RUS = scope:target
+				}
+				ig:ig_devout = {
+					set_interest_group_name = ig_orthodox_church
+					remove_ideology = ideology_patriarchal
+					add_ideology = ideology_russian_patriarch
+				}
+			}
+			if = {
+				limit = {
+					country_has_state_religion = rel:hindu
+				}
+				ig:ig_devout = {
+					set_interest_group_name = ig_hindu_priesthood
+					remove_ideology = ideology_hindu_moralist
+					add_ideology = ideology_hindu_moralist
+				}
+			}
+			if = {
+				limit = {
+					country_has_state_religion = rel:mahayana
+				}
+				ig:ig_devout = {
+					set_interest_group_name = ig_vajrayana_monks
+					remove_ideology = ideology_moralist
+					add_ideology = ideology_buddhist_moralist
+				}
+			}
+			if = {
+				limit = {
+					country_has_state_religion = rel:sikh
+				}
+				ig:ig_devout = {
+					set_interest_group_name = ig_sikh_priesthood
+					remove_ideology = ideology_moralist
+					add_ideology = ideology_sikh_moralist
+				}
+			}
+			if = {
+				limit = {
+					country_has_state_religion = rel:oriental_orthodox
+				}
+				ig:ig_devout = {
+					set_interest_group_name = ig_oriental_orthodox_church
+					remove_ideology = ideology_patriarchal
+					add_ideology = ideology_oriental_orthodox_patriarch
+				}
+			}
+		}
+	}
+}
+
+# Root = Releasing Country
+# scope:target = Released Country
+on_country_released_as_own_subject = {
+	effect = {
+		if = {
+			limit = {
+				OR = {
+					is_country_type = recognized
+					is_country_type = colonial
+				}
+				country_rank >= rank_value:great_power
+				scope:target = {
+					is_country_type = unrecognized
+				}
+			}
+			scope:target = {
+				set_country_type = recognized
+			}
+		}
+		if = {
+			limit = {
+				scope:target = {
+					country_has_primary_culture = cu:ashkenazi
+				}
+				NOT = {
+					s:STATE_PALESTINE = {
+						is_homeland = cu:ashkenazi
+					}
+				}
+			}
+			s:STATE_PALESTINE = {
+				add_homeland = sephardic
+				add_homeland = ashkenazi
+			}
+		}
+		scope:target = {
+			if = {
+				limit = {
+					country_has_state_religion = rel:theravada
+				}
+				ig:ig_devout = {
+					set_interest_group_name = ig_theravada_monks
+					remove_ideology = ideology_moralist
+					add_ideology = ideology_buddhist_moralist
+				}
+			}
+			if = {
+				limit = {
+					exists = c:RUS
+					c:RUS = scope:target
+				}
+				ig:ig_devout = {
+					set_interest_group_name = ig_orthodox_church
+					remove_ideology = ideology_patriarchal
+					add_ideology = ideology_russian_patriarch
+				}
+			}
+			if = {
+				limit = {
+					country_has_state_religion = rel:orthodox
+					OR = {
+						NOT = { exists = c:RUS }
+						NOT = { c:RUS = scope:target }
+					}
+				}
+				ig:ig_devout = {
+					set_interest_group_name = ig_orthodox_church
+					remove_ideology = ideology_patriarchal
+					add_ideology = ideology_orthodox_patriarch
+				}
+			}
+			if = {
+				limit = {
+					country_has_state_religion = rel:hindu
+				}
+				ig:ig_devout = {
+					set_interest_group_name = ig_hindu_priesthood
+					remove_ideology = ideology_hindu_moralist
+					add_ideology = ideology_hindu_moralist
+				}
+			}
+			if = {
+				limit = {
+					country_has_state_religion = rel:vajrayana
+				}
+				ig:ig_devout = {
+					set_interest_group_name = ig_vajrayana_monks
+					remove_ideology = ideology_moralist
+					add_ideology = ideology_buddhist_moralist
+				}
+			}
+			if = {
+				limit = {
+					country_has_state_religion = rel:sikh
+				}
+				ig:ig_devout = {
+					set_interest_group_name = ig_sikh_priesthood
+					remove_ideology = ideology_moralist
+					add_ideology = ideology_sikh_moralist
+				}
+			}
+			if = {
+				limit = {
+					country_has_state_religion = rel:oriental_orthodox
+				}
+				ig:ig_devout = {
+					set_interest_group_name = ig_oriental_orthodox_church
+					remove_ideology = ideology_patriarchal
+					add_ideology = ideology_oriental_orthodox_patriarch
+				}
+			}
+		}
+	}
+}
+
+# Root = Releasing Country
+# scope:target = Released Country
+on_country_released_as_overlord_subject = {
+	effect = {
+		if = {
+			limit = {
+				OR = {
+					is_country_type = recognized
+					is_country_type = colonial
+				}
+				country_rank >= rank_value:great_power
+				scope:target = {
+					is_country_type = unrecognized
+				}
+			}
+			scope:target = {
+				set_country_type = recognized
+			}
+		}
+		if = {
+			limit = {
+				scope:target = {
+					country_has_primary_culture = cu:ashkenazi
+				}
+				NOT = {
+					s:STATE_PALESTINE = {
+						is_homeland = cu:ashkenazi
+					}
+				}
+			}
+			s:STATE_PALESTINE = {
+				add_homeland = sephardic
+				add_homeland = ashkenazi
+			}
+		}
+		scope:target = {
+			if = {
+				limit = {
+					country_has_state_religion = rel:theravada
+				}
+				ig:ig_devout = {
+					set_interest_group_name = ig_theravada_monks
+					remove_ideology = ideology_moralist
+					add_ideology = ideology_buddhist_moralist
+				}
+			}
+			if = {
+				limit = {
+					country_has_state_religion = rel:orthodox
+					OR = {
+						NOT = { exists = c:RUS }
+						NOT = { c:RUS = scope:target }
+					}
+				}
+				ig:ig_devout = {
+					set_interest_group_name = ig_orthodox_church
+					remove_ideology = ideology_patriarchal
+					add_ideology = ideology_orthodox_patriarch
+				}
+			}
+			if = {
+				limit = {
+					exists = c:RUS
+					c:RUS = scope:target
+				}
+				ig:ig_devout = {
+					set_interest_group_name = ig_orthodox_church
+					remove_ideology = ideology_patriarchal
+					add_ideology = ideology_russian_patriarch
+				}
+			}
+			if = {
+				limit = {
+					country_has_state_religion = rel:hindu
+				}
+				ig:ig_devout = {
+					set_interest_group_name = ig_hindu_priesthood
+					remove_ideology = ideology_hindu_moralist
+					add_ideology = ideology_hindu_moralist
+				}
+			}
+			if = {
+				limit = {
+					country_has_state_religion = rel:vajrayana
+				}
+				ig:ig_devout = {
+					set_interest_group_name = ig_vajrayana_monks
+					remove_ideology = ideology_moralist
+					add_ideology = ideology_buddhist_moralist
+				}
+			}
+			if = {
+				limit = {
+					country_has_state_religion = rel:sikh
+				}
+				ig:ig_devout = {
+					set_interest_group_name = ig_sikh_priesthood
+					remove_ideology = ideology_moralist
+					add_ideology = ideology_sikh_moralist
+				}
+			}
+			if = {
+				limit = {
+					country_has_state_religion = rel:oriental_orthodox
+				}
+				ig:ig_devout = {
+					set_interest_group_name = ig_oriental_orthodox_church
+					remove_ideology = ideology_patriarchal
+					add_ideology = ideology_oriental_orthodox_patriarch
+				}
+			}
+		}
+	}
+}
+
 #BROKEN, USE BELOW ELECTION ON ACTIONS
 # Root = Country
 on_election_campaign_start = {
