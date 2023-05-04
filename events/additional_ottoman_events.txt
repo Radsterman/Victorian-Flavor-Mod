@@ -1,5 +1,5 @@
 ﻿namespace = ottoman_dynasty #events around deaths and succession
-namespace = tur_major_holidays #Light flavour events for holidays
+namespace = tur_major_holidays #Light flavor events for holidays
 namespace = tanzimat_events #reform and rebellion related events
 namespace = vilayet_events #events around the provinces and tributaries
 namespace = opda_events #the Ottoman Public Debt Administration
@@ -225,10 +225,13 @@ vilayet_events.3 = { #Egypt response - Khedivate offered
 				}
 			}
 		}
-		change_relations = {
-			country = c:TUR
-			value = 100
+		owner = {
+			change_relations = {
+				country = c:EGY
+				value = 100
+			}
 		}
+
 		set_variable = khedivate_conferred
 		ai_chance = {
 			base = 90
@@ -288,10 +291,6 @@ vilayet_events.4 = { #Egypt response - no Khedivate offered
 					set_state_owner = c:TUR
 				}
 			}
-		}
-		change_relations = {
-			country = c:TUR
-			value = 100
 		}
 		ai_chance = {
 			base = 45
@@ -396,7 +395,7 @@ vilayet_events.7 = { #Centralising the Kurdish Emirates
 					can_form_nation = KUR
 				}
 			}
-			save_scope_as = kurdish_annexation_target_state_1
+			owner = { save_scope_as = kurdish_annexation_target_state_1 }
 		}
 		random_state = {
 			limit = {
@@ -405,10 +404,10 @@ vilayet_events.7 = { #Centralising the Kurdish Emirates
 					is_player = no
 					country_has_primary_culture = cu:kurdish
 					can_form_nation = KUR
+					NOT = { this = scope:kurdish_annexation_target_state_1 }
 				}
-				NOT = { this = scope:kurdish_annexation_target_state_1 }
 			}
-			save_scope_as = kurdish_annexation_target_state_2
+			owner = { save_scope_as = kurdish_annexation_target_state_2 }
 		}
 		random_state = {
 			limit = {
@@ -417,11 +416,11 @@ vilayet_events.7 = { #Centralising the Kurdish Emirates
 					is_player = no
 					country_has_primary_culture = cu:kurdish
 					can_form_nation = KUR
+					NOT = { this = scope:kurdish_annexation_target_state_1 }
+					NOT = { this = scope:kurdish_annexation_target_state_2 }
 				}
-				NOT = { this = scope:kurdish_annexation_target_state_1 }
-				NOT = { this = scope:kurdish_annexation_target_state_2 }
 			}
-			save_scope_as = kurdish_annexation_target_state_3
+			owner = { save_scope_as = kurdish_annexation_target_state_3 }
 		}
 	}
 
@@ -429,11 +428,11 @@ vilayet_events.7 = { #Centralising the Kurdish Emirates
 		name = vilayet_events.7.a
 		default_option = yes
 		scope:kurdish_annexation_target_state_1 = {
-			set_state_owner = ROOT
 			add_radicals = {
 				value = very_large_radicals
 			}
 		}
+		annex = scope:kurdish_annexation_target_state_1
 		create_incident = {
 			country = scope:kurdish_annexation_target_state_1.owner
 			value = 2
@@ -446,11 +445,11 @@ vilayet_events.7 = { #Centralising the Kurdish Emirates
 			exists = scope:kurdish_annexation_target_state_2
 		}
 		scope:kurdish_annexation_target_state_2 = {
-			set_state_owner = ROOT
 			add_radicals = {
 				value = very_large_radicals
 			}
 		}
+		annex = scope:kurdish_annexation_target_state_2
 		create_incident = {
 			country = scope:kurdish_annexation_target_state_2.owner
 			value = 2
@@ -463,11 +462,11 @@ vilayet_events.7 = { #Centralising the Kurdish Emirates
 			exists = scope:kurdish_annexation_target_state_3
 		}
 		scope:kurdish_annexation_target_state_3 = {
-			set_state_owner = ROOT
 			add_radicals = {
 				value = very_large_radicals
 			}
 		}
+		annex = scope:kurdish_annexation_target_state_3
 		create_incident = {
 			country = scope:kurdish_annexation_target_state_3.owner
 			value = 2
@@ -706,15 +705,17 @@ tanzimat_events.12 = {
 	}
 	option = { #The Kurds can't be trusted, reinforce the local garrisons
 		name = tanzimat_events.12.b
-		every_scope_state = {
-			limit = {
-				state_region = {
-					is_homeland = cu:kurdish
+		owner = {
+			every_scope_state = {
+				limit = {
+					state_region = {
+						is_homeland = cu:kurdish
+					}
 				}
-			}
-			add_radicals = {
-				value = small_radicals
-				culture = cu:kurdish
+				add_radicals = {
+					value = small_radicals
+					culture = cu:kurdish
+				}
 			}
 		}
 		scope:mount_lebanon_state.state_region = {
@@ -891,7 +892,7 @@ tanzimat_events.15 = {
 			random_scope_state = {
 				limit = {
 					owner = {
-						c:TUR = THIS
+						c:TUR = this
 					}
 				}
 				save_scope_as = mount_lebanon_state
@@ -901,41 +902,42 @@ tanzimat_events.15 = {
 			random_scope_state = {
 				limit = {
 					owner = {
-						c:TUR = THIS
-					}
-				}
+						c:TUR = this
+					}				}
 				save_scope_as = damascus_state
 			}
 		}
-		random_scope_character = {
-			limit = {
-				is_ruler = no
-				has_role = general
+		owner = {
+			random_scope_character = {
+				limit = {
+					is_ruler = no
+					has_role = general
+				}
+				save_scope_as = lebanon_pacifier_1
 			}
-			save_scope_as = lebanon_pacifier_1
-		}
 		
-		random_scope_character = {
-			limit = {
-				is_ruler = no
-				has_role = general
-				NOT = {
-					this = scope:lebanon_pacifier_1
+			random_scope_character = {
+				limit = {
+					is_ruler = no
+					has_role = general
+					NOT = {
+						this = scope:lebanon_pacifier_1
+					}
 				}
+				save_scope_as = lebanon_pacifier_2
 			}
-			save_scope_as = lebanon_pacifier_2
-		}
 
-		random_scope_character = {
-			limit = {
-				is_ruler = no
-				has_role = general
-				NOR = {
-					this = scope:lebanon_pacifier_1
-					this = scope:lebanon_pacifier_2
+			random_scope_character = {
+				limit = {
+					is_ruler = no
+					has_role = general
+					NOR = {
+						this = scope:lebanon_pacifier_1
+						this = scope:lebanon_pacifier_2
+					}
 				}
+				save_scope_as = lebanon_pacifier_3
 			}
-			save_scope_as = lebanon_pacifier_3
 		}
 		trigger_event = {
 			id = tanzimat_events.16
@@ -967,7 +969,7 @@ tanzimat_events.15 = {
 		}
 	}
 	option = { #Send leader #2
-		name = tanzimat_events.15.a
+		name = tanzimat_events.15.b
 		default_option = yes
 		scope:damascus_state = {
 			add_modifier = { 
@@ -981,7 +983,7 @@ tanzimat_events.15 = {
 		}
 	}
 	option = { #Send leader #3
-		name = tanzimat_events.15.a
+		name = tanzimat_events.15.c
 		default_option = yes
 		scope:damascus_state = {
 			add_modifier = { 
@@ -1026,11 +1028,13 @@ tanzimat_events.16 = {
 				save_scope_as = damascus_state
 			}
 		}
-		random_scope_character = {
-			limit = {
-				has_variable = pacifying_lebanon_var 
+		owner = {
+			random_scope_character = {
+				limit = {
+					has_variable = pacifying_lebanon_var 
+				}
+				save_scope_as = lebanon_pacifier
 			}
-			save_scope_as = lebanon_pacifier
 		}
 	}
 	event_image = {

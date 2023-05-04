@@ -5,12 +5,30 @@
 
 	potential = {
 		scope:target_country = {
-			is_subject_of = ROOT
+			is_direct_subject_of = root
+			OR = {
+				is_adjacent = root
+				AND = {
+					is_coastal = yes
+					any_neighboring_state = {
+						owner = { 
+							is_adjacent = root
+							is_direct_subject_of = root
+						}
+					}
+				}
+			}
 			OR = {
 				is_subject_type = subject_type_puppet
-				is_subject_type = subject_type_dependency
 				is_subject_type = subject_type_vassal
+				is_subject_type = subject_type_dependency
+				is_subject_type = subject_type_real_union
 			}
+			NOT = { 
+				is_country_type = colonial
+			}
+			overlord = { NOT = { is_subject_type = subject_type_customs_union } }
+			#NOT = { overlord = { has_diplomatic_pact = { who = overlord type = customs_union } } 
 		}
 	}
 
@@ -32,6 +50,15 @@
 				AND = {
 					scope:target_country = {
 						is_subject_type = subject_type_dependency
+					}
+					institution_investment_level = {
+						institution = institution_centralization
+						value >= 3
+					}
+				}
+				AND = {
+					scope:target_country = {
+						is_subject_type = subject_type_real_union
 					}
 					institution_investment_level = {
 						institution = institution_centralization
@@ -267,7 +294,38 @@
 		}
 
 		propose_score = {
-			value = 10
+			value = 0
+			
+			if = {
+				limit = {
+					any_subject_or_below = {
+						is_adjacent = root
+						is_adjacent = scope:actor
+					}
+					scope:actor = {
+						is_coastal = yes
+					}
+					NOT = {
+						scope:actor = {
+							NOT = { is_adjacent = root }
+						}
+					}
+				}
+				add = {
+					value = 10
+				}
+			}
+			
+			if = {
+				limit = {
+					scope:actor = {
+						is_subject_type = subject_type_real_union
+					}
+				}
+				add = {
+					value = -15
+				}
+			}
 		}
 
 		propose_break_score = {

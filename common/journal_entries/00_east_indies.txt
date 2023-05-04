@@ -44,6 +44,10 @@
 		}
 	}
 
+	invalid = {
+		has_variable = bic_collapse_var
+	}
+
 	current_value = {
 		value = root.var:east_indies_revolt_var
 	}
@@ -127,7 +131,10 @@ je_reform_indies = {
 				c:MPR = {
 					AND = {
 						is_player = no
-						is_subject_of = c:BIC
+						OR = {
+							is_subject_of = c:BIC
+							is_subject_of = c:BIC.overlord
+						}
 					}
 				}
 			}
@@ -136,15 +143,22 @@ je_reform_indies = {
 		if = {
 			limit = {
 				exists = c:BPR
-				c:MPR = {
+				c:BPR = {
 					AND = {
 						is_player = no
-						is_subject_of = c:BIC
+						OR = {
+							is_subject_of = c:BIC
+							is_subject_of = c:BIC.overlord
+						}
 					}
 				}
 			}
 			annex = c:BPR
 		}
+	}
+	
+	invalid = {
+		has_variable = bic_collapse_var
 	}
 
 	current_value = {
@@ -171,6 +185,10 @@ je_ethical_policy = {
 
 	on_complete = {
 		trigger_event = { id = east_indies.3 }
+	}
+	
+	invalid = {
+		has_variable = bic_collapse_var
 	}
 
 	weight = 100

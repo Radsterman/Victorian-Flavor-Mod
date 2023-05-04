@@ -7,20 +7,6 @@ italy_1848.1 = {
 
 	hidden = yes
 
-
-	title = italy_1848.1.t
-	desc = italy_1848.1.d
-	flavor = italy_1848.1.f
-
-	event_image = {
-		video = "gfx/event_pictures/europenorthamerica_springtime_of_nations.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/springtime_of_nation"
-
-	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
-
 	duration = 1
 
 	trigger = {
@@ -33,7 +19,7 @@ italy_1848.1 = {
 					radical_fraction = {
 						value >= 0.3
 					}
-					turmoil >= 0.15
+					turmoil >= 0.2
 				}
 			}	
 		}
@@ -65,7 +51,9 @@ italy_1848.1 = {
 				activate_law = law_type:law_presidential_republic
 				activate_law = law_type:law_universal_suffrage
 				activate_law = law_type:law_right_of_assembly
-				set_next_election_date = 1852.1.1
+				call_election = {
+					months = 48
+				}
 				ig:ig_intelligentsia = {
 					add_ruling_interest_group = yes
 					add_modifier = {
@@ -144,16 +132,14 @@ italy_1848.2 = {
 		name = italy_1848.2.a
 		default_option = yes
 
-		ROOT = {
-	    	create_diplomatic_play = {
-				target_country = c:SCL
-				war = yes
-				type = dp_annex_war
-	    	}
-			change_relations = {
-				country = c:SCL
-				value = -75
-		    }
+		create_diplomatic_play = {
+			target_country = c:SCL
+			war = yes
+			type = dp_annex_war
+		}
+		change_relations = {
+			country = c:SCL
+			value = -75
 		}
 		add_journal_entry = {
 			type = je_sicilian_revolution
@@ -345,18 +331,7 @@ italy_1848.5 = {
 	type = country_event
 	placement = root
 
-	title = italy_1848.5.t
-	desc = italy_1848.5.d
-	flavor = italy_1848.5.f
-
-	event_image = {
-		video = "gfx/event_pictures/middleeast_upperclass_party.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/middleeast/upperclass_party"
-
-	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+	hidden = yes
 
 	duration = 0
 
@@ -379,6 +354,7 @@ italy_1848.5 = {
 				cautious
 			}
 		}
+
 
 	    ai_chance = {
 			base = 1	
@@ -523,11 +499,11 @@ italy_1848.6 = {
 		OR = {
 			has_journal_entry = je_springtime_of_the_peoples
 			radical_fraction = {
-				value >= 0.2
+				value >= 0.3
 			}
 			any_scope_state = {
 				state_region = s:STATE_PIEDMONT
-				turmoil >= 0.15
+				turmoil >= 0.2
 			}	
 		}
 		NOT = {
@@ -595,20 +571,6 @@ italy_1848.6 = {
 italy_1848.7 = {
 	type = country_event
 	hidden = yes
-
-	title = italy_1848.7.t
-	desc = italy_1848.7.d
-	flavor = italy_1848.7.f
-
-	event_image = {
-		video = "gfx/event_pictures/europenorthamerica_springtime_of_nations.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/springtime_of_nation"
-
-	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
-
 	duration = 0
 
 	trigger = {
@@ -659,7 +621,9 @@ italy_1848.7 = {
 				activate_law = law_type:law_presidential_republic
 				activate_law = law_type:law_universal_suffrage
 				activate_law = law_type:law_right_of_assembly
-				set_next_election_date = 1852.1.1
+				call_election = {
+					months = 48
+				}
 				ig:ig_intelligentsia = {
 					add_ruling_interest_group = yes
 					add_modifier = {
@@ -786,7 +750,7 @@ italy_1848.9 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/political_extremism"
 
-	icon = "gfx/interface/icons/event_icons/event_protest.dds.dds"
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
 
 	duration = 1
 
@@ -955,7 +919,9 @@ italy_1848.10 = {
 				activate_law = law_type:law_presidential_republic
 				activate_law = law_type:law_universal_suffrage
 				activate_law = law_type:law_right_of_assembly
-				set_next_election_date = 1852.1.1
+				call_election = {
+					months = 48
+				}
 				ig:ig_intelligentsia = {
 					add_ruling_interest_group = yes
 					add_modifier = {
@@ -1555,13 +1521,6 @@ italy_1848.18 = {
 		has_variable = first_italian_war_var
 		is_at_war = no
 		owns_entire_state_region = STATE_LOMBARDY
-		OR = {
-			owns_entire_state_region = STATE_VENETIA
-			c:SMR = {
-				owns_entire_state_region = STATE_VENETIA
-			}
-		}
-
 	}
 
 	immediate = {
@@ -1596,7 +1555,9 @@ italy_1848.18 = {
 		}
 		if = {
 			limit = {
-				exists = c:SMR
+				c:SMR ?= {
+					is_at_war = no
+				}
 			}
 			c:SMR = {
 				trigger_event = {
@@ -1740,12 +1701,18 @@ italy_1848.20 = {
 		OR = {
 			has_journal_entry = je_springtime_of_the_peoples
 			radical_fraction = {
-				value >= 0.2
+				value >= 0.3
 			}
 			any_scope_state = {
-				turmoil >= 0.15
+				state_region = s:STATE_LAZIO
+				turmoil >= 0.2
 			}	
 		}
+		has_law = law_type:law_theocracy
+	}
+
+	immediate = {
+		set_global_variable = roman_rep_happened_var
 	}
 
     option = {
@@ -1766,7 +1733,9 @@ italy_1848.20 = {
 					activate_law = law_type:law_presidential_republic
 					activate_law = law_type:law_universal_suffrage
 					activate_law = law_type:law_right_of_assembly
-					set_next_election_date = 1852.1.1
+					call_election = {
+						months = 48
+					}
 					add_primary_culture = cu:north_italian
 					ig:ig_intelligentsia = {
 						add_ruling_interest_group = yes
@@ -1930,7 +1899,6 @@ italy_1848.22 = {
 		s:STATE_LAZIO = {
 			remove_claim = c:FRA
 		}
-		set_global_variable = roman_rep_happened_var
 	}
 
     option = {
@@ -1982,19 +1950,6 @@ italy_1848.31 = {
 	placement = root
 	hidden = yes
 
-	title = italy_1848.31.t
-	desc = italy_1848.31.d
-	flavor = italy_1848.31.f
-
-	event_image = {
-		video = "gfx/event_pictures/unspecific_military_parade.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/unspecific/military_parade"
-
-	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
-
 	duration = 0
 
 	trigger = {
@@ -2013,10 +1968,6 @@ italy_1848.31 = {
 		s:STATE_LAZIO = {
 			remove_claim = c:FRA
 		}
-	}
-
-    ai_chance = {
-		base = 1	
 	}
 }
 

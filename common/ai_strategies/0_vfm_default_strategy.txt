@@ -56,6 +56,44 @@ ai_strategy_default = {
 	# Using this value in other strategies will function additively
 	diplomatic_play_neutrality = {
 		value = 50 
+
+		if = {
+			limit = {
+				any_diplomatic_play = {
+					any_scope_play_involved = {
+						count >= 2
+						country_rank = rank_value:great_power
+						is_diplomatic_play_committed_participant = yes
+						NOT = { has_technology_researched = multilateral_alliances }
+					}
+				}
+				country_rank >= rank_value:great_power
+				NOT = { has_technology_researched = multilateral_alliances }
+			}
+			add = 20
+		}
+				
+		#if = {
+		#	limit = {
+		#		has_diplomatic_pact = {
+		#			who = scope:target_country.top_overlord
+		#			type = rivalry
+		#		}							
+		#	}
+		#	subtract = 100
+		#}
+		#
+		#if = {
+		#	limit = {
+		#		scope:target_country = {
+		#			has_attitude = {
+		#				who = scope:target_country.top_overlord
+		#				attitude = rebellious
+		#			}
+		#		}						
+		#	}
+		#	subtract = 20
+		#}
 	}
 	
 	# Added to base boldness in diplomatic plays	
@@ -110,9 +148,35 @@ ai_strategy_default = {
 			limit = { 
 				scope:enemy_country.country_rank > country_rank 
 			}
-			
 			add = -0.1
-		}	
+		}
+		if = {
+            limit = {
+                AND = {
+                    has_journal_entry = je_manifest_destiny_mexico
+                    scope:enemy_country = {
+                        OR = {
+                            has_state_in_state_region = STATE_CALIFORNIA
+                            has_state_in_state_region = STATE_NEVADA
+                            has_state_in_state_region = STATE_UTAH
+                            has_state_in_state_region = STATE_ARIZONA
+                            has_state_in_state_region = STATE_NEW_MEXICO
+                            has_state_in_state_region = STATE_TEXAS
+                        }
+                    }
+                }
+            }
+            add = 0.6
+        }
+		if = {
+            limit = {
+                OR = {
+                    has_journal_entry = je_sick_man_syria
+                    has_journal_entry = je_sick_man_egypt
+                }
+            }
+            add = 0.3
+        }
 	}
 	
 	# How many barracks relative to incorporated population should the AI have
@@ -164,13 +228,46 @@ ai_strategy_default = {
 		}		
 		institution_home_affairs = {	
 			value = 10		
-		}				
+		}			
+		institution_centralization = {	
+			value = 10	
+			
+			if = {
+				limit = {
+					any_subject_or_below = {
+						OR = {
+							is_subject_type = subject_type_dependency
+							is_subject_type = subject_type_puppet
+							is_subject_type = subject_type_vassal
+						}
+						is_adjacent = root
+					}
+				}
+				add = 125
+			}
+			
+			if = {
+				limit = {
+					exists = c:ENT
+					exists = c:BUE
+					OR = {
+						this = c:ENT
+						this = c:BUE
+					}
+					OR = {
+						has_journal_entry = je_argentina_constitution
+						has_journal_entry = je_argentina_constitution_minor
+					}
+				}
+				add = 150
+			}
+		}			
 	}	
 	
 	# How much value does the AI place on an obligation from another country?
 	# Using this value in other strategies will function additively
 	obligation_value = {
-		value = 15
+		value = 5
 	
 		# Compare ranks - higher rank than us has increased value, lower rank decreased value
 		add = {
@@ -196,7 +293,7 @@ ai_strategy_default = {
 					}			
 				}			
 			}
-			add = 20
+			add = 15
 		}
 		
 		# Rebellious AI wants to use the obligation to break free
@@ -413,7 +510,18 @@ ai_strategy_default = {
 					has_journal_entry = je_age_of_princes
 				}
 			}
-			add = 1
+			add = 0.5
+		}
+
+		#Italian Nightmare
+		if = {
+			limit = {
+				has_journal_entry = je_italian_unification
+				scope:target_country = {
+					has_journal_entry = je_italian_unification
+				}
+			}
+			add = 0.5
 		}
 
 		# Warlord China Thunderdome
@@ -438,7 +546,7 @@ ai_strategy_default = {
 				}
 			}
 			add = 3
-	}
+		}
 	
 		#Caucasus
 		if = {
@@ -532,7 +640,7 @@ ai_strategy_default = {
 					this ?= c:CHI
 				}
 			}
-			add = 25
+			add = 10
 		}
 		else_if = {
 			limit = {
@@ -554,10 +662,10 @@ ai_strategy_default = {
 					this ?= c:CHI
 				}
 			}
-			add = 75
+			add = 25
 		}
 
-		# Ottomans should be extremely aggressive against owners of Syria and Egypt when they have the relevant JE's
+		# Ottomans should be very aggressive against owners of Syria and Egypt when they have the relevant JE's
 		if = {
 			limit = {
 				OR = {
@@ -603,6 +711,10 @@ ai_strategy_default = {
 							state_region = s:STATE_ARIZONA
 							state_region = s:STATE_NEW_MEXICO
 							state_region = s:STATE_TEXAS
+							state_region = s:STATE_WYOMING
+							state_region = s:STATE_COLORADO
+							state_region = s:STATE_KANSAS
+							state_region = s:STATE_OKLAHOMA
 						}
 					}
 				}
@@ -621,7 +733,7 @@ ai_strategy_default = {
 					}
 				}				
 			}
-			add = 10
+			add = 5
 		}
 
 		# Extra aggression against Peru-Bolivia
@@ -638,29 +750,6 @@ ai_strategy_default = {
 			add = 25
 		}
 
-		# Ethiopian Thunderdome
-		if = {
-			limit = {
-				has_journal_entry = je_age_of_princes
-				scope:target_country = {
-					has_journal_entry = je_age_of_princes
-				}
-			}
-			add = 100
-		}
-
-		# Warlord China Thunderdome
-		if = {
-			limit = {
-				has_global_variable = china_shatters
-				has_variable = warlord_state
-				scope:target_country = {
-					has_variable = warlord_state
-				}
-			}
-			add = 100
-		}
-
 		# Veiled Protectorate
 		if = {
 			limit = {
@@ -670,7 +759,7 @@ ai_strategy_default = {
 					THIS = c:EGY
 				}
 			}
-			add = 25
+			add = 5
 		}
 
 		# East India Company vs its neighbors
@@ -694,7 +783,7 @@ ai_strategy_default = {
 					}
 				}
 			}
-			add = 25
+			add = 5
 		}
 
 		if = { #Russian Caucasus
@@ -710,8 +799,8 @@ ai_strategy_default = {
 					}
 				}
 			}
-			add = 25
-	}
+			add = 10
+		}
 	
 		if = { #Russian Far East
 			limit = {
@@ -727,7 +816,7 @@ ai_strategy_default = {
 					}
 				}
 			}
-			add = 25
+			add = 15
 		}
 
 		if = { #Russian Central Asia
@@ -748,7 +837,7 @@ ai_strategy_default = {
 				}
 				can_reach_target_country = yes
 			}
-			add = 25
+			add = 15
 		}
 
 		# Aggression against Council Republics
@@ -763,7 +852,16 @@ ai_strategy_default = {
 					}
 				}
 			}
-			add = 75
+			add = 5
+		}
+		
+		if = { # The EIC/Raj should never go against its suzerain, as doing so is suicide
+			limit = {
+				exists = c:BIC
+				this = c:BIC
+				is_subject_of = scope:target_country
+			}
+			multiply = 0.0
 		}
 
 		if = { #Indian suzerain will be aggressive against Russia
@@ -813,7 +911,103 @@ ai_strategy_default = {
 					}
 				}
 			}
-			add = 25
+			add = 5
+		}
+		
+        # Switzerland less aggressive and less likely to be target
+        if = {
+            limit = {
+                exists = c:SWI
+                THIS = c:SWI
+            }
+            add = -25
+        }
+		
+        # French conquest of Algeria
+		if = {
+			limit = {
+                exists = c:FRA
+                THIS = c:FRA
+				scope:target_country = {
+					any_scope_state = {
+						OR = {
+							state_region = s:STATE_TLEMCEN
+							state_region = s:STATE_ALGIERS
+							state_region = s:STATE_CONSTANTINE
+							state_region = s:STATE_TOUGGOURT
+							state_region = s:STATE_GHARDAIA
+							state_region = s:STATE_SAHARA
+							state_region = s:STATE_EAST_SAHARA
+						}
+					}
+				}
+			}
+			add = 100
+		}
+			
+		#Aggression against unrecognized countries once colonization has begun and already owns state in region
+		if = {
+			limit = {
+				can_reach_target_country = yes
+				has_technology_researched = civilizing_mission
+				OR = {
+					is_country_type = recognized
+					is_country_type = colonial
+				}
+				scope:target_country = {
+					is_country_type = unrecognized
+					country_is_in_africa = no
+				}
+				has_interest_marker_in_region = scope:target_country.capital.region
+				scope:target_country.capital.region = {
+					any_scope_state = {
+						owner = root
+					}
+				}
+			}
+			add = 10
+		}
+		
+		if = {
+			limit = {
+				can_reach_target_country = yes
+				has_technology_researched = civilizing_mission
+				OR = {
+					is_country_type = recognized
+					is_country_type = colonial
+				}
+				scope:target_country = {
+					is_country_type = unrecognized
+					country_is_in_africa = yes
+				}
+				has_interest_marker_in_region = scope:target_country.capital.region
+				scope:target_country.capital.region = {
+					any_scope_state = {
+						owner = root
+					}
+				}
+			}
+			add = 15
+		}
+		
+		#Aggression against unrecognized countries if has claim in region
+		if = {
+			limit = {
+				can_reach_target_country = yes
+				has_technology_researched = civilizing_mission
+				OR = {
+					is_country_type = recognized
+					is_country_type = colonial
+				}
+				scope:target_country = {
+					is_country_type = unrecognized
+				}
+				has_interest_marker_in_region = scope:target_country.capital.region
+				scope:target_country.capital.region = {
+					has_claim_by = root
+				}
+			}
+			add = 10
 		}
 	}
 	
@@ -1327,7 +1521,6 @@ ai_strategy_default = {
 				}
 				add = 1000
 			}			
-		}	
 		if = {
 			limit = {
 				country_is_in_europe = yes
@@ -1341,6 +1534,7 @@ ai_strategy_default = {
 				}
 			}
 			add = 50
+		}
 		}
 		region_pacific_coast = {
 			if = {
@@ -2001,11 +2195,11 @@ ai_strategy_default = {
 					NOT = { is_country_type = unrecognized }
 					scope:target_country = { is_country_type = unrecognized }
 				}
-				add = 50
+				add = 60
 				
 				if = {
 					limit = { has_technology_researched = civilizing_mission }
-					add = 50
+					add = 60
 				}					
 			}			
 			
@@ -2122,6 +2316,10 @@ ai_strategy_default = {
 								state_region = s:STATE_ARIZONA
 								state_region = s:STATE_NEW_MEXICO
 								state_region = s:STATE_TEXAS
+								state_region = s:STATE_WYOMING
+								state_region = s:STATE_COLORADO
+								state_region = s:STATE_KANSAS
+								state_region = s:STATE_OKLAHOMA
 							}
 						}
 					}
@@ -2174,34 +2372,34 @@ ai_strategy_default = {
 			}
 
 
-			#if = {
-			#	limit = {
-			#		country_has_primary_culture = cu:russian
-			#		has_law = law_type:law_national_supremacy
-			#		has_technology_researched = nationalism
-			#		OR = {
-			#			AND = {	
-			#				exists = c:KZH
-			#				scope:target_country = {
-			#					this = c:KZH
-			#				}
-			#			}
-			#			AND = {	
-			#				exists = c:UZH
-			#				scope:target_country = {
-			#					this = c:UZH
-			#				}
-			#			}
-			#			AND = {	
-			#				exists = c:OZH
-			#				scope:target_country = {
-			#					this = c:OZH
-			#				}
-			#			}
-			#		}
-			#	}
-			#	add = 50
-			#}
+			if = {
+				limit = {
+					country_has_primary_culture = cu:russian
+					has_law = law_type:law_national_supremacy
+					has_technology_researched = nationalism
+					OR = {
+						AND = {	
+							exists = c:KZH
+							scope:target_country = {
+								this = c:KZH
+							}
+						}
+						AND = {	
+							exists = c:UZH
+							scope:target_country = {
+								this = c:UZH
+							}
+						}
+						AND = {	
+							exists = c:OZH
+							scope:target_country = {
+								this = c:OZH
+							}
+						}
+					}
+				}
+				add = 50
+			}
 			
 			multiply = {
 				value = "ai_ideological_opinion(scope:target_country)"
@@ -2363,11 +2561,11 @@ ai_strategy_default = {
 					scope:target_country = { is_country_type = unrecognized }
 					scope:target_country = { NOT = { is_subject_of = root }	}
 				}
-				add = 25
+				add = 30
 				
 				if = {
 					limit = { has_technology_researched = civilizing_mission }
-					add = 25
+					add = 30
 				}					
 			}			
 			
@@ -2416,34 +2614,34 @@ ai_strategy_default = {
 				add = 250
 			}		
 
-			#if = {
-			#	limit = {
-			#		country_has_primary_culture = cu:russian
-			#		has_law = law_type:law_national_supremacy
-			#		has_technology_researched = nationalism
-			#		OR = {
-			#			AND = {	
-			#				exists = c:KZH
-			#				scope:target_country = {
-			#					this = c:KZH
-			#				}
-			#			}
-			#			AND = {	
-			#				exists = c:UZH
-			#				scope:target_country = {
-			#					this = c:UZH
-			#				}
-			#			}
-			#			AND = {	
-			#				exists = c:OZH
-			#				scope:target_country = {
-			#					this = c:OZH
-			#				}
-			#			}
-			#		}
-			#	}
-			#	add = 100
-			#}
+			if = {
+				limit = {
+					country_has_primary_culture = cu:russian
+					has_law = law_type:law_national_supremacy
+					has_technology_researched = nationalism
+					OR = {
+						AND = {	
+							exists = c:KZH
+							scope:target_country = {
+								this = c:KZH
+							}
+						}
+						AND = {	
+							exists = c:UZH
+							scope:target_country = {
+								this = c:UZH
+							}
+						}
+						AND = {	
+							exists = c:OZH
+							scope:target_country = {
+								this = c:OZH
+							}
+						}
+					}
+				}
+				add = 100
+			}
 			
 			if = {
 				limit = {
@@ -2797,16 +2995,46 @@ ai_strategy_default = {
 					has_journal_entry = je_manifest_destiny_mexico
 					scope:target_state = {
 						OR = {
+							state_region = s:STATE_TEXAS
+							state_region = s:STATE_WYOMING
+							state_region = s:STATE_COLORADO
+							state_region = s:STATE_KANSAS
+							state_region = s:STATE_OKLAHOMA
+						}
+					}
+				}
+				add = 50
+			}
+
+			if = {
+				limit = {
+					has_journal_entry = je_manifest_destiny_mexico
+					scope:target_state = {
+						OR = {
 							state_region = s:STATE_CALIFORNIA
 							state_region = s:STATE_NEVADA
 							state_region = s:STATE_UTAH
 							state_region = s:STATE_ARIZONA
 							state_region = s:STATE_NEW_MEXICO
-							state_region = s:STATE_TEXAS
 						}
 					}
 				}
-				add = 50
+				add = 45
+			}
+
+			if = {
+				limit = {
+					has_journal_entry = je_manifest_destiny_mexico
+					scope:target_state = {
+						OR = {
+							state_region = s:STATE_BAJA_CALIFORNIA
+							state_region = s:STATE_SONORA
+							state_region = s:STATE_CHIHUAHUA
+							state_region = s:STATE_RIO_GRANDE
+						}
+					}
+				}
+				add = 25
 			}
 
 			if = {
@@ -2842,7 +3070,7 @@ ai_strategy_default = {
 							state_region = s:STATE_JETISY
 							state_region = s:STATE_TOMSK
 							state_region = s:STATE_KIRGHIZIA
-				}
+						}
 					}
 				}
 				add = 50
@@ -2865,7 +3093,19 @@ ai_strategy_default = {
 					can_reach_target_state = yes
 				}
 				add = 50
-			}				
+			}
+
+			if = {
+				limit = {
+					has_journal_entry = je_sick_man_syria
+					scope:target_state = {
+						OR = {
+							state_region = s:STATE_CRETE
+						}
+					}
+				}
+				add = 50
+			}			
 			
 			#if = {
 			#	limit = {
@@ -2916,6 +3156,41 @@ ai_strategy_default = {
 				multiply = 0
 			}
 			
+			if = {
+				limit = {
+					is_adjacent = scope:target_country
+					has_technology_researched = civilizing_mission
+					#replace with colonial law \/
+					has_colonial_growth = yes
+					OR = {
+						is_country_type = recognized
+						is_country_type = colonial
+					}
+					scope:target_country = {
+						is_country_type = unrecognized
+						country_is_in_africa = no
+					}
+				}
+				add = 5
+			}
+			
+			if = {
+				limit = {
+					is_adjacent = scope:target_country
+					has_technology_researched = civilizing_mission
+					has_colonial_growth = yes
+					OR = {
+						is_country_type = recognized
+						is_country_type = colonial
+					}
+					scope:target_country = {
+						is_country_type = unrecognized
+						country_is_in_africa = yes
+					}
+				}
+				add = 5
+			}
+			
 			min = 0
 			max = 100			
 		}
@@ -2954,8 +3229,7 @@ ai_strategy_default = {
 					}
 					add = 30
 				}
-					}
-
+			}
 			if = {
 				limit = { 
 					NOT = { has_strategic_land_adjacency = scope:target_state } 
@@ -3000,6 +3274,73 @@ ai_strategy_default = {
 					scope:target_state = { is_homeland_of_country_cultures = scope:target_country }
 					}
 				multiply = 0.0
+			}
+
+			if = {
+				limit = {
+					has_journal_entry = je_manifest_destiny_mexico
+					scope:target_state = {
+						OR = {
+							state_region = s:STATE_CALIFORNIA
+							state_region = s:STATE_NEVADA
+							state_region = s:STATE_UTAH
+							state_region = s:STATE_ARIZONA
+							state_region = s:STATE_NEW_MEXICO
+							state_region = s:STATE_TEXAS
+							state_region = s:STATE_WYOMING
+							state_region = s:STATE_COLORADO
+							state_region = s:STATE_KANSAS
+							state_region = s:STATE_OKLAHOMA
+						}
+					}
+				}
+				add = 130
+			}
+
+			if = {
+				limit = {
+					has_journal_entry = je_sick_man_syria
+					scope:target_state = {
+						OR = {
+							state_region = s:STATE_ALEPPO
+							state_region = s:STATE_SYRIA
+							state_region = s:STATE_LEBANON
+							state_region = s:STATE_PALESTINE
+							state_region = s:STATE_TRANSJORDAN
+							state_region = s:STATE_ADANA
+						}
+					}
+				}
+				add = 75
+			}
+
+			if = {
+				limit = {
+					has_journal_entry = je_sick_man_egypt
+					scope:target_state = {
+						OR = {
+							state_region = s:STATE_SINAI
+							state_region = s:STATE_UPPER_EGYPT
+							state_region = s:STATE_MIDDLE_EGYPT
+							state_region = s:STATE_LOWER_EGYPT
+						}
+					}
+				}
+				add = 50
+			}
+
+			if = {
+				limit = {
+					has_journal_entry = je_the_eastern_border
+					scope:target_state = {
+						OR = {
+							state_region = s:STATE_OUTER_MANCHURIA 
+							state_region = s:STATE_JETISY 
+							state_region = s:STATE_TOMSK
+						}
+					}
+				}
+				add = 75
 			}
 
 			min = 0
@@ -3158,8 +3499,16 @@ ai_strategy_default = {
 			if = {
 				limit = {
 					has_treaty_port_in_country = scope:target_country
+					scope:target_country = { country_rank < unrecognized_regional_power }
 				}
 				multiply = 0
+			}
+
+			if = {
+				limit = {
+					scope:target_country = { NOT = { is_country_type = unrecognized } }
+				}
+				multiply = 0.1
 			}
 			
 			if = {
@@ -3231,34 +3580,58 @@ ai_strategy_default = {
 				add = 100
 			}
 
-			#if = {
-			#	limit = {
-			#		country_has_primary_culture = cu:russian
-			#		has_law = law_type:law_national_supremacy
-			#		has_technology_researched = nationalism
-			#		OR = {
-			#			AND = {	
-			#				exists = c:KZH
-			#				scope:target_country = {
-			#					this = c:KZH
-			#				}
-			#			}
-			#			AND = {	
-			#				exists = c:UZH
-			#				scope:target_country = {
-			#					this = c:UZH
-			#				}
-			#			}
-			#			AND = {	
-			#				exists = c:OZH
-			#				scope:target_country = {
-			#					this = c:OZH
-			#				}
-			#			}
-			#		}
-			#	}
-			#	add = 100
-			#}
+			if = {
+				limit = {
+					country_has_primary_culture = cu:russian
+					has_law = law_type:law_national_supremacy
+					has_technology_researched = nationalism
+					OR = {
+						AND = {	
+							exists = c:KZH
+							scope:target_country = {
+								this = c:KZH
+							}
+						}
+						AND = {	
+							exists = c:UZH
+							scope:target_country = {
+								this = c:UZH
+							}
+						}
+						AND = {	
+							exists = c:OZH
+							scope:target_country = {
+								this = c:OZH
+							}
+						}
+						AND = {	
+							exists = c:KOK
+							scope:target_country = {
+								this = c:KOK
+							}
+						}
+						AND = {	
+							exists = c:KHI
+							scope:target_country = {
+								this = c:KHI
+							}
+						}
+						AND = {	
+							exists = c:BUK
+							scope:target_country = {
+								this = c:BUK
+							}
+						}
+						AND = {	
+							exists = c:AFG
+							scope:target_country = {
+								this = c:AFG
+							}
+						}
+					}
+				}
+				add = 100
+			}
 
 			if = { #Indian suzerain will be aggressive against Afganistan, if Afghanistan is threatened by Russia.
 				limit = {
@@ -3327,6 +3700,74 @@ ai_strategy_default = {
 						}
 					}
 					
+				}
+				add = 50
+			}
+			
+			#if = {
+			#	limit = {
+			#		can_reach_target_country = yes
+			#		has_technology_researched = colonization
+			#		OR = {
+			#			is_country_type = recognized
+			#			is_country_type = colonial
+			#		}
+			#		scope:target_country = {
+			#			is_country_type = unrecognized
+			#			country_is_in_africa = no
+			#		}
+			#	}
+			#	add = 15
+			#}
+			#
+			#if = {
+			#	limit = {
+			#		can_reach_target_country = yes
+			#		has_technology_researched = colonization
+			#		OR = {
+			#			is_country_type = recognized
+			#			is_country_type = colonial
+			#		}
+			#		scope:target_country = {
+			#			is_country_type = unrecognized
+			#			country_is_in_africa = yes
+			#		}
+			#	}
+			#	add = 15
+			#}
+			
+			if = {
+				limit = {
+					can_reach_target_country = yes
+					has_technology_researched = civilizing_mission
+					has_colonial_growth = yes
+					OR = {
+						is_country_type = recognized
+						is_country_type = colonial
+					}
+					scope:target_country = {
+						is_country_type = unrecognized
+						country_is_in_north_america = no
+						country_is_in_central_america = no
+						country_is_in_south_america = no
+					}
+				}
+				add = 50
+			}
+			
+			if = {
+				limit = {
+					can_reach_target_country = yes
+					has_technology_researched = civilizing_mission
+					has_colonial_growth = yes
+					OR = {
+						is_country_type = recognized
+						is_country_type = colonial
+					}
+					scope:target_country = {
+						is_country_type = unrecognized
+						country_is_in_africa = yes
+					}
 				}
 				add = 50
 			}
@@ -3649,6 +4090,9 @@ ai_strategy_default = {
 				}
 				add = 50
 			}
+
+			min = 0
+			max = 200	
 		}	
 
 		ban_slavery = {
@@ -3694,7 +4138,12 @@ ai_strategy_default = {
 		}		
 
 		revoke_claim = {
-			value = 10
+			if = {
+				limit = {
+					scope:target_state = { owner = root }
+				}
+				
+				add = 10
 			
 			add = {
 				value = scope:target_state.state_population
@@ -3720,6 +4169,7 @@ ai_strategy_default = {
 					scope:target_state = { is_incorporated = no }
 				}
 				multiply = 0.5
+				}				
 			}
 
 			min = 0
@@ -3753,28 +4203,60 @@ ai_strategy_default = {
 				multiply = 0.0
 			}
 
-			#if = {
-			#	limit = {
-			#		country_has_primary_culture = cu:russian
-			#		has_law = law_type:law_national_supremacy
-			#		has_technology_researched = nationalism
-			#		OR = {
-			#			AND = {	
-			#				exists = c:KZH
-			#				scope:target_country = c:KZH
-			#			}
-			#			AND = {	
-			#				exists = c:UZH
-			#				scope:target_country = c:UZH
-			#			}
-			#			AND = {	
-			#				exists = c:OZH
-			#				scope:target_country = c:OZH
-			#			}
-			#		}
-			#	}
-			#	add = 150
-			#}
+			if = {
+				limit = {
+					country_has_primary_culture = cu:russian
+					has_law = law_type:law_national_supremacy
+					has_technology_researched = nationalism
+					OR = {
+						AND = {	
+							exists = c:KZH
+							scope:target_country = c:KZH
+						}
+						AND = {	
+							exists = c:UZH
+							scope:target_country = c:UZH
+						}
+						AND = {	
+							exists = c:OZH
+							scope:target_country = c:OZH
+						}
+					}
+				}
+				add = 150
+			}
+			
+			if = {
+				limit = {
+					can_reach_target_country = yes
+					has_technology_researched = civilizing_mission
+					scope:target_country = {
+						country_is_in_africa = yes
+						is_country_type = unrecognized
+					}
+				}
+				add = 75
+			}
+		
+			# French conquest of Algeria
+			if = {
+				limit = {
+					exists = c:FRA
+					THIS = c:FRA
+					scope:target_country.capital = {
+						OR = {
+							state_region = s:STATE_TLEMCEN
+							state_region = s:STATE_ALGIERS
+							state_region = s:STATE_CONSTANTINE
+							state_region = s:STATE_TOUGGOURT
+							state_region = s:STATE_GHARDAIA
+							state_region = s:STATE_SAHARA
+							state_region = s:STATE_EAST_SAHARA
+						}
+					}
+				}
+				add = 100
+			}
 
 			min = 0
 			max = 200			
@@ -3809,7 +4291,27 @@ ai_strategy_default = {
 
 			min = 0
 			max = 200				
-		}			
+		}
+
+		#unification_leadership = {
+		#	value = 100
+		#
+		#	#add = {
+		#	#	value = scope:target_country.gdp
+		#	#	divide = 100000
+		#	#	max = 100				
+		#	#}
+		#
+		#	if = {
+		#		limit = {
+		#			has_strategic_adjacency = scope:target_country
+		#		}
+		#		multiply = 1.25
+		#	}
+		#
+		#	min = 0
+		#	max = 200				
+		#}	
 
 		liberate_subject = {
 			value = 0	
@@ -3828,6 +4330,18 @@ ai_strategy_default = {
 						}							
 					}
 					add = 25
+				}
+				
+				if = {
+					limit = {
+						scope:target_country = {
+							has_attitude = {
+								who = scope:target_country.top_overlord
+								attitude = rebellious
+							}
+						}						
+					}
+					add = 35
 				}
 
 				if = {

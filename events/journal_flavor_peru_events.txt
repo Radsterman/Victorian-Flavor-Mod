@@ -1,6 +1,5 @@
 ﻿namespace = journal_flavor_peru
 
-# Peru Partition
 journal_flavor_peru.1 = {
 	type = country_event
 	placement = ROOT
@@ -34,25 +33,25 @@ journal_flavor_peru.1 = {
 		
 		name = journal_flavor_peru.1.a
 
+		hidden_effect = {
+			c:PEU = {
+				set_strategy = ai_strategy_restore_peruvian_sovereignty
+			}
+		}
+
 		create_diplomatic_play = {
 			name = confederation_war
 			target_country = c:BOL
 			type = dp_independence	
 		}
 
-		hidden_effect = {
-			c:PEU = {
-				set_strategy = ai_restore_peruvian_sovereignty
-			}
+		change_relations = {
+			country = c:CHL
+			value = 30
 		}
 
-        change_relations = {
-			country = c:CHL
-			value = 100
-		}
-		change_relations = {
-			country = c:ARG
-			value = 100
+		trigger_event = {
+			id = journal_flavor_peru.2
 		}
 		
 		ai_chance = {
@@ -68,11 +67,64 @@ journal_flavor_peru.1 = {
 
 		add_radicals = {
 			strata = rich
-			value = 0.05
+			value = 0.1
 		}
 		
 		ai_chance = {
 			base = 5
+		}
+	}
+}
+
+journal_flavor_peru.2 = {
+	type = country_event
+	placement = ROOT
+	title = journal_flavor_peru.2.t
+	desc = journal_flavor_peru.2.d
+	flavor =  journal_flavor_peru.2.f
+
+	duration = 1
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_aristocrats.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	trigger = {
+
+	}
+
+	option = {
+		
+		name = journal_flavor_peru.2.a
+
+		create_character = {
+			first_name = Agustin
+			last_name = gamarra
+			ig_leader = yes
+			interest_group = ig_armed_forces
+			ruler = yes
+			birth_date = 1785.08.27
+			female = no
+			culture = cu:south_andean
+			dna = dna_agustin_gamarra
+			ideology = ideology_moderate
+			religion = rel:catholic
+			traits = {
+				persistent
+				reckless
+				ambitious
+				celebrity_commander
+				experienced_offensive_planner
+			}
+		}
+
+		ai_chance = {
+			base = 1
 		}
 	}
 }

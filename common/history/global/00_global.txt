@@ -251,6 +251,22 @@ GLOBAL = {
 		set_variable = i_am_a_scandinavian_ach_possible
 	}
 
+	#Grander Colombia
+	every_country = {
+		limit = {
+			can_form_nation = GCO
+		}
+		set_variable = grander_colombia_ach_possible
+	}
+
+	#Manifest Mexico
+	every_country = {
+		limit = {
+			this ?= c:MEX
+		}
+		set_variable = manifest_mexico_ach_possible
+	}
+
 	#Event Variables
 	
 	set_global_variable = {
@@ -451,20 +467,62 @@ GLOBAL = {
 
 	if = {
 		limit = {
-			has_game_rule = no_NA_decentralized
+			has_game_rule = no_confederations
 		}
-		c:USA = {
-			annex = c:ABS
-			annex = c:PWN
-			annex = c:ARP
-			annex = c:LKT
+		c:BUE = {
+			annex = c:COE
+			annex = c:ENT
+			annex = c:TUC
+			annex = c:MDZ
+			annex = c:SLT
+			annex = c:SDE
+			annex = c:SFE
+			annex = c:CDA
+			annex = c:JUJ
+			annex = c:CMA
+			annex = c:LRJ
+			annex = c:SJN
+			annex = c:SLS
+			annex = c:MSS
+			s:STATE_CHACO = {
+				add_claim = c:BUE
+			}
+			s:STATE_SANTA_FE = {
+				add_claim = c:BUE
+			}
+			s:STATE_RIO_NEGRO = {
+				add_claim = c:BUE
+			}
+			change_tag = ARG
 		}
-		c:MEX = {
-			annex = c:COM
-			annex = c:UTE
-			annex = c:NVJ
-			annex = c:APC
+		c:BEX = {
+			annex = c:GVA
+			annex = c:VAU
+			annex = c:SRN
+			annex = c:BSL
+			annex = c:AAU
+			annex = c:ZUR
+			annex = c:SHU
+			annex = c:THU
+			annex = c:APA
+			annex = c:GLL
+			annex = c:GLA
+			annex = c:GRS
+			annex = c:TIC
+			annex = c:NTL
+			annex = c:API
+			annex = c:VIS
+			annex = c:FRI
+			annex = c:URI
+			annex = c:OBW
+			annex = c:NID
+			annex = c:LNE
+			annex = c:ZUG
+			annex = c:SCZ
+
+			change_tag = SWI
 		}
+
 	}
 
 	if = {
@@ -570,6 +628,88 @@ GLOBAL = {
 					}
 				}
 			}
+		}
+	}
+
+	if = {
+		limit = {
+			has_game_rule = no_NA_decentralized
+		}
+		c:USA = {
+			annex = c:LKT
+			annex = c:PWN
+			annex = c:ARP
+			annex = c:ABS
+		}
+		c:MEX = {
+			annex = c:COM
+			annex = c:UTE
+			annex = c:NVJ
+			annex = c:APC
+		}
+		c:COL = {
+			annex = c:NZP
+		}
+		c:HBC = {
+			annex = c:BLF
+			annex = c:IRC
+		}
+	}
+
+	every_state = {
+		limit = {
+
+			owner = {
+				has_law = law_type:law_jizya
+			}
+			NOT = { has_modifier = jizya_state }
+
+			any_scope_pop = {
+				state = { save_temporary_scope_as = m_state }
+
+				culture = { 
+					has_homeland = scope:m_state
+					#NOT = { is_primary_culture_of = root }
+					NOT = { 
+						#Check for muslim cultures to identify muslims,
+						#until I can figure out how to find majority religions of cultures.
+						OR = { 
+							has_discrimination_trait = middle_eastern_heritage
+							has_discrimination_trait = malay
+							has_discrimination_trait = iranian_turanian_culture_group
+							has_discrimination_trait = albanian_language
+							has_discrimination_trait = arab_speaking
+						}
+					}
+				}
+				#These muslim cultures don't fit into any specific trait group and need to be pointed out specifically
+				NOT = { 
+					OR = {
+					culture = cu:bosniak
+					culture = cu:tatar
+					culture = cu:fur
+					culture = cu:swahili
+					culture = cu:beja
+					culture = cu:afar
+					culture = cu:hausa
+					culture = cu:fulbe
+					culture = cu:dyula
+					culture = cu:haratin
+					culture = cu:mande
+					culture = cu:maures
+					culture = cu:songhai
+					culture = cu:tuareg
+					culture = cu:wolof
+					}
+				}
+
+				religion = {
+					NOT = { has_discrimination_trait = muslim }
+				}
+			}
+		}
+		add_modifier = {
+			name = jizya_state
 		}
 	}
 

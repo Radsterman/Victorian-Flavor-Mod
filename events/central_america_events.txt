@@ -884,7 +884,7 @@ central_america.8 = {
 	
 }
 
-# County rejoins the FRCA
+# Country rejoins the FRCA
 central_america.9 = {
 	type = country_event
 	placement = ROOT
@@ -910,21 +910,31 @@ central_america.9 = {
 	}
 
 	immediate = {
-		random_country = {
+		every_country = {
 			limit = {
-				trigger_if = {
-					country_has_primary_culture = cu:central_american
-				}
-				is_player = no
+				country_has_primary_culture = cu:central_american
+				NOT = { this = root}
 			}
-			save_scope_as = frca_annex_country
+			root = {
+				add_to_variable_list = {
+					name = central_american_countries
+					target = prev
+				}
+			}
 		}
 	}
 
 	option = {
 		name = central_america.9.a
 		default_option = yes
-		annex = scope:frca_annex_country
+		every_in_list = {
+			variable = central_american_countries
+			root = {
+				annex = prev
+			}
+		}
+
+		clear_variable_list = central_american_countries
 		ai_chance = {
 			base = 1
 		}

@@ -36,6 +36,8 @@ base_values = {
 	state_aristocrats_investment_pool_contribution_add = 0.10
 	state_capitalists_investment_pool_contribution_add = 0.20	
 	
+	state_unincorporated_starting_wages_mult = -0.15 # To balance for unincorporated states not paying taxes
+
 	country_construction_add = 5
 	
 	building_mobilization_cost_mult = 0.6
@@ -111,7 +113,7 @@ declared_bankruptcy = {
 	unit_offense_mult = -0.5
 	unit_defense_mult = -0.5
 	state_radicals_from_sol_change_mult = 1.0
-	state_construction_mult = -1.0
+	state_construction_mult = -0.75
 }
 
 incorporated_state = {
@@ -304,10 +306,28 @@ pm_offense_defense_readjustment_minor = {
 	unit_defense_mult = -0.20
 }
 
+pm_offense_defense_readjustment_minor = {
+	icon = gfx/interface/icons/timed_modifier_icons/modifier_rifle_negative.dds
+	unit_offense_mult = -0.20
+	unit_defense_mult = -0.20
+}
+
 insufficient_urbanization = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_gear_negative.dds
 	building_throughput_mult = -0.05
 }
+
+# Excess convoys increases trade competitiveness by +25% at 2x production to usage
+surplus_convoys = {
+	icon = gfx/interface/icons/timed_modifier_icons/modifier_gear_positive.dds
+	country_trade_route_competitiveness_mult = 0.25
+}
+
+# Insufficient convoys has no additional effect beyond weakening supply network
+insufficient_convoys = {
+	icon = gfx/interface/icons/timed_modifier_icons/modifier_gear_negative.dds
+}
+
 
 # Excess BUR increases construction speed by +10% at 2x production to usage
 efficient_bureaucracy = {
@@ -436,8 +456,9 @@ infamy_pariah = {
 state_region_devastation = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_gear_negative.dds
 	state_infrastructure_mult = -1.0
-	state_mortality_mult = 1.0
+	state_mortality_mult = 2.0
 	state_migration_pull_mult = -2.0
+	state_construction_mult = -1.0
 }
 
 # Scales with deficiency in tax capacity

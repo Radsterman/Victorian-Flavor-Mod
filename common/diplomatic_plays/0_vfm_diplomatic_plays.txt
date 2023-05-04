@@ -116,8 +116,8 @@ dp_liberate_subject = {
 			NOT = { is_country_type = decentralized }
 			is_subject = yes
 			NOT = { is_subject_type = subject_type_chartered_company }
+			NOT = { is_subject_type = subject_type_confederation }
 			NOT = { is_subject_of = root }
-			is_junior_in_customs_union = no
 		}
 		custom_tooltip = {
 			text = DIPLO_ACTION_OVERLORD_RELATIONS_CORDIAL_OR_GREATER_NOT
@@ -127,6 +127,37 @@ dp_liberate_subject = {
 
 	on_weekly_pulse = {}
 
+	on_war_begins = {}
+
+	on_war_end = {}
+}
+
+dp_transfer_subject = {
+	war_goal = transfer_subject
+	
+	texture = "gfx/interface/icons/war_goals/transfer_subject.dds"
+	
+	possible = {	
+		NOT = { is_country_type = decentralized }
+		aggressive_diplomatic_plays_permitted = yes
+		NOT = { is_subject_of = scope:target_country }	
+		scope:target_country = {
+			NOT = { is_country_type = decentralized }
+			is_subject = yes
+			NOT = { is_subject_of = root }
+			NOT = { is_subject_type = subject_type_personal_union }
+			NOT = { is_subject_type = subject_type_real_union }
+			NOT = { is_subject_type = subject_type_dependency }
+			NOT = { is_subject_type = subject_type_confederation }
+		}	
+		custom_tooltip = {
+			text = DIPLO_ACTION_OVERLORD_RELATIONS_CORDIAL_OR_GREATER_NOT
+			scope:target_country.overlord.relations:root < relations_threshold:cordial
+		}				
+	}
+	
+	on_weekly_pulse = {}
+	
 	on_war_begins = {}
 
 	on_war_end = {}
@@ -270,33 +301,26 @@ dp_unify_india = {
 	possible = {
 		NOT = { exists = c:BHT }
 		NOT = { is_country_type = decentralized }
-
-   
-			OR = {
-                custom_tooltip = {
-				text = india_unification_criteria
-					OR = {
-						NOT = { exists = c:BIC }
-						NOT = {
-							AND = {
-								exists = c:BIC
-								c:BIC = {
-									any_scope_state = {
-										state_region = {
-											state_is_in_india = yes
-										}
+		OR = {
+			custom_tooltip = {
+			text = india_unification_criteria
+				OR = {
+					NOT = { exists = c:BIC }
+					NOT = {
+						AND = {
+							exists = c:BIC
+							c:BIC = {
+								any_scope_state = {
+									state_region = {
+										state_is_in_india = yes
 									}
 								}
 							}
 						}
 					}
-           			
-					   
-                }
+				}   
+			}
 		}
-
-        
-       
 		has_technology_researched = pan-nationalism
 		is_subject = no 
 		custom_tooltip = {
@@ -310,13 +334,14 @@ dp_unify_india = {
 				text = BHT_tt
 				can_form_nation = BHT
 			}
+		}
 	}
 	
 	on_weekly_pulse = {}
 	
-	#on_war_begins = {}
-	#
-	#on_war_end = {}
+	on_war_begins = {}
+	
+	on_war_end = {}
 }
 
 dp_algerian_conquest = {
@@ -346,8 +371,6 @@ dp_algerian_conquest = {
 				}
 			}
 		}
-		
-
 	}
 	
 	possible = {
