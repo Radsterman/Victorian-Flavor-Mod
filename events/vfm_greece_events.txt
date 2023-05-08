@@ -12,7 +12,7 @@ vfm_greece.1 = {
 	placement = scope:ionian_overlord_capital
 
 	event_image = {
-		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+		video = "gfx/europenorthamerica_art_gallery.bk2"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -27,15 +27,25 @@ vfm_greece.1 = {
 		random_primary_culture = {
 			save_scope_as = greek_culture_scope
 		}
+		s:STATE_ATTICA = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:GRE = THIS
+					}
+				}
+				save_scope_as = attica_state
+			}
+		}
 	}
 
 	option = {
 		name = greece.3.a
 		default_option = yes
-		s:STATE_ATTICA = {
+		scope:attica_state = {
 		    create_pop = {
 				pop_type = academics
-				culture = cu:greek
+				culture = greek
 				size = 750			
 		    }
 		}
@@ -52,7 +62,57 @@ vfm_greece.2 = {
 	placement = scope:ionian_overlord_capital
 
 	event_image = {
-		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+		video = "gfx/europenorthamerica_art_gallery.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_primary_culture = {
+			save_scope_as = greek_culture_scope
+		}
+		s:STATE_PELOPONNESE = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:GRE = THIS
+					}
+				}
+				save_scope_as = peloponnese_state
+			}
+		}
+	}
+
+	option = {
+		name = greece.3.a
+		default_option = yes
+		scope:peloponnese_state = {
+		    create_pop = {
+				pop_type = academics
+				culture = greek
+				size = 500			
+		    }
+		}
+	}
+}
+
+vfm_greece.3 = {
+	type = country_event
+
+	title = vfm_greece.3.t
+	desc = vfm_greece.3.d
+	flavor = vfm_greece.3.f
+
+	placement = scope:ionian_overlord_capital
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_springtime_of_nations.bk2"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -72,19 +132,8 @@ vfm_greece.2 = {
 	option = {
 		name = greece.3.a
 		default_option = yes
-		s:STATE_PELOPONNESE = {
-		    create_pop = {
-				pop_type = academics
-				culture = cu:greek
-				size = 750			
-		    }
-		}
-		add_loyalists = {
-		    pop_type = academics
-			value = 0.2
-		}
-		add_technology_progress = { 
-			progress = 3000 technology = rationalism 
+		add_modifier = {
+			name = archeological_findings_modifier
 		}
 	}
 }
