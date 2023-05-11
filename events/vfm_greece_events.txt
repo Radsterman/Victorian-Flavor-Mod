@@ -9,7 +9,7 @@ vfm_greece.1 = {
 	desc = vfm_greece.1.d
 	flavor = vfm_greece.1.f
 
-	placement = scope:ionian_overlord_capital
+	placement = scope:attica_state
 
 	event_image = {
 		video = "gfx/europenorthamerica_art_gallery.bk2"
@@ -40,7 +40,7 @@ vfm_greece.1 = {
 	}
 
 	option = {
-		name = greece.3.a
+		name = vfm_greece.1.a
 		default_option = yes
 		scope:attica_state = {
 		    create_pop = {
@@ -59,7 +59,7 @@ vfm_greece.2 = {
 	desc = vfm_greece.2.d
 	flavor = vfm_greece.2.f
 
-	placement = scope:ionian_overlord_capital
+	placement = scope:peloponnese_state
 
 	event_image = {
 		video = "gfx/europenorthamerica_art_gallery.bk2"
@@ -90,7 +90,7 @@ vfm_greece.2 = {
 	}
 
 	option = {
-		name = greece.3.a
+		name = vfm_greece.2.a
 		default_option = yes
 		scope:peloponnese_state = {
 		    create_pop = {
@@ -113,7 +113,7 @@ vfm_greece.3 = {
 	desc = vfm_greece.3.d
 	flavor = vfm_greece.3.f
 
-	placement = scope:ionian_overlord_capital
+	#placement = scope:ionian_overlord_capital
 
 	event_image = {
 		video = "gfx/event_pictures/europenorthamerica_springtime_of_nations.bk2"
@@ -125,6 +125,7 @@ vfm_greece.3 = {
 	duration = 3
 
 	trigger = {
+	
 	}
 
 	immediate = {
@@ -135,7 +136,7 @@ vfm_greece.3 = {
 
     # TODO: add another option where a certain character or ig is praised instead.
 	option = {
-		name = greece.3.a
+		name = vfm_greece.3.a
 		default_option = yes
 		add_modifier = {
 			name = archeological_findings_modifier
@@ -155,7 +156,7 @@ vfm_greece.6 = {
 	desc = vfm_greece.6.d
 	flavor = vfm_greece.6.f
 
-	placement = scope:ionian_overlord_capital
+	#placement = scope:ionian_overlord_capital
 
 	event_image = {
 		video = "gfx/event_pictures/europenorthamerica_springtime_of_nations.bk2"
@@ -176,7 +177,7 @@ vfm_greece.6 = {
 	}
 
 	option = {
-		name = greece.6.a
+		name = vfm_greece.6.a
 		default_option = yes
 		add_loyalists = {
 		    pop_type = officers
@@ -190,7 +191,6 @@ vfm_greece.6 = {
 
     option = {
 		name = greece.6.b
-		default_option = yes
 		add_loyalists = {
 		    pop_type = officers
 			value = 0.15
@@ -201,3 +201,61 @@ vfm_greece.6 = {
 		}
 	}
 }
+
+
+# revolters in ottoman occupied lands request support
+vfm_greece.7 = {
+	type = country_event
+
+	title = vfm_greece.7.t
+	desc = vfm_greece.7.d
+	flavor = vfm_greece.7.f
+
+	placement = scope:ottoman_state
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	duration = 3
+
+	trigger = {
+	    exists = c:GRE
+		this = c:GRE
+	}
+
+	immediate = {
+		c:TUR = {
+			save_scope_as = turkey_country
+			random_scope_state = {
+				limit = {
+					is_homeland = cu:greek
+				}
+				save_scope_as = ottoman_state
+			}
+		}
+	}
+
+	option = {
+		name = vfm_greece.7.a
+		default_option = yes
+		# spend some money, create some radicals and add 20 devastation
+		# TODO: forward event to ottomans explaining the effect
+		# lower troops by 2 in state
+		# gain some infamy?
+	}
+	
+	option = {
+		name = vfm_greece.7.b
+		#create some radicals and add 10 devastation
+		# TODO: forward event to ottomans explaining the effect
+		# lower troops by 1 in state
+	}
+}
+
+#Unrecognized loc key greece.6.b.  file: CEventOptionDesc line: 133
+#Inconsistent trigger scopes (state vs. state_region) in file: events/vfm_greece_events.txt line: 235
+#Unrecognized loc key vfm_greece.7.b.  file: CEventOptionDesc line: 133
