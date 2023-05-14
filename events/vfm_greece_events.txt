@@ -144,6 +144,59 @@ vfm_greece.3 = {
 	}
 }
 
+# royal phalanx
+vfm_greece.5 = {
+	type = country_event
+
+	title = vfm_greece.5.t
+	desc = vfm_greece.5.d
+	flavor = vfm_greece.5.f
+
+	#placement = scope:ionian_overlord_capital
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_military_parade.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_capital = yes
+			}
+			save_scope_as = capital_state
+		}
+	}
+
+	option = {
+		name = vfm_greece.5.a
+		default_option = yes
+        scope:capital_state = {
+			add_radicals = {
+				pop_type = soldiers
+				value = medium_radicals
+			}
+		}
+	}
+
+    option = {
+		name = vfm_greece.5.b
+		scope:capital_state = {
+			add_radicals = {
+				pop_type = officers
+				value = medium_radicals
+			}
+		}
+	}
+}
+
 # after the revolt against the ottomans we have revived the nation but our situation is fragile,
 # the ottomans will surely try to put us down if given the chance!
 #vfm_greece.4 = {
@@ -159,7 +212,7 @@ vfm_greece.6 = {
 	#placement = scope:ionian_overlord_capital
 
 	event_image = {
-		video = "gfx/event_pictures/europenorthamerica_springtime_of_nations.bk2"
+		video = "gfx/event_pictures/unspecific_military_parade.bk2"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -190,7 +243,7 @@ vfm_greece.6 = {
 	}
 
     option = {
-		name = greece.6.b
+		name = vfm_greece.6.b
 		add_loyalists = {
 		    pop_type = officers
 			value = 0.15
@@ -232,7 +285,9 @@ vfm_greece.7 = {
 			save_scope_as = turkey_country
 			random_scope_state = {
 				limit = {
-					is_homeland = cu:greek
+				    state_region = { 
+					    is_homeland = cu:greek
+					}
 				}
 				save_scope_as = ottoman_state
 			}
@@ -242,6 +297,16 @@ vfm_greece.7 = {
 	option = {
 		name = vfm_greece.7.a
 		default_option = yes
+		add_treasury = -25000
+		scope:ottoman_state = {
+		    add_radicals = {
+				value = 0.1
+				culture = cu:greek
+			}
+			add_devastation = 20
+		}
+		change_infamy = 4
+		
 		# spend some money, create some radicals and add 20 devastation
 		# TODO: forward event to ottomans explaining the effect
 		# lower troops by 2 in state
@@ -250,6 +315,18 @@ vfm_greece.7 = {
 	
 	option = {
 		name = vfm_greece.7.b
+		scope:ottoman_state = {
+		    add_radicals = {
+				value = 0.05
+				culture = cu:greek
+			}
+			add_devastation = 10
+		}
+		add_radicals = {
+			pop_type = officers
+			value = small_radicals
+		}
+		
 		#create some radicals and add 10 devastation
 		# TODO: forward event to ottomans explaining the effect
 		# lower troops by 1 in state
