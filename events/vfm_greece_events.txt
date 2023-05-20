@@ -288,6 +288,7 @@ vfm_greece.7 = {
 				    state_region = { 
 					    is_homeland = cu:greek
 					}
+					has_state_trait = state_medeteranean_climate
 				}
 				save_scope_as = ottoman_state
 			}
@@ -300,39 +301,105 @@ vfm_greece.7 = {
 		add_treasury = -25000
 		scope:ottoman_state = {
 		    add_radicals = {
-				value = 0.1
+				value = 0.15
 				culture = cu:greek
 			}
 			add_devastation = 20
+			
+			trigger_event = { id = vfm_greece.8 }
 		}
 		change_infamy = 4
 		
-		# spend some money, create some radicals and add 20 devastation
-		# TODO: forward event to ottomans explaining the effect
 		# lower troops by 2 in state
-		# gain some infamy?
 	}
 	
 	option = {
 		name = vfm_greece.7.b
 		scope:ottoman_state = {
 		    add_radicals = {
-				value = 0.05
+				value = 0.1
 				culture = cu:greek
 			}
 			add_devastation = 10
+			trigger_event = { id = vfm_greece.9 }
 		}
 		add_radicals = {
 			pop_type = officers
 			value = small_radicals
 		}
 		
-		#create some radicals and add 10 devastation
-		# TODO: forward event to ottomans explaining the effect
 		# lower troops by 1 in state
 	}
 }
 
-#Unrecognized loc key greece.6.b.  file: CEventOptionDesc line: 133
-#Inconsistent trigger scopes (state vs. state_region) in file: events/vfm_greece_events.txt line: 235
-#Unrecognized loc key vfm_greece.7.b.  file: CEventOptionDesc line: 133
+vfm_greece.8 = { #
+	type = state_event
+	placement = ROOT
+
+	title = vfm_greece.8.t
+	desc = vfm_greece.8.d
+	flavor = vfm_greece.8.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_devastation.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+	
+	immediate = {
+		save_scope_as = ottoman_state
+	}
+	
+	option = {
+		name = vfm_greece.8.a
+		default_option = yes
+		show_as_tooltip = {
+		    add_radicals = {
+				value = 0.15
+				culture = cu:greek
+			}
+			add_devastation = 20
+		}
+	}
+}
+
+vfm_greece.9 = { #
+	type = state_event
+	placement = ROOT
+
+	title = vfm_greece.9.t
+	desc = vfm_greece.9.d
+	flavor = vfm_greece.9.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_devastation.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+	
+	immediate = {
+		save_scope_as = ottoman_state
+	}
+	
+	option = {
+		name = vfm_greece.9.a
+		default_option = yes
+		show_as_tooltip = {
+		    add_radicals = {
+				value = 0.1
+				culture = cu:greek
+			}
+			add_devastation = 10
+		}
+	}
+}
