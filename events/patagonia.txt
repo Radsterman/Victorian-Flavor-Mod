@@ -12,11 +12,10 @@ patagonia.1 = {
 	duration = 3
 
 	event_image = {
-		video = "gfx/event_pictures/southamerica_aristocrats.bk2"
+		video = "southamerica_aristocrats"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
 
 	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
@@ -87,13 +86,13 @@ patagonia.2 = {
 	flavor = patagonia.2.f
 
 	duration = 3
+	cooldown = { months = long_modifier_time }
 
 	event_image = {
-		video = "gfx/event_pictures/europenorthamerica_native_american.bk2"
+		video = "europenorthamerica_native_american"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/native_american"
 
 	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
@@ -162,16 +161,10 @@ patagonia.2 = {
 				months = normal_modifier_time
 			}
 		}
-		scope:patagonia_country = {
-			add_modifier = {
-				name = patagonia_supplied_with_weapons
-				months = normal_modifier_time
-			}
-			change_relations = {
-				country = scope:rival_country
-				value = 50
-			}
-		}
+		change_tension = {
+			country = scope:patagonia_country
+			value = -50
+		}		
 	}
 	option = { # if they want a fight they'll get one
 		name = patagonia.2.b
@@ -182,16 +175,6 @@ patagonia.2 = {
 		change_tension = {
 			country = scope:patagonia_country
 			value = 25
-		}
-		scope:patagonia_country = {
-			add_modifier = {
-				name = patagonia_supplied_with_weapons
-				months = normal_modifier_time
-			}
-			change_relations = {
-				country = scope:rival_country
-				value = 50
-			}
 		}
 	}
 }
