@@ -152,7 +152,7 @@ vfm_greece.5 = {
 	desc = vfm_greece.5.d
 	flavor = vfm_greece.5.f
 
-	#placement = scope:ionian_overlord_capital
+	placement = scope:greek_state
 
 	event_image = {
 		video = "gfx/event_pictures/unspecific_military_parade.bk2"
@@ -169,26 +169,29 @@ vfm_greece.5 = {
 	immediate = {
 		random_scope_state = {
 			limit = {
-				is_capital = yes
+				OR = {
+					state_region = s:STATE_ATTICA
+					state_region = s:STATE_PELOPONNESE
+				}
 			}
-			save_scope_as = capital_state
+			save_scope_as = greek_state
 		}
 	}
 
 	option = {
 		name = vfm_greece.5.a
 		default_option = yes
-        scope:capital_state = {
+        scope:greek_state = {
 			add_radicals = {
 				pop_type = soldiers
-				value = medium_radicals
+				value = small_radicals
 			}
 		}
 	}
 
     option = {
 		name = vfm_greece.5.b
-		scope:capital_state = {
+		scope:greek_state = {
 			add_radicals = {
 				pop_type = officers
 				value = medium_radicals
