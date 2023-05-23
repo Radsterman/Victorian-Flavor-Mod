@@ -1,4 +1,4 @@
-﻿gov_caucasian_viceroyalty = {
+gov_caucasian_viceroyalty = {
     transfer_of_power = dictatorial
 
 	male_ruler = "RULER_TITLE_VICEROY"
@@ -12,6 +12,10 @@
 			AND = { exists = c:CAU c:CAU = ROOT }
 		}
 		is_subject_type = subject_type_puppet
+	}
+
+	on_government_type_change = {
+		change_to_presidential_elective = yes
 	}
 }
 
@@ -34,6 +38,10 @@ gov_governorate = {
 			has_discrimination_trait = european_heritage
 		}
 	}
+
+	on_government_type_change = {
+		change_to_presidential_elective = yes
+	}
 }
 
 gov_austrian_crownland = {
@@ -55,6 +63,10 @@ gov_austrian_crownland = {
 			has_discrimination_trait = european_heritage
 		}
 	}
+
+	on_government_type_change = {
+		change_to_presidential_elective = yes
+	}
 }
 
 gov_governor_generalship = {
@@ -72,6 +84,10 @@ gov_governor_generalship = {
 			AND = { exists = c:TRH c:TRH = ROOT }
 		}
 		is_subject_type = subject_type_puppet
+	}
+
+	on_government_type_change = {
+		change_to_presidential_elective = yes
 	}
 }
 
@@ -94,6 +110,156 @@ gov_grand_duchy_posen = {
 		exists = c:POS
 		c:POS = ROOT
 	}
+
+	on_government_type_change = {
+		change_to_presidential_elective = yes
+	}
+}
+
+gov_french_2nd_republic_presidential = {
+	transfer_of_power = presidential_elective
+	new_leader_on_reform_government = yes
+
+	male_ruler = "RULER_TITLE_CHANCELLOR"
+	female_ruler = "RULER_TITLE_CHANCELLOR"
+	
+	possible = {
+		has_law = law_type:law_presidential_republic
+		country_has_primary_culture = cu:french
+		has_variable = fra_republic_counter
+		var:fra_republic_counter ?= 2
+	}
+
+	on_government_type_change = {
+		change_to_presidential_elective = yes
+	}
+}
+
+gov_french_2nd_republic_presidential_dictator = {
+	transfer_of_power = dictatorial
+
+	male_ruler = "RULER_TITLE_CHANCELLOR"
+	female_ruler = "RULER_TITLE_CHANCELLOR"
+	
+	possible = {
+		has_law = law_type:law_presidential_republic
+		country_has_primary_culture = cu:french
+		country_has_voting_franchise = no
+		has_variable = fra_republic_counter
+		var:fra_republic_counter ?= 2
+	}
+
+	on_government_type_change = {
+		change_to_dictatorial = yes
+	}
+}
+
+gov_french_3rd_republic_presidential = {
+	transfer_of_power = presidential_elective
+	new_leader_on_reform_government = yes
+
+	male_ruler = "RULER_TITLE_CHANCELLOR"
+	female_ruler = "RULER_TITLE_CHANCELLOR"
+	
+	possible = {
+		has_law = law_type:law_presidential_republic
+		country_has_primary_culture = cu:french
+		has_variable = fra_republic_counter
+		var:fra_republic_counter ?= 3
+	}
+
+	on_government_type_change = {
+		change_to_presidential_elective = yes
+	}
+}
+
+gov_french_3rd_republic_presidential_dictator = {
+	transfer_of_power = dictatorial
+
+	male_ruler = "RULER_TITLE_CHANCELLOR"
+	female_ruler = "RULER_TITLE_CHANCELLOR"
+	
+	possible = {
+		has_law = law_type:law_presidential_republic
+		country_has_primary_culture = cu:french
+		country_has_voting_franchise = no
+		has_variable = fra_republic_counter
+		var:fra_republic_counter ?= 3
+	}
+
+	on_government_type_change = {
+		change_to_dictatorial = yes
+	}
+}
+
+gov_french_4th_republic_presidential = {
+	transfer_of_power = presidential_elective
+	new_leader_on_reform_government = yes
+
+	male_ruler = "RULER_TITLE_CHANCELLOR"
+	female_ruler = "RULER_TITLE_CHANCELLOR"
+	
+	possible = {
+		has_law = law_type:law_presidential_republic
+		country_has_primary_culture = cu:french
+		has_variable = fra_republic_counter
+		var:fra_republic_counter ?= 4
+	}
+
+	on_government_type_change = {
+		change_to_presidential_elective = yes
+	}
+}
+
+gov_french_4th_republic_presidential_dictator = {
+	transfer_of_power = dictatorial
+
+	male_ruler = "RULER_TITLE_CHANCELLOR"
+	female_ruler = "RULER_TITLE_CHANCELLOR"
+	
+	possible = {
+		has_law = law_type:law_presidential_republic
+		country_has_primary_culture = cu:french
+		country_has_voting_franchise = no
+		has_variable = fra_republic_counter
+		var:fra_republic_counter ?= 4
+	}
+
+	on_government_type_change = {
+		change_to_dictatorial = yes
+	}
+}
+
+gov_provisional_government = {
+	transfer_of_power = dictatorial
+
+	male_ruler = "RULER_TITLE_PRESIDENT"
+	female_ruler = "RULER_TITLE_PRESIDENT"
+	
+	possible = {
+		has_law = law_type:law_presidential_republic
+		has_variable = revolutionary_prov_gov_var
+	}
+
+	on_government_type_change = {
+		change_to_dictatorial = yes
+	}
+}
+
+gov_technate_presidential = {
+	transfer_of_power = dictatorial
+
+	male_ruler = "RULER_TITLE_CHIEF_EXECUTIVE"
+	female_ruler = "RULER_TITLE_CHIEF_EXECUTIVE"
+	
+	possible = {
+		has_law = law_type:law_presidential_republic
+		has_law = law_type:law_technocracy
+	}
+
+	on_government_type_change = {
+		change_to_dictatorial = yes
+	}
 }
 
 gov_banana_republic = {
@@ -114,6 +280,10 @@ gov_banana_republic = {
 			goods = g:fruit
 		}
 	}
+
+	on_government_type_change = {
+		change_to_dictatorial = yes
+	}
 }
 
 gov_bhutanese_dual_system_temporal = {
@@ -128,6 +298,35 @@ gov_bhutanese_dual_system_temporal = {
 		has_law = law_type:law_presidential_republic
 		has_law = law_type:law_state_religion
 		country_has_voting_franchise = no
+	}
+
+	on_government_type_change = {
+		change_to_dictatorial = yes
+	}
+}
+gov_free_city = {
+	transfer_of_power = presidential_elective
+
+	male_ruler = "RULER_TITLE_BURGOMASTER"
+	female_ruler = "RULER_TITLE_BURGOMASTER"
+	
+	possible = {
+		OR = {
+			AND = { exists = c:BRE c:BRE = ROOT }
+			AND = { exists = c:HAM c:HAM = ROOT }
+			AND = { exists = c:LUB c:LUB = ROOT }
+			AND = { exists = c:FRM c:FRM = ROOT }
+			AND = { exists = c:DZG c:DZG = ROOT }
+		}
+		any_scope_state = {
+			count <= 1
+		}
+		has_law = law_type:law_presidential_republic
+		country_has_voting_franchise = yes
+	}
+
+	on_government_type_change = {
+		change_to_presidential_elective = yes
 	}
 }
 
@@ -149,6 +348,10 @@ gov_warlord_state = {
 			root.capital.region = sr:region_central_asia
 		}
 	}
+
+	on_government_type_change = {
+		change_to_dictatorial = yes
+	}
 }
 
 gov_fascist_state = {
@@ -162,11 +365,18 @@ gov_fascist_state = {
 			has_law = law_type:law_presidential_republic
 			has_law = law_type:law_parliamentary_republic
 		}
-		has_law = law_type:law_autocracy 
+		OR = {
+			has_law = law_type:law_autocracy 
+			has_law = law_type:law_oligarchy
+			has_law = law_type:law_single_party_state 
+		}
 		coa_fascist_trigger = yes
 	}
-}
 
+	on_government_type_change = {
+		change_to_dictatorial = yes
+	}
+}
 gov_colonial_administration = {
 	transfer_of_power = presidential_elective
 	new_leader_on_reform_government = no
@@ -193,7 +403,20 @@ gov_colonial_administration = {
 				}
 				country_is_in_europe = no
 			}
+			AND = {
+				is_subject_type = subject_type_dependency
+				is_country_type = colonial
+				top_overlord = { NOT = { is_country_type = colonial } }
+				any_primary_culture = {
+					has_discrimination_trait = european_heritage
+				}
+				country_is_in_europe = no
+			}
 		}
+	}
+
+	on_government_type_change = {
+		change_to_presidential_elective = yes
 	}
 }
 
@@ -256,6 +479,10 @@ gov_chartered_company = {
 			is_subject_type = subject_type_chartered_company
 		}
 	}
+
+	on_government_type_change = {
+		change_to_presidential_elective = yes
+	}
 }
 
 gov_military_dictatorship = {
@@ -271,6 +498,10 @@ gov_military_dictatorship = {
 			has_law = law_type:law_mass_conscription
 			has_law = law_type:law_professional_army
 		}
+	}
+
+	on_government_type_change = {
+		change_to_dictatorial = yes
 	}
 }
 
@@ -288,6 +519,10 @@ gov_presidential_dictatorship = {
 			has_law = law_type:law_national_militia
 		}
 	}
+
+	on_government_type_change = {
+		change_to_dictatorial = yes
+	}
 }
 
 gov_junta = {
@@ -304,6 +539,10 @@ gov_junta = {
 			has_law = law_type:law_professional_army
 		}
 	}
+
+	on_government_type_change = {
+		change_to_dictatorial = yes
+	}
 }
 
 gov_presidential_oligarchy = {
@@ -315,6 +554,13 @@ gov_presidential_oligarchy = {
 	possible = {
 		has_law = law_type:law_presidential_republic
 		country_has_voting_franchise = no
+		NOT = {
+			coa_fascist_trigger = yes
+		}
+	}
+
+	on_government_type_change = {
+		change_to_dictatorial = yes
 	}
 }
 
@@ -328,6 +574,29 @@ gov_presidential_democracy = {
 	possible = {
 		has_law = law_type:law_presidential_republic
 		country_has_voting_franchise = yes
+		NOR = { 
+			has_law = law_type:law_single_party_state
+			has_law = law_type:law_technocracy
+		}
+	}
+
+	on_government_type_change = {
+		change_to_presidential_elective = yes
 	}
 }
 
+gov_presidential_single_party_state = {
+	transfer_of_power = presidential_elective
+
+	male_ruler = "RULER_TITLE_PRESIDENT"
+	female_ruler = "RULER_TITLE_PRESIDENT"
+	
+	possible = {
+		has_law = law_type:law_presidential_republic
+		has_law = law_type:law_single_party_state
+	}
+
+	on_government_type_change = {
+		change_to_presidential_elective = yes
+	}
+}

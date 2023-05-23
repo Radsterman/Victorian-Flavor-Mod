@@ -7,7 +7,7 @@ german_unification.1 = {
 
 	title = german_unification.1.t
 	desc = {
-		first_valid = {
+		first_valid = {		
 			triggered_desc = {
 				desc = german_unification.1.d1
 				trigger = {
@@ -25,13 +25,12 @@ german_unification.1 = {
 	flavor = german_unification.1.f
 
 	event_image = {
-		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+		video = "unspecific_signed_contract"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
 
-	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
 
 	duration = 3
 
@@ -39,6 +38,40 @@ german_unification.1 = {
 	}
 
 	immediate = {
+		set_variable = je_german_confederate_unifier
+	
+		every_country = {
+			limit = {
+				country_rank < rank_value:great_power			
+				OR = {
+					AND = {
+						root = { country_has_primary_culture = cu:north_german }
+						country_has_primary_culture = cu:north_german
+					}
+					AND = {
+						root = { country_has_primary_culture = cu:south_german }
+						country_has_primary_culture = cu:south_german
+					}					
+				}				
+			}
+			
+			if = {
+				limit = {
+					is_ai = yes			
+					OR = {
+						has_diplomatic_pact = {
+							who = ROOT
+							type = customs_union
+						}
+						is_supporting_unification_candidate = { who = root country_formation = GER }
+					}
+				}			
+				root = { annex = prev }
+			}
+			else = {
+				trigger_event = { id = german_unification.2 days = 0 popup = yes }
+			}
+		}
 	}
 
 	option = {
@@ -93,7 +126,7 @@ german_unification.1 = {
 	}
 }
 
-# Annex a German country
+# Annex a German country after forming NGF/SGF
 german_unification.2 = {
 	type = country_event
 	placement = ROOT
@@ -103,131 +136,71 @@ german_unification.2 = {
 	flavor = german_unification.2.f
 
 	event_image = {
-		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+		video = "unspecific_signed_contract"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
 
-	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
 
 	duration = 3
 	
-	trigger = {
-		root.infamy < infamy_threshold:infamous
-		country_rank >= rank_value:major_power
-		NOT = {
-			country_tier = empire
-			country_tier = hegemony
-		}
-		any_country = {
-			trigger_if = {
-				limit = {
-					has_technology_researched = pan-nationalism
-				}
-				OR = {
-					country_has_primary_culture = cu:north_german
-					country_has_primary_culture = cu:south_german
-				}
-			}
-			trigger_else_if = {
-				limit = {
-					ROOT = {
-						country_has_primary_culture = cu:north_german
-					}
-				}
-				country_has_primary_culture = cu:north_german
-			}
-			trigger_else_if = {
-				limit = {
-					ROOT = {
-						country_has_primary_culture = cu:south_german
-					}
-				}
-				country_has_primary_culture = cu:south_german
-			}
-			has_diplomatic_pact = {
-				who = ROOT
-				type = customs_union
-			}
-			OR = {
-				is_subject = no
-				is_subject_of = ROOT
-			}
-			country_rank < rank_value:major_power
-			relations:root >= relations_threshold:cordial
-			is_player = no
-			NOT = { has_variable = german_minor_dont_annex }
-		}
-	}
-
 	immediate = {
 		random_country = {
-			limit = {
-				trigger_if = {
-					limit = {
-						has_technology_researched = pan-nationalism
-					}
-					OR = {
-						country_has_primary_culture = cu:north_german
-						country_has_primary_culture = cu:south_german
-					}
-				}
-				trigger_else_if = {
-					limit = {
-						ROOT = {
-							country_has_primary_culture = cu:north_german
-						}
-					}
-					country_has_primary_culture = cu:north_german
-				}
-				trigger_else_if = {
-					limit = {
-						ROOT = {
-							country_has_primary_culture = cu:south_german
-						}
-					}
-					country_has_primary_culture = cu:south_german
-				}
-				has_diplomatic_pact = {
-					who = ROOT
-					type = customs_union
-				}
-				OR = {
-					is_subject = no
-					is_subject_of = ROOT
-				}
-				country_rank < rank_value:major_power
-				relations:root >= relations_threshold:cordial
-				is_player = no
-				NOT = { has_variable = german_minor_dont_annex }
-			}
-			save_scope_as = german_annex_country
-		}
+			limit = { is_unification_candidate = GER }
+			save_scope_as = german_unification_candidate
+		}	
 	}
 
 	option = {
 		name = german_unification.2.a
-		default_option = yes
-		annex = scope:german_annex_country
+		trigger = {
+			OR = {
+				is_subject = no
+				is_subject_of = scope:german_unification_candidate
+			}				
+		}
+		scope:german_unification_candidate = { annex = root }
 		ai_chance = {
-			base = 100
+			base = 9
 		}
 	}
 	option = {
 		name = german_unification.2.b
+		default_option = yes
+		add_radicals = {
+			value = medium_radicals
+			culture = cu:south_german
+		}		
+		add_radicals = {
+			value = medium_radicals
+			culture = cu:north_german
+		}			
 		change_relations = {
-			country = scope:german_annex_country
-			value = 20
+			country = scope:german_unification_candidate
+			value = -50
 		}
-		scope:german_annex_country = {
-			set_variable = {
-				name = german_minor_dont_annex
-				days = 1825
+		every_scope_state = {
+			if = {
+				limit = { 	
+					NOT = { has_claim_by = scope:german_unification_candidate }
+				}
+			}
+			state_region = {
+				add_claim = scope:german_unification_candidate
+			}
+		}		
+		hidden_effect = {
+			scope:german_unification_candidate = {
+				set_secret_goal = {
+					country = root
+					secret_goal = conquer
+				}
 			}
 		}
+		
 		ai_chance = {
-			base = 0
+			base = 1
 		}
 	}
 }
@@ -258,6 +231,9 @@ german_unification.3 = {
 			is_powerful = yes
 			is_in_government = yes
 		}
+		is_unification_candidate = GER
+		has_technology_researched = nationalism
+		game_date > 1846.1.1
 		game_date < 1898.1.1
 	}
 
@@ -266,6 +242,7 @@ german_unification.3 = {
 		create_character = {
 			first_name = Otto
 			last_name = von_Bismarck
+			historical = yes
 			ig_leader = yes
 			interest_group = ig_landowners
 			female = no
@@ -292,7 +269,7 @@ german_unification.3 = {
 			create_character = {
 				first_name = Otto
 				last_name = von_Bismarck
-				#role = politician # Remove this line
+				historical = yes
 				ig_leader = yes
 				interest_group = ig_landowners
 				female = no
@@ -321,7 +298,7 @@ german_unification.3 = {
 			create_character = {
 				first_name = Otto
 				last_name = von_Bismarck
-				#role = politician # Remove this line
+				historical = yes
 				ig_leader = yes
 				interest_group = ig_landowners
 				female = no
@@ -355,11 +332,10 @@ german_unification.4 = {
 	flavor = german_unification.4.f
 
 	event_image = {
-		video = "gfx/event_pictures/unspecific_military_parade.bk2"
+		video = "unspecific_military_parade"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/unspecific/military_parade"
 
 	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
 
@@ -389,5 +365,65 @@ german_unification.4 = {
 			value = 0.1
 			culture = cu:south_german
 		}
+	}
+}
+
+# German National Identity
+german_unification.5 = {
+	type = country_event
+	placement = ROOT
+
+	title = german_unification.5.t
+	flavor = german_unification.5.f
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = german_unification.5.d1
+				trigger = {
+					this = scope:german_unifier_candidate
+				}
+			}
+			triggered_desc = {
+				desc = german_unification.5.d2
+				trigger = {
+					exists = scope:german_unifier_candidate
+				}
+			}
+			triggered_desc = {
+				desc = german_unification.5.d3
+				trigger = {
+					always = yes
+				}
+			}			
+		}
+	}
+
+	event_image = {
+		video = "europenorthamerica_political_extremism"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+	duration = 3
+
+	trigger = {}
+
+	option = {
+		name = german_unification.5.a
+		default_option = yes	
+		if = {
+			limit = { country_has_primary_culture = cu:north_german }
+			add_journal_entry = {
+				type = je_north_german_unification
+			}
+		}
+		else_if = {
+			limit = { country_has_primary_culture = cu:south_german }
+			add_journal_entry = {
+				type = je_south_german_unification
+			}
+		}		
 	}
 }

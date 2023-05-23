@@ -15,6 +15,9 @@ on_monthly_pulse_country = {
 		native_resettlement.1
 		meiji.13
 		bic_breakup.1
+		dreyfus.1
+		dei_breakup.1
+		unable_to_enact.1
 		treaty_of_villafranca.1
 		italy_1848.1
 		italy_1848.3
@@ -47,6 +50,11 @@ on_monthly_pulse_country = {
 		france_event.16
 		france_event.17
 		flavor_usa_events.1
+
+		# Exile Agitators Events
+		yeet_agitator_events.1
+		yeet_agitator_events.2
+		yeet_agitator_events.3
 	}
 	# Election Events
 	random_events = {
@@ -83,12 +91,89 @@ on_monthly_pulse_country = {
 		1 = election_other_parties_events.4
 		1 = election_other_parties_events.5
 		1 = ig_leaders.3
+		1 = communist_elections.1
+		1 = communist_elections.2
+		1 = communist_elections.3
+		1 = communist_elections.4
+		1 = agitators_election_events.1
+		1 = agitators_election_events.2
+		1 = agitators_election_events.3
+		1 = agitators_election_events.4
+		1 = agitators_election_events.5
+		1 = agitators_election_events.6
+		1 = agitators_election_events.7
+		1 = agitators_election_events.8
+		1 = agitators_election_events.9
+		1 = agitators_election_events.10
+		1 = agitators_election_events.11
+		1 = agitators_election_events.12
+		1 = agitators_election_events.13
+		1 = agitators_election_events.14
+		1 = agitators_election_events.15
+		1 = agitators_election_events.16
+		1 = agitators_election_events.17
+		1 = agitators_election_events.18
+		1 = agitators_election_events.19
+		1 = agitators_election_events.20
+		1 = agitators_election_events.21
+		1 = agitators_election_events.22
+		1 = agitators_election_events.23
+		1 = agitators_election_events.24
+		1 = agitators_election_events.25
+		1 = agitators_election_events.26
+		1 = agitators_election_events.27
+		1 = agitators_election_events.28
+		1 = agitators_election_events.29
+		1 = agitators_election_events.30
+		1 = agitators_election_events.31
+		1 = agitators_election_events.32
+		1 = agitators_election_events.33
+		1 = agitators_election_events.34
+		1 = agitators_election_events.35
+		1 = agitators_election_events.36
+		1 = agitators_election_events.37
+		1 = agitators_election_events.38
+		1 = agitators_election_events.39
+		1 = agitators_election_events.40
+		1 = agitators_election_events.41
+		1 = agitators_election_events.42
+		1 = agitators_election_events.43
+		1 = agitators_election_events.44
+		1 = agitators_election_events.45
+		1 = agitators_election_events.46
+		1 = agitators_election_events.47
+		1 = agitators_election_events.48
+		1 = agitators_election_events.49
+		1 = agitators_election_events.50
 	}
+	#Coup
 	random_events = {
-		5 = france_event.1
-		7 = france_event.14
+		5 = 0
+		1 = coup.1
+	}
+	# Garibaldi
+	random_events = {
+		20 = 0
+		30 = garibaldi_events.1
+		30 = garibaldi_events.2
+		2 = garibaldi_events.3
+		1 = garibaldi_events.4
 	}
 	effect = {
+		every_character_in_exile_pool = {
+			limit = {
+				popularity <= 15
+			}
+			kill_character = yes
+		}
+		if = {
+			limit = {
+				year < 1930
+				NOT = { has_global_variable = germany_formed }
+				c:GER ?= { is_country_alive = yes }
+			}
+			set_global_variable = germany_formed
+		}
 		if = {
 			limit = {
 				THIS = c:FRA
@@ -98,6 +183,28 @@ on_monthly_pulse_country = {
 				NOT = { exists = c:HAI }
 			}
 			c:FRA = { remove_modifier = modifier_haitian_independence_payments }
+		}
+		if = {
+			limit = {
+				c:TEX ?= this
+				NOT = {
+					has_variable = santa_anna_captured
+				}
+				exists = c:MEX
+				any_diplomatic_play = {
+					initiator_is = c:TEX
+					target_is = c:MEX
+				}
+				c:MEX = {
+					is_player = no
+					any_scope_character = {
+						has_variable = is_santa_anna
+					}
+				}
+				game_date >= 1836.4.21 # Battle of San Jacinto
+				game_date < 1838.1.1
+			}
+			trigger_event = { id = texan_war_of_independence.3 days = 0 popup = yes } # Santa Anna Captured
 		}
 	}
 }
@@ -232,6 +339,13 @@ on_native_uprising = {
 # Root = Country
 on_capitulation = {
 	effect = {
+		set_variable = {
+            name = recently_lost_war
+            days = 1825
+            value = yes
+        } 
+	}
+	effect = {
 		if = {
 			limit = {
 				is_country_type = decentralized
@@ -334,20 +448,47 @@ on_character_death = {
 		#	}
 		#}
 
+		### Force-generating French monarchs of the correct dynasty if something goes wrong
 		if = {
 			limit = {
 				is_ruler = yes
-				exists = c:FRA
-				owner = c:FRA
 				owner = {
-					has_law = law_type:law_monarchy
-					has_variable = napoleon3_on_death
+					NOT = {
+						any_scope_character = {
+							is_heir = yes
+						}
+					}
 				}
 			}
-			owner = {
-				remove_variable = napoleon3
-				remove_variable = napoleon3_elected
-				trigger_event = france_event.22
+			if = {
+				limit = { 
+					has_variable = legitimist_leader 
+				}
+				owner = {
+					create_character = {
+						template = dynamic_legitimist_ruler_template
+					}
+				}
+			}
+			else_if = {
+				limit = { 
+					has_variable = orleanist_leader 
+				}
+				owner = {
+					create_character = {
+						template = dynamic_orleanist_ruler_template
+					}
+				}				
+			}
+			else_if = {
+				limit = { 
+					has_variable = bonapartist_leader 
+				}
+				owner = {
+					create_character = {
+						template = dynamic_bonapartist_ruler_template
+					}
+				}				
 			}
 		}
 
@@ -732,6 +873,14 @@ on_election_campaign_end = {
 	}
 }
 
+# Root = Country
+on_government_reformed = {
+	effect = {
+		# Government Petition
+		set_variable = gov_petition_coin_toss
+	}
+}
+
 on_election_started = {
 	trigger = { in_election_campaign = yes }
 	effect = { 
@@ -797,7 +946,13 @@ on_law_enactment_started = {
 # will work as expected, even though the enactment is about to end
 on_law_checkpoint_success = {
 	effect = {
-
+		add_enactment_phase = 1
+		if = {
+			limit = {
+				enacting_any_law = yes
+			}
+			trigger_event = { id = law_notification.4 days = 0 }
+		}
 	}
 }
 
@@ -864,6 +1019,28 @@ on_law_checkpoint_advance = {
 		2 = ig_petitions.19 #Armed forces want conscription
 		2 = ig_petitions.22 #Petite-Bourgeoisie want Restricted Citizenship
 		1 = law_notification.1
+		10 = single_party_state.1
+		5 = single_party_state.6
+		5 = single_party_state.7
+		10 = land_ownership_law_events.2
+		10 = land_ownership_law_events.5
+		10 = land_ownership_law_events.8
+		10 = luddite_law_events.1
+		10 = luddite_law_events.4
+		10 = agitator_legal_events.21
+		10 = agitator_legal_events.22
+		10 = agitator_legal_events.23
+		10 = agitator_legal_events.24
+		10 = agitator_legal_events.25
+		10 = agitator_legal_events.26
+		10 = agitator_legal_events.27
+		10 = agitator_legal_events.28
+		10 = agitator_legal_events.29
+		10 = agitator_legal_events.30
+		10 = land_ownership_law_events.13
+		10 = land_ownership_law_events.16
+		10 = technocracy.2
+		100 = nihilism.13
 	}
 	effect = {
 
@@ -929,6 +1106,35 @@ on_law_checkpoint_debate = {
 		10 = ig_petitions.13 #Trade Unions want compulsory primary school
 		20 = ig_petitions.16 #Industrialists want no graduated taxes
 		1 = law_notification.2
+		10 = single_party_state.2
+		10 = land_ownership_law_events.1
+		10 = land_ownership_law_events.4
+		10 = land_ownership_law_events.7
+		10 = luddite_law_events.2
+		10 = luddite_law_events.5
+		10 = agitators_law_events.11
+		10 = agitators_law_events.12
+		10 = agitators_law_events.13
+		10 = agitators_law_events.14
+		10 = agitators_law_events.15
+		10 = agitators_law_events.16
+		10 = agitators_law_events.17
+		10 = agitators_law_events.18
+		10 = agitators_law_events.19
+		10 = agitators_law_events.20
+		10 = land_ownership_law_events.12
+		10 = land_ownership_law_events.15
+		10 = agitator_legal_events.11
+		10 = agitator_legal_events.12
+		10 = agitator_legal_events.13
+		10 = agitator_legal_events.14
+		10 = agitator_legal_events.15
+		10 = agitator_legal_events.16
+		10 = agitator_legal_events.17
+		10 = agitator_legal_events.18
+		10 = agitator_legal_events.19
+		10 = agitator_legal_events.20
+		10 = technocracy.3
 	}
 	effect = {
 	}
@@ -998,10 +1204,92 @@ on_law_checkpoint_stall = {
 		2 = generic_laws.8
 		2 = generic_laws.11
 		1 = law_notification.3
+		10 = single_party_state.3
+		50 = single_party_state.4
+		50 = single_party_state.5
+		10 = land_ownership_law_events.3
+		10 = land_ownership_law_events.6
+		10 = land_ownership_law_events.9
+		10 = luddite_law_events.3
+		10 = luddite_law_events.6
+		10 = agitators_law_events.1
+		10 = agitators_law_events.2
+		10 = agitators_law_events.3
+		10 = agitators_law_events.4
+		10 = agitators_law_events.5
+		10 = agitators_law_events.6
+		10 = agitators_law_events.7
+		10 = agitators_law_events.8
+		10 = agitators_law_events.9
+		10 = agitators_law_events.10
+		10 = land_ownership_law_events.10
+		10 = land_ownership_law_events.11
+		10 = land_ownership_law_events.14
+		10 = land_ownership_law_events.17
+		10 = land_ownership_law_events.18
+		10 = agitator_legal_events.1
+		10 = agitator_legal_events.2
+		10 = agitator_legal_events.3
+		10 = agitator_legal_events.4
+		10 = agitator_legal_events.5
+		10 = agitator_legal_events.6
+		10 = agitator_legal_events.7
+		10 = agitator_legal_events.8
+		10 = agitator_legal_events.9
+		10 = agitator_legal_events.10
+		10 = technocracy.1
 	}
 	effect = {
 	}
 }
+
+# Root = owner Country of the Law
+# Executed when an enacting law is passed by reaching the final enactment phase
+#
+# NOTE: at the point in time when this on-action is triggered, the law
+# is still considered being enacted, therefore the `currently_enacting_law` link
+# will work as expected, even though the enactment is _just_ about to end
+on_law_enactment_pass = {
+	effect = {
+		if = {
+			limit = {
+				is_player = yes
+				NOT = { has_variable = achievement_vox_populi_var }
+				any_political_movement = {
+					desired_law = ROOT.currently_enacting_law.type
+				}
+				any_supporting_character = {
+					has_role = agitator
+				}
+			}
+			set_variable = achievement_vox_populi_var
+		}
+		if = {
+			limit = {
+				is_player = yes
+				NOT = {
+					has_variable = achievement_amish_paradise_var
+				}
+				is_enacting_law = law_type:law_industry_banned
+				year < 1846
+			}
+			set_variable = achievement_amish_paradise_var
+		}
+	}
+}
+
+# Root = owner Country of the Law
+# Executed when enactment fails by accumulating too many setbacks
+#
+# NOTE: at the point in time when this on-action is triggered, the law
+# is still considered being enacted, therefore the `currently_enacting_law` link
+# will work as expected, even though the enactment is _just_ about to end
+on_law_enactment_fail = {
+	effect = {
+		post_notification = enactment_failed
+	}
+}
+
 
 # Root = owner Country of the Law
 # executed when enactment stops for any reason. Could be because the law has

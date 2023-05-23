@@ -1,5 +1,6 @@
 # COPY-PASTED FOR NOW
-@panel_width_minus_30 = 510			
+@panel_width_minus_30 = 510
+@panel_width_minus_20 = 520			
 @panel_width_minus_10 = 530			# used to be 450
 @panel_width = 540  				# used to be 460
 @panel_width_half = 270				# used to be 230
@@ -40,7 +41,7 @@ types journal_entry_panel_types
 				direction = vertical
 				using = default_list_position
 				margin_top = 20
-				spacing = 20
+				spacing = 10
 
 				widget = {
 					size = { 250 120 }
@@ -69,14 +70,33 @@ types journal_entry_panel_types
 						}
 					}
 				}
+				# time out info
+				flowcontainer = {
+					visible = "[JournalEntry.CanTimeOut]"
+					spacing = 5
+					parentanchor = hcenter
+					tooltip = "[JournalEntry.GetOnTimeoutTooltip]"
+					
+					icon = {
+						size = { 30 30 }
+						texture = "gfx/interface/icons/generic_icons/clock.dds"
+					}
+					textbox = {
+						text = "[JournalEntry.GetTimeoutTooltip]"
+						autoresize = yes
+						align = left|nobaseline
+						using = fontsize_large
+						parentanchor = vcenter
+					}
+				}
 
 				textbox = {
 					visible = "[Not(StringIsEmpty(JournalEntry.GetStatusDesc))]"
 					text = "[JournalEntry.GetStatusDesc]"
 					autoresize = yes
 					multiline = yes
-					minimumsize = { @panel_width_minus_30 -1 }
-					maximumsize = { @panel_width_minus_30 -1 }
+					minimumsize = { @panel_width_minus_20 -1 }
+					maximumsize = { @panel_width_minus_20 -1 }
 					using = default_list_position
 					align = hcenter|nobaseline
 					using = fontsize_large
@@ -86,6 +106,58 @@ types journal_entry_panel_types
 					background = {
 						alpha = 0.5
 						using = entry_bg_fancy_dark
+					}
+				}
+				
+				dynamicgridbox = {
+					parentanchor = hcenter
+					visible = "[Not( IsDataModelEmpty( JournalEntry.GetScriptedButtons ) )]"
+					datamodel = "[JournalEntry.GetScriptedButtons]"
+					datamodel_wrap = 2
+					flipdirection = yes
+
+					item = {
+						widget = {
+							size = { 260 60 }
+
+							scripted_journal_entry_button = {
+								parentanchor = center
+							}
+						}
+					}
+				}
+
+				flowcontainer = {
+					parentanchor = hcenter
+					visible = "[And(JournalEntry.HasProgressBar, JournalEntry.IsActive)]"
+					margin = { 0 5 }
+					
+					default_progressbar_horizontal = {
+						block "progressbar_size" {
+							size = { 504 30 }
+						}
+						blockoverride "values" {
+							value = "[FixedPointToFloat(JournalEntry.GetGoalProgressPercent)]"
+							min = 0
+							max = 1
+						}
+
+						textbox = {
+							visible = "[EqualTo_CFixedPoint(JournalEntry.GetBaselineValue, '(CFixedPoint)0')]"
+							text = "JOURNAL_ENTRY_PROGRESSBAR_FROM_ZERO"
+							autoresize = yes
+							align = left|nobaseline
+							margin_left = 10
+							parentanchor = vcenter
+						}
+						textbox = {
+							visible = "[Not(EqualTo_CFixedPoint(JournalEntry.GetBaselineValue, '(CFixedPoint)0'))]"
+							text = "JOURNAL_ENTRY_PROGRESSBAR_FROM_BASE"
+							autoresize = yes
+							align = left|nobaseline
+							margin_left = 10
+							parentanchor = vcenter
+						}
 					}
 				}
 					
@@ -127,24 +199,20 @@ types journal_entry_panel_types
 					align = left|nobaseline
 
 					margin = { 20 20 }
+
 					background = {
-						using = entry_bg_simple
+						texture = "gfx/interface/tooltip/tooltip_title_bg.dds"
+						using = color_gold_positive
+						alpha = 0.4
+						
+						modify_texture = {
+							using = texture_velvet
+						}
 					}
 				}
-				
-				textbox = {
-					visible = "[Not(StringIsEmpty(JournalEntry.FailureTooltip))]"
-					text = "[JournalEntry.GetFailureTooltip]"
-					autoresize = yes
-					multiline = yes
-					minimumsize = { @panel_width_minus_30 -1 }
-					maximumsize = { @panel_width_minus_30 -1 }
-					using = default_list_position
-					align = left|nobaseline
-
-				}
 
 				textbox = {
+				margin_bottom = 10
 					text = "[JournalEntry.GetOnCompleteTooltip]"
 					autoresize = yes
 					multiline = yes
@@ -155,7 +223,31 @@ types journal_entry_panel_types
 				}
 
 				textbox = {
+					visible = "[Not(StringIsEmpty(JournalEntry.GetFailureTooltip))]"
+					text = "[JournalEntry.GetFailureTooltip]"
+					autoresize = yes
+					multiline = yes
+					minimumsize = { @panel_width_minus_30 -1 }
+					maximumsize = { @panel_width_minus_30 -1 }
+					using = default_list_position
+					align = left|nobaseline
+
+					margin = { 20 20 }
+
+					background = {
+						texture = "gfx/interface/tooltip/tooltip_title_bg.dds"
+						using = color_blue_negative
+						alpha = 0.5
+						
+						modify_texture = {
+							using = texture_velvet
+						}
+					}
+				}
+
+				textbox = {
 					text = "[JournalEntry.GetOnFailTooltip]"
+					visible = "[Not(StringIsEmpty(JournalEntry.GetOnFailTooltip))]"
 					autoresize = yes
 					multiline = yes
 					minimumsize = { @panel_width_minus_30 -1 }
@@ -163,34 +255,16 @@ types journal_entry_panel_types
 					using = default_list_position
 					align = left|nobaseline
 				}
-				
+
 				textbox = {
 					text = "[JournalEntry.GetOnTimeoutTooltip]"
+					visible = "[Not(StringIsEmpty(JournalEntry.GetOnTimeoutTooltip))]"
 					autoresize = yes
 					multiline = yes
 					minimumsize = { @panel_width_minus_30 -1 }
 					maximumsize = { @panel_width_minus_30 -1 }
 					using = default_list_position
 					align = left|nobaseline
-				}
-				
-				# time out info
-				flowcontainer = {
-					visible = "[JournalEntry.CanTimeOut]"
-					spacing = 5
-					parentanchor = hcenter
-					
-					icon = {
-						size = { 30 30 }
-						texture = "gfx/interface/icons/generic_icons/clock.dds"
-					}
-					textbox = {
-						text = "[JournalEntry.GetTimeoutTooltip]"
-						autoresize = yes
-						align = left|nobaseline
-						using = fontsize_large
-						parentanchor = vcenter
-					}
 				}
 
 				divider_clean = {
@@ -242,6 +316,25 @@ types journal_entry_panel_types
 			visible = "[Not(JournalEntry.IsPinnedInOutliner)]"
 			onclick = "[JournalEntry.TogglePinInOutliner]"
 			tooltip = "PIN_JOURNAL_ENTRY"
+		}
+	}
+
+	type scripted_journal_entry_button = button {
+		using = default_button_action
+		tooltip = "SCRIPTED_ACTION_TOOLTIP"
+		enabled = "[IsValid( ScriptedButton.ExecuteEffect )]"
+		onclick = "[Execute( ScriptedButton.ExecuteEffect )]"
+		size = { 250 50 }
+		margin = { 20 20 }
+
+		textbox = {
+			parentanchor = center
+			align = nobaseline
+			autoresize = yes
+			max_width = 230
+			elide = right
+			fontsize_min = 14
+			text = "[ScriptedButton.GetName]"
 		}
 	}
 }

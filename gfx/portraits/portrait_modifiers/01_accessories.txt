@@ -60,15 +60,18 @@
         weight = {
             base = 0
             modifier = {
-            add = 1000
+                add = 1000
+
     			european_clothes_trigger = yes
     			scope:character = {
                     monarchy_clothes_trigger = yes
+                    age > 12
     				OR = {
     					NOT = { exists = c:PAP }
     					AND = {
     						exists = c:PAP
-    						NOT = { owner = c:PAP }
+							exists = home_country
+    						NOT = { home_country = c:PAP }
     					}
     				}
     			}
@@ -152,13 +155,24 @@
             base = 0
             modifier = {
                add = 10000
-                AND = {
-                    german_clothes_trigger = yes
-                    OR = {
-                        military_clothes_trigger = yes
-                        monarchy_clothes_trigger = yes
-                    }   
-                }  
+                agitator_character_trigger = no
+                german_clothes_trigger = yes
+                scope:character ?= {
+                    age > 12
+                    NOR = {
+                        has_template = agitator_jules_brunet
+                        has_template = rus_leon_trotsky_character_template
+                        has_template = agitator_nestor_makhno
+                        has_template = fra_georges_boulanger_character_template
+                        has_template = agitator_louise_michel
+                        has_template = agitator_susan_b_anthony
+                        has_template = agitator_emiliano_zapata
+                    }
+                }
+                OR = {
+                    military_clothes_trigger = yes
+                    monarchy_clothes_trigger = yes
+                }   
             }
         }
     }
@@ -193,26 +207,38 @@
         weight = {
             base = 0
             modifier = {
-               add = 10000
-                AND = {
-                    OR = {
-                        american_clothes_trigger = yes
-                        AND = {
-                            exists = scope:character
-                            scope:character = {
-                                owner = {
-                                    exists = c:CSA
-                                    c:CSA = this
-                                    is_subject = no
-                                }
+                add = 10000
+                agitator_character_trigger = no
+                OR = {
+                    american_clothes_trigger = yes
+                    AND = {
+                        exists = scope:character
+                        scope:character = {
+							exists = home_country
+                            home_country = {
+                                exists = c:CSA
+                                c:CSA = this
+                                is_subject = no
                             }
                         }
                     }
-                    OR = {
-                        military_clothes_trigger = yes
-                        monarchy_clothes_trigger = yes
-                    }   
-                }  
+                }
+                OR = {
+                    military_clothes_trigger = yes
+                    monarchy_clothes_trigger = yes
+                }
+                scope:character ?= {
+                    age > 12
+                    NOR = {
+                        has_template = agitator_jules_brunet
+                        has_template = rus_leon_trotsky_character_template
+                        has_template = agitator_nestor_makhno
+                        has_template = fra_georges_boulanger_character_template
+                        has_template = agitator_louise_michel
+                        has_template = agitator_susan_b_anthony
+                        has_template = agitator_emiliano_zapata
+                    }
+                }
             }
         }
     }
@@ -254,8 +280,21 @@
             base = 0
             modifier = {
                 add = 1000
+                agitator_character_trigger = no
                 european_clothes_trigger = yes
                 republic_clothes_trigger = no
+                scope:character = {
+                    age > 12
+                    NOR = {
+                        has_template = agitator_jules_brunet
+                        has_template = rus_leon_trotsky_character_template
+                        has_template = agitator_nestor_makhno
+                        has_template = fra_georges_boulanger_character_template
+                        has_template = agitator_louise_michel
+                        has_template = agitator_susan_b_anthony
+                        has_template = agitator_emiliano_zapata
+                    }
+                }
                 OR = {
                     military_clothes_trigger = yes
                     officers_clothes_pop_trigger = yes
@@ -265,7 +304,8 @@
                         NOT = {
                             scope:character = {
     							exists = c:PAP
-                                owner = c:PAP
+								exists = home_country
+                                home_country = c:PAP
                             }
                         }
                     }

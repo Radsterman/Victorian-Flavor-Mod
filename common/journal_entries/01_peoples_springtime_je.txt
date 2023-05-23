@@ -1,5 +1,45 @@
 ﻿je_springtime_of_the_peoples = {
-	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+	is_shown_when_inactive = {
+		has_global_variable = peoples_springtime_happening
+		has_technology_researched = egalitarianism
+		capital = {
+			OR = {
+				region = sr:region_england
+				region = sr:region_north_sea_coast
+				region = sr:region_gaelic
+				region = sr:region_iberia
+				region = sr:region_france
+				region = sr:region_occitania
+				region = sr:region_rhine
+				region = sr:region_low_countries
+				region = sr:region_north_italy
+				region = sr:region_south_italy
+				region = sr:region_west_balkans
+				region = sr:region_east_balkans
+				region = sr:region_greece
+				region = sr:region_north_germany
+				region = sr:region_south_germany
+				region = sr:region_baltic
+				region = sr:region_scandinavia
+				region = sr:region_poland
+				region = sr:region_ukraine
+				region = sr:region_belarus
+				#region = sr:region_central_russia
+			}
+		}
+	}
+
+	possible = {
+		any_interest_group = {
+			OR = {
+				is_powerful = yes
+				is_insurrectionary = yes
+			}
+			leader = { has_ideology = ideology:ideology_radical }
+		}
+	}
 
 	immediate = {
 		set_global_variable = {
@@ -10,6 +50,8 @@
 
 	complete = {
 		is_at_war = no
+		has_revolution = no
+		is_revolutionary = no
 		has_insurrectionary_interest_groups = no
 		OR = {
 			custom_tooltip = {
@@ -19,7 +61,7 @@
 			AND = {
 				any_interest_group = {
 					is_in_government = yes
-					leader = { has_ideology = ideology_radical }
+					leader = { has_ideology = ideology:ideology_radical }
 				}
 				NOT = { has_law = law_type:law_monarchy }
 				OR = {
@@ -33,7 +75,7 @@
 			}
 			NOT = {
 				any_interest_group = {
-					leader = { has_ideology = ideology_radical }
+					leader = { has_ideology = ideology:ideology_radical }
 					is_marginal = no
 				}
 			}
@@ -54,7 +96,7 @@
 				limit = {
 					any_interest_group = {
 						is_in_government = yes
-						leader = { has_ideology = ideology_radical }
+						leader = { has_ideology = ideology:ideology_radical }
 					}
 					NOT = { has_law = law_type:law_monarchy }
 					OR = {
@@ -72,7 +114,7 @@
 				limit = {
 					NOT = {
 						any_interest_group = {
-							leader = { has_ideology = ideology_radical }
+							leader = { has_ideology = ideology:ideology_radical }
 							is_marginal = no
 						}
 					}
@@ -101,7 +143,7 @@
 	weight = 10000
 	should_be_pinned_by_default = yes
 
-	inheritable = no
+	transferable = no
 
 	timeout = 3650
 }
