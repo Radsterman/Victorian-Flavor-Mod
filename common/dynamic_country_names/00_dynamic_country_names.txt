@@ -56,14 +56,15 @@ DEFAULT = {
 			exists = scope:actor
 			scope:actor = {
 				is_secessionist = no
+				has_law = law_type:law_council_republic
 				any_interest_group = {
 					is_in_government = yes
-					is_powerful = yes
+					is_strongest_ig_in_government = yes
 					leader = {
 						OR = {
-							has_ideology = ideology_communist
-							has_ideology = ideology_anarchist
-							has_ideology = ideology_vanguardist
+							has_ideology = ideology:ideology_communist
+							has_ideology = ideology:ideology_anarchist
+							has_ideology = ideology:ideology_vanguardist
 						}
 					}
 				}
@@ -81,12 +82,14 @@ DEFAULT = {
 			exists = scope:actor
 			scope:actor = {
 				is_secessionist = no
+				NOT = { has_law = law_type:law_council_republic }
 				any_interest_group = {
 					is_in_government = yes
+					is_strongest_ig_in_government = yes
 					leader = {
 						OR = {
-							has_ideology = ideology_fascist
-							has_ideology = ideology_ethno_nationalist
+							has_ideology = ideology:ideology_fascist
+							has_ideology = ideology:ideology_ethno_nationalist
 						}
 					}
 				}
@@ -104,10 +107,78 @@ DEFAULT = {
 			exists = scope:actor
 			scope:actor = {
 				is_secessionist = no
+				NOT = { has_law = law_type:law_council_republic }
 				any_interest_group = {
 					is_in_government = yes
+					is_strongest_ig_in_government = yes
 					leader = {
-						has_ideology = ideology_radical
+						has_ideology = ideology:ideology_radical
+					}
+				}
+			}
+		}
+	}
+	dynamic_country_name = {
+		name = generic_revolt_bonapartist
+		adjective = generic_revolt_bonapartist_adj
+		
+		is_revolutionary = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_secessionist = no
+				has_law = law_type:law_monarchy
+				any_interest_group = {
+					is_in_government = yes
+					is_strongest_ig_in_government = yes
+					leader = {
+						has_ideology = ideology:ideology_bonapartist
+					}
+				}
+			}
+		}
+	}
+	dynamic_country_name = {
+		name = generic_revolt_legitimist
+		adjective = generic_revolt_legitimist_adj
+		
+		is_revolutionary = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_secessionist = no
+				has_law = law_type:law_monarchy
+				any_interest_group = {
+					is_in_government = yes
+					is_strongest_ig_in_government = yes
+					leader = {
+						has_ideology = ideology:ideology_legitimist
+					}
+				}
+			}
+		}
+	}
+	dynamic_country_name = {
+		name = generic_revolt_orleanist
+		adjective = generic_revolt_orleanist_adj
+		
+		is_revolutionary = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_secessionist = no
+				has_law = law_type:law_monarchy
+				any_interest_group = {
+					is_in_government = yes
+					is_strongest_ig_in_government = yes
+					leader = {
+						has_ideology = ideology:ideology_orleanist
 					}
 				}
 			}
@@ -126,8 +197,8 @@ DEFAULT = {
 			scope:actor = {
 				is_secessionist = no
 				ig:ig_rural_folk = {
-					is_powerful = yes
 					is_in_government = yes
+					is_strongest_ig_in_government = yes
 				}
 			}
 		}
@@ -145,8 +216,8 @@ DEFAULT = {
 			scope:actor = {
 				is_secessionist = no
 				ig:ig_landowners = {
-					is_powerful = yes
 					is_in_government = yes
+					is_strongest_ig_in_government = yes
 				}
 			}
 			NOT = {
@@ -174,9 +245,16 @@ DEFAULT = {
 			exists = scope:actor
 			scope:actor = {
 				is_secessionist = no
-				ig:ig_intelligentsia = {
-					is_powerful = yes
+				any_interest_group = {
 					is_in_government = yes
+					is_strongest_ig_in_government = yes
+					OR = {
+						has_ideology = ideology:ideology_liberal
+						leader = {
+							has_liberal_ideology = yes
+							has_progressive_ideology = yes
+						}
+					}
 				}
 			}
 		}
@@ -193,8 +271,8 @@ DEFAULT = {
 			scope:actor = {
 				is_secessionist = no
 				ig:ig_industrialists = {
-					is_powerful = yes
 					is_in_government = yes
+					is_strongest_ig_in_government = yes
 				}
 			}
 		}
@@ -211,8 +289,8 @@ DEFAULT = {
 			scope:actor = {
 				is_secessionist = no
 				ig:ig_armed_forces = {
-					is_powerful = yes
 					is_in_government = yes
+					is_strongest_ig_in_government = yes
 				}
 			}
 		}
@@ -229,8 +307,8 @@ DEFAULT = {
 			scope:actor = {
 				is_secessionist = no
 				ig:ig_devout = {
-					is_powerful = yes
 					is_in_government = yes
+					is_strongest_ig_in_government = yes
 				}
 			}
 		}
@@ -247,8 +325,8 @@ DEFAULT = {
 			scope:actor = {
 				is_secessionist = no
 				ig:ig_petty_bourgeoisie = {
-					is_powerful = yes
 					is_in_government = yes
+					is_strongest_ig_in_government = yes
 				}
 			}
 		}
@@ -265,8 +343,8 @@ DEFAULT = {
 			scope:actor = {
 				is_secessionist = no
 				ig:ig_trade_unions = {
-					is_powerful = yes
 					is_in_government = yes
+					is_strongest_ig_in_government = yes
 				}
 			}
 		}
@@ -672,6 +750,35 @@ MAD = { # Madagascar
 	}
 }
 
+CAL = {
+	dynamic_country_name = {
+		name = dyn_c_two_californias
+		adjective = dyn_c_two_californias_adj
+		
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			scope:actor = {
+				owns_entire_state_region = STATE_CALIFORNIA
+				owns_entire_state_region = STATE_BAJA_CALIFORNIA
+			}
+		}
+	}
+	
+	dynamic_country_name = {
+		name = dyn_c_ussr_californias
+		adjective = dyn_c_ussr_californias_adj
+		
+		is_main_tag_only = yes
+		priority = 10000
+		
+		trigger = {
+			coa_def_communist_flag_trigger = yes
+		}
+	}
+}
+
 CHC = { # Chechnya
 	dynamic_country_name = {
 		name = dyn_c_chechnya_imamate
@@ -907,7 +1014,21 @@ GER = { # Germany
 		
 		trigger = {
 			coa_def_monarchy_flag_trigger = yes
-			country_rank >= rank_value:major_power
+			scope:actor = { 
+				country_rank >= rank_value:major_power
+			}
+		}
+	}
+	
+	dynamic_country_name = {
+		name = nihilist_germany_name
+		adjective = nihilist_germany_name_adj
+		
+		is_main_tag_only = yes
+		priority = 10
+		
+		trigger = {
+			coa_def_nihilist_flag_trigger = yes
 		}
 	}
 }
@@ -1436,6 +1557,19 @@ RUS = { # Russia
 			coa_def_communist_flag_trigger = yes
 		}
 	}	
+
+	dynamic_country_name = {
+		name = dyn_c_union_of_new_people
+		adjective = dyn_c_union_of_new_people_adj
+		
+		is_main_tag_only = yes
+		priority = 10
+		
+		trigger = {
+			exists = c:RUS
+			coa_def_nihilist_flag_trigger = yes
+		}
+	}	
 }
 
 SAF = { # South Africa
@@ -1730,6 +1864,11 @@ USA = { # United States of America
 		trigger = {
 			coa_def_republic_flag_trigger = yes
 			NOT = { coa_def_communist_flag_trigger = yes }
+			NOT = {	
+				scope:actor = {
+					has_law = law_type:law_technocracy
+				}
+			}
 		}
 	}
 	
@@ -1798,6 +1937,20 @@ USA = { # United States of America
 		
 		trigger = {
 			coa_def_theocracy_flag_trigger = yes
+		}
+	}
+	
+	dynamic_country_name = {
+		name = dyn_c_north_american_technate
+		
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			coa_def_republic_flag_trigger = yes
+			scope:actor = {
+				has_law = law_type:law_technocracy
+			}
 		}
 	}
 }
@@ -1979,6 +2132,238 @@ WLS = {
 			exists = scope:actor
 			scope:actor = {
 				capital = { state_region = s:STATE_PATAGONIA }
+			}
+		}
+	}
+}
+
+PNS = {
+	dynamic_country_name = {
+		name = dyn_c_united_communes_pns
+		adjective = PNS_ADJ
+
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			coa_def_communist_flag_trigger = yes
+		}
+	}
+}
+
+KAZ = {
+	dynamic_country_name = { # Republic
+		name = dyn_c_kazakh_republic
+		adjective = dyn_c_kazakh_republic_adj
+		
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				NOT = {
+					has_law = law_type:law_monarchy
+				}
+			}
+			coa_def_independent_trigger = yes
+		}
+	}
+	dynamic_country_name = { # Khanate
+		name = dyn_c_kazakh_khanate
+		adjective = dyn_c_kazakh_khanate_adj
+		
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				has_law = law_type:law_monarchy
+			}
+			coa_def_independent_trigger = yes
+		}
+	}
+	dynamic_country_name = { # Autonomy
+		name = dyn_c_kazakh_alash_autonomy
+		adjective = dyn_c_kazakh_alash_autonomy_adj
+		
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			AND = {
+				exists = c:RUS
+				c:RUS = {
+					NOR = {
+						has_law = law_type:law_monarchy
+						has_law = law_type:law_council_republic
+					}
+					OR = {
+						has_diplomatic_pact = {
+							who = scope:actor
+							type = puppet
+							is_initiator = yes
+						}
+						has_diplomatic_pact = {
+							who = scope:actor
+							type = dominion
+							is_initiator = yes
+						}
+						has_diplomatic_pact = {
+							who = scope:actor
+							type = protectorate
+							is_initiator = yes
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+SAV = {
+	dynamic_country_name = {
+		name = dyn_c_lyon
+		
+		is_main_tag_only = no
+		priority = 1
+		
+		trigger = {
+			scope:actor = { 
+				capital = { 
+					state_region = s:STATE_RHONE 
+				}
+			}
+		}
+	}
+	dynamic_country_name = {
+		name = dyn_c_romandy
+		
+		is_main_tag_only = no
+		priority = 1
+		
+		trigger = {
+			scope:actor = { 
+				capital = { 
+					state_region = s:STATE_WEST_SWITZERLAND
+				}
+			}
+		}
+	}
+}
+
+ALD = {
+	dynamic_country_name = {
+		name = dyn_c_regency_of_algiers
+		adjective = dyn_c_regency_of_algiers_adj
+
+		is_main_tag_only = yes
+		priority = 10
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				has_law = law_type:law_monarchy
+				has_variable = algeria_deylik_restored
+			}
+		}
+	}
+	dynamic_country_name = {
+		name = dyn_c_barbary
+		adjective = dyn_c_barbary_adj
+
+		is_main_tag_only = yes
+		priority = 10
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				has_variable = algeria_barbary_restored
+			}
+		}
+	}
+	dynamic_country_name = {
+		name = dyn_c_maghreb
+		adjective = dyn_c_maghreb_adj
+
+		is_main_tag_only = yes
+		priority = 10
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				has_variable = algeria_maghreb_restored
+			}
+		}
+	}
+}
+
+FRA = {
+	dynamic_country_name = {
+		name = dyn_c_french_empire
+		adjective = dyn_c_french_empire_adj
+
+		is_main_tag_only = yes
+		priority = 10
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				has_law = law_type:law_monarchy
+				has_variable = bonapartist_restoration_var
+				has_variable = one_true_french_dynasty
+			}
+		}
+	}
+	dynamic_country_name = {
+		name = dyn_c_french_republic
+		adjective = dyn_c_french_republic_adj
+
+		is_main_tag_only = yes
+		priority = 10
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				OR = {
+					has_law = law_type:law_parliamentary_republic
+					has_law = law_type:law_presidential_republic
+				}
+			}
+		}
+	}
+	dynamic_country_name = {
+		name = dyn_c_french_kingdom
+		adjective = dyn_c_french_kingdom_adj
+
+		is_main_tag_only = yes
+		priority = 10
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				has_law = law_type:law_monarchy
+				OR = {
+					has_variable = orleanist_restoration_var
+					has_variable = legitimist_restoration_var
+				}
+				has_variable = one_true_french_dynasty
+			}
+		}
+	}
+	dynamic_country_name = {
+		name = dyn_c_french_commune
+		adjective = dyn_c_french_commune_adj
+
+		is_main_tag_only = yes
+		priority = 10
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				has_law = law_type:law_council_republic
 			}
 		}
 	}
