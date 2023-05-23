@@ -63,7 +63,10 @@ coa_multicultural_trigger = {
 }
 
 coa_autocracy_trigger = {
-	has_law = law_type:law_autocracy 
+	OR = {
+		has_law = law_type:law_autocracy
+		has_law = law_type:law_single_party_state  
+	}
 }
 
 coa_anarchy_trigger = {
@@ -78,7 +81,7 @@ coa_communist_trigger = {
 	#	}
 	#	any_interest_group = {
 	#		is_in_government = yes
-	#		has_ideology = ideology_proletarian
+	#		has_ideology = ideology:ideology_proletarian
 	#	}
 	#}
 }
@@ -112,7 +115,20 @@ coa_fascist_trigger = {
 	coa_dictatorship_trigger = yes
 	any_scope_character = {
 		is_ruler = yes
-		has_ideology = ideology_fascist
+		has_ideology = ideology:ideology_fascist
+    }
+}
+
+coa_nihilist_trigger = {
+	has_law = law_type:law_state_atheism
+	NOR = {
+		has_law = law_type:law_theocracy
+		has_law = law_type:law_monarchy
+		has_law = law_type:law_council_republic
+	}
+	any_scope_character = {
+		has_ideology = ideology:ideology_atheist
+		is_ruler = yes
     }
 }
 
@@ -220,6 +236,11 @@ coa_def_military_junta_flag_trigger = {
 coa_def_fascist_flag_trigger = {
 	exists = scope:actor
 	scope:actor = { coa_fascist_trigger = yes }
+}
+
+coa_def_nihilist_flag_trigger = {
+	exists = scope:actor
+	scope:actor = { coa_nihilist_trigger = yes }
 }
 
 # Overlord
@@ -378,7 +399,6 @@ coa_def_netherlands_ensign_trigger = {
 }
 
 coa_def_colonial_ensign_trigger = {
-	# TODO there's probably a better way to do this although I'm not sure if every western nation should fit here
 	OR = {
 		coa_def_british_ensign_trigger = yes	
 		coa_def_french_ensign_trigger = yes	
