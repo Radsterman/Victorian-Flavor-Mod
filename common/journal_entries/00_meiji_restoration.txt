@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-﻿
-=======
-﻿je_meiji_restoration = {
+je_meiji_restoration = {
 	icon = "gfx/interface/icons/event_icons/event_scales.dds"
 
 	is_shown_when_inactive = {
@@ -96,7 +93,6 @@
 }
 
 
->>>>>>> 130127c1 (V1.3)
 je_meiji_main = {
 	icon = "gfx/interface/icons/event_icons/event_scales.dds"
 
@@ -217,4 +213,32 @@ je_meiji_army = {
 	transferable = no
 
 	weight = 5000
+}
+
+je_meiji_diplomacy = {
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	complete = {
+		NOT = { has_law = law_type:law_isolationism }
+		NOT = { has_law = law_type:law_traditionalism }
+		NOT = { has_law = law_type:law_closed_borders }
+		is_subject = no
+	}
+
+	on_complete = {
+		change_variable = {
+			name = meiji_var
+			add = 1
+		}
+	}
+
+	on_monthly_pulse = {
+		random_events = {
+			100 = 0
+			10 = meiji.11
+			10 = meiji.12
+		}
+	}
+
+	weight = 10000
 }
