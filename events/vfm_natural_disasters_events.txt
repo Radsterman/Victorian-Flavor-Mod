@@ -1,4 +1,4 @@
-﻿	namespace = vfm_natural_disaster_events
+﻿namespace = vfm_natural_disaster_events
 
 vfm_natural_disaster_events.1 = { #Draught for medeteranean
 	type = state_event
@@ -20,14 +20,19 @@ vfm_natural_disaster_events.1 = { #Draught for medeteranean
 	icon = "gfx/interface/icons/event_icons/event_skull.dds"
 
 	trigger = {
-	    has_modifier = state_medeteranean_climate
+	    OR = { has_state_trait = state_medeteranean_climate has_state_trait = state_trait_sahara_desert has_state_trait = state_trait_kalahari_desert }
+        NOT = { has_modifier = modifier_drought }
 		any_scope_building = {
 			OR = {
   				is_farm_building = yes
   				is_plantation_building = yes
   			}
 		}
-		NOT = { has_modifier = modifier_draught }
+	}
+	
+	immediate = {
+		save_scope_as = drought_state
+		owner = { save_scope_as = state_owner }
 	}
 	
 	option = {
@@ -37,25 +42,39 @@ vfm_natural_disaster_events.1 = { #Draught for medeteranean
 			name = modifier_drought
 			months = 24
 		}
-		every_neighbouring_state = {
+		random_neighbouring_state = {
 			limit = {
-				NOT = { has_modifier = modifier_draught }
+			    NOT = { has_modifier = modifier_drought }
+				owner = scope:state_owner
 			}
 			add_modifier = {
 			    name = modifier_drought
 			    months = 24
 		    }
 		}
+		random_neighbouring_state = {
+			limit = {
+				NOT = { has_modifier = modifier_drought }
+				NOT = { owner = scope:state_owner }
+			}
+			add_modifier = {
+			    name = modifier_drought
+			    months = 24
+		    }
+			hidden_effect = {
+			    trigger_event = { id = vfm_natural_disaster_events.3 }
+			}
+		}		
 	}
 }
 
 vfm_natural_disaster_events.2 = { #Draught for normal
 	type = state_event
-	placement = ROOT
+	placement = scope:drought_state
 
-	title = vfm_natural_disaster_events.2.t
-	desc = vfm_natural_disaster_events.2.d
-	flavor = vfm_natural_disaster_events.2.f
+	title = vfm_natural_disaster_events.1.t
+	desc = vfm_natural_disaster_events.1.d
+	flavor = vfm_natural_disaster_events.1.f
 
 	duration = 3
 
@@ -69,7 +88,7 @@ vfm_natural_disaster_events.2 = { #Draught for normal
 	icon = "gfx/interface/icons/event_icons/event_skull.dds"
 
 	trigger = {
-	    NOT = { has_modifier = state_medeteranean_climate }
+	    #NOT = { OR = { has_state_trait = state_medeteranean_climate has_state_trait = state_trait_sahara_desert has_state_trait = state_trait_kalahari_desert } }
 		any_scope_building = {
 			OR = {
   				is_farm_building = yes
@@ -78,22 +97,76 @@ vfm_natural_disaster_events.2 = { #Draught for normal
 		}
 		NOT = { has_modifier = modifier_drought }
 	}
+
+    immediate = {
+		save_scope_as = drought_state
+		owner = { save_scope_as = state_owner }
+	}
 	
 	option = {
 		name = vfm_natural_disaster_events.1.a
 		default_option = yes
 		add_modifier = {
-			name = modifier_draught
+			name = modifier_drought
 			months = 24
 		}
-		every_neighbouring_state = {
+		random_neighbouring_state = {
 			limit = {
-				NOT = { has_modifier = modifier_draught }
+			    NOT = { has_modifier = modifier_drought }
+				owner = scope:state_owner
 			}
 			add_modifier = {
 			    name = modifier_drought
 			    months = 24
 		    }
+		}
+		random_neighbouring_state = {
+			limit = {
+				NOT = { has_modifier = modifier_drought }
+				NOT = { owner = scope:state_owner }
+			}
+			add_modifier = {
+			    name = modifier_drought
+			    months = 24
+		    }
+			hidden_effect = {
+			    trigger_event = { id = vfm_natural_disaster_events.3 }
+			}
+		}
+	}
+}
+
+vfm_natural_disaster_events.3 = { #anounce effect to owner of neighbouring state affected
+	type = state_event
+	placement = ROOT
+
+	title = vfm_natural_disaster_events.3.t
+	desc = vfm_natural_disaster_events.3.d
+	flavor = vfm_natural_disaster_events.1.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_devastation.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+    immediate = {
+		save_scope_as = drought_state2
+	}
+	
+	option = {
+		name = vfm_natural_disaster_events.1.a
+		default_option = yes
+		show_as_tooltip = {
+			add_modifier = {
+				name = modifier_drought
+				months = 24
+			}
 		}
 	}
 }
