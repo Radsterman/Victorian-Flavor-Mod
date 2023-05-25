@@ -229,12 +229,12 @@ je_autonomy = {
 			}
 			change_tag = AKA
 		}	
-		else_if = {
-			limit = {
-				c:HBC = ROOT
-			}
-			change_tag = CAN
-		}	
+		#else_if = {
+		#	limit = {
+		#		c:HBC = ROOT
+		#	}
+		#	change_tag = CAN
+		#}	
 		else_if = {
 			limit = {
 				c:RNC = ROOT
@@ -281,27 +281,12 @@ je_rac_hbc_deal = {
 	}
 
     possible = {
-		OR = {
-			AND = {
-				exists = c:NWT 
-				c:NWT = {
-					relations:root < relations_threshold:cordial
-				} 
-			}
-			AND = {
-				exists = c:COL
-				c:COL = {
-					relations:root < relations_threshold:cordial
-				} 
-			}
-			AND = {
-				exists = c:HBC
-				c:HBC = {
-					relations:root < relations_threshold:cordial
-				} 
-			}
+		AND = {
+			exists = c:HBC
+			c:HBC = {
+				relations:root < relations_threshold:cordial
+			} 
 		}
-
 	}
 
 	fail = {
@@ -313,26 +298,26 @@ je_rac_hbc_deal = {
 	}
 
 	invalid = {
-		AND = {
-			AND = {
-				NOT = { exists = c:HBC }
-				c:HBC ?= {
-					NOT = { is_subject_of = c:GBR }
-				}
+		OR = {
+			NOT = { exists = c:HBC }
+			c:HBC ?= {
+				NOT = { is_subject_of = c:GBR }
 			}
-			AND = {
-				NOT = { exists = c:NWT }
-				c:NWT ?= {
-					NOT = { is_subject_of = c:GBR }
-				}
-			}
-			AND = {
-				NOT = { exists = c:COL }
-				c:COL ?= {
-					NOT = { is_subject_of = c:GBR }
-				}
-			}	
 		}
+		#OR = {
+		#	OR = {
+		#		NOT = { exists = c:NWT }
+		#		c:NWT ?= {
+		#			NOT = { is_subject_of = c:GBR }
+		#		}
+		#	}
+		#	OR = {
+		#		NOT = { exists = c:COL }
+		#		c:COL ?= {
+		#			NOT = { is_subject_of = c:GBR }
+		#		}
+		#	}	
+		#}
 	}
 
 	immediate = {
