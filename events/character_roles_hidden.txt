@@ -32,8 +32,13 @@ character_roles_hidden.2 = {
 		has_law = law_type:law_presidential_republic
 		country_has_voting_franchise = yes
 		has_variable = vice_president
-		NOT = { 
-			any_scope_character = {
+		OR = {
+			NOT = { 
+				any_scope_character = {
+					has_variable = vice_president_trigger
+				}
+			}
+			ruler = {
 				has_variable = vice_president_trigger
 			}
 		}
@@ -48,6 +53,7 @@ character_roles_hidden.2 = {
 							is_heir = yes
 							has_role = general
 							has_role = admiral
+							has_role = agitator
 						}
 						interest_group = {
 							is_in_government = yes
@@ -82,6 +88,7 @@ character_roles_hidden.2 = {
 			create_character = {
 				on_created = {
 					set_variable = vice_president_trigger
+					save_scope_as = new_vice_president
 					owner = {
 						set_variable = {
 							name = vice_president
