@@ -1,6 +1,6 @@
 ﻿namespace = vfm_natural_disaster_events
 
-vfm_natural_disaster_events.1 = { #Draught for medeteranean
+vfm_natural_disaster_events.1 = { #Draught for more arid zones
 	type = state_event
 	placement = ROOT
 
@@ -20,14 +20,15 @@ vfm_natural_disaster_events.1 = { #Draught for medeteranean
 	icon = "gfx/interface/icons/event_icons/event_skull.dds"
 
 	trigger = {
-	    OR = { has_state_trait = state_medeteranean_climate has_state_trait = state_trait_sahara_desert has_state_trait = state_trait_kalahari_desert }
         NOT = { has_modifier = modifier_drought }
+		NOT = { has_modifier = modifier_big_drought }
 		any_scope_building = {
 			OR = {
   				is_farm_building = yes
   				is_plantation_building = yes
   			}
 		}
+		state_region = { in_more_drought_zone = yes }
 	}
 	
 	immediate = {
@@ -42,24 +43,35 @@ vfm_natural_disaster_events.1 = { #Draught for medeteranean
 			name = modifier_drought
 			months = 24
 		}
+		state_region = {
+			add_devastation = 15
+		}
 		random_neighbouring_state = {
 			limit = {
 			    NOT = { has_modifier = modifier_drought }
+				NOT = { has_modifier = modifier_big_drought }
 				owner = scope:state_owner
 			}
 			add_modifier = {
 			    name = modifier_drought
 			    months = 24
 		    }
+			state_region = {
+			   add_devastation = 15
+		    }
 		}
 		random_neighbouring_state = {
 			limit = {
 				NOT = { has_modifier = modifier_drought }
+				NOT = { has_modifier = modifier_big_drought }
 				NOT = { owner = scope:state_owner }
 			}
 			add_modifier = {
 			    name = modifier_drought
 			    months = 24
+		    }
+			state_region = {
+			   add_devastation = 15
 		    }
 			hidden_effect = {
 			    trigger_event = { id = vfm_natural_disaster_events.3 }
@@ -88,7 +100,6 @@ vfm_natural_disaster_events.2 = { #Draught for normal
 	icon = "gfx/interface/icons/event_icons/event_skull.dds"
 
 	trigger = {
-	    #NOT = { OR = { has_state_trait = state_medeteranean_climate has_state_trait = state_trait_sahara_desert has_state_trait = state_trait_kalahari_desert } }
 		any_scope_building = {
 			OR = {
   				is_farm_building = yes
@@ -96,6 +107,7 @@ vfm_natural_disaster_events.2 = { #Draught for normal
   			}
 		}
 		NOT = { has_modifier = modifier_drought }
+		NOT = { has_modifier = modifier_big_drought }
 	}
 
     immediate = {
@@ -110,24 +122,35 @@ vfm_natural_disaster_events.2 = { #Draught for normal
 			name = modifier_drought
 			months = 24
 		}
+		state_region = {
+			add_devastation = 15
+		}
 		random_neighbouring_state = {
 			limit = {
 			    NOT = { has_modifier = modifier_drought }
+				NOT = { has_modifier = modifier_big_drought }
 				owner = scope:state_owner
 			}
 			add_modifier = {
 			    name = modifier_drought
 			    months = 24
 		    }
+			state_region = {
+			   add_devastation = 15
+		    }
 		}
 		random_neighbouring_state = {
 			limit = {
 				NOT = { has_modifier = modifier_drought }
+				NOT = { has_modifier = modifier_big_drought }
 				NOT = { owner = scope:state_owner }
 			}
 			add_modifier = {
 			    name = modifier_drought
 			    months = 24
+		    }
+			state_region = {
+			   add_devastation = 15
 		    }
 			hidden_effect = {
 			    trigger_event = { id = vfm_natural_disaster_events.3 }
@@ -167,7 +190,118 @@ vfm_natural_disaster_events.3 = { #anounce effect to owner of neighbouring state
 				name = modifier_drought
 				months = 24
 			}
+			state_region = {
+			   add_devastation = 15
+		    }
 		}
+	}
+}
+
+vfm_natural_disaster_events.4 = { #Catastrophic draught for more arid zones
+	type = state_event
+	placement = ROOT
+
+	title = vfm_natural_disaster_events.4.t
+	desc = vfm_natural_disaster_events.1.d
+	flavor = vfm_natural_disaster_events.1.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_devastation.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	trigger = {
+        NOT = { has_modifier = modifier_drought }
+		NOT = { has_modifier = modifier_big_drought }
+		any_scope_building = {
+			OR = {
+  				is_farm_building = yes
+  				is_plantation_building = yes
+  			}
+		}
+		state_region = { in_more_drought_zone = yes }
+	}
+	
+	immediate = {
+		save_scope_as = drought_state
+		owner = { save_scope_as = state_owner }
+	}
+	
+	option = {
+		name = vfm_natural_disaster_events.1.a
+		default_option = yes
+		add_modifier = {
+			name = modifier_big_drought
+			months = 24
+		}
+		state_region = {
+			add_devastation = 25
+		}
+		random_neighbouring_state = {
+			limit = {
+			    NOT = { has_modifier = modifier_drought }
+				NOT = { has_modifier = modifier_big_drought }
+				owner = scope:state_owner
+			}
+			add_modifier = {
+			    name = modifier_big_drought
+			    months = 24
+		    }
+			state_region = {
+			   add_devastation = 25
+		    }
+		}
+		random_neighbouring_state = {
+			limit = {
+			    NOT = { has_modifier = modifier_drought }
+				NOT = { has_modifier = modifier_big_drought }
+				owner = scope:state_owner
+			}
+			add_modifier = {
+			    name = modifier_drought
+			    months = 24
+		    }
+			state_region = {
+			   add_devastation = 15
+		    }
+		}
+		random_neighbouring_state = {
+			limit = {
+			    NOT = { has_modifier = modifier_drought }
+				NOT = { has_modifier = modifier_big_drought }
+				owner = scope:state_owner
+			}
+			add_modifier = {
+			    name = modifier_drought
+			    months = 24
+		    }
+			state_region = {
+			   add_devastation = 15
+		    }
+		}
+		random_neighbouring_state = {
+			limit = {
+				NOT = { has_modifier = modifier_drought }
+				NOT = { has_modifier = modifier_big_drought }
+				NOT = { owner = scope:state_owner }
+			}
+			add_modifier = {
+			    name = modifier_drought
+			    months = 24
+		    }
+			state_region = {
+			   add_devastation = 15
+		    }
+			hidden_effect = {
+			    trigger_event = { id = vfm_natural_disaster_events.3 }
+			}
+		}		
 	}
 }
 
