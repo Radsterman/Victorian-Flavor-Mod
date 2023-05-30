@@ -20,34 +20,48 @@
 	complete = {
 		trigger_if = {
 			limit = {
-				c:HOL ?= this
+				OR = {
+					c:HOL ?= this
+					c:SCH ?= this
+				}
 			}
 			is_subject = no
 		}
 		trigger_if = {
 			limit = {
 				NOT = { c:HOL ?= this }
-			}		
-			OR = { 
-				c:HOL ?= { is_subject_of = root }	
-				custom_tooltip = {
-					text = je_schleswig_holstein_question_state_ownership_desc
-					AND = {
-						any_scope_state = { state_region = s:STATE_SCHLESWIG_HOLSTEIN }
-						NOT = {
-							any_state = {
-								state_region = s:STATE_SCHLESWIG_HOLSTEIN
-								owner = {
-									NOR = {
-										country_has_primary_culture = cu:north_german
-										country_has_primary_culture = cu:south_german						
-									}						
+				NOT = { c:SCH ?= this }
+				exists = c:DEN
+			}
+			custom_tooltip = {
+				text = je_schleswig_holstein_question_state_ownership_desc
+				any_scope_state = { state_region = s:STATE_SCHLESWIG_HOLSTEIN }
+				s:STATE_SCHLESWIG_HOLSTEIN = {
+					NOT = {
+						any_scope_state = {
+							OR = {
+								NOT = {
+									owner = {
+										OR = {
+											country_has_primary_culture = cu:north_german
+											country_has_primary_culture = cu:south_german
+										}
+									}
 								}
-							}				
-						}					
-					}				
+								owner = {
+									is_subject_of = c:DEN
+								}
+							}
+						}
+					}
 				}
-			}		
+			}
+		}
+		trigger_if = {
+			limit = {
+				c:LUB ?= this
+			}
+			country_or_subject_owns_entire_state_region = STATE_SCHLESWIG_HOLSTEIN
 		}
 	}
 	
@@ -90,10 +104,6 @@ je_german_unification_idea = {
 	}
 
 	possible = {
-		custom_tooltip = {
-			has_global_variable = schleswig_holstein_question_solved
-			text = je_schleswig_holstein_question_solved_trigger_desc
-		}	
 		OR = {
 			country_has_primary_culture = cu:north_german
 			country_has_primary_culture = cu:south_german
@@ -245,6 +255,10 @@ je_north_german_unification = {
 	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
 	
 	complete = {
+		custom_tooltip = {
+			has_global_variable = schleswig_holstein_question_solved
+			text = je_schleswig_holstein_question_solved_trigger_desc
+		}
 		hidden_trigger = {
 			has_variable = je_unification_progress
 		}	
@@ -258,7 +272,7 @@ je_north_german_unification = {
 					is_unification_candidate = GER
 				}
 			}	
-		}
+		}				
 	}
 
 	on_monthly_pulse = {
@@ -281,11 +295,12 @@ je_north_german_unification = {
 
 	status_desc = {
 		first_valid = {
-			triggered_desc = {
+			triggered_desc = { 
 				desc = je_north_german_status
 			}
 		}
 	}
+
 	weight = 1000
 	should_be_pinned_by_default = yes
 }
@@ -294,6 +309,10 @@ je_south_german_unification = {
 	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
 
 	complete = {
+		custom_tooltip = {
+			has_global_variable = schleswig_holstein_question_solved
+			text = je_schleswig_holstein_question_solved_trigger_desc
+		}	
 		hidden_trigger = {
 			has_variable = je_unification_progress
 		}	
@@ -307,7 +326,7 @@ je_south_german_unification = {
 					is_unification_candidate = GER
 				}
 			}	
-		}
+		}	
 	}
 
 	on_monthly_pulse = {
