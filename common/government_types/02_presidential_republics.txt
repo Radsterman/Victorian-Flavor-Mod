@@ -7,11 +7,11 @@ gov_caucasian_viceroyalty = {
 	possible = {
 		has_law = law_type:law_presidential_republic
         has_law = law_type:law_autocracy
-		AND = { exists = c:RUS is_subject_of = c:RUS }
-		OR = {
-			AND = { exists = c:CAU c:CAU = ROOT }
-		}
-		is_subject_type = subject_type_puppet
+		exists = c:RUS
+		is_subject_of = c:RUS
+		exists = c:CAU
+		c:CAU = ROOT
+		is_subject_type = subject_type_dependency
 	}
 
 	on_government_type_change = {
@@ -33,7 +33,7 @@ gov_governorate = {
 		c:RUS = {
 			has_law = law_type:law_monarchy
 		}
-		is_subject_type = subject_type_puppet
+		is_subject_type = subject_type_dependency
 		any_primary_culture = {
 			has_discrimination_trait = european_heritage
 		}
@@ -397,6 +397,7 @@ gov_crown_colony = {
 			is_subject_type = subject_type_dominion
 		}
 		country_is_in_europe = no
+		is_country_type = colonial
 		top_overlord = { NOT = { is_country_type = colonial } }
 		#any_primary_culture = {
 		#	has_discrimination_trait = european_heritage
