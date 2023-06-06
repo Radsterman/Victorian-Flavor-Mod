@@ -86,8 +86,8 @@ je_climax_of_the_great_trek = {
 	icon = "gfx/interface/icons/event_icons/event_scales.dds"
 
 	complete = {
-		AND = {
-			gdp > 200000
+		OR = {
+			gdp > 350000
 			owns_entire_state_region = STATE_TRANSVAAL
 		}
 	}
@@ -160,6 +160,7 @@ je_anglo_zulu_war = {
 			year > 1879
 		}
 	}
+
 	on_complete = {
 		root = {
 			create_diplomatic_play = {
@@ -172,6 +173,10 @@ je_anglo_zulu_war = {
 				type = dp_annex_war
 			}
 		}
+	}
+	
+	invalid = {
+		NOT = { exists = c:ZUL }
 	}
 }
 
@@ -233,14 +238,6 @@ je_establish_the_traansval_colony = {
 		}
 	}
 	
-	#is_shown_when_inactive = {
-	#	THIS = c:SAF
-	#}
-	
-	#possible = {
-	#	THIS = c:SAF
-	#}
-	
 	on_complete = {
 		if = {
 			limit = {
@@ -273,26 +270,6 @@ je_establish_the_traansval_colony = {
 
 je_first_boer_war = {
 	icon = "gfx/interface/icons/event_icons/event_scales.dds"
-
-	complete = {
-		OR = {
-			AND = {	
-				year > 1860
-				root = {
-					c:TRN.relations:ROOT < relations_threshold:cordial
-				}
-			}	
-			AND = {
-				year > 1880
-				c:ORA ?= {
-					is_ai = yes
-				}
-				c:TRN ?= {
-					is_ai = yes
-				}
-			}
-		}
-	}
 	
 	is_shown_when_inactive = {
 		OR = {
@@ -319,6 +296,26 @@ je_first_boer_war = {
 			exists = c:TRN
 			c:TRN = {
 				is_subject_of = root
+			}
+		}
+	}
+
+	complete = {
+		OR = {
+			AND = {	
+				year > 1860
+				root = {
+					c:TRN.relations:ROOT < relations_threshold:cordial
+				}
+			}	
+			AND = {
+				year > 1880
+				c:ORA ?= {
+					is_ai = yes
+				}
+				c:TRN ?= {
+					is_ai = yes
+				}
 			}
 		}
 	}
