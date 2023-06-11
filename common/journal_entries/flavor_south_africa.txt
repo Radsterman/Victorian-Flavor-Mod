@@ -1,19 +1,19 @@
 ﻿je_great_trek = {
 	icon = "gfx/interface/icons/event_icons/event_map.dds"
 
-    	complete = {	
-  		custom_tooltip = {
-			text = boer_republics_formed
+    complete = {
+		custom_tooltip = {
+			text = great_trek_complete
 			hidden_trigger = {
-					        AND = {
-					has_global_variable = trek_trn
-					has_global_variable = trek_ora
-					has_global_variable = trek_nal
-					#has_global_variable = trek_kle
-					#has_global_variable = trek_ste
-                    }
+				NOT = {
+					has_journal_entry = je_klein_vrystaat
+					has_journal_entry = je_natalia_republic
+					has_journal_entry = je_orange_free_state
+					has_journal_entry = je_stellaland
+					has_journal_entry = je_transvaal
+				}
 			}
-		}	
+		}
 	}
 
 	fail = {
@@ -31,27 +31,27 @@
 			}
 		}
 	}
+
     should_be_pinned_by_default = yes
-	weight = 100
+	weight = 50
 }
 
 je_natalia_republic = {
 	icon = "gfx/interface/icons/event_icons/event_map.dds"
 
-on_monthly_pulse = {
-	random_events = {
-				36 = 0
-				1 = journal_flavor_south_africa.1
-			}	
-}
-				
-	complete = {	
+	on_monthly_pulse = {
+		random_events = {
+			36 = 0
+			1 = journal_flavor_south_africa.1
+		}
+	}
+	complete = {
   		custom_tooltip = {
 			text = nal_exists
 			hidden_trigger = {
-					has_global_variable = trek_nal
+				has_global_variable = trek_nal
 			}
-		}	
+		}
 	}
 
 	fail = {
@@ -63,48 +63,44 @@ on_monthly_pulse = {
 					has_law = law_type:law_legacy_slavery
 				}
 			}
-		
-		
+		}
+	}
 	
-			any_state = {
-				state_region = s:STATE_NATAL
-				owner = { 
-					NOT = { 
-						OR = { 
-							is_country_type = decentralized
-							is_country_type = unrecognized
-						}
-					} 
-					owns_entire_state_region = STATE_NATAL
+	invalid = {
+		any_state = {
+			state_region = s:STATE_NATAL
+			owner = {
+				NOT = {
+					OR = {
+						is_country_type = decentralized
+						is_country_type = unrecognized
+					}
 				}
+				owns_entire_state_region = STATE_NATAL
 			}
 		}
 	}
 
-			on_fail = {
-			set_global_variable = trek_nal
-		}
-
-	weight = 100
+	weight = 50
 }
 
 je_transvaal = {
 	icon = "gfx/interface/icons/event_icons/event_map.dds"
 
-on_monthly_pulse = {
-	random_events = {
-				108 = 0
-				1 = journal_flavor_south_africa.4
-			}	
-}
+	on_monthly_pulse = {
+		random_events = {
+			108 = 0
+			1 = journal_flavor_south_africa.4
+		}
+	}
 
-	complete = {	
+	complete = {
   		custom_tooltip = {
 			text = trn_exists
 			hidden_trigger = {
-					has_global_variable = trek_trn
+				has_global_variable = trek_trn
 			}
-		}	
+		}
 	}
 
 	fail = {
@@ -117,52 +113,44 @@ on_monthly_pulse = {
 					has_law = law_type:law_legacy_slavery
 				}
 			}
+		}
+	}
 	
-			any_state = {
-				state_region = s:STATE_TRANSVAAL
-				owner = { 
-					NOT = { 
-						OR = { 
-							is_country_type = decentralized
-							is_country_type = unrecognized
-						}
-					} 
-					owns_entire_state_region = STATE_TRANSVAAL
+	invalid = {
+		any_state = {
+			state_region = s:STATE_TRANSVAAL
+			owner = {
+				NOT = {
+					OR = {
+						is_country_type = decentralized
+						is_country_type = unrecognized
+					}
 				}
+				owns_entire_state_region = STATE_TRANSVAAL
 			}
 		}
 	}
 
-		on_fail = {
-			set_global_variable = trek_trn
-		}
-
-	weight = 100
+	weight = 50
 }
 
 je_orange_free_state = {
 	icon = "gfx/interface/icons/event_icons/event_map.dds"
 
-on_monthly_pulse = {
-	random_events = {
-				108 = 0
-				1 = journal_flavor_south_africa.3
-			}	
-}
-				
-	
-	
+	on_monthly_pulse = {
+		random_events = {
+			108 = 0
+			1 = journal_flavor_south_africa.3
+		}
+	}
 
 	complete = {
-
-custom_tooltip = {
+		custom_tooltip = {
 			text = ora_exists
 			hidden_trigger = {
-					exists = c:ORA
+				exists = c:ORA
 			}
-		}	
-
-	
+		}
 	}
 
 	fail = {
@@ -175,49 +163,44 @@ custom_tooltip = {
 					has_law = law_type:law_legacy_slavery
 				}
 			}
+		}
+	}
 	
-			any_state = {
-				state_region = s:STATE_VRYSTAAT
-				owner = { 
-					NOT = { 
-						OR = { 
-							is_country_type = decentralized
-							is_country_type = unrecognized
-						}
-					} 
-					owns_entire_state_region = STATE_VRYSTAAT
+	invalid = {
+		any_state = {
+			state_region = s:STATE_VRYSTAAT
+			owner = {
+				NOT = {
+					OR = {
+						is_country_type = decentralized
+						is_country_type = unrecognized
+					}
 				}
+				owns_entire_state_region = STATE_VRYSTAAT
 			}
 		}
 	}
 
-		on_fail = {
-			set_global_variable = trek_ora
-		}
-
-	weight = 100
+	weight = 50
 }
 
 je_klein_vrystaat = {
 	icon = "gfx/interface/icons/event_icons/event_map.dds"
 
-on_monthly_pulse = {
-	random_events = {
-				228 = 0
-				1 = journal_flavor_south_africa.5
-			}	
-}
-				
-	
-	
+	on_monthly_pulse = {
+		random_events = {
+			228 = 0
+			1 = journal_flavor_south_africa.5
+		}
+	}
 
-	complete = {	
+	complete = {
   		custom_tooltip = {
 			text = kle_exists
 			hidden_trigger = {
-					exists = c:KLE
+				exists = c:KLE
 			}
-		}	
+		}
 	}
 
 	fail = {
@@ -229,49 +212,44 @@ on_monthly_pulse = {
 					has_law = law_type:law_legacy_slavery
 				}
 			}
-	
-			any_state = {
-				state_region = s:STATE_ZULULAND
-				owner = { 
-					NOT = { 
-						OR = { 
-							is_country_type = decentralized
-							is_country_type = unrecognized
-						}
-					} 
-					owns_entire_state_region = STATE_ZULULAND
+		}
+	}
+
+	invalid = {
+		any_state = {
+			state_region = s:STATE_ZULULAND
+			owner = {
+				NOT = {
+					OR = {
+						is_country_type = decentralized
+						is_country_type = unrecognized
+					}
 				}
+				owns_entire_state_region = STATE_ZULULAND
 			}
 		}
 	}
 
-		on_fail = {
-			set_global_variable = trek_kle
-		}
-
-	weight = 100
+	weight = 50
 }
 
 je_stellaland = {
 	icon = "gfx/interface/icons/event_icons/event_map.dds"
 
-on_monthly_pulse = {
-	random_events = {
-				228 = 0
-				1 = journal_flavor_south_africa.6
-			}	
-}
-				
-	
-	
+	on_monthly_pulse = {
+		random_events = {
+			228 = 0
+			1 = journal_flavor_south_africa.6
+		}
+	}
 
-	complete = {	
+	complete = {
   		custom_tooltip = {
 			text = ste_exists
 			hidden_trigger = {
-					exists = c:STE
+				exists = c:STE
 			}
-		}	
+		}
 	}
 
 	fail = {
@@ -283,39 +261,37 @@ on_monthly_pulse = {
 					has_law = law_type:law_legacy_slavery
 				}
 			}
-	
-			any_state = {
-				state_region = s:STATE_NORTHERN_CAPE
-				owner = { 
-					NOT = { 
-						OR = { 
-							is_country_type = decentralized
-							is_country_type = unrecognized
-						}
-					} 
-					owns_entire_state_region = STATE_NORTHERN_CAPE
+		}
+	}
+
+	invalid = {
+		any_state = {
+			state_region = s:STATE_NORTHERN_CAPE
+			owner = {
+				NOT = {
+					OR = {
+						is_country_type = decentralized
+						is_country_type = unrecognized
+					}
 				}
+				owns_entire_state_region = STATE_NORTHERN_CAPE
 			}
 		}
 	}
 
-		on_fail = {
-			set_global_variable = trek_ste
-		}
-
-	weight = 100
+	weight = 50
 }
 
 je_mtb_migration = {
 	icon = "gfx/interface/icons/event_icons/event_map.dds"
 
-    complete = {	
+    complete = {
   		custom_tooltip = {
 			text = mtb_exists_tt
 			hidden_trigger = {
 				NOT = { exists = c:MTB }
 			}
-		}	
+		}
 	}
 
 	on_complete = {
@@ -329,6 +305,7 @@ je_mtb_migration = {
 			}
 		}
 	}
+
     should_be_pinned_by_default = yes
-	weight = 100
+	weight = 50
 }

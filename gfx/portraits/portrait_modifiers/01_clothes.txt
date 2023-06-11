@@ -2809,7 +2809,7 @@
                 mode = add
                 gene = coats
                 template = prussian_coats
-                range = { 0 1 } # For the randomness to work correctly
+                range = { 0.5 1 } # For the randomness to work correctly
             }
 
             # no aiguillettes because they don't work with double-breasted coats, which is all the Prussians have
@@ -2836,10 +2836,20 @@
                 exists = scope:character
                 scope:character = {
 					exists = home_country
-                    home_country = {
-                        exists = c:PRU
-                        c:PRU = this
-                    }
+					OR = {
+						home_country = {
+							exists = c:PRU
+							c:PRU = this
+						}
+						home_country = {
+							exists = c:NGF
+							c:NGF = this
+						}
+						home_country = {
+							exists = c:GER
+							c:GER = this
+						}
+					}
                     scope:character ?= {
                         age > 10
                     }
@@ -4468,7 +4478,7 @@ chinese_upper_clothes = {
                 mode = add
                 gene = coats
                 template = prussian_coats
-                range = { 0 0.2 } # For the randomness to work correctly
+                range = { 0 1 } # For the randomness to work correctly
             }
             accessory = {
                 mode = add
@@ -4493,10 +4503,20 @@ chinese_upper_clothes = {
                     AND = {
                         exists = scope:pop
                         scope:pop = {
-                            home_country = {
-                                exists = c:PRU
-                                c:PRU = this
-                            }
+							OR = {
+								home_country = {
+									exists = c:PRU
+									c:PRU = this
+								}
+								home_country = {
+									exists = c:NGF
+									c:NGF = this
+								}
+								home_country = {
+									exists = c:GER
+									c:GER = this
+								}
+							}
                         }       
                         OR = {
                             soldier_clothes_pop_trigger = yes
@@ -4512,10 +4532,20 @@ chinese_upper_clothes = {
                                 has_role = admiral
                             }
 							exists = home_country
-                            home_country = {
-                                exists = c:PRU
-                                c:PRU = this
-                            }
+							OR = {
+								home_country = {
+									exists = c:PRU
+									c:PRU = this
+								}
+								home_country = {
+									exists = c:NGF
+									c:NGF = this
+								}
+								home_country = {
+									exists = c:GER
+									c:GER = this
+								}
+							}
                         }       
                     }
                 }

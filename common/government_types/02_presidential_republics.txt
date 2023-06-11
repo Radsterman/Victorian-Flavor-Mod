@@ -7,11 +7,11 @@ gov_caucasian_viceroyalty = {
 	possible = {
 		has_law = law_type:law_presidential_republic
         has_law = law_type:law_autocracy
-		AND = { exists = c:RUS is_subject_of = c:RUS }
-		OR = {
-			AND = { exists = c:CAU c:CAU = ROOT }
-		}
-		is_subject_type = subject_type_puppet
+		exists = c:RUS
+		is_subject_of = c:RUS
+		exists = c:CAU
+		c:CAU = ROOT
+		is_subject_type = subject_type_dependency
 	}
 
 	on_government_type_change = {
@@ -33,7 +33,7 @@ gov_governorate = {
 		c:RUS = {
 			has_law = law_type:law_monarchy
 		}
-		is_subject_type = subject_type_puppet
+		is_subject_type = subject_type_dependency
 		any_primary_culture = {
 			has_discrimination_trait = european_heritage
 		}
@@ -377,48 +377,6 @@ gov_fascist_state = {
 		change_to_dictatorial = yes
 	}
 }
-gov_colonial_administration = {
-	transfer_of_power = presidential_elective
-	new_leader_on_reform_government = no
-
-	male_ruler = "RULER_TITLE_GOVERNOR_GENERAL"
-	female_ruler = "RULER_TITLE_GOVERNOR_GENERAL"
-	
-	possible = {
-		has_law = law_type:law_presidential_republic
-		OR = {
-			AND = {
-				AND = { exists = c:NET is_subject_of = c:NET }
-				AND = { exists = c:DEI c:DEI = ROOT }
-				is_subject_type = subject_type_dominion
-			}
-			AND = {
-				exists = c:SPA
-				is_subject_of = c:SPA
-				is_subject_type = subject_type_dependency
-				is_country_type = colonial
-				top_overlord = { NOT = { is_country_type = colonial } }
-				any_primary_culture = {
-					has_discrimination_trait = european_heritage
-				}
-				country_is_in_europe = no
-			}
-			AND = {
-				is_subject_type = subject_type_dependency
-				is_country_type = colonial
-				top_overlord = { NOT = { is_country_type = colonial } }
-				any_primary_culture = {
-					has_discrimination_trait = european_heritage
-				}
-				country_is_in_europe = no
-			}
-		}
-	}
-
-	on_government_type_change = {
-		change_to_presidential_elective = yes
-	}
-}
 
 gov_crown_colony = {
 	transfer_of_power = presidential_elective
@@ -434,16 +392,24 @@ gov_crown_colony = {
 		c:GBR = {
 			has_law = law_type:law_monarchy
 		}
-		is_subject_type = subject_type_dependency
+		OR = {
+			is_subject_type = subject_type_dependency
+			is_subject_type = subject_type_dominion
+		}
 		country_is_in_europe = no
+		is_country_type = colonial
 		top_overlord = { NOT = { is_country_type = colonial } }
 		#any_primary_culture = {
 		#	has_discrimination_trait = european_heritage
 		#}
 	}
+
+	on_government_type_change = {
+		change_to_presidential_elective = yes
+	}
 }
 
-gov_crown_colony_dominion = {
+gov_colonial_administration = {
 	transfer_of_power = presidential_elective
 	new_leader_on_reform_government = no
 
@@ -452,17 +418,39 @@ gov_crown_colony_dominion = {
 	
 	possible = {
 		has_law = law_type:law_presidential_republic
-		exists = c:GBR
-		is_subject_of = c:GBR
-		c:GBR = {
-			has_law = law_type:law_monarchy
+		OR = {
+			AND = {
+				AND = { exists = c:NET is_subject_of = c:NET }
+				AND = { exists = c:DEI c:DEI = ROOT }
+			}
+			AND = {
+				exists = c:SPA
+				is_subject_of = c:SPA
+				is_subject_type = subject_type_dependency
+				is_country_type = colonial
+				top_overlord = { NOT = { is_country_type = colonial } }
+				any_primary_culture = {
+					has_discrimination_trait = european_heritage
+				}
+				country_is_in_europe = no
+			}
+			AND = {
+				OR = {
+					is_subject_type = subject_type_dependency
+					is_subject_type = subject_type_dominion
+				}
+				is_country_type = colonial
+				top_overlord = { NOT = { is_country_type = colonial } }
+				any_primary_culture = {
+					has_discrimination_trait = european_heritage
+				}
+				country_is_in_europe = no
+			}
 		}
-		is_subject_type = subject_type_dominion
-		country_is_in_europe = no
-		top_overlord = { NOT = { is_country_type = colonial } }
-		#any_primary_culture = {
-		#	has_discrimination_trait = european_heritage
-		#}
+	}
+
+	on_government_type_change = {
+		change_to_presidential_elective = yes
 	}
 }
 
