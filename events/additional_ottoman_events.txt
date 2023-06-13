@@ -388,13 +388,11 @@ vilayet_events.7 = { #Centralising the Kurdish Emirates
 	minor_left_icon = c:TUR
 	trigger = {
 		any_state = {
-			limit = {
-				owner = {
-					is_subject_of = ROOT
-					is_player = no
-					country_has_primary_culture = cu:kurdish
-					can_form_nation = KUR
-				}
+			owner = {
+				is_subject_of = ROOT
+				is_player = no
+				country_has_primary_culture = cu:kurdish
+				can_form_nation = KUR
 			}
 		}
 	}
@@ -679,6 +677,9 @@ tanzimat_events.12 = {
 				save_scope_as = damascus_state
 			}
 		}
+		owner = {
+					save_scope_as = ottomans
+				}
 	}
 	trigger = {
 		#triggered by prior event
@@ -718,14 +719,14 @@ tanzimat_events.12 = {
 	}
 	option = { #The Kurds can't be trusted, reinforce the local garrisons
 		name = tanzimat_events.12.b
-		owner = {
+		scope:ottomans = {
 			every_scope_state = {
 				limit = {
 					state_region = {
 						is_homeland = cu:kurdish
 					}
 				}
-				add_radicals = {
+				add_radicals_in_state = {
 					value = small_radicals
 					culture = cu:kurdish
 				}
