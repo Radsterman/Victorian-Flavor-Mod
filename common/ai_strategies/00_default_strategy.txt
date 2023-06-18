@@ -3945,7 +3945,7 @@ ai_strategy_default = {
 			if = {
 				limit = {
 					has_treaty_port_in_country = scope:target_country
-					scope:target_country = { country_rank < unrecognized_regional_power }
+					scope:target_country = { country_rank < rank_value:unrecognized_regional_power }
 				}
 				multiply = 0
 			}			
@@ -4024,11 +4024,24 @@ ai_strategy_default = {
 			if = {
 				limit = { 
 					wants_to_solve_schleswig_holstein = yes
-					scope:target_country = {
-						OR = {
-							this = c:HOL
-							this = c:SCH
-							this = c:LAU
+					OR = {
+					    AND = {	
+							exists = c:HOL
+							scope:target_country = {
+								this = c:HOL
+							}
+						}
+						AND = {	
+							exists = c:SCH
+							scope:target_country = {
+								this = c:SCH
+							}
+						}
+						AND = {	
+							exists = c:LAU
+							scope:target_country = {
+								this = c:LAU
+							}
 						}
 					}
 					can_reach_target_country = yes
@@ -4992,11 +5005,24 @@ ai_strategy_default = {
 			if = {
 				limit = { 
 					wants_to_solve_schleswig_holstein = yes
-					scope:target_country = {
-						OR = {
-							this = c:HOL
-							this = c:SCH
-							this = c:LAU
+					OR = {
+					    AND = {	
+							exists = c:HOL
+							scope:target_country = {
+								this = c:HOL
+							}
+						}
+						AND = {	
+							exists = c:SCH
+							scope:target_country = {
+								this = c:SCH
+							}
+						}
+						AND = {	
+							exists = c:LAU
+							scope:target_country = {
+								this = c:LAU
+							}
 						}
 					}
 					can_reach_target_country = no
