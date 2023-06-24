@@ -212,6 +212,7 @@ ai_strategy_default = {
 		if = {
 			limit = {
 				has_journal_entry = je_french_natural_borders
+				has_strategy = ai_strategy_territorial_expansion
 				scope:enemy_country = {
 					any_scope_state = {
 						OR = {
@@ -590,6 +591,7 @@ ai_strategy_default = {
 		if = {
 			limit = {
 				has_journal_entry = je_french_natural_borders
+				has_strategy = ai_strategy_territorial_expansion
 				scope:target_country = {
 					any_scope_state = {
 						OR = {
@@ -1008,6 +1010,7 @@ ai_strategy_default = {
 		if = {
 			limit = {
 				has_journal_entry = je_french_natural_borders
+				has_strategy = ai_strategy_territorial_expansion
 				scope:target_country = {
 					any_scope_state = {
 						OR = {
@@ -1051,7 +1054,7 @@ ai_strategy_default = {
 					}
 				}
 			}
-			add = 100
+			add = 10
 		}
 			
 		#Aggression against unrecognized countries once colonization has begun and already owns state in region
@@ -2076,6 +2079,23 @@ ai_strategy_default = {
 			
 			if = {
 				limit = {
+					exists = c:FRA
+					c:FRA = this
+					ruler = {
+						has_variable = legitimist_leader
+					}
+
+					exists = c:SPA
+					scope:target_country = {
+						c:SPA = this
+						has_law = law_type:law_monarchy
+					}
+				}
+				multiply = 1.5
+			}
+			
+			if = {
+				limit = {
 					harsh_ai_behavior_trigger = yes
 				}
 				multiply = 0.75
@@ -2332,6 +2352,26 @@ ai_strategy_default = {
 					
 				}
 				multiply = 0.5
+			}
+			
+			if = {
+				limit = {
+					exists = c:FRA
+					c:FRA = this
+					ruler = {
+						OR = {
+							has_variable = legitimist_leader
+							has_variable = bonapartist_leader
+						}
+					}
+
+					exists = c:PAP
+					scope:target_country = {
+						c:PAP = this
+						has_law = law_type:law_theocracy
+					}
+				}
+				multiply = 1.5
 			}
 
 			if = {
@@ -2848,6 +2888,23 @@ ai_strategy_default = {
 				}
 				add = 500
 			}		
+			
+			if = {
+				limit = {
+					has_journal_entry = je_conquest_of_algeria
+					scope:target_country = {
+						any_scope_state = {
+							OR = {
+								state_region = s:STATE_ALGIERS
+								state_region = s:STATE_CONSTANTINE
+								state_region = s:STATE_SAHARA
+								state_region = s:STATE_EAST_SAHARA
+							}
+						}
+					}
+				}
+				add = 1000
+			}
 		
 			multiply = {
 				value = "ai_ideological_opinion(scope:target_country)"
@@ -3593,6 +3650,21 @@ ai_strategy_default = {
 					}
 				}
 				add = 50
+			}
+			
+			if = {
+				limit = {
+					has_journal_entry = je_conquest_of_algeria
+					scope:target_state = {
+						OR = {
+							state_region = s:STATE_ALGIERS
+							state_region = s:STATE_CONSTANTINE
+							state_region = s:STATE_SAHARA
+							state_region = s:STATE_EAST_SAHARA
+						}
+					}
+				}
+				add = 100
 			}
 
 			if = { #Russian Central Asia
