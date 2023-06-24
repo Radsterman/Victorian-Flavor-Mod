@@ -59,6 +59,7 @@ natural_borders.1 = {
 				save_scope_as = flanders_state
 			}
 		}
+		c:FRA = { save_scope_as = france_scope }
 	}
 
 	option = {
@@ -119,6 +120,30 @@ natural_borders.1 = {
 			name = france_natural_borders_pursuit
 			months = very_long_modifier_time
 			# country_infamy_decay_mult
+		}
+	    every_country = {
+			limit = {
+				NOT = { THIS = ROOT }
+				any_scope_state = {
+					OR = {
+						state_region = s:STATE_WALLONIA
+						state_region = s:STATE_FLANDERS
+						state_region = s:STATE_RHINELAND
+						state_region = s:STATE_NORTH_RHINE
+						state_region = s:STATE_SAVOY
+					}
+				}
+			}
+			trigger_event = { id = natural_borders.4 }
+		}
+		hidden_effect = {
+			every_country = {
+				limit = {
+					has_diplomatic_relevance = c:FRA
+					NOT = { THIS = ROOT }
+				}
+				post_notification = fra_natural_borders_notification
+			}
 		}
 	}
 	option = { # imperialist IG's unhappy
@@ -403,6 +428,165 @@ natural_borders.3 = {
 			}
 			scope:nice_state = {
 				set_state_owner = ROOT
+			}
+		}
+	}
+}
+
+# Notification event
+natural_borders.4 = {
+	type = country_event
+	placement = scope:french_claim_state
+	title = natural_borders.4.t
+	desc = natural_borders.4.d
+	flavor = {
+		first_valid = {
+			triggered_desc = {
+				desc = natural_borders.4.f
+				trigger = {
+					NOT = {
+						any_scope_state = {
+							OR = {
+								state_region = s:STATE_RHINE
+								state_region = s:STATE_NORTH_RHINE
+							}
+						}
+					}
+				}
+			}
+			triggered_desc = {
+				desc = natural_borders.4.f2
+				trigger = {
+					any_scope_state = {
+						OR = {
+							state_region = s:STATE_RHINE
+							state_region = s:STATE_NORTH_RHINE
+						}
+					}
+				}
+			}
+		}		
+	}
+
+	duration = 3
+
+	dlc = dlc004
+
+	event_image = {
+		video = "europenorthamerica_before_the_battle"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/bicorne_hat.dds"
+
+	trigger = {
+		# triggered by je_french_natural_borders
+	}
+
+	immediate = {
+		c:FRA = {
+			save_scope_as = france_scope
+		}
+		random_scope_state = {
+			limit = {
+				OR = {
+					state_region = s:STATE_WALLONIA
+					state_region = s:STATE_FLANDERS
+					state_region = s:STATE_RHINELAND
+					state_region = s:STATE_NORTH_RHINE
+					state_region = s:STATE_SAVOY
+				}
+			}
+			save_scope_as = french_claim_state
+		}
+	}
+
+	option = { # Prepare for war
+		name = natural_borders.4.a
+		default_option = yes
+		every_scope_state = {
+			limit = {
+				OR = {
+					state_region = s:STATE_WALLONIA
+					state_region = s:STATE_FLANDERS
+					state_region = s:STATE_RHINELAND
+					state_region = s:STATE_NORTH_RHINE
+					state_region = s:STATE_SAVOY
+				}
+			}
+			add_modifier = {
+				name = rally_against_france
+				months = long_modifier_time
+				# state_conscription_rate_mult
+			}
+		}
+		ai_chance = {
+			base = 19
+		}
+	}
+
+	option = { # Try to appease France
+		name = natural_borders.4.b
+		change_relations = {
+			country = c:FRA
+			value = 20
+		}
+		ai_chance = {
+			base = 1
+		}
+	}
+}
+
+natural_borders.5 = {
+	type = country_event
+	placement = root
+	title = natural_borders.5.t
+	desc = natural_borders.5.d
+	flavor = natural_borders.5.f
+
+	duration = 3
+
+	dlc = dlc004
+
+	event_image = {
+		video = "unspecific_signed_contract"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/bicorne_hat.dds"
+
+	trigger = {
+		# triggered by je_french_natural_borders
+	}
+
+	immediate = {
+		c:LUX = {
+			save_scope_as = lux_scope
+			top_overlord = {
+				save_scope_as = lux_overlord
+				ruler = {
+					save_scope_as = overlord_ruler
+				}
+			}
+		}
+	}
+
+	option = {
+		name = natural_borders.5.a
+		default_option = yes
+		annex = c:LUX
+		add_modifier = {
+			name = luxembourg_payment
+			months = 12
+			multiplier = 20000
+		}
+		scope:lux_overlord = {
+			add_modifier = {
+				name = luxembourg_payment_received
+				months = 12
+				multiplier = 20000
 			}
 		}
 	}
