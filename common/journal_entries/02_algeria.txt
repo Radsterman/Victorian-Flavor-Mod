@@ -13,24 +13,9 @@
 	}
 
 	fail = {
-		NOT = {
-			any_scope_state = {
-				OR = {
-					state_region = s:STATE_TLEMCEN
-					state_region = s:STATE_ALGIERS
-					state_region = s:STATE_CONSTANTINE
-				}
-			}
-			any_subject_or_below = {
-				any_scope_state = {
-					OR = {
-						state_region = s:STATE_TLEMCEN
-						state_region = s:STATE_ALGIERS
-						state_region = s:STATE_CONSTANTINE
-					}
-				}
-			}
-		}
+		NOT = { has_state_in_state_region = STATE_TLEMCEN }
+		NOT = { has_state_in_state_region = STATE_ALGIERS }
+		NOT = { has_state_in_state_region = STATE_CONSTANTINE }
 	}
 
 	on_fail = {
@@ -73,6 +58,15 @@ je_the_algerian_departements = {
 			}
 			save_scope_as = je_constantine_state_scope
 		}
+		cu:berber = {
+			save_scope_as = berber_culture_scope
+		}
+		cu:maghrebi = {
+			save_scope_as = maghrebi_culture_scope
+		}
+		cu:french = {
+			save_scope_as = french_culture_scope
+		}
 	}
 	complete = {
 		custom_tooltip = {
@@ -97,7 +91,8 @@ je_the_algerian_departements = {
 			}
 		}
 		OR = {
-			AND = {
+			custom_tooltip = {
+				text = je_the_algerian_departements_tt_3
 				any_scope_state = {
 					state_region = s:STATE_ALGIERS
 					culture_percent_state = {
@@ -120,15 +115,13 @@ je_the_algerian_departements = {
 					}
 				}
 			}
-			AND = {
-				custom_tooltip = {
-					text = je_the_algerian_departements_tt_2
-					cu:maghrebi = {
-						NOT = { culture_is_discriminated_in = ROOT }
-					}
-					cu:berber = {
-						NOT = { culture_is_discriminated_in = ROOT }
-					}
+			custom_tooltip = {
+				text = je_the_algerian_departements_tt_2
+				cu:maghrebi = {
+					NOT = { culture_is_discriminated_in = ROOT }
+				}
+				cu:berber = {
+					NOT = { culture_is_discriminated_in = ROOT }
 				}
 			}
 		}
@@ -139,24 +132,9 @@ je_the_algerian_departements = {
 	}
 
 	fail = {
-		NOT = {
-			any_scope_state = {
-				OR = {
-					state_region = s:STATE_TLEMCEN
-					state_region = s:STATE_ALGIERS
-					state_region = s:STATE_CONSTANTINE
-				}
-			}
-			any_subject_or_below = {
-				any_scope_state = {
-					OR = {
-						state_region = s:STATE_TLEMCEN
-						state_region = s:STATE_ALGIERS
-						state_region = s:STATE_CONSTANTINE
-					}
-				}
-			}
-		}
+		NOT = { has_state_in_state_region = STATE_TLEMCEN }
+		NOT = { has_state_in_state_region = STATE_ALGIERS }
+		NOT = { has_state_in_state_region = STATE_CONSTANTINE }
 	}
 
 	on_fail = {
@@ -196,15 +174,9 @@ je_reconquest_of_algeria = {
 	}
 
 	fail = {
-		NOT = {
-			any_scope_state = {
-				OR = {
-					state_region = s:STATE_TLEMCEN
-					state_region = s:STATE_ALGIERS
-					state_region = s:STATE_CONSTANTINE
-				}
-			}
-		}
+		NOT = { has_state_in_state_region = STATE_TLEMCEN }
+		NOT = { has_state_in_state_region = STATE_ALGIERS }
+		NOT = { has_state_in_state_region = STATE_CONSTANTINE }
 	}
 
 	transferable = yes
@@ -234,9 +206,9 @@ je_french_foreign_legion = {
 	}
 
 	fail = {
-		NOT = { owns_entire_state_region = STATE_TLEMCEN }
-		NOT = { owns_entire_state_region = STATE_ALGIERS }
-		NOT = { owns_entire_state_region = STATE_CONSTANTINE }
+		NOT = { has_state_in_state_region = STATE_TLEMCEN }
+		NOT = { has_state_in_state_region = STATE_ALGIERS }
+		NOT = { has_state_in_state_region = STATE_CONSTANTINE }
 	}
 
 	transferable = yes

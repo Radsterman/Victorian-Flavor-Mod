@@ -638,20 +638,6 @@ conservative_party = {
 				desc = "from_influential_supporting_member"
 			}
 		}
-		if = {
-			limit = {
-				owner = {
-	         		has_variable = only_valid_party
-	         	}
-	         	 owner.var:only_valid_party = {
-		        	is_party_type = conservative_party
-		        }
-			}
-			add = {
-				value = 3
-				desc = "from_only_legal_party"
-			}
-		}
 		else_if = {
 			limit = {
 				scope:number = 2
@@ -682,12 +668,17 @@ conservative_party = {
 		if = { # anti-orleanist
 			limit = {
 				leader = {
-					has_ideology = ideology:ideology_bonapartist
-					has_ideology = ideology:ideology_legitimist
+					OR = {
+						has_ideology = ideology:ideology_bonapartist
+						has_ideology = ideology:ideology_legitimist
+					}
 				}
 				owner = {
 					any_interest_group = {
-						is_member_of_party = owner.py:conservative_party
+						has_party = yes
+						party = {
+							is_party_type = conservative_party
+						}
 						is_powerful = yes
 						leader = {
 							has_ideology = ideology:ideology_orleanist
@@ -703,12 +694,17 @@ conservative_party = {
 		if = { # anti-legitimist
 			limit = {
 				leader = {
-					has_ideology = ideology:ideology_bonapartist
-					has_ideology = ideology:ideology_orleanist
+					OR = {
+						has_ideology = ideology:ideology_bonapartist
+						has_ideology = ideology:ideology_orleanist
+					}
 				}
 				owner = {
 					any_interest_group = {
-						is_member_of_party = owner.py:conservative_party
+						has_party = yes
+						party = {
+							is_party_type = conservative_party
+						}
 						is_powerful = yes
 						leader = {
 							has_ideology = ideology:ideology_legitimist
@@ -724,12 +720,17 @@ conservative_party = {
 		if = { # anti-bonapartist
 			limit = {
 				leader = {
-					has_ideology = ideology:ideology_legitimist
-					has_ideology = ideology:ideology_orleanist
+					OR = {
+						has_ideology = ideology:ideology_legitimist
+						has_ideology = ideology:ideology_orleanist
+					}
 				}
 				owner = {
 					any_interest_group = {
-						is_member_of_party = owner.py:conservative_party
+						has_party = yes
+						party = {
+							is_party_type = conservative_party
+						}
 						is_powerful = yes
 						leader = {
 							has_ideology = ideology:ideology_bonapartist
@@ -765,6 +766,37 @@ conservative_party = {
 			}
 			add = {
 				value = 1000
+			}
+		}
+		if = {
+			limit = {
+				owner = {
+	         		has_variable = only_valid_party
+	         	}
+				owner.var:only_valid_party = {
+					is_party_type = conservative_party
+				}
+	         	owner.ruler = {
+					this.interest_group = prev
+				}
+			}
+			add = {
+				value = 1000
+				desc = "from_only_legal_party"
+			}
+		}
+		else_if = {
+			limit = {
+				owner = {
+	         		has_variable = only_valid_party
+	         	}
+	         	 owner.var:only_valid_party = {
+		        	is_party_type = conservative_party
+		        }
+			}
+			add = {
+				value = 3
+				desc = "from_only_legal_party"
 			}
 		}
 	}

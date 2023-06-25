@@ -991,6 +991,7 @@ generate_french_monarch = {
 						set_global_variable = napoleon_iii_spawn
 						set_character_as_ruler = yes
 						add_character_role = politician
+						remove_character_role = agitator
 					}
 				}
 			}
@@ -1005,6 +1006,7 @@ generate_french_monarch = {
 						set_global_variable = napoleon_iii_spawn
 						set_character_as_ruler = yes	
 						add_character_role = politician	
+						remove_character_role = agitator
 					}
 				}
 			}
@@ -1176,5 +1178,33 @@ generate_french_monarch = {
 	}
 	ruler = {
 		save_scope_as = french_monarch_scope
+	}
+}
+
+clean_up_exile_character_roles = { # scope: character
+	if = {
+		limit = {
+			NOT = { has_role = agitator }
+		}
+		add_character_role = agitator
+	}
+	if = {
+		limit = {
+			has_role = politician
+		}
+		set_as_interest_group_leader = no
+		remove_character_role = politician
+	}
+	if = {
+		limit = {
+			has_role = general
+		}
+		remove_character_role = general
+	}
+	if = {
+		limit = {
+			has_role = admiral
+		}
+		remove_character_role = admiral
 	}
 }

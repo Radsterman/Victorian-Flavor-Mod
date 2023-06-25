@@ -1,4 +1,4 @@
-ai_strategy_maintain_power_balance = {
+﻿ai_strategy_maintain_power_balance = {
 	icon = "gfx/interface/icons/ai_strategy_icons/maintain_power_balance.dds"
 	
 	type = diplomatic
@@ -109,6 +109,17 @@ ai_strategy_maintain_power_balance = {
 			limit = { country_rank < rank_value:major_power }
 			add = 10
 		}		
+		
+		if = {
+			limit = { 
+				exists = c:FRA
+				c:FRA = this
+				ruler = {
+					has_variable = legitimist_leader # strict adherence to the Congress of Vienna
+				}
+			}
+			add = 20
+		}
 	}
 }
 
@@ -210,6 +221,17 @@ ai_strategy_territorial_expansion = {
 
 	weight = {
 		value = 10
+		
+		if = {
+			limit = { 
+				exists = c:FRA
+				c:FRA = this
+				ruler = {
+					has_variable = bonapartist_leader
+				}
+			}
+			add = 5
+		}
 			
 		if = {
 			limit = { ig:ig_armed_forces = { is_powerful = yes } }
@@ -369,6 +391,17 @@ ai_strategy_colonial_expansion = {
 
 	weight = {
 		value = 10
+		
+		if = {
+			limit = { 
+				exists = c:FRA
+				c:FRA = this
+				ruler = {
+					has_variable = bonapartist_leader
+				}
+			}
+			add = 10
+		}
 		
 		if = {
 			limit = { country_rank = rank_value:major_power }
@@ -697,6 +730,20 @@ ai_strategy_economic_imperialism = {
 
 		if = {
 			limit = { country_rank = rank_value:great_power }
+			add = 10
+		}
+		
+		if = {
+			limit = { 
+				exists = c:FRA
+				c:FRA = this
+				ruler = {
+					OR = {
+						has_variable = bonapartist_leader
+						has_variable = orleanist_leader
+					}
+				}
+			}
 			add = 10
 		}
 

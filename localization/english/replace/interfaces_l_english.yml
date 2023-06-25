@@ -1873,6 +1873,8 @@
  JOURNAL_ENTRY_ON_INVALIDATION:0 "#title If invalidated:#!\n$EFFECT$"
  JOURNAL_ENTRY_ON_TIMEOUT:0 "#title If time runs out:#!\n$EFFECT$"
  
+ JOURNAL_ENTRY_TIMED_MODIFIERS_HEADER: "#title The following effects apply while active:#!"
+ 
  HAS_ON_PULSE:0 "#debug Debug: This Journal Entry has some sort of OnPulse#!"
  DEBUG_NO_CHARACTER_IN_GBR_IS_VICTORIA:0 "#debug Debug: No character in GBR is Victoria#!"
 
@@ -1927,10 +1929,16 @@
  STATE_REGION_COLONIZER_ITEM:0 "$TAB$[STATE.GetOwner.GetName] ([STATE.GetName])\n"
  STATE_COLONIZER_WIDGET_ITEM:0 "[STATE.GetCountry.GetFlagTextIcon] "
 
- STATE_INFRASTRUCTURE_USAGE_TOOLTIP:2 "#header [concept_infrastructure_usage]#!\n[State.GetName] uses #v [Multiply_CFixedPoint(State.GetInfrastructureUsage,'(CFixedPoint)-1')|0+]#! [concept_infrastructure]\n$TOOLTIP_DELIMITER$\n[State.GetInfrastructureUsageDesc]"
- STATE_INFRASTRUCTURE_TOOLTIP:2 "#header [concept_infrastructure]#!\n[State.GetName] has [State.GetInfrastructure|+0] [concept_infrastructure]\n$TOOLTIP_DELIMITER$\n[State.GetInfrastructureDesc]"
+ STATE_INFRASTRUCTURE_USAGE_TOOLTIP:3 "#header [concept_infrastructure_usage]#!\n[SelectLocalization(EqualTo_CFixedPoint(State.GetInfrastructureUsage, '(CFixedPoint)0'), 'NO_STATE_INFRASTRUCTURE_USAGE_DESC', 'STATE_INFRASTRUCTURE_USAGE')]"
+ STATE_INFRASTRUCTURE_USAGE: "[State.GetName] uses #v [Multiply_CFixedPoint(State.GetInfrastructureUsage,'(CFixedPoint)-1')|0+]#! [concept_infrastructure]\n$TOOLTIP_DELIMITER$\n[State.GetInfrastructureUsageDesc]"
+ STATE_INFRASTRUCTURE_TOOLTIP:3 "#header [concept_infrastructure]#!\n[SelectLocalization(LessThanOrEqualTo_CFixedPoint(State.GetInfrastructure, '(CFixedPoint)0'), 'NO_STATE_INFRASTRUCTURE_DESC', 'STATE_INFRASTRUCTURE_TOOLTIP_HAS_INFRASTRUCTURE')]"
+ STATE_INFRASTRUCTURE_TOOLTIP_HAS_INFRASTRUCTURE: "[State.GetName] has [State.GetInfrastructure|+0] [concept_infrastructure]\n$TOOLTIP_DELIMITER$\n[State.GetInfrastructureDesc]"
+ NO_STATE_INFRASTRUCTURE_DESC: "[State.GetName] has no [concept_infrastructure]"
 
- STATE_INFRASTRUCTURE_DESC:2 "#header [concept_infrastructure] Balance#!\nThe [concept_infrastructure] Balance in [State.GetName] is [State.GetInfrastructureBalance|0+=]\n$TOOLTIP_DELIMITER$\nThe [concept_infrastructure] of #v [State.GetInfrastructure|0+]#! is due to:\n[State.GetInfrastructureDesc]\n\nThe [concept_infrastructure_usage] of #v [Multiply_CFixedPoint(State.GetInfrastructureUsage,'(CFixedPoint)-1')|0+]#! is due to:\n[State.GetInfrastructureUsageDesc]"
+ STATE_INFRASTRUCTURE_DESC:3 "#header [concept_infrastructure] Balance#!\nThe [concept_infrastructure] Balance in [State.GetName] is [State.GetInfrastructureBalance|0+=]\n$TOOLTIP_DELIMITER$\n[SelectLocalization(LessThanOrEqualTo_CFixedPoint(State.GetInfrastructure, '(CFixedPoint)0'), 'NO_STATE_INFRASTRUCTURE_DESC', 'STATE_INFRASTRUCTURE_DESC_HAS_INFRASTRUCTURE')]\n\n[SelectLocalization(EqualTo_CFixedPoint(State.GetInfrastructureUsage, '(CFixedPoint)0'), 'NO_STATE_INFRASTRUCTURE_USAGE_DESC', 'STATE_INFRASTRUCTURE_USAGE_DESC')]"
+ STATE_INFRASTRUCTURE_DESC_HAS_INFRASTRUCTURE: "The [concept_infrastructure] of #v [State.GetInfrastructure|0+]#! is due to:\n[State.GetInfrastructureDesc]"
+ STATE_INFRASTRUCTURE_USAGE_DESC: "The [concept_infrastructure_usage] of #v [Multiply_CFixedPoint(State.GetInfrastructureUsage,'(CFixedPoint)-1')|0+]#! is due to:\n[State.GetInfrastructureUsageDesc]"
+ NO_STATE_INFRASTRUCTURE_USAGE_DESC: "[State.GetName] has no [concept_infrastructure_usage] at the moment"
  STATE_PANEL_INFRASTRUCTURE_DESC:1 "#header [concept_infrastructure]#!\n[concept_infrastructure] in [State.GetName]: #v [State.GetInfrastructure|0]#!\n$TOOLTIP_DELIMITER$\n[State.GetInfrastructureDesc]"
  STATE_PANEL_INFRASTRUCTURE_USAGE_DESC:2 "#header [concept_infrastructure_usage]#!\n[concept_infrastructure_usage] in [State.GetName]: #v [Multiply_CFixedPoint(State.GetInfrastructureUsage,'(CFixedPoint)-1')|0+]#!\n$TOOLTIP_DELIMITER$\n[State.GetInfrastructureUsageDesc]"
  STATE_TRAIT_STATE_MODIFIER:0 "State Modifiers"
@@ -1939,8 +1947,8 @@
  BUILDING_PROGRESS_TOOLTIP_QUEUED:0 "#header [Building.GetName]#!\nIn Construction Queue in [Country.GetName]"
  
  INFRASTRUCTURE_FROM_STATE:0 "$VALUE|+=1$ from [concept_state]\n$BREAKDOWN$"
- INFRASTRUCTURE_FROM_POPS:2 "$VALUE|+=1$ from [Concept('concept_pop', '$concept_pops$')]\n$BREAKDOWN$[ConcatIfNeitherEmpty('\n','$CAP_BREAKDOWN$')]"
- INFRASTRUCTURE_FROM_POPS_CAPPED:2 "$VALUE|+=1$ (capped at maximum value of $CAP|1v$)"
+ INFRASTRUCTURE_FROM_POPS:3 "$VALUE|+=1$ from [Concept('concept_pop', '$concept_pops$')] $CAP_BREAKDOWN$\n$BREAKDOWN$"
+ INFRASTRUCTURE_FROM_POPS_CAPPED:3 "($VALUE|+=1$ capped at maximum value of $CAP|1v$)"
 
  NEXT_PAGE:0 "Next page"
  PREVIOUS_PAGE:0 "Previous page"
@@ -2704,7 +2712,7 @@
  DECREE_COST_ENTRY:1 "[DECREE.GetName] in [DECREE.GetState.GetName]: #variable #N -[DECREE.GetCost|0]#!#!"
 
  START_DIPLOMATIC_PLAY_SUMMARY:0 "#header Start a [WarGoal.GetName] [concept_diplomatic_play]#!"
- START_DIPLOMATIC_PLAY_TOOLTIP:1 "$START_DIPLOMATIC_PLAY_SUMMARY$\n[ConcatIfNeitherEmpty('$ERRORS$', '\n')]$TOOLTIP_DELIMITER$\n#b Initial War Goals#!\n[WAR_GOAL.GetDesc]\n[ConcatIfNeitherEmpty('$INCIDENT$', '\n')]\n$TARGETS$\n\n$PARTICIPANTS$"
+ START_DIPLOMATIC_PLAY_TOOLTIP:1 "$START_DIPLOMATIC_PLAY_SUMMARY$\n[ConcatIfNeitherEmpty('$ERRORS$', '\n')]$TOOLTIP_DELIMITER$\n#b Initial War Goals#!\n[WAR_GOAL.GetStartDiploPlayDesc]\n[ConcatIfNeitherEmpty('$INCIDENT$', '\n')]\n$TARGETS$\n\n$PARTICIPANTS
  DIPLO_PLAY_TOOLTIP_PARTICIPANTS_HEADER:0 "#title Potential Participants#!"
  DIPLO_PLAY_TOOLTIP_TARGETS_HEADER:1 "At the start of the $concept_diplomatic_play_short$, we will #n face these enemies:#!:"
  DIPLO_PLAY_TOOLTIP_BACKERS_HEADER:1 "At the start of the $concept_diplomatic_play_short$, we will #p have these allies:#!:"
@@ -4557,6 +4565,10 @@
  notification_field_promotion_desc: "[SCOPE.GetRootScope.GetCharacter.GetPrimaryRoleName] [SCOPE.GetRootScope.GetCharacter.GetFullName] has received a [concept_field_promotion] to replace former [SCOPE.sCha('previous').GetPrimaryRoleName] [SCOPE.sCha('previous').GetFullName]."
  notification_field_promotion_tooltip: "$notification_field_promotion_name$\n$notification_field_promotion_desc$"
 
+ notification_agitator_spawned_name:1 "An [concept_agitator] appears!"
+ notification_agitator_spawned_desc:1 "[SCOPE.sCha('character').GetAgitatorSpawnedNotificationText]"
+ notification_agitator_spawned_tooltip:1 "$notification_agitator_spawned_name$\n$notification_agitator_spawned_desc$"
+ 
  notification_acquired_technology_notification_name:0 "[SCOPE.sT('technology').GetName] acquired!"
  notification_acquired_technology_notification_desc:0 "We have acquired [SCOPE.sT('technology').GetName]"
  notification_acquired_technology_notification_tooltip:0 "$notification_acquired_technology_notification_name$\n$notification_acquired_technology_notification_desc$"
@@ -4573,6 +4585,10 @@
  notification_law_changed_notification_desc:0 "We have finished enacting the [SCOPE.GetRootScope.GetLaw.GetName] Law"
  notification_law_changed_notification_tooltip:0 "$notification_law_changed_notification_name$\n$notification_law_changed_notification_desc$"
 
+ notification_claim_added_notification_name: "[SCOPE.sC('actor').GetName] [Concept('concept_claim','$concept_claims$')] [SCOPE.sStateRegion('region').GetName]"
+ notification_claim_added_notification_desc: "[SCOPE.sStateRegion('region').GetName] is now [Concept('concept_claim','$concept_claimed$')] by [SCOPE.sC('actor').GetName]"
+ notification_claim_added_notification_tooltip: "$notification_claim_added_notification_name$\n$notification_claim_added_notification_desc$"
+ 
  notification_institution_investment_increased_name:0 "[SCOPE.GetRootScope.GetInstitution.GetName] Investment increased"
  notification_institution_investment_increased_desc:0 "Increased Investment in the [SCOPE.GetRootScope.GetInstitution.GetName] Institution to [SCOPE.GetRootScope.GetInstitution.GetInvestmentLevel|v]"
  notification_institution_investment_increased_tooltip:0 "$notification_institution_investment_increased_name$\n$notification_institution_investment_increased_desc$\n\n#i Effect:#!\n[SCOPE.GetRootScope.GetInstitution.GetModifier.GetDesc]"
@@ -5281,8 +5297,10 @@
  LAW_ENACTMENT_PHASE_LABEL: "Phase #v [Law.GetEnactmentPhase]/3#!"
  LAW_ENACTMENT_SETBACKS_LABEL: "[Concept('concept_enactment_setback', '$concept_enactment_setbacks_short$')]:"
  LAW_ENACTMENT_ATTEMPT_TOO_SOON:0 "An attempt to enact [Law.GetName] was made too recently. Wait $TIME_REMAINING$ before another attempt."
- LAW_ENACTMENT_PROGRESS:5 "#header [Concept('concept_enactment_of_laws', '$concept_enactment_of_laws_enacting$')] [Law.GetName]#!\n[Concept('concept_enactment_phase','$concept_enactment_phase_short$')]: [Law.GetCountry.GetCustom(Law.GetCurrentEnactmentPhaseKey)|v] (#v [Law.GetEnactmentPhase]/[GetDefine('NPolitics','LAW_ENACTMENT_MAX_PHASES')]#!)\n$LAW_ENACTMENT_SETBACKS_LABEL$ [Law.GetEnactmentSetbackCount|-]/[GetDefine('NPolitics','LAW_ENACTMENT_MAX_SETBACKS')|-]\n[SelectLocalization(EqualTo_CFixedPoint(Law.GetCountry.GetModifier.GetValueFor('country_cannot_enact_laws'), '(CFixedPoint)0'), 'LAW_ENACTMENT_PROGRESS_NOT_STALLED', 'LAW_ENACTMENT_PROGRESS_STALLED')][ConcatIfNeitherEmpty('\n\n', Law.PredictLegitimacyChangeToEnactDesc)]\n$TOOLTIP_DELIMITER$\n$LAW_ENACTMENT_OUTCOME_BREAKDOWN$[AddLocalizationIf(Law.HasEnactmentLastCheckpoint,'LAW_ENACTMENT_LAST_CHECKPOINT')]"
- LAW_ENACTMENT_PROGRESS_NOT_STALLED:2 "#tooltippable #tooltip:[Law.GetTooltipTag],CHECKPOINT_SUCCESS_CHANCE_BREAKDOWN [Law.GetCheckpointSuccessChance|v%0]#!#! chance to progress to [Law.GetCountry.GetCustom(Law.GetNextEnactmentPhaseKey)|v] on #tooltippable #tooltip:[Law.GetTooltipTag],LAW_NEXT_CHECKPOINT_TIME_FACTORS_TOOLTIP [Law.GetCheckpointEndDate.GetString]#!#!"
+ LAW_ENACTMENT_PROGRESS:6 "#header [Concept('concept_enactment_of_laws', '$concept_enactment_of_laws_enacting$')] [Law.GetName]#!\n[Concept('concept_enactment_phase','$concept_enactment_phase_short$')]: [Law.GetCountry.GetCustom(Law.GetCurrentEnactmentPhaseKey)|v] (#v [Add_int32('(int32)1', Law.GetEnactmentPhase)]/[GetDefine('NPolitics','LAW_ENACTMENT_MAX_PHASES')]#!)\n$LAW_ENACTMENT_SETBACKS_LABEL$ [Law.GetEnactmentSetbackCount|-]/[GetDefine('NPolitics','LAW_ENACTMENT_MAX_SETBACKS')|-]\n[SelectLocalization(EqualTo_CFixedPoint(Law.GetCountry.GetModifier.GetValueFor('country_cannot_enact_laws'), '(CFixedPoint)0'), 'LAW_ENACTMENT_PROGRESS_NOT_STALLED', 'LAW_ENACTMENT_PROGRESS_STALLED')][ConcatIfNeitherEmpty('\n\n', Law.PredictLegitimacyChangeToEnactDesc)]\n$TOOLTIP_DELIMITER$\n$LAW_ENACTMENT_OUTCOME_BREAKDOWN$[AddLocalizationIf(Law.HasEnactmentLastCheckpoint,'LAW_ENACTMENT_LAST_CHECKPOINT')]"
+ LAW_ENACTMENT_PROGRESS_NOT_STALLED:3 "[SelectLocalization(EqualTo_int32(Add_int32('(int32)1', Law.GetEnactmentPhase), GetDefine('NPolitics','LAW_ENACTMENT_MAX_PHASES')), 'LAW_ENACTMENT_PROGRESS_LAST_PHASE', 'LAW_ENACTMENT_PROGRESS_PHASES')]"
+ LAW_ENACTMENT_PROGRESS_PHASES: "#tooltippable #tooltip:[Law.GetTooltipTag],CHECKPOINT_SUCCESS_CHANCE_BREAKDOWN [Law.GetCheckpointSuccessChance|v%0]#!#! chance to progress to [Law.GetCountry.GetCustom(Law.GetNextEnactmentPhaseKey)|v] on #tooltippable #tooltip:[Law.GetTooltipTag],LAW_NEXT_CHECKPOINT_TIME_FACTORS_TOOLTIP [Law.GetCheckpointEndDate.GetString]#!#!"
+ LAW_ENACTMENT_PROGRESS_LAST_PHASE: "#tooltippable #tooltip:[Law.GetTooltipTag],CHECKPOINT_SUCCESS_CHANCE_BREAKDOWN [Law.GetCheckpointSuccessChance|v%0]#!#! chance to pass the [concept_law] on #tooltippable #tooltip:[Law.GetTooltipTag],LAW_NEXT_CHECKPOINT_TIME_FACTORS_TOOLTIP [Law.GetCheckpointEndDate.GetString]#!#!"
  LAW_ENACTMENT_PROGRESS_STALLED:2 "$LAW_ENACTMENT_STALLED_WARNING$#indent_newline:2 \n$LAW_ENACTMENT_STALL_BREAKDOWN$#!"
  LAW_ENACTMENT_LAST_CHECKPOINT: "The outcome of the last checkpoint on [Law.GetEnactmentLastCheckpointDate.GetString] was [Law.GetEnactmentLastCheckpointResult|v]"
  LAW_ENACTMENT_OUTCOME_BREAKDOWN: "In #tooltippable #tooltip:[Law.GetTooltipTag],LAW_NEXT_CHECKPOINT_TIME_FACTORS_TOOLTIP [Law.GetCheckpointRemainingDays|v]#!#! days one of the following will happen:\n$OUTCOME_SUCCESS$\n$OUTCOME_ADVANCE$\n$OUTCOME_DEBATE$\n$OUTCOME_STALL$[AddTextIf(Law.HasEnactmentLastCheckpoint,'\n\n')]"
@@ -6365,6 +6383,7 @@
  law_changed_notification_group:0 "Law Changed"
  law_notification_group:0 "Law Progression"
  resource_discovery_notification_group:0 "Resource Discovery"
+ claims_notification_group: "Claims"
  institution_investment_notification_group:0 "Institution Investment"
  country_rank_changed_notification_group:0 "Country Rank Changed"
  diplomatic_action_notification_group:0 "Diplomatic Action"
@@ -6388,6 +6407,8 @@
  heir_born_notification_group:0 "Heir Born"
  character_died_notification_group:0 "Character Died"
  field_promotion_group: "Field Promotion"
+ character_exiled_notification_group: "Character Exiled"
+ agitator_spawned_notification_group: "Agitator Appeared"
  diplomatic_action_break_notification_group:0 "Diplomatic Action Break"
  diplomatic_proposal_break_notification_group:0 "Diplomatic Proposal Break"
  diplomatic_proposal_third_party_notification_group:0 "Diplomatic Proposal (Third Party)"

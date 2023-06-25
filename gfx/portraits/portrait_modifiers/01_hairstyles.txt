@@ -1,0 +1,286 @@
+﻿hairstyles = {
+	usage = game
+	selection_behavior = weighted_random
+	fallback = no_hair
+
+    no_hair = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = hairstyles
+                template = no_hairstyles
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        weight = {
+            base = 0
+        }
+    }
+
+    #european_hair_styles = {
+    #    dna_modifiers = {
+    #        accessory = {
+    #            mode = add
+    #            gene = hairstyles
+    #            template = european_hairstyles
+    #            range = { 0 1 } # For the randomness to work correctly
+    #       }
+    #     }
+    #
+    #   weight = {
+    #       base = 0
+    #       modifier = {
+    #            add = 100
+    #            AND = {
+    #                exists = scope:character
+    #                    scope:character = {
+    #                         european_clothes_trigger = yes
+    #                    }
+    #            }
+    #            
+    #          
+    #      }
+    #   }
+    #}
+
+    chinese_manchu_queue_hairstyle = {
+        dna_modifiers = {
+            accessory = {
+                mode = replace
+                gene = hairstyles
+                template = chinese_hairstyles # note that chinese_hairstyles only inlcude Manchu hairstyles atm. 
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                OR = {
+                    chinese_manchu_queue_hairstyle_pops_trigger = yes
+                    chinese_manchu_queue_hairstyle_character_trigger = yes
+                }
+            }
+        }
+    }
+
+#    chinese_hair_styles = {
+#        dna_modifiers = {
+#            accessory = {
+#                mode = add
+#                gene = hairstyles
+#                template = chinese_hairstyles
+#                range = { 0 1 } # For the randomness to work correctly
+#            }
+#        }
+#        weight = {
+#            base = 0
+#            modifier = {
+#                add = 100
+#                OR = {
+#                    chinese_court_clothes_trigger = yes
+#                    chinese_imperial_clothes_trigger = yes
+#                }
+#            }
+#        }
+#    }
+
+    japanese_hair_styles = {
+        dna_modifiers = {
+            accessory = {
+                mode = replace
+                gene = hairstyles
+                template = japanese_hairstyles
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 1000
+                AND = {
+                    exists = scope:pop
+                    scope:pop = {
+                        culture = cu:japanese
+                    }
+                    poor_clothes_pop_trigger = no
+                }
+            }
+        }
+    }
+
+    african_diaspora_hairstyle = {
+        dna_modifiers = {
+            accessory = {
+                mode = replace
+                gene = hairstyles
+                template = african_diaspora_hairstyles
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                OR = {
+                    african_diaspora_clothes_trigger = yes
+                    african_diaspora_pop_clothes_trigger = yes
+                }
+            }
+        }
+    }
+
+    japanese_characters_hair_styles = {
+        dna_modifiers = {
+            accessory = {
+                mode = replace
+                gene = hairstyles
+                template = japanese_hairstyles
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 1000
+                AND = {
+                    exists = scope:character
+                    scope:character = {
+                        culture = cu:japanese
+                    }
+                 OR = {
+                        poor_clothes_pop_trigger = no
+
+                    }
+                }
+                agitator_character_trigger = no
+            }
+        }
+    }
+
+    american_military_hair = {
+        # this hairstyle exists to avoid clipping issues with certain hairstyles when combined with US military headgear
+        # when updating triggers on this, please update american_military_hairstyles in game\gfx\portraits\portrait_modifiers\01_headgear.txt as well so that triggers continue to match up
+        dna_modifiers = {
+            accessory = {
+                mode = replace
+                gene = hairstyles
+                template = american_military_hairstyles
+                range = { 0 1 }
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                OR = {
+                    AND = {
+                        OR = {
+                            american_clothes_trigger = yes
+                            AND = {
+                                exists = c:CSA
+                                OR = {
+                                    AND = {
+                                        exists = scope:character
+                                        scope:character = {
+											exists = home_country
+											home_country = c:CSA
+										}
+                                    }
+                                    AND = {
+                                        exists = scope:pop
+                                        scope:pop = { home_country = c:CSA }
+                                    }
+                                }
+                            }
+                        }
+                        OR = {
+                            AND = {
+                                exists = scope:character
+                                scope:character = {
+                                    has_role = general
+                                }
+                            }
+                            AND = {
+                                politician_clothes_trigger = yes
+                                armed_forces_clothes_trigger = yes
+                            }
+                        }
+                    }
+                    AND = {
+                        native_north_american_clothes_trigger = yes
+                        ruler_clothes_trigger = yes
+                        scope:character = {
+                            is_ruler = yes
+                            is_female = no
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    european_peasant_hair = {
+        dna_modifiers = {
+            accessory = {
+                mode = replace
+                gene = hairstyles
+                template = european_peasant_hair
+                range = { 0 1 }
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                european_clothes_pop_trigger = yes
+                poor_clothes_pop_trigger = yes
+            }
+        }
+    }
+
+    buddhist_monk_non_hair = {
+        dna_modifiers = {
+            accessory = {
+                mode = replace
+                gene = hairstyles
+                template = no_hairstyles
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 1100
+                AND = {
+                    exists = scope:pop
+                    scope:pop = {
+                        religion = {
+                            has_discrimination_trait = buddhist_heritage
+                        }
+                    }
+                    clergy_clothes_pop_trigger = yes
+                }
+            }
+        }
+    }
+
+    indian_peasant_hairstyle = {
+        dna_modifiers = {
+            accessory = {
+                mode = replace
+                gene = hairstyles
+                template = indian_low_hairstyles 
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                indian_clothes_pop_trigger = yes
+                upper_clothes_pop_trigger = no
+            }
+        }
+    }
+}
