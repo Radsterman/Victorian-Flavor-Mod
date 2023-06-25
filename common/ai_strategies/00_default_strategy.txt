@@ -1054,7 +1054,7 @@ ai_strategy_default = {
 					}
 				}
 			}
-			add = 10
+			add = 100
 		}
 			
 		#Aggression against unrecognized countries once colonization has begun and already owns state in region
@@ -1172,12 +1172,12 @@ ai_strategy_default = {
 		
 		add = {
 			value = gdp
-			divide = 2000000 # 1 construction sector per 2 million gdp								
+			divide = 3000000 # 1 construction sector per 3 million gdp								
 		}	
 
 		add = {
 			value = total_population
-			divide = 2000000 # 1 construction sector per 2 million pop					
+			divide = 4000000 # 1 construction sector per 4 million pop					
 		}	
 		
 		if = {
@@ -1202,8 +1202,8 @@ ai_strategy_default = {
 					has_strategy = ai_strategy_industrial_expansion				
 				}
 			}
-			multiply = 1.5		
-		}		
+			multiply = 1.3		
+		}	
 
 		if = {
 			limit = { has_strategy = ai_strategy_placate_population }
@@ -1298,22 +1298,22 @@ ai_strategy_default = {
 	wanted_navy_size = {
 		value = 0
 
-		# 1 level of naval base per 350k coastal incorporated population							
+		# 1 level of naval base per 375k coastal incorporated population							
 		add = {
 			value = cached_ai_incorporated_coastal_population
-			divide = 350000 
+			divide = 375000 
 		}
 
 		# 1 level of naval base per 1 million coastal unincorporated population					
 		add = {
 			value = cached_ai_unincorporated_coastal_population
-			divide = 1000000 
+			divide = 1100000 
 		}
 
 		# 1 level of naval base per 1 million population in direct overseas subjects	
 		add = {
 			value = cached_ai_overseas_subject_population
-			divide = 1000000 
+			divide = 1100000 
 		}	
 
 		max = 250 # No more than 250 from population		
@@ -1324,7 +1324,13 @@ ai_strategy_default = {
 			divide = cached_ai_incorporated_population
 			multiply = cached_ai_incorporated_coastal_population
 			divide = 1000000 
-		}			
+		}
+
+        # Need to favor industrial buildup early game
+		if = {
+			limit = { game_date < 1842.1.1 }
+			multiply = 0.85
+		}		
 
 		# More advanced navies are expensive and should be smaller relative to population
 		if = {
