@@ -41,8 +41,7 @@ journal_flavor_caucasia.1 = {
 			}
 			save_scope_as = arm_spawn
 		}
-			
-	
+
 		create_country = {
 			tag = ARM
 			origin = this
@@ -90,3 +89,127 @@ journal_flavor_caucasia.1 = {
 		}
 	}
 }
+
+#caucasian unification
+
+journal_flavor_caucasia.2 = { #integrate other russian controlled caucasian minors
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_caucasia.2.t
+	desc = journal_flavor_caucasia.2.d
+	flavor = journal_flavor_caucasia.2.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_military_parade.bk2"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/military_parade"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		top_overlord = { 
+			every_subject_or_below = {
+				limit = {
+					owner = {
+						is_ai = yes
+						country_has_primary_culture = cu:georgian
+						is_subject = yes
+						NOT = { THIS = ROOT }
+						top_overlord = {
+							THIS = root.top_overlord
+						}
+					}
+				}
+				owner = { add_to_list = caucasian_annex_list }
+			}
+		}
+	}
+
+	option = {
+		name = journal_flavor_caucasia.2.a
+		default_option = yes
+
+		every_in_list = { 
+  			list = caucasian_annex_list
+  			root = {
+    			annex = prev
+  			}
+		}
+
+		add_modifier = {
+		name = caucasian_union
+		}
+
+		hidden_effect = {
+			trigger_event = {
+				id = journal_flavor_caucasia.3
+				weeks = 3
+			}
+		}
+	}
+}
+
+#from hidden effect in journal_flavor_caucasia.2
+journal_flavor_caucasia.3 = { #get azerbaijani and armenian as primary cultures
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_caucasia.3.t
+	desc = journal_flavor_caucasia.3.d
+	flavor = journal_flavor_caucasia.3.f
+
+	event_image = {
+		video = "unspecific_signed_contract"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = journal_flavor_caucasia.3.a
+		default_option = yes
+
+		add_primary_culture = cu:azerbaijani
+		add_primary_culture = cu:armenian
+		s:STATE_KARS = { add_claim = ROOT }
+
+	    ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = journal_flavor_caucasia.3.b #there is no reason i can think of why someone wouldn't want option one, but still want to give choice
+		
+		add_radicals = {
+			value = 0.05
+			culture = cu:azerbaijani
+			culture = cu:armenian
+		}
+
+	    ai_chance = {
+			base = 1
+		}
+	}
+}
+	#TODO: add azerbaijani and armenian as primary cultures in an event that is triggered by annexing the minors with mtth of like a week or something(done)
+	#also give these poor mfs a modifier to make the caucasion mountainrange not absolutely agonizing to deal with
+	#maybe add starting negative modifier to signify the 'fragility' of the nation?
+	#further journal entries may include trying to get the north caucasian states off of russia, and then choosing to either directly incorperate the land or create an seperate administration (such as releasing circassia?)
