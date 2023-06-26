@@ -213,6 +213,64 @@
 
 ### END OF HISTORICAL CLOTHING ###
 
+brazilian_commander_monarch_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = brazilian_military_headgear
+                range = { 1 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+               add = 25002
+                brazilian_clothes_trigger = yes
+                military_clothes_trigger = yes
+                monarchy_clothes_trigger = yes
+            }
+        }
+    }
+
+    brazilian_military_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = brazilian_military_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 101
+                OR = {
+                    AND = {
+                        brazilian_clothes_trigger = yes
+                        OR = {
+                            scope:character = {
+                            has_role = general
+                            }
+                            AND = {
+                            politician_clothes_trigger = yes
+                            armed_forces_clothes_trigger = yes
+                            }
+                        }
+                    }
+                    AND = {
+                        brazilian_clothes_pop_trigger = yes
+                        OR = {
+                            officers_clothes_pop_trigger = yes
+                            soldier_clothes_pop_trigger = yes
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     chinese_imperial_headgear = {
         dna_modifiers = {
             accessory = {

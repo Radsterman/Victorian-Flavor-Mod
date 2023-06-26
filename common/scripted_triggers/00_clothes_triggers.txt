@@ -1,4 +1,210 @@
-﻿british_empire_clothes_trigger = {
+brazilian_clothes_trigger = {
+	exists = scope:character
+	scope:character = {
+		exists = c:BRZ
+		owner = {
+			OR = {
+				AND = {
+					c:BRZ = this
+					is_subject = no # preventing uniform conflicts if BRZ becomes a subject of another country with puppet uniforms
+				}
+				is_subject_of = c:BRZ
+			}		
+		}
+	}
+}
+
+brazilian_clothes_pop_trigger = {
+	exists = scope:pop
+	scope:pop = {
+		exists = c:BRZ
+		owner = {
+			OR = {
+				AND = {
+					c:BRZ = this
+					is_subject = no # preventing uniform conflicts if BRZ becomes a subject of another country with puppet uniforms
+				}
+				is_subject_of = c:BRZ
+			}		
+		}
+	}
+}
+
+brazilian_clothes_p_trigger = {
+	exists = scope:pop
+	scope:pop = {
+		exists = c:BRZ
+		owner = {
+			OR = {
+				AND = {
+					c:BRZ = this
+					is_subject = yes # preventing uniform conflicts if BRZ becomes a subject of another country with puppet uniforms
+				}
+				is_subject_of = c:BRZ
+			}		
+		}
+	}
+}
+
+mexican_monarch_clothes_trigger = {
+	exists = scope:character
+	scope:character = {
+		AND = {
+			is_ruler = yes
+			owner = {
+			exists = c:MEX
+			c:MEX = this
+			is_subject = no
+		}
+     			owner = {
+     			has_law = law_type:law_monarchy
+			
+			}
+		}
+	}
+}
+
+caxias_clothes_trigger = {
+	exists = scope:character
+	scope:character = {
+		AND = {
+			has_role = general
+			has_variable = is_caxias
+			owner = {
+			exists = c:BRZ
+			c:BRZ = this
+			}			
+		}
+	}				
+}
+
+goncalves_da_silva_clothes_trigger = {
+	exists = scope:character
+	scope:character = {
+			has_variable = is_goncalves_da_silva			
+	}				
+}
+
+hispanic_clothes_trigger = {
+	exists = scope:character
+	scope:character = {
+		owner = {
+			coa_def_hispanic_american_trigger = yes
+		}
+	}
+}
+
+hispanic_clothes_pop_trigger = {
+	exists = scope:pop
+	scope:pop = {
+		owner = {
+			coa_def_hispanic_american_trigger = yes		
+		}
+	}
+}
+
+argentine_dictator_clothes_trigger = {
+	exists = scope:character
+	scope:character = {
+		AND = {
+			is_ruler = yes
+			owner = {
+			OR = {
+			AND = {exists = c:ARG
+			c:ARG = this}
+			}
+			is_subject = no
+			has_law = law_type:law_autocracy
+			}			
+		}
+	}
+}
+
+south_american_clothes_trigger = {
+	exists = scope:character
+	scope:character = {
+		AND = {
+			owner = {
+			coa_def_hispanic_american_trigger = yes
+			}				
+		}
+	}
+}
+
+south_american_dictator_clothes_trigger = {
+	exists = scope:character
+	scope:character = {
+		AND = {
+			is_ruler = yes
+			OR = {
+			owner = {
+			has_law = law_type:law_autocracy
+			}
+			has_role = general
+			}			
+			owner = {
+			coa_def_hispanic_american_trigger = yes
+			NOT = {c:BRZ = this}
+			OR = {
+				has_law = law_type:law_presidential_republic
+				has_law = law_type:law_parliamentary_republic
+				has_law = law_type:law_council_republic
+				}
+			}
+		}
+	}
+}
+
+oribe_clothes_trigger = {
+    exists = scope:character
+    scope:character = {
+        AND = {
+			has_variable = is_oribe
+            OR = {
+            is_ruler = yes
+            has_role = general
+            has_role = admiral
+            }
+            owner = {
+            exists = c:URU
+            c:URU = this
+            OR = {
+                has_law = law_type:law_presidential_republic
+                has_law = law_type:law_parliamentary_republic
+                has_law = law_type:law_council_republic
+                }
+            }
+        }
+    }
+}
+
+south_american_admiral_clothes_trigger = {
+	exists = scope:character
+	scope:character = {
+		AND = {
+			has_role = admiral
+			owner = {
+			coa_def_hispanic_american_trigger = yes
+			NOT = {c:BRZ = this}
+			}
+		}
+	}
+}
+
+south_american_admiral_headgear_trigger = {
+	exists = scope:character
+	scope:character = {
+		AND = {
+			has_role = admiral
+			owner = {
+			coa_def_hispanic_american_trigger = yes
+			NOT = {c:BRZ = this}
+			}			
+		}
+	}
+}
+
+british_empire_clothes_trigger = {
 	exists = scope:character
 	scope:character = {
 		exists = c:GBR
