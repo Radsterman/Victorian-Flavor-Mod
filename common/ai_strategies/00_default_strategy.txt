@@ -2911,6 +2911,23 @@ ai_strategy_default = {
 				}
 				add = 1000
 			}
+			# France first ganks Algeria, then moves on to even softer prey
+			if = {
+				limit = {
+					THIS = c:FRA
+					owns_entire_state_region = s:STATE_ALGIERS
+					owns_entire_state_region = s:STATE_CONSTANTINE
+					owns_entire_state_region = s:STATE_TLEMCEN
+					scope:target_country = {
+						any_scope_state = {
+							OR = {
+								state_region = s:STATE_TAHITI
+							}
+						}
+					}
+				}
+				add = 1000
+			}
 		
 			multiply = {
 				value = "ai_ideological_opinion(scope:target_country)"
@@ -4063,6 +4080,21 @@ ai_strategy_default = {
 					}
 				}
 				add = 75
+			}
+			if = {
+				limit = {
+					has_journal_entry = je_conquest_of_algeria
+					scope:target_country = {
+						any_scope_state = {
+							OR = {
+								state_region = s:STATE_ALGIERS
+								state_region = s:STATE_CONSTANTINE
+								state_region = s:STATE_TLEMCEN
+							}
+						}
+					}
+				}
+				add = 200
 			}
 
 			min = 0
