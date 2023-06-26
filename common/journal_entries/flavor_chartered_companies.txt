@@ -177,19 +177,18 @@ je_autonomy = {
 
 	is_shown_when_inactive = {
 		is_subject_type = subject_type_chartered_company
-		exists = c:BIC
 		NOT = {
 			OR = {
-				c:BIC = ROOT
+				c:BIC ?= ROOT
 				AND = {
-					c:MPR = ROOT
-					c:MPR = {
+					c:MPR ?= ROOT
+					c:MPR ?= {
 						overlord = c:BIC
 					}
 				}
 				AND = {
-					c:BPR = ROOT
-					c:BPR = {
+					c:BPR ?= ROOT
+					c:BPR ?= {
 						overlord = c:BIC
 					}
 				}	
@@ -248,12 +247,12 @@ je_autonomy = {
 			}
 			change_tag = TZN
 		}
-		else_if = {
-			limit = {
-				c:COL = ROOT
-			}
-			change_tag = ORG
-		}
+		#else_if = {
+		#	limit = {
+		#		c:COL = ROOT
+		#	}
+		#	change_tag = ORG
+		#}
 		else_if = {
 			limit = {
 				c:RGT = ROOT
