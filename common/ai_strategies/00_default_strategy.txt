@@ -1172,17 +1172,24 @@ ai_strategy_default = {
 		
 		add = {
 			value = gdp
-			divide = 3000000 # 1 construction sector per 3 million gdp								
+			divide = 2800000 # 1 construction sector per 2.8 million gdp								
 		}	
 
 		add = {
 			value = total_population
 			divide = 4000000 # 1 construction sector per 4 million pop					
-		}	
-		
-		if = {
+		}
+
+        if = {
 			limit = { has_law = law_type:law_traditionalism }
 			multiply = 0.75
+		}		
+		
+		if = {
+			limit = { gdp > 500000 }
+			add = {
+			    value = 1								
+		    }
 		}
 		
 		if = {
