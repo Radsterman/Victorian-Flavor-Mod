@@ -1945,6 +1945,37 @@
         }
     }
 
+    historical_rosas_clothes = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = coats
+                template = latin_american_coats
+                range = { 0 1 } # limiting the set to single-breasted coats, so aiguillettes work
+            }
+            accessory = {
+                mode = add
+                gene = legwear
+                template = brazilian_legwear
+                range = { 0 0 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 10002
+                exists = scope:character
+                scope:character = {
+                    owner = {
+                        exists = c:ARG
+                        c:ARG = this
+                    }
+                    has_variable = is_rosas
+                }
+            }
+        }
+    }
+
 ### BACK TO YOUR REGULAR SCHEDULED PROGRAMMING ###
 
     shopkeepers_clothes = {
@@ -2275,6 +2306,66 @@
                 add = 10001
                 hispanic_clothes_pop_trigger = yes
                 soldier_clothes_pop_trigger = yes
+            }
+        }
+    }
+
+    chilean_military_ruler_accessories = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = coats
+                template = latin_american_coats
+                range = { 0 0.75 } # limiting the set to single-breasted coats, so aiguillettes work
+            }
+            accessory = {
+                mode = add
+                gene = legwear
+                template = brazilian_legwear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = coats
+                template = latin_american_coats
+                range = { 0 1 } # limiting the set to single-breasted coats, so aiguillettes work
+            }
+            accessory = {
+                mode = add
+                gene = legwear
+                template = brazilian_legwear
+                range = { 0 0 } # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = headgear
+                template = european_admiral_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 10002
+                exists = scope:character
+                scope:character = {
+                    owner = {
+                        exists = c:CHL
+                        c:CHL = this
+                    }
+                    NOT = {
+                        owner = {
+                            has_law = law_type:law_theocracy
+                        }
+                    }
+                }
+                OR = {
+                    monarchy_clothes_trigger = yes
+                    AND = {
+                        armed_forces_clothes_trigger = yes
+                        republic_clothes_trigger = yes
+                    }
+                }
             }
         }
     }
