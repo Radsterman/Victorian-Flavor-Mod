@@ -253,6 +253,39 @@ british_empire_clothes_p_trigger = {
 	}
 }
 
+gaucho_clothes_trigger = {
+	exists = scope:character
+	scope:character = {
+		exists = c:PNI
+		exists = home_country
+		home_country = {
+			OR = {
+				AND = {
+					c:PNI = this
+					is_subject = no # preventing uniform conflicts if PNI becomes a subject of another country with puppet uniforms
+				}
+				is_subject_of = c:PNI
+			}		
+		}
+	}
+}
+
+gaucho_clothes_pop_trigger = {
+	exists = scope:pop
+	scope:pop = {
+		exists = c:PNI
+		home_country = {
+			OR = {
+				AND = {
+					c:PNI = this
+					is_subject = no # preventing uniform conflicts if GBR becomes a subject of another country with puppet uniforms
+				}
+				is_subject_of = c:PNI
+			}		
+		}
+	}
+}
+
 french_empire_clothes_trigger = {
 	exists = scope:character
 	scope:character = {
