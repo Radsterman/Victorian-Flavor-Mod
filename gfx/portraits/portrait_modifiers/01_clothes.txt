@@ -1834,8 +1834,8 @@
             accessory = {
                 mode = add
                 gene = sashes
-                template = all_sashes
-                range = { 1 1 } # For the randomness to work correctly
+                template = color_sashes
+                range = { 0.60 0.60 } # For the randomness to work correctly
             }
             accessory = {
                 mode = add
@@ -1847,7 +1847,13 @@
                 mode = add
                 gene = headgear
                 template = brazilian_military_headgear
-                range = { 0 0 } # For the randomness to work correctly
+                range = { 1 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = belts
+                template = all_belts
+                range = { 0.50 0.50 } # For the randomness to work correctly
             }
         }
         weight = {
@@ -1934,6 +1940,37 @@
                 add = 10000
                 AND = {
                     oribe_clothes_trigger = yes
+                }
+            }
+        }
+    }
+
+    historical_rosas_clothes = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = coats
+                template = latin_american_coats
+                range = { 0 1 } # limiting the set to single-breasted coats, so aiguillettes work
+            }
+            accessory = {
+                mode = add
+                gene = legwear
+                template = brazilian_legwear
+                range = { 0 0 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 10002
+                exists = scope:character
+                scope:character = {
+                    owner = {
+                        exists = c:ARG
+                        c:ARG = this
+                    }
+                    has_variable = is_rosas
                 }
             }
         }
@@ -2039,7 +2076,7 @@
         }
     }
 
-	brazilian_dictator_clothes = {
+	brazilian_military_ruler_clothes = {
         dna_modifiers = {
             accessory = {
                 mode = add
@@ -2060,12 +2097,7 @@
                 add = 10001
                 brazilian_clothes_trigger = yes
                 republic_clothes_trigger = yes
-                exists = scope:character
-                scope:character = {
-                    owner = {
-                    has_law = law_type:law_autocracy
-                    }
-                }
+                armed_forces_clothes_trigger = yes
             }
         }
     }
@@ -2122,8 +2154,11 @@
             modifier = {
                 add = 10001
                 OR = {
+                    brazilian_clothes_pop_trigger = yes
+                    gaucho_clothes_trigger = yes
+                }
+                OR = {
                     AND = {
-                        brazilian_clothes_trigger = yes
                         OR = {
                             military_clothes_trigger = yes
                             monarchy_clothes_trigger = yes
@@ -2133,10 +2168,7 @@
                             }
                         }
                     }
-                    AND = {
-                        brazilian_clothes_pop_trigger = yes
-                        officers_clothes_pop_trigger = yes
-                    }
+                    officers_clothes_pop_trigger = yes
                 }
             }
         }
@@ -2202,17 +2234,7 @@
                 }
                 hispanic_clothes_trigger = yes
                 republic_clothes_trigger = yes
-                OR = {
-                    AND = {
-                        exists = scope:character
-                        scope:character = {
-                            owner = {
-                            has_law = law_type:law_autocracy
-                            }
-                        }
-                    }
-                    armed_forces_clothes_trigger = yes
-                }
+                armed_forces_clothes_trigger = yes
             }
         }
     }
@@ -2284,6 +2306,47 @@
                 add = 10001
                 hispanic_clothes_pop_trigger = yes
                 soldier_clothes_pop_trigger = yes
+            }
+        }
+    }
+
+    gaucho_military_clothes_soldier = {
+        dna_modifiers = {
+             accessory = {
+                mode = add
+                gene = outfits
+                template = late_american_soldier_outfit
+                range = { 0 1 }
+            }
+            # the common soldier gets no aguillettes or epaulettes :(
+            accessory = {
+                mode = add
+                gene = legwear
+                template = brazilian_legwear
+                range = { 0 1 } # there's three colors in the gene, the first of which is black
+            }
+            accessory = {
+                mode = add
+                gene = sashes
+                template = chinese_sashes
+                range = { 0 1 } # there's three colors in the gene, the first of which is black
+            }
+            accessory = {
+                mode = add
+                gene = headgear
+                template = european_strawhat
+                range = { 0 1 } # there's three colors in the gene, the first of which is black
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 10000
+                gaucho_clothes_pop_trigger = yes
+                OR = {
+                    soldier_clothes_pop_trigger = yes
+                    officers_clothes_pop_trigger = yes
+                }
             }
         }
     }
@@ -2648,7 +2711,7 @@
         weight = {
             base = 0
             modifier = {
-                add = 1000
+                add = 10000
                 american_clothes_trigger = no
                 arabic_clothes_trigger = no
                 british_empire_clothes_trigger = no
@@ -3886,6 +3949,7 @@ indian_royal_clothes = {
             modifier = {
                 add = 5000
                 military_clothes_trigger = no
+                monarchy_clothes_trigger = no
                 exists = scope:character
                 scope:character = {
                     OR = {

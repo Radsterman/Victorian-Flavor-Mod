@@ -1,4 +1,4 @@
-brazilian_clothes_trigger = {
+﻿brazilian_clothes_trigger = {
 	exists = scope:character
 	scope:character = {
 		exists = c:BRZ
@@ -248,6 +248,39 @@ british_empire_clothes_p_trigger = {
 					is_subject = yes # preventing uniform conflicts if GBR becomes a subject of another country with puppet uniforms
 				}
 				is_subject_of = c:GBR
+			}		
+		}
+	}
+}
+
+gaucho_clothes_trigger = {
+	exists = scope:character
+	scope:character = {
+		exists = c:PNI
+		exists = home_country
+		home_country = {
+			OR = {
+				AND = {
+					c:PNI = this
+					is_subject = no # preventing uniform conflicts if PNI becomes a subject of another country with puppet uniforms
+				}
+				is_subject_of = c:PNI
+			}		
+		}
+	}
+}
+
+gaucho_clothes_pop_trigger = {
+	exists = scope:pop
+	scope:pop = {
+		exists = c:PNI
+		home_country = {
+			OR = {
+				AND = {
+					c:PNI = this
+					is_subject = no # preventing uniform conflicts if GBR becomes a subject of another country with puppet uniforms
+				}
+				is_subject_of = c:PNI
 			}		
 		}
 	}
@@ -776,7 +809,6 @@ politician_clothes_trigger = {
 	scope:character = {
 		AND = {
 			has_role = politician
-			is_ruler = no
 		}
 	}
 }
