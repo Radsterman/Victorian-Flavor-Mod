@@ -13,7 +13,7 @@ types topbar_components
 {
 	### SECONDARY ICONS
 	type topbar_secondary_icons = container {
-		position = { 130 0 }
+		position = { 190 0 }
 		
 		flowcontainer = {
 			visible = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
@@ -41,6 +41,29 @@ types topbar_components
 				using = dark_area_rounded
 				margin = { 0 -5 }
 				margin_left = 5
+				margin_right = 35
+			}
+			
+			flowcontainer = {
+				minimumsize = { 90 30 }
+				maximumsize = { 90 30 }
+				spacing = 2	
+				tooltip = PRESTIGE
+				using = tooltip_below
+				alpha = "[TransparentIfZero_int32(Country.GetPrestige)]"
+				alwaystransparent = no
+		
+				icon = {
+					texture = "gfx/interface/icons/generic_icons/unused/most_senior_front_commander.dds"
+					size = { @secondary_icon_size @secondary_icon_size }
+					parentanchor = vcenter
+				}
+				textbox = {
+					parentanchor = vcenter
+					raw_text = "#variable [Country.GetPrestige|D]#!"
+					autoresize = yes
+					align = left|nobaseline
+				}
 			}
 			
 			flowcontainer = {
@@ -184,6 +207,52 @@ types topbar_components
 					align = left|nobaseline
 				}
 			}
+			flowcontainer = {
+				minimumsize = { 90 30 }
+				maximumsize = { 90 30 }
+				spacing = 2	
+				tooltip = PANEL_MILITARY_NAVY_CURRENT_FLOTILLAS_TOOLTIP
+				using = tooltip_below
+				onmousehierarchyenter = "[SelectMapModeByKey('mm_military')]"
+				onmousehierarchyleave = "[UnforceMapMode]"
+				alpha = "[TransparentIfZero_int64(Country.GetNumFlotillas)]"
+				alwaystransparent = no
+		
+				icon = {
+					texture = "gfx/interface/icons/generic_icons/flotillas.dds"
+					size = { @secondary_icon_size @secondary_icon_size }
+					parentanchor = vcenter
+				}
+				textbox = {
+					parentanchor = vcenter
+					raw_text = "#variable [Country.GetWarships|0]#!"
+					autoresize = yes
+					align = left|nobaseline
+				}
+			}
+			flowcontainer = {
+				minimumsize = { 90 30 }
+				maximumsize = { 90 30 }
+				spacing = 2
+				tooltip = PANEL_MILITARY_ARMY_OVERVIEW_TOOLTIP
+				using = tooltip_below
+				onmousehierarchyenter = "[SelectMapModeByKey('mm_military')]"
+				onmousehierarchyleave = "[UnforceMapMode]"
+				alpha = "[TransparentIfZero_int64(Country.GetNumBattalions)]"
+				alwaystransparent = no
+		
+				icon = {
+					texture = "gfx/interface/icons/generic_icons/battalions.dds"
+					size = { @secondary_icon_size @secondary_icon_size }
+					parentanchor = vcenter
+				}
+				textbox = {
+					parentanchor = vcenter
+					raw_text = "#variable [Country.GetRegularBattalions|v] + [Country.CalcConscriptableBattalions|v]#!"
+					autoresize = yes
+					align = left|nobaseline
+				}
+			}
 		}
 	}
 
@@ -193,7 +262,7 @@ types topbar_components
 			using = hud_visibility
 			datacontext = "[AccessMetaPlayer.AccessPlayedOrObservedCountry]"
 			using = clickthrough_blocker
-			size = { 705 80 }
+			size = { 1065 80 }
 			allow_outside = yes
 			resizeparent = yes
 			
@@ -277,14 +346,14 @@ types topbar_components
 				}
 				
 				flowcontainer = {
-					margin_right = 35
+					margin_right = 75
 					margin_bottom = 7
 					resizeparent = yes
 					
 					container = {
 						### PRIMARY ICONS
 						flowcontainer = {
-							position = { 130 -1 }
+							position = { 220 -1 }
 
 							block "spacing" {
 								spacing = 12
@@ -380,6 +449,100 @@ types topbar_components
 											value = "[FixedPointToFloat(GetPlayer.GetExcessPowerRatioForProgressBar('authority'))]"
 										}
 									}				
+								}
+							
+								### LEGITIMACY
+								button = {
+									name = "tutorial_highlight_legitimacy"
+									using = glow_button
+									size = { 100 40 }
+									tooltip = "[SelectLocalization( LegitimacyLevel.IsActive( Country.GetGovernmentLegitimacy ), 'LEGITIMACY_LEVEL_ACTIVE_TOOLTIP', 'LEGITIMACY_LEVEL_INACTIVE_TOOLTIP' )]"
+									using = tooltip_below
+									onclick = "[InformationPanelBar.OpenPanelTab('politics', 'interest_groups')]"
+									enabled = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
+							
+									icon = {
+										size = { 32 32 }
+										position = { 0 2 }
+										name = authority_icon
+										texture = "gfx/interface/icons/generic_icons/legitimacy.dds"
+										parentanchor = vcenter
+									}
+								
+									textbox = {
+										position = { 35 -3 }
+										name = capital_value
+										raw_text = "#bold  [Country.GetGovernmentLegitimacy|D]#!"
+										align = left|nobaseline
+										using = fontsize_large
+										autoresize = yes
+										parentanchor = vcenter
+									}
+									
+									widget = {
+										size = { 60 12 }
+										position = { 40 0 }
+										parentanchor = bottom
+									
+										default_progressbar_horizontal = {
+											parentanchor = vcenter
+											name = "default_progressbar"
+											size = { 60 6 }
+											blockoverride "values" {
+												value = "[Country.GetGovernmentLegitimacy]"
+												min = 0  
+												max = 100
+											}
+										}
+									}			
+								}
+							
+								### INFAMY
+								button = {
+									name = "tutorial_highlight_infamy"
+									using = glow_button
+									size = { 100 40 }
+									tooltip = "[Country.GetInfamyDesc]"
+									using = tooltip_below
+									onclick = "[InformationPanelBar.OpenPanelTab('politics', 'default')]"
+									enabled = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
+									onmousehierarchyenter = "[SelectMapModeByKey('mm_infamy')]"
+									onmousehierarchyleave = "[UnforceMapMode]"
+							
+									icon = {
+										size = { 32 32 }
+										position = { 0 2 }
+										name = infamy_icon
+										texture = "[Country.GetInfamyIconTexture]"
+										parentanchor = vcenter
+									}
+								
+									textbox = {
+										position = { 35 -3 }
+										name = capital_value
+										raw_text = "#bold  [GetPlayer.GetInfamy|1]#!"
+										align = left|nobaseline
+										using = fontsize_large
+										autoresize = yes
+										parentanchor = vcenter
+									}
+									
+									widget = {
+										size = { 60 12 }
+										position = { 40 0 }
+										parentanchor = bottom
+									
+										bad_progressbar_horizontal = {
+											parentanchor = vcenter
+											name = "bad_progressbar"
+											size = { 60 6 }
+											blockoverride "values" {
+												value = "[FixedPointToFloat(GetPlayer.GetInfamy)]"
+												min = 0  
+												max = 100
+											}
+										}
+									}			
 								}
 							
 								### INFLUENCE
@@ -627,12 +790,14 @@ types topbar_components
 					}
 				}
 			}
+
 			character_portrait_small2 = {
-				position = { 8 83 }
+				position = { 123 -4 }
 				datacontext = [AccessPlayer.AccessRuler]
 				blockoverride "show_hat" {}
 				blockoverride "highlight" {}
 				blockoverride "rank_icon" {}
+				parentanchor = vcenter
 			}
 		}
 	}
@@ -643,7 +808,7 @@ types topbar_components
 		datacontext = "[GetPlayer]"
 		using = clickthrough_blocker
 		size = { 57 57 }
-		position = { 10 135 }
+		position = { -4 78 }
 		
 		onclick = "[MapListPanelManager.ToggleCurrentPanel]"
 		onclick = "[SelectMapModeByKey('mm_default')]"
