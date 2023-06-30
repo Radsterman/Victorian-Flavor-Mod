@@ -1,4 +1,357 @@
-﻿#namespace = france_event
+﻿namespace = france_event
+
+#FRA French-Papal Alliance
+france_event.17 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.17.t
+	desc = france_event.17.d
+	flavor = france_event.17.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 3
+
+	trigger = {
+		this ?= c:FRA
+		c:PAP ?= {
+			has_state_in_state_region = STATE_LAZIO
+		}
+		ruler = {
+			has_variable = bonapartist_leader
+		}
+        any_country = {
+            has_variable = umbria_marche_invasion
+        }
+        NOT = {
+        	has_variable = franco_papal_alliance_proposal
+        }
+	}
+
+	immediate = {
+		ROOT = {
+			save_scope_as = fra_scope
+		}
+		c:PAP = {
+			save_scope_as = pap_scope
+		}
+		ruler = {
+			save_scope_as = ruler_scope
+		}
+		random_country = {
+			limit = {
+				has_variable = umbria_marche_invasion
+			}
+			save_scope_as = ita_scope
+		}
+		s:STATE_UMBRIA = {
+			random_scope_state = {
+				save_scope_as = umbria_scope
+			}
+		}
+		random_interest_group = {
+			limit = {
+				is_interest_group_type = ig_devout
+			}
+			save_scope_as = ig_devout
+		}
+		set_variable = franco_papal_alliance_proposal
+	}
+
+	option = {
+		name = france_event.17.a
+		default_option = yes
+
+		scope:ig_devout = {
+			add_modifier = {
+				name = franco_papal_alliance_1
+				months = long_modifier_time
+			}
+		}
+		add_loyalists = {
+			value = 0.05
+			religion = rel:catholic
+		}
+		c:PAP = {
+			trigger_event = { id = france_event.18 days = 10}
+		}
+
+	    ai_chance = {
+			base = 80
+			modifier = {
+				trigger = {
+					ig:ig_devout = {
+						is_powerful = yes
+					}
+				}
+				add = 15
+			}
+			modifier = {
+				trigger = {
+					ruler = {
+						has_variable = bonapartist_leader
+					}
+				}
+				add = 15
+			}
+		}
+    }
+	option = {
+		name = france_event.17.b
+
+		scope:ig_devout = {
+			add_modifier = {
+				name = franco_papal_alliance_2
+				months = long_modifier_time
+			}
+		}
+		add_radicals = {
+			value = 0.05
+			religion = rel:catholic
+		}
+
+	    ai_chance = {
+			base = 20
+			modifier = {
+				trigger = {
+					ig:ig_devout = {
+						is_marginal = no
+					}
+				}
+				add = 15
+			}
+		}
+    }
+}
+
+#PAP French-Papal Alliance
+france_event.18 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.18.t
+	desc = france_event.18.d
+	flavor = france_event.18.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 3
+
+	immediate = {
+		ROOT = {
+			save_scope_as = pap_scope
+		}
+		c:FRA = {
+			save_scope_as = fra_scope
+		}
+		ruler = {
+			save_scope_as = ruler_scope
+		}
+		random_country = {
+			limit = {
+				has_variable = umbria_marche_invasion
+			}
+			save_scope_as = ita_scope
+		}
+		s:STATE_UMBRIA = {
+			random_scope_state = {
+				save_scope_as = umbria_scope
+			}
+		}
+	}
+
+	option = {
+		name = france_event.18.a
+		default_option = yes
+
+		custom_tooltip = france_event.18.tt1
+		change_relations = {
+			country = c:FRA
+			value = 100
+	    }	
+		c:FRA = {
+			trigger_event = { id = france_event.19 }
+		}
+
+	    ai_chance = {
+			base = 95
+		}
+    }
+	option = {
+		name = france_event.18.b
+
+		c:FRA = {
+			trigger_event = { id = france_event.20 }
+		}
+
+	    ai_chance = {
+			base = 5
+		}
+    }
+}
+
+#FRA French-Papal Alliance 2
+france_event.19 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.19.t
+	desc = france_event.19.d
+	flavor = france_event.19.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 3
+
+	immediate = {
+		c:PAP = {
+			save_scope_as = pap_scope
+			ruler = {
+				save_scope_as = pope_scope
+			}
+		}
+		random_country = {
+			limit = {
+				has_variable = umbria_marche_invasion
+			}
+			save_scope_as = ita_scope
+		}
+	}
+
+	option = {
+		name = france_event.19.a
+		default_option = yes
+
+		create_diplomatic_pact = {
+			country = c:PAP
+			type = defensive_pact
+		}
+		scope:ita_scope = {
+			change_relations = {
+				country = ROOT
+				value = -30
+		    }	
+		    trigger_event = { id = france_event.21 }
+		}
+
+		custom_tooltip = france_event.19.tt1
+	
+	    ai_chance = {
+			base = 1
+		}
+    }
+}
+
+#FRA French-Papal Alliance 3
+france_event.20 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.20.t
+	desc = france_event.20.d
+	flavor = france_event.20.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 3
+
+	immediate = {
+		c:PAP = {
+			save_scope_as = pap_scope
+			ruler = {
+				save_scope_as = pope_scope
+			}
+		}
+		random_country = {
+			limit = {
+				has_variable = umbria_marche_invasion
+			}
+			save_scope_as = ita_scope
+		}
+	}
+
+	option = {
+		name = france_event.20.a
+		default_option = yes
+
+	    ai_chance = {
+			base = 95
+		}
+    }
+}
+
+#ITA French-Papal Alliance 4
+france_event.21 = {
+	type = country_event
+	placement = ROOT
+
+	title = france_event.21.t
+	desc = france_event.21.d
+	flavor = france_event.21.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	duration = 3
+
+	immediate = {
+		c:PAP = {
+			save_scope_as = pap_scope
+		}
+		c:FRA = {
+			save_scope_as = fra_scope
+			ruler = {
+				save_scope_as = napoleon3_scope
+			}
+		}
+	}
+
+	option = {
+		name = france_event.21.a
+		default_option = yes
+
+		custom_tooltip = france_event.21.tt1
+
+	    ai_chance = {
+			base = 95
+		}
+    }
+}
 #
 ##Napoleon 3 extradition from Switzerland
 #france_event.1 = {
@@ -1405,360 +1758,6 @@
 #
 #	    ai_chance = {
 #			base = 1
-#		}
-#    }
-#}
-#
-##FRA French-Papal Alliance
-#france_event.17 = {
-#	type = country_event
-#	placement = ROOT
-#
-#	title = france_event.17.t
-#	desc = france_event.17.d
-#	flavor = france_event.17.f
-#
-#	event_image = {
-#		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
-#	}
-#
-#	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-#	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
-#
-#	icon = "gfx/interface/icons/event_icons/event_default.dds"
-#
-#	duration = 3
-#
-#	trigger = {
-#		this ?= c:FRA
-#		c:PAP ?= {
-#			has_state_in_state_region = STATE_LAZIO
-#		}
-#		ruler = {
-#			has_variable = napoleon3
-#		}
-#        any_country = {
-#            has_variable = umbria_marche_invasion
-#        }
-#        NOT = {
-#        	has_variable = franco_papal_alliance_proposal
-#        }
-#	}
-#
-#	immediate = {
-#		ROOT = {
-#			save_scope_as = fra_scope
-#		}
-#		c:PAP = {
-#			save_scope_as = pap_scope
-#		}
-#		ruler = {
-#			save_scope_as = ruler_scope
-#		}
-#		random_country = {
-#			limit = {
-#				has_variable = umbria_marche_invasion
-#			}
-#			save_scope_as = ita_scope
-#		}
-#		s:STATE_UMBRIA = {
-#			random_scope_state = {
-#				save_scope_as = umbria_scope
-#			}
-#		}
-#		random_interest_group = {
-#			limit = {
-#				is_interest_group_type = ig_devout
-#			}
-#			save_scope_as = ig_devout
-#		}
-#		set_variable = franco_papal_alliance_proposal
-#	}
-#
-#	option = {
-#		name = france_event.17.a
-#		default_option = yes
-#
-#		scope:ig_devout = {
-#			add_modifier = {
-#				name = franco_papal_alliance_1
-#				months = long_modifier_time
-#			}
-#		}
-#		add_loyalists = {
-#			value = 0.05
-#			religion = rel:catholic
-#		}
-#		c:PAP = {
-#			trigger_event = { id = france_event.18 days = 10}
-#		}
-#
-#	    ai_chance = {
-#			base = 80
-#			modifier = {
-#				trigger = {
-#					ig:ig_devout = {
-#						is_powerful = yes
-#					}
-#				}
-#				add = 15
-#			}
-#			modifier = {
-#				trigger = {
-#					OR = {
-#						has_variable = napoleon3_elected
-#						has_variable = napoleon3_coup
-#					}
-#				}
-#				add = 15
-#			}
-#		}
-#    }
-#	option = {
-#		name = france_event.17.b
-#
-#		scope:ig_devout = {
-#			add_modifier = {
-#				name = franco_papal_alliance_2
-#				months = long_modifier_time
-#			}
-#		}
-#		add_radicals = {
-#			value = 0.05
-#			religion = rel:catholic
-#		}
-#
-#	    ai_chance = {
-#			base = 20
-#			modifier = {
-#				trigger = {
-#					ig:ig_devout = {
-#						is_marginal = no
-#					}
-#				}
-#				add = 15
-#			}
-#		}
-#    }
-#}
-#
-##PAP French-Papal Alliance
-#france_event.18 = {
-#	type = country_event
-#	placement = ROOT
-#
-#	title = france_event.18.t
-#	desc = france_event.18.d
-#	flavor = france_event.18.f
-#
-#	event_image = {
-#		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
-#	}
-#
-#	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-#	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
-#
-#	icon = "gfx/interface/icons/event_icons/event_default.dds"
-#
-#	duration = 3
-#
-#	immediate = {
-#		ROOT = {
-#			save_scope_as = pap_scope
-#		}
-#		c:FRA = {
-#			save_scope_as = fra_scope
-#		}
-#		ruler = {
-#			save_scope_as = ruler_scope
-#		}
-#		random_country = {
-#			limit = {
-#				has_variable = umbria_marche_invasion
-#			}
-#			save_scope_as = ita_scope
-#		}
-#		s:STATE_UMBRIA = {
-#			random_scope_state = {
-#				save_scope_as = umbria_scope
-#			}
-#		}
-#	}
-#
-#	option = {
-#		name = france_event.18.a
-#		default_option = yes
-#
-#		custom_tooltip = france_event.18.tt1
-#		change_relations = {
-#			country = c:FRA
-#			value = 100
-#	    }	
-#		c:FRA = {
-#			trigger_event = { id = france_event.19 }
-#		}
-#
-#	    ai_chance = {
-#			base = 95
-#		}
-#    }
-#	option = {
-#		name = france_event.18.b
-#
-#		c:FRA = {
-#			trigger_event = { id = france_event.20 }
-#		}
-#
-#	    ai_chance = {
-#			base = 5
-#		}
-#    }
-#}
-#
-##FRA French-Papal Alliance 2
-#france_event.19 = {
-#	type = country_event
-#	placement = ROOT
-#
-#	title = france_event.19.t
-#	desc = france_event.19.d
-#	flavor = france_event.19.f
-#
-#	event_image = {
-#		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
-#	}
-#
-#	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-#	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
-#
-#	icon = "gfx/interface/icons/event_icons/event_default.dds"
-#
-#	duration = 3
-#
-#	immediate = {
-#		c:PAP = {
-#			save_scope_as = pap_scope
-#			ruler = {
-#				save_scope_as = pope_scope
-#			}
-#		}
-#		random_country = {
-#			limit = {
-#				has_variable = umbria_marche_invasion
-#			}
-#			save_scope_as = ita_scope
-#		}
-#	}
-#
-#	option = {
-#		name = france_event.19.a
-#		default_option = yes
-#
-#		create_diplomatic_pact = {
-#			country = c:PAP
-#			type = defensive_pact
-#		}
-#		scope:ita_scope = {
-#			change_relations = {
-#				country = ROOT
-#				value = -30
-#		    }	
-#		    trigger_event = { id = france_event.21 }
-#		}
-#
-#		custom_tooltip = france_event.19.tt1
-#	
-#	    ai_chance = {
-#			base = 1
-#		}
-#    }
-#}
-#
-##FRA French-Papal Alliance 3
-#france_event.20 = {
-#	type = country_event
-#	placement = ROOT
-#
-#	title = france_event.20.t
-#	desc = france_event.20.d
-#	flavor = france_event.20.f
-#
-#	event_image = {
-#		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
-#	}
-#
-#	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-#	on_opened_soundeffect = "event:/SFX/Events/africa/diplomats_negotiating"
-#
-#	icon = "gfx/interface/icons/event_icons/event_default.dds"
-#
-#	duration = 3
-#
-#	immediate = {
-#		c:PAP = {
-#			save_scope_as = pap_scope
-#			ruler = {
-#				save_scope_as = pope_scope
-#			}
-#		}
-#		random_country = {
-#			limit = {
-#				has_variable = umbria_marche_invasion
-#			}
-#			save_scope_as = ita_scope
-#		}
-#	}
-#
-#	option = {
-#		name = france_event.20.a
-#		default_option = yes
-#
-#	    ai_chance = {
-#			base = 95
-#		}
-#    }
-#}
-#
-##ITA French-Papal Alliance 4
-#france_event.21 = {
-#	type = country_event
-#	placement = ROOT
-#
-#	title = france_event.21.t
-#	desc = france_event.21.d
-#	flavor = france_event.21.f
-#
-#	event_image = {
-#		video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
-#	}
-#
-#	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-#	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
-#
-#	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
-#
-#	duration = 3
-#
-#	immediate = {
-#		c:PAP = {
-#			save_scope_as = pap_scope
-#		}
-#		c:FRA = {
-#			save_scope_as = fra_scope
-#			ruler = {
-#				save_scope_as = napoleon3_scope
-#			}
-#		}
-#	}
-#
-#	option = {
-#		name = france_event.21.a
-#		default_option = yes
-#
-#		custom_tooltip = france_event.21.tt1
-#
-#	    ai_chance = {
-#			base = 95
 #		}
 #    }
 #}
