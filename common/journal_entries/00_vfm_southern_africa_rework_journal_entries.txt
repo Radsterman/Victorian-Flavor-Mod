@@ -1,33 +1,37 @@
 ﻿je_the_forming_of_the_potchefstroom_winburg_republic = {
 	icon = "gfx/interface/icons/event_icons/event_scales.dds"
 
-
 	complete = {
 		#exist = PTF
 	}
+	
 	is_shown_when_inactive = {
 		#THIS = c:ORA
 	}
+	
 	possible = {
 		#THIS = c:ORA
 	}
+	
 	on_complete = {
 		trigger_event = {
 			id = south_america.1
 		}
 	}
+	
 	should_be_pinned_by_default = yes
 }
+
 je_encourage_boer_migration_into_the_oranje_river_basin = {
 	icon = "gfx/interface/icons/event_icons/event_scales.dds"
 
-
 	complete = {
-			OR = {
-				gdp > 200000
-				year > 1952
-			}
+		OR = {
+			gdp > 200000
+			year > 1952
+		}
 	}
+	
 	is_shown_when_inactive = {
 		exists = c:WIN
 		THIS = c:WIN
@@ -35,6 +39,7 @@ je_encourage_boer_migration_into_the_oranje_river_basin = {
 			owns_entire_state_region = STATE_VRYSTAAT
 		}
 	}
+	
 	possible = {
 		exists = c:WIN
 		THIS = c:WIN
@@ -42,6 +47,7 @@ je_encourage_boer_migration_into_the_oranje_river_basin = {
 			owns_entire_state_region = STATE_VRYSTAAT
 		}
 	}
+	
 	on_complete = {
 		custom_tooltip = {
 			text = form_oranje_vrystaat_2_tt
@@ -49,14 +55,15 @@ je_encourage_boer_migration_into_the_oranje_river_basin = {
 		s:STATE_VRYSTAAT.region_state:BST = { set_state_owner = c:ORA }
 	}
 }
+
 je_the_forming_of_the_oranje_vrystaat = {
 	icon = "gfx/interface/icons/event_icons/event_scales.dds"
 
-
 	complete = {
-			gdp > 200000
-			owns_entire_state_region = STATE_VRYSTAAT
+		gdp > 200000
+		owns_entire_state_region = STATE_VRYSTAAT
 	}
+	
 	on_complete = {
 		remove_modifier = adjunct_volksraad
 		change_tag = ORA
@@ -74,30 +81,28 @@ je_the_forming_of_the_oranje_vrystaat = {
 
 	should_be_pinned_by_default = yes
 }
+
 je_climax_of_the_great_trek = {
 	icon = "gfx/interface/icons/event_icons/event_scales.dds"
 
-
 	complete = {
-			OR = {
-				gdp > 200000
-				owns_entire_state_region = STATE_TRANSVAAL
-			}
+		OR = {
+			gdp > 350000
+			owns_entire_state_region = STATE_TRANSVAAL
+		}
 	}
 	on_complete = {
-		if={
+		if = {
 			limit = {
 				NOT = { owns_entire_state_region = STATE_TRANSVAAL }
 			}
 			s:STATE_TRANSVAAL.region_state:MTB = { set_state_owner = c:ZOU }
 		}
-		
 		change_tag = TRN
 		remove_modifier = adjunct_volksraad
 		set_global_variable = trn_exists
 	}
 
-	
 	invalid = {
 		exists = c:TRN
 	}
@@ -109,22 +114,20 @@ je_climax_of_the_great_trek = {
 
 	should_be_pinned_by_default = yes
 }
+
 je_form_griqualand_west = {
 	icon = "gfx/interface/icons/event_icons/event_centralization.dds"
 
-
 	complete = {
-		OR = {
-			AND = {	
-				gdp > 1200000
-				exists = c:WBL
-				root = {
-					c:WBL.relations:ROOT > relations_threshold:amicable
-				}
-			}	
-
+		AND = {	
+			gdp > 1200000
+			exists = c:WBL
+			root = {
+				c:WBL.relations:ROOT > relations_threshold:amicable
+			}
 		}
 	}
+	
 	on_complete = {
 		c:WBL = {
 			trigger_event = { id = journal_flavor_south_africa.11 }
@@ -142,9 +145,9 @@ je_form_griqualand_west = {
 		}
 	}
 }
+
 je_anglo_zulu_war = {
 	icon = "gfx/interface/icons/event_icons/event_military.dds"
-
 
 	complete = {
 		OR = {
@@ -154,9 +157,10 @@ je_anglo_zulu_war = {
 					c:ZUL.relations:ROOT < relations_threshold:cold
 				}
 			}	
-				year > 1879
+			year > 1879
 		}
 	}
+
 	on_complete = {
 		root = {
 			create_diplomatic_play = {
@@ -170,10 +174,14 @@ je_anglo_zulu_war = {
 			}
 		}
 	}
+	
+	invalid = {
+		NOT = { exists = c:ZUL }
+	}
 }
+
 je_establish_the_orange_river_soverignty = {
 	icon = "gfx/interface/icons/event_icons/event_scales.dds"
-
 
 	complete = {
 		OR = {
@@ -195,6 +203,7 @@ je_establish_the_orange_river_soverignty = {
 			}
 		}
 	}
+	
 	on_complete = {
 		root = {
 			create_diplomatic_pact = {
@@ -204,9 +213,9 @@ je_establish_the_orange_river_soverignty = {
 		}
 	}
 }
+
 je_establish_the_traansval_colony = {
 	icon = "gfx/interface/icons/event_icons/event_scales.dds"
-
 
 	complete = {
 		OR = {
@@ -228,14 +237,9 @@ je_establish_the_traansval_colony = {
 			}
 		}
 	}
-	#is_shown_when_inactive = {
-	#	THIS = c:SAF
-	#}
-	#possible = {
-	#	THIS = c:SAF
-	#}
+	
 	on_complete = {
-		IF = {
+		if = {
 			limit = {
 				c:TRN ?= {
 					is_ai = yes
@@ -248,7 +252,7 @@ je_establish_the_traansval_colony = {
 				}	
 			}
 		}
-		IF = {
+		if = {
 			limit = {
 				c:TRN ?= {
 					is_ai = no
@@ -261,12 +265,40 @@ je_establish_the_traansval_colony = {
 				type = dp_make_puppet
 			}
 		}
-
 	}
 }
+
 je_first_boer_war = {
 	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+	
+	is_shown_when_inactive = {
+		OR = {
+			AND = {
+				exists = c:TRN
+				THIS = c:TRN
+			}
 
+			AND = {
+				exists = c:ORA
+				THIS = c:ORA
+			}
+		}
+	}
+	
+	possible = {
+		AND = {
+			exists = c:ORA
+			c:ORA = {
+				is_subject_of = root
+			}
+		}
+		AND = {
+			exists = c:TRN
+			c:TRN = {
+				is_subject_of = root
+			}
+		}
+	}
 
 	complete = {
 		OR = {
@@ -287,33 +319,7 @@ je_first_boer_war = {
 			}
 		}
 	}
-	is_shown_when_inactive = {
-		OR = {
-			AND = {
-				exists = c:TRN
-				THIS = c:TRN
-			}
-
-			AND = {
-				exists = c:ORA
-				THIS = c:ORA
-			}
-		}
-	}
-	possible = {
-		AND = {
-			exists = c:ORA
-			c:ORA = {
-				is_subject_of = root
-			}
-		}
-		AND = {
-			exists = c:TRN
-			c:TRN = {
-				is_subject_of = root
-			}
-		}
-	}
+	
 	on_complete = {
 		c:TRN = {
 			make_independent = yes
@@ -337,9 +343,9 @@ je_first_boer_war = {
 		}
 	}
 }
+
 je_second_boer_war = {
 	icon = "gfx/interface/icons/event_icons/event_scales.dds"
-
 
 	complete = {
 		OR = {
@@ -360,6 +366,7 @@ je_second_boer_war = {
 			}
 		}
 	}
+	
 	is_shown_when_inactive = {
 		OR = {
 			AND = {
@@ -374,6 +381,7 @@ je_second_boer_war = {
 			
 		}
 	}
+	
 	possible = {
 		year > 1880
 		NOT = {
@@ -385,6 +393,7 @@ je_second_boer_war = {
 			}
 		}
 	}
+	
 	on_complete = {
 		c:TRN = {
 			make_independent = yes
@@ -408,9 +417,9 @@ je_second_boer_war = {
 		}
 	}
 }
+
 je_form_the_union_of_south_africa = {
 	icon = "gfx/interface/icons/event_icons/event_centralization.dds"
-
 
 	complete = {
 		custom_tooltip = {
@@ -419,12 +428,10 @@ je_form_the_union_of_south_africa = {
 				exists = c:BOE
 				c:BOE = ROOT
 			}
-
 		}
-	
 	}
+	
 	on_complete = {
-
 		if = {
 			limit = { 
 				is_subject_type = subject_type_puppet
@@ -440,5 +447,6 @@ je_form_the_union_of_south_africa = {
 			name = union_of_south_africa_modifier
 		}
 	}
+	
 	should_be_pinned_by_default = yes
 }

@@ -1,0 +1,1276 @@
+﻿#The materials referenced in this file are the materials in the file gfx\map\terrain\materials.settings and
+#are used when regenerating the province terrain based on what terrain materials have been painted where.
+
+#The materials referenced in this file are the materials in the file gfx\map\terrain\materials.settings and
+#are used when regenerating the province terrain based on what terrain materials have been painted where.
+
+#example = {											# Terrain type name
+#	weight = { 											# Script value for the terrain weight when determining the prevalent terrain in a province set, example:
+#		value = state.b:building_urban_center.level 	# 2 Plains provinces with weight 0.5 = total weight 1 for Plains; 3 mountain provinces weight 0.25 = total weight 0.75 for Mountains; prevalent terrain is Plains
+#	}													# Root scope is the province in the set
+# 														  
+#	textures = {										# Extra textures that could be used in specific cases
+#		{																				
+#			weight = {									# Scripted value, by default 0, if more than zero the highest scoring texture will override the default one
+#				value = 0								# Available scopes: scope:state, scope:region (for state region)
+#				scope:region = {
+#					#blabla
+#				}
+#			}
+#			path = "gfx/state_pictures/asia_example.dds" # Path to additional texture
+#			effect = "effect_entity_name_1"				 # Effect entity for specific texture
+#		}
+#		{
+#			weight = {
+#				value = 0
+#				
+#			}
+#			path = "gfx/state_pictures/europe_example.dds"
+#			effect = "effect_entity_name_2"				
+#		}
+#	}
+#	combat_width = 0.8									# The maximum numeric advantage a side can make use of in battle, 0.8 = up to 80% more of an advantage
+#	risk = 0.1											# Risk of casualties in a terrain
+#	materials = { 										# Materials and weights used to determine if province belongs to terrain type
+#		Material_01 = 1									# Material with weight
+#		Material_02 = 1
+#	}
+#	debug_color = hsv { 0.1 0.5 0.8 }					# Color used in a debug mode
+#	pollution_mask_strength = 0.5						# Polution mask strength
+#	devastation_mask_strength = 1.0						# Devastation mask strength
+#}
+
+plains = {
+	label = label_flat
+	weight = 1
+	textures = {
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							state_is_in_americas = yes
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/plains_northamerica.dds"
+			effect = "vfx_entity_ui_state_plains_northamerica"
+		}
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							is_arid_region = yes
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/plains_arid.dds"
+			effect = "vfx_entity_ui_state_plains_arid"
+		}
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							AND = {
+								state_is_in_americas = no
+								is_arid_region = no
+							}
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/plains.dds"
+			effect = "vfx_entity_ui_state_plains"
+		}
+	}
+
+	combat_width = 1.5
+
+	risk = 0.1
+	materials = { 
+		Gravel_01 = 0.5
+		Grasslands_01 = 0.5
+		Grasslands_02 = 0.5
+		Grasslands_05 = 0.3
+		Grasslands_06 = 0.5
+		Grasslands_07 = 0.5
+		Grasslands_08 = 0.5
+	}
+	debug_color = hsv { 0.1 0.5 0.8 }
+	
+	pollution_mask_strength = 1.0
+	devastation_mask_strength = 1.0
+}
+
+ocean = {
+	label = label_water
+	weight = 1
+	textures = {
+		{
+			weight = {
+				value = 1
+			}
+			path = "gfx/state_pictures/ocean.dds"
+			effect = "vfx_entity_ui_state_ocean"
+		}
+	}
+	
+	combat_width = 1.5
+
+	materials = {
+		Beach_01 = 0.1
+		Beach_02 = 0.001
+		Beach_03 = 0.1
+	}
+	debug_color = { 0.3 0.3 1.0 }
+	pollution_mask_strength = 0.1
+	devastation_mask_strength = 0.0
+}
+
+lakes = {
+	label = label_water
+	weight = 1
+	textures = {
+		{
+			weight = {
+				value = 1
+			}
+			path = "gfx/state_pictures/ocean.dds"
+			effect = "vfx_entity_ui_state_ocean"
+		}
+	}
+	
+	debug_color = { 0.5 0.5 1.0 }
+	
+	pollution_mask_strength = 0.25
+	devastation_mask_strength = 0.0
+}
+
+river = {
+	label = label_water
+	weight = 1
+	textures = {
+		{
+			weight = {
+				value = 1
+			}
+			path = "gfx/state_pictures/ocean.dds"
+			effect = "vfx_entity_ui_state_ocean"
+		}
+	}
+	
+	debug_color = { 0.0 0.5 1.0 }
+	
+	pollution_mask_strength = 0.5
+	devastation_mask_strength = 0.0
+	
+}	
+
+forest = {
+	label = label_forested
+	weight = 1.5
+	textures = {
+		{
+			weight = 1
+			path = "gfx/state_pictures/forest.dds"
+			effect = "vfx_entity_ui_state_forest"
+		}
+	}
+	
+	combat_width = 0.6
+	risk = 0.5
+	materials = { 
+		Woodlands_01 = 0.75
+		Woodlands_02 = 0.75
+	}
+	debug_color = hsv { 0.3 0.75 0.7 }
+	
+	pollution_mask_strength = 1.0
+	devastation_mask_strength = 1.0
+}
+
+hills = {
+	label = label_elevated
+	weight = 2
+	textures = {
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							is_asian_farmland = yes
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/hills_jungle.dds"
+			effect = "vfx_entity_ui_state_hills_jungle"
+		}
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							is_subtropic_farmland = yes
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/hills_subtropic.dds"
+			effect = "vfx_entity_ui_state_hills_subtropic"
+		}
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							AND = {
+								is_asian_farmland = no
+								is_subtropic_farmland = no
+							}
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/hills.dds"
+			effect = "vfx_entity_ui_state_hills"
+		}
+	}
+	
+	combat_width = 0.6
+	risk = 0.2
+	materials = { 
+		Cliff_Granite_01 = 2.5
+		Cliff_Limestone_03 = 2.5
+		Rocks_01 = 0.5
+	}
+	debug_color = hsv { 29 0.867 0.353 }
+	
+	pollution_mask_strength = 1.0
+	devastation_mask_strength = 1.0
+}
+
+mountain = {
+	label = label_elevated
+	label = label_hazardous
+	weight = 1.5
+	textures = {
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							state_is_in_americas = yes
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/mountains_northamerica.dds"
+			effect = "vfx_entity_ui_state_mountains_northamerica"
+		}
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							is_arid_region = yes
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/mountains_arid.dds"
+			effect = "vfx_entity_ui_state_mountains_arid"
+		}
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							AND = {
+								state_is_in_americas = no
+								is_arid_region = no
+							}
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/mountains.dds"
+			effect = "vfx_entity_ui_state_mountains"
+		}
+	}
+
+	combat_width = 0.4
+	risk = 0.2
+	materials = { 
+		Mountains_NonDirectional_01 = 5
+		Cliff_Granite_02 = 2.5
+		Cliff_Granite_03 = 2.5
+		Cliff_Granite_05 = 2.5
+		Cliff_Granite_06 = 2.5
+		Cliff_Granite_07 = 2.5
+		Cliff_Limestone_02 = 2.5
+		Cliff_Sandstone_01 = 2.5
+		Cliff_Sandstone_03 = 2.5
+		Cliff_Sandstone_04 = 2.5
+		Cliff_Sandstone_05 = 2.5
+	}
+	debug_color = hsv { 0 0 0.392 }
+	
+	pollution_mask_strength = 1.0
+	devastation_mask_strength = 1.0
+}
+
+jungle = {
+	label = label_forested
+	label = label_hazardous
+	weight = 1
+	textures = {
+		{
+			weight = {
+				value = 1
+			}
+			path = "gfx/state_pictures/jungle.dds"
+			effect = "vfx_entity_ui_state_jungle"
+		}
+	}
+	combat_width = 0.5
+	risk = 0.6
+	materials = { 
+		Woodlands_03 = 1
+	}
+	debug_color = hsv { 0.45 1 1 }
+	
+	pollution_mask_strength = 1.0
+	devastation_mask_strength = 1.0
+}	
+
+wetland = {
+	label = label_hazardous
+	weight = 2
+	textures = {
+		{
+			weight = {
+				value = 1
+			}
+			path = "gfx/state_pictures/wetland.dds"
+			effect = "vfx_entity_ui_state_wetland"
+		}
+	}
+	
+	combat_width = 0.5
+	risk = 0.3
+	materials = { 
+		Marchlands_01 = 2
+		Marchlands_02 = 2
+		Marchlands_03 = 2
+		Marchlands_04 = 2
+	}
+	debug_color = hsv { 0.5 0.5 0.6 }
+	
+	pollution_mask_strength = 1.0
+	devastation_mask_strength = 1.0
+}
+
+desert = {
+	label = label_flat
+	label = label_hazardous
+	weight = 2
+	textures = {
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							state_is_in_americas = yes
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/desert_northamerica.dds"
+			effect = "vfx_entity_ui_state_desert_northamerica"
+		}
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							state_is_in_americas = no
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/desert.dds"
+			effect = "vfx_entity_ui_state_desert"
+		}
+	}
+	
+	combat_width = 1
+	risk = 0.2
+	materials = { 
+		Desert_01 = 0.5
+		Desert_03 = 0.5
+		Desert_04 = 0.5
+		Desert_05 = 0.5
+		Desert_06 = 0.5
+	}
+	debug_color = hsv { 0.15 1 1 }
+	
+	pollution_mask_strength = 1.0
+	devastation_mask_strength = 1.0
+}
+
+tundra = {
+	label = label_flat
+	label = label_hazardous
+	weight = 1.5
+	textures = {
+		{
+			weight = {
+				value = 1
+			}
+			path = "gfx/state_pictures/tundra.dds"
+			effect = "vfx_entity_ui_state_tundra"
+		}
+	}
+	
+	combat_width = 0.7
+	risk = 0.15
+	materials = { 
+		Permafrost_01 = 3
+		Permafrost_03 = 3
+	}
+	debug_color = { 200 100 25 }
+	
+	pollution_mask_strength = 1.0
+	devastation_mask_strength = 1.0
+}
+
+savanna = {
+	label = label_flat
+	weight = 1
+	textures = {
+		{
+			weight = {
+				value = 1
+			}
+			path = "gfx/state_pictures/plains_arid.dds"
+			effect = "vfx_entity_ui_state_plains"
+		}
+	}
+	combat_width = 1
+	risk = 0.2
+	materials = { 
+		Savanna_01 = 10
+		Savanna_03 = 10
+	}
+	debug_color = { 200 170 80 }
+	
+	pollution_mask_strength = 1.0
+	devastation_mask_strength = 1.0
+}
+
+snow = {
+	label = label_hazardous
+	weight = 1
+	textures = {
+		{
+			weight = {
+				value = 1
+			}
+			path = "gfx/state_pictures/arctic.dds"
+			effect = "vfx_entity_ui_state_arctic"
+		}
+	}
+	combat_width = 0.7
+	risk = 0.2
+	
+	materials = { 
+		Snow_02 = 10
+	}
+	debug_color = hsv { 0.8 0.8 0.8 }
+	
+	pollution_mask_strength = 1.0
+	devastation_mask_strength = 1.0
+}
+
+farmland_rye = { 
+	label = label_flat
+	label = label_developed
+	weight = 2
+	textures = {
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							is_arabic_farmland = yes
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/farmland_arabic.dds"
+			effect = "vfx_entity_ui_state_farmland_arabic"
+		}
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							is_asian_farmland = yes
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/farmland_asian.dds"
+			effect = "vfx_entity_ui_state_farmland_asian"
+		}
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							is_subtropic_farmland = yes
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/farmland_subtropic.dds"
+			effect = "vfx_entity_ui_state_farmland_subtropic"
+		}
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							AND = {
+								is_arabic_farmland = no
+								is_asian_farmland = no
+								is_subtropic_farmland = no
+							}
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/farmland_generic.dds"
+			effect = "vfx_entity_ui_state_farmland_generic"
+		}
+	}
+	
+	combat_width = 1.5
+	risk = 0.1
+	created_material = DYNAMIC-Farmlands_01
+	debug_color = hsv { 0 1 1 }
+	
+	pollution_mask_strength = 1.0
+	devastation_mask_strength = 1.0
+}
+
+pasture = {
+	label = label_flat
+	label = label_developed
+	weight = 2
+	textures = {
+		{
+			weight = {
+				value = 1
+				
+			}
+			path = "gfx/state_pictures/pasture.dds"
+			effect = "vfx_entity_ui_state_pasture"
+		}
+	}
+	
+	combat_width = 1.5
+	risk = 0.1
+	created_material = DYNAMIC-Farmlands_01
+	debug_color = hsv { 0.7 0.8 0.6 }
+	
+	pollution_mask_strength = 1.0
+	devastation_mask_strength = 1.0
+}
+
+farmland_rice = {
+	label = label_flat
+	label = label_developed
+	weight = 2
+	textures = {
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							is_arabic_farmland = yes
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/farmland_arabic.dds"
+			effect = "vfx_entity_ui_state_farmland_arabic"
+		}
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							is_asian_farmland = yes
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/farmland_asian.dds"
+			effect = "vfx_entity_ui_state_farmland_asian"
+		}
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							is_subtropic_farmland = yes
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/farmland_subtropic.dds"
+			effect = "vfx_entity_ui_state_farmland_subtropic"
+		}
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							AND = {
+								is_arabic_farmland = no
+								is_asian_farmland = no
+								is_subtropic_farmland = no
+							}
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/farmland_generic.dds"
+			effect = "vfx_entity_ui_state_farmland_generic"
+		}
+	}
+
+	combat_width = 1.5
+	risk = 0.1
+	created_material = DYNAMIC-Farmlands_02
+	debug_color = hsv { 0.7 0.8 0.6 }
+	
+	pollution_mask_strength = 1.0
+	devastation_mask_strength = 1.0
+}
+
+farmland_millet = {
+	label = label_flat
+	label = label_developed
+	weight = 2
+	textures = {
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							is_arabic_farmland = yes
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/farmland_arabic.dds"
+			effect = "vfx_entity_ui_state_farmland_arabic"
+		}
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							is_asian_farmland = yes
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/farmland_asian.dds"
+			effect = "vfx_entity_ui_state_farmland_asian"
+		}
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							is_subtropic_farmland = yes
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/farmland_subtropic.dds"
+			effect = "vfx_entity_ui_state_farmland_subtropic"
+		}
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							AND = {
+								is_arabic_farmland = no
+								is_asian_farmland = no
+								is_subtropic_farmland = no
+							}
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/farmland_generic.dds"
+			effect = "vfx_entity_ui_state_farmland_generic"
+		}
+	}
+	
+	combat_width = 1.5
+	risk = 0.1
+	created_material = DYNAMIC-Farmlands_03
+	debug_color = hsv { 0.7 0.8 0.6 }
+	
+	pollution_mask_strength = 1.0
+	devastation_mask_strength = 1.0
+}
+
+plantation = {
+	label = label_flat
+	label = label_developed
+	weight = 2
+	textures = {
+		{
+			weight = {
+				value = 1
+			}
+			path = "gfx/state_pictures/plantation.dds"
+			effect = "vfx_entity_ui_state_plantation"
+		}
+	}
+	
+	combat_width = 1.5
+	risk = 0.1
+	created_material = DYNAMIC-Farmlands_01
+	debug_color = hsv { 0.4 0.7 0.6 }
+	
+	pollution_mask_strength = 1.0
+	devastation_mask_strength = 1.0
+}
+
+farmland_wheat = {
+	label = label_flat
+	label = label_developed
+	weight = 2
+	textures = {
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							is_arabic_farmland = yes
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/farmland_arabic.dds"
+			effect = "vfx_entity_ui_state_farmland_arabic"
+		}
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							is_asian_farmland = yes
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/farmland_asian.dds"
+			effect = "vfx_entity_ui_state_farmland_asian"
+		}
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							is_subtropic_farmland = yes
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/farmland_subtropic.dds"
+			effect = "vfx_entity_ui_state_farmland_subtropic"
+		}
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							AND = {
+								is_arabic_farmland = no
+								is_asian_farmland = no
+								is_subtropic_farmland = no
+							}
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/farmland_generic.dds"
+			effect = "vfx_entity_ui_state_farmland_generic"
+		}
+	}
+	
+	combat_width = 1.5
+	risk = 0.1
+	created_material = DYNAMIC-Farmlands_05
+	debug_color = hsv { 0.7 0.8 0.6 }
+	
+	pollution_mask_strength = 1.0
+	devastation_mask_strength = 1.0
+}
+
+farmland_maize = {
+	label = label_flat
+	label = label_developed
+	weight = 2
+	textures = {
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							is_arabic_farmland = yes
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/farmland_arabic.dds"
+			effect = "vfx_entity_ui_state_farmland_arabic"
+		}
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							is_asian_farmland = yes
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/farmland_asian.dds"
+			effect = "vfx_entity_ui_state_farmland_asian"
+		}
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							is_subtropic_farmland = yes
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/farmland_subtropic.dds"
+			effect = "vfx_entity_ui_state_farmland_subtropic"
+		}
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							AND = {
+								is_arabic_farmland = no
+								is_asian_farmland = no
+								is_subtropic_farmland = no
+							}
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/farmland_generic.dds"
+			effect = "vfx_entity_ui_state_farmland_generic"
+		}
+	}
+	
+	combat_width = 1.5
+	risk = 0.1
+	created_material = DYNAMIC-Farmlands_06
+	debug_color = hsv { 0.7 0.8 0.6 }
+	
+	pollution_mask_strength = 1.0
+	devastation_mask_strength = 1.0
+}
+
+cleared_land = {
+	label = label_flat
+	label = label_developed
+	weight = 2
+	textures = {
+		{
+			weight = {
+				value = 1
+			}
+			path = "gfx/state_pictures/cleared_land.dds"
+			effect = "vfx_entity_ui_state_cleared_land"
+		}
+	}
+	
+	combat_width = 1.5
+	risk = 0.1
+	created_material = Grasslands_02
+	debug_color = hsv { 0.3 0.3 0.3 }
+	
+	pollution_mask_strength = 1.0
+	devastation_mask_strength = 1.0
+}
+
+mining = {
+	label = label_hazardous
+	label = label_developed
+	weight = {
+		value = 0
+		if = {
+			limit = {
+				exists = state.b:building_coal_mine
+			}
+			add = state.b:building_coal_mine.level
+		}
+		if = {
+			limit = {
+				exists = state.b:building_iron_mine
+			}
+			add = state.b:building_iron_mine.level
+		}
+		if = {
+			limit = {
+				exists = state.b:building_lead_mine
+			}
+			add = state.b:building_lead_mine.level
+		}
+		if = {
+			limit = {
+				exists = state.b:building_sulfur_mine
+			}
+			add = state.b:building_sulfur_mine.level
+		}
+		if = {
+			limit = {
+				exists = state.b:building_gold_mine
+			}
+			add = state.b:building_gold_mine.level
+		}
+		subtract = 5
+		min = 0.1
+		multiply = state.num_provinces
+		divide = 3
+	}
+	textures = {
+		{
+			weight = {
+				value = 1
+			}
+			path = "gfx/state_pictures/mining.dds"
+			effect = "vfx_entity_ui_state_mining"
+		}
+	}
+	
+	combat_width = 0.5
+	risk = 0.5
+	created_material = DYNAMIC-Mining_01
+	debug_color = hsv { 0.7 0.5 0.15 }
+	
+	pollution_mask_strength = 1.0
+	devastation_mask_strength = 1.0
+}
+
+forestry = {
+	label = label_forested
+	label = label_developed
+	weight = {
+		value = 0
+		if = {
+			limit = {
+				exists = state.b:building_logging_camp
+			}
+			add = state.b:building_logging_camp.level
+		}
+		subtract = 5
+		min = 0.1
+		multiply = state.num_provinces
+		divide = 2
+	}
+	
+	textures = {
+		{
+			weight = 1
+			path = "gfx/state_pictures/forestry.dds"
+			effect = "vfx_entity_ui_state_forestry"
+		}
+	}
+	
+	combat_width = 0.8
+	risk = 0.5
+	created_material = DYNAMIC-Forestry_01
+	debug_color = hsv { 0.7 0.3 0.8 }
+	
+	pollution_mask_strength = 1.0
+	devastation_mask_strength = 1.0
+}
+
+urban = {
+	label = label_forested
+	label = label_developed
+	weight = {
+		value = 0.1
+		if = {
+			limit = {
+				exists = state.b:building_urban_center
+			}
+			add = state.b:building_urban_center.level
+			subtract = 5
+			min = 0.1
+			multiply = state.num_provinces
+			divide = 4
+		}
+	}
+	textures = {
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							state_in_africa = yes
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/urban_african.dds"
+			effect = "vfx_entity_ui_state_urban_african"
+		}
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							or = {
+								state_is_in_middle_east = yes
+								state_is_in_central_asia = yes
+								state_is_in_india = yes
+							}
+						}
+					}
+					add = 1
+				}			
+			}
+			path = "gfx/state_pictures/urban_arabic.dds"
+			effect = "vfx_entity_ui_state_urban_arabic"
+		}
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							or = {
+								state_is_in_east_asia = yes
+								state_is_in_southeast_asia = yes
+							}
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/urban_asian.dds"
+			effect = "vfx_entity_ui_state_urban_asian"
+		}
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							is_subtropic_farmland = yes
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/urban_latin_american.dds"
+			effect = "vfx_entity_ui_state_urban_latin_american"
+		}
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							state_is_in_europe = yes
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/urban_european.dds"
+			effect = "vfx_entity_ui_state_urban_european"
+		}
+		# fallback
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						scope:region = {
+							AND = {
+								state_is_in_europe = no
+								is_subtropic_farmland = no
+								state_is_in_east_asia = no
+								state_is_in_southeast_asia = no
+								state_is_in_middle_east = no
+								state_is_in_central_asia = no
+								state_is_in_india = no
+								state_in_africa = no
+							}
+						}
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/urban_european.dds"
+			effect = "vfx_entity_ui_state_urban_european"
+		}
+	}
+
+	combat_width = 0.8
+	risk = 0.5
+	created_material = DYNAMIC-Urban_01
+	debug_color = hsv { 0.7 0.3 0.8 }
+	
+	pollution_mask_strength = 1.0
+	devastation_mask_strength = 1.0
+}
+
+docks = {
+    label = label_developed
+	weight = {
+		value = 0
+		if = {
+			limit = {
+				state.num_provinces < 2
+			}
+			add = 1
+		}
+		else_if = {
+			limit = {
+				exists = state.b:building_port
+			}
+			add = state.b:building_port.level
+			subtract = 3
+			min = 0.1
+			multiply = state.num_provinces
+			divide = 3
+		}
+	}
+	textures = {
+		{
+			weight = {
+				value = 0
+				if = {
+					limit = {
+						exists = state.b:building_port
+					}
+					add = 1
+				}
+			}
+			path = "gfx/state_pictures/docks.dds"
+			effect = "vfx_entity_ui_state_docks"
+		}
+		{
+			weight = {
+				value = 1
+				# if = {
+				#	limit = {
+				#		NOT = { exists = state.b:building_port }
+				#	}
+				#	add = 1
+				# }
+			}
+			path = "gfx/state_pictures/plains_arid.dds"
+			effect = "vfx_entity_ui_state_plains_arid"
+		}
+	}
+    
+    combat_width = 0.8
+    risk = 0.5
+    debug_color = hsv { 0.7 0.3 0.8 }
+	
+	pollution_mask_strength = 1.0
+    devastation_mask_strength = 1.0
+}

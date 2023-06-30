@@ -1,0 +1,470 @@
+﻿namespace = vfm_greece
+
+
+
+vfm_greece.1 = {
+	type = country_event
+
+	title = vfm_greece.1.t
+	desc = vfm_greece.1.d
+	flavor = vfm_greece.1.f
+
+	placement = scope:attica_state
+
+	event_image = {
+		video = "votp_realist_household"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_primary_culture = {
+			save_scope_as = greek_culture_scope
+		}
+		s:STATE_ATTICA = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:GRE = THIS
+					}
+				}
+				save_scope_as = attica_state
+			}
+		}
+	}
+
+	option = {
+		name = vfm_greece.1.a
+		default_option = yes
+		scope:attica_state = {
+		    create_pop = {
+				pop_type = academics
+				culture = greek
+				size = 750			
+		    }
+		}
+	}
+}
+
+vfm_greece.2 = {
+	type = country_event
+
+	title = vfm_greece.2.t
+	desc = vfm_greece.2.d
+	flavor = vfm_greece.2.f
+
+	placement = scope:peloponnese_state
+
+	event_image = {
+		video = "europenorthamerica_art_gallery"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_primary_culture = {
+			save_scope_as = greek_culture_scope
+		}
+		s:STATE_PELOPONNESE = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:GRE = THIS
+					}
+				}
+				save_scope_as = peloponnese_state
+			}
+		}
+	}
+
+	option = {
+		name = vfm_greece.2.a
+		default_option = yes
+		scope:peloponnese_state = {
+		    create_pop = {
+				pop_type = academics
+				culture = greek
+				size = 500			
+		    }
+		}
+        add_loyalists = {
+		    pop_type = academics
+			value = 0.2
+		}
+	}
+}
+
+vfm_greece.3 = {
+	type = country_event
+
+	title = vfm_greece.3.t
+	desc = vfm_greece.3.d
+	flavor = vfm_greece.3.f
+
+	#placement = scope:ionian_overlord_capital
+
+	event_image = {
+		video = "europenorthamerica_springtime_of_nations"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	duration = 3
+
+	trigger = {
+	
+	}
+
+	immediate = {
+		random_primary_culture = {
+			save_scope_as = greek_culture_scope
+		}
+		random_interest_group = {
+			limit = {
+				is_marginal = no
+			}
+			leader = {
+				save_scope_as = random_ig_leader
+			}
+		}
+	}
+
+	option = {
+		name = vfm_greece.3.a
+		default_option = yes
+		add_modifier = {
+			name = archeological_findings_modifier
+		}
+	}
+	
+	option = {
+		name = vfm_greece.3.b
+		default_option = yes
+		scope:random_ig_leader = {
+			add_modifier = {
+				name = modifier_passionate_academic
+			}
+		}
+	}
+}
+
+# royal phalanx
+vfm_greece.5 = {
+	type = country_event
+
+	title = vfm_greece.5.t
+	desc = vfm_greece.5.d
+	flavor = vfm_greece.5.f
+
+	placement = scope:greek_state
+
+	event_image = {
+		video = "unspecific_military_parade"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				OR = {
+					state_region = s:STATE_ATTICA
+					state_region = s:STATE_PELOPONNESE
+				}
+			}
+			save_scope_as = greek_state
+		}
+	}
+
+	option = {
+		name = vfm_greece.5.a
+		default_option = yes
+        scope:greek_state = {
+		    add_radicals_in_state = {
+				pop_type = soldiers
+				value = small_radicals
+			}
+		}
+	}
+
+    option = {
+		name = vfm_greece.5.b
+		scope:greek_state = {
+			add_radicals_in_state = {
+				pop_type = officers
+				value = large_radicals
+			}
+		}
+	}
+}
+
+# after the revolt against the ottomans we have revived the nation but our situation is fragile,
+# the ottomans will surely try to put us down if given the chance!
+#vfm_greece.4 = {
+
+# military is pleased
+vfm_greece.6 = {
+	type = country_event
+
+	title = vfm_greece.6.t
+	desc = vfm_greece.6.d
+	flavor = vfm_greece.6.f
+
+	#placement = scope:ionian_overlord_capital
+
+	event_image = {
+		video = "unspecific_military_parade"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_primary_culture = {
+			save_scope_as = greek_culture_scope
+		}
+	}
+
+	option = {
+		name = vfm_greece.6.a
+		default_option = yes
+		add_loyalists = {
+		    pop_type = officers
+			value = 0.25
+		}
+		add_loyalists = {
+		    pop_type = soldiers
+			value = 0.1
+		}
+	}
+
+    option = {
+		name = vfm_greece.6.b
+		add_loyalists = {
+		    pop_type = officers
+			value = 0.15
+		}
+		add_loyalists = {
+		    pop_type = soldiers
+			value = 0.15
+		}
+	}
+}
+
+
+# revolters in ottoman occupied lands request support
+vfm_greece.7 = {
+	type = country_event
+	placement = scope:ottoman_state
+
+	title = vfm_greece.7.t
+	desc = vfm_greece.7.d
+	flavor = vfm_greece.7.f
+
+	gui_window = event_window_1char_tabloid
+	left_icon = scope:historic_agitator_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+
+	duration = 3
+
+	trigger = {
+	    exists = c:GRE
+		this = c:GRE
+		any_scope_character = {
+			has_role = agitator
+			has_ideology = ideology:ideology_ethno_nationalist
+		}
+	}
+
+	immediate = {
+		c:TUR = {
+			save_scope_as = turkey_country
+			random_scope_state = {
+				limit = {
+				    state_region = { 
+					    is_homeland = cu:greek
+					}
+					OR = { 
+					    has_state_trait = state_medeteranean_climate
+						state_region = s:STATE_MACEDONIA
+						state_region = s:STATE_WESTERN_THRACE
+					}
+				}
+				save_scope_as = ottoman_state
+			}
+		}
+		random_scope_character = {
+			limit = {
+				has_role = agitator
+			    has_ideology = ideology:ideology_ethno_nationalist
+			}
+			save_scope_as = historic_agitator_scope
+		}
+	}
+
+	option = {
+		name = vfm_greece.7.a
+		default_option = yes
+		add_treasury = -30000
+		scope:ottoman_state = {
+		    add_radicals_in_state = {
+				value = 0.15
+				culture = cu:greek
+			}
+			state_region = {
+			    add_devastation = 20
+		    }
+			
+			trigger_event = { id = vfm_greece.8 }
+		}
+		show_as_tooltip = {
+		    scope:ottoman_state = {
+				if = { 
+				    limit = { 
+					    any_scope_building = {
+						    is_building_type = building_barracks
+					    }
+					}
+					remove_building = building_barracks
+				}
+			}
+		}
+		change_infamy = 5
+	}
+	
+	option = {
+		name = vfm_greece.7.b
+		scope:ottoman_state = {
+		    add_radicals_in_state = {
+				value = 0.1
+				culture = cu:greek
+			}
+			state_region = {
+			       add_devastation = 10
+		    }
+			trigger_event = { id = vfm_greece.9 }
+		}
+		add_radicals = {
+			pop_type = officers
+			value = small_radicals
+		}
+	}
+}
+
+vfm_greece.8 = { #
+	type = state_event
+	placement = scope:ottoman_state
+
+	title = vfm_greece.8.t
+	desc = vfm_greece.8.d
+	flavor = vfm_greece.8.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_devastation.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+	
+	immediate = {
+		save_scope_as = ottoman_state
+	}
+	
+	option = {
+		name = vfm_greece.8.a
+		default_option = yes
+		show_as_tooltip = {
+		    scope:ottoman_state = {
+		   	    add_radicals_in_state = {
+					value = 0.15
+					culture = cu:greek
+				}
+				state_region = {
+			        add_devastation = 20
+		        }
+			}
+		}
+		scope:ottoman_state = {
+		    if = { 
+				limit = { 
+					any_scope_building = {
+						is_building_type = building_barracks
+					}
+				}
+			    remove_building = building_barracks
+			}
+	    }
+	}
+}
+
+vfm_greece.9 = { #
+	type = state_event
+	placement = scope:ottoman_state
+
+	title = vfm_greece.9.t
+	desc = vfm_greece.9.d
+	flavor = vfm_greece.9.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_devastation.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+	
+	immediate = {
+		save_scope_as = ottoman_state
+	}
+	
+	option = {
+		name = vfm_greece.9.a
+		default_option = yes
+		show_as_tooltip = {
+		    scope:ottoman_state = {
+		    	add_radicals_in_state = {
+					value = 0.1
+					culture = cu:greek
+				}
+				state_region = {
+			        add_devastation = 10
+		        }
+			}
+		}
+	}
+}

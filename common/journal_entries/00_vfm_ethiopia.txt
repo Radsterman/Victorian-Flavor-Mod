@@ -1,0 +1,27 @@
+﻿je_ethiopian_expansion = { #Ethiopia expands into Ogaadeen
+	icon = "gfx/interface/icons/event_icons/event_colonial.dds"
+
+	possible = {
+		hidden_trigger = { always = yes }
+	}
+
+	complete = {
+		has_state_in_state_region = STATE_OROMIA
+		s:STATE_OROMIA = {
+			NOT = {
+				any_scope_state = {
+					owner = {
+						country_rank = 0
+					}
+				}
+			}
+		}
+	}
+
+	on_complete = {
+		deactivate_law = law_type:law_frontier_colonialism
+	}
+
+	weight = 100
+	should_be_pinned_by_default = yes
+}

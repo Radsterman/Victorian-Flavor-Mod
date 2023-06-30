@@ -1,5 +1,135 @@
 ﻿namespace = south_america
 
+# Peru-Bolivia success
+south_america.1 = {
+	type = country_event
+	placement = ROOT
+	title = south_america.1.t
+	desc = south_america.1.d
+	flavor =  south_america.1.f
+
+	duration = 3
+
+	event_image = {
+		video = "southamerica_aristocrats"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	trigger = {
+		# triggered by JE
+	}
+
+	immediate = {
+		c:PEU = {
+			save_scope_as = peru_country
+			capital = {
+				save_scope_as = peru_capital
+			}
+		}
+	}
+
+	option = { # Annex Peru
+		name = south_america.1.a
+		scope:peru_capital = {
+			add_radicals_in_state = {
+				value = 0.33
+			}
+		}
+		if = {
+			limit = {
+				c:PEU = {
+					is_player = no
+				}
+			}
+			annex = c:PEU
+		}
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = { #No
+		name = south_america.1.b
+		default_option = yes
+		change_relations = {
+			country = c:PEU
+			value = 20
+		}
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+# Peru-Bolivia Startup
+south_america.2 = {
+	type = country_event
+	placement = ROOT
+	title = south_america.2.t
+	desc = south_america.2.d
+	flavor =  south_america.2.f
+
+	duration = 3
+
+	event_image = {
+		video = "southamerica_aristocrats"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	trigger = {
+		exists = c:PEU
+	}
+
+	immediate = {
+		c:PEU = {
+			save_scope_as = peru_country
+		}
+	}
+
+	option = { #Yes
+		name = south_america.2.a
+		trigger = {
+			c:PEU = {
+				is_player = no
+			}	
+		}
+		create_incident = {
+			value = 50
+			country = c:PEU
+		}
+		create_diplomatic_pact = {
+			country = c:PEU
+			type = puppet
+		}
+		set_variable = {
+			name = peru_bolivia_var
+			value = 0
+		}
+		add_journal_entry = { type = je_peru_bolivia }
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = { #No
+		name = south_america.2.b
+		default_option = yes
+		change_relations = {
+			country = c:PEU
+			value = 20
+		}
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
 # Brazil starting war
 south_america.3 = { #Ongoing Guerilla War 
 	type = country_event
@@ -11,11 +141,10 @@ south_america.3 = { #Ongoing Guerilla War
 	duration = 3
 
 	event_image = {
-		video = "gfx/event_pictures/southamerica_war_civilians.bk2"
+		video = "southamerica_war_civilians"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/southamerica/war_civilians"
 
 	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
@@ -74,11 +203,10 @@ south_america.5 = { #you lost
 	duration = 3
 
 	event_image = {
-		video = "gfx/event_pictures/southamerica_war_civilians.bk2"
+		video = "southamerica_war_civilians"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/southamerica/war_civilians"
 
 	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
@@ -118,11 +246,10 @@ south_america.6 = { #you won
 	duration = 3
 
 	event_image = {
-		video = "gfx/event_pictures/southamerica_war_civilians.bk2"
+		video = "southamerica_war_civilians"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/southamerica/war_civilians"
 
 	icon = "gfx/interface/icons/event_icons/event_military.dds"
 

@@ -13,6 +13,19 @@
 	ai_will_do = {
 		always = no
 	}	
+
+    ai_enact_weight_modifier = { #Petitions
+		value = 0
+		
+		if = {
+			limit = { 
+				has_journal_entry = je_government_petition
+				has_variable = desired_law_var
+                scope:law = var:desired_law_var
+			}
+			add = 750
+		}
+	}
 }
 
 law_colonial_administration = {
@@ -55,6 +68,19 @@ law_colonial_administration = {
 			has_law = law_type:law_frontier_colonialism
 		}
 	}
+
+    ai_enact_weight_modifier = { #Petitions
+		value = 0
+		
+		if = {
+			limit = { 
+				has_journal_entry = je_government_petition
+				has_variable = desired_law_var
+                scope:law = var:desired_law_var
+			}
+			add = 750
+		}
+	}
 }
 
 law_colonial_resettlement = {
@@ -72,7 +98,24 @@ law_colonial_resettlement = {
 		state_migration_pull_unincorporated_mult = 0.5
 	}
 	
-	institution = institution_colonial_affairs 
+	institution = institution_colonial_affairs
+
+	pop_support = {
+		value = 0
+		# Officers like colonialism
+		add = {
+			desc = "POP_OFFICERS"			
+			if = {
+				limit = {
+					owner = { 
+						has_law = law_type:law_no_colonial_affairs 
+					} 
+					is_pop_type = officers
+				}
+				value = 0.25
+			}
+		}
+	}
 
 	pop_support = {
 		value = 0
@@ -97,6 +140,19 @@ law_colonial_resettlement = {
 			has_law = law_type:law_colonial_administration
 			has_law = law_type:law_frontier_colonialism
 			navy_size >= 50
+		}
+	}
+
+	ai_enact_weight_modifier = { #Petitions
+		value = 0
+		
+		if = {
+			limit = { 
+				has_journal_entry = je_government_petition
+				has_variable = desired_law_var
+                scope:law = var:desired_law_var
+			}
+			add = 750
 		}
 	}
 }
@@ -128,9 +184,7 @@ law_colonial_exploitation = {
 			desc = "POP_OFFICERS"			
 			if = {
 				limit = {
-					owner = { 
-						has_law = law_type:law_no_colonial_affairs 
-					} 
+					owner = { has_law = law_type:law_no_colonial_affairs } 
 					is_pop_type = officers
 				}
 				value = 0.25
@@ -144,6 +198,19 @@ law_colonial_exploitation = {
 			has_law = law_type:law_colonial_administration
 			has_law = law_type:law_frontier_colonialism
 			navy_size >= 50
+		}
+	}
+
+    ai_enact_weight_modifier = { #Petitions
+		value = 0
+		
+		if = {
+			limit = { 
+				has_journal_entry = je_government_petition
+				has_variable = desired_law_var
+                scope:law = var:desired_law_var
+			}
+			add = 750
 		}
 	}
 }
@@ -195,6 +262,19 @@ law_frontier_colonialism = {
 					is_country_type = decentralized
 				}
 			}
+		}
+	}
+
+    ai_enact_weight_modifier = { #Petitions
+		value = 0
+		
+		if = {
+			limit = { 
+				has_journal_entry = je_government_petition
+				has_variable = desired_law_var
+                scope:law = var:desired_law_var
+			}
+			add = 750
 		}
 	}
 }

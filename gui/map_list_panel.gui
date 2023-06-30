@@ -301,6 +301,7 @@ types map_list_panel_types {
 		layoutpolicy_vertical = expanding
 		alwaystransparent = no
 		using = clickthrough_blocker
+		layer = layer_ingame_menu
 
 		state = {
 			name = _show
@@ -1266,20 +1267,29 @@ types map_list_panel_types {
 		blockoverride "headers" {
 			sort_button = {
 				align = left|nobaseline
-				margin = { 20 0 }
+				margin = { 10 0 }
+				text = "COLONY_MAP_LIST_PANEL_STATE_HEADER"
+				tooltip = "COLONY_MAP_LIST_PANEL_STATE_HEADER_TOOLTIP"
+				size = { 160 20 }
+				onclick = "[MapListPanel.Sort('state')]"
+			}
+
+			sort_button = {
+				align = left|nobaseline
+				margin = { 10 0 }
 				text = "COLONY_MAP_LIST_PANEL_REGION_HEADER"
 				tooltip = "COLONY_MAP_LIST_PANEL_REGION_HEADER_TOOLTIP"
-				size = { 245 20 }
+				size = { 205 20 }
 				onclick = "[MapListPanel.Sort('region')]"
 			}
 
 			sort_button = {
 				align = left|nobaseline
-				margin = { 20 0 }
-				text = "COLONY_MAP_LIST_PANEL_STATE_HEADER"
-				tooltip = "COLONY_MAP_LIST_PANEL_STATE_HEADER_TOOLTIP"
-				size = { 240 20 }
-				onclick = "[MapListPanel.Sort('state')]"
+				margin = { 10 0 }
+				text = "COLONY_MAP_LIST_PANEL_STATE_TRAITS_HEADER"
+				tooltip = "COLONY_MAP_LIST_PANEL_STATE_TRAITS_HEADER_TOOLTIP"
+				size = { 120 20 }
+				enabled = no
 			}
 
 			sort_button = {
@@ -1300,21 +1310,41 @@ types map_list_panel_types {
 			item = {
 				map_list_panel_item_interaction = {
 					blockoverride "values" {
-
 						textbox = {
-							size = { 245 25 }
-							align = left|nobaseline
-							text = "[MapListOption.GetColonyData.GetRegion]"
-							parentanchor = vcenter
-							elide = right
-						}
-
-						textbox = {
-							size = { 240 25 }
+							size = { 160 25 }
 							align = left|nobaseline
 							text = "[MapListOption.GetColonyData.GetState]"
 							parentanchor = vcenter
 							elide = right
+							margin_left = 10
+						}
+
+						textbox = {
+							size = { 205 25 }
+							align = left|nobaseline
+							text = "[MapListOption.GetColonyData.GetRegion]"
+							parentanchor = vcenter
+							elide = right
+							margin_left = 10
+						}
+
+						flowcontainer = {
+							datamodel = "[MapListOption.GetColonyData.GetStateRegion.AccessTraits]"
+							parentanchor = vcenter
+							spacing = 5
+							minimumsize = { 120 -1 }
+							maximumsize = { 120 -1 }
+
+							item = {
+								icon = {
+									size = { 35 35 }
+									tooltip = TOOLTIP_STATE_TRAIT
+									onmousehierarchyenter = "[AccessHighlightManager.HighlightStateTrait(StateTrait.Self)]"
+									onmousehierarchyleave = "[AccessHighlightManager.RemoveHighlight]"
+									alwaystransparent = no
+									texture = "[StateTrait.GetTexture]"
+								}
+							}
 						}
 					}
 				}
@@ -1409,6 +1439,118 @@ types map_list_panel_types {
 						container = {
 							parentanchor = center
 							minimumsize = { 120 -1 }
+							diplomatic_action_acceptance_icon = {
+								blockoverride "parentanchor" {
+									parentanchor = center
+								}
+							}
+
+							textbox = {
+								visible = "[Not(DiplomaticAction.RequiresApproval)]"
+								text = "NOT_AVAILABLE"
+								autoresize = yes
+								align = nobaseline
+								parentanchor = center
+								alpha = 0.5
+							}
+						}
+
+						widget = { size = { 5 5 }}
+					}
+				}
+			}
+		}
+	}
+
+	### DIPLO ACTIONS - Rivalry
+	type diplo_action_rivalry_map_list_panel = map_list_panel {
+		name = "diplo_action_rivalry_map_list_panel"
+
+		blockoverride "headers" {
+			sort_button = {
+				align = center|nobaseline
+				text = "DIPLO_ACTION_LIST_PANEL_STATUS_HEADER"
+				tooltip = "DIPLO_ACTION_LIST_PANEL_STATUS_HEADER_TOOLTIP"
+				size = { 260 20 }
+				onclick = "[MapListPanel.Sort('country')]"
+			}
+
+			sort_button = {
+				align = center|nobaseline
+				text = "DIPLO_ACTION_LIST_PANEL_STATUS_RIVALRY_GAINS"
+				tooltip = "DIPLO_ACTION_LIST_PANEL_STATUS_RIVALRY_GAINS_TOOLTIP"
+				size = { 105 20 }
+				onclick = "[MapListPanel.Sort('gains')]"
+			}
+
+			sort_button = {
+				align = center|nobaseline
+				text = "ACCEPTANCE"
+				size = { 120 20 }
+				onclick = "[MapListPanel.Sort('acceptance')]"
+			}
+
+			sort_button = {
+				align = center|nobaseline
+				tooltip = "DEFAULT_MAP_LIST_PANEL_STATUS_HEADER_TOOLTIP"
+				size = { 55 20 }
+				onclick = "[MapListPanel.Sort('status')]"
+				button = {
+					texture = "gfx/interface/buttons/sort_button_icons/sort_icon_status.dds"
+					size = { 25 25 }
+					parentanchor = center
+					alwaystransparent = yes
+				}
+			}
+		}
+
+		blockoverride "item" {
+			item = {
+				map_list_panel_item_interaction = {
+					blockoverride "name_button_visibility" {
+						visible = yes
+					}
+
+					blockoverride "name_button_size" {
+						size = { 255 40 }
+					}
+
+					blockoverride "name_button_properties" {
+						onclick = "[InformationPanelBar.OpenCountryPanel(MapListOption.GetDiploActionData.GetDiplomaticAction.GetSecondCountry)]"
+						onrightclick = "[RightClickMenuManager.ShowForCountry(MapListOption.GetDiploActionData.GetDiplomaticAction.GetSecondCountry)]"
+
+						tooltipwidget = {
+							FancyTooltip_Country = {
+								datacontext = "[MapListOption.GetDiploActionData.GetDiplomaticAction.GetSecondCountry]"
+							}
+						}
+						
+						textbox = {
+							margin = { 10 0 }
+							size = { 250 25 }
+							align = left|nobaseline
+							text = "[MapListOption.GetDiploActionData.GetDiplomaticAction.GetSecondCountry.GetName]"
+							parentanchor = vcenter
+							elide = right
+							fontsize_min = 12
+						}
+					}
+
+					blockoverride "values" {
+						datacontext = "[MapListOption.GetDiploActionData.GetDiplomaticAction]"
+						
+						textbox = {
+							raw_text = "@inf! [DiplomaticAction.GetRivalryGains|v0=+]"
+							tooltip = "[DiplomaticAction.GetRivalryGainsDetailsDesc]"
+							parentanchor = vcenter
+							align = center|nobaseline
+							size = { 110 25 }
+							alpha = "[TransparentIfZero(DiplomaticAction.GetRivalryGains)]"
+						}
+
+						container = {
+							parentanchor = center
+							minimumsize = { 115 -1 }
 							diplomatic_action_acceptance_icon = {
 								blockoverride "parentanchor" {
 									parentanchor = center

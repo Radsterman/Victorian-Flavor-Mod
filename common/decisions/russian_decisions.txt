@@ -1,0 +1,50 @@
+﻿expand_transcaucasia = {
+	is_shown = {
+		exists = c:CAU
+		c:CAU = {
+			is_subject_of = root
+		}
+		NOT = {
+			c:CAU = {
+				owns_entire_state_region = STATE_KARS
+				owns_entire_state_region = STATE_KUBAN
+				owns_entire_state_region = STATE_DAGESTAN
+			}
+		}
+	}
+
+	possible = {
+		OR = {
+			has_state_in_state_region = STATE_KARS
+			owns_entire_state_region = STATE_KUBAN
+			owns_entire_state_region = STATE_DAGESTAN
+		}
+		has_technology_researched = central_archives
+	}
+
+	when_taken = {
+		s:STATE_KARS.region_state:RUS = {
+			set_state_owner = c:CAU
+		}
+		if = {
+			limit = {
+			owns_entire_state_region = STATE_KUBAN
+			}
+			s:STATE_KUBAN.region_state:RUS = {
+				set_state_owner = c:CAU
+			}
+		}
+		if = {
+			limit = {
+			owns_entire_state_region = STATE_DAGESTAN
+			}
+			s:STATE_DAGESTAN.region_state:RUS = {
+				set_state_owner = c:CAU
+			}
+		}
+	}
+
+	ai_chance = {
+		base = 10
+	}
+}

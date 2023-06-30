@@ -9,11 +9,10 @@ hawaii_events.1 = { # Fate of Hawaii
 	flavor = hawaii_events.1.f
 
 	event_image = {
-		video = "gfx/event_pictures/southamerica_aristocrats.bk2"
+		video = "southamerica_aristocrats"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
 
 	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
 
@@ -46,11 +45,10 @@ hawaii_events.2 = { #JE success
 	flavor = hawaii_events.2.f
 
 	event_image = {
-		video = "gfx/event_pictures/southamerica_factory_opening.bk2"
+		video = "southamerica_factory_opening"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/southamerica/factory_opening"
 
 	icon = "gfx/interface/icons/event_icons/event_trade.dds"
 
@@ -65,6 +63,9 @@ hawaii_events.2 = { #JE success
 
 	option = { #get an extra defense modifier
 		name = hawaii_events.2.a
+		ai_chance = {
+			base = 75
+		}
 		default_option = yes
 		every_scope_state = {
 			limit = { is_incorporated = yes }
@@ -76,6 +77,25 @@ hawaii_events.2 = { #JE success
 	}
 	option = { #deport businessmen thinking of coup
 		name = hawaii_events.2.b
+		ai_chance = {
+			base = 50
+			modifier = {
+				trigger = {
+					ig:ig_industrialists = {
+						ig_approval < -5
+					}
+				}
+				add = -25
+			}
+			modifier = {
+				trigger = {
+					ig:ig_industrialists = {
+						is_powerful = yes
+					}
+				}
+				add = -25
+			}
+		}
 		ig:ig_industrialists = {
 			add_modifier = {
 				name = deporting_disloyal_igs
@@ -108,11 +128,10 @@ hawaii_events.3 = { #Failed JE
 	flavor = hawaii_events.3.f
 
 	event_image = {
-		video = "gfx/event_pictures/europenorthamerica_springtime_of_nations.bk2"
+		video = "europenorthamerica_springtime_of_nations"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/springtime_of_nation"
 
 	icon = "gfx/interface/icons/event_icons/event_protest.dds"
 
@@ -160,11 +179,10 @@ hawaii_events.4 = { #Great Power makes hawaii puppet or annex's them
 	flavor = hawaii_events.4.f
 
 	event_image = {
-		video = "gfx/event_pictures/southamerica_aristocrats.bk2"
+		video = "southamerica_aristocrats"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
 
 	icon = "gfx/interface/icons/event_icons/event_map.dds"
 
@@ -237,11 +255,10 @@ type = country_event
 	flavor = hawaii_events.5.f
 
 	event_image = {
-		video = "gfx/event_pictures/southamerica_aristocrats.bk2"
+		video = "southamerica_aristocrats"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
 
 	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
 
