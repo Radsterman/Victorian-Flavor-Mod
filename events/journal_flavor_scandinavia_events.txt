@@ -465,6 +465,75 @@ journal_flavor_scandinavia.7 = { #Form Norway-Sweden
 		}
 
 	}
+}
 
+journal_flavor_scandinavia.8 = { #motala fabriker
+	type = country_event
+	placement = root
+
+	title = journal_flavor_scandinavia.8.t
+	desc = journal_flavor_scandinavia.8.d
+	flavor = journal_flavor_scandinavia.8.f
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_factory_opening.bk2"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/factory_opening"
+
+	duration = 3
+
+	trigger = {
+
+	}
+
+	immediate = {
+        S:STATE_SVEALAND = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:SWE = THIS
+					}
+				}
+				save_scope_as = svea_state
+			}
+		}
+	}
+
+	option = {
+		name = journal_flavor_scandinavia.8.a
+		default_option = yes
+		scope:svea_state = {
+		    add_modifier = {
+				name = industrial_scabs_modifier
+				months = long_modifier_time
+			}
+		}
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = sided_with_capitalists_over_scrips
+				months = long_modifier_time
+			}
+		}
+		scope:svea_state = {
+			add_radicals_in_state = {
+				pop_type = laborers
+				value = small_radicals
+			}
+		}
+	}
 	
+	option = {
+		name = journal_flavor_scandinavia.8.b
+		default_option = yes
+		scope:svea_state = {
+		    add_modifier = {
+				name = industrial_scabs_modifier
+				months = normal_modifier_time
+			}
+		}
+	}
 }
