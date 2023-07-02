@@ -45,6 +45,9 @@
                 brazilian_clothes_trigger = yes
                 monarchy_clothes_trigger = yes
                 ruler_clothes_trigger = yes
+                scope:character ?= {
+                    age > 12
+                }
             }
         }
     }
@@ -169,6 +172,9 @@
             modifier = {
                 add = 10000
                 mexican_monarch_clothes_trigger = yes
+                scope:character ?= {
+                    age > 12
+                }
             }
         }
     }
@@ -213,6 +219,9 @@
                 exists = scope:character
                 hispanic_clothes_trigger = yes
                 ruler_clothes_trigger = yes
+                scope:character ?= {
+                    age > 12
+                }
                 OR = {
                     armed_forces_clothes_trigger = yes
                     military_clothes_trigger = yes
@@ -258,6 +267,7 @@
             base = 0
             modifier = {
                 add = 10001
+                agitator_character_trigger = no
                 ruler_clothes_trigger = no
                 hispanic_clothes_trigger = yes
                 military_clothes_trigger = yes
@@ -303,8 +313,12 @@
             modifier = {
                 add = 10002
                 exists = scope:character
+                scope:character ?= {
+                    age > 12
+                }
                 scope:character = {
-                    owner = {
+                    exists = home_country
+                    home_country = {
                         exists = c:CHL
                         c:CHL = this
                     }
@@ -357,16 +371,23 @@
             base = 0
             modifier = {
                 add = 10002
+                scope:character ?= {
+                    age > 12
+                }
                 exists = scope:character
                 scope:character = {
                     OR = {
-                        owner = {
+                        AND = {
                             exists = c:PEU
+                            home_country = {
                             c:PEU = this
+                            }
                         }
-                        owner = {
+                        AND = {
                             exists = c:ESP
+                            home_country = {
                             c:ESP = this
+                            }
                         }
                     }
                 }
@@ -418,9 +439,13 @@
             base = 0
             modifier = {
                 add = 10002
+                scope:character ?= {
+                    age > 12
+                }
                 exists = scope:character
                 scope:character = {
-                    owner = {
+                    exists = home_country
+home_country = {
                         exists = c:BOL
                         c:BOL = this
                     }
@@ -473,9 +498,13 @@
             base = 0
             modifier = {
                 add = 10002
+                scope:character ?= {
+                    age > 12
+                }
                 exists = scope:character
                 scope:character = {
-                    owner = {
+                    exists = home_country
+home_country = {
                         exists = c:PRG
                         c:PRG = this
                     }
@@ -528,9 +557,13 @@
             base = 0
             modifier = {
                 add = 10002
+                scope:character ?= {
+                    age > 12
+                }
                 exists = scope:character
                 scope:character = {
-                    owner = {
+                    exists = home_country
+                    home_country = {
                         exists = c:ARG
                         c:ARG = this
                     }
@@ -573,7 +606,8 @@
                 add = 10003
                 exists = scope:character
                 scope:character = {
-                    owner = {
+                    exists = home_country
+                    home_country = {
                         exists = c:ARG
                         c:ARG = this
                     }
@@ -633,7 +667,8 @@
                 add = 10002
                 exists = scope:character
                 scope:character = {
-                    owner = {
+                    exists = home_country
+home_country = {
                         exists = c:MEX
                         c:MEX = this
                     }
@@ -672,38 +707,7 @@
                 }
             }
         }
-    }
-
-    sash_accessories = {
-        dna_modifiers = {
-             accessory = {
-                 mode = add
-                 gene = sashes
-                 template = all_sashes
-                 range = { 0 1 } # For the randomness to work correctly
-            }
-        }
-        weight = {
-            base = 0
-            modifier = {
-                add = 1000
-
-    			european_clothes_trigger = yes
-    			scope:character = {
-                    monarchy_clothes_trigger = yes
-                    age > 12
-    				OR = {
-    					NOT = { exists = c:PAP }
-    					AND = {
-    						exists = c:PAP
-							exists = home_country
-    						NOT = { home_country = c:PAP }
-    					}
-    				}
-    			}
-    		}
-        }
-    }
+    } 
 
     austrian_royal_accessories = {
         dna_modifiers = {
@@ -738,7 +742,8 @@
                add = 10000
                 exists = scope:character
                 scope:character = {
-                    owner = {
+                    exists = home_country
+home_country = {
                         exists = c:AUS
                         c:AUS = this
                     }
@@ -781,7 +786,8 @@
                add = 1003
                 exists = scope:character
                 scope:character = {
-                    owner = {
+                    exists = home_country
+home_country = {
                         exists = c:AUS
                         c:AUS = this
                     }
@@ -883,7 +889,8 @@
                         exists = scope:character
                         scope:character = {
 							exists = home_country
-                            home_country = {
+                            exists = home_country
+home_country = {
                                 exists = c:CSA
                                 c:CSA = this
                                 is_subject = no
@@ -973,11 +980,9 @@
                         european_clothes_trigger = yes
                         ruler_clothes_trigger = yes
                         NOT = {
-                            exists = scope:character
                             scope:character = {
-    							exists = c:PAP
-								exists = home_country
-                                home_country = c:PAP
+    						exists = c:PAP
+                            home_country = c:PAP
                             }
                         }
                     }
@@ -986,7 +991,7 @@
                         politician_clothes_trigger = yes
                     }
                 }
-            } 
+            }
         }
     }
 
@@ -1103,7 +1108,8 @@
                         exists = c:TUR
                         exists = scope:character
                         scope:character = {
-                        owner = {
+                        exists = home_country
+home_country = {
                             OR = {
                                 c:TUR = this
                                     AND = {
@@ -1117,11 +1123,12 @@
                         exists = c:TUR
                         exists = scope:pop
                         scope:pop = {
-                            owner = {
+                            exists = home_country
+home_country = {
                                 OR = {
                                     c:TUR = this
                                     is_subject_of = c:TUR
-                                    adopt_western_uniforms_trigger = yes
+                                    western_uniforms_trigger = yes
                                 }
                             }
                         }
