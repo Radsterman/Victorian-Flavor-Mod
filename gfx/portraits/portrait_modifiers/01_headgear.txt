@@ -271,7 +271,7 @@ brazilian_commander_monarch_headgear = {
         }
     }
 
-    hispanic_military_clothes = {
+    hispanic_military_headgear = {
         dna_modifiers = {
             accessory = {
                 mode = add
@@ -290,9 +290,13 @@ brazilian_commander_monarch_headgear = {
                 }
                 ruler_clothes_trigger = no
                 OR = {
+                    AND = {
+                        scope:character = {
+                        has_role = general
+                        }
+                    }
                     officers_clothes_pop_trigger = yes
                     soldier_clothes_pop_trigger = yes
-                    military_clothes_trigger = yes
                     monarchy_clothes_trigger = yes
                     AND = {
                         armed_forces_clothes_trigger = yes
@@ -316,6 +320,27 @@ brazilian_commander_monarch_headgear = {
             base = 0
             modifier = {
                add = 100
+               western_uniforms_trigger = no
+               chinese_imperial_clothes_trigger = yes
+            }
+        }
+    }
+
+    western_chinese_imperial_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = chinese_imperial_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+               add = 100
+               western_uniforms_trigger = yes
+               military_clothes_trigger = no
                chinese_imperial_clothes_trigger = yes
             }
         }
@@ -334,6 +359,27 @@ brazilian_commander_monarch_headgear = {
             base = 0
             modifier = {
                 add = 100
+                western_uniforms_trigger = no
+                japanese_imperial_clothes_trigger = yes
+            }
+        }
+    }
+
+    western_japanese_imperial_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = Japanese_imperial_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                western_uniforms_trigger = yes
+                military_clothes_trigger = no
                 japanese_imperial_clothes_trigger = yes
             }
         }
@@ -374,6 +420,7 @@ brazilian_commander_monarch_headgear = {
                 european_clothes_trigger = yes
                 politician_clothes_trigger = yes
                 armed_forces_clothes_trigger = no
+                military_clothes_trigger = no
                 devout_clothes_trigger = no
                 ruler_clothes_trigger = no
             }
@@ -459,16 +506,17 @@ brazilian_commander_monarch_headgear = {
             accessory = {
                 mode = add
                 gene = headgear
-                template = european_military_headgear
-                range = { 0 0.40 } # For the randomness to work correctly
+                template = generic_military_headgear
+                range = { 0 1 } # For the randomness to work correctly
             }
         }
         weight = {
             base = 0
             modifier = {
                 add = 100
-                republic_clothes_trigger = no
                 european_clothes_trigger = yes
+                arabic_clothes_trigger = no
+                republic_clothes_trigger = no
                 american_clothes_trigger = no
                 british_empire_clothes_trigger = no
                 french_empire_clothes_trigger = no
@@ -483,16 +531,31 @@ brazilian_commander_monarch_headgear = {
                     }
                 }
                 agitator_character_trigger = no
+
+
                 OR = {
-                    scope:character = {
-                        has_role = general
-                        is_ruler = no
+                    AND = {
+                        european_clothes_trigger = yes
+                        scope:character = {
+                            has_role = general
+                            is_ruler = no
+                        }
                     }
                     AND = {
                         armed_forces_clothes_trigger = yes
                         politician_clothes_trigger = yes
                     }
-                    officers_clothes_pop_trigger = yes
+                    AND = {
+                        european_clothes_pop_trigger = yes
+                        arabic_clothes_pop_trigger = no
+                        hispanic_clothes_pop_trigger = no
+                        american_clothes_pop_trigger = no
+                        german_clothes_pop_trigger = no
+                        gaucho_clothes_pop_trigger = no
+                        french_empire_clothes_pop_trigger = no
+                        british_empire_clothes_pop_trigger = no
+                        officers_clothes_pop_trigger = yes
+                    }
                 }  
             }
         }
@@ -705,14 +768,21 @@ brazilian_commander_monarch_headgear = {
             base = 0
             modifier = {
                 add = 100
-                french_empire_clothes_trigger = yes
                 OR = {
-                    scope:character = {
-                        has_role = general
+                    AND = {
+                        french_empire_clothes_trigger = yes
+                        scope:character = {
+                            has_role = general
+                        }
                     }
                     AND = {
+                        french_empire_clothes_trigger = yes
                         politician_clothes_trigger = yes
                         armed_forces_clothes_trigger = yes
+                    }
+                    AND = {
+                        french_empire_clothes_pop_trigger = yes
+                        officers_clothes_pop_trigger = yes
                     }
                 }
                 agitator_character_trigger = no
@@ -768,13 +838,7 @@ brazilian_commander_monarch_headgear = {
             base = 0
             modifier = {
                 add = 101
-                exists = scope:character
-                scope:character = {
-                    owner = {
-                        exists = c:AUS
-                        c:AUS = this
-                    }
-                }
+                austrian_clothes_trigger = yes
                 OR = {
                     scope:character = {
                         has_role = general
@@ -801,14 +865,8 @@ brazilian_commander_monarch_headgear = {
             base = 0
             modifier = {
                 add = 1001
-                exists = scope:character
-                scope:character = {
-                    owner = {
-                        exists = c:AUS
-                        c:AUS = this
-                    }
-                    officers_clothes_pop_trigger = yes
-                }
+                austrian_clothes_pop_trigger = yes
+                officers_clothes_pop_trigger = yes
             }
         }
     }
@@ -825,7 +883,8 @@ brazilian_commander_monarch_headgear = {
         weight = {
             base = 0
             modifier = {
-                add = 100
+                add = 101
+                austrian_clothes_trigger = no
                 german_clothes_trigger = yes
                 agitator_character_trigger = no
                 OR = {
@@ -854,6 +913,7 @@ brazilian_commander_monarch_headgear = {
             base = 0
             modifier = {
                 add = 1000
+                austrian_clothes_pop_trigger = no
                 german_clothes_pop_trigger = yes
                 officers_clothes_pop_trigger = yes
             }
@@ -894,7 +954,7 @@ brazilian_commander_monarch_headgear = {
         weight = {
             base = 0
             modifier = {
-                add = 100
+                add = 1002
                 indian_clothes_trigger = yes
                 agitator_character_trigger = no
                 scope:character = {
@@ -1026,8 +1086,8 @@ brazilian_commander_monarch_headgear = {
             }
             modifier = {
                 add = 5000
-                exists = scope:character
-                scope:character = {
+                exists = scope:pop
+                scope:pop = {
                     owner = {
                         exists = c:TUR
                         c:TUR = this
@@ -1373,9 +1433,20 @@ brazilian_commander_monarch_headgear = {
         weight = {
             base = 0
             modifier = {
-                add = 200
-                arabic_military_fez_pop_trigger = yes
-                soldier_clothes_pop_trigger = yes
+                add = 6000
+                OR = {
+                    arabic_military_fez_pop_trigger = yes
+                    arabic_clothes_trigger = yes
+                }
+                OR = {
+                    soldier_clothes_pop_trigger = yes
+                    officers_clothes_pop_trigger = yes
+                    military_clothes_trigger = yes
+                    AND = {
+                        armed_forces_clothes_trigger = yes
+                        politician_clothes_trigger = yes
+                    }
+                }
             }
         }
     }
@@ -1418,92 +1489,38 @@ brazilian_commander_monarch_headgear = {
     #        }
     #    }
     #}
-    chinese_western_military_headgear = {
+
+    papal_headgear = {
         dna_modifiers = {
             accessory = {
                 mode = add
                 gene = headgear
-                template = european_military_headgear
-                range = { 0.3 0.4 } # For the randomness to work correctly
+                template = european_Catholic_headgear
+                range = { 0 1 } # For the randomness to work correctly
             }
         }
-		weight = {
-			base = 0
-			modifier = {
-				add = 5000
-				exists = scope:character
-				scope:character = {
-					owner = {
-						OR = {
-							country_has_primary_culture = cu:han
-							country_has_primary_culture = cu:hakka
-							country_has_primary_culture = cu:min
-							country_has_primary_culture = cu:yue
-						}
-						has_variable = adopt_western_uniforms
-					}
-					OR = {
-						military_clothes_trigger = yes
-						monarchy_clothes_trigger = yes
-					}
-				}
-			}
-		}
-    }
-    japanese_western_military_headgear = {
-        dna_modifiers = {
-            accessory = {
-                mode = add
-                gene = headgear
-                template = european_military_headgear
-                range = { 0.3 0.4 } # For the randomness to work correctly
-            }
+
+        weight = {
+            base = 0
+            modifier = {
+                add = 10000
+                exists = scope:character
+                exists = c:PAP
+                scope:character = {
+                    ruler_clothes_trigger = yes  
+                    christian_clothes_trigger = yes
+					exists = home_country
+                    home_country = c:PAP
+                    home_country = {
+                        has_law = law_type:law_theocracy
+                    }
+                    is_female = no
+                }
+                
+           }
         }
-		weight = {
-			base = 0
-			modifier = {
-				add = 5000
-				exists = scope:character
-				scope:character = {
-					owner = {
-						country_has_primary_culture = cu:japanese
-						has_variable = adopt_western_uniforms
-					}
-					OR = {
-						military_clothes_trigger = yes
-						monarchy_clothes_trigger = yes
-					}
-				}
-			}
-		}
     }
-    korean_western_military_headgear = {
-        dna_modifiers = {
-            accessory = {
-                mode = add
-                gene = headgear
-                template = european_military_headgear
-                range = { 0.3 0.4 } # For the randomness to work correctly
-            }
-        }
-		weight = {
-			base = 0
-			modifier = {
-				add = 5000
-				exists = scope:character
-				scope:character = {
-					owner = {
-						country_has_primary_culture = cu:korean
-						has_variable = adopt_western_uniforms
-					}
-					OR = {
-						military_clothes_trigger = yes
-						monarchy_clothes_trigger = yes
-					}
-				}
-			}
-		}
-    }
+    
     generic_western_asian_military_headgear = {
         dna_modifiers = {
             accessory = {
@@ -1516,28 +1533,13 @@ brazilian_commander_monarch_headgear = {
 		weight = {
 			base = 0
 			modifier = {
-				add = 5000
-				exists = scope:character
-				scope:character = {
-					owner = {
-						any_primary_culture = {
-							OR = {
-								has_discrimination_trait = east_asian_heritage
-								has_discrimination_trait = south_asian_heritage
-								has_discrimination_trait = southeast_asian_heritage
-								has_discrimination_trait = central_asian_heritage
-								has_discrimination_trait = north_asian_heritage
-								has_discrimination_trait = middle_eastern_heritage
-							}
-						}
-						has_variable = adopt_western_uniforms
-					}
-					OR = {
-						military_clothes_trigger = yes
-						monarchy_clothes_trigger = yes
-					}
-				}
-			}
+				add = 1001
+                western_uniforms_trigger = yes
+                OR = {
+                    military_clothes_trigger = yes
+                    officers_clothes_pop_trigger = yes
+                }
+            }
 		}
     }
 }

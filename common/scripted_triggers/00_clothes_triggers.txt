@@ -1,4 +1,25 @@
-﻿brazilian_clothes_trigger = {
+﻿western_uniforms_trigger = {
+	OR = {
+		AND = {
+			exists = scope:character
+			scope:character = {
+				owner = {
+					has_variable = adopt_western_uniforms	
+				}
+			}
+		}
+		AND = {
+			exists = scope:pop
+			scope:pop = {
+				owner = {
+					has_variable = adopt_western_uniforms	
+				}
+			}
+		}
+	}
+}
+
+brazilian_clothes_trigger = {
 	exists = scope:character
 	scope:character = {
 		exists = c:BRZ
@@ -200,6 +221,38 @@ south_american_admiral_headgear_trigger = {
 			coa_def_hispanic_american_trigger = yes
 			NOT = {c:BRZ = this}
 			}			
+		}
+	}
+}
+
+austrian_clothes_trigger = {
+	exists = scope:character
+	scope:character = {
+		exists = c:AUS
+		owner = {
+			OR = {
+				AND = {
+					c:AUS = this
+					is_subject = no # preventing uniform conflicts if AUS becomes a subject of another country with puppet uniforms
+				}
+				is_subject_of = c:AUS
+			}		
+		}
+	}
+}
+
+austrian_clothes_pop_trigger = {
+	exists = scope:pop
+	scope:pop = {
+		exists = c:AUS
+		home_country = {
+			OR = {
+				AND = {
+					c:AUS = this
+					is_subject = no # preventing uniform conflicts if AUS becomes a subject of another country with puppet uniforms
+				}
+				is_subject_of = c:AUS
+			}		
 		}
 	}
 }
@@ -642,7 +695,7 @@ arabic_fez_trigger = {
 arabic_military_fez_pop_trigger = {
 	exists = scope:pop
 	scope:pop = {
-		AND = {
+		OR = {
 			OR = {
 				home_country = {
 					exists = c:EGY
