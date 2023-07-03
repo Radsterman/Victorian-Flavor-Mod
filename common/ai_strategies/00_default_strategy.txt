@@ -2952,6 +2952,29 @@ ai_strategy_default = {
 				}
 				add = 1000
 			}
+			# Spain is not done in Philipines yet
+			if = {
+				limit = {
+					exists = c:SPA
+					OR = {
+					c:SPA = this
+					AND = {
+					c:PHI = this
+					is_subject_of = c:SPA
+					}
+					}
+					scope:target_country = {
+					    NOT = { is_subject_of = c:SPA }
+						any_scope_state = {
+							OR = {
+								state_region = s:STATE_MINDANAO
+								state_region = s:STATE_LUZON
+							}
+						}
+					}
+				}
+				add = 500
+			}
 		
 			multiply = {
 				value = "ai_ideological_opinion(scope:target_country)"
@@ -4114,6 +4137,29 @@ ai_strategy_default = {
 								state_region = s:STATE_ALGIERS
 								state_region = s:STATE_CONSTANTINE
 								state_region = s:STATE_TLEMCEN
+							}
+						}
+					}
+				}
+				add = 200
+			}
+			# Spain is not done in Philipines yet
+			if = {
+				limit = {
+					exists = c:SPA
+					OR = {
+					c:SPA = this
+					AND = {
+					c:PHI = this
+					is_subject_of = c:SPA
+					}
+					}
+					scope:target_country = {
+					    NOT = { is_subject_of = c:SPA }
+						any_scope_state = {
+							OR = {
+								state_region = s:STATE_MINDANAO
+								state_region = s:STATE_LUZON
 							}
 						}
 					}
