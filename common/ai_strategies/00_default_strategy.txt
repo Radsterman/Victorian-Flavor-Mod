@@ -1178,7 +1178,12 @@ ai_strategy_default = {
 		add = {
 			value = total_population
 			divide = 4000000 # 1 construction sector per 4 million pop					
-		}	
+		}
+
+		add = {
+			value = investment_pool
+			divide = 1000000 # 1 construction sector per 1 million investment pool			
+		}
 		
 		if = {
 			limit = { has_law = law_type:law_traditionalism }
@@ -1203,16 +1208,35 @@ ai_strategy_default = {
 				}
 			}
 			multiply = 1.3		
-		}	
+		}
+
+        if = {
+			limit = { 
+			    game_date > 1860.1.1
+				OR = {
+					has_law = law_type:law_per_capita_based_taxation  #better tax laws = more construction
+					has_law = law_type:law_proportional_taxation
+					has_law = law_type:law_graduated_taxation
+				}
+			}
+			multiply = 1.15
+		}		
+		
+		if = {
+			limit = { 
+				has_law = law_type:law_laissez_faire
+			}
+			multiply = 1.2		
+		}
 
 		if = {
 			limit = { has_strategy = ai_strategy_placate_population }
-			multiply = 0.5		
+			multiply = 0.7		
 		}
 		
 		if = {
 			limit = { has_strategy = ai_strategy_maintain_mandate_of_heaven }
-			multiply = 0.1		
+			multiply = 0.3		
 		}		
 
 		min = 1

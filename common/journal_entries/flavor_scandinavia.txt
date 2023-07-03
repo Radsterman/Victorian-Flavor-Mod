@@ -197,11 +197,12 @@ je_matter_of_norway = {
 	weight = 100
 }
 
-# Motala Fanriker
+# Motala Verkstad
 je_swe_motala_fabriker = {
 	icon = "gfx/interface/icons/event_icons/event_industry.dds"
 
 	complete = {
+	    has_technology_researched = mechanical_tools
 	    s:STATE_SVEALAND = {
 		    any_scope_state = {
 				any_scope_building = {
@@ -222,3 +223,35 @@ je_swe_motala_fabriker = {
 	weight = 5000
 }
 
+# Glasriket (Kingdom of Glass)
+je_swe_glasriket = {
+	icon = "gfx/interface/icons/event_icons/event_industry.dds"
+	
+	is_shown_when_inactive = {
+		country_has_primary_culture = cu:swedish
+	}
+	
+	possible = {
+		has_technology_researched = crystal_glass
+	}
+
+	complete = {
+	    s:STATE_GOTALAND = {
+		    any_scope_state = {
+				any_scope_building = {
+					is_building_type = building_glassworks
+					level >= 2
+					occupancy > 0.75
+				}
+			}
+		}
+	}
+	
+	on_complete = {
+		trigger_event = { id = journal_flavor_scandinavia.9 }
+	}
+	
+	timeout = 3650
+	
+	weight = 5000
+}

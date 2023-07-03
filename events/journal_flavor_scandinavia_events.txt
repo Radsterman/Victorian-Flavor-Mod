@@ -467,7 +467,7 @@ journal_flavor_scandinavia.7 = { #Form Norway-Sweden
 	}
 }
 
-journal_flavor_scandinavia.8 = { #motala fabriker
+journal_flavor_scandinavia.8 = { #motala verkstad
 	type = country_event
 	placement = root
 
@@ -533,6 +533,77 @@ journal_flavor_scandinavia.8 = { #motala fabriker
 		    add_modifier = {
 				name = industrial_scabs_modifier
 				months = normal_modifier_time
+			}
+		}
+	}
+}
+
+journal_flavor_scandinavia.9 = { #glasriket
+	type = country_event
+	placement = root
+
+	title = journal_flavor_scandinavia.9.t
+	desc = journal_flavor_scandinavia.9.d
+	flavor = journal_flavor_scandinavia.9.f
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_factory_opening.bk2"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/factory_opening"
+
+	duration = 3
+
+	trigger = {
+
+	}
+
+	immediate = {
+        S:STATE_GOTALAND = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:SWE = THIS
+					}
+				}
+				save_scope_as = gota_state
+			}
+		}
+	}
+
+	option = {
+		name = journal_flavor_scandinavia.9.a
+		default_option = yes
+		scope:gota_state = {
+		    add_modifier = {
+				name = exquisite_glass_designs_production_modifier
+				months = normal_modifier_time
+			}
+		}
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = sided_with_capitalists_over_scrips
+				months = normal_modifier_time
+			}
+		}
+		
+	}
+	
+	option = {
+		name = journal_flavor_scandinavia.9.b
+		default_option = yes
+		scope:gota_state = {
+		    add_modifier = {
+				name = exquisite_glass_designs_production_modifier
+				months = short_modifier_time
+			}
+		}
+		scope:gota_state = {
+			add_loyalists_in_state = {
+				value = 0.01
 			}
 		}
 	}
