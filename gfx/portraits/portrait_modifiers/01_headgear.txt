@@ -291,6 +291,7 @@ brazilian_commander_monarch_headgear = {
                 ruler_clothes_trigger = no
                 OR = {
                     AND = {
+                        exists = scope:character
                         scope:character = {
                         has_role = general
                         }
@@ -458,9 +459,9 @@ brazilian_commander_monarch_headgear = {
                         exists = scope:character
                         scope:character = {
                             religion = rel:sikh
-                            NAND = {
+                            AND = {
                                 is_ruler = yes
-								exists = home_country
+                                exists = home_country
                                 home_country = {
                                     has_law = law_type:law_monarchy
                                 }
@@ -524,7 +525,8 @@ brazilian_commander_monarch_headgear = {
                 NOT = {
                     scope:character ?= {
 						exists = home_country
-                        home_country = {
+                        exists = home_country
+home_country = {
                             c:CSA ?= this
                             is_subject = no
                         }
@@ -584,7 +586,8 @@ brazilian_commander_monarch_headgear = {
                         has_role = general
                         is_ruler = yes
 						exists = home_country
-                        home_country = {
+                        exists = home_country
+home_country = {
                             NOT = { has_law = law_type:law_monarchy}
                         }
                     }
@@ -804,6 +807,7 @@ brazilian_commander_monarch_headgear = {
             modifier = {
                 add = 200
                 scope:pop ?= {
+                    exists = home_country
                     home_country = {
                         any_scope_character = {
                             has_variable = garibaldi_var # Garibaldi can be an agitator or general or politician, it's all valid
@@ -1074,7 +1078,8 @@ brazilian_commander_monarch_headgear = {
                 add = 6000
                 exists = scope:character
                 scope:character = {
-                    owner = {
+                    exists = home_country
+home_country = {
                         exists = c:TUR
                         c:TUR = this
                     }
@@ -1088,7 +1093,8 @@ brazilian_commander_monarch_headgear = {
                 add = 5000
                 exists = scope:pop
                 scope:pop = {
-                    owner = {
+                    exists = home_country
+home_country = {
                         exists = c:TUR
                         c:TUR = this
                     }
@@ -1509,7 +1515,7 @@ brazilian_commander_monarch_headgear = {
                 scope:character = {
                     ruler_clothes_trigger = yes  
                     christian_clothes_trigger = yes
-					exists = home_country
+                    exists = home_country
                     home_country = c:PAP
                     home_country = {
                         has_law = law_type:law_theocracy

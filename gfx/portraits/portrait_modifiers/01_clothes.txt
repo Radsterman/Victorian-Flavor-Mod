@@ -86,7 +86,7 @@
         dna_modifiers = {
              accessory = {
                 mode = add
-                gene = outfits
+                gene = outfits 
                 template = children_outfit_royal
                 range = { 0 1 } # For the randomness to work correctly
             }
@@ -94,7 +94,7 @@
         weight = {
             base = 0
             modifier = {
-                add = 25000
+                add = 26000
 
                 european_clothes_trigger = yes
                 scope:character ?= {
@@ -1795,7 +1795,8 @@
                 add = 10002
                 exists = scope:character
                 scope:character = {
-                    owner = {
+                    exists = home_country
+home_country = {
                         exists = c:MEX
                         c:MEX = this
                     }
@@ -1913,8 +1914,8 @@
             accessory = {
                 mode = add
                 gene = coats
-                template = european_coats
-                range = { 0.8 0.8 } # limiting the set to single-breasted coats, so aiguillettes work
+                template = latin_american_coats
+                range = { 0 1 } # limiting the set to single-breasted coats, so aiguillettes work
             }
             accessory = {
                 mode = add
@@ -1951,8 +1952,8 @@
             accessory = {
                 mode = add
                 gene = coats
-                template = european_coats
-                range = { 0.8 0.8 } # limiting the set to single-breasted coats, so aiguillettes work
+                template = latin_american_coats
+                range = { 0 1 } # limiting the set to single-breasted coats, so aiguillettes work
             }
             accessory = {
                 mode = add
@@ -1967,7 +1968,8 @@
                 add = 10002
                 exists = scope:character
                 scope:character = {
-                    owner = {
+                    exists = home_country
+home_country = {
                         exists = c:ARG
                         c:ARG = this
                     }
@@ -2041,6 +2043,7 @@
             base = 0
             modifier = {
                 add = 25001
+                agitator_character_trigger = no
                 AND = {
                     brazilian_clothes_trigger = yes
                     monarchy_clothes_trigger = yes
@@ -2200,8 +2203,8 @@
             accessory = {
                 mode = add
                 gene = coats
-                template = european_coats
-                range = { 0.8 0.8 } # limiting the set to single-breasted coats, so aiguillettes work
+                template = latin_american_coats
+                range = { 0 1 } # limiting the set to single-breasted coats, so aiguillettes work
             }
             accessory = {
                 mode = add
@@ -2221,16 +2224,28 @@
             modifier = {
                 add = 10001
                 exists = scope:character
-                scope:character = {
-                    NOT = {
-                        owner = {
-                            has_law = law_type:law_theocracy
+                OR = {
+                    AND = {
+                        hispanic_clothes_trigger = yes
+                        republic_clothes_trigger = yes
+                        OR = {
+                            armed_forces_clothes_trigger = yes
+                            military_clothes_trigger = yes
                         }
                     }
+                    AND = {
+                        age_of_caudillos_trigger = yes
+                        hispanic_clothes_trigger = yes
+                        republic_clothes_trigger = yes
+                    }
+                    AND = {
+                        scope:character ?= {
+                            age > 12
+                        }
+                        hispanic_clothes_trigger = yes
+                        monarchy_clothes_trigger = yes
+                    }
                 }
-                hispanic_clothes_trigger = yes
-                republic_clothes_trigger = yes
-                armed_forces_clothes_trigger = yes
             }
         }
     }
@@ -2240,8 +2255,8 @@
             accessory = {
                 mode = add
                 gene = coats
-                template = european_coats
-                range = { 0.8 0.8 } # limiting the set to single-breasted coats, so aiguillettes work
+                template = latin_american_coats
+                range = { 0 1 } # limiting the set to single-breasted coats, so aiguillettes work
             }
             accessory = {
                 mode = add
@@ -2259,7 +2274,8 @@
         weight = {
             base = 0
             modifier = {
-                add = 10001
+                add = 2000
+                agitator_character_trigger = no
                 OR = {
                     AND = {
                         hispanic_clothes_trigger = yes
@@ -2286,8 +2302,8 @@
             accessory = {
                 mode = add
                 gene = coats
-                template = european_coats
-                range = { 0.8 0.8 } # limiting the set to single-breasted coats, so aiguillettes work
+                template = latin_american_coats
+                range = { 0 1 } # limiting the set to single-breasted coats, so aiguillettes work
             }
             accessory = {
                 mode = add
@@ -2299,7 +2315,7 @@
         weight = {
             base = 0
             modifier = {
-                add = 10001
+                add = 2000
                 hispanic_clothes_pop_trigger = yes
                 soldier_clothes_pop_trigger = yes
             }
@@ -2500,6 +2516,7 @@
                 template = european_royal_outfits
                 range = { 0 1 } # For the randomness to work correctly
             }
+
         }
         weight = {
             base = 0
@@ -2531,7 +2548,7 @@
         }
     }
 
-    european_ruler_clothes = {
+    european_ruler_clothes_top_layer = {
         dna_modifiers = {
             accessory = {
                 mode = add
@@ -2555,7 +2572,7 @@
                 mode = add
                 gene = top_layer
                 template = european_top_layer
-                range = { 0 1 } # For the randomness to work correctly
+                range = { 1 1 } # For the randomness to work correctly
             }
             accessory = {
                 mode = add
@@ -2563,6 +2580,84 @@
                 template = european_legwear
                 range = { 0 1 } # For the randomness to work correctly
             }
+            accessory = {
+                mode = add
+                gene = epaulettes
+                template = all_epaulettes
+                range = { 0 0 } # For the randomness to work correctly
+            }
+
+
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 1000
+                american_clothes_trigger = no
+                british_empire_clothes_trigger = no
+                french_empire_clothes_trigger = no
+                OR = {
+                    european_clothes_trigger = yes
+                    scope:character ?= {
+                        OR = {
+                            culture = cu:malagasy
+                            culture = cu:cherokee
+                            culture = cu:muskogean
+                        }
+                    }
+                    african_diaspora_clothes_trigger = yes
+                }
+                AND = {
+                    monarchy_clothes_trigger = yes
+                    ruler_clothes_trigger = yes
+                    scope:character ?= {
+                        age > 10
+                    }
+                }
+            }
+        }
+    }
+
+    european_ruler_clothes_epaulettes = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = coats
+                template = european_coats
+                range = { 0 0.27 } # limiting the set to single-breasted coats, so aiguillettes work
+            }
+            accessory = {
+                mode = add
+                gene = belts
+                template = generic_belts
+                range = { 0 0.49 } # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = aiguillettes
+                template = all_aiguillettes
+                range = { 0 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = top_layer
+                template = european_top_layer
+                range = { 0 0 } # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = legwear
+                template = european_legwear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = epaulettes
+                template = all_epaulettes
+                range = { 0.7 0.7 } # For the randomness to work correctly
+            }
+
+
         }
         weight = {
             base = 0
@@ -2702,7 +2797,8 @@
         weight = {
             base = 0
             modifier = {
-                add = 2000
+                add = 1000
+                agitator_character_trigger = no
                 OR = {
                     european_clothes_trigger = yes
                     european_clothes_pop_trigger = yes
@@ -3400,18 +3496,27 @@
                 scope:character = {
 					exists = home_country
 					OR = {
-						home_country = {
-							exists = c:PRU
-							c:PRU = this
-						}
-						home_country = {
-							exists = c:NGF
-							c:NGF = this
-						}
-						home_country = {
-							exists = c:GER
-							c:GER = this
-						}
+                        AND = {
+                            exists = home_country
+                            home_country = {
+                                exists = c:PRU
+                                c:PRU = this
+                            }
+                        }
+                        AND = {
+                            exists = home_country
+                            home_country = {
+                                exists = c:NGF
+                                c:NGF = this
+                            }
+                        }
+                        AND = {
+                            exists = home_country
+                            home_country = {
+                                exists = c:GER
+                                c:GER = this
+                            }
+                        }
 					}
                     scope:character ?= {
                         age > 10
@@ -3419,6 +3524,7 @@
                     OR = {
                         AND = {
                             is_ruler = yes
+                            exists = home_country
                             home_country = {
                                 has_law = law_type:law_monarchy
                             }
@@ -3732,7 +3838,8 @@
                         exists = c:TUR
                         exists = scope:character
                         scope:character = {
-                            owner = {
+                            exists = home_country
+                            home_country = {
                                 OR = {
                                     c:TUR = this
                                     is_subject_of = c:TUR
@@ -3744,7 +3851,8 @@
                         AND = {
                             exists = scope:pop
                             scope:pop = {
-                                owner = {
+                                exists = home_country
+home_country = {
                                     exists = c:TUR
                                     OR = {
                                         c:TUR = this
@@ -4020,7 +4128,8 @@ indian_royal_clothes = {
                             christian_clothes_trigger = yes
                             ruler_clothes_trigger = yes
 							exists = home_country
-                            home_country = {
+                            exists = home_country
+home_country = {
                                 has_law = law_type:law_theocracy
                             }
                         }
@@ -4051,7 +4160,8 @@ indian_royal_clothes = {
                     christian_clothes_trigger = yes
 					exists = home_country
                     home_country = c:PAP
-                    home_country = {
+                    exists = home_country
+home_country = {
                         has_law = law_type:law_theocracy
                     }
                     is_female = no
@@ -4272,7 +4382,8 @@ indigenous_oceanic_high_clothes_recognized = {
                     AND = {
                         exists = scope:pop
                         scope:pop = {
-                            home_country = {
+                            exists = home_country
+home_country = {
                                 exists = c:HAW
                                 c:HAW = this
                             }                        
@@ -4282,7 +4393,8 @@ indigenous_oceanic_high_clothes_recognized = {
                         exists = scope:character
                         scope:character = {
 							exists = home_country
-                            home_country = {
+                            exists = home_country
+home_country = {
                                 exists = c:HAW
                                 c:HAW = this
                             }                        
@@ -5083,18 +5195,27 @@ chinese_upper_clothes = {
                         exists = scope:pop
                         scope:pop = {
 							OR = {
-								home_country = {
-									exists = c:PRU
-									c:PRU = this
+                                AND = {
+                                    exists = home_country
+                                    home_country = {
+                                        exists = c:PRU
+                                        c:PRU = this
+                                    }
 								}
-								home_country = {
-									exists = c:NGF
-									c:NGF = this
-								}
-								home_country = {
-									exists = c:GER
-									c:GER = this
-								}
+                                AND = {
+                                    exists = home_country
+                                    home_country = {
+                                        exists = c:NGF
+                                        c:NGF = this
+                                    }
+                                }
+                                AND = {
+                                    exists = home_country
+                                    home_country = {
+                                        exists = c:GER
+                                        c:GER = this
+                                    }
+                                }
 							}
                         }       
                         OR = {
@@ -5112,18 +5233,27 @@ chinese_upper_clothes = {
                             }
 							exists = home_country
 							OR = {
-								home_country = {
-									exists = c:PRU
-									c:PRU = this
-								}
-								home_country = {
-									exists = c:NGF
-									c:NGF = this
-								}
-								home_country = {
-									exists = c:GER
-									c:GER = this
-								}
+                                AND = {
+                                    exists = home_country
+                                    home_country = {
+                                        exists = c:PRU
+                                        c:PRU = this
+                                    }
+                                }
+                                AND = {
+                                    exists = home_country
+                                    home_country = {
+                                        exists = c:NGF
+                                        c:NGF = this
+                                    }
+                                }
+                                AND = {
+                                    exists = home_country
+                                    home_country = {
+                                        exists = c:GER
+                                        c:GER = this
+                                    }
+                                }
 							}
                         }       
                     }
@@ -5640,7 +5770,8 @@ buddhist_religious_clothes = {
                             religion = rel:shinto
                         }
 						exists = home_country
-                        home_country = {
+                        exists = home_country
+home_country = {
                             has_law = law_type:law_theocracy
                         }
                     }
@@ -5683,7 +5814,8 @@ buddhist_religious_clothes = {
                     AND = {
                         exists = scope:character
                         scope:character = {
-                            owner = {
+                            exists = home_country
+home_country = {
                                 has_variable = adopt_western_uniforms
                                 any_primary_culture = {
                                     OR = {
@@ -5701,7 +5833,8 @@ buddhist_religious_clothes = {
                     AND = {
                         exists = scope:pop
                         scope:pop = {
-                            owner = {
+                            exists = home_country
+home_country = {
                                 has_variable = adopt_western_uniforms
                                 any_primary_culture = {
                                     OR = {
