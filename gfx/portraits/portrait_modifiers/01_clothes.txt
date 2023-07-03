@@ -2224,19 +2224,28 @@ home_country = {
             modifier = {
                 add = 10001
                 exists = scope:character
-                scope:character = {
-                    NOT = {
-                        AND = {
-                            exists = home_country
-                            home_country = {
-                                has_law = law_type:law_theocracy
-                            }
+                OR = {
+                    AND = {
+                        hispanic_clothes_trigger = yes
+                        republic_clothes_trigger = yes
+                        OR = {
+                            armed_forces_clothes_trigger = yes
+                            military_clothes_trigger = yes
                         }
                     }
+                    AND = {
+                        age_of_caudillos_trigger = yes
+                        hispanic_clothes_trigger = yes
+                        republic_clothes_trigger = yes
+                    }
+                    AND = {
+                        scope:character ?= {
+                            age > 12
+                        }
+                        hispanic_clothes_trigger = yes
+                        monarchy_clothes_trigger = yes
+                    }
                 }
-                hispanic_clothes_trigger = yes
-                republic_clothes_trigger = yes
-                armed_forces_clothes_trigger = yes
             }
         }
     }
