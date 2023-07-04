@@ -86,7 +86,7 @@
         dna_modifiers = {
              accessory = {
                 mode = add
-                gene = outfits
+                gene = outfits 
                 template = children_outfit_royal
                 range = { 0 1 } # For the randomness to work correctly
             }
@@ -94,7 +94,7 @@
         weight = {
             base = 0
             modifier = {
-                add = 25000
+                add = 26000
 
                 european_clothes_trigger = yes
                 scope:character ?= {
@@ -1795,7 +1795,8 @@
                 add = 10002
                 exists = scope:character
                 scope:character = {
-                    owner = {
+                    exists = home_country
+home_country = {
                         exists = c:MEX
                         c:MEX = this
                     }
@@ -1816,7 +1817,7 @@
             accessory = {
                 mode = add
                 gene = legwear
-                template = brazilian_legwear
+                template = latin_american_legwear
                 range = { 1 1 } # For the randomness to work correctly
             }
             accessory = {
@@ -1853,7 +1854,7 @@
                 mode = add
                 gene = belts
                 template = all_belts
-                range = { 0.50 0.50 } # For the randomness to work correctly
+                range = { 0.60 0.60 } # For the randomness to work correctly
             }
         }
         weight = {
@@ -1861,6 +1862,7 @@
             modifier = {
                 add = 100010
                 AND = {
+                    brazilian_clothes_trigger = yes
                     military_clothes_trigger = yes
                     caxias_clothes_trigger = yes
                 }
@@ -1879,8 +1881,8 @@
             accessory = {
                 mode = add
                 gene = legwear
-                template = brazilian_legwear
-                range = { 0 0 } # For the randomness to work correctly
+                template = latin_american_legwear
+                range = { 0.5 0.5 } # For the randomness to work correctly
             }
             accessory = {
                 mode = add
@@ -1918,8 +1920,8 @@
             accessory = {
                 mode = add
                 gene = legwear
-                template = brazilian_legwear
-                range = { 0 0 } # For the randomness to work correctly
+                template = latin_american_legwear
+                range = { 0.5 0.5 } # For the randomness to work correctly
             }
             accessory = {
                 mode = add
@@ -1956,8 +1958,8 @@
             accessory = {
                 mode = add
                 gene = legwear
-                template = brazilian_legwear
-                range = { 0 0 } # For the randomness to work correctly
+                template = latin_american_legwear
+                range = { 0.5 0.5 } # For the randomness to work correctly
             }
         }
         weight = {
@@ -1966,7 +1968,8 @@
                 add = 10002
                 exists = scope:character
                 scope:character = {
-                    owner = {
+                    exists = home_country
+home_country = {
                         exists = c:ARG
                         c:ARG = this
                     }
@@ -2027,19 +2030,20 @@
                 mode = add
                 gene = coats
                 template = brazilian_coats
-                range = { 0 0 } # limiting the set to single-breasted coats, so aiguillettes work
+                range = { 1 1 } # limiting the set to single-breasted coats, so aiguillettes work
             }
             accessory = {
                 mode = add
                 gene = legwear
-                template = brazilian_legwear
-                range = { 0 0 } # For the randomness to work correctly
+                template = latin_american_legwear
+                range = { 0.5 0.5 } # For the randomness to work correctly
             }
         }
         weight = {
             base = 0
             modifier = {
                 add = 25001
+                agitator_character_trigger = no
                 AND = {
                     brazilian_clothes_trigger = yes
                     monarchy_clothes_trigger = yes
@@ -2059,7 +2063,7 @@
             accessory = {
                 mode = add
                 gene = legwear
-                template = brazilian_legwear
+                template = latin_american_legwear
                 range = { 1 1 } # For the randomness to work correctly
             }
         }
@@ -2087,8 +2091,8 @@
             accessory = {
                 mode = add
                 gene = legwear
-                template = brazilian_legwear
-                range = { 0 1 } # For the randomness to work correctly
+                template = latin_american_legwear
+                range = { 0.34 1 } # For the randomness to work correctly
             }
         }
         weight = {
@@ -2139,8 +2143,8 @@
             accessory = {
                 mode = add
                 gene = legwear
-                template = brazilian_legwear
-                range = { 0 1 } # For the randomness to work correctly
+                template = latin_american_legwear
+                range = { 0.34 1 } # For the randomness to work correctly
             }
             accessory = {
                 mode = add
@@ -2155,21 +2159,16 @@
                 add = 10001
                 OR = {
                     brazilian_clothes_trigger = yes
-                    gaucho_clothes_trigger = yes
+                    brazilian_clothes_pop_trigger = yes
                 }
-                OR = {
-                    AND = {
-                        OR = {
-                            military_clothes_trigger = yes
-                            monarchy_clothes_trigger = yes
-                            AND = {
-                                armed_forces_clothes_trigger = yes
-                                politician_clothes_trigger = yes
-                            }
-                        }
-                    }
-                    officers_clothes_pop_trigger = yes
-                }
+			    OR = {
+				    military_clothes_trigger = yes
+				    officers_clothes_pop_trigger = yes
+				    AND = {
+                        armed_forces_clothes_trigger = yes
+                        politician_clothes_trigger = yes
+				    }
+			    }
             }
         }
     }
@@ -2185,8 +2184,8 @@
             accessory = {
                 mode = add
                 gene = legwear
-                template = brazilian_legwear
-                range = { 0 1 } # For the randomness to work correctly
+                template = latin_american_legwear
+                range = { 0.34 1 } # For the randomness to work correctly
             }
         }
         weight = {
@@ -2210,8 +2209,8 @@
             accessory = {
                 mode = add
                 gene = legwear
-                template = brazilian_legwear
-                range = { 0 1 } # For the randomness to work correctly
+                template = latin_american_legwear
+                range = { 0.34 1 } # For the randomness to work correctly
             }
             accessory = {
                 mode = add
@@ -2225,16 +2224,28 @@
             modifier = {
                 add = 10001
                 exists = scope:character
-                scope:character = {
-                    NOT = {
-                        owner = {
-                            has_law = law_type:law_theocracy
+                OR = {
+                    AND = {
+                        hispanic_clothes_trigger = yes
+                        republic_clothes_trigger = yes
+                        OR = {
+                            armed_forces_clothes_trigger = yes
+                            military_clothes_trigger = yes
                         }
                     }
+                    AND = {
+                        age_of_caudillos_trigger = yes
+                        hispanic_clothes_trigger = yes
+                        republic_clothes_trigger = yes
+                    }
+                    AND = {
+                        scope:character ?= {
+                            age > 12
+                        }
+                        hispanic_clothes_trigger = yes
+                        monarchy_clothes_trigger = yes
+                    }
                 }
-                hispanic_clothes_trigger = yes
-                republic_clothes_trigger = yes
-                armed_forces_clothes_trigger = yes
             }
         }
     }
@@ -2250,7 +2261,7 @@
             accessory = {
                 mode = add
                 gene = legwear
-                template = brazilian_legwear
+                template = latin_american_legwear
                 range = { 0 1 } # For the randomness to work correctly
             }
             accessory = {
@@ -2263,7 +2274,8 @@
         weight = {
             base = 0
             modifier = {
-                add = 10001
+                add = 2000
+                agitator_character_trigger = no
                 OR = {
                     AND = {
                         hispanic_clothes_trigger = yes
@@ -2291,19 +2303,19 @@
                 mode = add
                 gene = coats
                 template = latin_american_coats
-                range = { 0 0.75 } # limiting the set to single-breasted coats, so aiguillettes work
+                range = { 0 1 } # limiting the set to single-breasted coats, so aiguillettes work
             }
             accessory = {
                 mode = add
                 gene = legwear
-                template = brazilian_legwear
+                template = latin_american_legwear
                 range = { 0 1 } # For the randomness to work correctly
             }
         }
         weight = {
             base = 0
             modifier = {
-                add = 10001
+                add = 2000
                 hispanic_clothes_pop_trigger = yes
                 soldier_clothes_pop_trigger = yes
             }
@@ -2322,7 +2334,7 @@
             accessory = {
                 mode = add
                 gene = legwear
-                template = brazilian_legwear
+                template = latin_american_legwear
                 range = { 0 1 } # there's three colors in the gene, the first of which is black
             }
             accessory = {
@@ -2331,6 +2343,7 @@
                 template = chinese_sashes
                 range = { 0 1 } # there's three colors in the gene, the first of which is black
             }
+
             accessory = {
                 mode = add
                 gene = headgear
@@ -2503,6 +2516,7 @@
                 template = european_royal_outfits
                 range = { 0 1 } # For the randomness to work correctly
             }
+
         }
         weight = {
             base = 0
@@ -2534,7 +2548,7 @@
         }
     }
 
-    european_ruler_clothes = {
+    european_ruler_clothes_top_layer = {
         dna_modifiers = {
             accessory = {
                 mode = add
@@ -2558,7 +2572,7 @@
                 mode = add
                 gene = top_layer
                 template = european_top_layer
-                range = { 0 1 } # For the randomness to work correctly
+                range = { 1 1 } # For the randomness to work correctly
             }
             accessory = {
                 mode = add
@@ -2566,6 +2580,84 @@
                 template = european_legwear
                 range = { 0 1 } # For the randomness to work correctly
             }
+            accessory = {
+                mode = add
+                gene = epaulettes
+                template = all_epaulettes
+                range = { 0 0 } # For the randomness to work correctly
+            }
+
+
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 1000
+                american_clothes_trigger = no
+                british_empire_clothes_trigger = no
+                french_empire_clothes_trigger = no
+                OR = {
+                    european_clothes_trigger = yes
+                    scope:character ?= {
+                        OR = {
+                            culture = cu:malagasy
+                            culture = cu:cherokee
+                            culture = cu:muskogean
+                        }
+                    }
+                    african_diaspora_clothes_trigger = yes
+                }
+                AND = {
+                    monarchy_clothes_trigger = yes
+                    ruler_clothes_trigger = yes
+                    scope:character ?= {
+                        age > 10
+                    }
+                }
+            }
+        }
+    }
+
+    european_ruler_clothes_epaulettes = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = coats
+                template = european_coats
+                range = { 0 0.27 } # limiting the set to single-breasted coats, so aiguillettes work
+            }
+            accessory = {
+                mode = add
+                gene = belts
+                template = generic_belts
+                range = { 0 0.49 } # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = aiguillettes
+                template = all_aiguillettes
+                range = { 0 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = top_layer
+                template = european_top_layer
+                range = { 0 0 } # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = legwear
+                template = european_legwear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = epaulettes
+                template = all_epaulettes
+                range = { 0.7 0.7 } # For the randomness to work correctly
+            }
+
+
         }
         weight = {
             base = 0
@@ -2697,12 +2789,6 @@
             }
             accessory = {
                 mode = add
-                gene = aiguillettes
-                template = all_aiguillettes
-                range = { 0 1 } # For the randomness to work correctly
-            }
-            accessory = {
-                mode = add
                 gene = legwear
                 template = european_legwear
                 range = { 0 1 } # For the randomness to work correctly
@@ -2711,13 +2797,22 @@
         weight = {
             base = 0
             modifier = {
-                add = 10000
+                add = 1000
+                agitator_character_trigger = no
+                OR = {
+                    european_clothes_trigger = yes
+                    european_clothes_pop_trigger = yes
+                    western_uniforms_trigger = yes
+
+                }
                 american_clothes_trigger = no
                 arabic_clothes_trigger = no
                 british_empire_clothes_trigger = no
                 french_empire_clothes_trigger = no
                 OR = {
                     european_clothes_trigger = yes
+                    european_clothes_pop_trigger = yes
+                    western_uniforms_trigger = yes
                     AND = {
                         exists = scope:character
                         scope:character = {
@@ -2732,17 +2827,35 @@
                 OR = {
                     military_clothes_trigger = yes
                     officers_clothes_pop_trigger = yes
+                    soldier_clothes_pop_trigger = yes
                     AND = {
                         armed_forces_clothes_trigger = yes
                         politician_clothes_trigger = yes
                     }
                 }
-                scope:character = {
-                    NOT = {
-                        AND = {
-                            exists = c:PRU
-							exists = home_country
-                            home_country = c:PRU 
+                OR = {
+                    AND = {
+                        exists = scope:character
+                        scope:character = {
+                            NOT = {
+                                AND = {
+                                    exists = c:PRU
+                                    exists = home_country
+                                    home_country = c:PRU 
+                                }
+                            }
+                        }
+                    }
+                    AND = {
+                    exists = scope:pop
+                        scope:pop = {
+                            NOT = {
+                                AND = {
+                                    exists = c:PRU
+                                    exists = home_country
+                                    home_country = c:PRU 
+                                }
+                            }
                         }
                     }
                 }
@@ -2944,13 +3057,19 @@
                 mode = add
                 gene = epaulettes
                 template = all_epaulettes
-                range = { 0 1 } # For the randomness to work correctly
+                range = { 0.7 0.7 } # For the randomness to work correctly
             }
             accessory = {
                 mode = add
                 gene = legwear
                 template = european_legwear_colors
                 range = { 0 0.1 } # there's three colors in the gene, the first of which is black
+            }
+            accessory = {
+                mode = add
+                gene = sashes
+                template = all_sashes
+                range = { 0 1 } # For the randomness to work correctly
             }
         }
         weight = {
@@ -3031,6 +3150,12 @@
                 mode = add
                 gene = epaulettes
                 template = all_epaulettes
+                range = { 0.7 0.7 } # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = sashes
+                template = all_sashes
                 range = { 0 1 } # For the randomness to work correctly
             }
         }
@@ -3038,6 +3163,7 @@
             base = 0
             modifier = {
                 add = 10000
+                french_empire_clothes_trigger = yes
                 OR = {
                     AND = {
                         scope:character ?= {
@@ -3052,10 +3178,6 @@
                                 politician_clothes_trigger = yes
                             }
                         }   
-                    }
-                    AND = {
-                        french_empire_clothes_pop_trigger = yes
-                        officers_clothes_pop_trigger = yes
                     }
                 }
             }
@@ -3326,16 +3448,15 @@
             base = 0
             modifier = {
                 add = 5000
-                exists = scope:character
-                scope:character = {
-                    owner = {
-                        exists = c:AUS
-                        c:AUS = this
-                    }
-                    OR = {
-                        military_clothes_trigger = yes
-                        monarchy_clothes_trigger = yes
-                    }
+                OR = {
+                austrian_clothes_trigger = yes
+                austrian_clothes_pop_trigger = yes
+                }
+                OR = {
+                officers_clothes_pop_trigger = yes
+                military_clothes_trigger = yes
+                monarchy_clothes_trigger = yes
+                soldier_clothes_pop_trigger = yes
                 }
             }
         }
@@ -3375,18 +3496,27 @@
                 scope:character = {
 					exists = home_country
 					OR = {
-						home_country = {
-							exists = c:PRU
-							c:PRU = this
-						}
-						home_country = {
-							exists = c:NGF
-							c:NGF = this
-						}
-						home_country = {
-							exists = c:GER
-							c:GER = this
-						}
+                        AND = {
+                            exists = home_country
+                            home_country = {
+                                exists = c:PRU
+                                c:PRU = this
+                            }
+                        }
+                        AND = {
+                            exists = home_country
+                            home_country = {
+                                exists = c:NGF
+                                c:NGF = this
+                            }
+                        }
+                        AND = {
+                            exists = home_country
+                            home_country = {
+                                exists = c:GER
+                                c:GER = this
+                            }
+                        }
 					}
                     scope:character ?= {
                         age > 10
@@ -3394,13 +3524,13 @@
                     OR = {
                         AND = {
                             is_ruler = yes
+                            exists = home_country
                             home_country = {
                                 has_law = law_type:law_monarchy
                             }
                         }
                         AND = {
                             has_role = politician
-                            is_ruler = no
                             is_interest_group_type = ig_armed_forces
                         }
                     }
@@ -3691,75 +3821,100 @@
         weight = {
             base = 0
             modifier = {
-                add = 100
+                add = 6000
                 agitator_character_trigger = no
                 OR = {
-                    arabic_clothes_trigger = yes
-                    scope:character ?= {
-                        culture = {
-                            has_discrimination_trait = ethiopian
-                        }
+                    monarchy_clothes_trigger = yes
+                    military_clothes_trigger = yes
+                    officers_clothes_pop_trigger = yes
+                    soldier_clothes_pop_trigger = yes
+                    AND = {
+                        armed_forces_clothes_trigger = yes
+                        politician_clothes_trigger = yes
                     }
                 }
-                armed_forces_clothes_trigger = no
+                OR = {
+                    AND = {
+                        exists = c:TUR
+                        exists = scope:character
+                        scope:character = {
+                            exists = home_country
+                            home_country = {
+                                OR = {
+                                    c:TUR = this
+                                    is_subject_of = c:TUR
+                                }
+                            }
+                        }
+                    }
+                    OR = {
+                        AND = {
+                            exists = scope:pop
+                            scope:pop = {
+                                exists = home_country
+home_country = {
+                                    exists = c:TUR
+                                    OR = {
+                                        c:TUR = this
+                                        AND = {
+                                        is_subject_of = c:TUR
+                                        western_uniforms_trigger = yes
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        AND = {
+                            arabic_clothes_pop_trigger = yes
+                            western_uniforms_trigger = yes
+                        }
+                    }
+                    AND = {
+                        arabic_clothes_trigger = yes
+                        western_uniforms_trigger = yes
+                    }
+                }
+            }
+        }
+    }
+    arabic_coats = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = coats
+                template = arabic_coats
+                range = { 0 1 } # For the randomness to work correctly
             }
         }
         weight = {
             base = 0
             modifier = {
-                add = 6000
-                exists = scope:character
-                scope:character = {
-                    owner = {
-                        exists = c:TUR
-                        c:TUR = this
+                add = 500
+                AND = {
+                    OR = {
+                        arabic_clothes_trigger = yes
+                        arabic_clothes_pop_trigger = yes
+                        scope:pop ?= {
+                            culture = {
+                                has_discrimination_trait = ethiopian
+                            }
+                        }
                     }
                     OR = {
                         military_clothes_trigger = yes
-                        monarchy_clothes_trigger = yes
-                    }
-                }
-            }
-        }
-    }
-arabic_coats = {
-    dna_modifiers = {
-        accessory = {
-            mode = add
-            gene = coats
-            template = arabic_coats
-            range = { 0 1 } # For the randomness to work correctly
-        }
-    }
-    weight = {
-        base = 0
-        modifier = {
-            add = 500
-            AND = {
-                OR = {
-                    arabic_clothes_trigger = yes
-                    arabic_clothes_pop_trigger = yes
-                    scope:pop ?= {
-                        culture = {
-                            has_discrimination_trait = ethiopian
-                        }
-                    }
-                }
-                OR = {
-                    military_clothes_trigger = yes
-                    officers_clothes_pop_trigger = yes
-                    AND = {
-                        armed_forces_clothes_trigger = yes
-                        OR = { 
-                            politician_clothes_trigger = yes
-                            ruler_clothes_trigger = yes
+                        officers_clothes_pop_trigger = yes
+                        AND = {
+                            armed_forces_clothes_trigger = yes
+                            OR = { 
+                                politician_clothes_trigger = yes
+                                ruler_clothes_trigger = yes
+                            }
                         }
                     }
                 }
             }
         }
     }
-}
      ethiopian_clothes = {
         dna_modifiers = {
             accessory = {
@@ -3973,7 +4128,8 @@ indian_royal_clothes = {
                             christian_clothes_trigger = yes
                             ruler_clothes_trigger = yes
 							exists = home_country
-                            home_country = {
+                            exists = home_country
+home_country = {
                                 has_law = law_type:law_theocracy
                             }
                         }
@@ -4004,7 +4160,8 @@ indian_royal_clothes = {
                     christian_clothes_trigger = yes
 					exists = home_country
                     home_country = c:PAP
-                    home_country = {
+                    exists = home_country
+home_country = {
                         has_law = law_type:law_theocracy
                     }
                     is_female = no
@@ -4225,7 +4382,8 @@ indigenous_oceanic_high_clothes_recognized = {
                     AND = {
                         exists = scope:pop
                         scope:pop = {
-                            home_country = {
+                            exists = home_country
+home_country = {
                                 exists = c:HAW
                                 c:HAW = this
                             }                        
@@ -4235,7 +4393,8 @@ indigenous_oceanic_high_clothes_recognized = {
                         exists = scope:character
                         scope:character = {
 							exists = home_country
-                            home_country = {
+                            exists = home_country
+home_country = {
                                 exists = c:HAW
                                 c:HAW = this
                             }                        
@@ -4837,13 +4996,6 @@ chinese_upper_clothes = {
                 template = european_legwear
                 range = { 0 1 } # For the randomness to work correctly
             }
-
-            accessory = {
-                mode = add
-                gene = epaulettes
-                template = all_epaulettes
-                range = { 0 1 } # For the randomness to work correctly
-            }
         } 
 
         weight = {
@@ -5017,7 +5169,7 @@ chinese_upper_clothes = {
                 mode = add
                 gene = coats
                 template = prussian_coats
-                range = { 0 1 } # For the randomness to work correctly
+                range = { 0.5 1 } # For the randomness to work correctly
             }
             accessory = {
                 mode = add
@@ -5043,18 +5195,27 @@ chinese_upper_clothes = {
                         exists = scope:pop
                         scope:pop = {
 							OR = {
-								home_country = {
-									exists = c:PRU
-									c:PRU = this
+                                AND = {
+                                    exists = home_country
+                                    home_country = {
+                                        exists = c:PRU
+                                        c:PRU = this
+                                    }
 								}
-								home_country = {
-									exists = c:NGF
-									c:NGF = this
-								}
-								home_country = {
-									exists = c:GER
-									c:GER = this
-								}
+                                AND = {
+                                    exists = home_country
+                                    home_country = {
+                                        exists = c:NGF
+                                        c:NGF = this
+                                    }
+                                }
+                                AND = {
+                                    exists = home_country
+                                    home_country = {
+                                        exists = c:GER
+                                        c:GER = this
+                                    }
+                                }
 							}
                         }       
                         OR = {
@@ -5072,18 +5233,27 @@ chinese_upper_clothes = {
                             }
 							exists = home_country
 							OR = {
-								home_country = {
-									exists = c:PRU
-									c:PRU = this
-								}
-								home_country = {
-									exists = c:NGF
-									c:NGF = this
-								}
-								home_country = {
-									exists = c:GER
-									c:GER = this
-								}
+                                AND = {
+                                    exists = home_country
+                                    home_country = {
+                                        exists = c:PRU
+                                        c:PRU = this
+                                    }
+                                }
+                                AND = {
+                                    exists = home_country
+                                    home_country = {
+                                        exists = c:NGF
+                                        c:NGF = this
+                                    }
+                                }
+                                AND = {
+                                    exists = home_country
+                                    home_country = {
+                                        exists = c:GER
+                                        c:GER = this
+                                    }
+                                }
 							}
                         }       
                     }
@@ -5600,7 +5770,8 @@ buddhist_religious_clothes = {
                             religion = rel:shinto
                         }
 						exists = home_country
-                        home_country = {
+                        exists = home_country
+home_country = {
                             has_law = law_type:law_theocracy
                         }
                     }
@@ -5610,120 +5781,7 @@ buddhist_religious_clothes = {
     }
 }
     
-chinese_western_military_clothes = {
-    dna_modifiers = {
-        accessory = {
-            mode = add
-            gene = coats
-            template = prussian_coats
-            range = { 0 1 } # For the randomness to work correctly
-        }
-
-        accessory = {
-            mode = add
-            gene = legwear
-            template = european_legwear
-            range = { 0 1 } # For the randomness to work correctly
-        }
-    }
-
-    weight = {
-        base = 0
-        modifier = {
-            add = 5000
-            exists = scope:character
-            scope:character = {
-                owner = {
-					OR = {
-						country_has_primary_culture = cu:han
-						country_has_primary_culture = cu:hakka
-						country_has_primary_culture = cu:min
-						country_has_primary_culture = cu:yue
-					}
-					has_variable = adopt_western_uniforms
-                }
-                OR = {
-                    military_clothes_trigger = yes
-                    monarchy_clothes_trigger = yes
-                }
-            }
-        }
-    }
-}
-    
-japanese_western_military_clothes = {
-    dna_modifiers = {
-        accessory = {
-            mode = add
-            gene = coats
-            template = prussian_coats
-            range = { 0 1 } # For the randomness to work correctly
-        }
-
-        accessory = {
-            mode = add
-            gene = legwear
-            template = european_legwear
-            range = { 0 1 } # For the randomness to work correctly
-        }
-    }
-
-    weight = {
-        base = 0
-        modifier = {
-            add = 5000
-            exists = scope:character
-            scope:character = {
-                owner = {
-					country_has_primary_culture = cu:japanese
-					has_variable = adopt_western_uniforms
-                }
-                OR = {
-                    military_clothes_trigger = yes
-                    monarchy_clothes_trigger = yes
-                }
-            }
-        }
-    }
-}
-    
-korean_western_military_clothes = {
-    dna_modifiers = {
-        accessory = {
-            mode = add
-            gene = coats
-            template = prussian_coats
-            range = { 0 1 } # For the randomness to work correctly
-        }
-
-        accessory = {
-            mode = add
-            gene = legwear
-            template = european_legwear
-            range = { 0 1 } # For the randomness to work correctly
-        }
-    }
-
-    weight = {
-        base = 0
-        modifier = {
-            add = 5000
-            exists = scope:character
-            scope:character = {
-                owner = {
-					country_has_primary_culture = cu:korean
-					has_variable = adopt_western_uniforms
-                }
-                OR = {
-                    military_clothes_trigger = yes
-                    monarchy_clothes_trigger = yes
-                }
-            }
-        }
-    }
-}
-    
-generic_western_asian_military_clothes = {
+    generic_western_asian_military_clothes = {
         dna_modifiers = {
              accessory = {
                 mode = add
@@ -5739,28 +5797,58 @@ generic_western_asian_military_clothes = {
             }
         }
 
-    weight = {
-        base = 0
-        modifier = {
-            add = 2000
-            exists = scope:character
-            scope:character = {
-                owner = {
-					any_primary_culture = {
-						OR = {
-							has_discrimination_trait = east_asian_heritage
-							has_discrimination_trait = south_asian_heritage
-							has_discrimination_trait = southeast_asian_heritage
-							has_discrimination_trait = central_asian_heritage
-							has_discrimination_trait = north_asian_heritage
-							has_discrimination_trait = middle_eastern_heritage
-						}
-					}
-					has_variable = adopt_western_uniforms
-                }
+        weight = {
+            base = 0
+            modifier = {
+                add = 3000
                 OR = {
                     military_clothes_trigger = yes
-                    monarchy_clothes_trigger = yes
+                    officers_clothes_pop_trigger = yes
+                    soldier_clothes_pop_trigger = yes
+                    AND = {
+                        armed_forces_clothes_trigger = yes
+                        politician_clothes_trigger = yes
+                    }
+                }
+                OR = {
+                    AND = {
+                        exists = scope:character
+                        scope:character = {
+                            exists = home_country
+home_country = {
+                                has_variable = adopt_western_uniforms
+                                any_primary_culture = {
+                                    OR = {
+                                        has_discrimination_trait = east_asian_heritage
+                                        has_discrimination_trait = south_asian_heritage
+                                        has_discrimination_trait = southeast_asian_heritage
+                                        has_discrimination_trait = central_asian_heritage
+                                        has_discrimination_trait = north_asian_heritage
+                                        has_discrimination_trait = middle_eastern_heritage
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    AND = {
+                        exists = scope:pop
+                        scope:pop = {
+                            exists = home_country
+home_country = {
+                                has_variable = adopt_western_uniforms
+                                any_primary_culture = {
+                                    OR = {
+                                        has_discrimination_trait = east_asian_heritage
+                                        has_discrimination_trait = south_asian_heritage
+                                        has_discrimination_trait = southeast_asian_heritage
+                                        has_discrimination_trait = central_asian_heritage
+                                        has_discrimination_trait = north_asian_heritage
+                                        has_discrimination_trait = middle_eastern_heritage
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

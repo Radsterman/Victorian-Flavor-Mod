@@ -1,8 +1,45 @@
-﻿brazilian_clothes_trigger = {
+﻿western_uniforms_trigger = {
+	OR = {
+		AND = {
+			exists = scope:character
+			scope:character = {
+				exists = home_country
+				home_country = {
+					has_variable = adopt_western_uniforms	
+				}
+			}
+		}
+		AND = {
+			exists = scope:pop
+			scope:pop = {
+				exists = home_country
+				home_country = {
+					has_variable = adopt_western_uniforms	
+				}
+			}
+		}
+	}
+}
+
+age_of_caudillos_trigger = {
 	exists = scope:character
 	scope:character = {
-		exists = c:BRZ
-		owner = {
+		NOR = {
+			has_variable = is_francia
+			has_variable = is_rocafuerte
+		}
+		exists = home_country
+		home_country = {
+			has_modifier = age_of_caudillos_modifier	
+		}
+	}
+}
+
+brazilian_clothes_trigger = {
+	exists = scope:character
+	scope:character = {
+		exists = home_country
+		home_country = {
 			OR = {
 				AND = {
 					c:BRZ = this
@@ -17,8 +54,8 @@
 brazilian_clothes_pop_trigger = {
 	exists = scope:pop
 	scope:pop = {
-		exists = c:BRZ
-		owner = {
+		exists = home_country
+		home_country = {
 			OR = {
 				AND = {
 					c:BRZ = this
@@ -34,7 +71,7 @@ brazilian_clothes_p_trigger = {
 	exists = scope:pop
 	scope:pop = {
 		exists = c:BRZ
-		owner = {
+		home_country = {
 			OR = {
 				AND = {
 					c:BRZ = this
@@ -51,12 +88,14 @@ mexican_monarch_clothes_trigger = {
 	scope:character = {
 		AND = {
 			is_ruler = yes
-			owner = {
+			exists = home_country
+			home_country = {
 			exists = c:MEX
 			c:MEX = this
 			is_subject = no
 		}
-     			owner = {
+     			exists = home_country
+				home_country = {
      			has_law = law_type:law_monarchy
 			
 			}
@@ -70,7 +109,8 @@ caxias_clothes_trigger = {
 		AND = {
 			has_role = general
 			has_variable = is_caxias
-			owner = {
+			exists = home_country
+			home_country = {
 			exists = c:BRZ
 			c:BRZ = this
 			}			
@@ -88,7 +128,8 @@ goncalves_da_silva_clothes_trigger = {
 hispanic_clothes_trigger = {
 	exists = scope:character
 	scope:character = {
-		owner = {
+		exists = home_country
+		home_country = {
 			coa_def_hispanic_american_trigger = yes
 		}
 	}
@@ -97,25 +138,27 @@ hispanic_clothes_trigger = {
 hispanic_clothes_pop_trigger = {
 	exists = scope:pop
 	scope:pop = {
-		owner = {
+		exists = home_country
+		home_country = {
 			coa_def_hispanic_american_trigger = yes		
 		}
 	}
 }
 
-argentine_dictator_clothes_trigger = {
+dictator_clothes_trigger = {
 	exists = scope:character
 	scope:character = {
 		AND = {
 			is_ruler = yes
-			owner = {
+			exists = home_country
+			home_country = {
 			OR = {
 			AND = {exists = c:ARG
 			c:ARG = this}
 			}
 			is_subject = no
 			has_law = law_type:law_autocracy
-			}			
+			}		
 		}
 	}
 }
@@ -124,7 +167,8 @@ south_american_clothes_trigger = {
 	exists = scope:character
 	scope:character = {
 		AND = {
-			owner = {
+			exists = home_country
+			home_country = {
 			coa_def_hispanic_american_trigger = yes
 			}				
 		}
@@ -137,12 +181,14 @@ south_american_dictator_clothes_trigger = {
 		AND = {
 			is_ruler = yes
 			OR = {
-			owner = {
+			exists = home_country
+			home_country = {
 			has_law = law_type:law_autocracy
 			}
 			has_role = general
 			}			
-			owner = {
+			exists = home_country
+			home_country = {
 			coa_def_hispanic_american_trigger = yes
 			NOT = {c:BRZ = this}
 			OR = {
@@ -165,7 +211,8 @@ oribe_clothes_trigger = {
             has_role = general
             has_role = admiral
             }
-            owner = {
+            exists = home_country
+			home_country = {
             exists = c:URU
             c:URU = this
             OR = {
@@ -183,7 +230,8 @@ south_american_admiral_clothes_trigger = {
 	scope:character = {
 		AND = {
 			has_role = admiral
-			owner = {
+			exists = home_country
+			home_country = {
 			coa_def_hispanic_american_trigger = yes
 			NOT = {c:BRZ = this}
 			}
@@ -196,10 +244,43 @@ south_american_admiral_headgear_trigger = {
 	scope:character = {
 		AND = {
 			has_role = admiral
-			owner = {
+			exists = home_country
+			home_country = {
 			coa_def_hispanic_american_trigger = yes
 			NOT = {c:BRZ = this}
 			}			
+		}
+	}
+}
+
+austrian_clothes_trigger = {
+	exists = scope:character
+	scope:character = {
+		exists = home_country
+		home_country = {
+			OR = {
+				AND = {
+					c:AUS = this
+					is_subject = no # preventing uniform conflicts if AUS becomes a subject of another country with puppet uniforms
+				}
+				is_subject_of = c:AUS
+			}		
+		}
+	}
+}
+
+austrian_clothes_pop_trigger = {
+	exists = scope:pop
+	scope:pop = {
+		exists = c:AUS
+		home_country = {
+			OR = {
+				AND = {
+					c:AUS = this
+					is_subject = no # preventing uniform conflicts if AUS becomes a subject of another country with puppet uniforms
+				}
+				is_subject_of = c:AUS
+			}		
 		}
 	}
 }
@@ -642,7 +723,7 @@ arabic_fez_trigger = {
 arabic_military_fez_pop_trigger = {
 	exists = scope:pop
 	scope:pop = {
-		AND = {
+		OR = {
 			OR = {
 				home_country = {
 					exists = c:EGY
