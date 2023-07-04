@@ -72,6 +72,16 @@ ai_strategy_default = {
 			}
 			add = 20
 		}
+		
+		if = {
+			limit = {
+				exists = c:SPA
+				exists = c:CAR
+				c:SPA = this
+				has_war_with = c:CAR
+			}
+			add = 75
+		}
 				
 		#if = {
 		#	limit = {
@@ -1036,7 +1046,19 @@ ai_strategy_default = {
             }
             add = -25
         }
-        # France should very aggressively go for Algeria.
+        # France should very aggressively go for Algeria, start with constantine.
+		if = {
+			limit = {
+				has_journal_entry = je_conquest_of_algeria
+				scope:target_country = {
+					any_scope_state = {
+						state_region = s:STATE_CONSTANTINE
+					}
+				}
+			}
+			add = 150
+		}
+		# France should very aggressively go for Algeria.
 		if = {
 			limit = {
 				has_journal_entry = je_conquest_of_algeria
@@ -1045,7 +1067,6 @@ ai_strategy_default = {
 						OR = {
 							state_region = s:STATE_TLEMCEN
 							state_region = s:STATE_ALGIERS
-							state_region = s:STATE_CONSTANTINE
 							state_region = s:STATE_TOUGGOURT
 							state_region = s:STATE_GHARDAIA
 							state_region = s:STATE_SAHARA
@@ -1054,7 +1075,7 @@ ai_strategy_default = {
 					}
 				}
 			}
-			add = 100
+			add = 50
 		}
 			
 		#Aggression against unrecognized countries once colonization has begun and already owns state in region
@@ -1178,7 +1199,12 @@ ai_strategy_default = {
 		add = {
 			value = total_population
 			divide = 4000000 # 1 construction sector per 4 million pop					
-		}	
+		}
+
+		add = {
+			value = investment_pool
+			divide = 1000000 # 1 construction sector per 1 million investment pool			
+		}
 		
 		if = {
 			limit = { has_law = law_type:law_traditionalism }
@@ -1203,16 +1229,35 @@ ai_strategy_default = {
 				}
 			}
 			multiply = 1.3		
-		}	
+		}
+
+        if = {
+			limit = { 
+			    game_date > 1860.1.1
+				OR = {
+					has_law = law_type:law_per_capita_based_taxation  #better tax laws = more construction
+					has_law = law_type:law_proportional_taxation
+					has_law = law_type:law_graduated_taxation
+				}
+			}
+			multiply = 1.15
+		}		
+		
+		if = {
+			limit = { 
+				has_law = law_type:law_laissez_faire
+			}
+			multiply = 1.2		
+		}
 
 		if = {
 			limit = { has_strategy = ai_strategy_placate_population }
-			multiply = 0.5		
+			multiply = 0.7		
 		}
 		
 		if = {
 			limit = { has_strategy = ai_strategy_maintain_mandate_of_heaven }
-			multiply = 0.1		
+			multiply = 0.3		
 		}		
 
 		min = 1
@@ -2894,30 +2939,44 @@ ai_strategy_default = {
 				}
 				add = 500
 			}		
-			
+            # Go for constatine first
 			if = {
 				limit = {
 					has_journal_entry = je_conquest_of_algeria
 					scope:target_country = {
 						any_scope_state = {
+							state_region = s:STATE_CONSTANTINE
+						}
+					}
+				}
+				add = 1000
+			}
+			# France has ganked constantine, go for rest of Algeria
+			if = {
+				limit = {
+					has_journal_entry = je_conquest_of_algeria
+                    owns_entire_state_region = STATE_CONSTANTINE
+					can_reach_target_country = yes
+					scope:target_country = {
+						any_scope_state = {
 							OR = {
 								state_region = s:STATE_ALGIERS
-								state_region = s:STATE_CONSTANTINE
+								state_region = s:STATE_TLEMCEN
 								state_region = s:STATE_SAHARA
 								state_region = s:STATE_EAST_SAHARA
 							}
 						}
 					}
 				}
-				add = 1000
+				add = 500
 			}
 			# France first ganks Algeria, then moves on to even softer prey
 			if = {
 				limit = {
 					THIS = c:FRA
-					owns_entire_state_region = s:STATE_ALGIERS
-					owns_entire_state_region = s:STATE_CONSTANTINE
-					owns_entire_state_region = s:STATE_TLEMCEN
+					owns_entire_state_region = STATE_ALGIERS
+					owns_entire_state_region = STATE_CONSTANTINE
+					owns_entire_state_region = STATE_TLEMCEN
 					scope:target_country = {
 						any_scope_state = {
 							OR = {
@@ -2927,6 +2986,29 @@ ai_strategy_default = {
 					}
 				}
 				add = 1000
+			}
+			# Spain is not done in Philipines yet
+			if = {
+				limit = {
+					exists = c:SPA
+					OR = {
+					c:SPA = this
+					AND = {
+					c:PHI = this
+					is_subject_of = c:SPA
+					}
+					}
+					scope:target_country = {
+					    NOT = { is_subject_of = c:SPA }
+						any_scope_state = {
+							OR = {
+								state_region = s:STATE_MINDANAO
+								state_region = s:STATE_LUZON
+							}
+						}
+					}
+				}
+				add = 500
 			}
 		
 			multiply = {
@@ -4081,15 +4163,56 @@ ai_strategy_default = {
 				}
 				add = 75
 			}
+			# France should very aggressively go for Algeria, start with constantine.
 			if = {
 				limit = {
 					has_journal_entry = je_conquest_of_algeria
 					scope:target_country = {
 						any_scope_state = {
+							state_region = s:STATE_CONSTANTINE
+						}
+					}
+				}
+				add = 200
+			}
+			# France should very aggressively go for Algeria, start with constantine.
+			if = {
+				limit = {
+					has_journal_entry = je_conquest_of_algeria
+					owns_entire_state_region = STATE_CONSTANTINE
+					can_reach_target_country = yes
+					scope:target_country = {
+						any_scope_state = {
 							OR = {
-								state_region = s:STATE_ALGIERS
-								state_region = s:STATE_CONSTANTINE
 								state_region = s:STATE_TLEMCEN
+								state_region = s:STATE_ALGIERS
+								state_region = s:STATE_TOUGGOURT
+								state_region = s:STATE_GHARDAIA
+								state_region = s:STATE_SAHARA
+								state_region = s:STATE_EAST_SAHARA
+							}
+						}
+					}
+				}
+				add = 200
+			}
+			# Spain is not done in Philipines yet
+			if = {
+				limit = {
+					exists = c:SPA
+					OR = {
+					c:SPA = this
+					AND = {
+					c:PHI = this
+					is_subject_of = c:SPA
+					}
+					}
+					scope:target_country = {
+					    NOT = { is_subject_of = c:SPA }
+						any_scope_state = {
+							OR = {
+								state_region = s:STATE_MINDANAO
+								state_region = s:STATE_LUZON
 							}
 						}
 					}
