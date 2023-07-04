@@ -834,7 +834,7 @@ ai_strategy_default = {
 		if = {
 			limit = {
 				scope:target_country = {
-					has_journal_entry = je_peru_bolivia
+					has_journal_entry = je_peru_bolivia_lai
 				}
 				OR = {
 					country_has_primary_culture = cu:south_andean
@@ -2970,13 +2970,10 @@ ai_strategy_default = {
 				}
 				add = 500
 			}
-			# France first ganks Algeria, then moves on to even softer prey
 			if = {
 				limit = {
-					THIS = c:FRA
-					owns_entire_state_region = STATE_ALGIERS
-					owns_entire_state_region = STATE_CONSTANTINE
-					owns_entire_state_region = STATE_TLEMCEN
+				    country_rank >= rank_value:major_power
+					game_date > 1839.6.1
 					scope:target_country = {
 						any_scope_state = {
 							OR = {
@@ -2984,22 +2981,20 @@ ai_strategy_default = {
 							}
 						}
 					}
+					OR = { 
+					    has_interest_marker_in_region = scope:target_country.capital.region
+						c:FRA = this
+					}
 				}
-				add = 1000
+				add = 500
 			}
-			# Spain is not done in Philipines yet
+			# Overlords of Philipines(Spain) are not done in Philipines yet
 			if = {
 				limit = {
-					exists = c:SPA
-					OR = {
-					c:SPA = this
-					AND = {
-					c:PHI = this
-					is_subject_of = c:SPA
-					}
-					}
+					exists = c:PHI
+					this = c:PHI.top_overlord
 					scope:target_country = {
-					    NOT = { is_subject_of = c:SPA }
+					    NOT = { is_subject_of = this }
 						any_scope_state = {
 							OR = {
 								state_region = s:STATE_MINDANAO
