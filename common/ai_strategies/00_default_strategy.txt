@@ -1047,16 +1047,28 @@ ai_strategy_default = {
             add = -25
         }
         # France should very aggressively go for Algeria, start with constantine.
+		# France should very aggressively go for Algeria, start with constantine.
+			if = {
+				limit = {
+					has_journal_entry = je_conquest_of_algeria
+					exists = c:CON
+					scope:target_country = {
+						this = c:CON
+					}
+				}
+				add = 200
+			}
 		if = {
 			limit = {
 				has_journal_entry = je_conquest_of_algeria
+				NOT = { exists = c:CON }
 				scope:target_country = {
 					any_scope_state = {
 						state_region = s:STATE_CONSTANTINE
 					}
 				}
 			}
-			add = 200
+			add = 150
 		}
 		# France should very aggressively go for Algeria.
 		if = {
@@ -1075,7 +1087,7 @@ ai_strategy_default = {
 					}
 				}
 			}
-			add = 75
+			add = 50
 		}
 			
 		#Aggression against unrecognized countries once colonization has begun and already owns state in region
@@ -2956,19 +2968,7 @@ ai_strategy_default = {
 						}
 					}
 				}
-				add = 500
-			}
-            if = {
-				limit = {
-					has_journal_entry = je_conquest_of_algeria
-					scope:target_country = {
-                        this = c:CON
-						any_scope_state = {
-							state_region = s:STATE_CONSTANTINE
-						}
-					}
-				}
-				add = 500
+				add = 1000
 			}
 			# France has ganked constantine, go for rest of Algeria
 			if = {
@@ -4181,6 +4181,18 @@ ai_strategy_default = {
 			if = {
 				limit = {
 					has_journal_entry = je_conquest_of_algeria
+					exists = c:CON
+					scope:target_country = {
+						this = c:CON
+					}
+				}
+				add = 200
+			}
+			# France should very aggressively go for Algeria, start with constantine.
+			if = {
+				limit = {
+					has_journal_entry = je_conquest_of_algeria
+					NOT = { exists = c:CON }
 					scope:target_country = {
 						any_scope_state = {
 							state_region = s:STATE_CONSTANTINE
@@ -5327,7 +5339,7 @@ ai_strategy_default = {
 						}
 					}
 				}
-				add = 75
+				add = 100
 			}
 
 			min = 0
