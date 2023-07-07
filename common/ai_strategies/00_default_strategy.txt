@@ -1046,29 +1046,19 @@ ai_strategy_default = {
             }
             add = -25
         }
-        # France should very aggressively go for Algeria, start with constantine.
 		# France should very aggressively go for Algeria, start with constantine.
-			if = {
-				limit = {
-					has_journal_entry = je_conquest_of_algeria
-					exists = c:CON
-					scope:target_country = {
-						this = c:CON
-					}
-				}
-				add = 200
-			}
 		if = {
 			limit = {
 				has_journal_entry = je_conquest_of_algeria
-				NOT = { exists = c:CON }
+				exists = c:CON
 				scope:target_country = {
+				    THIS = c:CON
 					any_scope_state = {
 						state_region = s:STATE_CONSTANTINE
 					}
 				}
 			}
-			add = 150
+			add = 125
 		}
 		# France should very aggressively go for Algeria.
 		if = {
@@ -1079,6 +1069,7 @@ ai_strategy_default = {
 						OR = {
 							state_region = s:STATE_TLEMCEN
 							state_region = s:STATE_ALGIERS
+							state_region = s:STATE_CONSTANTINE
 							state_region = s:STATE_TOUGGOURT
 							state_region = s:STATE_GHARDAIA
 							state_region = s:STATE_SAHARA
@@ -1087,7 +1078,7 @@ ai_strategy_default = {
 					}
 				}
 			}
-			add = 50
+			add = 75
 		}
 			
 		#Aggression against unrecognized countries once colonization has begun and already owns state in region
@@ -2962,14 +2953,16 @@ ai_strategy_default = {
 			if = {
 				limit = {
 					has_journal_entry = je_conquest_of_algeria
+					exists = c:CON
 					scope:target_country = {
+					    THIS = c:CON
 						any_scope_state = {
 							state_region = s:STATE_CONSTANTINE
 						}
 					}
 				}
 				add = 1000
-			}
+		    }
 			# France has ganked constantine, go for rest of Algeria
 			if = {
 				limit = {
@@ -2987,7 +2980,7 @@ ai_strategy_default = {
 						}
 					}
 				}
-				add = 500
+				add = 400
 			}
 			if = {
 				limit = {
@@ -3770,7 +3763,19 @@ ai_strategy_default = {
 				}
 				add = 50
 			}
-			
+			if = {
+				limit = {
+					has_journal_entry = je_conquest_of_algeria
+					exists = c:CON
+					scope:target_country = {
+					    THIS = c:CON
+						any_scope_state = {
+							state_region = s:STATE_CONSTANTINE
+						}
+					}
+				}
+				add = 100
+		    }
 			if = {
 				limit = {
 					has_journal_entry = je_conquest_of_algeria
@@ -4183,35 +4188,24 @@ ai_strategy_default = {
 					has_journal_entry = je_conquest_of_algeria
 					exists = c:CON
 					scope:target_country = {
-						this = c:CON
-					}
-				}
-				add = 200
-			}
-			# France should very aggressively go for Algeria, start with constantine.
-			if = {
-				limit = {
-					has_journal_entry = je_conquest_of_algeria
-					NOT = { exists = c:CON }
-					scope:target_country = {
+					    THIS = c:CON
 						any_scope_state = {
 							state_region = s:STATE_CONSTANTINE
 						}
 					}
 				}
-				add = 200
-			}
-			# France should very aggressively go for Algeria, start with constantine.
+				add = 100
+		    }
 			if = {
 				limit = {
 					has_journal_entry = je_conquest_of_algeria
-					owns_entire_state_region = STATE_CONSTANTINE
 					can_reach_target_country = yes
 					scope:target_country = {
 						any_scope_state = {
 							OR = {
 								state_region = s:STATE_TLEMCEN
 								state_region = s:STATE_ALGIERS
+								state_region = s:STATE_CONSTANTINE
 								state_region = s:STATE_TOUGGOURT
 								state_region = s:STATE_GHARDAIA
 								state_region = s:STATE_SAHARA
@@ -4220,7 +4214,7 @@ ai_strategy_default = {
 						}
 					}
 				}
-				add = 200
+				add = 100
 			}
 			# Spain is not done in Philipines yet
 			if = {
@@ -5321,8 +5315,20 @@ ai_strategy_default = {
 				}
 				add = 75
 			}
-		
-			# French conquest of Algeria
+		    # # French conquest of Algeria, start with constantine.
+			if = {
+				limit = {
+					has_journal_entry = je_conquest_of_algeria
+					exists = c:CON
+					scope:target_country = {
+					    THIS = c:CON
+						scope:target_country.capital = {
+							state_region = s:STATE_CONSTANTINE
+						}
+					}
+				}
+				add = 50
+		    }
 			if = {
 				limit = {
 					exists = c:FRA
@@ -5339,7 +5345,7 @@ ai_strategy_default = {
 						}
 					}
 				}
-				add = 100
+				add = 75
 			}
 
 			min = 0
