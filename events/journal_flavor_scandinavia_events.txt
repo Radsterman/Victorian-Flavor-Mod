@@ -1,5 +1,29 @@
 ﻿namespace = journal_flavor_scandinavia
 
+scripted_effect save_ger_scope = {
+	if = {
+		limit = {
+			exists = c:GER
+		}
+		c:GER = {
+			save_scope_as = ger_scope
+		}
+	}
+	else_if = {
+		limit = {
+			exists = c:NGF
+		}
+		c:NGF = {
+			save_scope_as = ger_scope
+		}
+	}
+	else = {
+		c:PRU = {
+			save_scope_as = ger_scope
+		}
+	}
+}
+
 journal_flavor_scandinavia.1 = {
 	type = country_event
 	placement = root
@@ -137,6 +161,8 @@ journal_flavor_scandinavia.3 = { #Christiana Palace
 			save_scope_as = nor_scope
 		}
 
+		save_ger_scope = yes
+
 		set_variable = christiana_palace_var
 
 	}
@@ -202,27 +228,7 @@ journal_flavor_scandinavia.4 = { #Norway Flag Question
 			save_scope_as = nor_scope
 		}
 
-		if = {
-			limit = {
-				exists = c:GER
-			}
-			c:GER = {
-				save_scope_as = ger_scope
-			}
-		}
-		else_if = {
-			limit = {
-				exists = c:NGF
-			}
-			c:GER = {
-				save_scope_as = ger_scope
-			}
-		}
-		else = {
-			c:PRU = {
-				save_scope_as = ger_scope
-			}	
-		}
+		save_ger_scope = yes
 
 		set_variable = norway_flag_var
 
