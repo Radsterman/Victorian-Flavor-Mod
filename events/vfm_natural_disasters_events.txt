@@ -305,3 +305,117 @@ vfm_natural_disaster_events.4 = { #Catastrophic draught for more arid zones
 	}
 }
 
+vfm_natural_disaster_events.5 = { #Storm - coastal state
+	type = state_event
+	placement = scope:storm_state
+
+	title = vfm_natural_disaster_events.5.t
+	desc = vfm_natural_disaster_events.5.d
+	flavor = vfm_natural_disaster_events.5.f
+
+	duration = 3
+
+	event_image = {
+		video = "asia_dead_cattle_poor_harvest"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	trigger = {
+	    is_coastal = yes
+		any_scope_building = {
+			is_building_type = building_logging_camp
+		}
+		NOT = { has_modifier = modifier_storm }
+	}
+
+    immediate = {
+		save_scope_as = storm_state
+		owner = { save_scope_as = state_owner }
+	}
+	
+	option = {
+		name = vfm_natural_disaster_events.5.a
+		default_option = yes
+		add_modifier = {
+			name = modifier_storm
+			months = 18
+		}
+		state_region = {
+			add_devastation = 10
+		}
+		random_neighbouring_state = {
+			limit = {
+			    NOT = { has_modifier = modifier_storm }
+				owner = scope:state_owner
+			}
+			add_modifier = {
+			    name = modifier_storm
+			    months = 18
+		    }
+			state_region = {
+			   add_devastation = 10
+		    }
+		}
+	}
+}
+
+vfm_natural_disaster_events.6 = { #Storm - any state
+	type = state_event
+	placement = scope:storm_state
+
+	title = vfm_natural_disaster_events.5.t
+	desc = vfm_natural_disaster_events.5.d
+	flavor = vfm_natural_disaster_events.5.f
+
+	duration = 3
+
+	event_image = {
+		video = "asia_dead_cattle_poor_harvest"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	trigger = {
+		any_scope_building = {
+			is_building_type = building_logging_camp
+		}
+		NOT = { has_modifier = modifier_storm }
+	}
+
+    immediate = {
+		save_scope_as = storm_state
+		owner = { save_scope_as = state_owner }
+	}
+	
+	option = {
+		name = vfm_natural_disaster_events.5.a
+		default_option = yes
+		add_modifier = {
+			name = modifier_storm
+			months = 18
+		}
+		state_region = {
+			add_devastation = 10
+		}
+		random_neighbouring_state = {
+			limit = {
+			    NOT = { has_modifier = modifier_storm }
+				owner = scope:state_owner
+			}
+			add_modifier = {
+			    name = modifier_storm
+			    months = 18
+		    }
+			state_region = {
+			   add_devastation = 10
+		    }
+		}
+	}
+}
