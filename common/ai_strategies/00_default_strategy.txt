@@ -4402,6 +4402,7 @@ ai_strategy_default = {
 				add = 75
 			}
 
+			# Don't want treaty ports in weak unrecognized powers, would rather conquer or subjugate
 			if = {
 				limit = {
 					has_treaty_port_in_country = scope:target_country
@@ -4418,6 +4419,7 @@ ai_strategy_default = {
 				multiply = 0
 			}	
 
+			# Greatly reduced wanting treaty ports from other recognized countries
 			if = {
 				limit = {
 					scope:target_country = { NOT = { is_country_type = unrecognized } }
@@ -4479,7 +4481,7 @@ ai_strategy_default = {
 						multiply = 1.25
 					}						
 				}			
-			}				
+			}		
 		
 			if = {
 				limit = { 
@@ -4507,6 +4509,25 @@ ai_strategy_default = {
 					can_reach_target_country = yes
 				}
 				add = 100
+			}
+			
+			if = {
+				limit = {
+					NOT = {
+						OR = {
+							is_adjacent = scope:target_country
+							scope:target_country = {
+								any_scope_state = {
+									is_coastal = yes
+								}
+							}
+						}	
+					}
+				}
+			
+				multiply = {
+					value = 0.25
+				}			
 			}			
 			
 			min = 0
