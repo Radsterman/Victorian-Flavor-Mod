@@ -57,9 +57,10 @@ ai_strategy_default = {
 	diplomatic_play_neutrality = {
 		value = 50 
 
+		#GPs don't want to get involved with too many other GPs in the early game
 		if = {
 			limit = {
-				any_diplomatic_play = {
+				diplomatic_play = {
 					any_scope_play_involved = {
 						count >= 2
 						country_rank = rank_value:great_power
@@ -71,6 +72,17 @@ ai_strategy_default = {
 				NOT = { has_technology_researched = multilateral_alliances }
 			}
 			add = 20
+		}
+		
+		#GPs have less neutrality when there is a pariah enemy being cut down
+		if = {
+			limit = {
+				diplomatic_play = {
+					has_play_goal = contain_threat
+				}
+				country_rank >= rank_value:great_power
+			}
+			subtract = 40
 		}
 		
 		if = {
@@ -170,6 +182,16 @@ ai_strategy_default = {
 				scope:enemy_country.country_rank > country_rank 
 			}
 			add = -0.1
+		}
+		
+		#More AI maneuvers against pariahs
+		if = {
+			limit = { 
+				scope:enemy_country = {
+					scope:enemy_country.infamy >= infamy_threshold:pariah	
+				}
+			}
+			add = 0.3
 		}
 		
 		# Ottomans should want Syria back
