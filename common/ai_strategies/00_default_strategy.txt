@@ -5571,6 +5571,27 @@ ai_strategy_default = {
 				}
 				add = 100
 			}
+			
+			if = {
+				limit = {
+					country_rank = rank_value:unrecognized_regional_power
+					navy_size >= 25
+					army_size >= 100
+					OR = {
+						has_strategy = ai_strategy_nationalist_agenda
+						has_strategy = ai_strategy_progressive_agenda
+						has_strategy = ai_strategy_egalitarian_agenda
+					}
+				}
+				add = 50
+			}
+			
+			if = {
+				limit = {
+					is_diplomatic_play_target = yes
+				}
+				add = 10
+			}
 		}	
 
 		independence = {
@@ -5580,7 +5601,7 @@ ai_strategy_default = {
 				limit = { # The EIC/Raj should never seek independence as it will lead to its demise via bic_breakup.1.
 					exists = c:BIC
 					this = c:BIC
-		}	
+				}	
 				multiply = 0.0
 			}
 
@@ -5591,8 +5612,7 @@ ai_strategy_default = {
 				}
 				multiply = 0.0
 			}
-		}	
-					
+		}			
 
 		secession = {
 			value = 100
