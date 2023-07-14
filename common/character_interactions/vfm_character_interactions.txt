@@ -90,3 +90,75 @@
 		}
 	}
 }
+
+appoint_prime_minister = {
+	icon = "gfx/interface/icons/ideology_icons/ideology_leader/unused/ideology_leader_populist.dds"
+	clicksound = "event:/SFX/UI/Military/command_grant"
+
+	potential = {
+		owner = scope:actor
+		is_ig_leader = yes
+		is_ruler = no
+		is_heir = no
+		owner = {
+			has_law = law_type:law_monarchy
+			has_voting_franchise = yes
+		}
+		NOT = { has_variable = prime_minister_trigger }
+	}
+
+	possible = {
+	}
+
+	effect = {
+		set_character_as_prime_minister = yes
+	}
+
+	cooldown = { months = 60 }
+	show_confirmation_box = yes
+
+	ai_chance = {
+		value = 0
+	}
+}
+
+dissolve_government = {
+	icon = "gfx/interface/icons/ideology_icons/ideology_leader/ideology_leader_royalist.dds"
+	clicksound = "event:/SFX/UI/Military/command_grant"
+
+	potential = {
+		owner = scope:actor
+		is_ruler = yes
+		owner = {
+			has_law = law_type:law_monarchy
+			has_voting_franchise = yes
+		}
+	}
+
+	possible = {
+	}
+
+	effect = {
+		owner = {
+			call_election = {
+				months = 1
+			}
+			every_interest_group = {
+				limit = {
+					is_in_government = yes
+				}
+				add_modifier = {
+					name = government_dissolved_modifier
+					years = 2
+				}
+			}
+		}
+	}
+
+	cooldown = { months = 60 }
+	show_confirmation_box = yes
+
+	ai_chance = {
+		value = 0
+	}
+}
