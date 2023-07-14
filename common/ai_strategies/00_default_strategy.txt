@@ -104,6 +104,25 @@ ai_strategy_default = {
 		#	}
 		#	subtract = 20
 		#}
+		# unite against french aggression
+			if = {
+				limit = {
+					OR = {
+						country_has_primary_culture = cu:north_german
+						country_has_primary_culture = cu:south_german
+					}
+					c:FRA = {
+			      		is_diplomatic_play_initiator = yes
+						any_scope_state = {
+							OR = {
+							    state_region = s:STATE_NORTH_RHINE
+								state_region = s:STATE_RHINELAND
+							}
+						}
+				    }
+				}
+				subtract = 25
+			}
 	}
 	
 	# Added to base boldness in diplomatic plays	
@@ -579,7 +598,16 @@ ai_strategy_default = {
 			limit = {
 				has_journal_entry = je_italian_unification
 				scope:target_country = {
-					has_journal_entry = je_italian_unification
+				    OR = {
+						has_journal_entry = je_italian_unification
+						AND = { # Not so fast austria
+							exists = c:AUS
+							this = c:AUS
+							any_scope_state = {
+								state_region = s:STATE_LOMBARDY
+						   }
+						}
+					}
 				}
 			}
 			add = 0.5
@@ -3063,6 +3091,48 @@ ai_strategy_default = {
 				}
 				add = 500
 			}
+			# unite against french aggression
+			if = {
+				limit = {
+					country_rank >= rank_value:major_power
+					OR = {
+						country_has_primary_culture = cu:north_german
+						country_has_primary_culture = cu:south_german
+					}
+					scope:target_country = {
+						c:FRA = this
+						any_scope_state = {
+							OR = {
+							    state_region = s:STATE_NORTH_RHINE
+								state_region = s:STATE_RHINELAND
+							}
+						}
+					}
+				}
+				add = 100
+			}
+			# Wants to unify Italy by conquest
+			if = {
+				limit = {
+					has_journal_entry = je_italian_unification
+					game_date > 1845.1.1
+					scope:target_country = {
+						any_scope_state = {
+							OR = {
+								state_region = s:STATE_LOMBARDY
+								state_region = s:STATE_VENETIA
+								state_region = s:STATE_ISTRIA
+								state_region = s:STATE_SOUTH_TYROL
+								state_region = s:STATE_PIEDMONT
+								state_region = s:STATE_EMILIA
+								state_region = s:STATE_ROMAGNA
+								state_region = s:STATE_TUSCANY
+							}
+						}
+					}
+				}
+				add = 100
+			}	
 		
 			multiply = {
 				value = "ai_ideological_opinion(scope:target_country)"
