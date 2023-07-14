@@ -78,13 +78,6 @@
 				add = 1
 				min = 0.5
 			}			
-		}	
-
-        if = {
-			limit = {
-				NOT = { has_strategic_adjacency = scope:target_country }
-			}
-			multiply = 0.5
 		}		
 	}
 	 
@@ -205,14 +198,7 @@ ai_strategy_territorial_expansion = {
 				add = 1
 				min = 0.5
 			}			
-		}
-
-        if = {
-			limit = {
-				NOT = { has_strategic_adjacency = scope:target_country }
-			}
-			multiply = 0.5
-		}		
+		}			
 	}
 
 	building_group_weights = {
@@ -223,71 +209,11 @@ ai_strategy_territorial_expansion = {
 		protect = 0.5
 		conquer = 1.5
 	}
-	
-	wargoal_scores = {
-		conquer_state = {
-			value = 0.25
-			if = {
-				limit = {
-					has_strategic_adjacency = scope:target_state
-				}
-				add = 1.5
-			}
-			else_if = {
-				limit = {
-					has_strategic_adjacency = scope:target_state
-					scope:target_state = {
-						is_homeland_of_country_cultures = ROOT
-					}
-				}
-				add = 10
-			}
 
-			if = {
-				limit = {
-					is_adjacent = scope:target_state
-				}
-				add = 1.5
-			}
-		}
-
-		return_state = {
-			value = 0.5
-			if = {
-				limit = {
-					has_strategic_adjacency = scope:target_state
-				}
-				add = 2
-			}
-			else_if = {
-				limit = {
-					has_strategic_adjacency = scope:target_state
-					scope:target_state = {
-						is_homeland_of_country_cultures = ROOT
-					}
-				}
-				add = 10
-			}
-
-			if = {
-				limit = {
-					is_adjacent = scope:target_state
-				}
-				add = 2
-			}
-		}
-
-		annex_country = {
-			value = 0.25
-
-			if = {
-				limit = {
-					has_strategic_adjacency = scope:target_country
-				}
-				add = 4
-			}
-		}
-	}
+	wargoal_weights = {
+		conquer_state = 1.5
+		return_state = 1.5
+	}	
 		
 	possible = {
 		always = yes
@@ -384,13 +310,7 @@ ai_strategy_colonial_expansion = {
 				}					
 			}
 			multiply = 0.1
-		}
-		if = {
-			limit = {
-				NOT = { has_strategic_adjacency = scope:target_country }
-			}
-			multiply = 0.5
-		}
+		}			
 	}
 	
 	building_group_weights = {
@@ -688,13 +608,7 @@ ai_strategy_economic_imperialism = {
 				}					
 			}
 			multiply = 0.25
-		}
-		if = {
-			limit = {
-				NOT = { has_strategic_adjacency = scope:target_country }
-			}
-			multiply = 0.75
-		}
+		}		
 	}
 	
 	building_group_weights = {
@@ -1164,7 +1078,7 @@ ai_strategy_unify_italy = {
 							}
 						}					
 					}	
-					is_adjacent = scope:target_state
+					can_reach_target_state = yes
 				}
 				add = 100
 			}
@@ -1180,7 +1094,7 @@ ai_strategy_unify_italy = {
 							}
 						}					
 					}
-					is_adjacent = scope:target_state
+					can_reach_target_state = yes
 				}
 				add = 100
 			}
@@ -1637,11 +1551,6 @@ ai_strategy_unify_china = {
 		if = {
 			limit = { country_rank = rank_value:unrecognized_major_power }
 			add = 50
-		}
-		
-		if = {
-			limit = { has_variable = warlord_state }
-			add = 100
-		}	
+		}		
 	}
 }
