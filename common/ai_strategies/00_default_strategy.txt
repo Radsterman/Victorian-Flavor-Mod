@@ -116,6 +116,25 @@ ai_strategy_default = {
 		#	}
 		#	subtract = 20
 		#}
+		# unite against french aggression
+			if = {
+				limit = {
+					OR = {
+						country_has_primary_culture = cu:north_german
+						country_has_primary_culture = cu:south_german
+					}
+					c:FRA = {
+			      		is_diplomatic_play_initiator = yes
+						any_scope_state = {
+							OR = {
+							    state_region = s:STATE_NORTH_RHINE
+								state_region = s:STATE_RHINELAND
+							}
+						}
+				    }
+				}
+				subtract = 25
+			}
 	}
 	
 	# Added to base boldness in diplomatic plays	
@@ -601,7 +620,16 @@ ai_strategy_default = {
 			limit = {
 				has_journal_entry = je_italian_unification
 				scope:target_country = {
-					has_journal_entry = je_italian_unification
+				    OR = {
+						has_journal_entry = je_italian_unification
+						AND = { # Not so fast austria
+							exists = c:AUS
+							this = c:AUS
+							any_scope_state = {
+								state_region = s:STATE_LOMBARDY
+						   }
+						}
+					}
 				}
 			}
 			add = 0.5
@@ -1068,24 +1096,11 @@ ai_strategy_default = {
             }
             add = -25
         }
-		# France should very aggressively go for Algeria, start with constantine.
-		if = {
-			limit = {
-				has_journal_entry = je_conquest_of_algeria
-				exists = c:CON
-				scope:target_country = {
-				    THIS = c:CON
-					any_scope_state = {
-						state_region = s:STATE_CONSTANTINE
-					}
-				}
-			}
-			add = 125
-		}
 		# France should very aggressively go for Algeria.
 		if = {
 			limit = {
 				has_journal_entry = je_conquest_of_algeria
+				has_strategic_land_adjacency = scope:target_country
 				scope:target_country = {
 					any_scope_state = {
 						OR = {
@@ -1100,9 +1115,8 @@ ai_strategy_default = {
 					}
 				}
 			}
-			add = 75
-		}
-			
+			add = 100
+		}		
 		#Aggression against unrecognized countries once colonization has begun and already owns state in region
 		if = {
 			limit = {
@@ -1175,11 +1189,7 @@ ai_strategy_default = {
 		# Russia should very aggressively go for the Caucasus if it's still a great power.
 		if = {
 			limit = {
-                exists = c:RUS
-                THIS = c:RUS
-                c:RUS = {
-                	country_rank = rank_value:great_power
-                }
+                country_has_primary_culture = cu:russian
                 OR = {
                 	exists = c:CIR
                 	exists = c:CHC
@@ -1194,6 +1204,58 @@ ai_strategy_default = {
 				}
 			}
 			add = 100
+		}
+		
+		if = {
+			limit = {
+				country_has_primary_culture = cu:russian
+				has_technology_researched = nationalism
+				OR = {
+					AND = {	
+						exists = c:KZH
+						scope:target_country = {
+							this = c:KZH
+						}
+					}
+					AND = {	
+						exists = c:UZH
+						scope:target_country = {
+							this = c:UZH
+						}
+					}
+					AND = {	
+						exists = c:OZH
+						scope:target_country = {
+							this = c:OZH
+						}
+					}
+					AND = {	
+						exists = c:KOK
+						scope:target_country = {
+							this = c:KOK
+						}
+					}
+					AND = {	
+						exists = c:KHI
+						scope:target_country = {
+							this = c:KHI
+						}
+					}
+					AND = {	
+						exists = c:BUK
+						scope:target_country = {
+							this = c:BUK
+						}
+					}
+					AND = {	
+						exists = c:AFG
+						scope:target_country = {
+							this = c:AFG
+						}
+					}
+				}
+			}
+			add = 50
 		}
 
 		if = {
@@ -1218,7 +1280,7 @@ ai_strategy_default = {
 		
 		add = {
 			value = gdp
-			divide = 3000000 # 1 construction sector per 3 million gdp								
+			divide = 2800000 # 1 construction sector per 2.8 million gdp								
 		}	
 
 		add = {
@@ -1229,6 +1291,13 @@ ai_strategy_default = {
 		add = {
 			value = investment_pool
 			divide = 1000000 # 1 construction sector per 1 million investment pool			
+		}
+
+       if = {
+			limit = { gdp > 500000 }
+			add = {
+			    value = 1								
+		    }
 		}
 		
 		if = {
@@ -2950,9 +3019,33 @@ ai_strategy_default = {
 								this = c:OZH
 							}
 						}
+						AND = {	
+							exists = c:KOK
+							scope:target_country = {
+								this = c:KOK
+							}
+						}
+						AND = {	
+							exists = c:KHI
+							scope:target_country = {
+								this = c:KHI
+							}
+						}
+						AND = {	
+							exists = c:BUK
+							scope:target_country = {
+								this = c:BUK
+							}
+						}
+						AND = {	
+							exists = c:AFG
+							scope:target_country = {
+								this = c:AFG
+							}
+						}
 					}
 				}
-				add = 50
+				add = 100
 			}
 			
 			if = {
@@ -2964,38 +3057,26 @@ ai_strategy_default = {
 				}
 				add = 500
 			}		
-            # Go for constatine first
+            # France should very aggressively go for Algeria.
 			if = {
 				limit = {
 					has_journal_entry = je_conquest_of_algeria
-					exists = c:CON
-					scope:target_country = {
-					    THIS = c:CON
-						any_scope_state = {
-							state_region = s:STATE_CONSTANTINE
-						}
-					}
-				}
-				add = 1000
-		    }
-			# France has ganked constantine, go for rest of Algeria
-			if = {
-				limit = {
-					has_journal_entry = je_conquest_of_algeria
-                    owns_entire_state_region = STATE_CONSTANTINE
-					can_reach_target_country = yes
+					has_strategic_land_adjacency = scope:target_country
 					scope:target_country = {
 						any_scope_state = {
 							OR = {
-								state_region = s:STATE_ALGIERS
 								state_region = s:STATE_TLEMCEN
+								state_region = s:STATE_ALGIERS
+								state_region = s:STATE_CONSTANTINE
+								state_region = s:STATE_TOUGGOURT
+								state_region = s:STATE_GHARDAIA
 								state_region = s:STATE_SAHARA
 								state_region = s:STATE_EAST_SAHARA
 							}
 						}
 					}
 				}
-				add = 400
+				add = 1000
 			}
 			if = {
 				limit = {
@@ -3032,6 +3113,48 @@ ai_strategy_default = {
 				}
 				add = 500
 			}
+			# unite against french aggression
+			if = {
+				limit = {
+					country_rank >= rank_value:major_power
+					OR = {
+						country_has_primary_culture = cu:north_german
+						country_has_primary_culture = cu:south_german
+					}
+					scope:target_country = {
+						c:FRA = this
+						any_scope_state = {
+							OR = {
+							    state_region = s:STATE_NORTH_RHINE
+								state_region = s:STATE_RHINELAND
+							}
+						}
+					}
+				}
+				add = 100
+			}
+			# Wants to unify Italy by conquest
+			if = {
+				limit = {
+					has_journal_entry = je_italian_unification
+					game_date > 1845.1.1
+					scope:target_country = {
+						any_scope_state = {
+							OR = {
+								state_region = s:STATE_LOMBARDY
+								state_region = s:STATE_VENETIA
+								state_region = s:STATE_ISTRIA
+								state_region = s:STATE_SOUTH_TYROL
+								state_region = s:STATE_PIEDMONT
+								state_region = s:STATE_EMILIA
+								state_region = s:STATE_ROMAGNA
+								state_region = s:STATE_TUSCANY
+							}
+						}
+					}
+				}
+				add = 100
+			}	
 		
 			multiply = {
 				value = "ai_ideological_opinion(scope:target_country)"
@@ -3338,6 +3461,30 @@ ai_strategy_default = {
 							exists = c:OZH
 							scope:target_country = {
 								this = c:OZH
+							}
+						}
+						AND = {	
+							exists = c:KOK
+							scope:target_country = {
+								this = c:KOK
+							}
+						}
+						AND = {	
+							exists = c:KHI
+							scope:target_country = {
+								this = c:KHI
+							}
+						}
+						AND = {	
+							exists = c:BUK
+							scope:target_country = {
+								this = c:BUK
+							}
+						}
+						AND = {	
+							exists = c:AFG
+							scope:target_country = {
+								this = c:AFG
 							}
 						}
 					}
@@ -3778,33 +3925,6 @@ ai_strategy_default = {
 				}
 				add = 50
 			}
-			if = {
-				limit = {
-					has_journal_entry = je_conquest_of_algeria
-					exists = c:CON
-					scope:target_country = {
-					    THIS = c:CON
-						any_scope_state = {
-							state_region = s:STATE_CONSTANTINE
-						}
-					}
-				}
-				add = 100
-		    }
-			if = {
-				limit = {
-					has_journal_entry = je_conquest_of_algeria
-					scope:target_state = {
-						OR = {
-							state_region = s:STATE_ALGIERS
-							state_region = s:STATE_CONSTANTINE
-							state_region = s:STATE_SAHARA
-							state_region = s:STATE_EAST_SAHARA
-						}
-					}
-				}
-				add = 100
-			}
 
 			if = { #Russian Central Asia
 				limit = {
@@ -3833,26 +3953,50 @@ ai_strategy_default = {
 					OR = {
 						AND = {	
 							exists = c:KZH
-							scope:target_state.owner = {
+							scope:target_country = {
 								this = c:KZH
 							}
 						}
 						AND = {	
 							exists = c:UZH
-							scope:target_state.owner = {
+							scope:target_country = {
 								this = c:UZH
 							}
 						}
 						AND = {	
 							exists = c:OZH
-							scope:target_state.owner = {
+							scope:target_country = {
 								this = c:OZH
+							}
+						}
+						AND = {	
+							exists = c:KOK
+							scope:target_country = {
+								this = c:KOK
+							}
+						}
+						AND = {	
+							exists = c:KHI
+							scope:target_country = {
+								this = c:KHI
+							}
+						}
+						AND = {	
+							exists = c:BUK
+							scope:target_country = {
+								this = c:BUK
+							}
+						}
+						AND = {	
+							exists = c:AFG
+							scope:target_country = {
+								this = c:AFG
 							}
 						}
 					}
 					can_reach_target_state = yes
 				}
-				add = 50
+				add = 75
 			}
 			
 			if = {
@@ -3886,36 +4030,6 @@ ai_strategy_default = {
 				}
 				add = 50
 			}			
-			
-			if = {
-				limit = {
-					country_has_primary_culture = cu:russian
-					has_law = law_type:law_national_supremacy
-					has_technology_researched = nationalism
-					OR = {
-						AND = {	
-							exists = c:KZH
-							scope:target_state.owner = {
-								this = c:KZH
-				            }
-			            }
-						AND = {	
-							exists = c:UZH
-							scope:target_state.owner = {
-								this = c:UZH
-					        }
-			            }
-						AND = {	
-							exists = c:OZH
-							scope:target_state.owner = {
-								this = c:OZH
-							}
-						}
-					}
-					can_reach_target_state = yes
-				}
-				add = 50
-			}
 		
 			if = {
 				limit = {
@@ -4197,24 +4311,11 @@ ai_strategy_default = {
 				}
 				add = 75
 			}
-			# France should very aggressively go for Algeria, start with constantine.
+			# France should very aggressively go for Algeria
 			if = {
 				limit = {
 					has_journal_entry = je_conquest_of_algeria
-					exists = c:CON
-					scope:target_country = {
-					    THIS = c:CON
-						any_scope_state = {
-							state_region = s:STATE_CONSTANTINE
-						}
-					}
-				}
-				add = 100
-		    }
-			if = {
-				limit = {
-					has_journal_entry = je_conquest_of_algeria
-					can_reach_target_country = yes
+					has_strategic_land_adjacency = scope:target_state
 					scope:target_country = {
 						any_scope_state = {
 							OR = {
@@ -4229,7 +4330,7 @@ ai_strategy_default = {
 						}
 					}
 				}
-				add = 100
+				add = 200
 			}
 			# Spain is not done in Philipines yet
 			if = {
@@ -5347,38 +5448,6 @@ ai_strategy_default = {
 					scope:target_country = {
 						country_is_in_africa = yes
 						is_country_type = unrecognized
-					}
-				}
-				add = 75
-			}
-		    # # French conquest of Algeria, start with constantine.
-			if = {
-				limit = {
-					has_journal_entry = je_conquest_of_algeria
-					exists = c:CON
-					scope:target_country = {
-					    THIS = c:CON
-						scope:target_country.capital = {
-							state_region = s:STATE_CONSTANTINE
-						}
-					}
-				}
-				add = 50
-		    }
-			if = {
-				limit = {
-					exists = c:FRA
-					THIS = c:FRA
-					scope:target_country.capital = {
-						OR = {
-							state_region = s:STATE_TLEMCEN
-							state_region = s:STATE_ALGIERS
-							state_region = s:STATE_CONSTANTINE
-							state_region = s:STATE_TOUGGOURT
-							state_region = s:STATE_GHARDAIA
-							state_region = s:STATE_SAHARA
-							state_region = s:STATE_EAST_SAHARA
-						}
 					}
 				}
 				add = 75
