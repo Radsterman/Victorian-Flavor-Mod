@@ -17,11 +17,11 @@ base_values = {
 	country_authority_add = 100
 	country_influence_add = 100
 
-	country_revolution_secession_speed_add = 0.1
-	
+	country_secession_progress_add = 0.1
+
 	state_education_access_wealth_add = 0.005
 
-	country_minting_add = 500
+	country_minting_add = 250
 
 	state_tax_capacity_add = 100
 	state_infrastructure_add = 3
@@ -38,7 +38,7 @@ base_values = {
 	
 	state_unincorporated_starting_wages_mult = -0.15 # To balance for unincorporated states not paying taxes
 
-	country_construction_add = 5
+	country_construction_add = 3
 	
 	building_mobilization_cost_mult = 0.6
 	
@@ -82,6 +82,13 @@ working_conditions = {
 	building_group_bg_infrastructure_laborers_mortality_mult = 0.1
 	building_group_bg_infrastructure_machinists_mortality_mult = 0.05
 	building_group_bg_infrastructure_engineers_mortality_mult = 0.02
+
+	building_group_bg_whaling_laborers_mortality_mult = 0.1
+	building_group_bg_whaling_machinists_mortality_mult = 0.05
+
+	building_group_bg_fishing_laborers_mortality_mult = 0.05
+	building_group_bg_fishing_machinists_mortality_mult = 0.02
+	building_group_bg_fishing_engineers_mortality_mult = 0.02
 }
 
 malnourishment = {
@@ -306,12 +313,6 @@ pm_offense_defense_readjustment_minor = {
 	unit_defense_mult = -0.20
 }
 
-pm_offense_defense_readjustment_minor = {
-	icon = gfx/interface/icons/timed_modifier_icons/modifier_rifle_negative.dds
-	unit_offense_mult = -0.20
-	unit_defense_mult = -0.20
-}
-
 insufficient_urbanization = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_gear_negative.dds
 	building_throughput_mult = -0.05
@@ -351,6 +352,8 @@ legislative_efficiency = {
 political_dysfunction = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_flag_negative.dds
 	country_opposition_ig_approval_add = -10
+	state_radicals_from_sol_change_mult = 0.20
+
 }
 
 # Excess DIP increases Infamy decay by up to 25% at 2x production to usage
@@ -420,6 +423,16 @@ battle_navy_average_kill_rate = {
 	unit_kill_rate_add = 1.0
 }
 
+battle_average_provinces_captured = {
+	icon = gfx/interface/icons/timed_modifier_icons/modifier_rifle_positive.dds
+	unit_provinces_captured_mult = 1.0
+}
+
+battle_average_provinces_lost = {
+	icon = gfx/interface/icons/timed_modifier_icons/modifier_rifle_negative.dds
+	unit_provinces_lost_mult = 1.0
+}
+
 # Scales with how much population is under low pop threshold
 # We need to rework how high and low population work in a state, but save it until after 1.2 fixes migration and arable land
 low_pop_state = {
@@ -432,6 +445,7 @@ high_pop_state = {
 	state_birth_rate_mult = -0.25
 }
 
+# if this bonus changes need code support
 country_rivalry = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_statue_positive.dds
 	country_influence_add = 200
@@ -459,6 +473,7 @@ state_region_devastation = {
 	state_mortality_mult = 2.0
 	state_migration_pull_mult = -2.0
 	state_construction_mult = -1.0
+	building_throughput_mult = -1.0
 }
 
 # Scales with deficiency in tax capacity
@@ -471,27 +486,28 @@ insufficient_tax_capacity = {
 state_turmoil = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_coins_negative.dds
 	state_tax_waste_add = 0.25
+	building_throughput_mult = -0.15
 	state_migration_pull_mult = -0.5
-	state_construction_mult = -0.5
 }
 
 # Applied if state is above 'high turmoil' threshold
 state_turmoil_high = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_coins_negative.dds
 	state_tax_waste_add = 0.5
+	building_throughput_mult = -0.3
 	state_migration_pull_mult = -0.75
-	state_construction_mult = -0.75
 }
 
 # Applied if state is above 'extreme turmoil' threshold
 state_turmoil_extreme = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_coins_negative.dds
 	state_tax_waste_add = 1.0
+	building_throughput_mult = -0.45
 	state_migration_pull_mult = -1.0
-	state_construction_mult = -1.0
 }
 
 # Scales with country GDP / COUNTRY_GDP_MODIFIER_DIVISOR
+# Capped at COUNTRY_GDP_MODIFIER_MAX_MULTIPLIER
 country_gdp = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_coins_positive.dds
 	country_minting_add = 1
@@ -548,27 +564,25 @@ modifier_tangena_ordeal = {
 	state_mortality_mult = 0.1
 }
 
-modifier_french_independence_payments = {
-	icon = gfx/interface/icons/timed_modifier_icons/modifier_coins_negative.dds
-	country_prestige_mult = -0.25
-	country_expenses_add = 4000
-}
-
-modifier_haitian_independence_payments = {
-	icon = gfx/interface/icons/timed_modifier_icons/modifier_coins_positive.dds
-	country_prestige_mult = 0.05
-	country_tax_income_add = 2000
-}
-
 law_enactment_chance = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_documents_positive.dds
 	country_law_enactment_success_add = 1
+}
+
+early_demobilization = {
+	icon = gfx/interface/icons/timed_modifier_icons/modifier_rifle_negative.dds
+	country_expenses_add = 1
 }
 
 repudiated_obligation = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_flag_negative.dds
 	country_prestige_mult = -0.25
 	country_infamy_decay_mult = -0.25
+}
+
+supported_law_cancelled = {
+	icon = gfx/interface/icons/timed_modifier_icons/modifier_fire_negative.dds
+	political_movement_radicalism_add = 30
 }
 
 # Scaled by building_mobilization_cost_mult
@@ -585,5 +599,6 @@ retired_commander_interest_group_impact = {
 forced_regime_change = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_flag_negative.dds
 	interest_group_in_government_approval_add = 5
+	country_legitimacy_base_add = 25
 	country_prestige_mult = -0.25
 }

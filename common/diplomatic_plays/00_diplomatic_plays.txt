@@ -227,11 +227,13 @@ dp_transfer_subject = {
 			is_subject = yes
 			NOT = { is_subject_of = root }
 			NOT = { is_subject_type = subject_type_personal_union }
+			NOT = { is_subject_type = subject_type_real_union }
+			NOT = { is_subject_type = subject_type_confederation }
 		}	
 		custom_tooltip = {
 			text = DIPLO_ACTION_OVERLORD_RELATIONS_CORDIAL_OR_GREATER_NOT
 			scope:target_country.overlord.relations:root < relations_threshold:cordial
-		}	
+		}				
 	}
 	
 	on_weekly_pulse = {}
@@ -407,7 +409,7 @@ dp_secession = {
 
 dp_contain_threat = {
 	requires_interest_marker = no
-	initiator_can_add_war_goals = no
+	initiator_can_add_war_goals = yes
 	target_can_add_war_goals = yes
 	
 	war_goal = contain_threat
@@ -494,6 +496,7 @@ dp_unify_germany = {
 	
 	requires_interest_marker = no
 	blocked_by_diplomatic_status = no
+	add_infamy_for_starting_initiator_wargoals = no
 	
 	texture = "gfx/interface/icons/war_goals/unify_germany.dds"
 	
@@ -504,7 +507,7 @@ dp_unify_germany = {
 	possible = {
 		NOT = { exists = c:GER }
 		NOT = { is_country_type = decentralized }
-		has_technology_researched = nationalism
+		has_technology_researched = pan-nationalism
 	}
 	
 	on_weekly_pulse = {}
@@ -519,6 +522,7 @@ dp_unify_italy = {
 	
 	requires_interest_marker = no
 	blocked_by_diplomatic_status = no
+	add_infamy_for_starting_initiator_wargoals = no
 	
 	texture = "gfx/interface/icons/war_goals/unify_italy.dds"
 	
@@ -544,6 +548,7 @@ dp_unify_scandinavia = {
 	
 	requires_interest_marker = no
 	blocked_by_diplomatic_status = no
+	add_infamy_for_starting_initiator_wargoals = no
 	
 	texture = "gfx/interface/icons/war_goals/unification.dds"
 	

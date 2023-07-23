@@ -1,0 +1,84 @@
+﻿je_french_natural_borders = {
+	icon = "gfx/interface/icons/event_icons/bicorne_hat.dds"
+
+	is_shown_when_inactive = {
+		exists = c:FRA
+		this = c:FRA
+		has_dlc_feature = voice_of_the_people_content
+	}
+
+	possible = {
+		has_technology_researched = nationalism
+		any_interest_group = {
+			is_powerful = yes
+			is_in_government = yes
+			OR = {
+				is_interest_group_type = ig_armed_forces
+				leader = {
+					OR = {
+						has_ideology = ideology:ideology_jingoist_leader
+						has_ideology = ideology:ideology_ethno_nationalist
+						has_ideology = ideology:ideology_fascist
+						has_ideology = ideology:ideology_authoritarian
+						has_ideology = ideology:ideology_bonapartist
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		trigger_event = { id = natural_borders.1 popup = yes }
+	}
+
+	complete = {
+		is_at_war = no
+		custom_tooltip = {
+			text = own_all_french_homelands
+			NOT = {
+				any_state = {
+					state_region = {
+						is_homeland = cu:french
+					}
+					NOT = { owner = ROOT }
+				}
+			}
+		}
+		any_scope_state = {
+			state_region = s:STATE_LUXEMBOURG
+			is_incorporated = yes
+			is_split_state = no
+		}
+		any_scope_state = {
+			state_region = s:STATE_WALLONIA
+			is_incorporated = yes
+			is_split_state = no
+		}
+		any_scope_state = {
+			state_region = s:STATE_FLANDERS
+			is_incorporated = yes
+			is_split_state = no
+		}
+		any_scope_state = {
+			state_region = s:STATE_RHINELAND
+			is_incorporated = yes
+		}
+		any_scope_state = {
+			state_region = s:STATE_NORTH_RHINE
+			is_incorporated = yes
+		}
+	}
+
+	on_complete = {
+		set_variable = completed_natural_borders_je
+		trigger_event = { id = natural_borders.2 popup = yes }
+	}
+
+	invalid = {
+		has_variable = reject_natural_borders
+	}
+
+	should_be_pinned_by_default = yes
+
+	weight = 100
+}

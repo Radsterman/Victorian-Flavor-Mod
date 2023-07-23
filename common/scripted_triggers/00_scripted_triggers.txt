@@ -438,6 +438,7 @@ state_in_africa = {
 		text = state_in_africa_desc
 		OR = {
 			region = sr:region_nile_basin
+			region = sr:region_ethiopia
 			region = sr:region_north_africa
 			region = sr:region_senegal
 			region = sr:region_niger
@@ -477,9 +478,7 @@ owned_great_plains_region_states = {
 	owns_entire_state_region = STATE_WYOMING
 	owns_entire_state_region = STATE_COLORADO
 	owns_entire_state_region = STATE_KANSAS
-	owns_entire_state_region = STATE_OKLAHOMA
 	owns_entire_state_region = STATE_NEW_MEXICO
-	owns_entire_state_region = STATE_TEXAS
 }
 
 owned_pacific_coast_region_states = {
@@ -498,7 +497,7 @@ french_treaty_ports = {
 		owns_treaty_port_in = STATE_PICARDY
 		owns_treaty_port_in = STATE_NORMANDY
 		owns_treaty_port_in = STATE_BRITTANY
-		owns_treaty_port_in = STATE_LOIRE
+		owns_treaty_port_in = STATE_CALAIS
 		owns_treaty_port_in = STATE_POITOU
 		owns_treaty_port_in = STATE_AQUITAINE
 		owns_treaty_port_in = STATE_PROVENCE
@@ -1051,13 +1050,7 @@ language_accepted = {
  
 default_auto_expand_rule = { 
 	cash_reserves_ratio > 0.95
-	state.market_access > 0.5
-	owner = {
-		OR = {
-			construction_queue_government_duration < max_autoexpand_queue_weeks
-			has_wasted_construction = yes
-		}
-	}
+	state.market_access >= 0.95
 }
 
 is_in_civil_war = {
@@ -1078,10 +1071,10 @@ is_in_civil_war = {
 # IG scope
 has_paternalist_ideology = {
 	OR = {
-		has_ideology = ideology_paternalistic
-		has_ideology = ideology_scholar_paternalistic
-		has_ideology = ideology_junker_paternalistic
-		has_ideology = ideology_papal_paternalistic
+		has_ideology = ideology:ideology_paternalistic
+		has_ideology = ideology:ideology_scholar_paternalistic
+		has_ideology = ideology:ideology_junker_paternalistic
+		has_ideology = ideology:ideology_papal_paternalistic
 	}
 }
 
@@ -1124,5 +1117,676 @@ has_radical_leftist_economy = {
 	OR = {
 		has_law = law_type:law_command_economy	
 		has_law = law_type:law_cooperative_ownership
+	}
+}
+
+any_revolution_ongoing = {
+	any_political_movement = {
+		is_revolutionary_movement = yes
+	}
+}
+
+socialist_revolution_ongoing = {
+	custom_tooltip = {
+		text = socialist_revolution_ongoing_tt
+		any_political_movement = {
+			is_revolutionary_movement = yes
+			OR = {
+				any_supporting_interest_group = {
+					law_stance = {
+						law = law_type:law_council_republic
+						value > neutral
+					}
+				}
+				any_supporting_character = {
+					has_role = agitator
+					law_stance = {
+						law = law_type:law_council_republic
+						value > neutral
+					}
+				}
+			}		
+		}	
+	}		
+}
+
+liberal_revolution_ongoing = {
+	custom_tooltip = {
+		text = liberal_revolution_ongoing_tt
+		any_political_movement = {
+			is_revolutionary_movement = yes
+			OR = {
+				any_supporting_interest_group = {
+					OR = {
+						has_ideology = ideology:ideology_republican
+						has_ideology = ideology:ideology_liberal
+						leader = {
+							OR = {
+								has_ideology = ideology:ideology_radical
+								has_ideology = ideology:ideology_republican_leader
+								has_ideology = ideology:ideology_social_democrat
+								has_ideology = ideology:ideology_humanitarian
+								has_ideology = ideology:ideology_feminist
+							}		
+						}
+						AND = {
+							law_stance = {
+								law = law_type:law_autocracy
+								value < neutral
+							}
+							law_stance = {
+								law = law_type:law_council_republic
+								value < neutral
+							}
+						}
+					}
+				}
+				any_supporting_character = {
+					has_role = agitator
+					OR = {
+						has_ideology = ideology:ideology_radical
+						has_ideology = ideology:ideology_republican_leader
+						has_ideology = ideology:ideology_social_democrat
+						has_ideology = ideology:ideology_humanitarian
+						has_ideology = ideology:ideology_feminist
+					}
+					AND = {
+						law_stance = {
+							law = law_type:law_autocracy
+							value < neutral
+						}
+						law_stance = {
+							law = law_type:law_council_republic
+							value < neutral
+						}
+					}
+				}
+			}		
+		}
+	}
+}
+
+reactionary_revolution_ongoing = {
+	custom_tooltip = {
+		text = reactionary_revolution_ongoing_tt
+		any_political_movement = {
+			is_revolutionary_movement = yes
+			OR = {
+				any_supporting_interest_group = {
+					OR = {
+						has_ideology = ideology:ideology_pro_slavery
+						has_ideology = ideology:ideology_paternalistic
+						leader = {
+							OR = {
+								has_ideology = ideology:ideology_slaver
+								has_ideology = ideology:ideology_fascist
+								has_ideology = ideology:ideology_royalist
+								has_ideology = ideology:ideology_orleanist
+								has_ideology = ideology:ideology_bonapartist
+								has_ideology = ideology:ideology_legitimist
+								has_ideology = ideology:ideology_theocrat
+								has_ideology = ideology:ideology_ethno_nationalist
+								has_ideology = ideology:ideology_traditionalist
+							}
+						}
+						AND = {
+							law_stance = {
+								law = law_type:law_autocracy
+								value >= neutral
+							}
+							law_stance = {
+								law = law_type:law_council_republic
+								value < neutral
+							}
+						}
+					}
+				}
+				any_supporting_character = {
+					has_role = agitator
+					OR = {
+						has_ideology = ideology:ideology_slaver
+						has_ideology = ideology:ideology_fascist
+						has_ideology = ideology:ideology_royalist
+						has_ideology = ideology:ideology_orleanist
+						has_ideology = ideology:ideology_bonapartist
+						has_ideology = ideology:ideology_legitimist
+						has_ideology = ideology:ideology_theocrat
+						has_ideology = ideology:ideology_ethno_nationalist
+						has_ideology = ideology:ideology_traditionalist
+					}
+					AND = {
+						OR = {
+							law_stance = {
+								law = law_type:law_autocracy
+								value >= neutral
+							}
+							law_stance = {
+								law = law_type:law_national_supremacy
+								value >= neutral
+							}
+							law_stance = {
+								law = law_type:law_slavery_banned
+								value < neutral
+							}
+						}
+						law_stance = {
+							law = law_type:law_council_republic
+							value < neutral
+						}
+					}
+				}
+			}		
+		}
+	}	
+}
+
+ig_is_socialist = {
+	OR = {
+		has_ideology = ideology:ideology_socialist
+		leader = {
+			has_ideology = ideology:ideology_vanguardist
+		}
+		leader = {
+			has_ideology = ideology:ideology_atheist
+		}
+		leader = {
+			has_ideology = ideology:ideology_anarchist
+		}
+		leader = {
+			has_ideology = ideology:ideology_communist
+		}
+		law_stance = {
+			law = law_type:law_council_republic
+			value > neutral
+		}
+	}
+}
+
+ig_is_liberal = {
+	OR = {
+		has_ideology = ideology:ideology_republican
+		has_ideology = ideology:ideology_liberal
+		leader = {
+			has_ideology = ideology:ideology_radical
+		}
+		leader = {
+			has_ideology = ideology:ideology_republican_leader
+		}
+		leader = {
+			has_ideology = ideology:ideology_social_democrat
+		}
+		AND = {
+			law_stance = {
+				law = law_type:law_autocracy
+				value < neutral
+			}
+			law_stance = {
+				law = law_type:law_council_republic
+				value < neutral
+			}
+		}
+	}
+}
+
+ig_is_reactionary = {
+	OR = {
+		has_ideology = ideology:ideology_reactionary
+		has_ideology = ideology:ideology_pro_slavery
+		leader = {
+			OR = {
+				has_ideology = ideology:ideology_slaver
+				has_ideology = ideology:ideology_fascist
+				has_ideology = ideology:ideology_royalist
+				has_ideology = ideology:ideology_orleanist
+				has_ideology = ideology:ideology_bonapartist
+				has_ideology = ideology:ideology_legitimist
+				has_ideology = ideology:ideology_theocrat
+			}
+		}
+		AND = {
+			law_stance = {
+				law = law_type:law_autocracy
+				value >= neutral
+			}
+			law_stance = {
+				law = law_type:law_council_republic
+				value < neutral
+			}
+		}
+	}
+}
+
+revolution_progress_low = {
+	any_civil_war = {
+		civil_war_progress >= 0
+		NOT = {
+			civil_war_progress >= 0.34
+		}
+		is_civil_war_type = revolution
+	}
+}
+
+revolution_progress_medium = {
+	any_civil_war = {
+		civil_war_progress >= 0.34
+		NOT = {
+			civil_war_progress >= 0.67
+		}
+		is_civil_war_type = revolution
+	}
+}
+
+revolution_progress_high = {
+	any_civil_war = {
+		civil_war_progress >= 0.67
+		is_civil_war_type = revolution
+	}
+}
+
+government_ig_supports_enaction = {
+	any_interest_group = {
+		is_marginal = no
+		is_in_government = yes
+		law_stance = {
+			law = owner.currently_enacting_law.type
+			value > neutral
+		}
+	}
+}
+
+movement_supports_enaction = {
+	any_political_movement = {
+		OR = {	
+			is_political_movement_type = movement_to_enact
+			is_political_movement_type = movement_to_restore	
+		}
+		desired_law = root.currently_enacting_law.type
+	}
+}
+
+agitator_supports_enaction = {
+	any_scope_character = {
+		has_role = agitator
+		OR = {
+			law_stance = {
+				law = owner.currently_enacting_law.type
+				value > neutral
+			}
+			AND = {	
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value > strongly_approve # Equals 'count'
+				}
+				interest_group = {
+					law_stance = {
+						law = owner.currently_enacting_law.type
+						value > neutral
+					}
+					NOT = {
+						law_stance = {
+							law = owner.currently_enacting_law.type
+							value > strongly_approve # Equals 'count'
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+government_ig_opposes_enaction = {
+	any_interest_group = {
+		is_marginal = no
+		is_in_government = yes
+		law_stance = {
+			law = owner.currently_enacting_law.type
+			value < neutral
+		}
+	}
+}
+
+movement_opposes_enaction = {
+	any_political_movement = {
+		is_political_movement_type = movement_to_preserve
+	}
+}
+
+agitator_opposes_enaction = {
+	any_scope_character = {
+		has_role = agitator
+		OR = {
+			law_stance = {
+				law = owner.currently_enacting_law.type
+				value < neutral
+			}
+			AND = {	
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value > strongly_approve # Equals 'count'
+				}
+				interest_group = {
+					law_stance = {
+						law = owner.currently_enacting_law.type
+						value < neutral
+					}
+					NOT = {
+						law_stance = {
+							law = owner.currently_enacting_law.type
+							value > strongly_approve # Equals 'count'
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+government_ig_ambivalent_enaction = {
+	any_interest_group = {
+		is_marginal = no
+		is_in_government = yes
+		law_stance = {
+			law = owner.currently_enacting_law.type
+			value = neutral
+		}
+	}
+}
+ig_is_dreyfusard = {
+	OR = {
+		is_interest_group_type = ig_intelligentsia
+		is_interest_group_type = ig_trade_unions
+		is_interest_group_type = ig_petty_bourgeoisie
+		is_interest_group_type = ig_rural_folk
+		is_interest_group_type = ig_industrialists
+	}
+	OR = {
+		leader = {
+			has_ideology = ideology:ideology_vanguardist
+		}
+		leader = {
+			has_ideology = ideology:ideology_atheist
+		}
+		leader = {
+			has_ideology = ideology:ideology_anarchist
+		}
+		leader = {
+			has_ideology = ideology:ideology_communist
+		}
+		leader = {
+			has_ideology = ideology:ideology_republican_leader
+		}
+		leader = {
+			has_ideology = ideology:ideology_radical
+		}
+		leader = {
+			has_ideology = ideology:ideology_feminist
+		}
+		leader = {
+			has_ideology = ideology:ideology_abolitionist
+		}
+		leader = {
+			has_ideology = ideology:ideology_pacifist
+		}
+		leader = {
+			has_ideology = ideology:ideology_social_democrat
+		}
+		leader = {
+			has_ideology = ideology:ideology_humanitarian
+		}
+	}
+}
+
+ig_is_anti_dreyfusard = {
+	OR = {
+		is_interest_group_type = ig_armed_forces
+		is_interest_group_type = ig_landowners
+		is_interest_group_type = ig_rural_folk
+		is_interest_group_type = ig_petty_bourgeoisie
+		is_interest_group_type = ig_devout
+		is_interest_group_type = ig_industrialists
+	}
+	OR = {
+		leader = {
+			has_ideology = ideology:ideology_traditionalist
+		}
+		leader = {
+			has_ideology = ideology:ideology_slaver
+		}
+		leader = {
+			has_ideology = ideology:ideology_jingoist_leader
+		}
+		leader = {
+			has_ideology = ideology:ideology_fascist
+		}
+		leader = {
+			has_ideology = ideology:ideology_ethno_nationalist
+		}
+		leader = {
+			has_ideology = ideology:ideology_theocrat
+		}
+		leader = {
+			has_ideology = ideology:ideology_authoritarian
+		}
+		leader = {
+			has_ideology = ideology:ideology_legitimist
+		}
+		leader = {
+			has_ideology = ideology:ideology_bonapartist
+		}
+		leader = {
+			has_ideology = ideology:ideology_orleanist
+		}
+		leader = {
+			has_ideology = ideology:ideology_royalist
+		}
+	}
+}
+
+ig_type_matches_former = { #Temporary Workaround
+	save_temporary_scope_as = exile_temp
+	custom_tooltip = {
+		text = ig_type_matches_former_tt
+		OR = {
+			AND = {
+				is_interest_group_type = ig_armed_forces
+				scope:ex_ig = {
+					is_interest_group_type = ig_armed_forces
+				}
+			}
+			AND = {
+				is_interest_group_type = ig_devout
+				scope:ex_ig = {
+					is_interest_group_type = ig_devout
+				}
+			}
+			AND = {
+				is_interest_group_type = ig_industrialists
+				scope:ex_ig = {
+					is_interest_group_type = ig_industrialists
+				}
+			}
+			AND = {
+				is_interest_group_type = ig_intelligentsia
+				scope:ex_ig = {
+					is_interest_group_type = ig_intelligentsia
+				}
+			}
+			AND = {
+				is_interest_group_type = ig_landowners
+				scope:ex_ig = {
+					is_interest_group_type = ig_landowners
+				}
+			}
+			AND = {
+				is_interest_group_type = ig_petty_bourgeoisie
+				scope:ex_ig = {
+					is_interest_group_type = ig_petty_bourgeoisie
+				}
+			}
+			AND = {
+				is_interest_group_type = ig_rural_folk
+				scope:ex_ig = {
+					is_interest_group_type = ig_rural_folk
+				}
+			}
+			AND = {
+				is_interest_group_type = ig_trade_unions
+				scope:ex_ig = {
+					is_interest_group_type = ig_trade_unions
+				}
+			}
+		}
+	}
+}
+
+#It is intended that some of these categories overlap.
+has_liberal_ideology = {
+	OR = {
+		has_ideology = ideology:ideology_republican_leader
+		has_ideology = ideology:ideology_radical
+		has_ideology = ideology:ideology_reformer
+		has_ideology = ideology:ideology_abolitionist
+		has_ideology = ideology:ideology_market_liberal
+	}
+}
+
+has_progressive_ideology = {
+	OR = {
+		has_ideology = ideology:ideology_atheist
+		has_ideology = ideology:ideology_radical
+		has_ideology = ideology:ideology_feminist
+		has_ideology = ideology:ideology_pacifist
+		has_ideology = ideology:ideology_social_democrat
+		has_ideology = ideology:ideology_humanitarian
+	}
+}
+
+has_socialist_ideology = {
+	OR = {
+		has_ideology = ideology:ideology_communist
+		has_ideology = ideology:ideology_vanguardist
+		has_ideology = ideology:ideology_anarchist
+	}
+}
+
+has_reactionary_ideology = {
+	OR = {
+		has_ideology = ideology:ideology_traditionalist
+		has_ideology = ideology:ideology_fascist
+		has_ideology = ideology:ideology_ethno_nationalist
+		has_ideology = ideology:ideology_theocrat
+		has_ideology = ideology:ideology_legitimist
+		has_ideology = ideology:ideology_luddite
+	}
+}
+
+has_conservative_ideology = {
+	OR = {
+		has_ideology = ideology:ideology_traditionalist
+		has_ideology = ideology:ideology_slaver
+		has_ideology = ideology:ideology_royalist
+		has_ideology = ideology:ideology_orleanist
+		has_ideology = ideology:ideology_bonapartist
+		has_ideology = ideology:ideology_theocrat
+	}
+}
+
+has_monarchist_ideology = {
+	OR = {
+		has_ideology = ideology:ideology_royalist
+		has_ideology = ideology:ideology_orleanist
+		has_ideology = ideology:ideology_bonapartist
+		has_ideology = ideology:ideology_legitimist	
+	}
+}
+
+can_have_radical_leader = { # interest_group scope
+	leader = {
+		NOT = {
+			has_ideology = ideology:ideology_radical
+		}
+	}
+	OR = {
+		is_interest_group_type = ig_rural_folk
+		is_interest_group_type = ig_intelligentsia
+		is_interest_group_type = ig_trade_unions
+		is_interest_group_type = ig_petty_bourgeoisie
+		is_interest_group_type = ig_industrialists
+	}
+}
+
+is_major_unifier = {
+	OR = {
+		AND = {
+			exists = c:GER # Germany
+			this = c:GER
+		}
+		AND = {
+			exists = c:ITA # Italy
+			this = c:ITA
+		}
+		AND = {
+			exists = c:ETH # Ethiopia
+			this = c:ETH
+		}
+		AND = {
+			exists = c:SCA # Scandinavia
+			this = c:SCA
+		}
+		AND = {
+			exists = c:ARA # Arabia
+			this = c:ARA
+		}
+		AND = {
+			exists = c:YUG # Yugoslavia
+			this = c:YUG
+		}
+		AND = {
+			exists = c:TRH # Turkestan
+			this = c:TRH
+		}
+		AND = {
+			exists = c:IDN # Indonesia
+			this = c:IDN
+		}
+		AND = {
+			exists = c:BHT # India
+			this = c:BHT
+		}
+	}
+}
+
+wants_to_solve_schleswig_holstein = {
+	has_journal_entry = je_schleswig_holstein_question 
+	has_technology_researched = nationalism 
+	country_rank >= rank_value:great_power
+}
+
+is_oppressor_of_schleswig_holstein = {
+	NOR = {
+		country_has_primary_culture = cu:north_german
+		country_has_primary_culture = cu:south_german						
+	}
+	OR = {
+		any_scope_state = { state_region = s:STATE_SCHLESWIG_HOLSTEIN }
+		any_subject_or_below = {
+			any_scope_state = { state_region = s:STATE_SCHLESWIG_HOLSTEIN }
+		}
+	}
+}
+
+is_active_in_diplomatic_play = {
+	OR = {
+		is_diplomatic_play_committed_participant = yes
+		is_diplomatic_play_initiator = yes
+		is_diplomatic_play_target = yes
+	}
+}
+
+budget_low_training_rate = {
+	modifier:building_training_rate_mult < 0
+	OR = {
+		is_active_in_diplomatic_play = yes
+		is_at_war = yes
 	}
 }

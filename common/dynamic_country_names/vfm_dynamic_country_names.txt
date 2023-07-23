@@ -218,18 +218,16 @@ AUS = { # Austria
 			scope:actor = { country_has_primary_culture = cu:hungarian }
 			NOT = {
 				OR = {
-					 exists = c:HUN 
-
-					c:AUS = {
-					has_diplomatic_pact = {
-						who = c:HUN
-						type = personal_union
-						is_initiator = yes
+					exists = c:HUN
+					c:AUS ?= {
+						has_diplomatic_pact = {
+							who = c:HUN
+							type = personal_union
+							is_initiator = yes
+						}
 					}
 				}
-
 			}
-			 }
 		}
 	}
 }
@@ -309,6 +307,53 @@ ZAM = {
 			}
 		}
 	}
+	dynamic_country_name = {
+		name = dyn_c_zambia_colony_british
+		adjective = dyn_c_zambia_colony_british_adj
+
+		is_main_tag_only = yes
+		priority = 1
+		
+		trigger = {
+			exists = scope:actor
+			exists = c:GBR
+			scope:actor = {
+				is_subject_of = c:GBR
+			}
+		}
+	}
+}
+
+ZIM = {
+	dynamic_country_name = {
+		name = dyn_c_zimbabwe_colony
+		adjective = dyn_c_zimbabwe_colony_adj
+
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_subject = yes
+			}
+		}
+	}
+	dynamic_country_name = {
+		name = dyn_c_zimbabwe_colony_british
+		adjective = dyn_c_zimbabwe_colony_british_adj
+
+		is_main_tag_only = yes
+		priority = 1
+		
+		trigger = {
+			exists = scope:actor
+			exists = c:GBR
+			scope:actor = {
+				is_subject_of = c:GBR
+			}
+		}
+	}
 }
 
 KNY = {
@@ -330,6 +375,21 @@ KNY = {
 
 TAN = {
 	dynamic_country_name = {
+		name = dyn_c_tanzania
+		adjective = dyn_c_tanzania_adj
+
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_subject = no
+				NOT = { is_country_type = unrecognized }
+			}
+		}
+	}
+	dynamic_country_name = {
 		name = dyn_c_tanganyika_colony
 		adjective = dyn_c_tanganyika_colony_adj
 
@@ -340,6 +400,23 @@ TAN = {
 			exists = scope:actor
 			scope:actor = {
 				is_subject = yes
+			}
+		}
+	}
+}
+
+MAD = {
+	dynamic_country_name = {
+		name = dyn_c_madagascar_protectorate
+		adjective = dyn_c_madigascar_protectorate_adj
+
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_subject_type = subject_type_protectorate
 			}
 		}
 	}
@@ -356,7 +433,7 @@ TZN = {
 		trigger = {
 			exists = scope:actor
 			scope:actor = {
-				is_subject = yes
+				is_subject_type = subject_type_protectorate
 			}
 		}
 	}

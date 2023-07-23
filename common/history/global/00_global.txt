@@ -6,6 +6,22 @@ GLOBAL = {
 		ig:ig_landowners = { add_ideology = ideology_pro_slavery }
 	}
 	
+	# Jack the ripper, prevents the event from happening every game
+
+	every_country = {
+		if = {
+			limit = {
+				is_player = yes
+			}
+		}
+		random_list = {
+			1 = { set_variable = var_jack_ripper_possible }
+			9 = {
+				#Nothing Happens
+			}
+		}
+	}
+
 ###ACHIEVEMENT VARIABLES###
 	
 	#Serf's Up
@@ -150,8 +166,12 @@ GLOBAL = {
 	#Barbarys Back
 	every_country = {
 		limit = {
-			exists = c:ALD
-			this = c:ALD
+			OR = {
+				c:MAS ?= this
+				c:CON ?= this
+				c:AIT ?= this
+				c:TUG ?= this
+			}
 		}
 		set_variable = barbarys_back_ach_possible
 	}
@@ -233,6 +253,7 @@ GLOBAL = {
 			can_form_nation = GER
 		}
 		set_variable = three_hurrahs_ach_possible
+		set_variable = huge_ego_sorry_ach_possible
 	}
 	
 	#Solomon's Quest
@@ -262,7 +283,7 @@ GLOBAL = {
 	#Manifest Mexico
 	every_country = {
 		limit = {
-			this ?= c:MEX
+			c:MEX ?= this
 		}
 		set_variable = manifest_mexico_ach_possible
 	}
@@ -321,6 +342,13 @@ GLOBAL = {
 		}
 	}
 
+	c:PNI = {
+		trigger_event = {
+			id = garibaldi_events.1
+			days = 6
+		}
+	}
+
 	c:RUS = {
 		every_scope_state = {
             limit = {
@@ -329,18 +357,18 @@ GLOBAL = {
                     state_region = s:STATE_DAGESTAN 
                 }
             }
-            add_radicals = {
+            add_radicals_in_state = {
                 value = 1.5
                 culture = cu:circassian
             }
-			add_radicals = {
+			add_radicals_in_state = {
                 value = very_large_radicals
             }
-            add_radicals = {
+            add_radicals_in_state = {
                 value = 0.75
                 culture = cu:north_caucasian
             }
-			add_radicals = {
+			add_radicals_in_state = {
                 value = very_large_radicals
             }
         }
@@ -359,7 +387,7 @@ GLOBAL = {
 			limit = {	
 				state_region = s:STATE_SICHUAN
 			}
-			add_radicals = {
+			add_radicals_in_state = {
                 value = large_radicals
                 culture = cu:han
             }
@@ -368,7 +396,7 @@ GLOBAL = {
 			limit = {	
 				state_region = s:STATE_YUNNAN
 			}
-			add_radicals = {
+			add_radicals_in_state = {
                 value = small_radicals
                 culture = cu:han
             }
@@ -377,7 +405,7 @@ GLOBAL = {
 			limit = {	
 				state_region = s:STATE_CHONGQING
 			}
-			add_radicals = {
+			add_radicals_in_state = {
                 value = medium_radicals
                 culture = cu:han
             }
@@ -430,6 +458,253 @@ GLOBAL = {
 	}
 	
 	#VFM GAME RULES HISTORY
+	
+	if = {
+		limit = {
+			has_game_rule = no_vfm_starting_countries
+		}
+		c:AUS = {
+			annex = c:LIE
+		}
+		c:CAR = {
+			annex = c:ANR
+		}
+		c:MEI = {
+			annex = c:GRZ
+		}
+		c:COB = {
+			annex = c:GRA
+			annex = c:ALN
+		}
+		c:SCW = {
+			annex = c:SND
+		}
+		c:HOL = {
+			annex = c:LAU
+		}
+		c:HOH = {
+			annex = c:HHN
+		}
+		c:BUE = {
+			annex = c:COE
+			annex = c:ENT
+			annex = c:TUC
+			annex = c:MDZ
+			annex = c:SLT
+			annex = c:SDE
+			annex = c:SFE
+			annex = c:CDA
+			annex = c:JUJ
+			annex = c:CMA
+			annex = c:LRJ
+			annex = c:SJN
+			annex = c:SLS
+			annex = c:MSS
+			s:STATE_CHACO = {
+				add_claim = c:BUE
+			}
+			s:STATE_SANTA_FE = {
+				add_claim = c:BUE
+			}
+			s:STATE_RIO_NEGRO = {
+				add_claim = c:BUE
+			}
+			s:STATE_CORRIENTES.region_state:BUE = {
+				set_state_type = incorporated
+			}
+			s:STATE_LA_PAMPA.region_state:BUE = {
+				set_state_type = incorporated
+			}
+			s:STATE_TUCUMAN.region_state:BUE = {
+				set_state_type = incorporated
+			}
+			s:STATE_JUJUY.region_state:BUE = {
+				set_state_type = incorporated
+			}
+			change_tag = ARG
+		}
+		c:BEX = {
+			annex = c:NTL
+			annex = c:GVA
+			annex = c:VAU
+			annex = c:SRN
+			annex = c:BSL
+			annex = c:AAU
+			annex = c:ZUR
+			annex = c:SHU
+			annex = c:THU
+			annex = c:APA
+			annex = c:GLL
+			annex = c:GLA
+			annex = c:GRS
+			annex = c:TIC
+			annex = c:API
+			annex = c:VIS
+			annex = c:FRI
+			annex = c:URI
+			annex = c:OBW
+			annex = c:NID
+			annex = c:LNE
+			annex = c:ZUG
+			annex = c:SCZ
+			s:STATE_EAST_SWITZERLAND.region_state:BEX = {
+				set_state_type = incorporated
+			}
+			change_tag = SWI
+		}
+		c:PRU = {
+			annex = c:POS
+		}
+		c:RUS = {
+			annex = c:CAU
+			annex = c:MIN
+			annex = c:SVA
+			annex = c:ABK
+			annex = c:EST
+			annex = c:LVN
+			annex = c:CRL
+			annex = c:CPL
+			annex = c:RAC
+		}
+		c:TUR = {
+			annex = c:KOC
+			annex = c:KHA
+			annex = c:DOJ
+			annex = c:JUM
+			annex = c:MIL
+			annex = c:TAI
+			annex = c:BOK
+			annex = c:BIT
+			annex = c:BAY
+			annex = c:HAK
+			annex = c:SOR
+			annex = c:BAN
+			annex = c:KUW
+			annex = c:BHN
+		}
+		c:PER = {
+			annex = c:ARD
+			annex = c:JEL
+			annex = c:SHZ
+			annex = c:MUK
+		}
+		c:HBC = {
+			annex = c:NWT
+		}
+		c:CHI = {
+			annex = c:MCH
+			annex = c:OMG
+			annex = c:IMG
+			annex = c:TUV
+			annex = c:ATI
+			annex = c:XIN
+			annex = c:KUM
+			annex = c:QIN
+		}
+		c:MJT = {
+			annex = c:HIR
+		}
+		c:DEN = {
+			annex = c:RGT
+		}
+		c:NTO = {
+			annex = c:TNK
+			annex = c:TNU
+			annex = c:THE
+			annex = c:NGA
+		}
+		c:DEI = {
+			annex = c:KOT
+			annex = c:BAU
+			annex = c:BIM
+			annex = c:BLN
+			annex = c:BON
+			annex = c:GOR
+			annex = c:PGI
+			annex = c:TOJ
+			annex = c:BGK
+			annex = c:RIA
+		}
+		c:KTI = {
+			annex = c:PAS
+		}
+		c:STG = {
+			annex = c:SLI
+		}
+		c:ACE = {
+			annex = c:BAK
+			annex = c:BAR
+		}
+		c:LUW = {
+			annex = c:TOL
+			annex = c:DGL
+			annex = c:SIG
+			annex = c:MND
+			annex = c:TOR
+			annex = c:WAJ
+			annex = c:KNA
+		}
+		c:SIA = {
+			annex = c:KED
+			annex = c:PTT
+			annex = c:KEL
+			annex = c:TRG
+		}
+		c:MCR = {
+			annex = c:YAP
+			annex = c:CUU
+			annex = c:PHN
+			annex = c:MJL
+		}
+		c:TNG = {
+			annex = c:SMO
+			annex = c:WAF
+			annex = c:NIU
+		}
+		c:PLY = {
+			annex = c:NKV
+			annex = c:THT
+			annex = c:MGV
+			annex = c:RRT
+			annex = c:BRB
+			annex = c:RAI
+			annex = c:HUA
+		}
+		c:MAS = {
+			annex = c:ZWA
+			annex = c:ONL
+			annex = c:AJB
+			annex = c:OSC
+		}
+		c:CON = {
+			annex = c:CAO
+		}
+		c:MAD = {
+			annex = c:ANT
+			annex = c:BAA
+			annex = c:ONI
+			annex = c:ZAF
+		}
+		c:BUG = {
+			annex = c:LGI
+			annex = c:BDD
+		}
+		c:ANK = {
+			annex = c:KIG
+			annex = c:KOO
+		}
+		c:BNY = {
+			annex = c:TOO
+		}
+		c:KRG = {
+			annex = c:BHY
+			annex = c:USS
+			annex = c:BUA
+		}
+		c:TRI = {
+			annex = c:AWG
+		}
+	}
 	
 	if = {
 		limit = {
@@ -493,6 +768,18 @@ GLOBAL = {
 			s:STATE_RIO_NEGRO = {
 				add_claim = c:BUE
 			}
+			s:STATE_CORRIENTES.region_state:BUE = {
+				set_state_type = incorporated
+			}
+			s:STATE_LA_PAMPA.region_state:BUE = {
+				set_state_type = incorporated
+			}
+			s:STATE_TUCUMAN.region_state:BUE = {
+				set_state_type = incorporated
+			}
+			s:STATE_JUJUY.region_state:BUE = {
+				set_state_type = incorporated
+			}
 			change_tag = ARG
 		}
 		c:BEX = {
@@ -509,7 +796,6 @@ GLOBAL = {
 			annex = c:GLA
 			annex = c:GRS
 			annex = c:TIC
-			annex = c:NTL
 			annex = c:API
 			annex = c:VIS
 			annex = c:FRI
@@ -519,7 +805,9 @@ GLOBAL = {
 			annex = c:LNE
 			annex = c:ZUG
 			annex = c:SCZ
-
+			s:STATE_EAST_SWITZERLAND.region_state:BEX = {
+				set_state_type = incorporated
+			}
 			change_tag = SWI
 		}
 
@@ -578,6 +866,34 @@ GLOBAL = {
 			annex = c:EST
 			annex = c:LVN
 			annex = c:CRL
+		}
+	}
+	
+	if = {
+		limit = {
+			has_game_rule = no_ottoman_subjects
+		}
+		c:TUR = {
+			annex = c:KOC
+			annex = c:KHA
+			annex = c:DOJ
+			annex = c:JUM
+			annex = c:MIL
+			annex = c:TAI
+			annex = c:BOK
+			annex = c:BIT
+			annex = c:BAY
+			annex = c:HAK
+			annex = c:SOR
+			annex = c:BAN
+			annex = c:KUW
+			annex = c:BHN
+		}
+		c:PER = {
+			annex = c:ARD
+			annex = c:JEL
+			annex = c:SHZ
+			annex = c:MUK
 		}
 	}
 	
@@ -675,7 +991,7 @@ GLOBAL = {
 						#until I can figure out how to find majority religions of cultures.
 						OR = { 
 							has_discrimination_trait = middle_eastern_heritage
-							has_discrimination_trait = malay
+							has_discrimination_trait = malay_culture
 							has_discrimination_trait = iranian_turanian_culture_group
 							has_discrimination_trait = albanian_language
 							has_discrimination_trait = arab_speaking
@@ -696,7 +1012,7 @@ GLOBAL = {
 					culture = cu:dyula
 					culture = cu:haratin
 					culture = cu:mande
-					culture = cu:maures
+					#culture = cu:bidan
 					culture = cu:songhai
 					culture = cu:tuareg
 					culture = cu:wolof

@@ -126,9 +126,9 @@ je_matter_of_norway = {
 
 	complete = {
 		has_technology_researched = pan-nationalism
-		c:NOR = {
+		c:NOR ?= {
 			has_attitude = {
-				who = c:SWE
+				who ?= c:SWE
 				attitude = loyal
 			}
 		relations:root >= relations_threshold:friendly
@@ -151,17 +151,17 @@ je_matter_of_norway = {
 	}
 
 	on_complete = {
-		annex = c:NOR
-		change_tag = SWN
+		annex ?= c:NOR
+		change_tag ?= SWN
 
 		trigger_event = { id = journal_flavor_scandinavia.7 }
 
 	}
 
 	fail = {
-		c:NOR = {
+		c:NOR ?= {
 			has_attitude = {
-				who = c:SWE
+				who ?= c:SWE
 				attitude = rebellious
 			}
 		}
@@ -172,7 +172,7 @@ je_matter_of_norway = {
 	}
 
 	invalid = {
-		c:NOR = {
+		c:NOR ?= {
 			NOT = { is_subject_type = subject_type_personal_union }
 		}
 	}
@@ -197,3 +197,61 @@ je_matter_of_norway = {
 	weight = 100
 }
 
+# Motala Verkstad
+je_swe_motala_fabriker = {
+	icon = "gfx/interface/icons/event_icons/event_industry.dds"
+
+	complete = {
+	    has_technology_researched = mechanical_tools
+	    s:STATE_SVEALAND = {
+		    any_scope_state = {
+				any_scope_building = {
+					is_building_type = building_tooling_workshops
+					level >= 2
+					occupancy > 0.75
+				}
+			}
+		}
+	}
+	
+	on_complete = {
+		trigger_event = { id = journal_flavor_scandinavia.8 }
+	}
+	
+	timeout = 3650
+	
+	weight = 5000
+}
+
+# Glasriket (Kingdom of Glass)
+je_swe_glasriket = {
+	icon = "gfx/interface/icons/event_icons/event_industry.dds"
+	
+	is_shown_when_inactive = {
+		country_has_primary_culture = cu:swedish
+	}
+	
+	possible = {
+		has_technology_researched = crystal_glass
+	}
+
+	complete = {
+	    s:STATE_GOTALAND = {
+		    any_scope_state = {
+				any_scope_building = {
+					is_building_type = building_glassworks
+					level >= 2
+					occupancy > 0.75
+				}
+			}
+		}
+	}
+	
+	on_complete = {
+		trigger_event = { id = journal_flavor_scandinavia.9 }
+	}
+	
+	timeout = 3650
+	
+	weight = 5000
+}

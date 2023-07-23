@@ -1,0 +1,92 @@
+﻿namespace = vfm_historical_agitators
+vfm_historical_agitators.1 = { # Spyridon Karaiskakis
+	type = country_event
+	placement = root
+
+	gui_window = event_window_1char_tabloid
+	left_icon = scope:historic_agitator_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+
+	title = vfm_historical_agitators.1.t
+	desc = vfm_historical_agitators.1.d
+	flavor = vfm_historical_agitators.1.f
+
+	duration = 3
+
+	dlc = dlc004
+
+	trigger = {
+		has_dlc_feature = voice_of_the_people_content
+		country_has_primary_culture = cu:greek
+		NOT = { has_global_variable = spyridon_spawn }
+		empty_agitator_slots >= 1
+		game_date > 1840.1.1
+		game_date < 1872.1.1
+	}
+
+	immediate = {
+		create_character = {
+			template = spyridon_karaiskakis
+			on_created = {
+				set_variable = spyridon_var		
+			}
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = spyridon_var
+			}
+			save_scope_as = historic_agitator_scope
+		}
+		set_global_variable = spyridon_spawn
+		s:STATE_ATTICA = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:GRE = THIS
+					}
+				}
+				save_scope_as = attica_state
+			}
+		}
+	}
+
+	option = {
+		name = vfm_historical_agitators.1.a
+		default_option = yes
+		scope:historic_agitator_scope = {
+			kill_character = yes
+		}
+		add_radicals = {
+			value = medium_radicals
+			interest_group = scope:historic_agitator_scope.interest_group
+		}
+	}
+	option = {
+		name = vfm_historical_agitators.1.b
+		show_as_tooltip = {
+			create_character = {
+				template = spyridon_karaiskakis
+			}
+		}
+		scope:attica_state = {
+		    create_pop = {
+				pop_type = soldiers
+				culture = greek
+				size = 500			
+		    }
+			create_building={
+				building="building_barracks"
+				level=1
+				reserves=1
+			}
+			state_region = {
+			    add_devastation = 10
+		    }
+		}
+		change_infamy = 3
+	}
+}
