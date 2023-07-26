@@ -132,37 +132,6 @@ dp_liberate_subject = {
 	on_war_end = {}
 }
 
-dp_transfer_subject = {
-	war_goal = transfer_subject
-	
-	texture = "gfx/interface/icons/war_goals/transfer_subject.dds"
-	
-	possible = {	
-		NOT = { is_country_type = decentralized }
-		aggressive_diplomatic_plays_permitted = yes
-		NOT = { is_subject_of = scope:target_country }	
-		scope:target_country = {
-			NOT = { is_country_type = decentralized }
-			is_subject = yes
-			NOT = { is_subject_of = root }
-			NOT = { is_subject_type = subject_type_personal_union }
-			NOT = { is_subject_type = subject_type_real_union }
-			NOT = { is_subject_type = subject_type_dependency }
-			NOT = { is_subject_type = subject_type_confederation }
-		}	
-		custom_tooltip = {
-			text = DIPLO_ACTION_OVERLORD_RELATIONS_CORDIAL_OR_GREATER_NOT
-			scope:target_country.overlord.relations:root < relations_threshold:cordial
-		}				
-	}
-	
-	on_weekly_pulse = {}
-	
-	on_war_begins = {}
-
-	on_war_end = {}
-}
-
 dp_dissolve_company = {
 	war_goal = liberate_subject
 
