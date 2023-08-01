@@ -1,0 +1,42 @@
+﻿# Use this file to set literacy and wealth pop changes post-calculation since it can't be changed in the history file
+
+stupify = {
+
+	is_shown = {
+		THIS = c:PPU
+		exists = c:PPU
+		NOT = {
+			has_global_variable = stupify_complete
+		}
+	}
+
+	possible = {
+		THIS = c:PPU
+		exists = c:PPU
+		NOT = {
+			has_global_variable = stupify_complete
+		}
+	}
+
+	when_taken = {
+		# Slaves are mostly illiterate
+		every_country = {
+			every_scope_pop = {
+				limit = {
+					is_pop_type = slaves
+				}
+				set_pop_literacy = {
+					literacy_rate = {
+						value = literacy_rate
+						divide = 7.5
+					}
+				}
+			}
+		}
+		set_global_variable = stupify_complete
+	}
+
+	ai_chance = {
+		base = 100
+	}
+}
