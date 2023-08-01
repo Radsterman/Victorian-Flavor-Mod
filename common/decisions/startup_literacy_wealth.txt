@@ -1,0 +1,171 @@
+﻿# Use this file to set literacy and wealth pop changes post-calculation since it can't be changed in the history file
+
+stupify = {
+
+	is_shown = {
+		THIS = c:PPU
+		exists = c:PPU
+		NOT = {
+			has_global_variable = stupify_complete
+		}
+	}
+
+	possible = {
+		THIS = c:PPU
+		exists = c:PPU
+		NOT = {
+			has_global_variable = stupify_complete
+		}
+	}
+
+	when_taken = {
+		# Slaves are mostly illiterate
+		every_country = {
+			every_scope_pop = {
+				limit = {
+					is_pop_type = slaves
+				}
+				set_pop_literacy = {
+					literacy_rate = {
+						value = literacy_rate
+						divide = 7.5
+					}
+				}
+			}
+		}
+		# Laborers and Peasants illiterate
+		every_country = {
+			every_scope_pop = {
+				limit = {
+					OR = {
+						pop_employment_building_group = bg_subsistence_agriculture
+						pop_employment_building_group = bg_subsistence_ranching
+					}
+				}
+				set_pop_literacy = {
+					literacy_rate = {
+						value = literacy_rate
+						multiply = 0.85
+					}
+				}
+			}
+		}
+		# Jews slight literacy buff
+		every_country = {
+			every_scope_pop = {
+				limit = {
+					has_pop_religion = jewish
+				}
+				set_pop_literacy = {
+					literacy_rate = {
+						value = literacy_rate
+						multiply = 1.2
+					}
+				}
+			}
+		}
+		# Catholics slight literacy nerf
+		every_country = {
+			every_scope_pop = {
+				limit = {
+					has_pop_religion = catholic
+				}
+				set_pop_literacy = {
+					literacy_rate = {
+						value = literacy_rate
+						multiply = 0.9
+					}
+				}
+			}
+		}
+		# Discriminated pops tend to be more illiterate in literate countries
+		every_country = {
+			every_scope_pop = {
+				limit = {
+					pop_is_discriminated = yes
+				}
+				set_pop_literacy = {
+					literacy_rate = {
+						value = literacy_rate
+						multiply = 0.67
+					}
+				}
+			}
+		}
+		#Each level of education institution increases literacy of primary pops in incorporated states
+		every_country = {
+			limit = {
+				institution_investment_level = { institution = institution_schools value >= 1 }
+			}
+			every_scope_pop = {
+				limit = {
+					pop_is_discriminated = no
+					state = { is_incorporated = yes }
+				}
+				set_pop_literacy = {
+					literacy_rate = {
+						value = literacy_rate
+						multiply = 1.05
+					}
+				}
+			}
+		}
+		every_country = {
+			limit = {
+				institution_investment_level = { institution = institution_schools value >= 2 }
+			}
+			every_scope_pop = {
+				limit = {
+					pop_is_discriminated = no
+					state = { is_incorporated = yes }
+				}
+				set_pop_literacy = {
+					literacy_rate = {
+						value = literacy_rate
+						multiply = 1.05
+					}
+				}
+			}
+		}
+		every_country = {
+			limit = {
+				institution_investment_level = { institution = institution_schools value >= 3 }
+			}
+			every_scope_pop = {
+				limit = {
+					pop_is_discriminated = no
+					state = { is_incorporated = yes }
+				}
+				set_pop_literacy = {
+					literacy_rate = {
+						value = literacy_rate
+						multiply = 1.05
+					}
+				}
+			}
+		}
+		#Free Prussia buff since there's no other way to give this without giving absurd universities, institutions, etc.
+		every_country = {
+			limit = {
+				THIS = c:PRU
+			}
+			every_scope_pop = {
+				limit = {
+					pop_is_discriminated = no
+					state = { is_incorporated = yes }
+				}
+				set_pop_literacy = {
+					literacy_rate = {
+						value = literacy_rate
+						multiply = 1.55
+					}
+				}
+			}
+		}
+		set_global_variable = stupify_complete
+	}
+
+	ai_chance = {
+		base = 100
+	}
+}
