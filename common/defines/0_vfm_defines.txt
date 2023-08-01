@@ -22,7 +22,7 @@ NAI = {
 	DEFEND_STATE_CAPITAL_WEIGHT = 50
 	INVADE_STATE_CAPITAL_WEIGHT = 50
 	NAVAL_INVASION_COOLDOWN_DAYS = 30
-	FRONT_IMPORTANCE_MIN_SCORE = 40
+	FRONT_IMPORTANCE_MIN_SCORE = 20
 	COLONY_ARABLE_LAND_WEIGHT = 15
 	COLONY_ADJACENT_WEIGHT_MULT = 20
 	COLONY_RANDOM_FACTOR = 1.5
@@ -45,20 +45,34 @@ NAI = {
 	PRODUCTION_METHOD_DEFICIT_FACTOR = 1.5	 #1.5 Per pound of deficit the produced goods would generate (multiplies a negative value)
 	PRODUCTION_METHOD_CHANCE_TO_CHANGE = 0.2 # Chance that the AI will consider changing a production method when evaluating methods
 	
+	AI_PEACE_AGREEMENT_WHITE_PEACE_BASE = 15 # If no wargoals are being enforced on either side
+	AI_PEACE_AGREEMENT_WHITE_PEACE_WAR_DURATION = 2 # For each month the war goes on add this to the acceptance for a white peace
+	
 	TRADE_ROUTE_MIN_MARKET_SHARE = 0.05 # If the AI is junior in a customs union and has less than this market share in a market, don't make any trade routes
-	TRADE_ROUTE_MIN_SCORE_TO_CREATE_BASE = 500 # If a potential trade route is scored less than this, don't create it
+	TRADE_ROUTE_MIN_SCORE_TO_CREATE_BASE = 600 #1000 If a potential trade route is scored less than this, don't create it
 	TRADE_ROUTE_MIN_SCORE_TO_CREATE_GDP_SCALING = 1000000 # Base scale for TRADE_ROUTE_MIN_SCORE_TO_CREATE_GDP_FACTOR
 	TRADE_ROUTE_MIN_SCORE_TO_CREATE_GDP_SCALING_MAX = 25000000 # TRADE_ROUTE_MIN_SCORE_TO_CREATE_GDP_SCALING can't be higher than this
 	TRADE_ROUTE_MIN_SCORE_TO_CREATE_GDP_FACTOR = 25 # For each TRADE_ROUTE_MIN_SCORE_TO_CREATE_GDP_SCALING market GDP, add this to min score required to create trade route
-	TRADE_ROUTE_ACCEPTABLE_SPENDING = 0.003 # AI will not spend more BUR than this on trade routes (scaled by weekly GDP)
-	TRADE_ROUTE_ACCEPTABLE_SPENDING_MINIMUM = 125 # If TRADE_ROUTE_ACCEPTABLE_SPENDING is less than this, this is used instead (so even small countries can do some trading)
+	TRADE_ROUTE_ACCEPTABLE_SPENDING = 0.005 #0.002 AI will not spend more BUR than this on trade routes (scaled by weekly GDP)
+	TRADE_ROUTE_ACCEPTABLE_SPENDING_MINIMUM = 125 #100 If TRADE_ROUTE_ACCEPTABLE_SPENDING is less than this, this is used instead (so even small countries can do some trading)
 	TRADE_ROUTE_PLAYER_SUGGESTION_MIN_SCORE_MULT = 1.0 # If trade route has at least (min AI score to create * this) in score, suggest it as a possible route for player
 	
+	TRADE_ROUTE_EXPORT_VS_IMPORT_TOLERANCE = 2.5 #1.5 The AI is OK with having up to this amount more import than export routes or vice versa
+	TRADE_ROUTE_WANTED_NEW_GOODS_FACTOR = 7000 #5000 Add this if the trade route is importing a good to the market that the AI wants and has no local production for
+	TRADE_ROUTE_REPLACE_THRESHOLD = 4.0 #5.0 If there is a sufficiently better new trade route (old route score x this), remove the old one
+	TRADE_ROUTE_SUPPLY_NETWORK_STRENGTH_THRESHOLD = 0.9 #1.0 If supply network strength less than this, don't make new trade routes
+	TRADE_ROUTE_MIN_ACCEPTABLE_PRODUCTIVITY = 3 #5.0 If a potential trade route would result in lower productivity than this, apply penalty below
+	TRADE_ROUTE_BELOW_ACCEPTABLE_PRODUCTIVITY_MULT = 0.15 #0.25 Multiply score by this if the trade route is below TRADE_ROUTE_MIN_ACCEPTABLE_PRODUCTIVITY
+	TRADE_ROUTE_DURATION_FACTOR = 5.0 #10.0 # AI multiplies value of a route by ( 1 + this ) at COMPETITIVENESS_DURATION_BONUS_MAX_MONTHS (scales linearly up to this value at a lower duration)
+	
 	# Below data is used for naval invasions:
-	NAVAL_INVASION_RANDOM_FACTOR = 0.35 								# The higher this is, the more random AI naval invasion theater selection will be
-	NAVAL_INVASION_COOLDOWN_DAYS = 30 								# After launching a naval invasion, the AI will wait at least this long before launching another
-	NAVAL_INVASION_MIN_SCORE = 20									# AI won't bother launching naval invasions against theaters with a lower total state score than this
+	NAVAL_INVASION_RANDOM_FACTOR = 0.4 								# The higher this is, the more random AI naval invasion theater selection will be
+	NAVAL_INVASION_COOLDOWN_DAYS = 20 								# After launching a naval invasion, the AI will wait at least this long before launching another
+	NAVAL_INVASION_MIN_SCORE = 10									# AI won't bother launching naval invasions against theaters with a lower total state score than this
 	NAVAL_INVASION_MAX_LOCAL_FRONT_SCORE = 200						# Don't launch a naval invasion if there is a local front of at least this total score for the general
+	
+	# Below data is used for General Orders:
+	MIN_AVAILABLE_UNITS_TO_RECRUIT_OR_PROMOTE = 6 #10(let the ai have more HQs to cover more fronts)If an HQ has fewer than this number of combat units in reserve, don't promote/recruit any commanders for it
 }
 
 NCountry = {
@@ -95,6 +109,7 @@ NDiplomacy = {
 	SWAY_OFFER_WARGOAL_MANEUVERS_COST_RETURN_STATE = 5
 	
 	WAR_GOAL_FORCE_RECOGNITION_ACTOR_RANK = "unrecognized_regional_power"
+	WAR_GOAL_CONTAIN_THREAT_YEARS_SINCE_CONQUEST = 25
 	
 	BASE_YEARLY_INFAMY_DECAY_RATE = 4.0 	# Decay rate of infamy per year
 	

@@ -608,3 +608,79 @@ journal_flavor_scandinavia.9 = { #glasriket
 		}
 	}
 }
+
+journal_flavor_scandinavia.10 = { #Götavarven
+	type = country_event
+	placement = scope:shipyard_state
+
+	title = journal_flavor_scandinavia.10.t
+	desc = journal_flavor_scandinavia.10.d
+	flavor = journal_flavor_scandinavia.10.f
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_factory_opening.bk2"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/factory_opening"
+
+	duration = 3
+
+	trigger = {
+
+	}
+
+	immediate = {
+	    random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_shipyards
+					occupancy > 0.9
+					level >= 4
+				}
+			}
+			save_scope_as = shipyard_state
+		}
+	}
+
+	option = {
+		name = journal_flavor_scandinavia.10.a
+		default_option = yes
+		scope:shipyard_state = {
+		    add_modifier = {
+				name = modifier_shipyard_positive
+				months = 72
+			}
+		}
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = sided_with_capitalists_over_scrips
+				months = 72
+			}
+		}
+		scope:shipyard_state = {
+			add_radicals_in_state = {
+				pop_type = laborers
+				value = small_radicals
+			}
+		}
+	}
+	
+	option = {
+		name = journal_flavor_scandinavia.10.b
+		default_option = yes
+		scope:shipyard_state = {
+		    add_modifier = {
+				name = modifier_shipyard_positive
+				months = 36
+			}
+		}
+		scope:shipyard_state = {
+			add_loyalists_in_state = {
+				value = 0.02
+			}
+		}
+	}
+}
