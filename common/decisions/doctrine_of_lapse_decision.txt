@@ -3,6 +3,7 @@
 		is_subject_type = subject_type_chartered_company
 		country_is_in_india = yes
 		NOT = { has_variable = doctrine_of_lapse_ended }
+		THIS = c:BIC
 	}
 
 	possible = {
@@ -11,30 +12,14 @@
 			text = doctrine_of_lapse_cooldown_tt
 			NOT = { has_variable = doctrine_of_lapse_cooldown }
 		}
-		OR = {
-			AND = {
-				overlord = c:BIC
-				c:BIC = {
-					any_subject_or_below = {
-						is_player = no
-						OR = {
-							has_government_type = gov_princely_state_hindu
-							hidden_trigger = { has_government_type = gov_princely_state_muslim }
-						}
-					}
-				}
-			}
-			
-			any_subject_or_below = {
-				is_player = no
-				OR = {
-					has_government_type = gov_princely_state_hindu
-					hidden_trigger = { has_government_type = gov_princely_state_muslim }
-				}
+		THIS = c:BIC
+		any_subject_or_below = {
+			is_player = no
+			OR = {
+				has_government_type = gov_princely_state_hindu
+				hidden_trigger = { has_government_type = gov_princely_state_muslim }
 			}
 		}
-
-
 	}
 
 	when_taken = {
