@@ -55,12 +55,12 @@ ai_strategy_default = {
 	# Added to base neutrality in diplomatic plays	
 	# Using this value in other strategies will function additively
 	diplomatic_play_neutrality = {
-		value = 50 
+		value = 55
 
 		#GPs don't want to get involved with too many other GPs in the early game
 		if = {
 			limit = {
-				diplomatic_play = {
+				any_diplomatic_play = {
 					any_scope_play_involved = {
 						count >= 2
 						country_rank = rank_value:great_power
@@ -71,19 +71,26 @@ ai_strategy_default = {
 				country_rank >= rank_value:great_power
 				NOT = { has_technology_researched = multilateral_alliances }
 			}
-			add = 20
+			add = 25
 		}
 		
 		#GPs have less neutrality when there is a pariah enemy being cut down
 		if = {
 			limit = {
-				diplomatic_play = {
+				any_diplomatic_play = {
 					has_play_goal = contain_threat
 				}
 				country_rank >= rank_value:great_power
 			}
-			subtract = 40
+			subtract = 50
 		}
+		
+		#if = {
+		#	limit = {
+		#		is_at_war = yes
+		#	}
+		#	add = 20
+		#}
 		
 		if = {
 			limit = {
@@ -92,19 +99,25 @@ ai_strategy_default = {
 				c:SPA = this
 				has_war_with = c:CAR
 			}
-			add = 75
+			add = 50
 		}
 				
-		#if = {
-		#	limit = {
-		#		has_diplomatic_pact = {
-		#			who = scope:target_country.top_overlord
-		#			type = rivalry
-		#		}							
-		#	}
-		#	subtract = 100
-		#}
-		#
+		if = {
+			limit = {
+			    any_country = {
+				    OR = {
+				        is_diplomatic_play_initiator = yes
+				        is_diplomatic_play_target = yes
+				    }
+				    has_diplomatic_pact = {
+				    	who = prev
+				    	type = rivalry
+				    }	
+                }				
+			}
+			subtract = 15
+		}
+		
 		#if = {
 		#	limit = {
 		#		scope:target_country = {
@@ -258,7 +271,27 @@ ai_strategy_default = {
                 }
             }
             add = 0.3
-        }		
+        }	
+		# France should very aggressively go for Algeria.
+        if = {
+			limit = {
+				has_journal_entry = je_conquest_of_algeria
+				scope:enemy_country = {
+					any_scope_state = {
+						OR = {
+							state_region = s:STATE_TLEMCEN
+							state_region = s:STATE_ALGIERS
+							state_region = s:STATE_CONSTANTINE
+							state_region = s:STATE_TOUGGOURT
+							state_region = s:STATE_GHARDAIA
+							state_region = s:STATE_SAHARA
+							state_region = s:STATE_EAST_SAHARA
+						}
+					}
+				}
+			}
+			add = 0.25
+		}		
 		# French Natural Borders
 		if = {
 			limit = {
@@ -319,40 +352,7 @@ ai_strategy_default = {
 		}		
 		institution_home_affairs = {	
 			value = 10		
-		}			
-		institution_centralization = {	
-			value = 10	
-			
-			if = {
-				limit = {
-					any_subject_or_below = {
-						OR = {
-							is_subject_type = subject_type_dependency
-							is_subject_type = subject_type_puppet
-							is_subject_type = subject_type_vassal
-						}
-						is_adjacent = root
-					}
-				}
-				add = 125
-			}
-			
-			if = {
-				limit = {
-					exists = c:ENT
-					exists = c:BUE
-					OR = {
-						this = c:ENT
-						this = c:BUE
-					}
-					OR = {
-						has_journal_entry = je_argentina_constitution
-						has_journal_entry = je_argentina_constitution_minor
-					}
-				}
-				add = 150
-			}
-		}			
+		}						
 	}	
 	
 	# How much value does the AI place on an obligation from another country?
@@ -702,6 +702,28 @@ ai_strategy_default = {
 			}
 			add = 5
 		}
+		
+		if = { 
+			limit = {
+				exists = c:SPA
+				this = c:SPA
+				OR = {
+					AND = {	
+						exists = c:MGD
+						scope:target_country = {
+							this = c:MGD
+						}
+					}
+					AND = {	
+						exists = c:SUL
+						scope:target_country = {
+							this = c:SUL
+						}
+					}
+				}
+			}
+			add = 2
+		}
 	}
 	
 	# How likely is the AI to start a diplomatic play against another country if their attitude allows for it
@@ -944,6 +966,41 @@ ai_strategy_default = {
 				}
 			}
 			add = 10
+		}
+		
+		# Spains wants to get rest of philipines
+		if = {
+			limit = {
+				exists = c:SPA
+				this = c:SPA
+				scope:target_country = {
+					NOT = { is_subject_of = prev }
+					any_scope_state = {
+						OR = {
+							state_region = s:STATE_MINDANAO
+							state_region = s:STATE_LUZON
+						}
+					}
+				}
+			}
+			add = 50
+		}
+		
+		if = {
+			limit = {
+				country_rank >= rank_value:major_power
+				OR = { 
+					has_interest_marker_in_region = scope:target_country.capital.region
+					c:FRA = this
+				}
+				game_date > 1839.6.1
+				scope:target_country = {
+					any_scope_state = {
+						state_region = s:STATE_TAHITI
+					}
+				}
+			}
+			add = 500
 		}
 	
 		if = { #Russian Far East
@@ -1293,10 +1350,18 @@ ai_strategy_default = {
 			divide = 1000000 # 1 construction sector per 1 million investment pool			
 		}
 
-       if = {
-			limit = { gdp > 500000 }
+        if = {
+			limit = { gold_reserves > 25000 gdp > 500000 } # 500k
 			add = {
 			    value = 1								
+		    }
+		}
+		
+		if = {
+			limit = { gold_reserves > 800000 gdp > 10000000 } # 10 million
+			add = {
+			    value = gdp
+			    divide = 10000000 # 1 construction sector per 10 million gdp						
 		    }
 		}
 		
@@ -1938,6 +2003,44 @@ ai_strategy_default = {
 				add = 50
 			}
 		}
+		region_indonesia= {
+	        if = {
+				limit = {
+					this = c:SPA
+					country_rank >= rank_value:great_power
+				}
+				add = 50
+			}
+		}
+		region_oceania = {
+			if = {
+				limit = {
+					exists = c:USA
+					root = c:USA
+					owns_entire_state_region = STATE_OREGON
+					owns_entire_state_region = STATE_WASHINGTON
+					owns_entire_state_region = STATE_CALIFORNIA	
+				}
+
+				add = 100
+			}
+			else_if = {
+				limit = {
+					exists = c:GBR
+					root = c:GBR				
+				}
+
+				add = 100
+			}
+			else_if = {
+				limit = {
+					exists = c:FRA
+					root = c:FRA				
+				}
+
+				add = 100
+			}
+		}
 		region_rhine = {
 			if = {
 				limit = {
@@ -2006,8 +2109,22 @@ ai_strategy_default = {
 				limit = {
 					has_variable = monroe_doctrine	
 				}
-				add = 1000
-			}			
+				add = 100
+			}	
+			if = {
+				limit = {
+					capital = {
+						state_is_in_americas = yes
+					}
+				}
+				add = 75
+			}
+			if = {
+				limit = {
+					country_is_in_north_america = yes
+				}
+				add = 75
+			}		
 		}
 		region_great_plains = {
 			if = {
@@ -2015,7 +2132,21 @@ ai_strategy_default = {
 					has_variable = monroe_doctrine	
 				}
 				add = 100
-			}			
+			}	
+			if = {
+				limit = {
+					capital = {
+						state_is_in_americas = yes
+					}
+				}
+				add = 75
+			}
+			if = {
+				limit = {
+					country_is_in_north_america = yes
+				}
+				add = 75
+			}		
 		}
 		region_dixie = {
 			if = {
@@ -2023,7 +2154,21 @@ ai_strategy_default = {
 					has_variable = monroe_doctrine	
 				}
 				add = 100
-			}			
+			}	
+			if = {
+				limit = {
+					capital = {
+						state_is_in_americas = yes
+					}
+				}
+				add = 75
+			}
+			if = {
+				limit = {
+					country_is_in_north_america = yes
+				}
+				add = 75
+			}	
 		}		
 		region_new_england = {
 			if = {
@@ -2031,7 +2176,21 @@ ai_strategy_default = {
 					has_variable = monroe_doctrine	
 				}
 				add = 100
-			}			
+			}		
+			if = {
+				limit = {
+					capital = {
+						state_is_in_americas = yes
+					}
+				}
+				add = 75
+			}
+			if = {
+				limit = {
+					country_is_in_north_america = yes
+				}
+				add = 75
+			}	
 		}
 		region_canada = {
 			if = {
@@ -2039,7 +2198,21 @@ ai_strategy_default = {
 					has_variable = monroe_doctrine	
 				}
 				add = 100
-			}			
+			}	
+			if = {
+				limit = {
+					capital = {
+						state_is_in_americas = yes
+					}
+				}
+				add = 75
+			}
+			if = {
+				limit = {
+					country_is_in_north_america = yes
+				}
+				add = 75
+			}	
 		}	
 		region_the_midwest = {
 			if = {
@@ -2047,15 +2220,87 @@ ai_strategy_default = {
 					has_variable = monroe_doctrine	
 				}
 				add = 100
-			}			
+			}		
+			if = {
+				limit = {
+					capital = {
+						state_is_in_americas = yes
+					}
+				}
+				add = 75
+			}
+			if = {
+				limit = {
+					country_is_in_north_america = yes
+				}
+				add = 75
+			}
 		}	
+		region_mexico = {
+			if = {
+				limit = {
+					has_variable = monroe_doctrine	
+				}
+				add = 100
+			}	
+			if = {
+				limit = {
+					capital = {
+						state_is_in_americas = yes
+					}
+				}
+				add = 75
+			}
+			if = {
+				limit = {
+					country_is_in_central_america = yes
+				}
+				add = 75
+			}
+		}
+		region_caribbean = {
+			if = {
+				limit = {
+					has_variable = monroe_doctrine	
+				}
+				add = 100
+			}		
+			if = {
+				limit = {
+					capital = {
+						state_is_in_americas = yes
+					}
+				}
+				add = 75
+			}
+			if = {
+				limit = {
+					country_is_in_central_america = yes
+				}
+				add = 75
+			}
+		}
 		region_central_america = {
 			if = {
 				limit = {
 					has_variable = monroe_doctrine	
 				}
 				add = 100
-			}			
+			}		
+			if = {
+				limit = {
+					capital = {
+						state_is_in_americas = yes
+					}
+				}
+				add = 75
+			}
+			if = {
+				limit = {
+					country_is_in_central_america = yes
+				}
+				add = 75
+			}	
 		}
 		region_brazil = {
 			if = {
@@ -2063,7 +2308,21 @@ ai_strategy_default = {
 					has_variable = monroe_doctrine	
 				}
 				add = 100
-			}			
+			}	
+			if = {
+				limit = {
+					capital = {
+						state_is_in_americas = yes
+					}
+				}
+				add = 75
+			}
+			if = {
+				limit = {
+					country_is_in_south_america = yes
+				}
+				add = 75
+			}		
 		}	
 		region_andes = {
 			if = {
@@ -2071,7 +2330,21 @@ ai_strategy_default = {
 					has_variable = monroe_doctrine	
 				}
 				add = 100
-			}			
+			}		
+			if = {
+				limit = {
+					capital = {
+						state_is_in_americas = yes
+					}
+				}
+				add = 75
+			}
+			if = {
+				limit = {
+					country_is_in_south_america = yes
+				}
+				add = 75
+			}		
 		}
 		region_la_plata = {
 			if = {
@@ -2079,7 +2352,21 @@ ai_strategy_default = {
 					has_variable = monroe_doctrine	
 				}
 				add = 100
-			}			
+			}		
+			if = {
+				limit = {
+					capital = {
+						state_is_in_americas = yes
+					}
+				}
+				add = 75
+			}
+			if = {
+				limit = {
+					country_is_in_south_america = yes
+				}
+				add = 75
+			}	
 		}
 		region_gran_colombia = {
 			if = {
@@ -2087,7 +2374,21 @@ ai_strategy_default = {
 					has_variable = monroe_doctrine	
 				}
 				add = 100
-			}			
+			}		
+			if = {
+				limit = {
+					capital = {
+						state_is_in_americas = yes
+					}
+				}
+				add = 75
+			}
+			if = {
+				limit = {
+					country_is_in_south_america = yes
+				}
+				add = 75
+			}	
 		}		
 	}
 	
@@ -2304,8 +2605,7 @@ ai_strategy_default = {
 							type = rivalry
 						}	
 						scope:target_country = { relations:root <= relations_threshold:poor }		
-					}
-											
+					}					
 				}
 				
 				add = 100					
@@ -2341,8 +2641,8 @@ ai_strategy_default = {
 					}
 				}
 				multiply = 1.5
-			}			
-					
+			}
+			
 			if = {
 				limit = {
 					AND = {
@@ -2581,6 +2881,7 @@ ai_strategy_default = {
 				multiply = 0.0	
 			}				
 		}		
+		
 		antagonize = {
 			value = 0
 			
@@ -2920,6 +3221,8 @@ ai_strategy_default = {
 							OR = {
 								state_region = s:STATE_AMHARA
 								state_region = s:STATE_GONDER
+								state_region = s:STATE_OROMIA
+								state_region = s:STATE_GAMBELA
 							}
 						}
 					}
@@ -2994,7 +3297,6 @@ ai_strategy_default = {
 				add = 1000
 			}
 
-
 			if = {
 				limit = {
 					country_has_primary_culture = cu:russian
@@ -3056,7 +3358,8 @@ ai_strategy_default = {
 					}
 				}
 				add = 500
-			}		
+			}
+			
             # France should very aggressively go for Algeria.
 			if = {
 				limit = {
@@ -3078,9 +3381,14 @@ ai_strategy_default = {
 				}
 				add = 1000
 			}
+			
 			if = {
 				limit = {
 				    country_rank >= rank_value:major_power
+					OR = { 
+					    has_interest_marker_in_region = scope:target_country.capital.region
+						c:FRA = this
+					}
 					game_date > 1839.6.1
 					scope:target_country = {
 						any_scope_state = {
@@ -3088,31 +3396,25 @@ ai_strategy_default = {
 								state_region = s:STATE_TAHITI
 							}
 						}
-					}
-					OR = { 
-					    has_interest_marker_in_region = scope:target_country.capital.region
-						c:FRA = this
-					}
+					}	
 				}
 				add = 500
 			}
-			# Overlords of Philipines(Spain) are not done in Philipines yet
+			
+			# Buganda wants to conquer Ugandan countries
 			if = {
 				limit = {
-					exists = c:PHI
-					this = c:PHI.top_overlord
+					this = c:BUG
 					scope:target_country = {
-					    NOT = { is_subject_of = this }
+						is_country_type = unrecognized
 						any_scope_state = {
-							OR = {
-								state_region = s:STATE_MINDANAO
-								state_region = s:STATE_LUZON
-							}
+							state_region = s:STATE_UGANDA
 						}
 					}
 				}
-				add = 500
+				add = 100
 			}
+			
 			# unite against french aggression
 			if = {
 				limit = {
@@ -3122,7 +3424,7 @@ ai_strategy_default = {
 						country_has_primary_culture = cu:south_german
 					}
 					scope:target_country = {
-						c:FRA = this
+						this = c:FRA
 						any_scope_state = {
 							OR = {
 							    state_region = s:STATE_NORTH_RHINE
@@ -3133,6 +3435,7 @@ ai_strategy_default = {
 				}
 				add = 100
 			}
+			
 			# Wants to unify Italy by conquest
 			if = {
 				limit = {
@@ -3154,7 +3457,33 @@ ai_strategy_default = {
 					}
 				}
 				add = 100
-			}	
+			}
+			
+			#Carlist Spain is slightly more likely to want to conquer Portugal
+			if = {
+				limit = {
+					this = c:SPA
+					has_variable = carlist_spain
+					scope:target_country = {
+						c:POR = this
+					}
+				}
+				add = 25
+			}
+			if = {
+				limit = {
+					this = c:SPA
+					scope:target_country = {
+						any_scope_state = {
+							OR = {
+								state_region = s:STATE_MINDANAO
+								state_region = s:STATE_LUZON
+							}
+						}
+					}
+				}
+				add = 500
+			}
 		
 			multiply = {
 				value = "ai_ideological_opinion(scope:target_country)"
@@ -3833,7 +4162,20 @@ ai_strategy_default = {
 						OR = {
 							state_region = s:STATE_AMHARA
 							state_region = s:STATE_GONDER
+							state_region = s:STATE_OROMIA
+							state_region = s:STATE_GAMBELA
 						}
+					}
+				}
+				add = 50
+			}
+
+			if = {
+				limit = {
+					this = c:BUG
+					scope:target_state = {
+						owner = { is_country_type = unrecognized }
+						state_region = s:STATE_UGANDA
 					}
 				}
 				add = 50
@@ -4036,7 +4378,7 @@ ai_strategy_default = {
 					lenient_ai_behavior_trigger = yes
 					scope:target_state = { is_homeland_of_country_cultures = scope:target_country }
 				}
-				multiply = 0.0
+				multiply = 0.25
 			}
 
 			if = {
@@ -4049,7 +4391,7 @@ ai_strategy_default = {
 				multiply = 0
 			}
 			
-			if = { #Do Not Take Chinese States In Full, unless another power has already done so
+			if = { #Do Not Take Chinese, Japanese States In Full, unless another power has already done so
 				limit = {
 					country_rank >= rank_value:major_power
 					scope:target_state = {
@@ -4058,6 +4400,7 @@ ai_strategy_default = {
 							region = sr:region_north_china
 							region = sr:region_south_china
 							region = sr:region_manchuria
+							region = sr:region_japan
 						}
 					}				
 					OR = {
@@ -4080,12 +4423,43 @@ ai_strategy_default = {
 									region = sr:region_north_china
 									region = sr:region_south_china
 									region = sr:region_manchuria
+									region = sr:region_japan
 								}
 							}
 						}					
 					}
 				}
 				multiply = 0
+			}
+			
+			# Spain is not done in Philipines yet
+			if = {
+				limit = {
+					exists = c:SPA
+					this = c:SPA
+					scope:target_state = {
+						OR = {
+							state_region = s:STATE_MINDANAO
+							state_region = s:STATE_LUZON
+						}
+					}
+				}
+				add = 100
+			}
+			
+			if = {
+				limit = {
+				    country_rank >= rank_value:major_power
+					OR = { 
+					    has_interest_marker_in_region = scope:target_country.capital.region
+						c:FRA = this
+					}
+					game_date > 1839.6.1
+					scope:target_state = {
+						state_region = s:STATE_TAHITI
+					}	
+				}
+				add = 500
 			}
 			
 			if = {
@@ -4242,7 +4616,7 @@ ai_strategy_default = {
 					lenient_ai_behavior_trigger = yes
 					scope:target_state = { is_homeland_of_country_cultures = scope:target_country }
 					}
-				multiply = 0.0
+				multiply = 0.2
 			}
 
 			if = {
@@ -4326,29 +4700,6 @@ ai_strategy_default = {
 								state_region = s:STATE_GHARDAIA
 								state_region = s:STATE_SAHARA
 								state_region = s:STATE_EAST_SAHARA
-							}
-						}
-					}
-				}
-				add = 200
-			}
-			# Spain is not done in Philipines yet
-			if = {
-				limit = {
-					exists = c:SPA
-					OR = {
-					c:SPA = this
-					AND = {
-					c:PHI = this
-					is_subject_of = c:SPA
-					}
-					}
-					scope:target_country = {
-					    NOT = { is_subject_of = c:SPA }
-						any_scope_state = {
-							OR = {
-								state_region = s:STATE_MINDANAO
-								state_region = s:STATE_LUZON
 							}
 						}
 					}
@@ -5414,7 +5765,7 @@ ai_strategy_default = {
 				limit = {
 					lenient_ai_behavior_trigger = yes
 				}
-				multiply = 0.0
+				multiply = 0.2
 			}
 
 			if = {
@@ -5481,7 +5832,7 @@ ai_strategy_default = {
 				limit = {
 					lenient_ai_behavior_trigger = yes
 				}
-				multiply = 0.0
+				multiply = 0.2
 			}
 
 			min = 0
@@ -5563,7 +5914,24 @@ ai_strategy_default = {
 					min = 0.25
 					max = 2.0
 				}				
-			}	
+			}
+			# releasing these seem the break the breackup_bic event code?
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							exists = c:BIC
+							scope:target_country = c:BIC
+						}
+						AND = {
+							exists = c:DEI
+							scope:target_country = c:DEI						
+						}
+					}
+				}
+
+				multiply = 0
+			}
 
 			min = 0
 			max = 100			
