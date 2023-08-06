@@ -384,19 +384,64 @@ peru_bolivia_confederation.4 = { #Viva Peru del Sur
 		}
 		hidden_effect = {
             c:ESP = { 
-				ig:ig_landowners = {
-			      remove_ideology = ideology_paternalistic
-			      add_ideology = ideology_caudillismo
-		        }
-				ig:ig_armed_forces = {
-			      add_ideology = ideology_caudillismo
-		        }
 				add_modifier = {
 			      name = age_of_caudillos_modifier
 			      months = very_long_modifier_time
 			      is_decaying = yes
 		        }
-            }
+
+				ig:ig_armed_forces = {
+					add_ideology = ideology_caudillismo
+				}
+		
+				ig:ig_intelligentsia = {
+					remove_ideology = ideology_liberal
+					add_ideology = ideology_liberalismo
+					add_ideology = ideology_soberania_aristocratica
+				}
+
+				ig:ig_landowners = {
+					add_ruling_interest_group = yes
+					remove_ideology = ideology_paternalistic
+					remove_ideology = ideology_stratocratic
+					add_ideology = ideology_conservadurismo
+					add_ideology = ideology_soberania_aristocratica
+				}
+
+				ig:ig_rural_folk = {
+					remove_ideology = ideology_agrarian
+					remove_ideology = ideology_isolationist
+					remove_ideology = ideology_particularist
+					add_ideology = ideology_agroexportadores
+					add_ideology = ideology_pious
+					add_ideology = ideology_patriarchal
+					add_ideology = ideology_communalist
+				}
+
+				ig:ig_petty_bourgeoisie = {
+					remove_ideology = ideology_reactionary
+					add_ideology = ideology_artesanado
+				}
+
+				random_scope_state = {
+					limit = {
+						state_region = s:STATE_ICA
+					}
+					set_state_type = incorporated
+				}
+				random_scope_state = {
+					limit = {
+						state_region = s:STATE_LIMA
+					}
+					set_state_type = incorporated
+				}
+				random_scope_state = {
+					limit = {
+						state_region = s:STATE_TARAPACA
+					}
+					set_state_type = incorporated
+				}
+			}	
 		}	
 		c:ESP = {
 			set_next_election_date = "1837.9.17"
@@ -421,8 +466,8 @@ peru_bolivia_confederation.4 = { #Viva Peru del Sur
 				dna = dna_pio_tristan
 				ideology = ideology_moderate
 				religion = rel:catholic
-				traits = { 
-				reserved
+				traits = {
+					reserved
 					tactful
 					experienced_defensive_strategist
 				}
@@ -445,25 +490,6 @@ peru_bolivia_confederation.4 = { #Viva Peru del Sur
 					basic_diplomat
 				}
 			}
-			
-			random_scope_state = {
-				limit = {
-					state_region = s:STATE_ICA
-				}
-				set_state_type = incorporated
-		    }
-			random_scope_state = {
-				limit = {
-					state_region = s:STATE_LIMA
-				}
-				set_state_type = incorporated
-		    }
-			random_scope_state = {
-				limit = {
-					state_region = s:STATE_TARAPACA
-				}
-				set_state_type = incorporated
-		    }
 		}
 	}	
 	option = { #viva la independecia! - PEU
@@ -864,7 +890,7 @@ peru_bolivia_confederation.12 = { #Bolivian reaction/notification of Aliaga - Be
 			value = -20
 		}
 		add_radicals = {
-			value = 0.1	
+			value = 0.05	
 		}
 		ai_chance = 25
 	}
