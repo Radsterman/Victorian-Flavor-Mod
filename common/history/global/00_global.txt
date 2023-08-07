@@ -2,6 +2,16 @@
 GLOBAL = {
 	
 	every_country = {
+		limit = {
+			is_player = yes
+		}
+		trigger_event = {
+			id = welcome_event.1
+			popup = yes
+		}
+	}
+	
+	every_country = {
 		limit = { NOT = { has_law = law_type:law_slavery_banned } }
 		ig:ig_landowners = { add_ideology = ideology_pro_slavery }
 	}
@@ -458,6 +468,72 @@ GLOBAL = {
 	}
 	
 	#VFM GAME RULES HISTORY
+	
+	if = {
+		limit = {
+			has_game_rule = condensed_religions
+		}
+		every_country = {
+			every_scope_pop = {
+				limit = {
+					OR = {
+						has_pop_religion = taoist
+						has_pop_religion = siberian_shamanist
+						has_pop_religion = alcheringa
+						has_pop_religion = generic_african
+						has_pop_religion = generic_native_american
+						has_pop_religion = bon
+						has_pop_religion = bimoist
+						has_pop_religion = hmongist
+						has_pop_religion = mormon
+						has_pop_religion = camaquen
+					}
+				}
+				change_pop_religion = { target = rel:animist value = 1.0 }
+			}
+			every_scope_pop = {
+				limit = {
+					OR = {
+						has_pop_religion = reformed
+						has_pop_religion = anglican
+						has_pop_religion = methodist
+						has_pop_religion = baptist
+						has_pop_religion = presbyterian
+						has_pop_religion = congregationalist
+						has_pop_religion = anabaptist
+						has_pop_religion = mormon
+						has_pop_religion = god_society
+					}
+				}
+				change_pop_religion = { target = rel:protestant value = 1.0 }
+			}
+			every_scope_pop = {
+				limit = {
+					OR = {
+						has_pop_religion = druze
+						has_pop_religion = ibadi
+					}
+				}
+				change_pop_religion = { target = rel:sunni value = 1.0 }
+			}
+			every_scope_pop = {
+				limit = {
+					OR = {
+						has_pop_religion = shenist
+						has_pop_religion = confucian
+						has_pop_religion = taoist
+						has_pop_religion = baptist
+						has_pop_religion = presbyterian
+						has_pop_religion = congregationalist
+						has_pop_religion = anabaptist
+						has_pop_religion = mormon
+						has_pop_religion = god_society
+					}
+				}
+				change_pop_religion = { target = rel:mahayana value = 1.0 }
+			}
+		}
+	}
 	
 	if = {
 		limit = {
