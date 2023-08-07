@@ -1,0 +1,2946 @@
+types notifications {
+	type notification_popup = default_popup {
+		blockoverride "sound" {
+			state = {
+				name = sound
+				trigger_on_create = yes
+				start_sound = {
+					soundeffect = "[PlayerMessageItem.GetOnCreatedSoundEvent]"
+				}
+			}
+		}
+	}
+
+	type default_notification = notification_popup {
+	
+		blockoverride "window_header_name" {
+			text = "[PlayerMessageItem.GetName]"
+		}
+
+		blockoverride "header_close_button_visibility" {
+			visible = yes
+		}
+		blockoverride "header_close_button" {
+			onclick = "[PopupManager.CloseMessage(PlayerMessageItem.AccessSelf)]"
+			shortcut = "close_window"
+		}
+
+		blockoverride "scrollarea_content" {
+			flowcontainer = {
+				resizeparent = yes
+				direction = vertical
+				margin_top = 10
+				margin_bottom = 15
+
+				textbox = {
+					autoresize = yes
+					maximumsize = { 530 -1 }
+					multiline = yes
+					text = "[PlayerMessageItem.GetDescription]"
+					using = fontsize_large
+				}
+
+				block "extra_info" {}
+			}
+		}
+
+		blockoverride "fixed_bottom" {
+			flowcontainer = {
+				margin = { 10 10 }
+				using = default_list_position
+
+				button = {
+					using = default_button
+					size = { 200 40 }
+					text = "OK"
+					parentanchor = hcenter
+					onclick = "[PopupManager.CloseMessage(PlayerMessageItem.AccessSelf)]"
+					
+					tooltip = "CONFIRM"
+					input_action = "confirm"
+				}
+			}
+		}
+	}
+}
+
+
+### DIPLOMATIC ACTION NOTIFICATION (WITH AI REASONS)
+default_notification =  {
+	name = "diplomatic_action_with_reasons_notification_popup"
+
+	blockoverride "extra_info"
+	{
+		textbox = {
+			visible = "[Not(PlayerMessageItem.GetCountry.IsPlayer)]"
+			datacontext = "[PlayerMessageItem.GetDiplomaticAction]"
+			text = "AI_WILL_ACCEPT_BREAKDOWN"
+			autoresize = yes
+			multiline = yes
+			maximumsize = { 480 -1 }
+		}
+	}
+}
+
+### ACQUIRED TECHNOLOGY
+notification_popup = {
+	name = "acquired_technology_popup"
+	using = default_fade_in
+
+	blockoverride "behind_window" {
+		### VFX
+		vfx = {
+			blockoverride "size" {
+				size = { 800% 800% }
+			}
+			blockoverride "parent_anchor" {
+				parentanchor = hcenter|vcenter
+			}
+			blockoverride "entity_instance" {
+				entity_instance = vfx_entity_ui_celebration_behind_window
+			}			
+		}
+	}
+	blockoverride "window_header_name" {
+		text = "TECHNOLOGY_AQUIRED_POPUP_HEADER"
+	}
+
+	blockoverride "header_close_button_visibility" {
+		visible = yes
+	}
+	blockoverride "header_close_button" {
+		onclick = "[PopupManager.CloseMessage(PlayerMessageItem.AccessSelf)]"
+	}
+
+	blockoverride "scrollarea_content" {
+		
+		flowcontainer = {
+			resizeparent = yes
+		
+			margin_top = 15
+			margin_bottom = 20
+			using = default_list_position
+			direction = vertical
+			datacontext = "[PlayerMessageItem.GetScopeTechnology]"
+
+			widget = {
+				parentanchor = hcenter
+				size = { 610 200 }
+
+				widget = {
+					parentanchor = hcenter
+					size = { 610 200 }
+
+					state = {
+						name = start
+						next = 2
+						trigger_on_create = yes
+						duration = 0
+						alpha = 0
+						size = { 0 200 }
+						position = { 0 0 }
+					}
+					state = {
+						name = 2
+						duration = 0.7
+						alpha = 1
+						position = { 0 0 }
+						size = { 610 200 }
+						using = Animation_Curve_Default
+					}
+
+					icon = {
+						size = { 100% 100% }
+						using = entry_bg
+						using = rotate_glow_overlay_blue_stop
+						using = shimmer_fade_in
+					}
+				}
+
+				widget = {
+					size = { 607 193 }
+					parentanchor = vcenter
+
+					background = {
+						using = dark_area
+					}
+
+					### IMAGE
+					icon = {
+						size = { 437 193 }
+						texture = "gfx/interface/icons/invention_icons/bg_tech_society.dds"
+						using = rotate_glow_overlay_blue
+
+						modify_texture = {
+							texture = "gfx/interface/masks/fade_horizontal_right.dds"
+							spriteType = Corneredstretched
+							spriteborder = { 0 0 }
+							blend_mode = alphamultiply
+						}
+
+						state = {
+							name = start
+							next = 2
+							trigger_on_create = yes
+							duration = 0
+							alpha = 0
+						}
+						state = {
+							name = 2
+							duration = 2
+							alpha = 1
+							using = Animation_Curve_Default
+						}
+					}
+
+
+					### ICON
+					widget = {
+						position = { 0 0 }
+						size = { 200 200 }
+						parentanchor = vcenter
+
+						### GLOW
+						icon = {
+							using = rotate_glow_blue
+							position = { 0 0 }
+							parentanchor = center
+							size = { 170 170 }
+
+							state = {
+								name = start
+								next = 2
+								trigger_on_create = yes
+								scale = 0.2
+								duration = 0
+								alpha = 0
+							}
+							state = {
+								name = 2
+								scale = 1
+								duration = 0.5
+								alpha = 0.4
+								using = Animation_Curve_Default
+							}
+						}
+
+						### BG
+						icon = {
+							size = { 180 180 }
+							parentanchor = center
+							texture = "gfx/interface/backgrounds/round_frame_dec.dds"
+
+							using = rotate_glow_overlay_blue
+
+							modify_texture = {
+								name = "glow"
+								texture = "gfx/interface/animation/shimmer.dds"
+								blend_mode = colordodge
+								translate_uv = { 0 0 }
+							}
+
+							state = {
+								name = start
+								next = 2
+								trigger_on_create = yes
+								scale = 0.5
+								duration = 0
+								alpha = 0.2
+
+								modify_texture = {
+									name = "glow"
+									translate_uv = { -0.5 -0.5 }
+								}
+							}
+							state = {
+								name = 2
+								scale = 1
+								duration = 0.5
+								alpha = 1
+								using = Animation_Curve_Default
+
+								modify_texture = {
+									name = "glow"
+									translate_uv = { 1 1 }
+								}
+							}
+
+							### ICON
+							icon = {
+								parentanchor = hcenter
+								size = { 170 170 }
+								texture = "[Technology.GetTexture]"
+
+								modify_texture = {
+									name = "glow"
+									texture = "gfx/interface/animation/shimmer.dds"
+									blend_mode = colordodge
+									translate_uv = { 0 0 }
+								}
+
+								state = {
+									name = start
+									next = 2
+									trigger_on_create = yes
+									scale = 0.3
+									duration = 0
+									alpha = 0
+
+									modify_texture = {
+										name = "glow"
+										translate_uv = { -0.5 -0.5 }
+									}
+								}
+								state = {
+									name = 2
+									scale = 1
+									duration = 0.5
+									alpha = 1
+									using = Animation_Curve_Default
+
+									modify_texture = {
+										name = "glow"
+										translate_uv = { 1 1 }
+									}
+								}
+							}
+
+							### ERA
+							icon = {
+								size = { 53 53 }
+								parentanchor = bottom
+								texture = "gfx/interface/backgrounds/round_button_bg.dds"
+
+								textbox = {
+									datacontext = "[Technology.GetEra]"
+									text = TECHNOLOGY_TYPE_DESCRIPTION
+									autoresize = yes
+									using = fontsize_xxl
+									parentanchor = center
+									align = nobaseline
+									position = { 0 -2 }
+								}
+							}
+						}
+					}
+				}
+
+				textbox = {
+					position = { -20 0 }
+					text = "TECHNOLOGY_LORE_TEXT"
+					autoresize = yes
+					maximumsize = { 360 -1 }
+					minimumsize = { 360 -1 }
+					multiline = yes
+					parentanchor = right|vcenter
+
+					state = {
+						name = start
+						next = 2
+						trigger_on_create = yes
+						duration = 0
+						alpha = 0
+						position = { -20 -30 }
+					}
+					state = {
+						name = 2
+						duration = 0.4
+						alpha = 1
+						position = { -20 0 }
+						using = Animation_Curve_Default
+					}
+				}
+			}
+
+			textbox = {
+				margin_top = 20
+				parentanchor = hcenter
+				text = "TECHNOLOGY_UNLOCKS_TEXT"
+				autoresize = yes
+				maximumsize = { 600 -1 }
+				minimumsize = { 600 -1 }
+				multiline = yes
+			}
+		}
+	}
+
+	blockoverride "fixed_bottom" {
+		button = {
+			using = default_list_position
+			using = default_button
+			text = "OK"
+			onclick = "[PopupManager.CloseMessage(PlayerMessageItem.AccessSelf)]"
+			size = { 280 40 }
+			
+			tooltip = "CONFIRM"
+			input_action = "confirm"
+		}
+	}
+}
+
+### LAW CHANGED
+notification_popup = {
+	name = "law_changed_popup"
+
+	blockoverride "window_header_name" {
+		text = "WE_NOW_HAVE_LAW"
+	}
+
+	blockoverride "header_close_button_visibility" {
+		visible = yes
+	}
+	blockoverride "header_close_button" {
+		onclick = "[PopupManager.CloseMessage(PlayerMessageItem.AccessSelf)]"
+		shortcut = "close_window"
+	}
+
+	blockoverride "scrollarea_content" {
+		flowcontainer = {
+			resizeparent = yes
+			margin_top = 10
+			using = default_list_position
+			direction = vertical
+			margin_left = 10
+			margin_right = 10
+			datacontext = "[PlayerMessageItem.GetLaw]"
+
+			widget = {
+				parentanchor = hcenter
+				size = { 610 200 }
+
+				widget = {
+					parentanchor = hcenter
+					size = { 610 200 }
+
+					state = {
+						name = start
+						next = 2
+						trigger_on_create = yes
+						duration = 0
+						alpha = 0
+						size = { 0 200 }
+						position = { 0 0 }
+					}
+					state = {
+						name = 2
+						duration = 0.7
+						alpha = 1
+						position = { 0 0 }
+						size = { 610 200 }
+						using = Animation_Curve_Default
+					}
+
+					icon = {
+						size = { 100% 100% }
+						using = entry_bg
+						using = rotate_glow_overlay_blue_stop
+						using = shimmer_fade_in
+					}
+				}
+
+				widget = {
+					size = { 607 190 }
+					parentanchor = center
+
+					### IMAGE
+					icon = {
+						size = { 437 193 }
+						texture = "gfx/interface/illustrations/government/government_illustration.dds"
+						using = rotate_glow_overlay_blue
+
+						modify_texture = {
+							texture = "gfx/interface/masks/fade_horizontal_right.dds"
+							spriteType = Corneredstretched
+							spriteborder = { 0 0 }
+							blend_mode = alphamultiply
+						}
+
+						modify_texture = {
+							texture = "gfx/interface/masks/fade_horizontal_left.dds"
+							spriteType = Corneredstretched
+							spriteborder = { 0 0 }
+							blend_mode = alphamultiply
+						}
+
+						modify_texture = {
+							texture = "gfx/interface/masks/fade_vertical_bottom.dds"
+							spriteType = Corneredstretched
+							spriteborder = { 0 0 }
+							blend_mode = alphamultiply
+						}
+
+						state = {
+							name = start
+							next = 2
+							trigger_on_create = yes
+							duration = 0
+							alpha = 0
+						}
+						state = {
+							name = 2
+							duration = 2
+							alpha = 1
+							using = Animation_Curve_Default
+						}
+					}
+
+
+					### ICON
+					widget = {
+						position = { 0 0 }
+						size = { 200 200 }
+						parentanchor = vcenter
+
+						### GLOW
+						icon = {
+							using = rotate_glow_blue
+							position = { 0 0 }
+							parentanchor = center
+							size = { 170 170 }
+
+							state = {
+								name = start
+								next = 2
+								trigger_on_create = yes
+								scale = 0.2
+								duration = 0
+								alpha = 0
+							}
+							state = {
+								name = 2
+								scale = 1
+								duration = 0.5
+								alpha = 0.4
+								using = Animation_Curve_Default
+							}
+						}
+
+						### BG
+						icon = {
+							size = { 180 180 }
+							parentanchor = center
+
+							using = rotate_glow_overlay_blue
+
+							modify_texture = {
+								name = "glow"
+								texture = "gfx/interface/animation/shimmer.dds"
+								blend_mode = colordodge
+								translate_uv = { 0 0 }
+							}
+
+							state = {
+								name = start
+								next = 2
+								trigger_on_create = yes
+								scale = 0.5
+								duration = 0
+								alpha = 0.2
+
+								modify_texture = {
+									name = "glow"
+									translate_uv = { -0.5 -0.5 }
+								}
+							}
+							state = {
+								name = 2
+								scale = 1
+								duration = 0.5
+								alpha = 1
+								using = Animation_Curve_Default
+
+								modify_texture = {
+									name = "glow"
+									translate_uv = { 1 1 }
+								}
+							}
+
+							button_icon_round = {
+								parentanchor = center
+								tooltip = "GO_TO_BUTTON_LAW"
+								using = tooltip_above
+								onclick = "[InformationPanelBar.OpenChangeLaw(Law.AccessSelf)]"
+
+								blockoverride "size" {
+									size = { 60% 60% }
+								}
+
+								blockoverride "icon" {
+									texture = "[Law.GetTexture]"
+								}
+								blockoverride "icon_size" {
+									size = { 75% 75% }
+								}
+							}
+						}
+					}
+				}
+
+				textbox = {
+					parentanchor = right|vcenter
+					position = { -40 0 }
+					text = "LAW_LORE_HEADER"
+					autoresize = yes
+					maximumsize = { 320 -1 }
+					minimumsize = { 320 -1 }
+					multiline = yes
+					align = nobaseline
+
+					state = {
+						name = start
+						next = 2
+						trigger_on_create = yes
+						duration = 0
+						alpha = 0
+						position = { -40 -30 }
+					}
+					state = {
+						name = 2
+						duration = 0.4
+						alpha = 1
+						position = { -40 0 }
+						using = Animation_Curve_Default
+					}
+				}
+			}
+
+			flowcontainer = {
+				margin_top = 20
+				margin_left = 30
+				direction = vertical
+				minimumsize = { 610 -1 }
+				maximumsize = { 610 -1 }
+
+				textbox = {
+					raw_text = "#title [Law.GetNameNoFormatting]#!"
+					autoresize = yes
+					multiline = yes
+					using = fontsize_xxl
+					maximumsize = { 600 -1 }
+					align = nobaseline
+				}
+
+				textbox = {
+					raw_text = "[PlayerMessageItem.GetLaw.GetTooltipNoRequirements]"
+					autoresize = yes
+					multiline = yes
+					maximumsize = { 600 -1 }
+					align = nobaseline
+				}	
+			}
+
+			textbox = {
+				margin_left = 30
+				visible = "[PlayerMessageItem.GetPrevLaw.IsValid]"
+				text = "PREVIOUS_LAW_POPUP_HEADER"
+				autoresize = yes
+				multiline = yes
+				maximumsize = { 600 -1 }
+				margin_bottom = 20
+			}
+
+			textbox = {
+				visible = no
+				text = "ENACT_APPROVAL_CHANGES"
+				autoresize = yes
+				multiline = yes
+				maximumsize = { 600 -1 }
+				align = nobaseline
+			}
+
+			textbox = {
+				visible = no
+				raw_text = "[PlayerMessageItem.GetLaw.GetIGsEnactmentList]"
+				autoresize = yes
+				multiline = yes
+				maximumsize = { 600 -1 }
+				margin_bottom = 20
+				align = nobaseline
+			}
+		}
+	}
+
+	blockoverride "fixed_bottom" {
+		button = {
+			using = default_list_position
+			using = default_button
+			size = { 400 40 }
+			text = "OK"
+			onclick = "[PopupManager.CloseMessage(PlayerMessageItem.AccessSelf)]"			
+			tooltip = "CONFIRM"
+			input_action = "confirm"
+		}
+	}
+}
+
+### DIPLO ACTION WINDOW
+default_popup =  {
+	state = {
+		name = _show
+		#trigger_on_create = yes
+		#start_sound = {
+		#	soundeffect = "event:/SFX/UI/Global/popup_show"
+		#}
+		#alpha = 1
+		#duration = 0
+	}
+	name = "diplomatic_action_window"
+
+	flag = {
+		datacontext = "[DiplomaticActionWindow.GetDiplomaticAction.GetFirstCountry]"
+		position = { 10 20 }
+	}
+
+	flag = {
+		parentanchor = right|top
+		datacontext = "[DiplomaticActionWindow.GetDiplomaticAction.GetSecondCountry]"
+		position = { -10 20 }
+	}
+
+
+	blockoverride "window_header_name" {
+		text = "DIPLOMATIC_ACTION_HEADER"
+		datacontext = "[DiplomaticActionWindow.GetDiplomaticAction]"
+	}
+
+	blockoverride "scrollarea_content"
+	{
+		flowcontainer = {
+			direction = vertical
+			resizeparent = yes
+			margin_top = 10
+
+			textbox = {
+				minimumsize = { 525 -1 }
+				maximumsize = { 525 -1 }
+				multiline = yes
+				align = left|top
+				autoresize = yes
+				margin_bottom = 10
+				text = "[DiplomaticActionWindow.GetDiplomaticAction.GetPopupDesc]"
+			}
+
+			flowcontainer = {
+				direction = vertical
+				visible = "[And(Not(IsDataModelEmpty( AccessPlayer.AccessVioSovWars( DiplomaticActionWindow.GetDiplomaticAction.GetSecondCountry ))), DiplomaticActionWindow.GetDiplomaticAction.ViolatesSovereignty)]"
+
+				textbox = {
+					autoresize = yes
+					align = left|nobaseline
+					text = "violate_sovereignty_wars"
+				}
+
+				dynamicgridbox = {
+					datamodel = "[AccessPlayer.AccessVioSovWars( DiplomaticActionWindow.GetDiplomaticAction.GetSecondCountry )]"
+
+					item = {
+						textbox = {
+							autoresize = yes
+							align = left|nobaseline
+							text = "[War.GetName|v]"
+						}
+					}
+				}
+
+				widget = {
+					size = { 10 10 }
+				}
+
+				textbox = {
+					autoresize = yes
+					align = left|nobaseline
+					text = "violate_sovereignty_countries"
+					datacontext = "[DiplomaticActionWindow.GetDiplomaticAction.GetSecondCountry]"
+				}
+
+				dynamicgridbox = {
+					datamodel = "[AccessPlayer.AccessVioSovInterestedCountries( DiplomaticActionWindow.GetDiplomaticAction.GetSecondCountry )]"
+					flipdirection = yes
+
+					item = {
+						tiny_flag = { }
+					}
+				}
+			}
+
+			flowcontainer = {
+				direction = horizontal
+				margin_top = 10
+				margin_bottom = 10
+				visible = "[DiplomaticActionWindow.GetDiplomaticAction.CanCallInObligation]"
+
+				checkbutton = {
+					parentanchor = vcenter
+					onclick = "[DiplomaticActionWindow.ToggleCallInObligation]"
+					checked = "[DiplomaticActionWindow.WillCallInObligation]"
+					using = check_button
+					size = { 25 25 }
+				}
+
+				textbox = {
+					text = USE_OBLIGATION
+					autoresize = yes
+					margin_left = 10
+					widgetanchor = left|vcenter
+					parentanchor = left|vcenter
+				}
+			}
+
+			flowcontainer = {
+				direction = horizontal
+				visible = "[DiplomaticActionWindow.GetDiplomaticAction.CanPotentiallyOweObligation]"
+				margin_top = 10
+				margin_bottom = 10
+
+				checkbutton = {
+					using = check_button
+					size = { 25 25 }
+					parentanchor = vcenter
+					enabled = "[DiplomaticActionWindow.GetDiplomaticAction.CanOweObligation]"
+					onclick = "[DiplomaticActionWindow.ToggleOweObligation]"
+					checked = "[DiplomaticActionWindow.WillOweObligation]"
+				}
+
+				textbox = {
+					text = OWE_OBLIGATION
+					margin_left = 10
+					autoresize = yes
+					align = left|nobaseline
+				}
+			}
+
+			flowcontainer = {
+				visible = "[DiplomaticActionWindow.GetDiplomaticAction.RequiresApproval]"
+
+				flowcontainer = {
+					visible = "[Not(DiplomaticActionWindow.IsUsingObligation)]"
+					datacontext = "[DiplomaticActionWindow.GetDiplomaticAction]"
+					tooltip = "AI_WILL_ACCEPT_BREAKDOWN"
+					direction = horizontal
+					minimumsize = { 525 25 }
+
+					textbox = {
+						text = "AI_WILL_ACCEPT"
+						visible = "[DiplomaticActionWindow.GetDiplomaticAction.WillAIAccept]"
+						autoresize = yes
+						align = left|nobaseline
+					}
+
+					textbox = {
+						text = "AI_WILL_NOT_ACCEPT"
+						visible = "[Not(DiplomaticActionWindow.GetDiplomaticAction.WillAIAccept)]"
+						autoresize = yes
+						align = left|nobaseline
+					}
+				}
+
+				flowcontainer = {
+					visible = "[DiplomaticActionWindow.WillCallInObligation]"
+					datacontext = "[DiplomaticActionWindow.GetDiplomaticAction]"
+					tooltip = "AI_WILL_ACCEPT_BREAKDOWN_WITH_CALL_IN_OBLIGATION"
+					direction = horizontal
+					minimumsize = { 525 25 }
+
+					textbox = {
+						text = "AI_WILL_ACCEPT"
+						visible = "[DiplomaticActionWindow.GetDiplomaticAction.WillAIAcceptWithCallInObligation]"
+						autoresize = yes
+						align = left|nobaseline
+					}
+
+					textbox = {
+						text = "AI_WILL_NOT_ACCEPT"
+						visible = "[Not(DiplomaticActionWindow.GetDiplomaticAction.WillAIAcceptWithCallInObligation)]"
+						autoresize = yes
+						align = left|nobaseline
+					}
+				}
+
+				flowcontainer = {
+					visible = "[DiplomaticActionWindow.WillOweObligation]"
+					datacontext = "[DiplomaticActionWindow.GetDiplomaticAction]"
+					tooltip = "AI_WILL_ACCEPT_BREAKDOWN_WITH_OWE_OBLIGATION"
+					direction = horizontal
+					minimumsize = { 525 25 }
+
+					textbox = {
+						text = "AI_WILL_ACCEPT"
+						visible = "[DiplomaticActionWindow.GetDiplomaticAction.WillAIAcceptWithOweObligation]"
+						autoresize = yes
+						align = left|nobaseline
+					}
+
+					textbox = {
+						text = "AI_WILL_NOT_ACCEPT"
+						visible = "[Not(DiplomaticActionWindow.GetDiplomaticAction.WillAIAcceptWithOweObligation)]"
+						autoresize = yes
+						align = left|nobaseline
+					}
+				}
+			}
+		}
+	}
+
+	blockoverride "fixed_bottom" {
+		flowcontainer = {
+			using = default_list_position
+			direction = horizontal
+			margin_top = 20
+			spacing = 20
+
+			button = {
+				using = default_button
+				using = close_button_sound
+				size = { 250 42 }
+				text = "CANCEL"
+				onclick = "[PopupManager.HideDiplomaticActionConfirmation]"
+				shortcut = "close_window"
+			}
+
+			button = {
+				using = default_button_primary_action
+				clicksound = "[DiplomaticActionWindow.GetConfirmationSound]"
+				using = ui_pointer_over
+				size = { 250 42 }
+				text = "CONFIRM"
+
+				onclick = "[Execute(DiplomaticActionWindow.ExecuteAction)]"
+				onclick = "[DiplomaticActionWindow.ShowMapNotification]"
+				onclick = "[PopupManager.HideDiplomaticActionConfirmation]"
+				enabled = "[IsValid(DiplomaticActionWindow.ExecuteAction)]"
+
+				tooltip = "CONFIRM"
+				input_action = "confirm"
+			}
+		}
+	}
+}
+
+### RELEASE COUNTRY WINDOW
+default_popup =  {
+	name = "release_country_window"
+
+	flag = {
+		datacontext = "[GetPlayer]"
+		position = { 55 30 }
+	}
+
+	flag_icon = {
+		texture = "[ReleaseCountryWindow.GetCountryCreation.GetDefinition.GetFlag('formation').GetLargeFlagTexture]"
+		frame = "[ReleaseCountryWindow.GetCountryCreation.GetDefinition.GetFlag('formation').GetLargeFlagFrame]"
+		framesize = "[GetLargeFlagFrameSize]"
+		blockoverride "flag_tooltip" {}
+		parentanchor = right
+		widgetanchor = right
+		position = { -55 30 }
+	}
+
+	blockoverride "window_header_name" {
+		text = "RELEASE_COUNTRY_HEADER"
+		datacontext = "[ReleaseCountryWindow.GetCountryCreation]"
+	}
+
+	blockoverride "scrollarea_content"
+	{
+		flowcontainer = {
+			direction = vertical
+			resizeparent = yes
+			margin_top = 10
+
+			# Question for player:
+			textbox = {
+				minimumsize = { 525 -1 }
+				maximumsize = { 525 -1 }
+				multiline = yes
+				align = left|top
+				autoresize = yes
+				margin_bottom = 10
+				text = "[ReleaseCountryWindow.GetPopupQuestion]"
+			}
+
+			# Checkbox + textbox: Release Country as Independent
+			flowcontainer = {
+				direction = horizontal
+				margin_top = 10
+				margin_bottom = 10
+				tooltip = "[ReleaseCountryWindow.GetMakeIndependentTooltip]"
+
+				button_radio = {
+					parentanchor = vcenter
+					onclick = "[ReleaseCountryWindow.ToggleMakeIndependent]"
+					visible = "[Not(ReleaseCountryWindow.WillMakeIndependent)]"
+					enabled = "[And(ReleaseCountryWindow.CanMakeIndependent, ReleaseCountryWindow.CanMakeOwnSubject)]"
+					size = { 25 25 }
+					using = check_button_sound
+				}
+
+				button_radio = {
+					parentanchor = vcenter
+					onclick = "[ReleaseCountryWindow.ToggleMakeIndependent]"
+					enabled = "[And(ReleaseCountryWindow.CanMakeIndependent, ReleaseCountryWindow.CanMakeOwnSubject)]"
+					visible = "[ReleaseCountryWindow.WillMakeIndependent]"
+					size = { 25 25 }
+					frame = 2
+					using = check_button_sound
+				}
+
+				textbox = {
+					text = RELEASE_COUNTRY_AS_INDEPENDENT
+					autoresize = yes
+					margin_left = 10
+					widgetanchor = left|vcenter
+					parentanchor = left|vcenter
+				}
+			}
+
+			# Checkbox + textbox: Release Country as own Subject
+			flowcontainer = {
+				direction = horizontal
+				margin_top = 10
+				margin_bottom = 10
+				tooltip = "[ReleaseCountryWindow.GetMakeOwnSubjectTooltip]"
+
+				button_radio = {
+					using = check_button_sound
+					parentanchor = vcenter
+					onclick = "[ReleaseCountryWindow.ToggleMakeOwnSubject]"
+					visible = "[Not(ReleaseCountryWindow.WillMakeOwnSubject)]"
+					enabled = "[ReleaseCountryWindow.CanMakeOwnSubject]"
+					size = { 25 25 }
+				}
+
+				button_radio = {
+					using = check_button_sound
+					parentanchor = vcenter
+					onclick = "[ReleaseCountryWindow.ToggleMakeOwnSubject]"
+					enabled = "[ReleaseCountryWindow.CanMakeOwnSubject]"
+					visible = "[ReleaseCountryWindow.WillMakeOwnSubject]"
+					size = { 25 25 }
+					frame = 2
+				}
+
+				textbox = {
+					text = RELEASE_COUNTRY_AS_OWN_SUBJECT
+					autoresize = yes
+					margin_left = 10
+					widgetanchor = left|vcenter
+					parentanchor = left|vcenter
+				}
+			}
+
+			# Checkbox + textbox: Play as released country
+			flowcontainer = {
+				direction = horizontal
+				margin_top = 10
+				margin_bottom = 10
+				tooltip = "[ReleaseCountryWindow.GetPlayAsReleasedTooltip]"
+
+				checkbutton = {
+					parentanchor = vcenter
+					enabled = "[ReleaseCountryWindow.CanPlayAsReleased]"
+					onclick = "[ReleaseCountryWindow.TogglePlayAsReleased]"
+					checked = "[ReleaseCountryWindow.WillPlayAsReleased]"
+					using = check_button
+					size = { 25 25 }
+				}
+
+				textbox = {
+					datacontext = "[ReleaseCountryWindow.GetCountryCreation]"
+					text = RELEASE_COUNTRY_PLAY_AS
+					autoresize = yes
+					margin_left = 10
+					widgetanchor = left|vcenter
+					parentanchor = left|vcenter
+				}
+			}
+		}
+	}
+
+	blockoverride "fixed_bottom" {
+		flowcontainer = {
+			using = default_list_position
+			direction = horizontal
+			margin_top = 20
+			spacing = 20
+
+			button = {
+				using = default_button
+				using = close_button_sound
+				size = { 250 42 }
+				text = "CANCEL"
+				onclick = "[PopupManager.HideReleaseCountryConfirmation]"
+				shortcut = "close_window"
+			}
+
+			button = {
+				using = default_button_primary_action
+				size = { 250 42 }
+				text = "RELEASE"
+				enabled = "[IsValid(ReleaseCountryWindow.ReleaseCountry)]"
+				onclick = "[Execute(ReleaseCountryWindow.ReleaseCountry)]"
+				onclick = "[PopupManager.HideReleaseCountryConfirmation]"
+				
+				tooltip = "CONFIRM"
+				input_action = "confirm"
+			}
+		}
+	}
+}
+
+### SWAY OFFER
+default_popup = {
+	name = "sway_offer"
+
+	blockoverride "window_header_name" {
+		text = "SWAY_OFFER_TITLE"
+	}
+
+	blockoverride "header_close_button_visibility" {
+		visible = yes
+	}
+	blockoverride "header_close_button" {
+		onclick = "[PopupManager.HideProposal(Proposal.AccessSelf)]"
+		shortcut = "close_window"
+	}
+
+	blockoverride "scrollarea_content"
+	{
+		flowcontainer = {
+			resizeparent = yes
+			direction = vertical
+			margin_top = 10
+
+			textbox = {
+				autoresize = yes
+				maximumsize = { 530 -1 }
+				minimumsize = { 530 100 }
+				multiline = yes
+				text = "SWAY_OFFER_OBLIGATION_DESC"
+				visible = "[Proposal.GetDiplomaticPlay.HasObligationSwayAttempt(Proposal.GetActor.Self)]"
+				using = fontsize_large
+				align = left|nobaseline
+			}
+
+			textbox = {
+				autoresize = yes
+				maximumsize = { 530 -1 }
+				minimumsize = { 530 100 }
+				multiline = yes
+				text = "SWAY_OFFER_WARGOAL_DESC"
+				visible = "[Not(Proposal.GetDiplomaticPlay.HasObligationSwayAttempt(Proposal.GetActor.Self))]"
+				using = fontsize_large
+				align = left|nobaseline
+			}
+		}
+	}
+
+	blockoverride "fixed_bottom" {
+		flowcontainer = {
+			using = default_list_position
+			direction = horizontal
+			margin_top = 20
+			spacing = 20
+
+			button = {
+				using = default_button
+				using = close_button_sound
+				size = { 220 42 }
+				text = "DECLINE"
+				onclick = "[Execute(Proposal.GetDiplomaticPlay.RejectSwayOffer(Proposal.GetActor.Self))]"
+				onclick = "[PopupManager.CloseProposal(Proposal.AccessSelf)]"
+				enabled = "[IsValid(Proposal.GetDiplomaticPlay.RejectSwayOffer(Proposal.GetActor.Self))]"
+				tooltip = "[GetDesc(Proposal.GetDiplomaticPlay.RejectSwayOffer(Proposal.GetActor.Self))]"
+				shortcut = "close_window"
+			}
+
+			button = {
+				using = default_button_primary_action
+				using = confirm_button_sound
+				size = { 220 42 }
+				text = "ACCEPT"
+				onclick = "[Execute(Proposal.GetDiplomaticPlay.AcceptSwayOffer(Proposal.GetActor.Self))]"
+				onclick = "[PopupManager.CloseProposal(Proposal.AccessSelf)]"
+				enabled = "[IsValid(Proposal.GetDiplomaticPlay.AcceptSwayOffer(Proposal.GetActor.Self))]"
+				tooltip = "[GetDesc(Proposal.GetDiplomaticPlay.AcceptSwayOffer(Proposal.GetActor.Self))]"
+				
+				input_action = "confirm"
+			}
+		}
+	}
+}
+
+### DIPLOMATIC PROPOSAL
+default_popup = {
+	name = "diplomatic_proposal"
+
+	blockoverride "window_header_name" {
+		text = "DIPLOMATIC_PROPOSAL_TITLE"
+	}
+
+	blockoverride "header_close_button_visibility" {
+		visible = yes
+	}
+	blockoverride "header_close_button" {
+		onclick = "[PopupManager.HideProposal(Proposal.AccessSelf)]"
+		shortcut = "close_window"
+	}
+
+	blockoverride "scrollarea_content"
+	{
+		flowcontainer = {
+			resizeparent = yes
+			direction = vertical
+			margin_top = 10
+			margin_bottom = 15
+
+			textbox = {
+				autoresize = yes
+				maximumsize = { 530 -1 }
+				multiline = yes
+				text = "DIPLOMATIC_PROPOSAL_OFFER_OBLIGATION_DESC"
+				using = fontsize_large
+				visible = "[Proposal.GetDiplomaticAction.IsPromisingObligation]"
+			}
+			
+			textbox = {
+				autoresize = yes
+				maximumsize = { 530 -1 }
+				multiline = yes
+				text = "DIPLOMATIC_PROPOSAL_CALL_IN_OBLIGATION_DESC"
+				using = fontsize_large
+				visible = "[Proposal.GetDiplomaticAction.IsCallingInObligation]"
+			}			
+
+			textbox = {
+				autoresize = yes
+				maximumsize = { 530 -1 }
+				multiline = yes
+				text = "DIPLOMATIC_PROPOSAL_DESC"
+				using = fontsize_large
+				visible = "[And(Not(Proposal.GetDiplomaticAction.IsPromisingObligation),Not(Proposal.GetDiplomaticAction.IsCallingInObligation))]"
+			}
+
+			flowcontainer = {
+				direction = vertical
+				visible = "[Proposal.GetDiplomaticAction.ViolatesSovereignty]"
+
+				widget = {
+					size = { 10 10 }
+				}
+
+				textbox = {
+					autoresize = yes
+					align = left|nobaseline
+					text = "violate_sovereignty_wars"
+				}
+
+				dynamicgridbox = {
+					datamodel = "[Proposal.GetDiplomaticAction.AccessFirstCountry.AccessVioSovWars( GetPlayer.Self )]"
+
+					item = {
+						textbox = {
+							autoresize = yes
+							align = left|nobaseline
+							text = "[War.GetName|v]"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	blockoverride "fixed_bottom" {
+		flowcontainer = {
+			margin = { 10 10 }
+			using = default_list_position
+			spacing = 20
+
+			button = {
+				using = default_button
+				using = close_button_sound
+				size = { 250 42 }
+				text = "DECLINE"
+				shortcut = "close_window"
+				onclick = "[Execute(Proposal.GetDiplomaticAction.DeclineActionProposal)]"
+				onclick = "[PopupManager.CloseProposal(Proposal.AccessSelf)]"
+				enabled = "[IsValid(Proposal.GetDiplomaticAction.DeclineActionProposal)]"
+				tooltip = "[GetDesc(Proposal.GetDiplomaticAction.DeclineActionProposal)]"
+				visible = "[Not(Proposal.GetDiplomaticAction.IsCallingInObligation)]"
+			}
+			
+			button = {
+				using = default_button
+				using = close_button_sound
+				size = { 250 42 }
+				text = "DECLINE_WARNING"
+				shortcut = "close_window"
+				onclick = "[Execute(Proposal.GetDiplomaticAction.DeclineActionProposal)]"
+				onclick = "[PopupManager.CloseProposal(Proposal.AccessSelf)]"
+				enabled = "[IsValid(Proposal.GetDiplomaticAction.DeclineActionProposal)]"
+				tooltip = "THEY_CALL_IN_OBLIGATION"
+				visible = "[Proposal.GetDiplomaticAction.IsCallingInObligation]"
+			}			
+
+			button = {
+				using = default_button_primary_action
+				using = confirm_button_sound
+				size = { 250 42 }
+				text = "ACCEPT"
+				onclick = "[Execute(Proposal.GetDiplomaticAction.AcceptActionProposal)]"
+				onclick = "[PopupManager.CloseProposal(Proposal.AccessSelf)]"
+				enabled = "[IsValid(Proposal.GetDiplomaticAction.AcceptActionProposal)]"
+				tooltip = "[GetDesc(Proposal.GetDiplomaticAction.AcceptActionProposal)]"
+
+				input_action = "confirm"
+			}
+		}
+	}
+}
+
+### DIPLOMATIC PROPOSAL BREAK
+default_popup = {
+	name = "diplomatic_proposal_break"
+
+	blockoverride "window_header_name" {
+		text = "DIPLOMATIC_PROPOSAL_BREAK_TITLE"
+	}
+
+	blockoverride "header_close_button_visibility" {
+		visible = yes
+	}
+	blockoverride "header_close_button" {
+		onclick = "[PopupManager.HideProposal(Proposal.AccessSelf)]"
+		shortcut = "close_window"
+	}
+
+	blockoverride "scrollarea_content"
+	{
+		flowcontainer = {
+			resizeparent = yes
+			direction = vertical
+			margin_top = 10
+			margin_bottom = 15
+
+			textbox = {
+				autoresize = yes
+				maximumsize = { 530 -1 }
+				multiline = yes
+				text = "DIPLOMATIC_PROPOSAL_BREAK_DESC"
+				using = fontsize_large
+			}
+		}
+	}
+
+	blockoverride "fixed_bottom" {
+		flowcontainer = {
+			margin = { 10 10 }
+			using = default_list_position
+			spacing = 20
+
+			button = {
+				using = default_button
+				using = close_button_sound
+				size = { 250 42 }
+				text = "DECLINE"
+				onclick = "[Execute(Proposal.GetDiplomaticAction.DeclineActionProposal)]"
+				onclick = "[PopupManager.CloseProposal(Proposal.AccessSelf)]"
+				enabled = "[IsValid(Proposal.GetDiplomaticAction.DeclineActionProposal)]"
+				tooltip = "[GetDesc(Proposal.GetDiplomaticAction.DeclineActionProposal)]"
+				shortcut = "close_window"
+			}
+
+			button = {
+				using = default_button_primary_action
+				using = confirm_button_sound
+				size = { 250 42 }
+				text = "ACCEPT"
+				onclick = "[Execute(Proposal.GetDiplomaticAction.AcceptActionProposal)]"
+				onclick = "[PopupManager.CloseProposal(Proposal.AccessSelf)]"
+				enabled = "[IsValid(Proposal.GetDiplomaticAction.AcceptActionProposal)]"
+				tooltip = "[GetDesc(Proposal.GetDiplomaticAction.AcceptActionProposal)]"
+				
+				input_action = "confirm"
+			}
+		}
+	}
+}
+
+### DIPLOMATIC PLAY CONFIRMATION
+default_popup =  {
+	name = "diplomatic_play_confirmation"
+
+	state = {
+		name = _show
+		#trigger_on_create = yes
+		#start_sound = {
+		#	soundeffect = "event:/SFX/UI/Global/popup_show"
+		#}
+		#alpha = 1
+		#duration = 0
+	}
+
+	flag = {
+		datacontext = "[GetPlayer]"
+		position = { 10 20 }
+	}
+
+	flag = {
+		parentanchor = right|top
+		datacontext = "[DiplomaticPlayConfirmation.GetTargetCountry]"
+		position = { -10 20 }
+	}
+
+	blockoverride "window_header_name" {
+		text = "DIPLOMATIC_PLAY_CONFIRMATION_HEADER"
+		datacontext = "[DiplomaticPlayConfirmation.GetType]"
+	}
+
+	blockoverride "scrollarea_content"
+	{
+		flowcontainer = {
+			resizeparent = yes
+			direction = vertical
+			margin_top = 10
+			margin_bottom = 15
+			margin_left = 20
+			margin_right = 20
+
+			textbox = {
+				maximumsize = { 525 -1 }
+				multiline = yes
+				autoresize = yes
+				text = "[DiplomaticPlayConfirmation.GetDescription]"
+			}
+		}
+	}
+
+	blockoverride "fixed_bottom" {
+		flowcontainer = {
+			using = default_list_position
+			direction = horizontal
+			margin_top = 20
+			spacing = 20
+
+			button = {
+				using = default_button
+				using = close_button_sound
+				size = { 250 42 }
+				text = "CANCEL"
+				onclick = "[PopupManager.HideDiplomaticPlayConfirmation]"
+				shortcut = "close_window"
+			}
+
+			button = {
+				using = default_button_primary_action
+				clicksound = "[DiplomaticPlayConfirmation.GetConfirmationSound]"
+				using = ui_pointer_over
+				size = { 250 42 }
+				text = "CONFIRM"
+				onclick = "[Execute(DiplomaticPlayConfirmation.ConfirmAction)]"
+				onclick = "[DiplomaticPlayConfirmation.ShowMapNotification]"
+				onclick = "[PopupManager.HideDiplomaticPlayConfirmation]"
+				enabled = "[IsValid(DiplomaticPlayConfirmation.ConfirmAction)]"
+				input_action = "confirm"
+				
+				tooltip = "CONFIRM"		
+			}
+		}
+	}
+}
+
+### CONFIRMATION WINDOW
+container =  {
+	name = "confirmation_window"
+	parentanchor = center
+	using = clickthrough_blocker
+	layer = confirmation
+
+	state = {
+		trigger_on_create = yes
+		name = 1
+		next = 2
+
+		alpha = 0
+		position_y = -50
+	}
+	state = {
+		name = 2
+		duration = 0.25
+		using = Animation_Curve_Default
+
+		alpha = 1
+		position_y = 0
+	}
+
+	background = {
+		using = default_background
+	}
+	background = {
+		using = frame_small
+	}
+
+	flowcontainer = {
+		direction = vertical
+		margin = { 40 20 }
+		spacing = 20
+
+		textbox = {
+			maximumsize = { 300 -1 }
+			minimumsize = { 300 -1 }
+			multiline = yes
+			text = "[ConfirmationWindow.GetDesc]"
+			autoresize = yes
+		}
+
+		flowcontainer = {
+			direction = horizontal
+			using = default_list_position
+			spacing = 20
+
+			button = {
+				using = default_button
+				using = close_button_sound
+				size = { 140 40 }
+				text = "CONFIRM_NO"
+				onclick = "[PopupManager.AnswerNo(ConfirmationWindow.Self)]"
+				shortcut = "close_window"
+			}
+			button = {
+				using = default_button_primary_action
+				using = confirm_button_sound
+				name = "confirmation_button"
+				size = { 140 40 }
+				text = "CONFIRM_YES"
+				onclick = "[PopupManager.AnswerYes(ConfirmationWindow.Self)]"
+				
+				tooltip = "CONFIRM"
+				input_action = "confirm"
+			}
+		}
+	}
+}
+
+container =  {
+	name = "confirmation_window_frontend"
+	parentanchor = center
+	using = clickthrough_blocker
+	layer = confirmation
+
+	state = {
+		trigger_on_create = yes
+		name = 1
+		next = 2
+
+		alpha = 0
+		position_y = -50
+	}
+	state = {
+		name = 2
+		duration = 0.25
+		using = Animation_Curve_Default
+
+		alpha = 1
+		position_y = 0
+	}
+
+	background = {
+		using = default_background
+	}
+	background = {
+		using = frame_small
+	}
+
+	flowcontainer = {
+		direction = vertical
+		margin = { 40 20 }
+		spacing = 20
+
+		textbox = {
+			maximumsize = { 300 -1 }
+			minimumsize = { 300 -1 }
+			multiline = yes
+			text = "[FrontEndLoadConfirmationWindow.GetDesc]"
+			autoresize = yes
+		}
+
+		flowcontainer = {
+			direction = horizontal
+			using = default_list_position
+			spacing = 20
+
+			button = {
+				using = default_button
+				using = close_button_sound
+				size = { 140 40 }
+				text = "CONFIRM_NO"
+				onclick = "[FrontEndLoadConfirmationWindow.AnswerNo]"
+				shortcut = "close_window"
+			}
+			button = {
+				using = default_button_primary_action
+				using = confirm_button_sound
+				size = { 140 40 }
+				text = "CONFIRM_YES"
+				onclick = "[FrontEndLoadConfirmationWindow.AnswerYes]"
+				
+				tooltip = "CONFIRM"
+				input_action = "confirm"
+			}
+		}
+	}
+}
+
+###### CUSTOM WINDOW BELOW THIS POINT
+
+### WAR POPUP
+
+### numbers
+@attacker_defender_height = 475
+@attacker_defender_lists_height = 380
+@attacker_defender_bg_duration = 0.45
+@attacker_defender_info_duration = 0.3
+@attacker_defender_divider_duration = 1.5
+@header_items_duration = 0.4
+@header_items_delay = 0.15
+@smoke_effect_duration = 4
+
+notification_popup = {
+	name = "war_started"
+	size = { 190 720 }
+	alpha = 0
+	blockoverride "content" {}
+	datacontext = "[PlayerMessageItem.GetDiploPlay.AccessWar]"
+
+	state = {
+		name = start
+		next = 2
+		trigger_on_create = yes
+		duration = 1
+		size = { 990 720 }
+		using = Animation_Curve_EaseOut
+		alpha = 1
+		using = Snapshot_Mute_World_80
+		on_start = "[PdxGuiTriggerAllAnimations('war_popup')]"
+		start_sound = {
+			soundeffect = "event:/SFX/UI/Popups/war_breaking_out"
+		}
+	}
+	state = {
+		name = 2
+		duration = 0.4
+		on_finish = "[PdxGuiTriggerAllAnimations('war_popup_attacker_defender')]"
+	}
+
+	#cameracontrolwidget = {
+	#	name = "vfx_to_arms_background"
+	#	parentanchor = bottom|hcenter
+	#	position = { 0 400 }
+	#	
+	#	size = { 100% 100% }
+	#	camera_position = { 0 0 -2 }
+	#	entity_instance = vfx_entity_ui_to_arms_background
+	#	alwaystransparent = yes
+	#	ignore_in_debug_draw = yes
+	#	gfxtype = jomini_entitygfx
+	#}
+
+	#vfx = {
+	#	blockoverride "parentanchor" {
+	#		 parentanchor = bottom|hcenter
+	#	}
+	#	blockoverride "position" {
+	#		position = { 0 400 }
+	#	}
+	#	blockoverride "camera_position" {
+	#		camera_position = { 0 0 -2 }
+	#	}
+	#	blockoverride "entity_instance" {
+	#		entity_instance = vfx_entity_ui_to_arms_background
+	#	}
+	#}
+
+	vfx = {
+		blockoverride "size" {
+			size = { 100% 100% }
+		}
+		blockoverride "position" {
+			position = { 0 345 }
+		}
+		blockoverride "parent_anchor" {
+			parentanchor = bottom|hcenter
+		}
+		blockoverride "camera_position" {
+			camera_position = { 0 0 -2 }
+		}
+		blockoverride "entity_instance" {
+			entity_instance = vfx_ui_plane_war_panel_fire_plane_entity
+		}			
+	}
+	
+	## TOP ANIMATION
+	blockoverride "behind_window" {
+
+		widget = {
+			position = { 0 -85 }
+			parentanchor = hcenter
+			size = { 800 100 }
+
+			state = {
+				name = war_popup
+				next = 2
+				duration = @header_items_delay
+				on_start = "[PdxGuiTriggerAllAnimations('war_popup_header_gun_01')]"
+			}
+			state = {
+				name = 2
+				next = 3
+				duration = @header_items_delay
+				on_start = "[PdxGuiTriggerAllAnimations('war_popup_header_gun_02')]"
+			}
+			state = {
+				name = 3
+				next = 4
+				duration = @header_items_delay
+				on_start = "[PdxGuiTriggerAllAnimations('war_popup_header_flag_01')]"
+			}
+			state = {
+				name = 4
+				next = 5
+				duration = @header_items_delay
+				on_start = "[PdxGuiTriggerAllAnimations('war_popup_header_flag_02')]"
+			}
+			state = {
+				name = 5
+				on_start = "[PdxGuiTriggerAllAnimations('war_popup_header_helmet')]"
+			}
+
+			### bg
+			icon = {
+				texture = "gfx/interface/war/war_popup_header_bg.dds"
+				parentanchor = bottom|hcenter
+				position = { 0 0 }
+				size = { 663 62 }
+				alpha = 0
+				scale = 0.1
+
+				state = {
+					name = war_popup
+					alpha = 1
+					scale = 1
+					duration = 0.6
+					using = Animation_Curve_EaseOut
+					on_start = "[PdxGuiTriggerAllAnimations('war_popup_header_shimmer')]"
+				}
+
+				modify_texture = {
+					name = "glow"
+					texture = "gfx/interface/animation/shimmer.dds"
+					blend_mode = colordodge
+					translate_uv = { 1 1 }
+				}
+
+				state = {
+					name = war_popup_header_shimmer
+					duration = 2
+					using = Animation_Curve_EaseOut
+
+					modify_texture = {
+						name = "glow"
+						translate_uv = { -1 -1 }
+					}
+				}
+			}
+
+			icon = {
+				position = { 0 -90 }
+				parentanchor = hcenter
+				using = rotate_glow_animation_02
+				size = { 330 330 }
+				alpha = 0
+
+				state = {
+					name = war_popup
+					alpha = 0.4
+					duration = 2
+				}
+			}
+
+			### guns
+			icon = {
+				texture = "gfx/interface/war/war_popup_header_animation_gun.dds"
+				parentanchor = bottom|hcenter
+				position = { -360 -120 }
+				size = { 205 68 }
+				alpha = 0
+				scale = 10
+
+				state = {
+					name = war_popup_header_gun_01
+					position = { -90 10 }
+					duration = @header_items_duration
+					using = Animation_Curve_EaseOut
+					alpha = 1
+					scale = 1
+				}
+			}
+			icon = {
+				texture = "gfx/interface/war/war_popup_header_animation_gun.dds"
+				parentanchor = bottom|hcenter
+				mirror = horizontal
+				position = { 360 -120 }
+				size = { 205 68 }
+				alpha = 0
+				scale = 10
+
+				state = {
+					name = war_popup_header_gun_02
+					position = { 90 10 }
+					duration = @header_items_duration
+					using = Animation_Curve_EaseOut
+					alpha = 1
+					scale = 1
+				}
+			}
+
+			### flags
+			icon = {
+				texture = "gfx/interface/war/war_popup_header_animation_flag.dds"
+				parentanchor = bottom|hcenter
+				position = { -220 -110 }
+				size = { 174 96 }
+				scale = 10
+				alpha = 0
+
+				state = {
+					name = war_popup_header_flag_01
+					position = { -30 0 }
+					duration = @header_items_duration
+					using = Animation_Curve_EaseOut
+					alpha = 1
+					scale = 1
+				}
+			}
+			icon = {
+				texture = "gfx/interface/war/war_popup_header_animation_flag.dds"
+				parentanchor = bottom|hcenter
+				position = { 220 -110 }
+				mirror = horizontal
+				size = { 174 96 }
+				scale = 10
+				alpha = 0
+
+				state = {
+					name = war_popup_header_flag_02
+					position = { 30 0 }
+					duration = @header_items_duration
+					using = Animation_Curve_EaseOut
+					alpha = 1
+					scale = 1
+				}
+			}
+
+			### helmet
+			icon = {
+				texture = "gfx/interface/war/war_popup_header_animation_helmet.dds"
+				parentanchor = bottom|hcenter
+				position = { 0 -220 }
+				size = { 75 115 }
+				scale = 10
+				alpha = 0
+
+				state = {
+					name = war_popup_header_helmet
+					position = { 0 -5 }
+					duration = @header_items_duration
+					using = Animation_Curve_EaseOut
+					alpha = 1
+					scale = 0.9
+				}
+			}
+		}
+	}
+
+	### HEADER TEXT + FLAGS
+	container = {
+		parentanchor = top|hcenter
+		minimumsize = { 920 -1 }
+		position = { 0 24 }
+
+		### header
+		textbox = {
+			using = header_font
+			using = header_font_size
+			size = { 880 50 }
+			text = "[War.GetStartWarTitleForPlayer]"
+			multiline = yes
+			elide = right
+			fontsize_min = 16
+			align = center|nobaseline
+			parentanchor = hcenter
+			alpha = 0
+
+			state = {
+				name = war_popup
+				next = 2
+				alpha = 0
+				duration = 0.5
+			}
+			state = {
+				name = 2
+				alpha = 1
+				duration = 1.5
+				using = Animation_Curve_Default
+			}
+		}
+	}
+
+	### DESCRIPTION
+	textbox = {
+		position = { 0 90 }
+		autoresize = yes
+		multiline = yes
+		maximumsize = { 920 -1 }
+		minimumsize = { 920 -1 }
+		text = "[War.GetStartWarDescriptionForPlayer]"
+		align = center|nobaseline
+		parentanchor = hcenter
+		alpha = 0
+
+		state = {
+			name = war_popup
+			next = 2
+			alpha = 0
+			duration = 1
+		}
+		state = {
+			name = 2
+			alpha = 1
+			duration = 1.5
+			using = Animation_Curve_Default
+		}
+	}
+
+	### ATTACKER / DEFENDER
+	container = {
+		parentanchor = top|hcenter
+		minimumsize = { 920 -1 }
+		position = { 0 150 }
+
+		### ATTACKING SIDE
+		widget = {
+			position = { 10 0 }
+			size = { 420 @attacker_defender_height }
+
+			### BG + HEADER
+			widget = {
+				size = { 0 @attacker_defender_height }
+				alpha = 0
+				parentanchor = hcenter
+
+				state = {
+					name = war_popup_attacker_defender
+					size = { 420 @attacker_defender_height }
+					duration = @attacker_defender_bg_duration
+					using = Animation_Curve_Default
+					alpha = 1
+					on_finish = "[PdxGuiTriggerAllAnimations('war_popup_attacker_info')]"
+				}
+
+				using = entry_bg_fancy
+
+				### HEADER
+				default_header_clean = {
+					blockoverride "header_mask" {
+						using = frame_small_mask_top
+					}
+					blockoverride "text" {
+						text = "ATTACKER"
+					}
+					blockoverride "size" {
+						size = { 100% 38 }
+					}
+				}
+			}
+
+			### ATTACKER INFO
+			flowcontainer = {
+				parentanchor = hcenter
+				position = { 0 50 }
+				spacing = 3
+				alpha = 0
+
+				state = {
+					name = war_popup_attacker_info
+					duration = @attacker_defender_info_duration
+					using = Animation_Curve_Default
+					alpha = 1
+				}
+
+				### ATTACKER ALLIES
+				flowcontainer = {
+					direction = vertical
+					spacing = 5
+
+					textbox = {
+						autoresize = yes
+						maximumsize = { 180 -1 }
+						elide = right
+						text = "BELLIGERENTS"
+						default_format = "#title"
+						parentanchor = hcenter
+						align = center|nobaseline
+					}
+
+					scrollarea = {
+						size = { 170 @attacker_defender_lists_height }
+						scrollbarpolicy_horizontal = always_off
+						scrollbar_vertical = {
+							using = vertical_scrollbar
+						}
+
+						scrollwidget = {
+							flowcontainer = {
+								datamodel = "[War.AccessAttackers]"
+								direction = vertical
+								spacing = 15
+
+								item = {
+									flag_with_str_left = {
+										datacontext = "[WarParticipant.GetCountry]"
+									}
+								}
+							}
+						}
+					}
+				}
+
+				vertical_divider_full = {
+					blockoverride "size" {
+						size = { 0 0 }
+					}
+					alpha = 0
+
+					state = {
+						name = war_popup_attacker_info
+						size = { 0 400 }
+						duration = @attacker_defender_divider_duration
+						using = Animation_Curve_Default
+						alpha = 1
+					}
+				}
+
+				### ATTACKER WARGOALS
+				flowcontainer = {
+					direction = vertical
+					spacing = 5
+
+					textbox = {
+						autoresize = yes
+						maximumsize = { 180 -1 }
+						elide = right
+						text = "WARGOALS"
+						default_format = "#title"
+						parentanchor = hcenter
+						align = center|nobaseline
+					}
+
+					scrollarea = {
+						size = { 190 @attacker_defender_lists_height }
+						scrollbarpolicy_horizontal = always_off
+						scrollbar_vertical = {
+							using = vertical_scrollbar
+						}
+
+						scrollwidget = {
+							dynamicgridbox = {
+								parentanchor = hcenter
+								datamodel = "[War.GetAttackersWarGoals]"
+
+								item = {
+									small_wargoal_item = {}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		### DEFENDING SIDE
+		widget = {
+			parentanchor = right
+			position = { -10 0 }
+			size = { 420 @attacker_defender_height }
+
+			### BG + HEADER
+			widget = {
+				size = { 0 @attacker_defender_height }
+				alpha = 0
+				parentanchor = hcenter
+
+				state = {
+					name = war_popup_attacker_defender
+					size = { 420 @attacker_defender_height }
+					duration = @attacker_defender_bg_duration
+					using = Animation_Curve_Default
+					alpha = 1
+					on_finish = "[PdxGuiTriggerAllAnimations('war_popup_defender_info')]"
+				}
+
+				using = entry_bg_fancy
+
+				### HEADER
+				default_header_clean = {
+					blockoverride "header_mask" {
+						using = frame_small_mask_top
+					}
+					blockoverride "text" {
+						text = "DEFENDER"
+					}
+					blockoverride "size" {
+						size = { 100% 38 }
+					}
+				}
+			}
+
+			### DEFENDER INFO
+			flowcontainer = {
+				parentanchor = hcenter
+				position = { 0 50 }
+				spacing = 3
+				alpha = 0
+
+				state = {
+					name = war_popup_defender_info
+					duration = @attacker_defender_info_duration
+					using = Animation_Curve_Default
+					alpha = 1
+				}
+
+				### DEFENDER WARGOALS
+				flowcontainer = {
+					direction = vertical
+					spacing = 5
+
+					textbox = {
+						autoresize = yes
+						maximumsize = { 180 -1 }
+						elide = right
+						text = "WARGOALS"
+						default_format = "#title"
+						parentanchor = hcenter
+						align = center|nobaseline
+					}
+
+					scrollarea = {
+						size = { 190 @attacker_defender_lists_height }
+						scrollbarpolicy_horizontal = always_off
+						scrollbar_vertical = {
+							using = vertical_scrollbar
+						}
+
+						scrollwidget = {
+							dynamicgridbox = {
+								parentanchor = hcenter
+								datamodel = "[War.GetDefendersWarGoals]"
+
+								item = {
+									small_wargoal_item = {}
+								}
+							}
+						}
+					}
+				}
+
+				vertical_divider_full = {
+					blockoverride "size" {
+						size = { 0 0 }
+					}
+					alpha = 0
+
+					state = {
+						name = war_popup_defender_info
+						size = { 0 400 }
+						duration = @attacker_defender_divider_duration
+						using = Animation_Curve_Default
+						alpha = 1
+					}
+				}
+
+				### DEFENDER ALLIES
+				flowcontainer = {
+					direction = vertical
+					spacing = 5
+
+					textbox = {
+						autoresize = yes
+						maximumsize = { 180 -1 }
+						elide = right
+						text = "BELLIGERENTS"
+						default_format = "#title"
+						parentanchor = hcenter
+						align = center|nobaseline
+					}
+
+					scrollarea = {
+						size = { 170 @attacker_defender_lists_height }
+						scrollbarpolicy_horizontal = always_off
+						scrollbar_vertical = {
+							using = vertical_scrollbar
+						}
+
+						scrollwidget = {
+							flowcontainer = {
+								datamodel = "[War.AccessDefenders]"
+								direction = vertical
+								spacing = 15
+
+								item = {
+									flag_with_str_right = {
+										datacontext = "[WarParticipant.GetCountry]"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	### CLOSE BUTTON
+	widget = {
+		parentanchor = hcenter|bottom
+		size = { 350 50 }
+		position = { 0 -25 }
+		
+
+		vfx = {
+			blockoverride "size" {
+				size = { 800% 800% }
+			}
+			blockoverride "parent_anchor" {
+				parentanchor = center
+			}
+			blockoverride "entity_instance" {
+				entity_instance = vfx_entity_ui_to_arms_button
+			}			
+		}
+
+		button = {
+			using = default_button_primary_big
+			size = { 100% 100% }
+			text = "TO_ARMS"
+			using = fontsize_xxl
+			onclick = "[PopupManager.CloseMessage(PlayerMessageItem.AccessSelf)]"
+			shortcut = "close_window"
+			alpha = 0
+			using = war_to_arms_button_sound
+
+			state = {
+				name = war_popup
+				alpha = 1
+				size = { 350 50 }
+				duration = 1.5
+				using = Animation_Curve_Default
+			}
+		}
+	}
+
+	### SMOKE ANIMATION
+	
+	### TOP LEFT
+	icon = {
+		texture = "gfx/interface/war/war_popup_smoke.dds"
+		parentanchor = top|left
+		position = { -100 -100 }
+		size = { 500 500 }
+		alwaystransparent = yes
+
+		modify_texture = {
+			name = mask_01
+			texture = "gfx/interface/war/war_popup_smoke_mask_01.dds"
+			spriteType = Corneredstretched
+			spriteborder = { 0 0 }
+			blend_mode = alphamultiply
+
+			translate_uv = { 0 0 }
+		}
+		modify_texture = {
+			name = mask_02
+			texture = "gfx/interface/war/war_popup_smoke_mask_01.dds"
+			spriteType = Corneredstretched
+			spriteborder = { 0 0 }
+			blend_mode = alphamultiply
+
+			translate_uv = { -0.5 -0.5 }
+		}
+
+		state = {
+			name = war_popup
+			duration = @smoke_effect_duration
+			using = Animation_Curve_EaseOut
+
+			modify_texture = {
+				name = mask_01
+				translate_uv = { 1 1 }
+			}
+			modify_texture = {
+				name = mask_02
+				translate_uv = { 1 1 }
+			}
+		}
+		
+	}
+
+	### CENTER LEFT
+	icon = {
+		texture = "gfx/interface/war/war_popup_smoke.dds"
+		parentanchor = vcenter|left
+		position = { -100 0 }
+		size = { 700 700 }
+		alwaystransparent = yes
+
+		modify_texture = {
+			name = mask_01
+			texture = "gfx/interface/war/war_popup_smoke_mask_01.dds"
+			spriteType = Corneredstretched
+			spriteborder = { 0 0 }
+			blend_mode = alphamultiply
+
+			translate_uv = { 0 0 }
+		}
+		modify_texture = {
+			name = mask_02
+			texture = "gfx/interface/war/war_popup_smoke_mask_01.dds"
+			spriteType = Corneredstretched
+			spriteborder = { 0 0 }
+			blend_mode = alphamultiply
+
+			translate_uv = { -0.5 0 }
+		}
+
+		state = {
+			name = war_popup
+			duration = @smoke_effect_duration
+			using = Animation_Curve_EaseOut
+
+			modify_texture = {
+				name = mask_01
+				translate_uv = { 1 0 }
+			}
+			modify_texture = {
+				name = mask_02
+				translate_uv = { 1 0 }
+			}
+		}
+	}
+
+	### BOTTOM LEFT
+	icon = {
+		texture = "gfx/interface/war/war_popup_smoke.dds"
+		parentanchor = bottom|left
+		position = { -100 100 }
+		size = { 500 500 }
+		alwaystransparent = yes
+
+		modify_texture = {
+			name = mask_01
+			texture = "gfx/interface/war/war_popup_smoke_mask_01.dds"
+			spriteType = Corneredstretched
+			spriteborder = { 0 0 }
+			blend_mode = alphamultiply
+
+			translate_uv = { 0 0 }
+		}
+		modify_texture = {
+			name = mask_02
+			texture = "gfx/interface/war/war_popup_smoke_mask_01.dds"
+			spriteType = Corneredstretched
+			spriteborder = { -0.1 0.1 }
+			blend_mode = alphamultiply
+
+			translate_uv = { -0.5 0.5 }
+		}
+
+		state = {
+			name = war_popup
+			duration = @smoke_effect_duration
+			using = Animation_Curve_EaseOut
+
+			modify_texture = {
+				name = mask_01
+				translate_uv = { 1 -1 }
+			}
+			modify_texture = {
+				name = mask_02
+				translate_uv = { 1 -1 }
+			}
+		}
+	}
+
+	### TOP RIGHT
+	icon = {
+		texture = "gfx/interface/war/war_popup_smoke.dds"
+		parentanchor = top|right
+		position = { 100 -100 }
+		size = { 500 500 }
+		alwaystransparent = yes
+
+		modify_texture = {
+			name = mask_01
+			texture = "gfx/interface/war/war_popup_smoke_mask_01.dds"
+			spriteType = Corneredstretched
+			spriteborder = { 0 0 }
+			blend_mode = alphamultiply
+
+			translate_uv = { 0 0 }
+		}
+		modify_texture = {
+			name = mask_02
+			texture = "gfx/interface/war/war_popup_smoke_mask_01.dds"
+			spriteType = Corneredstretched
+			spriteborder = { 0.1 -0.1 }
+			blend_mode = alphamultiply
+
+			translate_uv = { 0.5 -0.5 }
+		}
+
+		state = {
+			name = war_popup
+			duration = @smoke_effect_duration
+			using = Animation_Curve_EaseOut
+
+			modify_texture = {
+				name = mask_01
+				translate_uv = { -1 1 }
+			}
+			modify_texture = {
+				name = mask_02
+				translate_uv = { -1 1 }
+			}
+		}
+	}
+
+	### CENTER RIGHT
+	icon = {
+		texture = "gfx/interface/war/war_popup_smoke.dds"
+		parentanchor = vcenter|right
+		position = { 100 0 }
+		size = { 700 700 }
+		alwaystransparent = yes
+
+		modify_texture = {
+			name = mask_01
+			texture = "gfx/interface/war/war_popup_smoke_mask_01.dds"
+			spriteType = Corneredstretched
+			spriteborder = { 0 0 }
+			blend_mode = alphamultiply
+
+			translate_uv = { 0 0 }
+		}
+		modify_texture = {
+			name = mask_02
+			texture = "gfx/interface/war/war_popup_smoke_mask_01.dds"
+			spriteType = Corneredstretched
+			spriteborder = { 0 0 }
+			blend_mode = alphamultiply
+
+			translate_uv = { 0.5 0 }
+		}
+
+		state = {
+			name = war_popup
+			duration = @smoke_effect_duration
+			using = Animation_Curve_EaseOut
+
+			modify_texture = {
+				name = mask_01
+				translate_uv = { -1 0 }
+			}
+			modify_texture = {
+				name = mask_02
+				translate_uv = { -1 0 }
+			}
+		}
+	}
+
+	### BOTTOM RIGHT
+	icon = {
+		texture = "gfx/interface/war/war_popup_smoke.dds"
+		parentanchor = bottom|right
+		position = { 100 100 }
+		size = { 500 500 }
+		alwaystransparent = yes
+
+		modify_texture = {
+			name = mask_01
+			texture = "gfx/interface/war/war_popup_smoke_mask_01.dds"
+			spriteType = Corneredstretched
+			spriteborder = { 0 0 }
+			blend_mode = alphamultiply
+
+			translate_uv = { 0 0 }
+		}
+		modify_texture = {
+			name = mask_02
+			texture = "gfx/interface/war/war_popup_smoke_mask_01.dds"
+			spriteType = Corneredstretched
+			spriteborder = { 0 0 }
+			blend_mode = alphamultiply
+
+			translate_uv = { 0.5 0.5 }
+		}
+
+		state = {
+			name = war_popup
+			duration = @smoke_effect_duration
+			using = Animation_Curve_EaseOut
+
+			modify_texture = {
+				name = mask_01
+				translate_uv = { -1 -1 }
+			}
+			modify_texture = {
+				name = mask_02
+				translate_uv = { -1 -1 }
+			}
+		}
+	}
+}
+
+### PEACE SIGNED
+notification_popup = {
+	name = "peace_signed_popup"
+	using = default_fade_in
+	datacontext = "[PlayerMessageItem.GetScopeDiploPlay]"
+
+	blockoverride "window_header_name" {
+		text = "PEACE_TOAST_TITLE"
+	}
+
+	blockoverride "header_close_button_visibility" {
+		visible = yes
+	}
+	blockoverride "header_close_button" {
+		onclick = "[PopupManager.CloseMessage(PlayerMessageItem.AccessSelf)]"
+		shortcut = "close_window"
+	}
+
+	blockoverride "scrollarea_content" {
+		flowcontainer = {
+			direction = vertical
+			resizeparent = yes
+			margin = { 10 10 }
+
+			container = {
+				parentanchor = hcenter
+				minimumsize = { 480 -1 }
+
+				### CENTER DIVIDER
+				vertical_divider = {
+					parentanchor = hcenter
+				}
+
+				flowcontainer = {
+					parentanchor = hcenter
+					direction = vertical
+					spacing = 20
+
+					### PRESSED WARGOALS
+					container = {
+						minimumsize = { 460 -1 }
+
+						### ATTACKERS
+						flowcontainer = {
+							position = { 0 5 }
+							parentanchor = left
+							direction = vertical
+							minimumsize = { 228 -1 }
+
+							textbox = {
+								text = WAR_PANEL_INITIATOR_WARGOALS
+								autoresize = yes
+								align = center|nobaseline
+								parentanchor = hcenter
+							}
+							dynamicgridbox = {
+								using = default_list_position
+								datamodel = "[DiplomaticPlay.AccessAllWarGoalsOfInitiatorSide]"
+
+								item = {
+									small_wargoal_item_with_checkmark = {}
+								}
+							}
+						}
+
+						### DEFENDERS
+						flowcontainer = {
+							position = { 0 5 }
+							parentanchor = right
+							direction = vertical
+							minimumsize = { 228 -1 }
+
+							textbox = {
+								text = WAR_PANEL_TARGET_WARGOALS
+								autoresize = yes
+								align = center|nobaseline
+								parentanchor = hcenter
+							}
+							dynamicgridbox = {
+								using = default_list_position
+								datamodel = "[DiplomaticPlay.AccessAllWarGoalsOfTargetSide]"
+
+								item = {
+									small_wargoal_item_with_checkmark = {}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			widget = {
+				size = { 15 15 }
+			}
+
+			textbox = {
+				text = "PEACE_SIGNED_DATE"
+				autoresize = yes
+				align = center|nobaseline
+				parentanchor = hcenter
+				using = fontsize_large
+			}
+		}
+	}
+
+	blockoverride "fixed_bottom" {
+		button = {
+			using = default_list_position
+			using = default_button
+			text = "OK"
+			onclick = "[PopupManager.CloseMessage(PlayerMessageItem.AccessSelf)]"
+			size = { 610 40 }
+			
+			tooltip = "CONFIRM"
+			input_action = "confirm"
+		}
+	}
+}
+
+### CAPITULATION
+notification_popup = {
+	name = "capitulation_popup"
+	using = default_fade_in
+	datacontext = "[PlayerMessageItem.GetScopeDiploPlay]"
+	datacontext = "[PlayerMessageItem.GetScopeTargetCountry]"
+
+	blockoverride "window_header_name" {
+		text = "CAPITULATION_TITLE"
+	}
+
+	blockoverride "header_close_button_visibility" {
+		visible = yes
+	}
+	blockoverride "header_close_button" {
+		onclick = "[PopupManager.CloseMessage(PlayerMessageItem.AccessSelf)]"
+		shortcut = "close_window"
+	}
+
+	blockoverride "scrollarea_content" {
+		flowcontainer = {
+			direction = vertical
+			resizeparent = yes
+			margin = { 10 10 }
+
+			textbox = {
+				text = "CAPITULATION_ENFORCED"
+				autoresize = yes
+				align = center|nobaseline
+				parentanchor = hcenter
+				using = fontsize_large
+			}
+
+			widget = {
+				size = { 15 15 }
+			}
+
+			dynamicgridbox = {
+				using = default_list_position
+				#direction = horizontal
+				datamodel = "[DiplomaticPlay.AccessExecutedWarGoalsAgainst(Country.Self)]"
+
+				item = {
+					small_wargoal_item_with_checkmark = {}
+				}
+			}
+		}
+	}
+
+	blockoverride "fixed_bottom" {
+		button = {
+			using = default_list_position
+			using = default_button
+			using = default_button_sound
+			text = "OK"
+			onclick = "[PopupManager.CloseMessage(PlayerMessageItem.AccessSelf)]"
+			size = { 610 40 }
+			
+			tooltip = "CONFIRM"
+			input_action = "confirm"
+		}
+	}
+}
+
+#Mobilize all generals
+default_popup = {
+	name = "mobilize_all_generals_popup"
+	datacontext = "[AccessPlayer]"
+
+	blockoverride "window_header_name" {
+		text = "MOBILIZE_ALL_GENERALS_HEADER"
+	}
+
+	blockoverride "header_close_button" {
+		visible = yes
+		onclick = "[PopupManager.HideMobilizeAllGenerals]"
+	}
+
+	blockoverride "header_close_button_visibility" {
+		visible = yes
+	}
+
+	blockoverride "scrollarea_content"
+	{
+		flowcontainer = {
+			block "datamodel" {}
+			resizeparent = yes
+			direction = vertical
+			
+			# Intended action question
+			textbox = {
+				parentanchor = hcenter
+				maximumsize = { 530 -1 }
+				autoresize = yes
+				multiline = yes
+				text = "MOBILIZE_ALL_GENERALS_QUESTION"
+				align = left|nobaseline
+			}
+
+			widget = {
+				size = { 10 20 }
+			}
+
+			# Generals list
+			scrollarea = {
+				minimumsize = { 530 -1 }
+				maximumsize = { 530 320 }
+				autoresizescrollarea = yes
+				scrollbarpolicy_horizontal = always_off
+				scrollbar_vertical = {
+					using = vertical_scrollbar
+				}
+
+				scrollwidget = {		
+					dynamicgridbox = {
+						parentanchor = hcenter
+						datamodel = "[Country.AccessGenerals]"
+						datamodel_wrap = 6
+						flipdirection = yes
+						item = {
+							commander_button = {
+								visible = "[Not( Character.IsMobilized )]"
+							}
+						}
+					}
+				}
+			}
+
+			widget = {
+				size = { 10 40 }
+			}
+
+			# Mobilized battalions
+			textbox = {
+				maximumsize = { 530 -1 }
+				autoresize = yes
+				multiline = yes
+				text = "MOBILIZE_ALL_GENERALS_BATTALIONS"
+				align = left|nobaseline
+			}
+
+			# Cost text
+			textbox = {
+				maximumsize = { 530 -1 }
+				autoresize = yes
+				multiline = yes
+				text = "MOBILIZE_ALL_GENERALS_ESTIMATED_COST"
+				align = left|nobaseline
+
+				margin_bottom = 20
+			}
+
+			# Mobilized Generals
+			textbox = {
+				maximumsize = { 530 -1 }
+				autoresize = yes
+				multiline = yes
+				text = "MOBILIZE_ALL_GENERALS_MOBILIZED_GENERALS"
+				align = left|nobaseline
+			}
+
+			# Warning
+			textbox = {
+				autoresize = yes
+				multiline = yes
+				text = "MOBILIZE_ALL_GENERALS_CANNOT_UNDONE"
+				align = left|nobaseline
+				margin_top = 20
+				margin_bottom = 10
+			}
+
+			flowcontainer = {
+				direction = horizontal
+				using = default_list_position
+				spacing = 100	
+
+				button = {
+					using = default_button
+					using = close_button_sound
+					size = { 200 40 }
+					text = "CONFIRM_NO"
+					onclick = "[PopupManager.HideMobilizeAllGenerals]"
+					shortcut = "close_window"
+				}
+
+				button = {
+					using = default_button_primary_action
+					using = commander_mobilize_button_sound
+					onclick = "[PopupManager.HideMobilizeAllGenerals]"
+					onclick = "[Execute( Country.MobilizeAllGenerals )]"
+					enabled = "[IsValid( Country.MobilizeAllGenerals )]"
+					tooltip = "[GetDesc( Country.MobilizeAllGenerals )]"
+					size = { 200 40 }
+					text = "CONFIRM_YES"
+					
+					input_action = "confirm"
+				}
+			}
+		}
+	}
+}
+
+### Welcome Message - VFM
+notification_popup = {
+	name = "welcome_message_popup"
+	using = default_fade_in
+
+	blockoverride "behind_window" {
+		### VFX
+		vfx = {
+			blockoverride "size" {
+				size = { 800% 800% }
+			}
+			blockoverride "parent_anchor" {
+				parentanchor = hcenter|vcenter
+			}		
+		}
+	}
+	blockoverride "window_header_name" {
+		text = "Welcome to the Victorian Flavor Mod!"
+	}
+
+	blockoverride "scrollarea_content" {
+		
+		flowcontainer = {
+			resizeparent = yes
+		
+			margin_top = 15
+			margin_bottom = 20
+			using = default_list_position
+			direction = vertical
+
+			widget = {
+				parentanchor = hcenter
+				size = { 910 400 }
+
+				widget = {
+					parentanchor = hcenter
+					size = { 910 400 }
+
+					state = {
+						name = start
+						next = 2
+						trigger_on_create = yes
+						duration = 0
+						alpha = 0
+						size = { 0 400 }
+						position = { 0 0 }
+					}
+					state = {
+						name = 2
+						duration = 0.7
+						alpha = 1
+						position = { 0 0 }
+						size = { 910 400 }
+						using = Animation_Curve_Default
+					}
+
+					icon = {
+						size = { 100% 100% }
+						using = entry_bg
+						using = rotate_glow_overlay_blue_stop
+						using = shimmer_fade_in
+					}
+				}
+
+				widget = {
+					size = { 907 393 }
+					parentanchor = vcenter
+
+					background = {
+						using = dark_area
+					}
+				}
+
+				textbox = {
+					using = fontsize_large
+					text = "VFM_WELCOME_TEXT"
+					autoresize = yes
+					maximumsize = { 837 393 }
+					multiline = yes
+					parentanchor = hcenter|vcenter
+
+					state = {
+						name = start
+						next = 2
+						trigger_on_create = yes
+						duration = 0
+						alpha = 0
+						position = { -20 -30 }
+					}
+					state = {
+						name = 2
+						duration = 0.4
+						alpha = 1
+						position = { -20 0 }
+						using = Animation_Curve_Default
+					}
+				}
+			}
+		}
+	}
+
+	blockoverride "fixed_bottom" {
+		button = {
+			using = default_list_position
+			using = default_button
+			text = "Close"
+			onclick = "[PopupManager.CloseMessage(PlayerMessageItem.AccessSelf)]"
+			size = { 280 40 }
+			
+			tooltip = "CONFIRM"
+			input_action = "confirm"
+		}
+	}
+}
