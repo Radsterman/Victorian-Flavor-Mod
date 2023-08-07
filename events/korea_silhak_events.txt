@@ -1,0 +1,62 @@
+namespace = silhak
+
+silhak.1 = { #Third Wave Silhak
+	type = country_event
+	placement = root
+
+	title = silhak.1.t
+	desc = silhak.1.d
+	flavor = silhak.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/asia_union_leader.bk2"
+	}
+	  
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+	
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+	
+	duration = 3
+
+	trigger = {
+		#triggered by JE
+	}
+
+	option = { #dismiss silhak
+		name =  silhak.1.a
+		default_option = yes
+		add_modifier = {
+			name = modifier_kor_dismissed_silhak
+			months = 60
+		}
+		add_journal_entry = {
+			type = je_silhak_brewing
+		}
+
+	}
+	option = { #make reforms
+		name =  silhak.1.b
+		add_modifier = {
+			name = modifier_kor_reforms_silhak
+			months = 60
+		}
+		add_journal_entry = {
+			type = je_silhak_reform
+		}
+	}
+	option = { #strengthen the devout
+		highlighted_option = yes
+		name =  silhak.1.c
+		trigger = {
+			ig:ig_devout = { is_in_government = yes }
+		}
+		add_modifier = {
+			name = modifier_kor_monks_silhak
+			months = 60
+		}
+		add_journal_entry = {
+			type = je_silhak_brewing
+		}
+	}
+}
