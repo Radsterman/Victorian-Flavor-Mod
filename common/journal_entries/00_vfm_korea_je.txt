@@ -95,7 +95,7 @@ je_sadae = {
 	}
 }
 
-je_silhak1 = {
+je_silhak = {
 	hidden = yes
 	complete = {
 		has_technology_researched = empiricism
@@ -103,6 +103,64 @@ je_silhak1 = {
 	on_complete = {
 		trigger_event = {
 			id = silhak.1
+		}
+	}
+}
+
+je_silhak_brewing = {
+	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+		custom_tooltip = {
+			text = kor_silhak_criteria
+		}
+	}
+
+	current_value = {
+		value = var:silhak_var
+	}
+	goal_add_value = {
+		add = 120
+	}
+	progressbar = yes
+
+	on_complete = {
+
+	}
+
+	on_weekly_pulse = {
+		if = {
+			limit = { #while scholars are influential and not being suppressed move closer to revolt
+				AND = { 
+					ig:ig_intelligentsia = {is_marginal = false}
+					ig:ig_intelligentsia = {is_being_suppressed = no}
+				}
+			}
+			change_variable = {
+				name = silhak_var
+				add = 1
+			}
+		}
+		if = {
+			limit = { #move at double speed if they are powerful
+				ig:ig_intelligentsia = {is_powerful = true}
+			}
+			change_variable = {
+				name = silhak_var
+				add = 1
+			}
+		}
+		if = {
+			limit = { #subtract while intelligentsia are marginal
+				ig:ig_intelligentsia = {is_marginal = true}
+			}
+			change_variable = {
+				name = silhak_var
+				subtract = 1
+			}
 		}
 	}
 }
