@@ -181,13 +181,19 @@ ai_strategy_resource_expansion = {
 	building_group_weights = {
 		bg_rubber = 1.5
 		bg_oil_extraction = 1.5
-		bg_mining = 1.5
-		bg_logging = 1.5
+		bg_coal_mining = 2.25
+		bg_iron_mining = 2.0
+		bg_sulfur_mining = 1.75
+		bg_lead_mining = 1.75
+		bg_gold_fields = 1.75
+		bg_gold_mining = 1.75
+		bg_logging = 1.6
 	}
 	
 	subsidies = {
 		building_tooling_workshops = wants_to_have
 		building_chemical_plants = wants_to_have
+		building_coal_mine = wants_to_have
 	}
 	
 	goods_stances = {
@@ -204,7 +210,7 @@ ai_strategy_resource_expansion = {
 			}				
 		}
 		tools = { stance = wants_high_supply }
-		coal = { stance = wants_export }
+		coal = { stance = wants_high_supply }
 		iron = { stance = wants_export }
 		oil = { stance = wants_export }
 		lead = { stance = wants_export }
@@ -426,7 +432,18 @@ ai_strategy_placate_population = {
 		fruit = { stance = wants_high_supply }
 		fabric = { stance = wants_high_supply }
 		wood = { stance = wants_high_supply }
-		opium = { stance = does_not_want }
+		opium = { 
+			stance = does_not_want
+			trigger = {
+			    NOT = {
+					exists = c:CHI
+					OR = {
+				    	c:CHI = this
+				    	is_subject_of = c:CHI
+					}
+				}
+			}			
+		}
 	}
 
 	possible = {
