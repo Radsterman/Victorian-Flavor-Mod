@@ -42,12 +42,7 @@ je_sadae = {
 					owes_obligation_to = root
 				}
 			}
-			gdp_chi = {
-				value = {
-					add = c:CHI.GDP
-					multiply = 0.2
-				}
-			}
+			
 			custom_tooltip = {
 				text = kor_chi_gdp_tt
 				GDP >= gdp_chi
@@ -96,7 +91,6 @@ je_sadae = {
 }
 
 je_silhak = {
-	hidden = yes
 	complete = {
 		has_technology_researched = empiricism
 	}
@@ -107,60 +101,60 @@ je_silhak = {
 	}
 }
 
-je_silhak_brewing = {
+je_silhak_return = {
 	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
-
+	immediate = {
+		set_variable = {
+			name = silhak_var
+			value = 0
+		}
+	}
 	complete = {
 		scope:journal_entry = {
 			is_goal_complete = yes
 		}
-		custom_tooltip = {
-			text = kor_silhak_criteria
-		}
 	}
-
+	on_complete = {
+	}
 	current_value = {
 		value = var:silhak_var
 	}
 	goal_add_value = {
-		add = 120
+		add = 100
 	}
 	progressbar = yes
 
+	on_weekly_pulse = { #CHANGE TO MONTHLY ON RELEASE, USED WEEKLY FOR TESTING PURPOSES
+		effect = {
+			change_variable = {
+				name = silhak_var
+				add = kor_silhak_delta
+			}
+		}
+	}
+	should_be_pinned_by_default = yes
+}
+
+je_silhak_reform = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+	timeout = 1460 #four years
+	complete = {
+		NOT = {
+			OR = {
+				has_law = {law_type:autocracy}
+				has_law = {law_type:serfdom}
+				has_law = {law_type:state_religion}
+				OR = {
+					has_law = {law_type:local_police_force}
+					has_law = {law_type:no_police}
+				}
+			}
+		}
+	}
 	on_complete = {
 
 	}
+	on_timeout = {
 
-	on_weekly_pulse = {
-		if = {
-			limit = { #while scholars are influential and not being suppressed move closer to revolt
-				AND = { 
-					ig:ig_intelligentsia = {is_marginal = false}
-					ig:ig_intelligentsia = {is_being_suppressed = no}
-				}
-			}
-			change_variable = {
-				name = silhak_var
-				add = 1
-			}
-		}
-		if = {
-			limit = { #move at double speed if they are powerful
-				ig:ig_intelligentsia = {is_powerful = true}
-			}
-			change_variable = {
-				name = silhak_var
-				add = 1
-			}
-		}
-		if = {
-			limit = { #subtract while intelligentsia are marginal
-				ig:ig_intelligentsia = {is_marginal = true}
-			}
-			change_variable = {
-				name = silhak_var
-				subtract = 1
-			}
-		}
 	}
 }

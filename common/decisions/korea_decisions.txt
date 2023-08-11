@@ -1,0 +1,53 @@
+korea_china_alliance = {
+	is_shown = {
+		has_variable = kor_chi_alliance_available
+		NOT = {
+			has_variable = kor_chi_alliance_selected
+		}
+	}
+	possible = {
+		has_variable = kor_chi_alliance_available
+	}
+	when_taken = {
+		set_variable = {
+			name = kor_chi_alliance_selected
+		}
+		change_relations = {
+			country = c:CHI
+			value = 50
+		}
+		if = {
+	      limit = {
+	        c:CHI = {
+	          OR = {
+	            has_technology_researched = multilateral_alliances
+	            num_alliances < 1
+	          }	
+	        }
+	      }
+	      c:CHI ={
+	        create_diplomatic_pact = {
+	          country = c:KOR
+	          type = alliance
+	        }
+	      }
+	    }
+			c:CHI ={
+				create_diplomatic_pact = {
+					country = c:KOR
+					type = customs_union
+				}
+			}
+	    if = {
+	      limit = { 
+	        c:KOR = {
+	          has_law = law_type:law_isolationism
+	        }
+	      }
+	      activate_law = law_type:law_mercantilism
+	    }
+	}
+	ai_chance = {
+		base = -10
+	}
+}
