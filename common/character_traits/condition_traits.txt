@@ -1,0 +1,786 @@
+﻿### Conditions
+
+alcoholic = {
+	type = condition
+	texture = "gfx/interface/icons/character_trait_icons/alcoholic.dds"
+
+	character_modifier = {
+		character_health_add = -0.1
+		character_popularity_add = -10
+	}
+
+	command_modifier = {
+		unit_morale_damage_mult = -0.1
+	}
+
+	country_modifier = {
+		country_influence_mult = 0.02
+	}
+
+	agitator_modifier = {
+	}
+
+	interest_group_modifier = {
+	}
+
+	possible = {
+		age > define:NPortrait|GRACEFUL_AGING_START
+	}
+
+	weight = {
+		value = 20
+		if = {
+			limit = {
+				OR = {
+					has_addiction = yes
+					has_trait = cautious
+				}
+			}
+			multiply = 0.1
+		}
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						has_cultural_obsession = liquor
+						has_cultural_obsession = wine
+					}
+				}
+			}
+			multiply = 3
+		}
+		if = {
+			limit = {
+				OR = {
+					religion = rel:sunni
+					religion = rel:shiite
+				}
+			}
+			multiply = 0.1
+		}
+		if = {
+			limit = {
+				has_role = agitator
+			}
+			multiply = 0.25
+		}
+	}
+
+	replace = {
+	}
+}
+
+opium_addiction = {
+	type = condition
+	texture = "gfx/interface/icons/character_trait_icons/opium_addiction.dds"
+
+	character_modifier = {
+		character_health_add = -0.1
+		character_popularity_add = -25
+	}
+
+	country_modifier = {
+		building_opium_plantation_throughput_mult = 0.05
+	}
+
+	agitator_modifier = {
+	}
+
+	interest_group_modifier = {
+	}
+
+	possible = {
+		age > define:NPortrait|GRACEFUL_AGING_START
+	}
+
+	weight = {
+		value = 20
+		if = {
+			limit = {
+				OR = {
+					has_addiction = yes
+					has_trait = cautious
+				}
+			}
+			multiply = 0.1
+		}
+		if = {
+			limit = {
+				has_trait = kidney_stones
+			}
+			multiply = 2
+		}
+		if = {
+			limit = {
+				culture = {
+					has_cultural_obsession = opium
+				}
+			}
+			multiply = 3
+		}
+		if = {
+			limit = {
+				has_role = agitator
+			}
+			multiply = 0.25
+		}
+	}
+
+	replace = {
+	}
+}
+
+cocaine_addiction = {
+	type = condition
+	texture = "gfx/interface/icons/character_trait_icons/cocaine_addiction.dds"
+
+	character_modifier = {
+		character_health_add = -0.1
+		character_popularity_add = 20
+	}
+
+	country_modifier = {
+	}
+
+	agitator_modifier = {
+	}
+
+	interest_group_modifier = {
+	}
+
+	possible = {
+		age > define:NPortrait|GRACEFUL_AGING_START
+		owner ?= { has_technology_researched = pharmaceuticals }
+	}
+
+	weight = {
+		value = 20
+		if = {
+			limit = {
+				OR = {
+					has_addiction = yes
+					has_trait = cautious
+				}
+			}
+			multiply = 0.1
+		}
+	}
+
+	replace = {
+	}
+}
+
+cancer = {
+	type = condition
+	texture = "gfx/interface/icons/character_trait_icons/cancer.dds"
+
+	character_modifier = {
+		character_health_add = -0.8
+	}
+
+	command_modifier = {
+	}
+
+	country_modifier = {
+	}
+
+	agitator_modifier = {
+	}
+
+	interest_group_modifier = {
+	}
+
+	possible = {
+	}
+
+	weight = {
+		value = age
+		subtract = 20
+		divide = 10
+		floor = 0.2
+		
+		if = {
+			limit = {
+				has_trait = sickly
+			}
+			multiply = 2
+		}
+	}
+
+	replace = {
+	}
+}
+
+grifter = {
+	type = condition
+	texture = "gfx/interface/icons/character_trait_icons/grifter.dds"
+
+	character_modifier = {
+		character_popularity_add = -25
+	}
+
+	command_modifier = {
+		unit_supply_consumption_mult = 0.05
+	}
+
+	country_modifier = {
+		state_tax_waste_add = 0.01
+	}
+
+	agitator_modifier = {
+		interest_group_pop_attraction_mult = -0.05
+	}
+
+	interest_group_modifier = {
+		interest_group_in_government_approval_add = -1
+	}
+
+	possible = {
+		age > define:NPortrait|GRACEFUL_AGING_START
+	}
+
+	weight = {
+		value = 10
+		if = {
+			limit = {
+				has_role = agitator
+			}
+			multiply = 0.25
+		}
+	}
+
+	replace = {
+	}
+}
+
+scarred = {
+	type = condition
+	texture = "gfx/interface/icons/character_trait_icons/scarred.dds"
+
+	character_modifier = {
+		character_popularity_add = 10
+		character_health_add = -0.1
+	}
+
+	command_modifier = {
+	}
+
+	country_modifier = {
+	}
+
+	agitator_modifier = {
+	}
+
+	interest_group_modifier = {
+	}
+
+	possible = {
+		age > define:NPortrait|GRACEFUL_AGING_START
+	}
+
+	weight = {
+		value = 7
+		if = {
+			limit = {
+				has_role = general
+			}
+			multiply = 2
+		}
+		else_if = {
+			limit = {
+				has_role = admiral
+			}
+			multiply = 1.5
+		}
+		if = {
+			limit = {
+				is_on_front = yes
+			}
+			multiply = 2
+		}
+	}
+
+	replace = {
+		wounded
+	}
+}
+
+senile = {
+	type = condition
+	texture = "gfx/interface/icons/character_trait_icons/senile.dds"
+
+	character_modifier = {
+		character_health_add = -0.25
+		character_popularity_add = -50
+	}
+
+	command_modifier = {
+		unit_morale_loss_mult = 0.1
+		character_command_limit_mult = -0.25
+	}
+
+	country_modifier = {
+		country_influence_mult = -0.05
+	}
+
+	agitator_modifier = {
+	}
+
+	interest_group_modifier = {
+	}
+
+	possible = {
+		age > define:NCharacters|OLD_AGE
+		NOT = { has_role = agitator }
+	}
+
+	weight = {
+		value = age
+		subtract = 60
+		divide = 2
+	}
+
+	replace = {
+	}
+}
+
+
+syphilis = {
+	type = condition
+	texture = "gfx/interface/icons/character_trait_icons/syphilis.dds"
+
+	character_modifier = {
+		character_health_add = -0.5
+	}
+
+	command_modifier = {
+	}
+
+	country_modifier = {
+		country_influence_mult = -0.1
+	}
+
+	agitator_modifier = {
+	}
+
+	interest_group_modifier = {
+	}
+
+	possible = {
+		age > define:NPortrait|GRACEFUL_AGING_START
+	}
+
+	weight = 5
+
+	replace = {
+	}
+}
+
+shellshocked = {
+	type = condition
+	texture = "gfx/interface/icons/character_trait_icons/shellshocked.dds"
+
+	character_modifier = {
+		character_health_add = -0.2
+		character_popularity_add = -30
+	}
+
+	command_modifier = {
+		unit_morale_loss_mult = 0.2
+		unit_offense_mult = -0.2
+		unit_defense_mult = -0.2
+	}
+
+	country_modifier = {
+	}
+
+	agitator_modifier = {
+	}
+
+	interest_group_modifier = {
+	}
+
+	possible = {
+		is_commander = yes
+	}
+
+	weight = {
+		value = 3
+		if = {
+			limit = {
+				owner ?= {
+					is_at_war = yes
+				}
+			}
+			multiply = 3
+		}
+		if = {
+			limit = {
+				is_on_front = yes
+			}
+			multiply = 3
+		}
+		if = {
+			limit = {
+				has_role = agitator
+			}
+			multiply = 0.5
+		}
+	}
+
+	replace = {
+	}
+}
+
+wounded = {
+	type = condition
+	texture = "gfx/interface/icons/character_trait_icons/wounded.dds"
+
+	character_modifier = {
+		character_health_add = -0.4
+	}
+
+	command_modifier = {
+		unit_morale_loss_mult = 0.1
+	}
+
+	country_modifier = {
+	}
+
+	agitator_modifier = {
+	}
+
+	interest_group_modifier = {
+	}
+
+	possible = {
+		age > define:NPortrait|GRACEFUL_AGING_START
+	}
+
+	weight = {
+		value = 20
+		if = {
+			limit = {
+				owner ?= {
+					is_at_war = yes
+				}
+				is_commander = yes
+			}
+			multiply = 3
+		}
+		else_if = {
+			limit = {
+				owner ?= {
+					is_at_war = yes
+				}
+			}
+			multiply = 1.5
+		}
+		if = {
+			limit = {
+				is_on_front = yes
+			}
+			multiply = 5
+		}
+		if = {
+			limit = {
+				is_commander = no
+			}
+			multiply = 0.25
+		}
+	}
+
+	replace = {
+	}
+}
+
+psychological_affliction = {
+	type = condition
+	texture = "gfx/interface/icons/character_trait_icons/psychological_affliction.dds"
+
+	character_modifier = {
+		character_health_add = -0.2
+		character_popularity_add = -50
+	}
+
+	command_modifier = {
+	}
+
+	country_modifier = {
+	}
+
+	agitator_modifier = {
+	}
+
+	interest_group_modifier = {
+		interest_group_in_opposition_approval_add = 1
+	}
+
+	possible = {
+		NOT = { has_role = agitator }
+	}
+
+	weight = {
+		value = 20
+		if = {
+			limit = {
+				has_trait = syphilis
+			}
+			multiply = 3
+		}
+	}
+
+	replace = {
+	}
+}
+
+expensive_tastes = {
+	type = condition
+	texture = "gfx/interface/icons/character_trait_icons/expensive_tastes.dds"
+
+	character_modifier = {
+		character_popularity_add = 25
+	}
+
+	country_modifier = {
+		state_tax_waste_add = 0.05
+		country_prestige_mult = 0.05
+	}
+
+	agitator_modifier = {
+	}
+
+	interest_group_modifier = {
+	}
+
+	possible = {
+	}
+
+	weight = {
+		value = 20
+		if = {
+			limit = {
+				OR = {
+					is_ruler = yes
+					is_heir = yes
+				}
+			}
+			multiply = 2
+		}
+		if = {
+			limit = {
+				OR = {
+					is_interest_group_type = ig_landowners
+					is_interest_group_type = ig_industrialists
+				}
+			}
+			multiply = 2
+		}
+		if = {
+			limit = {
+				OR = {
+					is_interest_group_type = ig_trade_unions
+					is_interest_group_type = ig_rural_folk
+				}
+			}
+			multiply = 0.5
+		}
+	}
+
+	replace = {
+	}
+}
+
+kidney_stones = {
+	type = condition
+	texture = "gfx/interface/icons/character_trait_icons/kidney_stones.dds"
+
+	character_modifier = {
+		character_health_add = -0.3
+	}
+
+	command_modifier = {
+		unit_offense_mult = -0.1
+		unit_defense_mult = -0.1
+	}
+
+	country_modifier = {
+	}
+
+	agitator_modifier = {
+	}
+
+	interest_group_modifier = {
+	}
+
+	possible = {
+		age > define:NPortrait|GRACEFUL_AGING_START
+	}
+
+	weight = {
+		value = 10
+		if = {
+			limit = {
+				has_trait = sickly
+			}
+			multiply = 2
+		}
+	}
+
+	replace = {
+	}
+}
+
+beetle_ear = {
+	type = condition
+	texture = "gfx/interface/icons/character_trait_icons/beetle_eared.dds"
+
+	character_modifier = {
+		character_health_add = -0.3
+	}
+
+	command_modifier = {
+	}
+
+	country_modifier = {
+	}
+
+	agitator_modifier = {
+	}
+
+	interest_group_modifier = {
+	}
+
+	possible = {
+		always = no # reserved for events
+	}
+}
+
+war_criminal = {
+	type = condition
+	texture = "gfx/interface/icons/character_trait_icons/wrathful.dds"
+
+	possible = {
+		always = no # reserved for events
+	}
+
+	character_modifier = {
+		character_popularity_add = -50
+	}
+
+	command_modifier = {
+		unit_kill_rate_add = 0.1
+	}
+
+	country_modifier = {
+	}
+
+	agitator_modifier = {
+	}
+
+	interest_group_modifier = {
+	}
+}
+
+sickly = {
+	type = condition
+	texture = "gfx/interface/icons/character_trait_icons/sickly.dds"
+
+	character_modifier = {
+		character_health_add = -0.2
+	}
+
+	command_modifier = {
+	}
+
+	country_modifier = {
+	}
+
+	agitator_modifier = {
+	}
+
+	interest_group_modifier = {
+		interest_group_pop_attraction_mult = -0.1
+	}
+
+	possible = {
+	}
+
+	weight = {
+		value = age
+		subtract = 20
+		divide = 10
+		floor = 0.2
+	}
+
+	replace = {
+	}
+}
+
+corrupt_kleptokrat = {
+	type = condition
+	texture = "gfx/interface/icons/character_trait_icons/grifter.dds"
+
+	character_modifier = {
+		character_popularity_add = -25
+	}
+
+	command_modifier = {
+		unit_supply_consumption_mult = 0.1
+		unit_devastation_mult = 0.1
+	}
+
+	country_modifier = {
+		state_tax_waste_add = 0.05
+		state_standard_of_living_add = -1
+	}
+
+	agitator_modifier = {
+	}
+
+	interest_group_modifier = {
+		interest_group_in_government_approval_add = -2
+	}
+
+	possible = {
+		age > define:NPortrait|GRACEFUL_AGING_START
+		NOT = { has_role = agitator }
+	}
+
+	weight = {
+		value = 2
+		if = {
+			limit = {
+				OR = {
+					is_ruler = yes
+					is_heir = yes
+				}
+			}
+			multiply = 2
+		}
+		if = {
+			limit = {
+				has_addiction = yes
+			}
+			multiply = 2
+		}
+		if = {
+			limit = {
+				is_interest_group_type = ig_landowners
+			}
+			multiply = 4
+		}
+		if = {
+			limit = {
+				OR = {
+					is_interest_group_type = ig_devout
+					is_interest_group_type = ig_industrialists
+				}
+			}
+			multiply = 2
+		}
+	}
+
+	replace = {
+	}
+}
