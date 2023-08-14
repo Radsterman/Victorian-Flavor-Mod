@@ -87,11 +87,23 @@ dp_conquer_state = {
 		scope:target_country = {
 			NOT = { is_country_type = decentralized }
 			NOT = { is_subject_of = root }
+			OR = {
+				is_country_type = recognized
+				is_country_type = colonial
+			}
 		}
 		custom_tooltip = {
 			text = DIPLO_ACTION_RELATIONS_CORDIAL_OR_GREATER_NOT
 			scope:target_country.relations:root < relations_threshold:cordial
-		}	
+		}
+		OR = {
+			has_strategic_land_adjacency = scope:target_country
+			scope:target_country = {
+				any_scope_state = {
+					is_coastal = yes
+				}
+			}
+		}
 	}
 	
 	on_weekly_pulse = {}
@@ -119,6 +131,14 @@ dp_return_state = {
 		custom_tooltip = {
 			text = DIPLO_ACTION_RELATIONS_CORDIAL_OR_GREATER_NOT
 			scope:target_country.relations:root < relations_threshold:cordial
+		}
+		OR = {
+			has_strategic_land_adjacency = scope:target_country
+			scope:target_country = {
+				any_scope_state = {
+					is_coastal = yes
+				}
+			}
 		}			
 	}
 	
@@ -164,6 +184,13 @@ dp_make_dominion = {
 	
 	possible = {
 		aggressive_diplomatic_plays_permitted = yes	
+		scope:target_country = {
+			OR = {
+				is_country_type = recognized
+				is_country_type = colonial
+			}
+			country_rank >= rank_value:minor_power
+		}
 		custom_tooltip = {
 			text = DIPLO_ACTION_RELATIONS_CORDIAL_OR_GREATER_NOT
 			scope:target_country.relations:root < relations_threshold:cordial
@@ -204,6 +231,12 @@ dp_make_puppet = {
 	
 	possible = {	
 		aggressive_diplomatic_plays_permitted = yes		
+		scope:target_country = {
+			OR = {
+				is_country_type = recognized
+				is_country_type = colonial
+			}
+		}
 	}
 	
 	on_weekly_pulse = {}
