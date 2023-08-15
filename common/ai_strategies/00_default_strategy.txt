@@ -60,6 +60,7 @@ ai_strategy_default = {
 		#GPs don't want to get involved with too many other GPs in the early game
 		if = {
 			limit = {
+			    country_rank >= rank_value:great_power
 				any_diplomatic_play = {
 					any_scope_play_involved = {
 						count >= 2
@@ -68,7 +69,6 @@ ai_strategy_default = {
 						NOT = { has_technology_researched = multilateral_alliances }
 					}
 				}
-				country_rank >= rank_value:great_power
 				NOT = { has_technology_researched = multilateral_alliances }
 			}
 			add = 25
@@ -85,12 +85,12 @@ ai_strategy_default = {
 			subtract = 50
 		}
 		
-		#if = {
-		#	limit = {
-		#		is_at_war = yes
-		#	}
-		#	add = 20
-		#}
+		if = {
+			limit = {
+				is_at_war = yes
+			}
+			add = 15
+		}
 		
 		if = {
 			limit = {
@@ -102,18 +102,18 @@ ai_strategy_default = {
 			add = 50
 		}
 				
+		# challenge rivals
 		if = {
 			limit = {
-			    any_country = {
-				    OR = {
-				        is_diplomatic_play_initiator = yes
-				        is_diplomatic_play_target = yes
-				    }
-				    has_diplomatic_pact = {
-				    	who = prev
-				    	type = rivalry
-				    }	
-                }				
+				any_diplomatic_play = {
+					any_scope_play_involved = {
+					    is_active_in_diplomatic_play = yes
+					}
+				}
+				has_diplomatic_pact = {
+				    		who = prev
+				    		type = rivalry
+				        }
 			}
 			subtract = 15
 		}
