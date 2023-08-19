@@ -237,3 +237,44 @@ kor.4 = { #China Angered
 
 }
 
+kor.5 = {
+  type = country_event
+
+  title = kor.5.t
+  desc = kor.5.d
+  flavor = kor.5.f
+  
+  event_image = {
+    video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
+  }
+
+  on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+  on_opened_soundeffect = "event:/SFX/Events/asia/union_leader"
+
+  icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+  duration = 1
+  immediate = {
+    if = {
+      limit = { active_law:lawgroup_governance_principles.type != scope:china_governance_principles }
+      set_variable = kor_chi_gov_principle_broken
+    }
+    if = {
+      limit = { active_law:lawgroup_distribution_of_power.type != scope:china_distribution_of_power }
+      set_variable = kor_chi_distr_of_power_broken
+    }
+    if = {
+      limit = { active_law:lawgroup_land_reform.type != scope:china_land_reform }
+      set_variable = kor_chi_land_reform_broken
+    }
+    if = {
+      limit = { active_law:lawgroup_church_and_state.type != scope:china_church_and_state }
+      set_variable = kor_chi_church_and_state_broken
+    }
+  }
+  option = {
+    name = kor.5.a
+    default_option = yes
+    add_journal_entry = { type = je_sojunghwa}
+  }
+}

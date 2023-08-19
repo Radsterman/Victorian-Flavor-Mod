@@ -1,4 +1,4 @@
-﻿je_hanja_issue = {
+je_hanja_issue = {
 	icon = "gfx/interface/icons/event_icons/event_academia.dds"
 
 	complete = {
@@ -29,13 +29,17 @@
 
 je_sadae = {
 	icon = "gfx/interface/icons/event_icons/event_diplomacy.dds"
-
+	immediate = {
+		c:CHI = {
+			save_scope_as = chi_scope
+		}
+	}
 	complete = {
 		OR = {
 			top_overlord = {
 				custom_tooltip = {
 					text = kor_chi_relations_tt
-					relations:root >= relations_threshold:amicable
+					relations:root >= relations_threshold:friendly
 				}
 				custom_tooltip = {
 					text = kor_chi_obligation_tt
@@ -88,9 +92,14 @@ je_sadae = {
 			}
 		}
 	}
+	should_be_pinned_by_default = yes
 }
 
 je_silhak = {
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+	immediate = {
+		ig:ig_intelligentsia = { save_scope_as = ig_intelligentsia }
+	}
 	complete = {
 		has_technology_researched = empiricism
 	}
@@ -104,6 +113,9 @@ je_silhak = {
 je_silhak_return = {
 	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
 	immediate = {
+		immediate = {
+			ig:ig_intelligentsia = { save_scope_as = ig_intelligentsia }
+		}
 		set_variable = {
 			name = silhak_var
 			value = 0
@@ -115,6 +127,14 @@ je_silhak_return = {
 		}
 	}
 	on_complete = {
+		custom_tooltip = {
+			text = donghak_radical_tt
+			ig:ig_intelligentsia = { #scholars become donghak
+				set_interest_group_name = ig_donghak
+				add_ideology = ideology_republican
+			}
+			remove_modifier = { modifier_moderate_intelligentsia }
+		}
 	}
 	current_value = {
 		value = var:silhak_var
@@ -124,7 +144,7 @@ je_silhak_return = {
 	}
 	progressbar = yes
 
-	on_weekly_pulse = { #CHANGE TO MONTHLY ON RELEASE, USED WEEKLY FOR TESTING PURPOSES
+	on_monthly_pulse = { 
 		effect = {
 			change_variable = {
 				name = silhak_var
@@ -136,25 +156,93 @@ je_silhak_return = {
 }
 
 je_silhak_reform = {
-	icon = "gfx/interface/icons/event_icons/event_scales.dds"
-	timeout = 1460 #four years
 	complete = {
-		NOT = {
-			OR = {
-				has_law = {law_type:autocracy}
-				has_law = {law_type:serfdom}
-				has_law = {law_type:state_religion}
-				OR = {
-					has_law = {law_type:local_police_force}
-					has_law = {law_type:no_police}
-				}
-			}
+		OR = {
+			NOT = { has_law = law_type:law_serfdom }
+			NOT = { has_law = law_type:law_autocracy }
 		}
 	}
-	on_complete = {
+	invalid = {
+		NOT = { has_law = law_type:law_monarchy }
+	}
 
+	timeout = 3650
+
+	on_complete = {
+		trigger_event = {
+			id = silhak.1
+		}
+		if = { #IF China is a monarchy, reforming will damage relations
+			limit = {
+				c:CHI = { has_law = law_type:law_monarchy }
+			}
+			change_relations = {
+		        country = c:CHI
+		        value = -30
+		    }
+		}
 	}
 	on_timeout = {
-
+		custom_tooltip = {
+			text = donghak_radical_tt
+			ig:ig_intelligentsia = { #scholars become donghak
+				set_interest_group_name = ig_donghak
+				add_ideology = ideology_republican
+			}
+			remove_modifier = { modifier_moderate_intelligentsia }
+		}
 	}
+	on_invalid = {
+		ig:ig_intelligentsia = { #scholars still believe in monarchy but will become more radical through JEs
+			add_ideology = ideology_republican
+		} 
+	}
+	should_be_pinned_by_default = yes
+}
+
+je_sojunghwa = {
+	icon = "gfx/interface/icons/event_icons/event_diplomacy.dds"
+    immediate = {
+    	c:CHI = {
+      		save_scope_as = chi_scope
+      	}
+        c:CHI = { active_law:lawgroup_governance_principles.type = { save_scope_as = china_governance_principles } }
+        c:CHI = { active_law:lawgroup_distribution_of_power.type = { save_scope_as = china_distribution_of_power } }
+        c:CHI = { active_law:lawgroup_land_reform.type = { save_scope_as = china_land_reform } }
+        c:CHI = { active_law:lawgroup_church_and_state.type = { save_scope_as = china_church_and_state } }
+    }
+    complete = {
+    	custom_tooltip = {
+			text = sadae_law_je_tt
+	    	OR = {
+		        AND = { 
+		            active_law:lawgroup_governance_principles.type != scope:china_governance_principles #Korea's head of state is a different type to China's
+		            NOT = { has_variable = kor_chi_gov_principle_broken}
+		        }
+		        AND = { 
+		            active_law:lawgroup_distribution_of_power.type != scope:china_distribution_of_power #Korea's voting laws are different to China's
+		            NOT = { has_variable = kor_chi_distr_of_power_broken}
+		        }
+		        AND = { 
+		            active_law:lawgroup_land_reform.type != scope:china_land_reform #Korea's land laws are different to China's
+		            NOT = { has_variable = kor_chi_land_reform_broken}
+		        }
+		        AND = { 
+		            active_law:lawgroup_church_and_state.type != scope:china_church_and_state #Korea's church/state law is different to China's
+		            NOT = { has_variable = kor_chi_church_and_state_broken}
+		        }
+		    }
+		}
+    } 
+    invalid = {
+		NOT = { is_subject_of = c:CHI }
+	}
+    on_complete = {
+    	trigger_event = { id = kor.5 }
+    	change_relations = {
+	        country = c:CHI
+	        value = -20
+	    }
+    }
+    should_be_pinned_by_default = yes
 }
