@@ -16,7 +16,7 @@ silhak.1 = { #Third Wave Silhak
 	
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
-	
+
 	duration = 3
 
 	trigger = {
@@ -61,12 +61,120 @@ silhak.1 = { #Third Wave Silhak
 	}
 }
 
-#silhak.2 = {
-#	type = country_event
-#	placement = root
-#
-#	trigger = {
-#		has_journal_entry = { type = je_silhak_return }
-#
-#	}
-#}
+silhak.2 = { #Western disturbance (French expedition to Korea)
+	type = country_event
+	placement = root
+
+	title = silhak.2.t
+	desc = silhak.2.d
+	flavor = silhak.2.f
+
+	duration = 3
+
+	event_image = {
+		video = "votp_prison"
+	}
+	  
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+	
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	trigger = { 
+		NOT = { has_variable = korea_expedition_event }
+		any_country = {
+			country_rank = rank_value:great_power
+			has_technology_researched = civilizing_mission
+			has_interest_marker_in_region = region_manchuria
+			NOT = { has_war_with = root }
+		}
+	}
+
+	immediate = {
+		set_variable = korea_expedition_event
+		random_country = {
+			limit = {
+				country_rank = rank_value:great_power
+				has_technology_researched = civilizing_mission
+				has_interest_marker_in_region = region_manchuria
+				NOT = { has_war_with = root }
+			}
+			save_scope_as = western_missionary
+		}
+		scope:western_missionary = {
+			religion = {
+				save_scope_as = western_religion 
+			}
+		}
+		root = { save_scope_as = kor_scope }
+	}
+	option = {
+		name = silhak.2.a
+		scope:western_missionary = {
+			trigger_event = { id = silhak.3 } #To France, I killed your missionaries (sorry)
+		}
+	}
+}
+
+silhak.3 = { #To France, Korea killed your missionaries
+	type = country_event
+	placement = root
+
+	title = silhak.3.t
+	desc = silhak.3.d
+	flavor = silhak.3.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_christianity.bk2"
+	}
+	  
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+	
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	trigger = {
+		NOT = { has_variable = korea_missionary_response }
+	}
+
+	immediate = {
+		set_variable = korea_missionary_response
+		ig:ig_devout = {
+			save_scope_as = church
+			leader = { save_scope_as = church_leader }
+		}
+	}
+	option = {
+		name = silhak.3.a
+		default_option = yes
+		ai_chance = { base = 1 }
+		create_diplomatic_play = {
+	        name = french_expedition_to_korea
+	      
+	        target_country = scope:kor_scope
+	        
+	        type = dp_take_treaty_port
+	        target_state = s:STATE_SEOUL.region_state:KOR
+
+	        add_war_goal = {
+	          holder = c:KOR
+	          type = war_reparations
+	          target_country = scope:western_missionary
+	        }
+      	}
+	}
+	option = {
+		name = silhak.3.b
+		ai_chance = { base = 0 }
+		change_relations = {
+			country = scope:kor_scope
+			value = 20
+		}
+		add_modifier = {
+			name = ignored_persecutions_of_missionaries
+			months = 60
+		}
+	}
+}
