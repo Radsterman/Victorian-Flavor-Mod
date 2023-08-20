@@ -1157,7 +1157,6 @@ ai_strategy_default = {
 		if = {
 			limit = {
 				has_journal_entry = je_conquest_of_algeria
-				has_strategic_land_adjacency = scope:target_country
 				scope:target_country = {
 					any_scope_state = {
 						OR = {
@@ -2583,7 +2582,6 @@ ai_strategy_default = {
 			# AI should not reconcile with countries it has claims on
 			if = {
 				limit = {
-					can_reach_target_country = yes
 					scope:target_country = { 
 						any_scope_state = {
 							root = { has_claim = prev }
@@ -2592,8 +2590,7 @@ ai_strategy_default = {
 				}
 				subtract = 50
 			}
-			
-			if = {
+			else_if = {
 				limit = {
 					OR = {
 						has_diplomatic_pact = {
@@ -2604,7 +2601,7 @@ ai_strategy_default = {
 					}					
 				}
 				
-				add = 100					
+				add = 50					
 			}
 			
 			multiply = {
@@ -2717,7 +2714,6 @@ ai_strategy_default = {
 			# AI should not protect countries it has claims on
 			if = {
 				limit = {
-					can_reach_target_country = yes
 					scope:target_country = { 
 						any_scope_state = {
 							root = { has_claim = prev }
@@ -2729,12 +2725,16 @@ ai_strategy_default = {
 			
 			if = {
 				limit = {
-					OR = {
-						country_rank > scope:target_country.country_rank	
-						scope:target_country = { is_subject_of = root }	
-					}
+					scope:target_country = { is_subject_of = root }	
 				}
 				add = 200
+			}
+			
+			if = {
+				limit = {
+					country_rank > scope:target_country.country_rank	
+				}
+				add = 75
 			}
 			
 			multiply = {
@@ -3077,12 +3077,7 @@ ai_strategy_default = {
 					}
 					multiply = 0.25
 				}				
-			}				
-			
-			if = {
-				limit = { is_still_learning = yes }
-				multiply = 0
-			}		
+			}						
 		}
 		conquer = {
 			value = 0
@@ -3355,12 +3350,11 @@ ai_strategy_default = {
 				}
 				add = 500
 			}
-			
-            # France should very aggressively go for Algeria.
 			if = {
 				limit = {
 					has_journal_entry = je_conquest_of_algeria
-					has_strategic_land_adjacency = scope:target_country
+					game_date < 1839.6.1
+					has_strategic_adjacency = scope:target_country
 					scope:target_country = {
 						any_scope_state = {
 							OR = {
@@ -3375,7 +3369,27 @@ ai_strategy_default = {
 						}
 					}
 				}
-				add = 1000
+				add = 500
+			}
+			if = { # this could be needed, ai just stops seeing conquer values at some point in Algeria...
+				limit = {
+					has_journal_entry = je_conquest_of_algeria
+					game_date > 1840.6.1
+					scope:target_country = {
+						any_scope_state = {
+							OR = {
+								state_region = s:STATE_TLEMCEN
+								state_region = s:STATE_ALGIERS
+								state_region = s:STATE_CONSTANTINE
+								state_region = s:STATE_TOUGGOURT
+								state_region = s:STATE_GHARDAIA
+								state_region = s:STATE_SAHARA
+								state_region = s:STATE_EAST_SAHARA
+							}
+						}
+					}
+				}
+				add = 600
 			}
 			
 			if = {
@@ -4685,9 +4699,7 @@ ai_strategy_default = {
 			if = {
 				limit = {
 					has_journal_entry = je_conquest_of_algeria
-					has_strategic_land_adjacency = scope:target_state
-					scope:target_country = {
-						any_scope_state = {
+					scope:target_state = {
 							OR = {
 								state_region = s:STATE_TLEMCEN
 								state_region = s:STATE_ALGIERS
@@ -4696,7 +4708,6 @@ ai_strategy_default = {
 								state_region = s:STATE_GHARDAIA
 								state_region = s:STATE_SAHARA
 								state_region = s:STATE_EAST_SAHARA
-							}
 						}
 					}
 				}
