@@ -1,4 +1,4 @@
-namespace = silhak
+﻿namespace = silhak
 
 silhak.1 = { #Third Wave Silhak
 	type = country_event
@@ -153,12 +153,20 @@ silhak.3 = { #To France, Korea killed your missionaries
 			save_scope_as = kor_scope
 		}
 	}
-	option = {
+	option = { #take a treaty port
 		name = silhak.3.a
 		default_option = yes
-		ai_chance = { base = 1 }
+		ai_chance = { 
+			base = 50 
+			modifier = {
+				add = 20
+				ig:ig_devout = {
+					is_powerful = yes
+				}
+			}
+		}
 		create_diplomatic_play = {
-	        name = french_expedition_to_korea
+	        set_key = french_expedition_to_korea
 	      
 	        target_country = scope:kor_scope
 	        
@@ -170,11 +178,22 @@ silhak.3 = { #To France, Korea killed your missionaries
 	          type = war_reparations
 	          target_country = scope:western_missionary
 	        }
+	        save_scope_as = french_expedition_scope
+      	}
+      	trigger_event = {
+      		id = silhak.9
+      		days = 2
       	}
 	}
-	option = {
+	option = { #ignore it (higher chance to ignore if at war)
 		name = silhak.3.b
-		ai_chance = { base = 1 }
+		ai_chance = { 
+			base = 0 
+			modifier = {
+				add = 50
+				is_at_war = yes
+			}
+		}
 		change_relations = {
 			country = scope:kor_scope
 			value = 20
@@ -184,33 +203,124 @@ silhak.3 = { #To France, Korea killed your missionaries
 			months = 60
 		}
 	}
+	option = { #puppet korea
+		name = silhak.3.c
+		ai_chance = { base = 80 }
+		trigger = {
+			any_interest_group = {
+				is_in_government = yes
+				leader = {
+					has_ideology = ideology_jingoist
+				}
+			}
+		}
+		create_diplomatic_play = {
+	        set_key = french_expedition_to_korea
+	      
+	        target_country = scope:kor_scope
+	        
+	        type = dp_transfer_subject
+	        target_state = s:STATE_SEOUL.region_state:KOR
+
+	        add_war_goal = {
+	          holder = c:KOR
+	          type = war_reparations
+	          target_country = scope:western_missionary
+	       	}
+      	}
+	}
 }
 
-silhak.4 = {
+silhak.4 = { #failed to defend korea
 	type = country_event
 	placement = root
 
-	title = silhak.3.t
-	desc = silhak.3.d
-	flavor = silhak.3.f
+	title = silhak.4.t
+	desc = silhak.4.d
+	flavor = silhak.4.f
 
 	duration = 3
 
 	event_image = {
-		video = "gfx/event_pictures/southamerica_christianity.bk2"
+		video = "gfx/event_pictures/unspecific_steam_ship.bk2"
 	}
 	  
-	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
 	
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/courtroom_upheaval"
 
 	trigger = {
-		has_state_in_state_region = STATE_SEOUL
-		owns_entire_state_region = STATE_SEOUL #gyeonggi, but the states are for korea imported from vic2 in this game (except yangho)
+		root = c:KOR
+		NOT = { has_variable = korean_sovereignty_breached }
+		OR = {
+			NOT = { owns_entire_state_region = STATE_SEOUL }
+			NOT = { owns_entire_state_region = STATE_SARIWON }
+			NOT = { owns_entire_state_region = STATE_PYONGYANG }
+			NOT = { owns_entire_state_region = STATE_BUSAN }
+			NOT = { owns_entire_state_region = STATE_YANGHO }
+		}
 	}
-	option = {
-		name = silhak.4.a #embolden the scholars and christians
+	immediate = {
+		s:STATE_SEOUL = {
+			every_scope_state = {
+				if = {
+					limit = { is_treaty_port = yes }
+					save_scope_as = kor_treaty_port
+					owner = {
+						save_scope_as = western_missionary
+					}
+				}
+			}
+		}
+		s:STATE_SARIWON = {
+			every_scope_state = {
+				if = {
+					limit = { is_treaty_port = yes }
+					save_scope_as = kor_treaty_port
+					owner = {
+						save_scope_as = western_missionary
+					}
+				}
+			}
+		}
+		s:STATE_PYONGYANG = {
+			every_scope_state = {
+				if = {
+					limit = { is_treaty_port = yes }
+					save_scope_as = kor_treaty_port
+					owner = {
+						save_scope_as = western_missionary
+					}
+				}
+			}
+		}
+		s:STATE_BUSAN = {
+			every_scope_state = {
+				if = {
+					limit = { is_treaty_port = yes }
+					save_scope_as = kor_treaty_port
+					owner = {
+						save_scope_as = western_missionary
+					}
+				}
+			}
+		}
+		s:STATE_YANGHO = {
+			every_scope_state = {
+				if = {
+					limit = { is_treaty_port = yes }
+					save_scope_as = kor_treaty_port
+					owner = {
+						save_scope_as = western_missionary
+					}
+				}
+			}
+		}
+	}
+
+	option = { #embolden the scholars and christians
+		name = silhak.4.a 
 		highlighted_option = yes
 		trigger = {
 			has_journal_entry = je_silhak_return
@@ -221,53 +331,365 @@ silhak.4 = {
 				name = silhak_var
 				add = 40
 			}
+			set_variable = korean_sovereignty_breached
 		}
 	}
-	option = {
-		name = silhak.4.b #leader of yangban becomes a jingoist
+	option = { #leader of yangban becomes a jingoist
+		name = silhak.4.b 
 		ig:ig_landowners.leader = {
-			set_ideology = ideology_jingoist
+			set_ideology = ideology:ideology_jingoist
 		}
+		set_variable = korean_sovereignty_breached
 	}
 }
 
-silhak.5 = {
+silhak.5 = { #Salbangye, association of killers of the yangban
 	type = country_event
-	placement = root
+	placement = scope:random_state
 
-	title = silhak.3.t
-	desc = silhak.3.d
-	flavor = silhak.3.f
+	title = silhak.5.t
+	desc = silhak.5.d
+	flavor = silhak.5.f
 
 	duration = 3
 
 	event_image = {
-		video = "gfx/event_pictures/southamerica_christianity.bk2"
+		video = "gfx/event_pictures/middleeast_police_breaking_door.bk2"
 	}
 	  
-	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
 	
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/police_breaking_door"
 
 	trigger = {
-		has_state_in_state_region = STATE_SEOUL
-		NOT = { owns_entire_state_region = STATE_SEOUL } #gyeonggi, but the states are for korea imported from vic2 in this game (except yangho)
+		has_journal_entry = je_silhak_return
+		NOT = { has_variable = salbangye }
 	}
-
-	option = {
-		name = silhak.4.a #confirm korea's isolationism
-		default_option = yes
-		highlighted_option = yes
-		trigger = {
-			has_journal_entry = je_silhak_return
+	immediate = {
+		set_variable = salbangye
+		random_scope_state = {
+			save_scope_as = random_state
 		}
+		ig:ig_landowners = {
+			save_scope_as = landowners_ig
+		}
+		c:JAP = {
+			save_scope_as = jpn_scope
+		}
+	}
+	option = { #we are scared
+		name = silhak.5.a
 		custom_tooltip = {
-			text = silhak_regress_tt
+			text = silhak_progress_30_tt
 			change_variable = {
 				name = silhak_var
-				subtract = 20
+				add = 30
+			}
+		}
+		scope:random_state = {
+			add_radicals = {
+				value = medium_radicals
+				interest_group = scope:landowners_ig
 			}
 		}
 	}
+	option = { #hunt them down 
+		name = silhak.5.b
+		default_option = yes
+		custom_tooltip = {
+			text = silhak_progress_10_tt
+			change_variable = {
+				name = silhak_var
+				add = 10
+			}
+		}
+		scope:random_state = {
+			add_radicals = {
+				value = medium_radicals
+				pop_type = peasants
+			}
+		}
+		scope:random_state = {
+			add_radicals = {
+				value = medium_radicals
+				pop_type = academics
+			}
+		}
+		scope:random_state = {
+			add_radicals = {
+				value = medium_radicals
+				pop_type = bureaucrats
+			}
+		}
+	}
+}
+
+silhak.6 = { #Saljugye, association of killers of the slave's masters
+	type = country_event
+	placement = scope:random_state
+
+	title = silhak.6.t
+	desc = silhak.6.d
+	flavor = silhak.6.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/middleeast_police_breaking_door.bk2"
+	}
+	  
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/police_breaking_door"
+
+	trigger = {
+		has_journal_entry = je_silhak_return
+		NOT = { has_variable = salbangye }
+	}
+	immediate = {
+		set_variable = saljugye
+		random_scope_state = {
+			save_scope_as = random_state
+		}
+		ig:ig_landowners = {
+			save_scope_as = landowners_ig
+		}
+		ig:ig_rural_folk = {
+			save_scope_as = peasants_ig
+		}
+	}
+	option = { #we are scared
+		name = silhak.6.a
+		custom_tooltip = {
+			text = silhak_progress_30_tt
+			change_variable = {
+				name = silhak_var
+				add = 30
+			}
+		}
+		scope:random_state = {
+			add_radicals = {
+				value = medium_radicals
+				interest_group = scope:landowners_ig
+			}
+		}
+	}
+	option = { #hunt them down 
+		name = silhak.6.b
+		default_option = yes
+		custom_tooltip = {
+			text = silhak_progress_10_tt
+			change_variable = {
+				name = silhak_var
+				add = 10
+			}
+		}
+		scope:random_state = {
+			add_radicals = {
+				value = medium_radicals
+				pop_type = peasants
+			}
+		}
+		scope:random_state = {
+			add_radicals = {
+				value = medium_radicals
+				pop_type = academics
+			}
+		}
+		scope:random_state = {
+			add_radicals = {
+				value = medium_radicals
+				pop_type = bureaucrats
+			}
+		}
+	}
+}
+
+silhak.7 = { #Geomgye, association of the sword
+	type = country_event
+	placement = scope:random_state
+
+	title = silhak.7.t
+	desc = silhak.7.d
+	flavor = silhak.7.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/middleeast_police_breaking_door.bk2"
+	}
+	  
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/police_breaking_door"
+
+	trigger = {
+		has_journal_entry = je_silhak_return
+		NOT = { has_variable = salbangye }
+	}
+	immediate = {
+		set_variable = geomgye
+		random_scope_state = {
+			save_scope_as = random_state
+		}
+		ig:ig_landowners = {
+			save_scope_as = landowners_ig
+		}
+		c:JAP = {
+			save_scope_as = jpn_scope
+		}
+	}
+	option = { #we are scared
+		name = silhak.7.a
+		custom_tooltip = {
+			text = silhak_progress_30_tt
+			change_variable = {
+				name = silhak_var
+				add = 30
+			}
+		}
+		scope:random_state = {
+			add_radicals = {
+				value = medium_radicals
+				interest_group = scope:landowners_ig
+			}
+		}
+	}
+	option = { #hunt them down 
+		name = silhak.7.b
+		default_option = yes
+		custom_tooltip = {
+			text = silhak_progress_10_tt
+			change_variable = {
+				name = silhak_var
+				add = 10
+			}
+		}
+		scope:random_state = {
+			add_radicals = {
+				value = medium_radicals
+				pop_type = peasants
+			}
+		}
+		scope:random_state = {
+			add_radicals = {
+				value = medium_radicals
+				pop_type = academics
+			}
+		}
+		scope:random_state = {
+			add_radicals = {
+				value = medium_radicals
+				pop_type = bureaucrats
+			}
+		}
+	}
+}
+
+silhak.8 = { #Nokrimdang, group of the green woods
+	type = country_event
+	placement = scope:random_state
+
+	title = silhak.8.t
+	desc = silhak.8.d
+	flavor = silhak.8.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/middleeast_police_breaking_door.bk2"
+	}
+	  
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+	
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/police_breaking_door"
+
+	trigger = {
+		has_journal_entry = je_silhak_return
+		NOT = { has_variable = nokrimdang }
+	}
+	immediate = {
+		set_variable = nokrimdang
+		random_scope_state = {
+			save_scope_as = random_state
+		}
+		ig:ig_landowners = {
+			save_scope_as = landowners_ig
+		}
+		ig:ig_rural_folk = {
+			save_scope_as = peasants_ig
+		}
+	}
+	option = { #we are mad
+		name = silhak.7.a
+		custom_tooltip = {
+			text = silhak_progress_30_tt
+			change_variable = {
+				name = silhak_var
+				add = 30
+			}
+		}
+		scope:random_state = {
+			add_radicals = {
+				value = medium_radicals
+				interest_group = scope:landowners_ig
+			}
+			add_modifier = {
+				name = noble_thieves
+				months = 60
+			}
+		}
+	}
+	option = { #hunt them down 
+		name = silhak.7.b
+		custom_tooltip = {
+			text = silhak_progress_10_tt
+			change_variable = {
+				name = silhak_var
+				add = 10
+			}
+		}
+		scope:random_state = {
+			add_radicals = {
+				value = medium_radicals
+				pop_type = peasants
+			}
+		}
+		scope:random_state = {
+			add_radicals = {
+				value = medium_radicals
+				pop_type = academics
+			}
+		}
+		scope:random_state = {
+			add_radicals = {
+				value = medium_radicals
+				pop_type = bureaucrats
+			}
+		}
+	}
+}
+
+silhak.9 = { #Fate of the General Sherman
+	type = country_event
+	placement = scope:random_state
+
+	title = silhak.8.t
+	desc = silhak.8.d
+	flavor = silhak.8.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_naval_battle.bk2"
+	}
+	  
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+	
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/naval_battle"
 }

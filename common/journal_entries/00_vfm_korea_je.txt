@@ -138,7 +138,7 @@ je_silhak_return = {
 		value = var:silhak_var
 	}
 	goal_add_value = {
-		add = 100
+		add = 300
 	}
 	progressbar = yes
 
@@ -163,6 +163,9 @@ je_silhak_reform = {
 	invalid = {
 		NOT = { has_law = law_type:law_monarchy }
 	}
+	fail = {
+		has_variable = kor_silhak_reform_failed
+	}
 
 	timeout = 3650
 
@@ -181,6 +184,16 @@ je_silhak_reform = {
 		}
 	}
 	on_timeout = {
+		custom_tooltip = {
+			text = donghak_radical_tt
+			ig:ig_intelligentsia = { #scholars become donghak
+				set_interest_group_name = ig_donghak
+				add_ideology = ideology_republican
+			}
+			remove_modifier = { modifier_moderate_intelligentsia }
+		}
+	}
+	on_fail = {
 		custom_tooltip = {
 			text = donghak_radical_tt
 			ig:ig_intelligentsia = { #scholars become donghak
@@ -243,4 +256,10 @@ je_sojunghwa = {
 	    }
     }
     should_be_pinned_by_default = yes
+}
+
+je_donghak = {
+	complete = {
+		
+	}
 }
