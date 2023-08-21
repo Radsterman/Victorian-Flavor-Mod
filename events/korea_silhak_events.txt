@@ -81,6 +81,7 @@ silhak.2 = { #Western disturbance (French expedition to Korea)
 	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
 
 	trigger = { 
+		root = c:KOR
 		NOT = { has_variable = korea_expedition_event }
 		any_country = {
 			country_rank = rank_value:great_power
@@ -111,14 +112,17 @@ silhak.2 = { #Western disturbance (French expedition to Korea)
 	option = {
 		name = silhak.2.a
 		scope:western_missionary = {
-			trigger_event = { id = silhak.3 } #To France, I killed your missionaries (sorry)
+			trigger_event = { #To France, I killed your missionaries (sorry)
+				id = silhak.3
+				days = 14 
+			} 
 		}
 	}
 }
 
 silhak.3 = { #To France, Korea killed your missionaries
 	type = country_event
-	placement = root
+	placement = scope:kor_scope
 
 	title = silhak.3.t
 	desc = silhak.3.d
@@ -145,6 +149,9 @@ silhak.3 = { #To France, Korea killed your missionaries
 			save_scope_as = church
 			leader = { save_scope_as = church_leader }
 		}
+		c:KOR = {
+			save_scope_as = kor_scope
+		}
 	}
 	option = {
 		name = silhak.3.a
@@ -167,7 +174,7 @@ silhak.3 = { #To France, Korea killed your missionaries
 	}
 	option = {
 		name = silhak.3.b
-		ai_chance = { base = 0 }
+		ai_chance = { base = 1 }
 		change_relations = {
 			country = scope:kor_scope
 			value = 20
@@ -175,6 +182,92 @@ silhak.3 = { #To France, Korea killed your missionaries
 		add_modifier = {
 			name = ignored_persecutions_of_missionaries
 			months = 60
+		}
+	}
+}
+
+silhak.4 = {
+	type = country_event
+	placement = root
+
+	title = silhak.3.t
+	desc = silhak.3.d
+	flavor = silhak.3.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_christianity.bk2"
+	}
+	  
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+	
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	trigger = {
+		has_state_in_state_region = STATE_SEOUL
+		owns_entire_state_region = STATE_SEOUL #gyeonggi, but the states are for korea imported from vic2 in this game (except yangho)
+	}
+	option = {
+		name = silhak.4.a #embolden the scholars and christians
+		highlighted_option = yes
+		trigger = {
+			has_journal_entry = je_silhak_return
+		}
+		custom_tooltip = {
+			text = silhak_progress_tt
+			change_variable = {
+				name = silhak_var
+				add = 40
+			}
+		}
+	}
+	option = {
+		name = silhak.4.b #leader of yangban becomes a jingoist
+		ig:ig_landowners.leader = {
+			set_ideology = ideology_jingoist
+		}
+	}
+}
+
+silhak.5 = {
+	type = country_event
+	placement = root
+
+	title = silhak.3.t
+	desc = silhak.3.d
+	flavor = silhak.3.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_christianity.bk2"
+	}
+	  
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+	
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	trigger = {
+		has_state_in_state_region = STATE_SEOUL
+		NOT = { owns_entire_state_region = STATE_SEOUL } #gyeonggi, but the states are for korea imported from vic2 in this game (except yangho)
+	}
+
+	option = {
+		name = silhak.4.a #confirm korea's isolationism
+		default_option = yes
+		highlighted_option = yes
+		trigger = {
+			has_journal_entry = je_silhak_return
+		}
+		custom_tooltip = {
+			text = silhak_regress_tt
+			change_variable = {
+				name = silhak_var
+				subtract = 20
+			}
 		}
 	}
 }
