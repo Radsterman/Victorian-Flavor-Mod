@@ -1,4 +1,4 @@
-je_hanja_issue = {
+﻿je_hanja_issue = {
 	icon = "gfx/interface/icons/event_icons/event_academia.dds"
 
 	complete = {
@@ -35,6 +35,11 @@ je_sadae = {
 		}
 	}
 	complete = {
+		NOT = { 
+			top_overlord = {
+				is_at_war = yes
+			} 
+		}
 		OR = {
 			top_overlord = {
 				custom_tooltip = {
@@ -46,7 +51,6 @@ je_sadae = {
 					owes_obligation_to = root
 				}
 			}
-			
 			custom_tooltip = {
 				text = kor_chi_gdp_tt
 				GDP >= gdp_chi
@@ -103,6 +107,28 @@ je_silhak = {
 	complete = {
 		has_technology_researched = empiricism
 	}
+	on_weekly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					can_research = academia
+				}
+				add_technology_progress = {
+					progress = 25
+					technology = academia
+				}
+			}
+			if = {
+				limit = {
+					can_research = empiricism
+				}
+				add_technology_progress = {
+					progress = 15
+					technology = empiricism
+				}
+			}
+		}
+	}
 	on_complete = {
 		trigger_event = {
 			id = silhak.1
@@ -132,6 +158,9 @@ je_silhak_return = {
 				add_ideology = ideology_republican
 			}
 			remove_modifier = { modifier_moderate_intelligentsia }
+		}
+		trigger_event = {
+			id = donghak.1
 		}
 	}
 	current_value = {
@@ -258,8 +287,31 @@ je_sojunghwa = {
     should_be_pinned_by_default = yes
 }
 
-je_donghak = {
-	complete = {
-		
+je_donghak = { #spread of the donghak religion
+	icon = "gfx\interface\icons\religion_icons\cheondoist.dds"
+	immediate = {
+		s:STATE_YANGHO = {
+			convert_population = {
+				target = rel:cheondoist
+				value = 0.05
+			}
+		}
+	}
+	on_monthly_pulse = {
+		random_events = {
+			20 = donghak.2
+			1 = donghak.3
+			79 = 0
+		}
+	}
+	complete = { #nobody is cheondoist
+	}
+	fail = { #cheondoists are mad
+		any_scope_state = {
+			any_scope_pop = {
+				has_pop_religion = cheondist
+			}
+			turmoil >= 0.15
+		}
 	}
 }

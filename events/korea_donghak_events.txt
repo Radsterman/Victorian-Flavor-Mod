@@ -1,0 +1,121 @@
+﻿namespace = donghak
+
+donghak.1 = { #Spawn Donghak
+	type = country_event
+	placement = scope:donghak_state
+
+	title = donghak.1.t
+	desc = donghak.1.d
+	flavor = donghak.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_christianity.bk2"
+	}
+	
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+	
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/christianity"
+
+	duration = 3
+
+	immediate = {
+		s:STATE_BUSAN = {
+			every_scope_state = {
+				limit = {owner = root}
+				save_scope_as = donghak_state
+			}
+		}
+		ig:ig_landowners = {
+			save_scope_as = landowners_ig
+		}
+		scope:donghak_state = {
+			add_modifier = {
+				cheondoist
+			}
+			convert_population = {
+				target = rel:cheondoist
+				value = 0.05
+			}
+		}
+	}
+
+	trigger = {
+		#triggered by JE
+	}
+	option = {
+		name = donghak.1.a
+		default_option = yes
+		scope:donghak_state = {
+			add_radicals = {
+				value = medium_radicals
+				interest_group = scope:landowners_ig
+			}
+		}
+		add_journal_entry = {
+			type = je_donghak
+		}
+	}
+}
+
+donghak.2 = { #convert some guys
+	type = country_event
+	placement = root
+
+	hidden = yes
+	duration = 1
+
+	trigger = {
+		#triggered by monthly pulse JE
+	}
+	immediate = {
+		every_state = {
+			limit = {
+				has_modifier = cheondoists
+			}
+			convert_population = {
+				target = rel:cheondoist
+				value = 0.05
+			}
+		}
+	}
+}
+
+donghak.3 = { #spread to a neighbouring state
+	type = country_event
+	placement = root
+	
+	hidden = yes
+	duration = 1
+
+	trigger = {
+		#triggered by monthly pulse JE
+	}
+	immediate = {
+		every_state = {
+			limit = {
+				has_modifier = cheondoists
+			}
+			random_neighbouring_state = {
+				limit = {
+					owner = root
+					state_region = {
+						is_homeland = cu:korean
+					}
+				}
+				convert_population = {
+					target = rel:cheondoist
+					value = 0.05
+				}
+				if = {
+					limit = {
+						NOT = { has_modifier = cheondoists}
+					}
+					add_modifier = {
+						cheondoists
+					}
+				}
+			}
+		}
+	}
+}

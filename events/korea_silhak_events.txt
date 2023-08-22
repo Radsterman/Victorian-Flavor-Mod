@@ -49,6 +49,7 @@ silhak.1 = { #Third Wave Silhak
 		highlighted_option = yes
 		name =  silhak.1.c
 		trigger = {
+		root = c:KOR
 			ig:ig_devout = { is_in_government = yes }
 		}
 		add_modifier = {
@@ -100,6 +101,7 @@ silhak.2 = { #Western disturbance (French expedition to Korea)
 				has_interest_marker_in_region = region_manchuria
 				NOT = { has_war_with = root }
 			}
+			set_variable = western_missionary_kor
 			save_scope_as = western_missionary
 		}
 		scope:western_missionary = {
@@ -180,10 +182,6 @@ silhak.3 = { #To France, Korea killed your missionaries
 	        }
 	        save_scope_as = french_expedition_scope
       	}
-      	trigger_event = {
-      		id = silhak.9
-      		days = 2
-      	}
 	}
 	option = { #ignore it (higher chance to ignore if at war)
 		name = silhak.3.b
@@ -210,7 +208,7 @@ silhak.3 = { #To France, Korea killed your missionaries
 			any_interest_group = {
 				is_in_government = yes
 				leader = {
-					has_ideology = ideology_jingoist
+					has_ideology = ideology:ideology_jingoist
 				}
 			}
 		}
@@ -363,6 +361,7 @@ silhak.5 = { #Salbangye, association of killers of the yangban
 	on_opened_soundeffect = "event:/SFX/Events/middleeast/police_breaking_door"
 
 	trigger = {
+		root = c:KOR
 		has_journal_entry = je_silhak_return
 		NOT = { has_variable = salbangye }
 	}
@@ -445,8 +444,9 @@ silhak.6 = { #Saljugye, association of killers of the slave's masters
 	on_opened_soundeffect = "event:/SFX/Events/middleeast/police_breaking_door"
 
 	trigger = {
+		root = c:KOR
 		has_journal_entry = je_silhak_return
-		NOT = { has_variable = salbangye }
+		NOT = { has_variable = saljugye }
 	}
 	immediate = {
 		set_variable = saljugye
@@ -527,6 +527,7 @@ silhak.7 = { #Geomgye, association of the sword
 	on_opened_soundeffect = "event:/SFX/Events/middleeast/police_breaking_door"
 
 	trigger = {
+		root = c:KOR
 		has_journal_entry = je_silhak_return
 		NOT = { has_variable = salbangye }
 	}
@@ -609,6 +610,7 @@ silhak.8 = { #Nokrimdang, group of the green woods
 	on_opened_soundeffect = "event:/SFX/Events/middleeast/police_breaking_door"
 
 	trigger = {
+		root = c:KOR
 		has_journal_entry = je_silhak_return
 		NOT = { has_variable = nokrimdang }
 	}
@@ -674,13 +676,13 @@ silhak.8 = { #Nokrimdang, group of the green woods
 	}
 }
 
-silhak.9 = { #Fate of the General Sherman
+silhak.9 = { #Declaration of human rights
 	type = country_event
-	placement = scope:random_state
+	placement = root
 
-	title = silhak.8.t
-	desc = silhak.8.d
-	flavor = silhak.8.f
+	title = silhak.9.t
+	desc = silhak.9.d
+	flavor = silhak.9.f
 
 	duration = 3
 
@@ -692,4 +694,447 @@ silhak.9 = { #Fate of the General Sherman
 	
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/unspecific/naval_battle"
+
+	trigger = {
+		root = c:KOR
+		has_technology_researched = human_rights
+		NOT = { has_variable = kor_human_rights }
+	}
+	immediate = {
+		set_variable = kor_human_rights
+		capital = {
+			save_scope_as = random_state
+		}
+		ig:ig_intelligentsia = {
+			save_scope_as = intelligentsia_ig
+		}
+		ig:ig_rural_folk = {
+			save_scope_as = peasants_ig
+		}
+		ig:landowners = {
+			save_scope_as = landowners_ig
+		}
+	}
+	option = { #crack down on dissidents
+		name = silhak.7.a
+		custom_tooltip = {
+			text = silhak_progress_10_tt
+			change_variable = {
+				name = silhak_var
+				add = 10
+			}
+		}
+		scope:random_state = {
+			add_radicals = {
+				value = medium_radicals
+				interest_group = scope:peasants_ig
+			}
+		}
+		scope:random_state = {
+			add_radicals = {
+				value = large_radicals
+				interest_group = scope:intelligentsia_ig
+			}
+		}
+	}
+	option = { #maybe you're right
+		name = silhak.7.b
+		custom_tooltip = {
+			text = silhak_progress_30_tt
+			change_variable = {
+				name = silhak_var
+				add = 30
+			}
+		}
+		scope:landowners_ig = {
+			leader = {
+				set_ideology = ideology:ideology_anti_slavery
+			}
+		}
+		add_radicals = {
+			value = large_radicals
+			interest_group = scope:landowners_ig
+		}
+	}
+}
+
+silhak.10 = { #Fate of the General Sherman
+	type = country_event
+	placement = scope:pyongyang
+
+	title = silhak.10.t
+	desc = silhak.10.d
+	flavor = silhak.10.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_naval_battle.bk2"
+	}
+	  
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+	
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/naval_battle"
+
+	trigger = {
+		root = c:KOR
+		has_variable = korea_expedition_event
+		NOT = { has_variable = korea_ship_burning_event }
+		any_country = {
+			country_rank = rank_value:great_power
+			has_technology_researched = civilizing_mission
+			has_interest_marker_in_region = region_manchuria
+			NOT = { 
+				has_war_with = root 
+				has_variable = western_missionary_kor
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = korea_ship_burning_event
+		s:STATE_PYONGYANG = {
+			random_scope_state = {
+				limit = {owner = root}
+				save_scope_as = pyongyang
+			}
+		}
+		root = {
+			save_scope_as = kor_scope
+		}
+		random_country = {
+			limit = {
+				country_rank = rank_value:great_power
+				has_technology_researched = civilizing_mission
+				has_interest_marker_in_region = region_manchuria
+				NOT = { 
+					has_war_with = root 
+					has_variable = western_missionary_kor
+				}
+			}
+			save_scope_as = kor_ship_scope
+			random_primary_culture = {
+				save_temporary_scope_as = random_culture
+			}
+		}
+		root = { 
+			create_character = {
+				culture = scope:random_culture
+				female = no
+				save_scope_as = kor_ship_name
+			}
+		}
+	}
+
+	option = { #pay concessions
+		name = silhak.10.a
+		ai_chance = { base = 0 }
+		add_treasury = -50000
+		change_relations = {
+			country = scope:kor_ship_scope
+			subtract = 50
+		}
+		scope:kor_ship_scope = {
+			add_treasury = 50000
+		}
+		if = {
+			limit = {
+				has_journal_entry = je_silhak_return
+			}
+			custom_tooltip = {
+				text = silhak_progress_30_tt
+				change_variable = {
+					name = silhak_var
+					add = 30
+				}
+			}
+		}
+	}
+	option = { #we are silent on the matter
+		name = silhak.10.b
+		default_option = yes
+		ai_chance = { base = 1 }
+		scope:kor_ship_scope = {
+			trigger_event = { #fate of the ss general sherman
+				id = silhak.11
+				days = 1828
+			}
+		}
+		trigger_event = { #the westerners are investigating the ship
+			id = silhak.12
+			years = 5 
+		}
+	}
+}
+
+silhak.11 = { #To US, I burned your ship
+	type = country_event
+	placement = scope:kor_scope
+
+	title = silhak.11.t
+	desc = silhak.11.d
+	flavor = silhak.11.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_naval_battle.bk2"
+	}
+	  
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+	
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/naval_battle"
+
+	trigger = {
+		#triggered by silhak.10
+	}
+
+	option = { #ask for concessions
+		name = silhak.11.a
+		ai_chance = { 
+			base = 0 
+			modifier = {
+				add = 1
+				is_at_war = yes
+			}
+		}
+		scope:kor_scope = {
+			trigger_event = {
+				id = silhak.13
+				days = 14
+			}
+		}
+	}
+	option = { #send an expedition (open market)
+		name = silhak.11.b
+		ai_chance = { base = 1 }
+		create_diplomatic_play = {	      
+	        target_country = scope:kor_scope
+	        
+	        type = dp_open_market
+	        target_state = s:STATE_SEOUL.region_state:KOR
+
+	        add_war_goal = {
+	          holder = c:KOR
+	          type = war_reparations
+	          target_country = scope:western_missionary
+	        }
+      	}
+	}
+	option = {
+		name = silhak.11.c
+		ai_chance = { 
+			base = 0 
+			modifier = {
+				add = 2
+				ruler = {
+					has_ideology = ideology:ideology_jingoist
+				}
+			}
+		}
+		create_diplomatic_play = {	      
+	        target_country = scope:kor_scope
+	        
+	        type = dp_make_dominion
+	        target_state = s:STATE_SEOUL.region_state:KOR
+
+	        add_war_goal = {
+	          holder = c:KOR
+	          type = war_reparations
+	          target_country = scope:western_missionary
+	        }
+      	}
+	}
+}
+
+silhak.12 = { #we are investigating the disappearance of a ship
+	type = country_event
+	placement = root
+
+	title = silhak.12.t
+	desc = silhak.12.d
+	flavor = silhak.12.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/asia_westerners_arriving.bk2"
+	}
+	  
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+	
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/courtroom_upheaval"
+
+	immediate = {
+		c:CHI = {
+			save_scope_as = chi_scope
+		}
+	}
+
+	option = { #they were there illegally
+		name = silhak.12.a
+		default_option = yes
+	}
+}
+
+silhak.13 = { #demands for concessions
+	type = country_event
+	placement = root
+
+	title = silhak.13.t
+	desc = silhak.13.d
+	flavor = silhak.13.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/asia_westerners_arriving.bk2"
+	}
+	  
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+	
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/courtroom_upheaval"
+
+	option = { #accept, won't take if in debt
+		ai_chance = { 
+			base = 1 
+			modifier = {
+				subtract = 1
+				scaled_debt > 0
+			}
+		}
+		name = silhak.13.a
+		add_treasury -250000
+		scope:kor_ship_scope = {
+			add_treasury = 250000
+		}
+		change_relations = {
+			country = scope:kor_ship_scope
+			add = 30
+		}
+		if = {
+			limit = {
+				has_journal_entry = je_silhak_return
+			}
+			custom_tooltip = {
+				text = silhak_progress_30_tt
+				change_variable = {
+					name = silhak_var
+					add = 30
+				}
+			}
+		}
+	}
+	option = { #token concessions, 50% chance of getting angry
+		name = silhak.13.b
+		default_option = yes
+		ai_chance = { base = 2 }
+		add_treasury -15000
+		scope:kor_ship_scope = {
+			add_treasury = 15000
+		}
+		if = {
+			limit = {
+				has_journal_entry = je_silhak_return
+			}
+			custom_tooltip = {
+				text = silhak_progress_10_tt
+				change_variable = {
+					name = silhak_var
+					add = 10
+				}
+			}
+		}
+		random_list = {
+			50 = {
+				scope:kor_ship_scope = {
+					trigger_event = {
+						id = silhak.14
+						days = 14
+					}
+				}
+			}
+			50 = {
+				change_relations = {
+					country = scope:kor_ship_scope
+					add = 30
+				}
+			}
+		}
+	}
+	option = { #deny
+		name = silhak.13.c
+		ai_chance = { base = 3 }
+		scope:kor_ship_scope = {
+			trigger_event = {
+				id = silhak.14
+				days = 14
+			}
+		}
+	}
+}
+
+silhak.14 = {
+	type = country_event
+	placement = scope:kor_scope
+
+	title = silhak.14.t
+	desc = silhak.14.d
+	flavor = silhak.14.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/asia_westerners_arriving.bk2"
+	}
+	  
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+	
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/naval_battle"
+
+	option = { #send an expedition (open market)
+		name = silhak.14.a
+		ai_chance = { base = 1 }
+		create_diplomatic_play = {	      
+	        target_country = scope:kor_scope
+	        
+	        type = dp_open_market
+	        target_state = s:STATE_SEOUL.region_state:KOR
+
+	        add_war_goal = {
+	          holder = c:KOR
+	          type = war_reparations
+	          target_country = scope:western_missionary
+	        }
+      	}
+	}
+	option = { #make them a dominion
+		name = silhak.14.b
+		ai_chance = { 
+			base = 0 
+			modifier = {
+				add = 2
+				ruler = {
+					has_ideology = ideology:ideology_jingoist
+				}
+			}
+		}
+		create_diplomatic_play = {	      
+	        target_country = scope:kor_scope
+	        
+	        type = dp_transfer_subject
+	        target_state = s:STATE_SEOUL.region_state:KOR
+
+	        add_war_goal = {
+	          holder = c:KOR
+	          type = war_reparations
+	          target_country = scope:western_missionary
+	        }
+      	}
+	}
 }
