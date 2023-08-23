@@ -30,18 +30,12 @@ donghak.1 = { #Spawn Donghak
 			save_scope_as = landowners_ig
 		}
 		scope:donghak_state = {
-			add_modifier = {
-				cheondoist
-			}
-			convert_population = {
-				target = rel:cheondoist
-				value = 0.05
-			}
+			add_modifier = cheondoists
 		}
 	}
 
 	trigger = {
-		#triggered by JE
+		#triggered by silhak_return JE
 	}
 	option = {
 		name = donghak.1.a
@@ -54,6 +48,11 @@ donghak.1 = { #Spawn Donghak
 		}
 		add_journal_entry = {
 			type = je_donghak
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = donghak.2
+			}
 		}
 	}
 }
@@ -75,7 +74,7 @@ donghak.2 = { #convert some guys
 			}
 			convert_population = {
 				target = rel:cheondoist
-				value = 0.05
+				value = 0.04
 			}
 		}
 	}
@@ -96,26 +95,70 @@ donghak.3 = { #spread to a neighbouring state
 			limit = {
 				has_modifier = cheondoists
 			}
+			convert_population = {
+				target = rel:cheondoist
+				value = 0.02
+			}
 			random_neighbouring_state = {
 				limit = {
 					owner = root
 					state_region = {
 						is_homeland = cu:korean
 					}
+					NOT = {
+						has_modifier = cheondoists
+					}
 				}
 				convert_population = {
 					target = rel:cheondoist
-					value = 0.05
+					value = 0.04
 				}
-				if = {
-					limit = {
-						NOT = { has_modifier = cheondoists}
-					}
-					add_modifier = {
-						cheondoists
-					}
+				add_modifier = {
+					cheondoists
 				}
 			}
 		}
+	}
+}
+
+donghak.4 = {
+	type = country_event
+	placement = root
+
+	hidden = yes
+	duration = 1
+
+	immediate = {
+		every_state = {
+			limit = {
+				has_modifier = cheondoists
+				NOT = {
+					any_scope_pop = {
+						has_religion = rel:cheondoist
+					}
+				}
+			}
+			remove_modifier = cheondoists
+		}
+	}
+}
+
+donghak.5 = {
+	type = country_event
+	placement = root
+
+	immediate = {
+		every_state = {
+			limit = {
+				has_modifier = cheondoists
+				
+			}
+			save_scope_as = donghak_state
+		}
+	}
+
+	create_country = {
+		origin = root
+		state = scope:donghak_state
 	}
 }

@@ -37,7 +37,10 @@ je_sadae = {
 	complete = {
 		NOT = { 
 			top_overlord = {
-				is_at_war = yes
+				OR = {
+					is_at_war = yes
+					is_diplomatic_play_committed_participant = yes
+				}
 			} 
 		}
 		OR = {
@@ -133,6 +136,14 @@ je_silhak = {
 		trigger_event = {
 			id = silhak.1
 		}
+		hidden_effect = {
+			trigger_event = {
+				id = seohak.1
+			}
+			trigger_event = {
+				id = seohak.2
+			}
+		}
 	}
 }
 
@@ -143,6 +154,11 @@ je_silhak_return = {
 		set_variable = {
 			name = silhak_var
 			value = 0
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = seohak.1
+			}
 		}
 	}
 	complete = {
@@ -157,7 +173,7 @@ je_silhak_return = {
 				set_interest_group_name = ig_donghak
 				add_ideology = ideology_republican
 			}
-			remove_modifier = { modifier_moderate_intelligentsia }
+			remove_modifier = modifier_moderate_intelligentsia
 		}
 		trigger_event = {
 			id = donghak.1
@@ -177,6 +193,14 @@ je_silhak_return = {
 				name = silhak_var
 				add = kor_silhak_delta
 			}
+			trigger_event = {
+				id = seohak.4
+			}
+		}
+		random_events = {
+			30 = seohak.2
+			5 = seohak.3
+			65 = 0
 		}
 	}
 	should_be_pinned_by_default = yes
@@ -212,6 +236,22 @@ je_silhak_reform = {
 		    }
 		}
 	}
+	on_monthly_pulse = { 
+		effect = {
+			change_variable = {
+				name = silhak_var
+				add = kor_silhak_delta
+			}
+			trigger_event = {
+				id = seohak.4
+			}
+		}
+		random_events = {
+			30 = seohak.2
+			5 = seohak.3
+			65 = 0
+		}
+	}
 	on_timeout = {
 		custom_tooltip = {
 			text = donghak_radical_tt
@@ -219,7 +259,7 @@ je_silhak_reform = {
 				set_interest_group_name = ig_donghak
 				add_ideology = ideology_republican
 			}
-			remove_modifier = { modifier_moderate_intelligentsia }
+			remove_modifier = modifier_moderate_intelligentsia
 		}
 	}
 	on_fail = {
@@ -229,7 +269,7 @@ je_silhak_reform = {
 				set_interest_group_name = ig_donghak
 				add_ideology = ideology_republican
 			}
-			remove_modifier = { modifier_moderate_intelligentsia }
+			remove_modifier = modifier_moderate_intelligentsia
 		}
 	}
 	on_invalid = {
@@ -289,28 +329,28 @@ je_sojunghwa = {
 
 je_donghak = { #spread of the donghak religion
 	icon = "gfx\interface\icons\religion_icons\cheondoist.dds"
-	immediate = {
-		s:STATE_YANGHO = {
-			convert_population = {
-				target = rel:cheondoist
-				value = 0.05
+	on_monthly_pulse = {
+		random_events = {
+			30 = donghak.2
+			5 = donghak.3
+			65 = 0
+		}
+		effect = {
+			trigger_event = {
+				id = donghak.4
 			}
 		}
 	}
-	on_monthly_pulse = {
-		random_events = {
-			20 = donghak.2
-			1 = donghak.3
-			79 = 0
+	complete = {
+		NOT = {
+			any_scope_state = {
+				has_modifier = cheondoists
+			}
 		}
-	}
-	complete = { #nobody is cheondoist
 	}
 	fail = { #cheondoists are mad
 		any_scope_state = {
-			any_scope_pop = {
-				has_pop_religion = cheondist
-			}
+			has_modifier = cheondoists
 			turmoil >= 0.15
 		}
 	}
