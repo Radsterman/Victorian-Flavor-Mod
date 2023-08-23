@@ -19,7 +19,12 @@ seohak.1 = { #Spawn Seohak
 			save_scope_as = landowners_ig
 		}
 		scope:seohak_state = {
-			add_modifier = seohak_religion_present
+			if = {
+				limit = {
+					NOT = { has_modifier = seohak_religion_present }
+				}
+				add_modifier = seohak_religion_present
+			}
 		}
 	}
 
@@ -36,7 +41,7 @@ seohak.1 = { #Spawn Seohak
 			}
 			convert_population = {
 				target = rel:catholic
-				value = 0.02
+				value = 0.01
 			}
 		}
 	}
@@ -59,7 +64,7 @@ seohak.2 = { #convert some guys
 			}
 			convert_population = {
 				target = rel:catholic
-				value = 0.02
+				value = 0.01
 			}
 		}
 	}
@@ -82,7 +87,7 @@ seohak.3 = { #spread to a neighbouring state
 			}
 			convert_population = {
 				target = rel:catholic
-				value = 0.01
+				value = 0.005
 			}
 			random_neighbouring_state = {
 				limit = {
@@ -96,7 +101,7 @@ seohak.3 = { #spread to a neighbouring state
 				}
 				convert_population = {
 					target = rel:catholic
-					value = 0.02
+					value = 0.01
 				}
 				add_modifier = {
 					seohak_religion_present
@@ -125,5 +130,24 @@ seohak.4 = {
 			}
 			remove_modifier = seohak_religion_present
 		}
+	}
+}
+
+seohak.5 = {
+	type = country_event
+	placement = root
+
+	immediate = {
+		every_state = {
+			limit = {
+				has_modifier = seohak_religion_present
+			}
+			save_scope_as = donghak_state
+		}
+	}
+
+	create_country = {
+		origin = root
+		state = scope:donghak_state
 	}
 }
