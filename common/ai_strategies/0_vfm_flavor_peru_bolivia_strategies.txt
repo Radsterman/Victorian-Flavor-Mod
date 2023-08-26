@@ -90,3 +90,144 @@
 		value = 10
 	}
 }
+
+ai_strategy_raise_the_confederation = {
+	icon = "gfx/interface/icons/ai_strategy_icons/maintain_power_balance.dds"
+	
+	type = diplomatic
+	
+	undesirable_infamy_level = {
+		value = 20
+	}
+	
+	unacceptable_infamy_level = {
+		value = 25
+	}
+	
+	ideological_opinion_effect_mult = {
+		value = 1.5
+	}
+	
+	wargoal_maneuvers_fraction = {
+		value = 1
+	}	
+	
+	diplomatic_play_neutrality = {
+		value = 20
+    }
+	
+	diplomatic_play_boldness = {
+		value = -25
+	}
+	
+	recklessness = {
+		value = -0.1
+	}
+	
+	aggression = {
+		value = 0.25	
+
+		if = {
+			limit = { 
+				NOT = { is_country_type = unrecognized }
+				scope:target_country = { is_country_type = unrecognized } 
+			}
+			add = 0.25
+			
+			if = {
+				limit = { has_technology_researched = civilizing_mission }
+				add = 0.5
+			}			
+		}
+
+		# Less aggressive against countries we're just antagonistic against, rather than belligerent/domineering
+		if = {
+			limit = {
+				has_attitude = {
+					who = scope:target_country
+					attitude = antagonistic
+				}					
+			}
+			multiply = 0.1
+		}
+
+		# More aggressive against ideological enemies, a bit less aggressive against ideological allies
+		if = {
+			limit = {
+				"ai_ideological_opinion(scope:target_country)" < 0
+			}
+			
+			multiply = {
+				value = "ai_ideological_opinion(scope:target_country)"
+				multiply = -0.2
+				add = 1
+				max = 4.0
+			}				
+		}	
+		else = {
+			multiply = {
+				value = "ai_ideological_opinion(scope:target_country)"
+				multiply = -0.05
+				add = 1
+				min = 0.5
+			}			
+		}
+	}
+
+	wargoal_scores = {
+		conquer_state = {
+			if = {
+				limit = {
+					OR = {
+						scope:target_country = {
+							is_subject = yes
+						}
+					}
+				}
+				add = -200
+			}		
+		}	
+		regime_change = {
+			if = {
+				limit = {
+					OR = {
+						scope:target_country = {
+							is_subject = yes
+						}
+					}	
+				}
+				add = 900
+			}		
+		}	
+	}
+
+	secret_goal_scores = {
+		befriend = {		
+			if = {
+				limit = {
+					OR = {
+						scope:target_country = {
+							this = c:FRA
+						}
+						scope:target_country = {
+							this = c:GBR
+						}
+					}
+				}
+				add = 200
+			}		
+		}		
+	}
+
+
+	possible = {
+		year < 1849
+		exists = c:BOL
+		ruler = { has_variable = is_santa_cruz }
+		this = c:BOL
+	}
+
+	weight = {
+		value = 1000
+	}
+}
