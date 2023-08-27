@@ -278,3 +278,89 @@ kor.5 = {
     add_journal_entry = { type = je_sojunghwa }
   }
 }
+
+kor.6 = { #Successor to the mandate of heaven
+  type = country_event
+  placement = root
+
+  title = kor.6.t
+  desc = kor.6.d
+  flavor = kor.6.f
+  
+  event_image = {
+    video = "gfx/event_pictures/asia_confucianism_shinto.bk2"
+  }
+
+  on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+  on_opened_soundeffect = "event:/SFX/Events/asia/confucianism_shinto"
+
+  icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+  duration = 12
+  trigger = {
+    exists = c:KOR
+    this = c:KOR
+    has_global_variable = china_shatters
+    has_technology_researched = pan-nationalism
+    NOT = { has_variable = korean_mandate_event }
+  }
+
+  immediate = {
+    set_variable = korean_mandate_event
+  }
+  option ={ #take the mandate of heaven
+    name = kor.6.a 
+    ai_chance = { base = 0 }
+    add_primary_culture = cu:han
+    custom_tooltip = {
+      text = claim_china_tt
+      every_state_region = {
+        limit = {
+          OR = {
+            is_homeland = cu:han
+            is_homeland = cu:manchu
+          }
+        }
+        add_claim = c:KOR
+      }
+      every_country = {
+      limit = { 
+        country_has_primary_culture = cu:han
+      }
+      change_relations = {
+        country = c:KOR
+        value = -80
+      }
+    }
+    }
+  }
+  option = { #ignore the mandate of heaven
+    name = kor.6.b
+    ai_chance = { base = 1 }
+    every_country = {
+      limit = { 
+        country_has_primary_culture = cu:han
+      }
+      change_relations = {
+        country = c:KOR
+        value = 20
+      }
+    }
+  }
+}
+
+kor.7 = {
+  type = country_event
+  placement = root
+  hidden = yes
+  trigger = {
+    root = c:CHI
+    was_formed_from = KOR
+    NOT = { has_variable = korean_culture }
+  }
+  immediate = {
+    add_primary_culture = cu:korean
+    remove_primary_culture = cu:manchu
+    set_variable = korean_culture
+  }
+}
