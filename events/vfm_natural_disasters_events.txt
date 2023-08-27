@@ -46,6 +46,19 @@ vfm_natural_disaster_events.1 = { #Draught for more arid zones
 		state_region = {
 			add_devastation = 15
 		}
+		custom_tooltip = natural_disaster_variable_tt
+		hidden_effect = {
+			random_list = {
+				50 = {
+					set_variable = {
+						name = natural_disaster_variable
+						months = short_modifier_time
+					}
+				}
+				50 = {
+				}
+			}
+		}
 		random_neighbouring_state = {
 			limit = {
 			    NOT = { has_modifier = modifier_drought }
@@ -76,7 +89,7 @@ vfm_natural_disaster_events.1 = { #Draught for more arid zones
 			hidden_effect = {
 			    trigger_event = { id = vfm_natural_disaster_events.3 }
 			}
-		}		
+		}	
 	}
 }
 
@@ -124,6 +137,19 @@ vfm_natural_disaster_events.2 = { #Draught for normal
 		}
 		state_region = {
 			add_devastation = 15
+		}
+		custom_tooltip = natural_disaster_variable_tt
+		hidden_effect = {
+			random_list = {
+				50 = {
+					set_variable = {
+						name = natural_disaster_variable
+						months = short_modifier_time
+					}
+				}
+				50 = {
+				}
+			}
 		}
 		random_neighbouring_state = {
 			limit = {
@@ -194,6 +220,19 @@ vfm_natural_disaster_events.3 = { #anounce effect to owner of neighbouring state
 			   add_devastation = 15
 		    }
 		}
+		custom_tooltip = natural_disaster_variable_tt
+		hidden_effect = {
+			random_list = {
+				50 = {
+					set_variable = {
+						name = natural_disaster_variable
+						months = short_modifier_time
+					}
+				}
+				50 = {
+				}
+			}
+		}
 	}
 }
 
@@ -242,6 +281,19 @@ vfm_natural_disaster_events.4 = { #Catastrophic draught for more arid zones
 		}
 		state_region = {
 			add_devastation = 25
+		}
+		custom_tooltip = natural_disaster_variable_tt
+		hidden_effect = {
+			random_list = {
+				50 = {
+					set_variable = {
+						name = natural_disaster_variable
+						months = short_modifier_time
+					}
+				}
+				50 = {
+				}
+			}
 		}
 		random_neighbouring_state = {
 			limit = {
@@ -603,6 +655,122 @@ vfm_natural_disaster_events.7 = { #Hurricane - coastal state
 					}
 				}
 				remove_building = building_naval_base
+			}
+		}
+	}
+}
+
+#crop fialure -> natural_disaster_events.5 -> vfm_natural_disaster_events.8
+vfm_natural_disaster_events.8 = { #Draught for normal
+	type = state_event
+	placement = scope:crop_fail_state
+
+	title = natural_disaster_events.5.t
+	desc = natural_disaster_events.5.d
+	flavor = natural_disaster_events.5.f
+
+	duration = 3
+
+	event_image = {
+		video = "asia_dead_cattle_poor_harvest"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+
+	trigger = {
+		any_scope_building = {
+			OR = {
+  				is_farm_building = yes
+  				is_plantation_building = yes
+  			}
+		}
+		NOR = {
+			has_modifier = modifier_crop_failure
+			has_modifier = modifier_crop_failure_relief_effect
+		}
+	}
+
+    immediate = {
+		save_scope_as = crop_fail_state
+		random_scope_building = {
+			limit = {
+				OR = {
+  					is_farm_building = yes
+  					is_plantation_building = yes
+  			    }
+			}
+			save_scope_as = crop_failure_building
+		}
+		owner = { save_scope_as = state_owner }
+	}
+	
+	option = { #No extra help
+		name = natural_disaster_events.5.a
+		default_option = yes
+		add_modifier = {
+			name = modifier_crop_failure
+			months = normal_modifier_time
+		}
+		custom_tooltip = natural_disaster_variable_tt
+		hidden_effect = {
+			random_list = {
+				50 = {
+					set_variable = {
+						name = natural_disaster_variable
+						months = short_modifier_time
+					}
+				}
+				50 = {
+				}
+			}
+		}
+		random_neighbouring_state = {
+			limit = {
+			    NOR = {
+					has_modifier = modifier_crop_failure
+					has_modifier = modifier_crop_failure_relief_effect
+			    }
+				owner = scope:state_owner
+			}
+			add_modifier = {
+			    name = modifier_crop_failure
+			    months = normal_modifier_time
+		    }
+		}
+	}
+	
+	option = { # extra help
+		name = natural_disaster_events.5.b
+		add_modifier = {
+			name = modifier_crop_failure_relief
+			multiplier = money_amount_multiplier_small
+			months = short_modifier_time
+		}
+		add_modifier = {
+			name = modifier_crop_failure
+			months = normal_modifier_time
+		}
+		add_modifier = {
+			name = modifier_crop_failure_relief_effect
+			months = normal_modifier_time
+		}
+		random_neighbouring_state = {
+			limit = {
+			    NOR = {
+					has_modifier = modifier_crop_failure
+					has_modifier = modifier_crop_failure_relief_effect
+			    }
+				owner = scope:state_owner
+			}
+			add_modifier = {
+			    name = modifier_crop_failure
+			    months = normal_modifier_time
+		    }
+			add_modifier = {
+				name = modifier_crop_failure_relief_effect
+				months = normal_modifier_time
 			}
 		}
 	}
