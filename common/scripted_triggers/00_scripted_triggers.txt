@@ -1866,3 +1866,37 @@ budget_low_training_rate = {
 		is_at_war = yes
 	}
 }
+
+diplomatic_play_has_no_relations_blockers = {
+	diplomatic_play_has_no_relations_blocker_with_target = yes
+	diplomatic_play_has_no_relations_blocker_with_overlord = yes
+}
+
+diplomatic_play_has_no_relations_blocker_with_target = {
+	custom_tooltip = {
+		text = DIPLO_ACTION_RELATIONS_CORDIAL_OR_GREATER_NOT
+		scope:target_country.relations:root < relations_threshold:cordial
+	}		
+}
+
+diplomatic_play_has_no_relations_blocker_with_overlord = {
+	trigger_if = {
+		limit = { scope:target_country = { is_subject = yes } }
+		custom_tooltip = {
+			text = DIPLO_ACTION_OVERLORD_RELATIONS_CORDIAL_OR_GREATER_NOT
+			scope:target_country.overlord.relations:root < relations_threshold:cordial
+		}	
+	}
+	trigger_if = {
+		limit = { 
+			scope:target_country = { 
+				is_subject = yes 
+				NOT = { overlord = top_overlord }
+			} 		
+		}
+		custom_tooltip = {
+			text = DIPLO_ACTION_TOP_OVERLORD_RELATIONS_CORDIAL_OR_GREATER_NOT
+			scope:target_country.overlord.relations:root < relations_threshold:cordial
+		}	
+	}
+}
