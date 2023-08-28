@@ -17,6 +17,9 @@
 	on_government_type_change = {
 		change_to_presidential_elective = yes
 	}
+	on_post_government_type_change = {
+		post_change_to_presidential_elective = yes
+	}
 }
 
 gov_governorate = {
@@ -41,6 +44,9 @@ gov_governorate = {
 
 	on_government_type_change = {
 		change_to_presidential_elective = yes
+	}
+	on_post_government_type_change = {
+		post_change_to_presidential_elective = yes
 	}
 }
 
@@ -67,6 +73,9 @@ gov_austrian_crownland = {
 	on_government_type_change = {
 		change_to_presidential_elective = yes
 	}
+	on_post_government_type_change = {
+		post_change_to_presidential_elective = yes
+	}
 }
 
 gov_governor_generalship = {
@@ -88,6 +97,9 @@ gov_governor_generalship = {
 
 	on_government_type_change = {
 		change_to_presidential_elective = yes
+	}
+	on_post_government_type_change = {
+		post_change_to_presidential_elective = yes
 	}
 }
 
@@ -114,6 +126,9 @@ gov_grand_duchy_posen = {
 	on_government_type_change = {
 		change_to_presidential_elective = yes
 	}
+	on_post_government_type_change = {
+		post_change_to_presidential_elective = yes
+	}
 }
 
 gov_french_2nd_republic_presidential = {
@@ -132,6 +147,9 @@ gov_french_2nd_republic_presidential = {
 
 	on_government_type_change = {
 		change_to_presidential_elective = yes
+	}
+	on_post_government_type_change = {
+		post_change_to_presidential_elective = yes
 	}
 }
 
@@ -152,6 +170,9 @@ gov_french_2nd_republic_presidential_dictator = {
 	on_government_type_change = {
 		change_to_dictatorial = yes
 	}
+	on_post_government_type_change = {
+		post_change_to_dictatorial = yes
+	}
 }
 
 gov_french_3rd_republic_presidential = {
@@ -170,6 +191,9 @@ gov_french_3rd_republic_presidential = {
 
 	on_government_type_change = {
 		change_to_presidential_elective = yes
+	}
+	on_post_government_type_change = {
+		post_change_to_presidential_elective = yes
 	}
 }
 
@@ -190,6 +214,9 @@ gov_french_3rd_republic_presidential_dictator = {
 	on_government_type_change = {
 		change_to_dictatorial = yes
 	}
+	on_post_government_type_change = {
+		post_change_to_dictatorial = yes
+	}
 }
 
 gov_french_4th_republic_presidential = {
@@ -208,6 +235,9 @@ gov_french_4th_republic_presidential = {
 
 	on_government_type_change = {
 		change_to_presidential_elective = yes
+	}
+ 	on_post_government_type_change = {
+		post_change_to_presidential_elective = yes
 	}
 }
 
@@ -228,6 +258,9 @@ gov_french_4th_republic_presidential_dictator = {
 	on_government_type_change = {
 		change_to_dictatorial = yes
 	}
+	on_post_government_type_change = {
+		post_change_to_dictatorial = yes
+	}
 }
 
 gov_provisional_government = {
@@ -244,6 +277,9 @@ gov_provisional_government = {
 	on_government_type_change = {
 		change_to_dictatorial = yes
 	}
+	on_post_government_type_change = {
+		post_change_to_dictatorial = yes
+	}
 }
 
 gov_technate_presidential = {
@@ -259,6 +295,9 @@ gov_technate_presidential = {
 
 	on_government_type_change = {
 		change_to_dictatorial = yes
+	}
+	on_post_government_type_change = {
+		post_change_to_dictatorial = yes
 	}
 }
 
@@ -284,6 +323,9 @@ gov_banana_republic = {
 	on_government_type_change = {
 		change_to_dictatorial = yes
 	}
+	on_post_government_type_change = {
+		post_change_to_dictatorial = yes
+	}
 }
 
 gov_bhutanese_dual_system_temporal = {
@@ -303,7 +345,11 @@ gov_bhutanese_dual_system_temporal = {
 	on_government_type_change = {
 		change_to_dictatorial = yes
 	}
+	on_post_government_type_change = {
+		post_change_to_dictatorial = yes
+	}
 }
+
 gov_free_city = {
 	transfer_of_power = presidential_elective
 
@@ -327,6 +373,9 @@ gov_free_city = {
 
 	on_government_type_change = {
 		change_to_presidential_elective = yes
+	}
+	on_post_government_type_change = {
+		post_change_to_presidential_elective = yes
 	}
 }
 
@@ -352,6 +401,9 @@ gov_warlord_state = {
 	on_government_type_change = {
 		change_to_dictatorial = yes
 	}
+	on_post_government_type_change = {
+		post_change_to_dictatorial = yes
+	}
 }
 
 gov_fascist_state = {
@@ -376,36 +428,33 @@ gov_fascist_state = {
 	on_government_type_change = {
 		change_to_dictatorial = yes
 	}
+	on_post_government_type_change = {
+		post_change_to_dictatorial = yes
+	}
 }
 
-gov_crown_colony = {
+gov_chartered_company = {
 	transfer_of_power = presidential_elective
 	new_leader_on_reform_government = no
 
-	male_ruler = "RULER_TITLE_GOVERNOR"
-	female_ruler = "RULER_TITLE_GOVERNOR"
+	male_ruler = "RULER_TITLE_GOVERNOR_GENERAL"
+	female_ruler = "RULER_TITLE_GOVERNOR_GENERAL"
 	
 	possible = {
 		has_law = law_type:law_presidential_republic
-		exists = c:GBR
-		is_subject_of = c:GBR
-		c:GBR = {
-			has_law = law_type:law_monarchy
-		}
+		AND = { exists = c:GBR is_subject_of = c:GBR }
 		OR = {
-			is_subject_type = subject_type_dependency
-			is_subject_type = subject_type_dominion
+			AND = { exists = c:HBC c:HBC = ROOT }
+			AND = { exists = c:BIC c:BIC = ROOT }
 		}
-		country_is_in_europe = no
-		is_country_type = colonial
-		top_overlord = { NOT = { is_country_type = colonial } }
-		#any_primary_culture = {
-		#	has_discrimination_trait = european_heritage
-		#}
+		is_subject_type = subject_type_dominion
 	}
 
 	on_government_type_change = {
 		change_to_presidential_elective = yes
+	}
+	on_post_government_type_change = {
+		post_change_to_presidential_elective = yes
 	}
 }
 
@@ -452,6 +501,9 @@ gov_colonial_administration = {
 	on_government_type_change = {
 		change_to_presidential_elective = yes
 	}
+	on_post_government_type_change = {
+		post_change_to_presidential_elective = yes
+	}
 }
 
 gov_chartered_company = {
@@ -470,6 +522,9 @@ gov_chartered_company = {
 
 	on_government_type_change = {
 		change_to_presidential_elective = yes
+	}
+	on_post_government_type_change = {
+		post_change_to_presidential_elective = yes
 	}
 }
 
@@ -491,6 +546,9 @@ gov_military_dictatorship = {
 	on_government_type_change = {
 		change_to_dictatorial = yes
 	}
+	on_post_government_type_change = {
+		post_change_to_dictatorial = yes
+	}
 }
 
 gov_presidential_dictatorship = {
@@ -510,6 +568,9 @@ gov_presidential_dictatorship = {
 
 	on_government_type_change = {
 		change_to_dictatorial = yes
+	}
+	on_post_government_type_change = {
+		post_change_to_dictatorial = yes
 	}
 }
 
@@ -531,6 +592,9 @@ gov_junta = {
 	on_government_type_change = {
 		change_to_dictatorial = yes
 	}
+	on_post_government_type_change = {
+		post_change_to_dictatorial = yes
+	}
 }
 
 gov_presidential_oligarchy = {
@@ -549,6 +613,9 @@ gov_presidential_oligarchy = {
 
 	on_government_type_change = {
 		change_to_dictatorial = yes
+	}
+	on_post_government_type_change = {
+		post_change_to_dictatorial = yes
 	}
 }
 
@@ -571,6 +638,9 @@ gov_presidential_democracy = {
 	on_government_type_change = {
 		change_to_presidential_elective = yes
 	}
+	on_post_government_type_change = {
+		post_change_to_presidential_elective = yes
+	}
 }
 
 gov_presidential_single_party_state = {
@@ -586,5 +656,8 @@ gov_presidential_single_party_state = {
 
 	on_government_type_change = {
 		change_to_presidential_elective = yes
+	}
+	on_post_government_type_change = {
+		post_change_to_presidential_elective = yes
 	}
 }

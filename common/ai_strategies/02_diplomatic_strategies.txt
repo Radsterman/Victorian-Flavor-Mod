@@ -513,7 +513,14 @@ ai_strategy_armed_isolationism = {
 		if = {
 			limit = { has_law = law_type:law_isolationism }
 			add = 100
-		}	
+		}
+
+        if = {
+			limit = {
+				has_variable = japan_forced_to_open_market
+			}
+			multiply = 0.1
+		}			
 
 		if = {
 			limit = { country_rank = rank_value:great_power }
@@ -584,13 +591,15 @@ ai_strategy_economic_imperialism = {
 		
 		if = {
 			limit = { 
-				has_technology_researched = civilizing_mission
+				country_rank = rank_value:great_power
+				navy_size >= 25
 				scope:target_country = { 
-					has_law = law_type:law_isolationism 
-					capital.region = sr:region_japan					
+					exists = c:JAP
+					this = c:JAP		
+					has_law = law_type:law_isolationism 				
 				} 
 			}
-			add = 10
+			add = 5
 		}
 
 		if = {
@@ -648,17 +657,33 @@ ai_strategy_economic_imperialism = {
 		}			
 	}
 	
+	strategic_region_scores = {
+		region_japan = { # Great Powers should try to open Japan
+			if = {
+				limit = {
+					exists = c:JAP
+					c:JAP = { has_law = law_type:law_isolationism }
+					country_rank = rank_value:great_power
+					navy_size >= 25
+				}
+				add = 1000
+			}				
+		}	
+	}
+	
 	secret_goal_scores = {
 		dominate = {
 			if = {
 				limit = {
-					has_strategic_adjacency = scope:target_country
+					country_rank = rank_value:great_power
+					navy_size >= 25
 					scope:target_country = { 
-						has_law = law_type:law_isolationism
-						capital.region = sr:region_japan	
-					}
+						exists = c:JAP
+						this = c:JAP		
+						has_law = law_type:law_isolationism 				
+					} 
 				}
-				add = 1000
+				add = 500
 			}		
 			if = {
 				limit = {

@@ -4834,16 +4834,33 @@ ai_strategy_default = {
 				limit = {
 					country_rank >= rank_value:great_power
 					exists = c:CHI
-					any_country = {
-						NOT = { THIS = ROOT }
-						country_is_in_europe = yes
-						any_scope_state = {
-							OR = {
-								region = sr:region_north_china
-								region = sr:region_south_china
-								region = sr:region_manchuria
+					OR = {
+						sr:region_north_china = {
+							any_scope_state = {
+								is_treaty_port = yes
+								owner = {
+									NOT = { this = root }
+									country_is_in_europe = yes
+								}
 							}
-							is_treaty_port = yes
+						}
+						sr:region_south_china = {
+							any_scope_state = {
+								is_treaty_port = yes
+								owner = {
+									NOT = { this = root }
+									country_is_in_europe = yes
+								}
+							}
+						}
+						sr:region_manchuria = {
+							any_scope_state = {
+								is_treaty_port = yes
+								owner = {
+									NOT = { this = root }
+									country_is_in_europe = yes
+								}
+							}
 						}
 					}
 					scope:target_state = {
@@ -4860,23 +4877,33 @@ ai_strategy_default = {
 				limit = {
 					country_rank >= rank_value:great_power
 					exists = c:CHI
-					any_country = {
-						NOT = { THIS = ROOT }
-						country_rank >= rank_value:great_power
-						any_scope_state = {
-							OR = {
-								region = sr:region_north_china
-								region = sr:region_south_china
-								region = sr:region_manchuria
+					OR = {
+						sr:region_north_china = {
+							any_scope_state = {
+								is_treaty_port = yes
+								owner = {
+									NOT = { THIS = ROOT }
+									country_rank >= rank_value:great_power
+								}
 							}
-							is_treaty_port = yes
 						}
-					}
-					scope:target_state = {
-						OR = {
-							region = sr:region_north_china
-							region = sr:region_south_china
-							region = sr:region_manchuria
+						sr:region_south_china = {
+							any_scope_state = {
+								is_treaty_port = yes
+								owner = {
+									NOT = { THIS = ROOT }
+									country_rank >= rank_value:great_power
+								}
+							}
+						}
+						sr:region_manchuria = {
+							any_scope_state = {
+								is_treaty_port = yes
+								owner = {
+									NOT = { THIS = ROOT }
+									country_rank >= rank_value:great_power
+								}
+							}
 						}
 					}
 				}
