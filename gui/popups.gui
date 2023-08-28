@@ -62,6 +62,83 @@ types notifications {
 			}
 		}
 	}
+
+	### CONFIRMATION WINDOW
+	type default_confirmation_window = container {
+		parentanchor = center
+		using = clickthrough_blocker
+		layer = confirmation
+
+		state = {
+			trigger_on_create = yes
+			name = 1
+			next = 2
+
+			alpha = 0
+			position_y = -50
+		}
+		state = {
+			name = 2
+			duration = 0.25
+			using = Animation_Curve_Default
+
+			alpha = 1
+			position_y = 0
+		}
+
+		background = {
+			using = default_background
+		}
+		background = {
+			using = frame_small
+		}
+
+		flowcontainer = {
+			direction = vertical
+			margin = { 40 20 }
+			spacing = 20
+
+			textbox = {
+				maximumsize = { 300 -1 }
+				minimumsize = { 300 -1 }
+				multiline = yes
+				text = "[ConfirmationWindow.GetDesc]"
+				autoresize = yes
+			}
+
+			flowcontainer = {
+				direction = horizontal
+				using = default_list_position
+				spacing = 20
+
+				button = {
+					using = default_button
+					using = close_button_sound
+					size = { 140 40 }
+					text = "CONFIRM_NO"
+					shortcut = "close_window"
+
+					block answer_ho_handler {
+						onclick = "[PopupManager.AnswerNo(ConfirmationWindow.Self)]"
+					}
+				}
+				button = {
+					using = default_button_primary_action
+					using = confirm_button_sound
+					name = "confirmation_button"
+					size = { 140 40 }
+					text = "CONFIRM_YES"
+					
+					tooltip = "CONFIRM"
+					input_action = "confirm"
+
+					block answer_yes_handler {
+						onclick = "[PopupManager.AnswerYes(ConfirmationWindow.Self)]"
+					}
+				}
+			}
+		}
+	}
 }
 
 
@@ -1262,7 +1339,6 @@ default_popup = {
 				text = "DECLINE"
 				shortcut = "close_window"
 				onclick = "[Execute(Proposal.GetDiplomaticAction.DeclineActionProposal)]"
-				onclick = "[PopupManager.CloseProposal(Proposal.AccessSelf)]"
 				enabled = "[IsValid(Proposal.GetDiplomaticAction.DeclineActionProposal)]"
 				tooltip = "[GetDesc(Proposal.GetDiplomaticAction.DeclineActionProposal)]"
 				visible = "[Not(Proposal.GetDiplomaticAction.IsCallingInObligation)]"
@@ -1275,7 +1351,6 @@ default_popup = {
 				text = "DECLINE_WARNING"
 				shortcut = "close_window"
 				onclick = "[Execute(Proposal.GetDiplomaticAction.DeclineActionProposal)]"
-				onclick = "[PopupManager.CloseProposal(Proposal.AccessSelf)]"
 				enabled = "[IsValid(Proposal.GetDiplomaticAction.DeclineActionProposal)]"
 				tooltip = "THEY_CALL_IN_OBLIGATION"
 				visible = "[Proposal.GetDiplomaticAction.IsCallingInObligation]"
@@ -1287,7 +1362,6 @@ default_popup = {
 				size = { 250 42 }
 				text = "ACCEPT"
 				onclick = "[Execute(Proposal.GetDiplomaticAction.AcceptActionProposal)]"
-				onclick = "[PopupManager.CloseProposal(Proposal.AccessSelf)]"
 				enabled = "[IsValid(Proposal.GetDiplomaticAction.AcceptActionProposal)]"
 				tooltip = "[GetDesc(Proposal.GetDiplomaticAction.AcceptActionProposal)]"
 
@@ -1448,75 +1522,15 @@ default_popup =  {
 	}
 }
 
-### CONFIRMATION WINDOW
-container =  {
+default_confirmation_window = {
 	name = "confirmation_window"
-	parentanchor = center
-	using = clickthrough_blocker
-	layer = confirmation
+}
 
-	state = {
-		trigger_on_create = yes
-		name = 1
-		next = 2
-
-		alpha = 0
-		position_y = -50
-	}
-	state = {
-		name = 2
-		duration = 0.25
-		using = Animation_Curve_Default
-
-		alpha = 1
-		position_y = 0
-	}
-
-	background = {
-		using = default_background
-	}
-	background = {
-		using = frame_small
-	}
-
-	flowcontainer = {
-		direction = vertical
-		margin = { 40 20 }
-		spacing = 20
-
-		textbox = {
-			maximumsize = { 300 -1 }
-			minimumsize = { 300 -1 }
-			multiline = yes
-			text = "[ConfirmationWindow.GetDesc]"
-			autoresize = yes
-		}
-
-		flowcontainer = {
-			direction = horizontal
-			using = default_list_position
-			spacing = 20
-
-			button = {
-				using = default_button
-				using = close_button_sound
-				size = { 140 40 }
-				text = "CONFIRM_NO"
-				onclick = "[PopupManager.AnswerNo(ConfirmationWindow.Self)]"
-				shortcut = "close_window"
-			}
-			button = {
-				using = default_button_primary_action
-				using = confirm_button_sound
-				name = "confirmation_button"
-				size = { 140 40 }
-				text = "CONFIRM_YES"
-				onclick = "[PopupManager.AnswerYes(ConfirmationWindow.Self)]"
-				
-				tooltip = "CONFIRM"
-				input_action = "confirm"
-			}
-		}
+default_confirmation_window = {
+	name = "reform_government_confirmation_window"
+	blockoverride "answer_yes_handler" {
+		onclick = "[PopupManager.AnswerYes(ConfirmationWindow.Self)]"
+		onclick = "[GetVariableSystem.Toggle('reform_government')]"
 	}
 }
 
