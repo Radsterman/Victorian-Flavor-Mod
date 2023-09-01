@@ -23,7 +23,10 @@ seohak.1 = { #Spawn Seohak
 				limit = {
 					NOT = { has_modifier = seohak_religion_present }
 				}
-				add_modifier = seohak_religion_present
+				add_modifier = { 
+					name = seohak_religion_present 
+					months = -1 
+				}
 			}
 		}
 	}
@@ -103,15 +106,16 @@ seohak.3 = { #spread to a neighbouring state
 					target = rel:catholic
 					value = 0.01
 				}
-				add_modifier = {
-					seohak_religion_present
+				add_modifier = { 
+					name = seohak_religion_present 
+					months = -1 
 				}
 			}
 		}
 	}
 }
 
-seohak.4 = {
+seohak.4 = { #remove modifier if no catholics
 	type = country_event
 	placement = root
 
@@ -119,7 +123,7 @@ seohak.4 = {
 	duration = 1
 
 	immediate = {
-		every_state = {
+		every_scope_state = {
 			limit = {
 				has_modifier = seohak_religion_present
 				NOT = {
