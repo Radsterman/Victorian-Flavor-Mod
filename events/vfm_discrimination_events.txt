@@ -1,0 +1,505 @@
+﻿namespace = vfm_discrimination_events
+# TODO: add more variation/flavor to them.
+# discrimination in random state
+vfm_discrimination_events.1 = {
+	type = country_event
+	placement = scope:discrimination_state
+	title = vfm_discrimination_events.1.t
+	desc = vfm_discrimination_events.1.d
+	flavor = vfm_discrimination_events.1.f
+
+	duration = 3
+
+	event_image = {
+		video = "europenorthamerica_russian_serfs"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/gears_pistons"
+	cooldown = { months = normal_modifier_time }
+	trigger = {
+		NOT = { has_law = law_type:law_multicultural }
+		any_scope_state = {
+			any_scope_culture = {
+				culture_is_discriminated_in = root
+				save_temporary_scope_as = discrim_culture
+			}
+			culture_percent_state = {
+			    target = scope:discrim_culture
+			    value >= 0.05
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				any_scope_culture = {
+					culture_is_discriminated_in = root
+					save_temporary_scope_as = discrim_culture
+				}
+				culture_percent_state = {
+					target = scope:discrim_culture
+					value >= 0.05
+				}
+			}
+			save_scope_as = discrimination_state
+			random_scope_pop = {
+				limit = { 
+					culture_accepted = no 
+				}
+				culture = { save_scope_as = discriminated_culture_pop  }
+			}
+		}
+	}
+
+	option = {
+		name = vfm_discrimination_events.1.a
+		default_option = yes
+		scope:discrimination_state = {
+			add_radicals_in_state = {
+				value = 0.08
+				culture = scope:discriminated_culture_pop
+			}
+		}
+		add_radicals = {
+			value = 0.02
+			culture = scope:discriminated_culture_pop
+		}
+	}
+	option = {
+		name = vfm_discrimination_events.1.b
+		scope:discrimination_state = {
+			add_loyalists_in_state = {
+				value = 0.04
+				culture = scope:discriminated_culture_pop
+			}
+		}
+		add_loyalists = {
+			value = 0.01
+			culture = scope:discriminated_culture_pop
+		}
+		if = {
+			limit = {
+				any_interest_group = {
+					law_stance = {
+						law = law_type:law_multicultural
+					    value < neutral
+					}
+					is_in_government = yes
+				}
+			}
+			ordered_interest_group = {
+				limit = {
+					law_stance = {
+						law = law_type:law_multicultural
+					    value < neutral
+					}
+					is_in_government = yes
+				}
+				order_by = ig_clout
+				add_modifier = {
+					name = segregation_eroding
+					months = 24
+				}
+			}
+		}
+		else = {
+			ordered_interest_group = {
+				limit = {
+					law_stance = {
+						law = law_type:law_multicultural
+					    value < neutral
+					}
+					is_marginal = no
+				}
+				order_by = ig_clout
+				add_modifier = {
+					name = segregation_eroding
+					months = 24
+				}
+			}
+		}
+	}
+}
+# discrimination in most populous state
+vfm_discrimination_events.2 = {
+	type = country_event
+	placement = scope:discrimination_state
+	title = vfm_discrimination_events.2.t
+	desc = vfm_discrimination_events.2.d
+	flavor = vfm_discrimination_events.2.f
+
+	duration = 3
+
+	event_image = {
+		video = "votp_hostile_court"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/gears_pistons"
+	cooldown = { months = normal_modifier_time }
+	trigger = {
+		NOT = { has_law = law_type:law_multicultural }
+		any_scope_state = {
+			any_scope_culture = {
+				culture_is_discriminated_in = root
+				save_temporary_scope_as = discrim_culture
+			}
+			culture_percent_state = {
+			    target = scope:discrim_culture
+			    value >= 0.05
+			}
+		}
+	}
+
+	immediate = {
+		ordered_scope_state = {
+			limit = {
+				any_scope_culture = {
+					culture_is_discriminated_in = root
+					save_temporary_scope_as = discrim_culture
+				}
+				culture_percent_state = {
+					target = scope:discrim_culture
+					value >= 0.05
+				}
+		    }
+			order_by = state_population
+			save_scope_as = discrimination_state
+			random_scope_pop = {
+				limit = { 
+					culture_accepted = no 
+				}
+				culture = { save_scope_as = discriminated_culture_pop }
+			}
+		}
+	}
+
+	option = {
+		name = vfm_discrimination_events.1.a
+		default_option = yes
+		scope:discrimination_state = {
+			add_radicals_in_state = {
+				value = 0.08
+				culture = scope:discriminated_culture_pop
+			}
+		}
+		add_radicals = {
+			value = 0.02
+			culture = scope:discriminated_culture_pop
+		}
+	}
+	option = {
+		name = vfm_discrimination_events.1.b
+		scope:discrimination_state = {
+			add_loyalists_in_state = {
+				value = 0.04
+				culture = scope:discriminated_culture_pop
+			}
+		}
+		add_loyalists = {
+			value = 0.01
+			culture = scope:discriminated_culture_pop
+		}
+		if = {
+			limit = {
+				any_interest_group = {
+					law_stance = {
+						law = law_type:law_multicultural
+					    value < neutral
+					}
+					is_in_government = yes
+				}
+			}
+			ordered_interest_group = {
+				limit = {
+					law_stance = {
+						law = law_type:law_multicultural
+					    value < neutral
+					}
+					is_in_government = yes
+				}
+				order_by = ig_clout
+				add_modifier = {
+					name = segregation_eroding
+					months = 24
+				}
+			}
+		}
+		else = {
+			ordered_interest_group = {
+				limit = {
+					law_stance = {
+						law = law_type:law_multicultural
+					    value < neutral
+					}
+					is_marginal = no
+				}
+				order_by = ig_clout
+				add_modifier = {
+					name = segregation_eroding
+					months = 24
+				}
+			}
+		}
+	}
+}
+
+# discrimination in random state again for larger countries with 4 or more states with discriminated pops
+vfm_discrimination_events.3 = {
+	type = country_event
+	placement = scope:discrimination_state
+	title = vfm_discrimination_events.2.t
+	desc = vfm_discrimination_events.2.d
+	flavor = vfm_discrimination_events.2.f
+
+	duration = 3
+
+	event_image = {
+		video = "europenorthamerica_russian_serfs"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/gears_pistons"
+	cooldown = { months = normal_modifier_time }
+	trigger = {
+	    total_population > 10000000
+		has_law = law_type:law_national_supremacy
+		any_scope_state = {
+			any_scope_culture = {
+				culture_is_discriminated_in = root
+				save_temporary_scope_as = discrim_culture
+			}
+			culture_percent_state = {
+			    target = scope:discrim_culture
+			    value >= 0.1
+			}
+			count >= 4
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				any_scope_culture = {
+					culture_is_discriminated_in = root
+					save_temporary_scope_as = discrim_culture
+				}
+				culture_percent_state = {
+					target = scope:discrim_culture
+					value >= 0.1
+				}
+			}
+			save_scope_as = discrimination_state
+			random_scope_pop = {
+				limit = { 
+					culture_accepted = no 
+				}
+				culture = { save_scope_as = discriminated_culture_pop  }
+			}
+		}
+	}
+
+	option = {
+		name = vfm_discrimination_events.1.a
+		default_option = yes
+		scope:discrimination_state = {
+			add_radicals_in_state = {
+				value = 0.08
+				culture = scope:discriminated_culture_pop
+			}
+		}
+		add_radicals = {
+			value = 0.02
+			culture = scope:discriminated_culture_pop
+		}
+	}
+	option = {
+		name = vfm_discrimination_events.1.b
+		scope:discrimination_state = {
+			add_loyalists_in_state = {
+				value = 0.04
+				culture = scope:discriminated_culture_pop
+			}
+		}
+		add_loyalists = {
+			value = 0.01
+			culture = scope:discriminated_culture_pop
+		}
+		if = {
+			limit = {
+				any_interest_group = {
+					law_stance = {
+						law = law_type:law_national_supremacy
+					    value > neutral
+					}
+					is_in_government = yes
+				}
+			}
+			ordered_interest_group = {
+				limit = {
+					law_stance = {
+						law = law_type:law_national_supremacy
+					    value > neutral
+					}
+					is_in_government = yes
+				}
+				order_by = ig_clout
+				add_modifier = {
+					name = segregation_eroding
+					months = 24
+				}
+			}
+		}
+		else = {
+			ordered_interest_group = {
+				limit = {
+					law_stance = {
+						law = law_type:law_national_supremacy
+					    value > neutral
+					}
+					is_marginal = no
+				}
+				order_by = ig_clout
+				add_modifier = {
+					name = segregation_eroding
+					months = 24
+				}
+			}
+		}
+	}
+}
+
+# discrimination in random state again for large empires with 8 or more states with discriminated pops
+vfm_discrimination_events.4 = {
+	type = country_event
+	placement = scope:discrimination_state
+	title = vfm_discrimination_events.1.t
+	desc = vfm_discrimination_events.1.d
+	flavor = vfm_discrimination_events.1.f
+
+	duration = 3
+
+	event_image = {
+		video = "votp_hostile_court"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/gears_pistons"
+	cooldown = { months = normal_modifier_time }
+	trigger = {
+	    total_population > 10000000
+		NOT = { has_law = law_type:law_multicultural }
+		any_scope_state = {
+			any_scope_culture = {
+				culture_is_discriminated_in = root
+				save_temporary_scope_as = discrim_culture
+			}
+			culture_percent_state = {
+			    target = scope:discrim_culture
+			    value >= 0.1
+			}
+			count >= 8
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				any_scope_culture = {
+					culture_is_discriminated_in = root
+					save_temporary_scope_as = discrim_culture
+				}
+				culture_percent_state = {
+					target = scope:discrim_culture
+					value >= 0.1
+				}
+			}
+			save_scope_as = discrimination_state
+			random_scope_pop = {
+				limit = { 
+					culture_accepted = no 
+				}
+				culture = { save_scope_as = discriminated_culture_pop  }
+			}
+		}
+	}
+
+	option = {
+		name = vfm_discrimination_events.1.a
+		default_option = yes
+		scope:discrimination_state = {
+			add_radicals_in_state = {
+				value = 0.08
+				culture = scope:discriminated_culture_pop
+			}
+		}
+		add_radicals = {
+			value = 0.02
+			culture = scope:discriminated_culture_pop
+		}
+	}
+	option = {
+		name = vfm_discrimination_events.1.b
+		scope:discrimination_state = {
+			add_loyalists_in_state = {
+				value = 0.04
+				culture = scope:discriminated_culture_pop
+			}
+		}
+		add_loyalists = {
+			value = 0.01
+			culture = scope:discriminated_culture_pop
+		}
+		if = {
+			limit = {
+				any_interest_group = {
+					law_stance = {
+						law = law_type:law_multicultural
+					    value < neutral
+					}
+					is_in_government = yes
+				}
+			}
+			ordered_interest_group = {
+				limit = {
+					law_stance = {
+						law = law_type:law_multicultural
+					    value < neutral
+					}
+					is_in_government = yes
+				}
+				order_by = ig_clout
+				add_modifier = {
+					name = segregation_eroding
+					months = 24
+				}
+			}
+		}
+		else = {
+			ordered_interest_group = {
+				limit = {
+					law_stance = {
+						law = law_type:law_multicultural
+					    value < neutral
+					}
+					is_marginal = no
+				}
+				order_by = ig_clout
+				add_modifier = {
+					name = segregation_eroding
+					months = 24
+				}
+			}
+		}
+	}
+}

@@ -2,7 +2,7 @@
 	is_shown = {
 		exists = c:CAU
 		c:CAU = {
-			is_subject_of = root
+			is_subject_of = ROOT
 		}
 		NOT = {
 			c:CAU = {
@@ -14,31 +14,42 @@
 	}
 
 	possible = {
-		OR = {
-			has_state_in_state_region = STATE_KARS
-			owns_entire_state_region = STATE_KUBAN
-			owns_entire_state_region = STATE_DAGESTAN
+		any_state = {
+			owner = ROOT
+			region = sr:region_caucasus
+			OR = {
+				state_region = s:STATE_DAGESTAN
+				state_region = s:STATE_KUBAN
+				state_region = s:STATE_KARS
+			}
 		}
 		has_technology_researched = central_archives
 	}
 
 	when_taken = {
-		s:STATE_KARS.region_state:RUS = {
-			set_state_owner = c:CAU
-		}
+	    custom_tooltip = expand_transcaucasia_tt
 		if = {
 			limit = {
-			owns_entire_state_region = STATE_KUBAN
+				any_state = {
+					owner = ROOT
+					region = sr:region_caucasus
+					OR = {
+						state_region = s:STATE_DAGESTAN
+						state_region = s:STATE_KUBAN
+						state_region = s:STATE_KARS
+				    }
+				}
 			}
-			s:STATE_KUBAN.region_state:RUS = {
-				set_state_owner = c:CAU
-			}
-		}
-		if = {
-			limit = {
-			owns_entire_state_region = STATE_DAGESTAN
-			}
-			s:STATE_DAGESTAN.region_state:RUS = {
+			every_scope_state = {
+				limit = {
+					owner = ROOT
+					region = sr:region_caucasus
+					OR = {
+						state_region = s:STATE_DAGESTAN
+						state_region = s:STATE_KUBAN
+						state_region = s:STATE_KARS
+				    }
+				}
 				set_state_owner = c:CAU
 			}
 		}

@@ -1,0 +1,714 @@
+﻿	namespace = natural_disaster_events
+
+natural_disaster_events.1 = { #Small Earthquake
+	type = country_event
+	placement = scope:earthquake_state
+
+	title = natural_disaster_events.1.t
+	desc = natural_disaster_events.1.d
+	flavor = natural_disaster_events.1.f
+
+	duration = 3
+
+	event_image = {
+		video = "unspecific_devastation"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	trigger = {
+		any_state = {
+			owner = ROOT
+			in_earthquake_zone = yes
+		}
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				owner = ROOT
+				in_earthquake_zone = yes
+			}
+			save_scope_as = earthquake_state
+		}
+	}
+
+	option = { #No extra help
+		name = natural_disaster_events.1.a
+		default_option = yes
+		scope:earthquake_state.state_region = {
+			add_devastation = 20
+		}
+		custom_tooltip = natural_disaster_variable_tt
+		hidden_effect = {
+			random_list = {
+				20 = {
+					random_scope_state = {
+						limit = {
+							is_incorporated = yes
+						}
+						set_variable = {
+							name = natural_disaster_variable
+							months = short_modifier_time
+						}
+					}
+				}
+				80 = {
+				}
+			}
+		}
+	}
+
+	option = { #Extra help
+		name = natural_disaster_events.1.b
+		add_modifier = {
+			name = modifier_earthquake_relief
+			multiplier = money_amount_multiplier_medium
+			months = short_modifier_time
+		}
+		scope:earthquake_state.state_region = {
+			add_devastation = 10
+		}
+	}
+}
+
+natural_disaster_events.2 = { #Small Flood
+	type = country_event
+	placement = scope:flood_state
+
+	title = natural_disaster_events.2.t
+	desc = natural_disaster_events.2.d
+	flavor = natural_disaster_events.2.f
+
+	event_image = {
+		texture = "gfx/event_pictures/unspecific_flooding.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	duration = 3
+
+	trigger = {
+		any_state = {
+			owner = ROOT
+			on_river = yes
+		}
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				owner = ROOT
+				on_river = yes
+			}
+			save_scope_as = flood_state
+		}
+	}
+
+	option = { #No extra help
+		name = natural_disaster_events.2.a
+		default_option = yes
+		scope:flood_state.state_region = {
+			add_devastation = 20
+		}
+		custom_tooltip = natural_disaster_variable_tt
+		hidden_effect = {
+			random_list = {
+				20 = {
+					random_scope_state = {
+						limit = {
+							is_incorporated = yes
+						}
+						set_variable = {
+							name = natural_disaster_variable
+							months = short_modifier_time
+						}
+					}
+				}
+				80 = {
+				}
+			}
+		}
+	}
+
+	option = { #Extra help
+		name = natural_disaster_events.2.b
+		add_modifier = {
+			name = modifier_flood_relief
+			multiplier = money_amount_multiplier_medium
+			months = short_modifier_time
+		}
+		scope:flood_state.state_region = {
+			add_devastation = 10
+		}
+	}
+}
+
+natural_disaster_events.3 = { #Mega Flood
+	type = country_event
+	placement = scope:mega_flood_state
+
+	title = natural_disaster_events.3.t
+	desc = natural_disaster_events.3.d
+	flavor = natural_disaster_events.3.f
+
+	event_image = {
+		texture = "gfx/event_pictures/unspecific_flooding.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	duration = 3
+
+	trigger = {
+		any_scope_state = {
+			on_river = yes
+		}
+
+		NOT = {
+			has_variable = mega_flood
+		}
+
+		NOT = {
+			global_var:number_of_mega_floods > 5
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				on_river = yes
+			}
+			save_scope_as = mega_flood_state
+		}
+		set_variable = mega_flood
+		if = {
+			limit = { exists = var:number_of_mega_floods }
+			change_global_variable = {
+				name = number_of_mega_floods
+				add = 1
+			}
+		}
+		else = {
+			set_global_variable = {
+				name = number_of_mega_floods
+				value = 1
+			}
+		}
+	}
+
+	option = { #No extra help
+		name = natural_disaster_events.3.a
+		default_option = yes
+		scope:mega_flood_state.state_region = {
+			add_devastation = 40
+		}
+		custom_tooltip = natural_disaster_variable_tt
+		hidden_effect = {
+			random_list = {
+				30 = {
+					random_scope_state = {
+						limit = {
+							is_incorporated = yes
+						}
+						set_variable = {
+							name = natural_disaster_variable
+							months = short_modifier_time
+						}
+					}
+				}
+				70 = {
+				}
+			}
+		}
+	}
+
+	option = { #Extra help
+		name = natural_disaster_events.3.b
+		add_modifier = {
+			name = modifier_mega_flood_relief
+			multiplier = money_amount_multiplier_large
+			months = normal_modifier_time
+		}
+		scope:mega_flood_state.state_region = {
+			add_devastation = 20
+		}
+	}
+}
+
+
+
+natural_disaster_events.4 = { #Mega Earthquake
+	type = country_event
+	placement = scope:mega_earthquake_state
+
+	title = natural_disaster_events.4.t
+	desc = natural_disaster_events.4.d
+	flavor = natural_disaster_events.4.f
+
+	event_image = {
+		video = "unspecific_devastation"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	duration = 3
+
+	trigger = {
+		any_state = {
+			owner = ROOT
+			in_earthquake_zone = yes
+		}
+		NOT = {
+			has_variable = mega_earthquake
+		}
+
+		NOT = {
+			global_var:number_of_mega_earthquakes > 5
+		}
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				owner = ROOT
+				in_earthquake_zone = yes
+			}
+			save_scope_as = mega_earthquake_state
+		}
+		if = {
+			limit = {
+				exists = var:mega_earthquake
+			}
+			change_global_variable = {
+				name = number_of_mega_earthquakes
+				add = 1
+			}
+		}
+		else = {
+			set_variable = {
+				name = mega_earthquake
+				value = 1
+			}
+		}
+	}
+
+	option = { #No extra help
+		name = natural_disaster_events.4.a
+		default_option = yes
+		scope:mega_earthquake_state.state_region = {
+			add_devastation = 40
+		}
+		custom_tooltip = natural_disaster_variable_tt
+		hidden_effect = {
+			random_list = {
+				30 = {
+					random_scope_state = {
+						limit = {
+							is_incorporated = yes
+						}
+						set_variable = {
+							name = natural_disaster_variable
+							months = short_modifier_time
+						}
+					}
+				}
+				70 = {
+				}
+			}
+		}
+	}
+
+	option = { #Extra help
+		name = natural_disaster_events.4.b
+		add_modifier = {
+			name = modifier_mega_earthquake_relief
+			multiplier = money_amount_multiplier_large
+			months = normal_modifier_time
+		}
+		scope:mega_earthquake_state.state_region = {
+			add_devastation = 20
+		}
+	}
+}
+
+
+natural_disaster_events.5 = { #Crop Failure
+	type = country_event
+	placement = scope:crop_fail_state
+
+	title = natural_disaster_events.5.t
+	desc = natural_disaster_events.5.d
+	flavor = natural_disaster_events.5.f
+
+	duration = 3
+
+	event_image = {
+		video = "asia_dead_cattle_poor_harvest"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+
+	trigger = {
+		any_scope_state = {
+			any_scope_building = {
+				OR = {
+  						is_farm_building = yes
+  						is_plantation_building = yes
+  					}
+
+			}
+			NOR = {
+				has_modifier = modifier_crop_failure
+				has_modifier = modifier_crop_failure_relief_effect
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					OR = {
+  						is_farm_building = yes
+  						is_plantation_building = yes
+  					}
+				}
+				NOR = {
+					has_modifier = modifier_crop_failure
+					has_modifier = modifier_crop_failure_relief_effect
+					}
+				}
+			save_scope_as = crop_fail_state
+			random_scope_building = {
+				limit = {
+					is_farm_building = yes # vfm fix bug, also look for a farm
+  					is_plantation_building = yes
+				}
+				save_scope_as = crop_failure_building
+			}
+		}
+	}
+
+	option = { #No extra help
+		name = natural_disaster_events.5.a
+		default_option = yes
+		scope:crop_fail_state = {
+			add_modifier = {
+				name = modifier_crop_failure
+				months = normal_modifier_time
+			}
+		}
+		custom_tooltip = natural_disaster_variable_tt
+		hidden_effect = {
+			random_list = {
+				50 = {
+					random_scope_state = {
+						limit = {
+							is_incorporated = yes
+						}
+						set_variable = {
+							name = natural_disaster_variable
+							months = short_modifier_time
+						}
+					}
+				}
+				50 = {
+				}
+			}
+		}
+	}
+
+	option = { # extra help
+		name = natural_disaster_events.5.b
+		add_modifier = {
+			name = modifier_crop_failure_relief
+			multiplier = money_amount_multiplier_small
+			months = short_modifier_time
+		}
+		scope:crop_fail_state = {
+			add_modifier = {
+				name = modifier_crop_failure
+				months = normal_modifier_time
+			}
+			add_modifier = {
+				name = modifier_crop_failure_relief_effect
+				months = normal_modifier_time
+			}
+		}
+	}
+}
+
+natural_disaster_events.6 = { #Tropical Cyclone
+	type = country_event
+	placement = scope:cyclone_state
+
+	title = natural_disaster_events.6.t
+	desc = natural_disaster_events.6.d
+	flavor = natural_disaster_events.6.f
+
+	event_image = {
+		video = "unspecific_devastation"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	duration = 3
+
+	trigger = {
+		any_state = {
+			owner = ROOT
+			in_earthquake_zone = yes
+			is_coastal = yes
+		}
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				owner = ROOT
+				in_earthquake_zone = yes
+				is_coastal = yes
+			}
+			save_scope_as = cyclone_state
+		}
+	}
+
+	option = { #No extra help
+		name = natural_disaster_events.6.a
+		default_option = yes
+		scope:cyclone_state.state_region = {
+			add_devastation = 20
+		}
+		custom_tooltip = natural_disaster_variable_tt
+		hidden_effect = {
+			random_list = {
+				20 = {
+					random_scope_state = {
+						limit = {
+							is_incorporated = yes
+						}
+						set_variable = {
+							name = natural_disaster_variable
+							months = short_modifier_time
+						}
+					}
+				}
+				80 = {
+				}
+			}
+		}
+	}
+
+	option = { #Extra help
+		name = natural_disaster_events.6.b
+		add_modifier = {
+			name = modifier_cyclone_relief
+			multiplier = money_amount_multiplier_small
+			months = short_modifier_time
+		}
+		scope:cyclone_state.state_region = {
+			add_devastation = 10
+		}
+	}
+}
+
+natural_disaster_events.7 = { #Small Eruption
+	type = country_event
+	placement = scope:volcanic_state
+
+	title = natural_disaster_events.7.t
+	desc = natural_disaster_events.7.d
+	flavor = natural_disaster_events.7.f
+
+	duration = 3
+
+	event_image = {
+		video = "unspecific_devastation"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	trigger = {
+		any_state = {
+			owner = ROOT
+			in_volcanic_zone = yes
+		}
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				owner = ROOT
+				in_volcanic_zone = yes
+			}
+			save_scope_as = volcanic_state
+		}
+	}
+
+	option = { #No extra help
+		name = natural_disaster_events.7.a
+		default_option = yes
+		if = {
+			limit = {
+				has_variable = krakatoa_uni_var
+			}
+			scope:volcanic_state.state_region = {
+				add_devastation = 10
+			}
+		}
+		else = {
+			scope:volcanic_state.state_region = {
+				add_devastation = 20
+			}
+		}
+		custom_tooltip = natural_disaster_variable_tt
+		hidden_effect = {
+			random_list = {
+				20 = {
+					random_scope_state = {
+						limit = {
+							is_incorporated = yes
+						}
+						set_variable = {
+							name = natural_disaster_variable
+							months = short_modifier_time
+						}
+					}
+				}
+				80 = {
+				}
+			}
+		}
+	}
+
+	option = { #Extra help
+		name = natural_disaster_events.7.b
+		add_modifier = {
+			name = modifier_volcano_relief
+			multiplier = money_amount_multiplier_small
+			months = short_modifier_time
+		}
+		if = {
+			limit = {
+				has_variable = krakatoa_uni_var
+			}
+			#nothing happens
+		}
+		else = {
+			scope:volcanic_state.state_region = {
+				add_devastation = 10
+			}
+		}
+	}
+}
+
+natural_disaster_events.8 = { #Mega Eruption
+	type = country_event
+	placement = scope:mega_volcanic_state
+
+	title = natural_disaster_events.8.t
+	desc = natural_disaster_events.8.d
+	flavor = natural_disaster_events.8.f
+
+	event_image = {
+		video = "unspecific_devastation"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	duration = 3
+
+	trigger = {
+		any_scope_state = {
+			in_volcanic_zone = yes
+		}
+		NOT = {
+			has_variable = mega_eruption
+		}
+		NOT = {
+			global_var:number_of_mega_eruptions > 3
+		}
+		NOT = { has_global_variable = krakatoa_var }
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				in_volcanic_zone = yes
+			}
+			save_scope_as = mega_volcanic_state
+		}
+		set_variable = {
+			name = mega_eruption
+			value = yes
+		}
+		if = {
+			limit = { exists = var:number_of_mega_eruptions }
+			change_global_variable = {
+				name = number_of_mega_eruptions
+				add = 1
+			}
+		}
+		else = {
+			set_global_variable = {
+				name = number_of_mega_eruptions
+				value = 1
+			}
+		}
+	}
+
+	option = { #No extra help
+		name = natural_disaster_events.8.a
+		default_option = yes
+		scope:mega_volcanic_state.state_region = {
+			add_devastation = 40
+		}
+		custom_tooltip = natural_disaster_variable_tt
+		hidden_effect = {
+			random_list = {
+				30 = {
+					random_scope_state = {
+						limit = {
+							is_incorporated = yes
+						}
+						set_variable = {
+							name = natural_disaster_variable
+							months = short_modifier_time
+						}
+					}
+				}
+				70 = {
+				}
+			}
+		}
+	}
+
+	option = { #Extra help
+		name = natural_disaster_events.8.b
+		add_modifier = {
+			name = modifier_mega_volcanic_relief
+			multiplier = money_amount_multiplier_large
+			months = normal_modifier_time
+		}
+		scope:mega_volcanic_state.state_region = {
+			add_devastation = 20
+		}
+	}
+}

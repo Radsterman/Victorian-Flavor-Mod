@@ -29,13 +29,13 @@ navigation = {
 }
 
 drydocks = {
-	# Increases Port max level by 3
+	# Increases Port max level by 2
 	era = era_1
 	texture = "gfx/interface/icons/invention_icons/drydock.dds"
 	category = military
 	
 	modifier = {
-		state_building_port_max_level_add = 3
+		state_building_port_max_level_add = 2
 	}
 	
 	unlocking_technologies = {	
@@ -69,6 +69,10 @@ mandatory_service = {
 	
 	ai_weight = {
 		value = 2 # Important tech in general
+		if = {
+			limit = { OR = { has_strategy = ai_strategy_territorial_expansion has_strategy = ai_strategy_armed_isolationism } }
+			add = 1
+		}
 	}
 }
 
@@ -100,7 +104,11 @@ artillery = {
 	}
 	
 	ai_weight = {
-		value = 2 # Important tech in general
+		value = 1.75 # Important tech in general
+		if = {
+			limit = { OR = { has_strategy = ai_strategy_territorial_expansion has_strategy = ai_strategy_armed_isolationism } }
+			add = 0.5
+		}
 	}
 }
 
@@ -119,6 +127,10 @@ military_drill = {
 	
 	ai_weight = {
 		value = 1.5 # Important tech in general
+		if = {
+			limit = { OR = { has_strategy = ai_strategy_territorial_expansion has_strategy = ai_strategy_armed_isolationism } }
+			add = 0.5
+		}
 	}
 }
 
@@ -139,6 +151,10 @@ napoleonic_warfare = {
 		if = {
 			limit = { has_journal_entry = je_sick_man_army }
 			add = 5
+		}
+		if = {
+			limit = { OR = { has_strategy = ai_strategy_territorial_expansion has_strategy = ai_strategy_unify_germany } }
+			add = 1
 		}
 	}
 }
@@ -177,6 +193,10 @@ army_reserves = {
 	
 	ai_weight = {
 		value = 1
+		if = {
+			limit = { OR = { has_strategy = ai_strategy_territorial_expansion has_strategy = ai_strategy_unify_germany has_strategy = ai_strategy_armed_isolationism } }
+			add = 0.5
+		}
 	}
 }
 
@@ -193,6 +213,10 @@ line_infantry = {
 	
 	ai_weight = {
 		value = 2 # Important tech in general
+		if = {
+			limit = { OR = { has_strategy = ai_strategy_territorial_expansion has_strategy = ai_strategy_unify_germany } }
+			add = 0.5
+		}
 	}
 }
 
@@ -241,6 +265,14 @@ field_works = {
 	
 	ai_weight = {
 		value = 1
+		if = {
+			limit = { OR = { has_strategy = ai_strategy_territorial_expansion has_strategy = ai_strategy_unify_germany } }
+			add = 0.25
+		}
+		if = {
+			limit = { has_strategy = ai_strategy_armed_isolationism }
+			add = 0.5
+		}
 	}
 }
 
@@ -261,6 +293,10 @@ logistics = {
 	
 	ai_weight = {
 		value = 1
+		if = {
+			limit = { OR = { has_strategy = ai_strategy_territorial_expansion has_strategy = ai_strategy_unify_germany has_strategy = ai_strategy_armed_isolationism } }
+			add = 0.75
+		}
 	}
 }
 
@@ -276,6 +312,10 @@ triage = {
 	
 	ai_weight = {
 		value = 1
+		if = {
+			limit = { OR = { has_strategy = ai_strategy_territorial_expansion has_strategy = ai_strategy_unify_germany } }
+			add = 0.5
+		}
 	}
 }
 
@@ -291,6 +331,14 @@ shell_gun = {
 	
 	ai_weight = {
 		value = 1
+		if = {
+			limit = { army_size > 75 }
+			add = 0.25
+		}
+		if = {
+			limit = { OR = { has_strategy = ai_strategy_territorial_expansion has_strategy = ai_strategy_unify_germany } }
+			add = 0.25
+		}
 	}
 }
 
@@ -306,7 +354,15 @@ percussion_cap = {
 	}
 	
 	ai_weight = {
-		value = 2 # Important tech in general
+		value = 1.5 # Important tech in general
+		if = {
+			limit = { army_size > 75 }
+			add = 0.5
+		}
+		if = {
+			limit = { OR = { has_strategy = ai_strategy_territorial_expansion has_strategy = ai_strategy_unify_germany } }
+			add = 0.5
+		}
 	}
 }
 
@@ -321,7 +377,11 @@ rifling = {
 	}
 	
 	ai_weight = {
-		value = 2 # Important tech in general
+		value = 1.75 # Important tech in general
+		if = {
+			limit = { OR = { has_strategy = ai_strategy_territorial_expansion has_strategy = ai_strategy_unify_germany } }
+			add = 0.25
+		}
 	}
 }
 
@@ -336,7 +396,11 @@ general_staff = {
 	}
 	
 	ai_weight = {
-		value = 2 # Important tech in general
+		value = 1.5 # Important tech in general
+		if = {
+			limit = { OR = { has_strategy = ai_strategy_territorial_expansion has_strategy = ai_strategy_unify_germany } }
+			add = 0.75
+		}
 	}
 }
 
@@ -399,11 +463,15 @@ hydraulic_cranes = {
 	}
 	
 	ai_weight = {
-		value = 1
+		value = 0.75
 		
 		# Important for anyone with a navy
 		if = {
-			limit = { navy_size >= 5 }
+			limit = { navy_size >= 7 }
+			add = 0.5
+		}
+        if = {
+			limit = { navy_size >= 20 }
 			add = 0.5
 		}
 	}
@@ -441,6 +509,10 @@ enlistment_offices = {
 	
 	ai_weight = {
 		value = 1
+		if = {
+			limit = { OR = { has_strategy = ai_strategy_territorial_expansion has_strategy = ai_strategy_unify_germany } }
+			add = 0.25
+		}
 	}
 }
 
@@ -478,6 +550,10 @@ military_statistics = {
 	
 	ai_weight = {
 		value = 1
+		if = {
+			limit = { OR = { has_strategy = ai_strategy_territorial_expansion has_strategy = ai_strategy_unify_germany } }
+			add = 0.25
+		}
 	}
 }
 
@@ -512,6 +588,10 @@ breech_loading_artillery = {
 	
 	ai_weight = {
 		value = 1.5 # Important tech in general
+		if = {
+			limit = { army_size > 75 OR = { has_strategy = ai_strategy_territorial_expansion has_strategy = ai_strategy_unify_germany } }
+			add = 0.5
+		}
 	}
 }
 
@@ -532,6 +612,10 @@ handcranked_machine_gun = {
 	
 	ai_weight = {
 		value = 1
+		if = {
+			limit = { army_size > 75 OR = { has_strategy = ai_strategy_territorial_expansion has_strategy = ai_strategy_unify_germany } }
+			add = 0.5
+		}
 	}
 }
 
@@ -620,13 +704,13 @@ jeune_ecole = {
 
 floating_harbor = {
 	# Unlocks Industrial Port PM in Ports
-	# Increases Port Level by 4
+	# Increases Port Level by 3
 	era = era_3
 	texture = "gfx/interface/icons/invention_icons/floating_harbor.dds"
 	category = military
 	
 	modifier = {
-		state_building_port_max_level_add = 4
+		state_building_port_max_level_add = 3
 	}
 	
 	unlocking_technologies = {	
@@ -634,11 +718,15 @@ floating_harbor = {
 	}
 	
 	ai_weight = {
-		value = 1
+		value = 0.75
 		
 		# Important for anyone with a navy
 		if = {
-			limit = { navy_size >= 5 }
+			limit = { navy_size >= 9 }
+			add = 0.5
+		}
+        if = {
+			limit = { navy_size >= 24 }
 			add = 0.5
 		}		
 	}
@@ -659,12 +747,16 @@ gantry_cranes = {
 	}
 	
 	ai_weight = {
-		value = 1
+		value = 0.75
 		
 		# Important for anyone with a navy
 		if = {
-			limit = { navy_size >= 5 }
-			add = 1
+			limit = { navy_size >= 10 }
+			add = 0.5
+		}
+        if = {
+			limit = { navy_size >= 30 }
+			add = 0.5
 		}		
 	}
 }
@@ -905,11 +997,15 @@ concrete_dockyards = {
 	}
 	
 	ai_weight = {
-		value = 1
+		value = 0.75
 		
 		# Important for anyone with a navy
 		if = {
-			limit = { navy_size >= 5 }
+			limit = { navy_size >= 10 }
+			add = 0.5
+		}
+        if = {
+			limit = { navy_size >= 30 }
 			add = 0.5
 		}		
 	}

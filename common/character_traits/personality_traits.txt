@@ -1,0 +1,957 @@
+﻿### Personality
+
+trait_child = {
+	type = personality
+	texture = "gfx/interface/icons/character_trait_icons/trait_child.dds"
+
+	character_modifier = {
+		character_popularity_add = -25
+	}
+
+	command_modifier = {
+	}
+
+	country_modifier = {
+		country_authority_mult = -0.15
+		country_prestige_mult = -0.05
+	}
+
+	possible = {
+		age < define:NCharacters|ADULT_AGE
+	}
+
+	interest_group_modifier = {
+		interest_group_pop_attraction_mult = -0.25
+	}
+
+	weight = 1
+}
+
+direct = {
+	type = personality
+	texture = "gfx/interface/icons/character_trait_icons/direct.dds"
+
+	character_modifier = {
+		character_popularity_add = 15
+	}
+
+	command_modifier = {
+		unit_offense_mult = 0.1
+		character_battle_condition_aggressive_maneuver_mult = 1
+	}
+
+	country_modifier = {
+		country_officers_pol_str_mult = 0.25
+	}
+
+	agitator_modifier = {
+		interest_group_pol_str_mult = -0.025
+		interest_group_pop_attraction_mult = 0.05
+	}
+
+	interest_group_modifier = {
+		interest_group_pol_str_mult = -0.05
+		interest_group_pop_attraction_mult = 0.1
+	}
+
+	possible = {
+		NOT = { has_trait = tactful }
+		NOT = { age < define:NCharacters|ADULT_AGE }
+	}
+
+	weight = {
+		value = 1
+		if = {
+			limit = {
+				has_role = agitator
+			}
+			multiply = 2
+		}
+	}
+
+	replace = {
+		trait_child
+	}
+
+	value = 3
+}
+
+persistent = {
+	type = personality
+	texture = "gfx/interface/icons/character_trait_icons/persistent.dds"
+
+	character_modifier = {
+		character_health_add = 0.2
+	}
+
+	command_modifier = {
+		unit_morale_loss_mult = -0.15
+	}
+
+	country_modifier = {
+		country_bureaucrats_pol_str_mult = 0.25
+	}
+
+	agitator_modifier = {
+	}
+
+	interest_group_modifier = {
+		interest_group_in_opposition_approval_add = -1
+	}
+
+	possible = {
+		NOT = { age < define:NCharacters|ADULT_AGE }
+	}
+
+	weight = 1
+
+	replace = {
+		trait_child
+	}
+
+	value = 3
+}
+
+cautious = {
+	type = personality
+	texture = "gfx/interface/icons/character_trait_icons/cautious.dds"
+
+	character_modifier = {
+		character_health_add = 0.3
+	}
+
+	command_modifier = {
+		unit_morale_loss_mult = -0.05
+		unit_recovery_rate_add = 0.1
+		character_command_limit_mult = -0.2
+		character_battle_condition_careful_maneuver_mult = 2
+	}
+
+	country_modifier = {
+		country_infamy_generation_mult = -0.2
+		country_influence_add = -100
+	}
+
+	agitator_modifier = {
+		interest_group_pol_str_mult = -0.01
+	}
+
+	interest_group_modifier = {
+		interest_group_pol_str_mult = -0.02
+		interest_group_approval_add = 1
+	}
+
+	possible = {
+		NOT = { has_trait = reckless }
+		NOT = { has_trait = wrathful }
+		NOT = { age < define:NCharacters|ADULT_AGE }
+	}
+
+	weight = 1
+
+	replace = {
+		trait_child
+	}
+
+	value = 3
+}
+
+arrogant = {
+	type = personality
+	texture = "gfx/interface/icons/character_trait_icons/arrogant.dds"
+
+	character_modifier = {
+		character_popularity_add = -25
+	}
+
+	command_modifier = {
+		character_attrition_risk_mult = 0.1
+		character_command_limit_mult = 0.25
+	}
+
+	country_modifier = {
+		#country_legitimacy_base_add = -10 this doesnt work
+		state_turmoil_effects_mult = 0.1
+		country_revolution_progress_mult = 0.1
+	}
+
+	agitator_modifier = {
+		interest_group_pop_attraction_mult = -0.05
+		interest_group_pol_str_mult = 0.025
+	}
+
+	interest_group_modifier = {
+		interest_group_pop_attraction_mult = -0.1
+		interest_group_pol_str_mult = 0.05
+	}
+
+	possible = {
+		NOT = { age < define:NCharacters|ADULT_AGE }
+	}
+
+	weight = {
+		value = 1
+		if = {
+			limit = {
+				has_role = agitator
+			}
+			multiply = 0.25
+		}
+	}
+
+	replace = {
+		trait_child
+	}
+
+	value = 3
+}
+
+bigoted = {
+	type = personality
+	texture = "gfx/interface/icons/character_trait_icons/bigoted.dds"
+
+	character_modifier = {
+		character_popularity_add = -35
+	}
+
+	command_modifier = {
+		unit_offense_mult = 0.05
+		character_morale_cap_add = -0.05
+	}
+
+	country_modifier = {
+		state_radicals_from_discrimination_mult = 0.25
+		country_influence_add = -100
+		country_authority_add = 100
+	}
+
+	agitator_modifier = {
+		interest_group_pop_attraction_mult = -0.025
+	}
+
+	interest_group_modifier = {
+		interest_group_pop_attraction_mult = -0.05
+		interest_group_in_government_approval_add = 1
+	}
+
+	possible = {
+		NOT = { age < define:NCharacters|ADULT_AGE }
+	}
+
+	weight = {
+		value = 1
+		if = {
+			limit = {
+				has_role = agitator
+			}
+			multiply = 0.1
+		}
+	}
+
+	replace = {
+		trait_child
+	}
+
+	value = 3
+}
+
+reckless = {
+	type = personality
+	texture = "gfx/interface/icons/character_trait_icons/reckless.dds"
+
+	character_modifier = {
+		character_health_add = -0.2
+		character_popularity_add = 10
+	}
+
+	command_modifier = {
+		unit_morale_loss_mult = 0.1
+		unit_offense_add = 5
+		unit_recovery_rate_add = -0.1
+		character_battle_condition_aggressive_maneuver_mult = 0.5
+		character_battle_condition_ramming_maneuver_mult = 2
+		character_battle_condition_blunder_mult = 2
+
+	}
+
+	country_modifier = {
+		country_diplomatic_play_maneuvers_add = 20
+		country_infamy_generation_mult = 0.2
+	}
+
+	agitator_modifier = {
+		interest_group_in_opposition_approval_add = -1
+	}
+
+	interest_group_modifier = {
+		interest_group_in_opposition_approval_add = -2
+	}
+
+	possible = {
+		NOT = { has_trait = cautious }
+		NOT = { age < define:NCharacters|ADULT_AGE }
+	}
+
+	weight = {
+		value = 1
+		if = {
+			limit = {
+				has_role = agitator
+			}
+			multiply = 1.5
+		}
+	}
+
+	replace = {
+		trait_child
+	}
+
+	value = 3
+}
+
+tactful = {
+	type = personality
+	texture = "gfx/interface/icons/character_trait_icons/tactful.dds"
+
+	character_modifier = {
+	}
+
+	command_modifier = {
+		unit_defense_add = 5
+		unit_morale_damage_mult = -0.05
+		character_battle_condition_careful_maneuver_mult = 1
+	}
+
+	country_modifier = {
+		country_improve_relations_speed_mult = 0.2
+		political_movement_radicalism_mult = -0.2
+	}
+
+	agitator_modifier = {
+		interest_group_pop_attraction_mult = 0.01
+	}
+
+	interest_group_modifier = {
+		interest_group_pop_attraction_mult = 0.02
+		interest_group_approval_add = 1
+	}
+
+	possible = {
+		NOT = { has_trait = direct }
+		NOT = { has_trait = wrathful }
+		NOT = { age < define:NCharacters|ADULT_AGE }
+	}
+
+	weight = 1
+
+	replace = {
+		trait_child
+	}
+
+	value = 3
+}
+
+ambitious = {
+	type = personality
+	texture = "gfx/interface/icons/character_trait_icons/ambitious.dds"
+
+	character_modifier = {
+		character_popularity_add = 25
+	}
+
+	command_modifier = {
+		unit_offense_mult = 0.05
+		unit_recovery_rate_add = -0.05
+	}
+
+	country_modifier = {
+		country_army_power_projection_mult = 0.1
+		country_navy_power_projection_mult = 0.1
+		country_decree_cost_mult = -0.25
+		political_movement_radicalism_mult = 0.1
+	}
+
+	agitator_modifier = {
+		interest_group_pol_str_mult = 0.05
+	}
+
+	interest_group_modifier = {
+		interest_group_pol_str_mult = 0.1
+	}
+
+	possible = {
+		NOT = { age < define:NCharacters|ADULT_AGE }
+	}
+
+	weight = {
+		value = 1
+		if = {
+			limit = {
+				has_role = agitator
+			}
+			multiply = 1.5
+		}
+	}
+
+	replace = {
+		trait_child
+	}
+
+	value = 3
+}
+
+imperious = {
+	type = personality
+	texture = "gfx/interface/icons/character_trait_icons/imperious.dds"
+
+	character_modifier = {
+		character_popularity_add = -35
+	}
+
+	command_modifier = {
+		unit_morale_loss_mult = -0.25
+		unit_morale_recovery_mult = -0.25
+		character_battle_condition_aggressive_maneuver_mult = 1
+	}
+
+	country_modifier = {
+		country_decree_cost_mult = -0.25
+		state_loyalists_from_sol_change_mult = 0.1
+		state_radicals_from_sol_change_mult = -0.2
+	}
+
+	agitator_modifier = {
+		interest_group_pop_attraction_mult = 0.125
+	}
+
+	interest_group_modifier = {
+		interest_group_pop_attraction_mult = 0.25
+	}
+
+	possible = {
+		NOT = { has_trait = reserved }
+		NOT = { has_trait = charismatic }
+		NOT = { age < define:NCharacters|ADULT_AGE }
+		NOT = { has_role = agitator }
+	}
+
+	weight = 1
+
+	replace = {
+		trait_child
+	}
+
+	value = 3
+}
+
+wrathful = {
+	type = personality
+	texture = "gfx/interface/icons/character_trait_icons/wrathful.dds"
+
+	character_modifier = {
+		character_health_add = -0.05
+	}
+
+	command_modifier = {
+		unit_morale_loss_mult = 0.05
+		unit_offense_mult = 0.1
+		unit_defense_mult = 0.1
+		unit_morale_damage_mult = 0.1
+		character_battle_condition_aggressive_maneuver_mult = 1.5
+	}
+
+	country_modifier = {
+		country_authority_add = 100
+		political_movement_radicalism_mult = 0.2
+	}
+
+	agitator_modifier = {
+		interest_group_in_opposition_approval_add = -1
+	}
+
+	interest_group_modifier = {
+		interest_group_in_opposition_approval_add = -2
+	}
+
+	possible = {
+		NOT = { has_trait = tactful }
+		NOT = { age < define:NCharacters|ADULT_AGE }
+	}
+
+	weight = 1
+
+	replace = {
+		trait_child
+	}
+
+	value = 3
+}
+
+# what to do with this - it's basically "no personality"
+reserved = {
+	type = personality
+	texture = "gfx/interface/icons/character_trait_icons/reserved.dds"
+
+	character_modifier = {
+		character_health_add = 0.05
+		character_popularity_add = -25
+		character_battle_condition_careful_maneuver_mult = 1
+	}
+
+	command_modifier = {
+		unit_morale_loss_mult = -0.1
+	}
+
+	country_modifier = {
+	}
+
+	agitator_modifier = {
+	}
+
+	interest_group_modifier = {
+	}
+
+	possible = {
+		NOT = { has_trait = imperious }
+		NOT = { has_trait = charismatic }
+		NOT = { age < define:NCharacters|ADULT_AGE }
+		NOT = { has_role = agitator }
+	}
+
+	weight = 1
+
+	replace = {
+		trait_child
+	}
+
+	value = 3
+}
+
+cruel = {
+	type = personality
+	texture = "gfx/interface/icons/character_trait_icons/cruel.dds"
+
+	character_modifier = {
+		character_popularity_add = -50
+	}
+
+	command_modifier = {
+		unit_morale_loss_mult = 0.15
+		unit_kill_rate_add = 0.25
+		unit_devastation_mult = 0.1
+		character_battle_condition_aggressive_maneuver_mult = 1
+	}
+
+	country_modifier = {
+		country_decree_cost_mult = -0.25
+		country_consumption_tax_cost_mult = -0.25
+		country_opposition_ig_approval_add = -1
+		state_standard_of_living_add = -1
+	}
+
+	agitator_modifier = {
+	}
+
+	interest_group_modifier = {
+		interest_group_in_government_approval_add = 1
+	}
+
+	possible = {
+		NOT = { age < define:NCharacters|ADULT_AGE }
+		NOT = { has_role = agitator }
+	}
+
+	weight = 1
+
+	replace = {
+		trait_child
+	}
+
+	value = 3
+}
+
+meticulous = {
+	type = personality
+	texture = "gfx/interface/icons/character_trait_icons/meticulous.dds"
+
+	character_modifier = {
+	}
+
+	command_modifier = {
+		unit_offense_mult = 0.05
+		unit_defense_mult = 0.05
+		unit_recovery_rate_add = 0.1
+		character_battle_condition_surprise_maneuver_mult = 0.5
+		character_battle_condition_careful_maneuver_mult = 1
+	}
+
+	country_modifier = {
+		country_bureaucracy_mult = 0.05
+		country_institution_size_change_speed_mult = 0.25
+	}
+
+	agitator_modifier = {
+		interest_group_pop_attraction_mult = 0.025
+		interest_group_pol_str_mult = 0.025
+	}
+
+	interest_group_modifier = {
+		interest_group_pop_attraction_mult = 0.05
+		interest_group_pol_str_mult = 0.05
+	}
+
+	possible = {
+		NOT = { age < define:NCharacters|ADULT_AGE }
+	}
+
+	weight = 1
+
+	replace = {
+		trait_child
+	}
+
+	value = 3
+}
+
+charismatic = {
+	type = personality
+	texture = "gfx/interface/icons/character_trait_icons/charismatic.dds"
+
+	character_modifier = {
+		character_popularity_add = 50
+	}
+
+	command_modifier = {
+		unit_morale_recovery_mult = 0.1
+	}
+
+	country_modifier = {
+		country_influence_mult = 0.05
+	}
+
+	agitator_modifier = {
+		interest_group_pop_attraction_mult = 0.1
+	}
+
+	interest_group_modifier = {
+		interest_group_pop_attraction_mult = 0.2
+	}
+
+	possible = {
+		NOT = { has_trait = reserved }
+		NOT = { age < define:NCharacters|ADULT_AGE }
+	}
+
+	weight = {
+		value = 1
+		if = {
+			limit = {
+				has_role = agitator
+			}
+			multiply = 3
+		}
+	}
+
+	replace = {
+		trait_child
+	}
+
+	value = 3
+}
+
+romantic = {
+	type = personality
+	texture = "gfx/interface/icons/character_trait_icons/romantic.dds"
+
+	character_modifier = {
+	}
+
+	command_modifier = {
+		unit_morale_loss_mult = -0.1
+		unit_offense_mult = -0.1
+	}
+
+	country_modifier = {
+		country_aristocrats_pol_str_mult = 0.25
+	}
+
+	agitator_modifier = {
+	}
+
+	interest_group_modifier = {
+	}
+
+	possible = {
+		OR = {
+			is_heir = yes
+			is_ruler = yes
+			has_role = general
+			has_role = admiral
+		}
+		NOT = { age < define:NCharacters|ADULT_AGE }
+	}
+
+	weight = 1
+
+	replace = {
+		trait_child
+	}
+
+	value = 3
+}
+
+brave = {
+	type = personality
+	texture = "gfx/interface/icons/character_trait_icons/brave.dds"
+
+	character_modifier = {
+		character_health_add = -0.05
+		character_popularity_add = 25
+	}
+
+	command_modifier = {
+		unit_morale_loss_mult = -0.1
+	}
+
+	country_modifier = {
+		country_army_power_projection_mult = 0.05
+		country_navy_power_projection_mult = 0.05
+	}
+
+	agitator_modifier = {
+	}
+
+	interest_group_modifier = {
+	}
+
+	possible = {
+		NOT = { age < define:NCharacters|ADULT_AGE }
+	}
+
+	weight = {
+		value = 1
+		if = {
+			limit = {
+				has_role = agitator
+			}
+			multiply = 1.5
+		}
+	}
+
+	replace = {
+		trait_child
+	}
+
+	value = 3
+}
+
+innovative = {
+	type = personality
+	texture = "gfx/interface/icons/character_trait_icons/innovative.dds"
+
+	character_modifier = {
+	}
+
+	command_modifier = {
+		unit_morale_loss_mult = -0.15
+		character_battle_condition_surprise_maneuver_mult = 1
+	}
+
+	country_modifier = {
+		country_tech_spread_mult = 0.1
+	}
+
+	agitator_modifier = {
+	}
+
+	interest_group_modifier = {
+	}
+
+	possible = {
+		OR = {
+			is_heir = yes
+			is_ruler = yes
+			has_role = general
+			has_role = admiral
+		}
+		NOT = { age < define:NCharacters|ADULT_AGE }
+	}
+
+	weight = 1
+
+	replace = {
+		trait_child
+	}
+
+	value = 3
+}
+
+hedonist = {
+	type = personality
+	texture = "gfx/interface/icons/character_trait_icons/hedonist.dds"
+
+	character_modifier = {
+		character_popularity_add = -15
+	}
+
+	command_modifier = {
+		# increase mobilization cost? how would that work for navies?
+		unit_supply_consumption_mult = 0.1
+		unit_morale_recovery_mult = 0.05
+	}
+
+	country_modifier = {
+		country_clergymen_pol_str_mult = -0.1
+	}
+
+	agitator_modifier = {
+		country_clergymen_pol_str_mult = -0.05
+	}
+
+	interest_group_modifier = {
+		interest_group_in_government_approval_add = 1
+	}
+
+	possible = {
+		NOT = { has_trait = pious }
+		NOT = { age < define:NCharacters|ADULT_AGE }
+	}
+
+	weight = {
+		value = 1
+		if = {
+			limit = {
+				has_role = agitator
+			}
+			multiply = 0.5
+		}
+	}
+
+	replace = {
+		trait_child
+	}
+
+	value = 3
+}
+
+pious = {
+	type = personality
+	texture = "gfx/interface/icons/character_trait_icons/pious.dds"
+
+	character_modifier = {
+	}
+
+	command_modifier = {
+		unit_kill_rate_add = -0.1
+		unit_morale_loss_mult = -0.25
+		unit_morale_recovery_mult = 0.25
+	}
+
+	country_modifier = {
+		country_clergymen_pol_str_mult = 0.1
+	}
+
+	agitator_modifier = {
+		country_clergymen_pol_str_mult = 0.05
+	}
+
+	interest_group_modifier = {
+	}
+
+	possible = {
+		NOT = { has_trait = hedonist }
+		NOT = { age < define:NCharacters|ADULT_AGE }
+	}
+
+	weight = 1
+
+	replace = {
+		trait_child
+	}
+
+	value = 3
+}
+
+imposing = {
+	type = personality
+	texture = "gfx/interface/icons/character_trait_icons/imposing.dds"
+
+	character_modifier = {
+		character_battle_condition_aggressive_maneuver_mult = 1
+	}
+
+	command_modifier = {
+		unit_morale_loss_mult = -0.1
+	}
+
+	country_modifier = {
+		country_infamy_decay_mult = -0.25
+	}
+
+	agitator_modifier = {
+		interest_group_in_opposition_approval_add = -2
+	}
+
+	interest_group_modifier = {
+		interest_group_in_government_approval_add = 1
+		interest_group_in_opposition_approval_add = -1
+	}
+
+	possible = {
+		NOT = { has_trait = sickly }
+		NOT = { age < define:NCharacters|ADULT_AGE }
+	}
+
+	weight = 1
+
+	replace = {
+		trait_child
+	}
+
+	value = 3
+}
+
+honorable = {
+	type = personality
+	texture = "gfx/interface/icons/character_trait_icons/honorable.dds"
+
+	character_modifier = {
+		character_popularity_add = 25
+	}
+
+	command_modifier = {
+		character_attrition_risk_mult = -0.1
+	}
+
+	country_modifier = {
+	}
+
+	agitator_modifier = {
+		interest_group_in_government_approval_add = 1
+	}
+
+	interest_group_modifier = {
+		interest_group_in_government_attraction_mult = 0.5
+	}
+
+	possible = {
+		NOT = { has_trait = sickly }
+		NOT = { age < define:NCharacters|ADULT_AGE }
+	}
+
+	weight = {
+		value = 1
+		if = {
+			limit = {
+				has_role = agitator
+			}
+			multiply = 1.5
+		}
+	}
+
+	replace = {	
+		trait_child
+	}
+
+	value = 3
+}

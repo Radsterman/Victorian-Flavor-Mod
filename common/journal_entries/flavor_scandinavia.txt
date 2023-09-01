@@ -172,8 +172,11 @@ je_matter_of_norway = {
 	}
 
 	invalid = {
-		c:NOR ?= {
-			NOT = { is_subject_type = subject_type_personal_union }
+		OR = {
+			NOT = { exists = c:NOR }
+			c:NOR ?= {
+				NOT = { is_subject_type = subject_type_personal_union }
+			}
 		}
 	}
 
@@ -252,6 +255,37 @@ je_swe_glasriket = {
 	}
 	
 	timeout = 3650
+	
+	weight = 5000
+}
+
+# Götavarven(Storvarven) (Large Shipyards)
+je_swe_gotavarven = {
+	icon = "gfx/interface/icons/event_icons/event_industry.dds"
+	
+	is_shown_when_inactive = {
+		country_has_primary_culture = cu:swedish
+		game_date > 1842.1.1
+	}
+	
+	possible = {
+		has_technology_researched = hydraulic_cranes
+		has_technology_researched = screw_frigate
+	}
+
+	complete = {
+		any_scope_building = {
+			is_building_type = building_shipyards
+			level >= 4
+			occupancy > 0.9
+		}
+	}
+	
+	on_complete = {
+		trigger_event = { id = journal_flavor_scandinavia.10 }
+	}
+	
+	timeout = 5415
 	
 	weight = 5000
 }

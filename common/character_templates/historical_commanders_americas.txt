@@ -89,6 +89,7 @@ brz_general_alves_de_lima_e_silva = {
 		}				
 	}
 }
+
 # Chile - CHL
 chl_admiral_prat = {
 	first_name = Arturo
@@ -117,6 +118,7 @@ chl_admiral_prat = {
 		chance = 75
 	}
 }
+
 # Mexico - MEX
 mex_general_diaz = {
 	first_name = Porfirio
@@ -172,6 +174,7 @@ mex_general_zaragoza = {
 		chance = 75
 	}
 }
+
 # Paraguay - PRG
 par_general_solano_lopez = {
 	first_name = Francisco
@@ -200,11 +203,91 @@ par_general_solano_lopez = {
 		chance = 75
 	}
 }
+
+# Argentina - ARG
+bue_general_jose_de_san_martin = {
+	first_name = Jose
+	last_name = de_San_Martin
+	dna = dna_bue_jose_de_san_martin 
+	historical = yes
+	culture = cu:platinean
+	female = no
+	religion = catholic
+	commander_rank = default
+	interest_group = ig_armed_forces
+	ideology = ideology_moderate
+	birth_date = 1778.2.25
+	traits = {
+		celebrity_commander
+		resupply_commander
+		brave
+		tactful
+	}
+	commander_usage = {
+		country_trigger = {
+			OR = {
+				AND = {
+					exists = c:BUE
+					NOT = {
+						exists = c:ARG
+					}
+					any_diplomatic_play = {
+						target_is = c:BUE
+						OR = {
+							NOT = {
+								has_play_goal = return_state
+							}
+							AND = {
+								has_play_goal = return_state
+								OR = {
+									has_play_goal = conquer_state
+									has_play_goal = transfer_subject
+									has_play_goal = liberate_subject
+									has_play_goal = open_market
+									has_play_goal = regime_change
+								}
+							}
+						}
+					}
+					this = c:BUE
+			    }
+				AND = {
+					exists = c:ARG
+					any_diplomatic_play = {
+						target_is = c:ARG
+						OR = {
+							NOT = {
+								has_play_goal = return_state
+							}
+							AND = {
+								has_play_goal = return_state
+								OR = {
+									has_play_goal = conquer_state
+									has_play_goal = transfer_subject
+									has_play_goal = liberate_subject
+									has_play_goal = open_market
+									has_play_goal = regime_change
+								}
+							}
+						}
+					}
+					this = c:ARG
+				}
+			}
+		}
+		role = general
+		earliest_usage_date = 1836.1.1
+		latest_usage_date = 1850.8.17	
+		chance = 100
+	}
+}
+
 # Peru - PEU
 peu_admiral_grau = {
 	first_name = Miguel
 	last_name = Grau_Seminario
 	historical = yes
+	dna = dna_miguel_grau
 	culture = cu:south_andean
 	female = no
 	religion = catholic
@@ -219,15 +302,25 @@ peu_admiral_grau = {
 	}
 	commander_usage = {
 		country_trigger = {
-			exists = c:PEU
-			this = c:PEU
-		}
+			OR = {
+				AND = {
+					exists = c:PBC
+					this = c:PBC
+					NOT = { exists = c:PEU }
+				}
+				AND = {
+					exists = c:PEU
+					this = c:PEU
+				}
+			}
+		}	
 		role = admiral
 		earliest_usage_date = 1865.1.1 
 		latest_usage_date = 1890.1.1	
 		chance = 75
 	}
 }
+
 # USA - United States of America
 usa_general_jesup = {
 	first_name = Thomas

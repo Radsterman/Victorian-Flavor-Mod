@@ -333,6 +333,82 @@ in_volcanic_zone = {
 	}
 }
 
+in_more_drought_zone = {
+	OR = {
+		region = sr:region_oceania
+		region = sr:region_congo
+		region = sr:region_southern_africa
+		region = sr:region_niger
+		region = sr:region_zanj
+		region = sr:region_ethiopia
+		region = sr:region_nile_basin
+		region = sr:region_north_africa
+		region = sr:region_senegal
+		region = sr:region_anatolia
+		region = sr:region_arabic
+		region = sr:region_persia
+		region = sr:region_la_plata
+		region = sr:region_andes
+		region = sr:region_mexico
+		region = sr:region_south_italy
+		region = sr:region_pacific_coast
+		region = sr:region_occitania
+		region = sr:region_greece
+		region = sr:region_west_balkans
+		region = sr:region_iberia
+		region = sr:region_central_asia
+		region = sr:region_north_india
+	}
+}
+
+in_potato_blight_zone = {
+	OR = {
+		region = sr:region_gaelic
+		region = sr:region_north_germany
+		region = sr:region_low_countries
+	}
+}
+
+in_potato_blight_mild_zone = {
+	OR = {
+		region = sr:region_rhine
+		region = sr:region_france
+		region = sr:region_england
+		region = sr:region_north_sea_coast
+		region = sr:region_scandinavia
+		region = sr:region_south_germany
+		region = sr:region_poland
+		region = sr:region_baltic
+		region = sr:region_belarus
+		region = sr:region_hungary
+	}
+}
+
+in_hurricane_zone = {
+	OR = {
+		state_region = { region = sr:region_gaelic }
+		state_region = { region = sr:region_japan }
+		state_region = { region = sr:region_barents }
+		state_region = { region = sr:region_new_england }
+		state_region = { region = sr:region_the_midwest }
+		state_region = { region = sr:region_dixie }
+		state_region = { region = sr:region_central_america }
+		state_region = { region = sr:region_caribbean }
+		state_region = { region = sr:region_mexico }
+		state_region = { region = sr:region_indochina }
+		state_region = { region = sr:region_south_china }
+		state_region = { region = sr:region_oceania }
+		state_region = s:STATE_MADRAS
+		state_region = s:STATE_CIRCARS
+		state_region = s:STATE_ORISSA
+		state_region = s:STATE_SOUTH_BENGAL
+		state_region = s:STATE_SOUTH_MADAGASCAR
+		state_region = s:STATE_NORTH_MADAGASCAR
+		state_region = s:STATE_CEYLON
+		state_region = s:STATE_MOCAMBIQUE
+	}
+}
+
 on_river = {
 	OR = {
 		has_state_trait = state_trait_rhine_river
@@ -1788,5 +1864,39 @@ budget_low_training_rate = {
 	OR = {
 		is_active_in_diplomatic_play = yes
 		is_at_war = yes
+	}
+}
+
+diplomatic_play_has_no_relations_blockers = {
+	diplomatic_play_has_no_relations_blocker_with_target = yes
+	diplomatic_play_has_no_relations_blocker_with_overlord = yes
+}
+
+diplomatic_play_has_no_relations_blocker_with_target = {
+	custom_tooltip = {
+		text = DIPLO_ACTION_RELATIONS_CORDIAL_OR_GREATER_NOT
+		scope:target_country.relations:root < relations_threshold:cordial
+	}		
+}
+
+diplomatic_play_has_no_relations_blocker_with_overlord = {
+	trigger_if = {
+		limit = { scope:target_country = { is_subject = yes } }
+		custom_tooltip = {
+			text = DIPLO_ACTION_OVERLORD_RELATIONS_CORDIAL_OR_GREATER_NOT
+			scope:target_country.overlord.relations:root < relations_threshold:cordial
+		}	
+	}
+	trigger_if = {
+		limit = { 
+			scope:target_country = { 
+				is_subject = yes 
+				NOT = { overlord = top_overlord }
+			} 		
+		}
+		custom_tooltip = {
+			text = DIPLO_ACTION_TOP_OVERLORD_RELATIONS_CORDIAL_OR_GREATER_NOT
+			scope:target_country.overlord.relations:root < relations_threshold:cordial
+		}	
 	}
 }

@@ -37,6 +37,10 @@ journal_flavor_peru.1 = {
 			c:PEU = {
 				set_strategy = ai_strategy_restore_peruvian_sovereignty
 			}
+
+			trigger_event = {
+				id = journal_flavor_peru.3
+			}
 		}
 
 		create_diplomatic_play = {
@@ -85,9 +89,9 @@ journal_flavor_peru.2 = {
 
 	duration = 1
 
-	event_image = {
-		video = "gfx/event_pictures/southamerica_aristocrats.bk2"
-	}
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:is_gamarra
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
@@ -98,10 +102,31 @@ journal_flavor_peru.2 = {
 
 	}
 
+	immediate = {
+		random_scope_character = {
+			limit = {
+				is_ruler = yes
+			}
+			save_scope_as = is_gamarra
+		}
+	}
+
 	option = {
 		
 		name = journal_flavor_peru.2.a
 
+		ai_chance = {
+			base = 1
+		}
+	}
+}
+
+journal_flavor_peru.3 = {
+	type = country_event
+	hidden = yes
+
+	immediate = {
+		 
 		create_character = {
 			first_name = Agustin
 			last_name = gamarra
@@ -122,10 +147,6 @@ journal_flavor_peru.2 = {
 				celebrity_commander
 				experienced_offensive_planner
 			}
-		}
-
-		ai_chance = {
-			base = 1
 		}
 	}
 }
