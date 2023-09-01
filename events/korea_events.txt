@@ -133,7 +133,7 @@ kor.3 = { #China Appeased
   duration = 3
   
   trigger = {
-    #Complete the issue of hanja journal entry
+    #Complete sadae journal entry
   }
 
   immediate = {
@@ -145,29 +145,10 @@ kor.3 = { #China Appeased
   option = { 
     name = kor.3.a
     default_option = yes
-    if = {
-      limit = {
-        c:CHI = {
-          OR = {
-            has_technology_researched = multilateral_alliances
-            num_alliances < 1
-          }	
-        }
-      }
-      c:CHI ={
-        create_diplomatic_pact = {
-          country = c:KOR
-          type = alliance
-        }
-      }
+    custom_tooltip = kor_chi_alliance_tt
+    set_variable = {
+      name = kor_chi_alliance_available
     }
-		c:CHI ={
-			create_diplomatic_pact = {
-				country = c:KOR
-				type = customs_union
-			}
-		}
-
   }
 
 }
@@ -191,7 +172,7 @@ kor.4 = { #China Angered
   duration = 3
   
   trigger = {
-    #Complete the issue of hanja journal entry
+    #Fail sadae journal entry
   }
 
   immediate = {
@@ -200,7 +181,7 @@ kor.4 = { #China Angered
     }
   }
   
-  option = { 
+  option = { #subjugate korea
     name = kor.4.a
     default_option = yes
     ai_chance = { base = 1 }
@@ -226,7 +207,7 @@ kor.4 = { #China Angered
     }
     else = {
       create_diplomatic_play = {
-        name = korean_subjugation
+        set_key = korean_subjugation
       
         target_country = c:KOR
         
@@ -243,7 +224,7 @@ kor.4 = { #China Angered
 
     
   }
-  option = { #keep hanja
+  option = { #let korea go
     name = kor.4.b
 
     ai_chance = { base = 0 }
@@ -256,3 +237,130 @@ kor.4 = { #China Angered
 
 }
 
+kor.5 = {
+  type = country_event
+
+  title = kor.5.t
+  desc = kor.5.d
+  flavor = kor.5.f
+  
+  event_image = {
+    video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
+  }
+
+  on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+  on_opened_soundeffect = "event:/SFX/Events/asia/union_leader"
+
+  icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+  duration = 1
+  immediate = {
+    if = {
+      limit = { active_law:lawgroup_governance_principles.type != scope:china_governance_principles }
+      set_variable = kor_chi_gov_principle_broken
+    }
+    if = {
+      limit = { active_law:lawgroup_distribution_of_power.type != scope:china_distribution_of_power }
+      set_variable = kor_chi_distr_of_power_broken
+    }
+    if = {
+      limit = { active_law:lawgroup_land_reform.type != scope:china_land_reform }
+      set_variable = kor_chi_land_reform_broken
+    }
+    if = {
+      limit = { active_law:lawgroup_church_and_state.type != scope:china_church_and_state }
+      set_variable = kor_chi_church_and_state_broken
+    }
+  }
+  option = {
+    name = kor.5.a
+    default_option = yes
+    add_journal_entry = { type = je_sojunghwa }
+  }
+}
+
+kor.6 = { #Successor to the mandate of heaven
+  type = country_event
+  placement = root
+
+  title = kor.6.t
+  desc = kor.6.d
+  flavor = kor.6.f
+  
+  event_image = {
+    video = "gfx/event_pictures/asia_confucianism_shinto.bk2"
+  }
+
+  on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+  on_opened_soundeffect = "event:/SFX/Events/asia/confucianism_shinto"
+
+  icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+  duration = 12
+  trigger = {
+    exists = c:KOR
+    this = c:KOR
+    has_global_variable = china_shatters
+    has_technology_researched = pan-nationalism
+    NOT = { has_variable = korean_mandate_event }
+  }
+
+  immediate = {
+    set_variable = korean_mandate_event
+  }
+  option ={ #take the mandate of heaven
+    name = kor.6.a 
+    ai_chance = { base = 0 }
+    add_primary_culture = cu:han
+    custom_tooltip = {
+      text = claim_china_tt
+      every_state_region = {
+        limit = {
+          OR = {
+            is_homeland = cu:han
+            is_homeland = cu:manchu
+          }
+        }
+        add_claim = c:KOR
+      }
+      every_country = {
+      limit = { 
+        country_has_primary_culture = cu:han
+      }
+      change_relations = {
+        country = c:KOR
+        value = -80
+      }
+    }
+    }
+  }
+  option = { #ignore the mandate of heaven
+    name = kor.6.b
+    ai_chance = { base = 1 }
+    every_country = {
+      limit = { 
+        country_has_primary_culture = cu:han
+      }
+      change_relations = {
+        country = c:KOR
+        value = 20
+      }
+    }
+  }
+}
+
+kor.7 = {
+  type = country_event
+  placement = root
+  hidden = yes
+  trigger = {
+    root = c:CHI
+    was_formed_from = KOR
+    NOT = { has_variable = korean_culture }
+  }
+  immediate = {
+    add_primary_culture = cu:korean
+    remove_primary_culture = cu:manchu
+    set_variable = korean_culture
+  }
+}

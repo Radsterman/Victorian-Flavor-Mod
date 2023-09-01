@@ -1,0 +1,167 @@
+namespace = donghak
+
+donghak.1 = { #Spawn Donghak
+	type = country_event
+	placement = scope:donghak_state
+
+	title = donghak.1.t
+	desc = donghak.1.d
+	flavor = donghak.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_christianity.bk2"
+	}
+	
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+	
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/christianity"
+
+	duration = 3
+
+	immediate = {
+		s:STATE_BUSAN = {
+			every_scope_state = {
+				limit = {owner = root}
+				save_scope_as = donghak_state
+			}
+		}
+		ig:ig_landowners = {
+			save_scope_as = landowners_ig
+		}
+		scope:donghak_state = {
+			add_modifier = { 
+				name = cheondoists 
+				months = -1
+			}
+		}
+	}
+
+	trigger = {
+		#triggered by silhak_return JE
+	}
+	option = {
+		name = donghak.1.a
+		default_option = yes
+		scope:donghak_state = {
+			add_radicals = {
+				value = medium_radicals
+				interest_group = scope:landowners_ig
+			}
+		}
+		add_journal_entry = {
+			type = je_donghak
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = donghak.2
+			}
+		}
+	}
+}
+
+donghak.2 = { #convert some guys
+	type = country_event
+	placement = root
+
+	hidden = yes
+	duration = 1
+
+	trigger = {
+		#triggered by monthly pulse JE
+	}
+	immediate = {
+		every_state = {
+			limit = {
+				has_modifier = cheondoists
+			}
+			convert_population = {
+				target = rel:cheondoist
+				value = 0.04
+			}
+		}
+	}
+}
+
+donghak.3 = { #spread to a neighbouring state
+	type = country_event
+	placement = root
+	
+	hidden = yes
+	duration = 1
+
+	trigger = {
+		#triggered by monthly pulse JE
+	}
+	immediate = {
+		every_state = {
+			limit = {
+				has_modifier = cheondoists
+			}
+			convert_population = {
+				target = rel:cheondoist
+				value = 0.02
+			}
+			random_neighbouring_state = {
+				limit = {
+					owner = root
+					state_region = {
+						is_homeland = cu:korean
+					}
+					NOT = {
+						has_modifier = cheondoists
+					}
+				}
+				convert_population = {
+					target = rel:cheondoist
+					value = 0.04
+				}
+				add_modifier = { 
+					name = cheondoists 
+					months = -1
+				}
+			}
+		}
+	}
+}
+
+donghak.4 = {
+	type = country_event
+	placement = root
+
+	hidden = yes
+	duration = 1
+
+	immediate = {
+		every_state = {
+			limit = {
+				has_modifier = cheondoists
+				NOT = {
+					any_scope_pop = {
+						has_religion = rel:cheondoist
+					}
+				}
+			}
+			remove_modifier = cheondoists
+		}
+	}
+}
+
+donghak.5 = { #
+	type = country_event
+	placement = root
+
+	immediate = {
+		every_state = {
+			limit = {
+				has_modifier = cheondoists
+			}
+			save_scope_as = donghak_state
+		}
+	}
+
+	create_country = {
+		origin = root
+		state = scope:donghak_state
+	}
+}
