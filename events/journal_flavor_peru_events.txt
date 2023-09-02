@@ -38,8 +38,30 @@ journal_flavor_peru.1 = {
 				set_strategy = ai_strategy_restore_peruvian_sovereignty
 			}
 
-			trigger_event = {
-				id = journal_flavor_peru.3
+			create_character = {
+				first_name = Agustin
+				last_name = gamarra
+				historical = yes
+				interest_group = ig_armed_forces
+				birth_date = 1785.08.27
+				female = no
+				culture = cu:south_andean
+				dna = dna_agustin_gamarra
+				ideology = ideology_moderate
+				religion = rel:catholic
+				traits = {
+					persistent
+					reckless
+					ambitious
+					celebrity_commander
+					experienced_offensive_planner
+				}
+
+				on_created = {
+					set_variable = {
+						name = is_gamarra
+					}				
+				}
 			}
 		}
 
@@ -105,7 +127,7 @@ journal_flavor_peru.2 = {
 	immediate = {
 		random_scope_character = {
 			limit = {
-				is_ruler = yes
+				has_variable = is_gamarra
 			}
 			save_scope_as = is_gamarra
 		}
@@ -115,18 +137,6 @@ journal_flavor_peru.2 = {
 		
 		name = journal_flavor_peru.2.a
 
-		ai_chance = {
-			base = 1
-		}
-	}
-}
-
-journal_flavor_peru.3 = {
-	type = country_event
-	hidden = yes
-
-	immediate = {
-		 
 		create_character = {
 			first_name = Agustin
 			last_name = gamarra
@@ -147,6 +157,10 @@ journal_flavor_peru.3 = {
 				celebrity_commander
 				experienced_offensive_planner
 			}
+		}
+
+		ai_chance = {
+			base = 1
 		}
 	}
 }
