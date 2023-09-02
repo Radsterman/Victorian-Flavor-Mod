@@ -45,10 +45,18 @@ tahiti_events.1 = {
 				save_scope_as = tahiti_state_scope
 			}
 		}
+		c:PLY = {
+			save_scope_as = ply_scope
+		}
+		ig:ig_devout = {
+			save_scope_as = church
+			leader = { save_scope_as = church_leader }
+		}
 	}
 
 	option = {
 		name = tahiti_events.1.a
+		default_option = yes
 		add_journal_entry = {
 			type = je_conquest_of_tahiti
 		}
@@ -56,8 +64,15 @@ tahiti_events.1 = {
 	
 	option = {
 		name = tahiti_events.1.b
-		add_journal_entry = {
-			type = je_conquest_of_tahiti
+		add_modifier = {
+			name = government_admits_failure
+			months = 60
+		}
+		ig:ig_devout = {
+			add_modifier = {
+				name = ig_minor_setback
+				months = normal_modifier_time
+			}
 		}
 	}
 }
@@ -95,13 +110,6 @@ tahiti_events.2 = {
 				save_scope_as = tahiti_state_scope
 			}
 		}
-		random_scope_character = {
-			limit = { 
-				has_role = general
-				is_ruler = no
-			}
-			save_scope_as = tahitin_parade_general_scope
-		}
 	}
 
 	option = { # Focus on partying with the lads
@@ -133,7 +141,7 @@ tahiti_events.2 = {
 			value = small_radicals
 		}
 	}
-	option = { # Focus on migration
+	option = { # Focus on missionaries
 		name = tahiti_events.2.b
 		default_option = yes
 		ai_chance = {
@@ -148,17 +156,15 @@ tahiti_events.2 = {
 				change_variable = { name = legitimist_progress add = 5 }
 			}
 		}
-		random_scope_state = {
-			limit = {
-				state_region = s:STATE_TAHITI
-				owner = {
-					ROOT = THIS
-				}
-			}
+		ig:ig_devout = {
 			add_modifier = {
-				name = algerian_migration
-				months = long_modifier_time
+				name = vanquished_barbary
+				months = normal_modifier_time
 			}
+		}
+		add_loyalists = {
+			pop_type = clergymen
+			value = small_radicals
 		}
 	}
 	option = {  # Focus on appeasement
@@ -206,18 +212,29 @@ tahiti_events.3 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
 
 	trigger = {
 		# triggered by JE
 	}
 
 	immediate = {
-		ig:ig_armed_forces = {
-			leader = {
-				save_scope_as = tahiti_fiasco_ig_leader
+	    s:STATE_TAHITI = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						OR = { 
+						c:PLY = THIS
+						NOT = { ROOT = THIS }
+						}
+					}
+				}
+				save_scope_as = tahiti_state_scope
 			}
-			save_scope_as = tahiti_fiasco_ig
+		}
+		ig:ig_devout = {
+			save_scope_as = church
+			leader = { save_scope_as = church_leader }
 		}
 	}
 
@@ -225,39 +242,18 @@ tahiti_events.3 = {
 		name = tahiti_events.3.a
 		default_option = yes
 		add_modifier = {
-			name = the_tahiti_fiasco
-			months = long_modifier_time
+			name = government_admits_failure
+			months = 60
 		}
-		ig:ig_armed_forces = {
+		ig:ig_devout = {
 			add_modifier = {
-				name = widespread_condemnation_modifier
+				name = ig_minor_setback
 				months = normal_modifier_time
 			}
 		}
 		add_radicals = {
 			value = 0.01
 			culture = cu:french
-		}
-		add_radicals = {
-			value = 0.02
-			pop_type = officers
-		}
-		add_radicals = {
-			value = 0.01
-			pop_type = soldiers
-		}
-		random_list = {
-			50 = {
-				scope:tahiti_fiasco_ig_leader = {
-					kill_character = yes
-				}
-			}
-			50 = {
-				scope:tahiti_fiasco_ig_leader = {
-					add_trait = wounded
-					add_trait = psychological_affliction
-				}
-			}
 		}
 	}
 }
