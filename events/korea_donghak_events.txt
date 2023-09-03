@@ -152,16 +152,60 @@ donghak.5 = { #
 	placement = root
 
 	immediate = {
-		every_state = {
+		every_scope_state = {
 			limit = {
 				has_modifier = cheondoists
+				NOT = { has_variable = donghak_rebelling }
 			}
-			save_scope_as = donghak_state
+			save_scope_as = donghak_state_0
+			set_variable = donghak_rebelling
+		}
+		every_scope_state = {
+			limit = {
+				has_modifier = cheondoists
+				NOT = { has_variable = donghak_rebelling }
+			}
+			save_scope_as = donghak_state_1
+			set_variable = donghak_rebelling
+		}
+		every_scope_state = {
+			limit = {
+				has_modifier = cheondoists
+				NOT = { has_variable = donghak_rebelling }
+			}
+			save_scope_as = donghak_state_2
+			set_variable = donghak_rebelling
+		}
+		create_country = {
+			tag = DHK
+			origin = root
+			state = scope:donghak_state_0
+			state = scope:donghak_state_1
+			state = scope:donghak_state_2
+			on_created = {
+				every_state = {
+					limit = { has_modifier = cheondoists }
+					set_state_owner = c:DHK
+				}
+			}
 		}
 	}
-
-	create_country = {
-		origin = root
-		state = scope:donghak_state
+	option = {
+		name = donghak.5.a
+		default_option = yes
+		create_diplomatic_play = {
+			target_country = c:DHK
+			type = dp_revolution
+		}
+		add_journal_entry = { type = je_donghak_revolution }
+	}
+	option = {
+		name = donghak.5.b
+		create_diplomatic_play = {
+			target_country = c:DHK
+			type = dp_revolution
+		}
+		add_journal_entry = { type = je_donghak_revolution }
+		play_as = c:DHK
 	}
 }

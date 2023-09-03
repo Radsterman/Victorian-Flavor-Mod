@@ -219,16 +219,7 @@ je_silhak_reform = {
 
 	on_complete = {
 		trigger_event = {
-			id = silhak.1
-		}
-		if = { #IF China is a monarchy, reforming will damage relations
-			limit = {
-				c:CHI = { has_law = law_type:law_monarchy }
-			}
-			change_relations = {
-		        country = c:CHI
-		        value = -30
-		    }
+			id = kor.8
 		}
 	}
 	on_monthly_pulse = { 
@@ -364,6 +355,23 @@ je_donghak = { #spread of the donghak religion
 		any_scope_state = {
 			has_modifier = cheondoists
 			turmoil >= 0.15
+		}
+	}
+}
+
+je_donghak_rebelling = {
+	icon = "gfx\interface\icons\religion_icons\cheondoist.dds"
+	complete = {
+		AND = {
+			is_at_war = no
+			is_diplomatic_play_committed_participant = no
+		}
+	}
+	on_complete = {
+		every_state = {
+			limit = { has_variable = donghak_rebelling }
+			remove_variable = donghak_rebelling
+			set_state_type = incorporated
 		}
 	}
 }
