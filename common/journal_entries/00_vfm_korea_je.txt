@@ -10,7 +10,7 @@
 			}
 			institution_investment_level = {
 				institution = institution_schools 
-				value >= 2
+				value >= 1
 			}
 		}
 	}
@@ -310,13 +310,15 @@ je_sojunghwa = {
 	    }
     } 
     invalid = {
-    	OR = {
-    		NOT = { is_subject_of = c:CHI }
-			AND = {
-	    		has_variable = kor_chi_gov_principle_broken
-	    		has_variable = kor_chi_distr_of_power_broken
-	    		has_variable = kor_chi_land_reform_broken
-	    		has_variable = kor_chi_church_and_state_broken
+    	hidden_trigger = {
+    		OR = {
+	    		NOT = { is_subject_of = c:CHI }
+				AND = {
+		    		has_variable = kor_chi_gov_principle_broken
+		    		has_variable = kor_chi_distr_of_power_broken
+		    		has_variable = kor_chi_land_reform_broken
+		    		has_variable = kor_chi_church_and_state_broken
+		    	}
 	    	}
     	}
 	}
@@ -332,7 +334,7 @@ je_sojunghwa = {
 
 je_donghak = { #spread of the donghak religion
 	icon = "gfx\interface\icons\religion_icons\cheondoist.dds"
-	on_monthly_pulse = {
+	on_weekly_pulse = {
 		random_events = {
 			30 = donghak.2
 			5 = donghak.3
@@ -354,8 +356,11 @@ je_donghak = { #spread of the donghak religion
 	fail = { #cheondoists are mad
 		any_scope_state = {
 			has_modifier = cheondoists
-			turmoil >= 0.15
+			turmoil >= 0.25
 		}
+	}
+	on_fail = {
+		trigger_event = { id = donghak.5 }
 	}
 }
 
@@ -373,5 +378,6 @@ je_donghak_rebelling = {
 			remove_variable = donghak_rebelling
 			set_state_type = incorporated
 		}
+		trigger_event = { kor.8 }
 	}
 }
