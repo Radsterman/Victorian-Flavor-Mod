@@ -399,26 +399,296 @@ kor.8 = {
 ##
 ## TODO: GWANGMU EVENTS
 ## Random Events triggered on monthly pulse through je_gwangmu_main
+## - AI CHANCE NOT DONE
 
-#kor.9 = { #gwangmu nationalism
+kor.9 = { #gwangmu nationalism
+  type = country_event
+  placement = root
+
+  title = kor.9.t
+  desc = kor.9.d
+  flavor = kor.9.f
+  
+  event_image = {
+    video = "gfx/event_pictures/asia_confucianism_shinto.bk2"
+  }
+
+  on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+  on_opened_soundeffect = "event:/SFX/Events/asia/confucianism_shinto"
+
+  icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+  immediate = {
+    random_country = {
+      limit = { 
+        country_rank = rank_value:great_power 
+        relations:root >= relations_threshold:neutral
+      }
+      save_scope_as = nationalism_country_1
+    }
+    random_country = {
+      limit = { 
+        country_rank = rank_value:great_power 
+        relations:root >= relations_threshold:neutral
+        this != scope:nationalism_country_1
+      }
+      save_scope_as = nationalism_country_2
+    }
+  }
+
+  duration = 3
   #TODO
   #A: (jpn has meiji) korea gets independent, free trade, add jpn influence JE, add variable ganghwa island treaty
+  option = {
+    name = kor.9.a
+    highlighted_option = yes
+    trigger = { 
+      exists = { c:JAP } 
+      c:JAP = { has_variable = meiji_reforms_complete_var } 
+    }
+    make_independent = yes
+    if = {
+      limit = { NOT = { has_law = law_type:law_free_trade } }
+      activate_law = law_type:law_free_trade
+    }
+    if = {
+      limit = { NOT = { has_journal_entry = je_jpn_influence_kor } }
+      add_journal_entry = { type = je_jpn_influence_kor }
+    }
+    hidden_effect = { 
+      set_variable = { name = ganghwa_island_treaty } 
+      change_variable = { 
+        name = japanese_influence 
+        add = 1
+      }
+    }
+  }
   #B: sovereignty mission to great power i, GPi gets event with option start diplo play free subject
+  option = {
+    name = kor.9.b
+    add_treasury = -165000
+    scope:nationalism_country_1 = {
+      trigger_event = {
+        id = kor.14
+        days = 14
+      }
+    }
+  }
   #C: sovereignty mission to great power ii, GPii gets event with option start diplo play free subject
-#}
+  option = {
+    name = kor.9.b
+    add_treasury = -165000
+    scope:nationalism_country_2 = {
+      trigger_event = {
+        id = kor.14
+        days = 14
+      }
+    }
+  }
+}
 
-#kor.10 = { #gwangmu army
+kor.10 = { #gwangmu army
+  type = country_event
+  placement = root
+
+  title = kor.10.t
+  desc = kor.10.d
+  flavor = kor.10.f
+  
+  event_image = {
+    video = "gfx/event_pictures/asia_confucianism_shinto.bk2"
+  }
+
+  on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+  on_opened_soundeffect = "event:/SFX/Events/asia/confucianism_shinto"
+
+  icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+  immediate = {
+    random_country = {
+      limit = { 
+        country_rank = rank_value:great_power 
+        relations:root >= relations_threshold:neutral
+      }
+      save_scope_as = army_country_1
+    }
+    random_country = {
+      limit = { 
+        country_rank = rank_value:great_power 
+        relations:root >= relations_threshold:neutral
+        this != scope:nationalism_country_1
+      }
+      save_scope_as = army_country_2
+    }
+  }
+
+  duration = 3
   #TODO
   #A: (jpn has meiji) research next possible mil tech, enact professional army, add jpn influence JE, add variable 'jpnese in army'
-  #B: army advisors from great power i, improve relations, tech progress on next important mil tech
-  #C: army advisors from great power ii, improve relations, enact professional army
-#}
+  option = {
+    name = kor.10.a
+    highlighted_option = yes
+    trigger = { 
+      exists = { c:JAP } 
+      c:JAP = { has_variable = meiji_reforms_complete_var } 
+    }
+    
+    if = {
+      limit = { NOT = { has_journal_entry = je_jpn_influence_kor } }
+      add_journal_entry = { type = je_jpn_influence_kor }
+    }
 
-#kor.11 = { #gwangmu navy, establishment of naval academy
+    add_technology_researched = general_staff
+
+    if = {
+      limit = { has_law = law_type:law_peasant_levies }
+      activate_law = law_type:law_professional_army
+    }
+
+    hidden_effect = {
+
+      add_technology_researched = army_reserves
+      add_technology_researched = line_infantry
+      add_technology_researched = mandatory_service
+      add_technology_researched = military_drill
+      add_technology_researched = standing_army 
+      
+      set_variable = { name = jpn_in_army } 
+      change_variable = { 
+        name = japanese_influence 
+        add = 1
+      }
+    }
+  }
+  #B: army advisors from great power i, improve relations, tech progress on next important mil tech
+  option = {
+    name = kor.10.b
+    change_relations = {
+      country = scope:army_country_1
+      value = 20
+    }
+    add_treasury = -150000
+    scope:army_country_1 = { add_treasury = 150000 }
+    add_technology_progress = { 
+      progress = 5000
+      technology = general_staff
+    }
+    hidden_effect = {
+      add_technology_researched = army_reserves
+      add_technology_researched = line_infantry
+      add_technology_researched = mandatory_service
+      add_technology_researched = military_drill
+      add_technology_researched = standing_army 
+    }
+  }
+  #C: army advisors from great power ii, improve relations, enact professional army
+  option = {
+    name = kor.10.b
+    change_relations = {
+      country = scope:army_country_2
+      value = 20
+    }
+    add_treasury = -150000
+    scope:army_country_1 = { add_treasury = 150000 }
+    if = { 
+      limit = { has_law = law_type:law_peasant_levies } 
+      activate_law = law_type:professional_army 
+    }
+  }
+}
+
+kor.11 = { #gwangmu navy, establishment of naval academy
+  type = country_event
+  placement = root
+
+  title = kor.11.t
+  desc = kor.11.d
+  flavor = kor.11.f
+  
+  event_image = {
+    video = "gfx/event_pictures/asia_confucianism_shinto.bk2"
+  }
+
+  on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+  on_opened_soundeffect = "event:/SFX/Events/asia/confucianism_shinto"
+
+  icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+  immediate = {
+    random_country = {
+      limit = { 
+        country_rank = rank_value:great_power 
+        relations:root >= relations_threshold:neutral
+      }
+      save_scope_as = navy_country_1
+    }
+    random_country = {
+      limit = { 
+        country_rank = rank_value:great_power 
+        relations:root >= relations_threshold:neutral
+        this != scope:nationalism_country_1
+      }
+      save_scope_as = navy_country_2
+    }
+    random_country = {
+      limit = { 
+        country_rank = rank_value:great_power 
+        relations:root >= relations_threshold:neutral
+        this != scope:nationalism_country_1
+        this != scope:nationalism_country_2
+      }
+      save_scope_as = navy_country_3
+    }
+  }
+
+  duration = 3
   #TODO
   #A: purchase ships from great power i, improve relations, lose money, GPi gains money, build lvl 5 naval base in STATE_BUSAN
+  option = {
+    name = kor.11.a
+    change_relations = {
+      country = scope:navy_country_1
+      value = 20
+    }
+    add_treasury = -2000000
+    scope:navy_country_1 = { add_treasury = 2000000 }
+    create_building = {
+      building = building_naval_base
+      reserves = 0.5
+      level = 5
+    }
+  }
   #B: acquire tech from great power ii, improve relations, research next important naval tech
-#}
+  option = {
+    name = kor.11.b
+    change_relations = {
+      country = scope:navy_country_2
+      value = 20
+    }
+    add_treasury = -1200000
+    scope:navy_country_2 = { add_treasury = 1200000 }
+    add_technology_researched = screw_frigate
+    hidden_effect = {
+      add_technology_researched = paddle_steamer
+      add_technology_researched = admiralty
+      add_technology_researched = navigation
+    }
+  }
+  option = {
+    name = kor.11.c
+    change_relations = {
+      country = scope:navy_country_3
+      value = 20
+    }
+    add_treasury = -1200000
+    scope:navy_country_3 = { add_treasury = 1200000 }
+    add_technology_researched = power_of_the_purse
+    hidden_effect = {
+      add_technology_researched = admiralty
+      add_technology_researched = navigation
+    }
+  }
+}
 
 #kor.12 = { #gwangmu taxes
   #TODO
