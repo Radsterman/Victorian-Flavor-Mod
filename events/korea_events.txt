@@ -419,6 +419,7 @@ kor.9 = { #gwangmu nationalism
   icon = "gfx/interface/icons/event_icons/waving_flag.dds"
 
   immediate = {
+    set_variable = gwangmu_nationalism_event
     random_country = {
       limit = { 
         country_rank = rank_value:great_power 
@@ -437,14 +438,22 @@ kor.9 = { #gwangmu nationalism
   }
 
   duration = 3
+
+  trigger = {
+    NOT = { has_variable = gwangmu_nationalism_event }
+  }
+
   #TODO
   #A: (jpn has meiji) korea gets independent, free trade, add jpn influence JE, add variable ganghwa island treaty
   option = {
     name = kor.9.a
     highlighted_option = yes
     trigger = { 
-      exists = { c:JAP } 
-      c:JAP = { has_variable = meiji_reforms_complete_var } 
+      custom_tooltip = {
+        text = japan_completed_meiji_tt
+        exists = c:JAP
+        c:JAP = { has_variable = meiji_restoration_complete }
+      } 
     }
     make_independent = yes
     if = {
@@ -476,7 +485,7 @@ kor.9 = { #gwangmu nationalism
   }
   #C: sovereignty mission to great power ii, GPii gets event with option start diplo play free subject
   option = {
-    name = kor.9.b
+    name = kor.9.c
     add_treasury = -165000
     scope:nationalism_country_2 = {
       trigger_event = {
@@ -505,6 +514,7 @@ kor.10 = { #gwangmu army
   icon = "gfx/interface/icons/event_icons/event_military.dds"
 
   immediate = {
+    set_variable = gwangmu_army_event
     random_country = {
       limit = { 
         country_rank = rank_value:great_power 
@@ -516,21 +526,30 @@ kor.10 = { #gwangmu army
       limit = { 
         country_rank = rank_value:great_power 
         relations:root >= relations_threshold:neutral
-        this != scope:nationalism_country_1
+        this != scope:army_country_1
       }
       save_scope_as = army_country_2
     }
   }
 
   duration = 3
+
+  trigger = {
+    NOT = { has_variable = gwangmu_army_event }
+  }
+
   #TODO
   #A: (jpn has meiji) research next possible mil tech, enact professional army, add jpn influence JE, add variable 'jpnese in army'
   option = {
     name = kor.10.a
     highlighted_option = yes
-    trigger = { 
-      exists = { c:JAP } 
-      c:JAP = { has_variable = meiji_reforms_complete_var } 
+
+    trigger = {
+      custom_tooltip = {
+        text = japan_completed_meiji_tt
+        exists = c:JAP
+        c:JAP = { has_variable = meiji_restoration_complete }
+      }
     }
 
     if = {
@@ -546,7 +565,6 @@ kor.10 = { #gwangmu army
     }
 
     hidden_effect = {
-
       add_technology_researched = army_reserves
       add_technology_researched = line_infantry
       add_technology_researched = mandatory_service
@@ -583,16 +601,16 @@ kor.10 = { #gwangmu army
   }
   #C: army advisors from great power ii, improve relations, enact professional army
   option = {
-    name = kor.10.b
+    name = kor.10.c
     change_relations = {
       country = scope:army_country_2
       value = 20
     }
     add_treasury = -150000
-    scope:army_country_1 = { add_treasury = 150000 }
+    scope:army_country_2 = { add_treasury = 150000 }
     if = { 
       limit = { has_law = law_type:law_peasant_levies } 
-      activate_law = law_type:professional_army 
+      activate_law = law_type:law_professional_army 
     }
   }
 }
@@ -606,15 +624,16 @@ kor.11 = { #gwangmu navy, establishment of naval academy
   flavor = kor.11.f
   
   event_image = {
-    video = "gfx/event_pictures/asia_confucianism_shinto.bk2"
+    video = "gfx/event_pictures/unspecific_steam_ship.bk2"
   }
 
   on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-  on_opened_soundeffect = "event:/SFX/Events/asia/confucianism_shinto"
+  on_opened_soundeffect = "event:/SFX/Events/asia/unspecific_steam_ship"
 
   icon = "gfx/interface/icons/event_icons/event_military.dds"
 
   immediate = {
+    set_variable = gwangmu_navy_event
     random_country = {
       limit = { 
         country_rank = rank_value:great_power 
@@ -626,7 +645,7 @@ kor.11 = { #gwangmu navy, establishment of naval academy
       limit = { 
         country_rank = rank_value:great_power 
         relations:root >= relations_threshold:neutral
-        this != scope:nationalism_country_1
+        this != scope:navy_country_1
       }
       save_scope_as = navy_country_2
     }
@@ -634,14 +653,19 @@ kor.11 = { #gwangmu navy, establishment of naval academy
       limit = { 
         country_rank = rank_value:great_power 
         relations:root >= relations_threshold:neutral
-        this != scope:nationalism_country_1
-        this != scope:nationalism_country_2
+        this != scope:navy_country_1
+        this != scope:navy_country_2
       }
       save_scope_as = navy_country_3
     }
   }
 
   duration = 3
+
+  trigger = {
+    NOT = { has_variable = gwangmu_navy_event }
+  }
+
   #TODO
   #A: purchase ships from great power i, improve relations, lose money, GPi gains money, build lvl 5 naval base in STATE_BUSAN
   option = {
@@ -650,12 +674,17 @@ kor.11 = { #gwangmu navy, establishment of naval academy
       country = scope:navy_country_1
       value = 20
     }
-    add_treasury = -2000000
-    scope:navy_country_1 = { add_treasury = 2000000 }
-    create_building = {
-      building = building_naval_base
-      reserves = 0.5
-      level = 5
+    add_treasury = -1000000
+    scope:navy_country_1 = { add_treasury = 1000000 }
+    s:STATE_BUSAN = {
+      random_scope_state = {
+        limit = { owner = root }
+        create_building = {
+          building = building_naval_base
+          reserves = 0.5
+          level = 5
+        }
+      }
     }
   }
   #B: acquire tech from great power ii, improve relations, research next important naval tech
@@ -665,8 +694,8 @@ kor.11 = { #gwangmu navy, establishment of naval academy
       country = scope:navy_country_2
       value = 20
     }
-    add_treasury = -1200000
-    scope:navy_country_2 = { add_treasury = 1200000 }
+    add_treasury = -600000
+    scope:navy_country_2 = { add_treasury = 600000 }
     add_technology_researched = screw_frigate
     hidden_effect = {
       add_technology_researched = paddle_steamer
@@ -680,8 +709,8 @@ kor.11 = { #gwangmu navy, establishment of naval academy
       country = scope:navy_country_3
       value = 20
     }
-    add_treasury = -1200000
-    scope:navy_country_3 = { add_treasury = 1200000 }
+    add_treasury = -600000
+    scope:navy_country_3 = { add_treasury = 600000 }
     add_technology_researched = power_of_the_purse
     hidden_effect = {
       add_technology_researched = admiralty
@@ -690,19 +719,244 @@ kor.11 = { #gwangmu navy, establishment of naval academy
   }
 }
 
-#kor.12 = { #gwangmu taxes
+kor.12 = { #gwangmu taxes
+  type = country_event
+  placement = root
+
+  title = kor.12.t
+  desc = kor.12.d
+  flavor = kor.12.f
+  
+  event_image = {
+    video = "gfx/event_pictures/asia_union_leader.bk2"
+  }
+
+  on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+  on_opened_soundeffect = "event:/SFX/Events/asia/asia_union_leader"
+
+  icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+  duration = 3
+
+  immediate = {
+    set_variable = gwangmu_taxes_event
+  }
+
+  trigger = {
+    NOT = { has_variable = gwangmu_taxes_event }
+  }
+
   #TODO
   #A: (jpn has meiji) enact per capita tax, add jpn influence JE, add variable 'using jpnese currency'
-  #B: (has debt)(jpn has meiji) remove all debt, enact per capita tax, add jpn influence JE, add variable 'using jpnese currency'
-  #C: (autocracy) enact per capita tax, landowners malus approval, landowners add radicals
-#}
+  option = {
+    name = kor.12.a
+    highlighted_option = yes
+    trigger = {
+      custom_tooltip = {
+        text = japan_completed_meiji
+        exists = c:JAP
+        c:JAP = { has_variable = meiji_restoration_complete }
+      }
+    }
+    #enact per-capita tax
+    if = {
+      limit = { 
+        OR = {
+          has_law = law_type:law_land_based_taxation
+          has_law = law_type:law_consumption_based_taxation
+        }
+      }
+      activate_law = law_type:law_per_capita_based_taxation
+    }
+    #add jpn influence JE
+    if = {
+      limit = { NOT = { has_journal_entry = je_jpn_influence_kor } }
+      add_journal_entry = { type = je_jpn_influence_kor }
+    }
+    #progress JE
+    set_variable = { name = jpn_in_econ } 
+    change_variable = { 
+      name = japanese_influence 
+      add = 1
+    }
+  }
+  #B: (has debt)(jpn has meiji) remove all debt, add jpn influence JE, add variable 'using jpnese currency'
+  option = {
+    name = kor.12.b
+    highlighted_option = yes
+    trigger = {
+      custom_tooltip = {
+        text = japan_completed_meiji_tt
+        exists = c:JAP
+        c:JAP = { has_variable = meiji_restoration_complete }
+      }
+      scaled_debt > 0
+    }
+    #remove all debt
+    clear_debt = yes
+    #add jpn influence JE
+    if = {
+      limit = { NOT = { has_journal_entry = je_jpn_influence_kor } }
+      add_journal_entry = { type = je_jpn_influence_kor }
+    }
+    #progress JE
+    set_variable = { name = jpn_in_econ } 
+    change_variable = { 
+      name = japanese_influence 
+      add = 1
+    }
+  }
+  #C: (autocracy) enact per capita tax, landowners malus approval
+  option = {
+    name = kor.12.c
+    trigger = {
+      has_law = law_type:law_autocracy
+    }
+    if = {
+      limit = { 
+        OR = {
+          has_law = law_type:law_land_based_taxation
+          has_law = law_type:law_consumption_based_taxation
+        }
+      }
+      activate_law = law_type:law_per_capita_based_taxation
+    }
+    ig:ig_landowners = {
+      add_modifier = {
+        name = royal_prerogative
+        years = 2
+      }
+    }
+  }
+}
 
-#kor.13 = { #gwangmu democracy
+kor.13 = { #gwangmu democracy
+  type = country_event
+  placement = root
+
+  title = kor.13.t
+  desc = kor.13.d
+  flavor = kor.13.f
+  
+  event_image = {
+    video = "gfx/event_pictures/europenorthamerica_sufferage.bk2"
+  }
+
+  on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+  on_opened_soundeffect = "event:/SFX/Events/asia/europenorthamerica_sufferage"
+
+  icon = "gfx/interface/icons/event_icons/event_election.dds"
+
+  duration = 3
+
+  immediate = {
+    set_variable = gwangmu_democracy_event
+    if = {
+      limit = { exists = c:JAP }
+      c:JAP = { active_law:lawgroup_governance_principles.type = { save_scope_as = japan_governance_principles } }
+      c:JAP = { active_law:lawgroup_distribution_of_power.type = { save_scope_as = japan_distribution_of_power } }
+    }
+    random_country = {
+      limit = { 
+        recognized_major_trigger = yes
+        NOT = { coa_undemocratic_monarchy_trigger = yes }
+        relations:root >= relations_threshold:neutral
+      }
+      save_scope_as = democratic_country_1
+      active_law:lawgroup_distribution_of_power.type = { save_scope_as = democratic_country_1_law }
+    }
+    random_country = {
+      limit = { 
+        recognized_major_trigger = yes
+        NOT = { coa_undemocratic_monarchy_trigger = yes }
+        relations:root >= relations_threshold:neutral
+        this != scope:democratic_country_1
+      }
+      save_scope_as = democratic_country_2
+      active_law:lawgroup_distribution_of_power.type = { save_scope_as = democratic_country_2_law }
+    }
+  }
+
+  trigger = {
+    NOT = { has_variable = gwangmu_democracy_event }
+  }
+
   #TODO
   #A: (jpn has meiji) set leader ig to industrialist, enact oligarchy, add variable 'jpnese in govt'
+  option = {
+    name = kor.13.a
+    highlighted_option = yes
+    trigger = {
+      custom_tooltip = {
+        text = japan_completed_meiji_tt
+        exists = c:JAP
+        c:JAP = { has_variable = meiji_restoration_complete }
+      }
+    }
+    activate_law = scope:japan_governance_principles
+    activate_law = scope:japan_distribution_of_power
+    #add jpn influence JE
+    if = {
+      limit = { NOT = { has_journal_entry = je_jpn_influence_kor } }
+      add_journal_entry = { type = je_jpn_influence_kor }
+    }
+    #progress JE
+    set_variable = { name = jpn_in_govt } 
+    change_variable = { 
+      name = japanese_influence 
+      add = 1
+    }
+  }
   #B: copy great power i (random democratic GP), landowner leader becomes republican
+  option = {
+    name = kor.13.b
+    activate_law = scope:democratic_country_1_law
+  }
   #C: (has autocracy, monarchy)copy great power ii (random democratic GP), enact wealth voting
-#}
+  option = {
+    name = kor.13.c
+    activate_law = scope:democratic_country_1_law
+  }
+}
+
+kor.14 = {
+  type = country_event
+  placement = root
+
+  title = kor.14.t
+  desc = kor.14.d
+  flavor = kor.14.f
+  
+  event_image = {
+    video = "gfx/event_pictures/europenorthamerica_sufferage.bk2"
+  }
+
+  on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+  on_opened_soundeffect = "event:/SFX/Events/asia/europenorthamerica_sufferage"
+
+  icon = "gfx/interface/icons/event_icons/event_waving_flag.dds"
+
+  immediate = {
+    c:KOR = { save_scope_as = kor_scope }
+  }
+
+  duration = 3
+
+  option = {
+    name = kor.14.a
+    create_diplomatic_play = {
+      target_country = scope:kor_scope
+      type = dp_liberate_subject
+    }
+  }
+  option = {
+    name = kor.14.b
+    change_relations = {
+      country = scope:kor_scope
+      value = -30
+    }
+  }
+}
 
 kor.100 = { #DEBUG EVENT
   type = country_event
