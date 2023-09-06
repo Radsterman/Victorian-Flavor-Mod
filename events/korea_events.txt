@@ -420,8 +420,31 @@ kor.9 = { #gwangmu nationalism
 
   immediate = {
     set_variable = gwangmu_nationalism_event
-    c:BEL = { save_scope_as = belgium_scope }
-    c:SWI = { save_scope_as = swiss_scope }
+	random_country = {
+		limit = {
+		    is_subject = no
+			OR = { 
+			    this = c:BEL
+				this = c:DEN
+				this = c:NET
+				this = c:FIN
+			}
+		}
+		save_scope_as = free_country1_scope
+	}
+	random_country = {
+		limit = {
+		    is_subject = no
+			OR = { 
+			    this = c:SWI
+				this = c:POL
+				this = c:SAR
+				this = c:SWE
+			}
+		}
+		save_scope_as = free_country2_scope
+	}
+
     random_country = {
       limit = { 
         country_rank = rank_value:great_power 
@@ -554,26 +577,45 @@ kor.10 = { #gwangmu army
         c:JAP = { has_variable = meiji_restoration_complete }
       }
     }
+	
+	#research army
+	if = { limit = { has_technology_researched = artillery has_technology_researched = napoleonic_warfare has_technology_researched = field_works has_technology_researched = line_infantry }
+        add_technology_progress = { 
+			progress = 5000 technology = general_staff
+		}	
+	}
+	else_if = { limit = { has_technology_researched = artillery has_technology_researched = napoleonic_warfare has_technology_researched = field_works }
+        add_technology_progress = { 
+			progress = 5000 technology = line_infantry
+		}	
+	}
+    else_if = { limit = { has_technology_researched = artillery has_technology_researched = field_works }
+        add_technology_progress = { 
+			progress = 5000 technology = napoleonic_warfare
+		}	
+	}
+	else_if = { limit = { has_technology_researched = field_works }
+	    add_technology_progress = { 
+			progress = 5000 technology = artillery
+		}
+	}
+	else = {
+	    add_technology_progress = { 
+			progress = 5000 technology = field_works
+		}
+	}
 
     if = {
       limit = { NOT = { has_journal_entry = je_jpn_influence_kor } }
       add_journal_entry = { type = je_jpn_influence_kor }
     }
 
-    add_technology_researched = general_staff
-
     if = {
       limit = { has_law = law_type:law_peasant_levies }
       activate_law = law_type:law_professional_army
     }
 
-    hidden_effect = {
-      add_technology_researched = army_reserves
-      add_technology_researched = line_infantry
-      add_technology_researched = mandatory_service
-      add_technology_researched = military_drill
-      add_technology_researched = standing_army 
-      
+    hidden_effect = {    
       set_variable = { name = jpn_in_army } 
       change_variable = { 
         name = japanese_influence 
@@ -584,23 +626,57 @@ kor.10 = { #gwangmu army
   #B: army advisors from great power i, improve relations, tech progress on next important mil tech
   option = {
     name = kor.10.b
+	#research army
+	if = { 
+	    limit = { 
+			has_technology_researched = artillery
+			has_technology_researched = napoleonic_warfare
+			has_technology_researched = field_works
+			has_technology_researched = line_infantry 
+		}
+        add_technology_progress = { 
+			progress = 5000 technology = general_staff
+		}	
+	}
+	else_if = {
+	    limit = { 
+			has_technology_researched = artillery
+			has_technology_researched = napoleonic_warfare
+			has_technology_researched = field_works
+		}
+        add_technology_progress = { 
+			progress = 5000 technology = line_infantry
+		}	
+	}
+    else_if = {
+	    limit = { 
+			has_technology_researched = artillery
+			has_technology_researched = field_works
+		}
+        add_technology_progress = { 
+			progress = 5000 technology = napoleonic_warfare
+		}	
+	}
+	else_if = {
+	    limit = { 
+			has_technology_researched = field_works
+		}
+	    add_technology_progress = { 
+			progress = 5000 technology = artillery
+		}
+	}
+	else = {
+	    add_technology_progress = { 
+			progress = 5000 technology = field_works
+		}
+	}
+	
     change_relations = {
       country = scope:army_country_1
       value = 20
     }
     add_treasury = -150000
     scope:army_country_1 = { add_treasury = 150000 }
-    add_technology_progress = { 
-      progress = 5000
-      technology = general_staff
-    }
-    hidden_effect = {
-      add_technology_researched = army_reserves
-      add_technology_researched = line_infantry
-      add_technology_researched = mandatory_service
-      add_technology_researched = military_drill
-      add_technology_researched = standing_army 
-    }
   }
   #C: army advisors from great power ii, improve relations, enact professional army
   option = {
@@ -685,7 +761,7 @@ kor.11 = { #gwangmu navy, establishment of naval academy
         create_building = {
           building = building_naval_base
           reserves = 0.5
-          level = 5
+          level = 4
         }
       }
     }
@@ -699,12 +775,18 @@ kor.11 = { #gwangmu navy, establishment of naval academy
     }
     add_treasury = -600000
     scope:navy_country_2 = { add_treasury = 600000 }
-    add_technology_researched = screw_frigate
-    hidden_effect = {
-      add_technology_researched = paddle_steamer
-      add_technology_researched = admiralty
-      add_technology_researched = navigation
-    }
+
+    # shipbuilding research progress
+	if = { limit = { has_technology_researched = screw_frigate }
+        add_technology_progress = { 
+			progress = 5000 technology = ironclad_tech
+		}	
+	}
+	else = {
+	    add_technology_progress = { 
+			progress = 5000 technology = screw_frigate
+		}
+	}
   }
   option = {
     name = kor.11.c
@@ -715,10 +797,18 @@ kor.11 = { #gwangmu navy, establishment of naval academy
     add_treasury = -600000
     scope:navy_country_3 = { add_treasury = 600000 }
     add_technology_researched = power_of_the_purse
-    hidden_effect = {
-      add_technology_researched = admiralty
-      add_technology_researched = navigation
-    }
+	
+	# naval research progress
+	if = { limit = { has_technology_researched = power_of_the_purse }
+        add_technology_progress = { 
+			progress = 5000 technology = jeune_ecole
+		}	
+	}
+	else = {
+	    add_technology_progress = { 
+			progress = 5000 technology = power_of_the_purse
+		}
+	}
   }
 }
 
@@ -763,13 +853,18 @@ kor.12 = { #gwangmu taxes
       }
     }
     add_modifier = { name = japanese_loans years = 10}
-    #research central archives
-    add_technology_researched = central_archives
-    hidden_effect = {
-      add_technology_researched = centralization
-      add_technology_researched = tech_bureaucracy
-      add_technology_researched = urbanization
-    }
+    #research taxation
+	if = { limit = { has_technology_researched = central_archives }
+        add_technology_progress = { 
+			progress = 5000 technology = identification_documents
+		}	
+	}
+	else = {
+	    add_technology_progress = { 
+			progress = 5000 technology = central_archives
+		}
+	}
+
     #enact per-capita tax
     if = {
       limit = { 
@@ -805,13 +900,18 @@ kor.12 = { #gwangmu taxes
       scaled_debt > 0
     }
     add_modifier = { name = japanese_loans years = 10}
-    #research central archives
-    add_technology_researched = central_archives
-    hidden_effect = {
-      add_technology_researched = centralization
-      add_technology_researched = tech_bureaucracy
-      add_technology_researched = urbanization
-    }
+	#research taxation
+    if = { limit = { has_technology_researched = central_archives }
+        add_technology_progress = { 
+			progress = 5000 technology = identification_documents
+		}	
+	}
+	else = {
+	    add_technology_progress = { 
+			progress = 5000 technology = central_archives
+		}
+	}
+	
     #remove all debt
     clear_debt = yes
     #add jpn influence JE
@@ -849,13 +949,18 @@ kor.12 = { #gwangmu taxes
     }
   }
   option = {
-    name = kor.12.d 
-    add_technology_researched = central_archives
-    hidden_effect = {
-      add_technology_researched = centralization
-      add_technology_researched = tech_bureaucracy
-      add_technology_researched = urbanization
-    }
+    name = kor.12.e
+    #research taxation
+    if = { limit = { has_technology_researched = central_archives }
+        add_technology_progress = { 
+			progress = 5000 technology = identification_documents
+		}	
+	}
+	else = {
+	    add_technology_progress = { 
+			progress = 5000 technology = central_archives
+		}
+	}
   }
 }
 
@@ -964,7 +1069,7 @@ kor.14 = {
   on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
   on_opened_soundeffect = "event:/SFX/Events/asia/europenorthamerica_sufferage"
 
-  icon = "gfx/interface/icons/event_icons/event_waving_flag.dds"
+  icon = "gfx/interface/icons/event_icons/waving_flag.dds"
 
   immediate = {
     c:KOR = { save_scope_as = kor_scope }
@@ -975,12 +1080,12 @@ kor.14 = {
   option = {
     name = kor.14.a
     create_diplomatic_play = {
-      target_country = scope:kor_scope
-      type = dp_liberate_subject
+       target_country = scope:kor_scope
+       type = dp_liberate_subject
     }
     create_diplomatic_pact = {
-      target_country = scope:kor_scope
-      type = defensive_pact
+       country = scope:kor_scope
+       type = defensive_pact
     }
   }
   option = {
