@@ -468,10 +468,6 @@ kor.9 = { #gwangmu nationalism
     }
     hidden_effect = { 
       set_variable = { name = ganghwa_island_treaty } 
-      change_variable = { 
-        name = japanese_influence 
-        add = 1
-      }
     }
   }
   #B: sovereignty mission to great power i, GPi gets event with option start diplo play free subject
@@ -575,10 +571,6 @@ kor.10 = { #gwangmu army
       add_technology_researched = standing_army 
       
       set_variable = { name = jpn_in_army } 
-      change_variable = { 
-        name = japanese_influence 
-        add = 1
-      }
     }
   }
   #B: army advisors from great power i, improve relations, tech progress on next important mil tech
@@ -787,10 +779,6 @@ kor.12 = { #gwangmu taxes
     }
     #progress JE
     set_variable = { name = jpn_in_econ } 
-    change_variable = { 
-      name = japanese_influence 
-      add = 1
-    }
   }
   #B: (has debt)(jpn has meiji) remove all debt, add jpn influence JE, add variable 'using jpnese currency'
   option = {
@@ -821,10 +809,6 @@ kor.12 = { #gwangmu taxes
     }
     #progress JE
     set_variable = { name = jpn_in_econ } 
-    change_variable = { 
-      name = japanese_influence 
-      add = 1
-    }
   }
   #C: (autocracy) enact per capita tax, landowners malus approval
   option = {
@@ -932,10 +916,6 @@ kor.13 = { #gwangmu democracy
     }
     #progress JE
     set_variable = { name = jpn_in_govt } 
-    change_variable = { 
-      name = japanese_influence 
-      add = 1
-    }
   }
   #B: copy great power i
   option = {
@@ -988,6 +968,39 @@ kor.14 = {
     change_relations = {
       country = scope:kor_scope
       value = -30
+    }
+  }
+}
+
+kor.15 = { #eulsa treaty 1905
+  type = country_event
+  placement = root
+
+  title = kor.14.t
+  desc = kor.14.d
+  flavor = kor.14.f
+  
+  event_image = {
+    video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+  }
+
+  on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+  on_opened_soundeffect = "event:/SFX/Events/asia/unspecific_signed_contract"
+
+  icon = "gfx/interface/icons/event_icons/event_jpn.dds"
+
+  immediate = {
+    c:JAP = { save_scope_as = japan_scope }
+  }
+
+  duration = 3
+
+  option = {
+    scope:japan_scope = {
+      create_diplomatic_pact = {
+        target_country = root
+        type = subject_protectorate
+      }
     }
   }
 }
