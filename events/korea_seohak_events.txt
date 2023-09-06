@@ -4,16 +4,36 @@ seohak.1 = { #Spawn Seohak
 	type = country_event
 	placement = scope:seohak_state
 
-	hidden = yes
+	title = seohak.1.t
+	desc = seohak.1.d
+	flavor = seohak.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_christianity.bk2"
+	}
+	
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+	
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/christianity"
 
 	duration = 3
 
+	trigger = {
+		NOT = { has_variable = seohak_1_event }
+	}
+
 	immediate = {
-		s:STATE_PYONGYANG = {
-			every_scope_state = {
-				limit = {owner = root}
-				save_scope_as = seohak_state
-			}
+		set_variable = seohak_1_event
+		random_scope_state = {
+			limit = {owner = root}
+			save_scope_as = seohak_state
+		}
+		rel:catholic = {
+			save_scope_as = western_religion
+		}
+		rel:confucian = {
+			save_scope_as = confucian_scope
 		}
 		ig:ig_landowners = {
 			save_scope_as = landowners_ig
