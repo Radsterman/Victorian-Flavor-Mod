@@ -403,7 +403,30 @@ je_jpn_influence_kor = {
 			value = 0
 		}
 	}
+	on_monthly_pulse = {
+		change_variable = {
+			name = japanese_influence
+			add = kor_japanese_influence
+		}
+	}
 	complete = {
+		any_country = {
+			count = 3
+			country_rank = rank_value:great_power
+			relations:root >= relations_threshold:amicable
+		}
+		any_country = {
+			country_rank = rank_value:great_power
+			OR = {
+				owes_obligation_to = root
+				has_diplomatic_pact = { 
+					who = root 
+					type = defensive_pact 
+				}
+			}
+		}
+	}
+	fail = {
 		custom_tooltip = {
 			text = jpn_influence_army_tt
 			has_variable = jpn_in_army
@@ -420,15 +443,23 @@ je_jpn_influence_kor = {
 			text = ganghwa_island_treaty_tt
 			has_variable = ganghwa_island_treaty
 		}
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
 	}
 	current_value = {
 		value = var:japanese_influence
 	}
 	goal_add_value = {
-		add = 4
+		add = 100
 	}
 	on_complete = {
 
+	}
+	on_fail = {
+		trigger_event = {
+			id = kor.15
+		}
 	}
 	progressbar = yes
 	should_be_pinned_by_default = yes
