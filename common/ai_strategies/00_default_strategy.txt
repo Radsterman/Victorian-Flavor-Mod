@@ -155,16 +155,30 @@ ai_strategy_default = {
 	diplomatic_play_boldness = {
 		value = 50 
 
+		if = { # Isolationist Japan should tend to back down against market opening plays
+			limit = {
+				exists = c:JAP
+				THIS = c:JAP
+				has_law = law_type:law_isolationism 
+				NOT = { has_variable = japan_forced_to_open_market }
+				scope:diplomatic_play = { 
+					has_play_goal = open_market
+				}
+			}
+			add = -75
+		}		
+
 		if = { #Taiping should never surrender against China.
 			limit = {
 				exists = c:TPG
 				THIS = c:TPG
-				is_diplomatic_play_initiator = yes
+				exists = c:CHI
+				is_diplomatic_play_enemy_of = c:CHI
 			}
 			add = 1000
 		}
 
-		if = { #Caucasian states should never surrender against Russia
+		if = { #Caucasian states & Kazakhstan should never surrender against Russia
 			limit = {
 				OR = {
 					AND = {		
@@ -175,19 +189,13 @@ ai_strategy_default = {
 						exists = c:CHC
 						THIS = c:CHC	
 					}
+					AND = {
+						exists = c:KAZ
+						THIS = c:KAZ
+					}
 				}
-				c:RUS = {
-					is_diplomatic_play_initiator = yes
-				}
-			}
-			add = 1000
-		}
-
-		if = { #Likewise for Kazakhstan.
-			limit = {
-				exists = c:KAZ
-				THIS = c:KAZ
-				is_diplomatic_play_initiator = yes
+				exists = c:RUS
+				is_diplomatic_play_enemy_of = c:RUS
 			}
 			add = 1000
 		}
@@ -196,9 +204,8 @@ ai_strategy_default = {
 			limit = {
 				exists = c:MUG
 				THIS = c:MUG
-				c:BIC = {
-					is_diplomatic_play_initiator = yes
-				}
+				exists = c:BIC
+				is_diplomatic_play_enemy_of = c:BIC
 			}
 			add = 1000
 		}
@@ -1775,16 +1782,6 @@ ai_strategy_default = {
 			}
 		}
 		region_japan = {	
-			if = {
-				limit = { # Great Powers should try to open Japan
-					exists = c:JAP
-					c:JAP = { has_law = law_type:law_isolationism }
-					has_technology_researched = civilizing_mission	
-					country_rank = rank_value:great_power
-					navy_size >= 50
-				}
-				add = 1000
-			}
 			if = {
 				limit = {
 					exists = c:JAP
