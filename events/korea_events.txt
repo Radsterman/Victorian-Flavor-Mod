@@ -420,6 +420,8 @@ kor.9 = { #gwangmu nationalism
 
   immediate = {
     set_variable = gwangmu_nationalism_event
+    c:BEL = { save_scope_as = belgium_scope }
+    c:SWI = { save_scope_as = swiss_scope }
     random_country = {
       limit = { 
         country_rank = rank_value:great_power 
@@ -515,6 +517,7 @@ kor.10 = { #gwangmu army
 
   immediate = {
     set_variable = gwangmu_army_event
+    c:JAP = { save_scope_as = japan_scope }
     random_country = {
       limit = { 
         country_rank = rank_value:great_power 
@@ -740,6 +743,7 @@ kor.12 = { #gwangmu taxes
 
   immediate = {
     set_variable = gwangmu_taxes_event
+    c:JAP = { save_scope_as = japan_scope }
   }
 
   trigger = {
@@ -757,6 +761,14 @@ kor.12 = { #gwangmu taxes
         exists = c:JAP
         c:JAP = { has_variable = meiji_restoration_complete }
       }
+    }
+    add_modifier = { name = japanese_loans years = 10}
+    #research central archives
+    add_technology_researched = central_archives
+    hidden_effect = {
+      add_technology_researched = centralization
+      add_technology_researched = tech_bureaucracy
+      add_technology_researched = urbanization
     }
     #enact per-capita tax
     if = {
@@ -791,6 +803,14 @@ kor.12 = { #gwangmu taxes
         c:JAP = { has_variable = meiji_restoration_complete }
       }
       scaled_debt > 0
+    }
+    add_modifier = { name = japanese_loans years = 10}
+    #research central archives
+    add_technology_researched = central_archives
+    hidden_effect = {
+      add_technology_researched = centralization
+      add_technology_researched = tech_bureaucracy
+      add_technology_researched = urbanization
     }
     #remove all debt
     clear_debt = yes
@@ -828,6 +848,15 @@ kor.12 = { #gwangmu taxes
       }
     }
   }
+  option = {
+    name = kor.12.d 
+    add_technology_researched = central_archives
+    hidden_effect = {
+      add_technology_researched = centralization
+      add_technology_researched = tech_bureaucracy
+      add_technology_researched = urbanization
+    }
+  }
 }
 
 kor.13 = { #gwangmu democracy
@@ -851,6 +880,7 @@ kor.13 = { #gwangmu democracy
 
   immediate = {
     set_variable = gwangmu_democracy_event
+    c:JAP = { save_scope_as = japan_scope }
     if = {
       limit = { exists = c:JAP }
       c:JAP = { active_law:lawgroup_governance_principles.type = { save_scope_as = japan_governance_principles } }
@@ -907,12 +937,12 @@ kor.13 = { #gwangmu democracy
       add = 1
     }
   }
-  #B: copy great power i (random democratic GP), landowner leader becomes republican
+  #B: copy great power i
   option = {
     name = kor.13.b
     activate_law = scope:democratic_country_1_law
   }
-  #C: (has autocracy, monarchy)copy great power ii (random democratic GP), enact wealth voting
+  #C: copy great power ii
   option = {
     name = kor.13.c
     activate_law = scope:democratic_country_1_law
@@ -947,6 +977,10 @@ kor.14 = {
     create_diplomatic_play = {
       target_country = scope:kor_scope
       type = dp_liberate_subject
+    }
+    create_diplomatic_pact = {
+      target_country = scope:kor_scope
+      type = defensive_pact
     }
   }
   option = {
