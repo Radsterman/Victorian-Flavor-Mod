@@ -109,11 +109,12 @@ vfm_potato_blight.2 = {
 	icon = "gfx/interface/icons/event_icons/event_skull.dds"
 
 	trigger = {
-	    has_agricultural_disaster = no
 		OR = {
 			state_region = { in_potato_blight_zone = yes }
 			state_region = { in_potato_blight_mild_zone = yes }
 		}
+		NOT = { has_modifier = modifier_potato_blight }
+		NOT = { has_modifier = modifier_potato_blight_mild }
 		any_scope_building = {
   			is_building_type = building_rye_farm
 		}
@@ -144,7 +145,8 @@ vfm_potato_blight.2 = {
 	    }
 		random_neighbouring_state = {
 			limit = {
-			    has_agricultural_disaster = no
+			    NOT = { has_modifier = modifier_potato_blight }
+				NOT = { has_modifier = modifier_potato_blight_mild }
 				owner = scope:state_owner
 				OR = {
 					state_region = { in_potato_blight_zone = yes }

@@ -1,0 +1,298 @@
+la_moneda = {
+	
+	is_shown = {
+		this = c:CHL
+		
+		NOT = { has_variable = new_president_seat }
+	}
+
+	possible = {
+			    any_scope_building = {
+				    is_building_type = building_construction_sector
+				    level >= 1
+			    }
+			    any_scope_building = {
+				    is_building_type = building_government_administration
+				    level >= 3
+			    }
+	        }
+
+	when_taken = {
+		trigger_event = {
+			id = journal_flavor_chile.10 
+			popup = yes
+		}
+		set_variable = {
+			name = new_president_seat
+		}
+	}
+	ai_chance = {
+		base = 100 	
+	}
+}
+
+codigo_civil = {	
+
+	is_shown = {
+		exists = c:CHL
+		root= c:CHL
+
+	    NOT = { has_variable = codigo_civil }
+	}
+
+	possible = {
+			institution_investment_level = {
+		    	institution = institution_police
+		    	value >= 3
+	        }
+		}
+
+	when_taken = {
+        trigger_event = { 
+			id = journal_flavor_chile.11
+			popup = yes
+		}
+		set_variable = {
+			name = codigo_civil
+		}
+	}
+}	 	
+
+ocupacion_araucania = {
+
+	is_shown = {
+		exists = c:CHL
+		root= c:CHL 
+
+		NOT = {
+		    owns_entire_state_region = STATE_ARAUCANIA
+		}   
+
+	    NOT = { has_variable = araucania_conquered }		  	    
+	}
+
+	    possible = {
+	        hidden_trigger = {
+		        NOT = {
+		    	    owns_entire_state_region = STATE_LOS_RIOS
+		            }
+		        }
+		    year >= 1861
+	    }
+
+	when_taken = {
+		custom_tooltip = {
+			text = je_text_ocupacion_araucania
+		}
+		hidden_effect = {
+			create_diplomatic_play = {
+				target_state = s:STATE_LOS_RIOS.region_state:PAT
+				
+				war = yes
+				
+				type = dp_annex_war
+			}
+		}
+		set_variable = {
+			name = araucania_conquered
+		}
+	}
+	
+	ai_chance = {
+		base = 100 	
+	}	
+}
+
+1881_conquest = {
+
+	is_shown = {
+		OR = {
+			c:CHL = this
+			c:ARG = this               
+		}
+		NOT = { 
+            owns_entire_state_region = STATE_PATAGONIA
+        }
+
+	    NOT = { has_variable = pehuenche_conquered } 
+
+	}
+
+	    possible = {
+		    exists = c:THL
+		    c:THL = {
+		        is_at_war = no
+		        }
+		    is_at_war = no
+		    institution_investment_level = {
+			    institution = institution_colonial_affairs
+			    value >= 3
+		    }
+	        country_rank >= rank_value:minor_power
+		    year >= 1881
+	        }
+
+	when_taken = {
+
+		hidden_effect = { set_global_variable = 1881_conquest_completed }
+
+		custom_tooltip = {
+			text = je_text_1881_conquest
+		}               
+
+		hidden_effect = {
+			create_diplomatic_play = {
+				name = chl_arg_1881_conquest
+			
+				target_state = s:STATE_PATAGONIA.region_state:THL
+				
+				war = yes
+				
+				type = dp_annex_war
+			}
+		}
+        set_global_variable = indigenous_nations_defeated
+    }
+
+	fail = {
+		NOT = { 
+		    exists = c:THL 
+		}
+		has_global_variable = 1881_conquest_completed	
+    }
+
+	ai_chance = {
+		base = 100 	
+	}	
+}
+
+ohiggins1 = {
+
+	is_shown = {
+		this = c:CHL         
+		NOT = { has_variable = ohiggins_returned }
+		c:PEU = { any_scope_character = { has_variable = is_ohiggins } } 
+        }
+        
+	possible = {
+		is_at_war = no
+		custom_tooltip = {
+			text = is_ohiggins_desc
+            c:PEU = { any_scope_character = { has_variable = is_ohiggins } }
+            }
+        custom_tooltip = {
+			text = is_portales_desc
+        ig:ig_petty_bourgeoisie.leader = { NOT = { has_variable = is_portales } } 
+            }       
+	    }
+
+	when_taken = {
+	    custom_tooltip = return_ohiggins
+		hidden_effect = { set_global_variable = ohiggins_returned 
+		c:PEU = {
+			random_scope_character = {
+				limit = {
+					has_variable = is_ohiggins
+				}
+				save_scope_as = ohiggins_scope
+		    }
+		}
+		scope:ohiggins_scope = {
+			kill_character = yes
+		}		
+		c:CHL = {
+		    create_character = {
+			    first_name = "bernardo"
+			    last_name = "ohiggins"
+			    ig_leader = no
+			    historical = yes
+			    culture = cu:south_andean
+			    ruler = no
+			    birth_date = 1778.08.20
+			    hq = region_la_plata
+			    is_general = yes			    
+			    dna = dna_bernardo_ohiggins
+			    interest_group = ig_armed_forces
+			    ideology = ideology_republican_leader
+			    traits = {
+				    persistent
+				    brave
+				    celebrity_commander
+				    basic_offensive_planner
+				    inspirational_orator
+				    sickly
+				    }
+			    }
+		    }
+        }
+        trigger_event = { 
+			id = journal_flavor_chile.6
+		    }
+        }
+    }			
+
+create_idp = {
+	is_shown = {
+		this = c:CHL  
+        has_variable = idp_annexed
+        NOT = { has_variable = idp_created1 }
+        }
+
+	possible = {
+		custom_tooltip = {
+			text = dip_annexed1
+            has_variable = idp_annexed
+            }
+	    }
+
+	when_taken = {	
+        trigger_event = { 
+			id = journal_flavor_chile.16
+			}
+		set_variable = {
+			name = idp_created1
+		    }
+		}
+
+	ai_chance = {
+		base = 60
+	}	
+}		
+
+expand_idp = {
+	is_shown = {
+		exists = c:IDP
+		c:IDP = {
+			is_subject_of = ROOT
+		}
+	}
+	possible = {
+		any_state = {
+			owner = ROOT
+			region = sr:region_oceania
+		}
+	}	
+	when_taken = {
+		custom_tooltip = expand_dip_tt
+		if = {
+			limit= {
+				any_state = {
+					owner = ROOT
+					region = sr:region_oceania
+				}
+			}
+			every_scope_state = {
+				limit = {
+					owner = ROOT
+					region = sr:region_oceania
+				}
+				set_state_owner = c:IDP
+				set_state_type = unincorporated
+			}
+		}
+	}
+
+	ai_chance = {
+		base = 100
+	}
+}		

@@ -1,18 +1,16 @@
-je_hanja_issue = {
+﻿je_hanja_issue = {
 	icon = "gfx/interface/icons/event_icons/event_academia.dds"
 
 	complete = {
-		AND = {
-			any_scope_building = {
-				is_building_type = building_university
-				occupancy > 0.9
-				level >= 5
-			}
-			institution_investment_level = {
-				institution = institution_schools 
-				value >= 2
-			}
+		any_scope_building = {
+			is_building_type = building_university
+			occupancy > 0.9
+			level >= 5
 		}
+		institution_investment_level = {
+	  		institution = institution_schools 
+	 		value >= 2
+  		}
 	}
 
 	on_complete = {
@@ -24,49 +22,16 @@ je_hanja_issue = {
 
 je_sadae = {
 	icon = "gfx/interface/icons/event_icons/event_diplomacy.dds"
-	immediate = {
-		c:CHI = {
-			save_scope_as = chi_scope
-		}
-	}
-	invalid = {
-		has_global_variable = china_shatters
-		AND = {
-			NOT = {
-				c:CHI = {
-					has_diplomatic_pact = {
-						who = ROOT
-						type = tributary
-						is_initiator = yes
-					}
-				}
-			}
-			NOT = { is_subject_of = c:CHI }
-		}	
-	}
+
 	complete = {
-		NOT = { 
-			top_overlord = {
-				OR = {
-					is_at_war = yes
-					is_diplomatic_play_committed_participant = yes
-				}
-			} 
-		}
-		OR = {
-			top_overlord = {
-				custom_tooltip = {
-					text = kor_chi_relations_tt
-					relations:root >= relations_threshold:friendly
-				}
-				custom_tooltip = {
-					text = kor_chi_obligation_tt
-					owes_obligation_to = root
-				}
+		top_overlord = {
+			custom_tooltip = {
+				text = kor_chi_relations_tt
+				relations:root >= relations_threshold:amicable
 			}
 			custom_tooltip = {
-				text = kor_chi_gdp_tt
-				GDP >= gdp_chi
+				text = kor_chi_obligation_tt
+				owes_obligation_to = root
 			}
 		}
 	}
@@ -81,6 +46,21 @@ je_sadae = {
 		}
 	}
 
+	invalid = {
+		AND = {
+			NOT = {
+				c:CHI = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = tributary
+						is_initiator = yes
+					}
+				}
+			}
+			NOT = { is_subject_of = c:CHI }
+		}	
+	}
+
 	on_complete = {
 		trigger_event = {
 			id = kor.3
@@ -92,278 +72,6 @@ je_sadae = {
 			trigger_event = {
 				id = kor.4
 			}
-		}
-	}
-	should_be_pinned_by_default = yes
-}
-
-je_silhak = {
-	icon = "gfx/interface/icons/event_icons/event_skull.dds"
-	immediate = {
-		ig:ig_intelligentsia = { save_scope_as = ig_intelligentsia }
-	}
-	complete = {
-		has_technology_researched = empiricism
-	}
-	on_weekly_pulse = {
-		effect = {
-			if = {
-				limit = {
-					can_research = academia
-				}
-				add_technology_progress = {
-					progress = 25
-					technology = academia
-				}
-			}
-			if = {
-				limit = {
-					can_research = empiricism
-				}
-				add_technology_progress = {
-					progress = 15
-					technology = empiricism
-				}
-			}
-		}
-	}
-	on_complete = {
-		trigger_event = {
-			id = silhak.1
-		}
-		hidden_effect = {
-			trigger_event = {
-				id = seohak.1
-			}
-			trigger_event = {
-				id = seohak.2
-			}
-		}
-	}
-}
-
-je_silhak_return = {
-	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
-	immediate = {
-		ig:ig_intelligentsia = { save_scope_as = ig_intelligentsia }
-		set_variable = {
-			name = silhak_var
-			value = 0
-		}
-		hidden_effect = {
-			trigger_event = {
-				id = seohak.1
-			}
-		}
-	}
-	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
-		}
-	}
-	on_complete = {
-		custom_tooltip = {
-			text = donghak_radical_tt
-			ig:ig_intelligentsia = { #scholars become donghak
-				set_interest_group_name = ig_donghak
-				add_ideology = ideology_republican
-			}
-			remove_modifier = modifier_moderate_intelligentsia
-		}
-		trigger_event = {
-			id = donghak.1
-		}
-	}
-	current_value = {
-		value = var:silhak_var
-	}
-	goal_add_value = {
-		add = 300
-	}
-	progressbar = yes
-
-	on_monthly_pulse = { 
-		effect = {
-			change_variable = {
-				name = silhak_var
-				add = kor_silhak_delta
-			}
-			trigger_event = {
-				id = seohak.4
-			}
-		}
-		random_events = {
-			30 = seohak.2
-			5 = seohak.3
-			65 = 0
-		}
-	}
-	should_be_pinned_by_default = yes
-}
-
-je_silhak_reform = {
-	complete = {
-		OR = {
-			NOT = { has_law = law_type:law_serfdom }
-			NOT = { has_law = law_type:law_autocracy }
-		}
-	}
-	invalid = {
-		NOT = { has_law = law_type:law_monarchy }
-	}
-	fail = {
-		has_variable = kor_silhak_reform_failed
-	}
-
-	timeout = 3650
-
-	on_complete = {
-		trigger_event = {
-			id = silhak.1
-		}
-		if = { #IF China is a monarchy, reforming will damage relations
-			limit = {
-				c:CHI = { has_law = law_type:law_monarchy }
-			}
-			change_relations = {
-		        country = c:CHI
-		        value = -30
-		    }
-		}
-	}
-	on_monthly_pulse = { 
-		effect = {
-			change_variable = {
-				name = silhak_var
-				add = kor_silhak_delta
-			}
-			trigger_event = {
-				id = seohak.4
-			}
-		}
-		random_events = {
-			30 = seohak.2
-			5 = seohak.3
-			65 = 0
-		}
-	}
-	on_timeout = {
-		custom_tooltip = {
-			text = donghak_radical_tt
-			ig:ig_intelligentsia = { #scholars become donghak
-				set_interest_group_name = ig_donghak
-				add_ideology = ideology_republican
-			}
-			remove_modifier = modifier_moderate_intelligentsia
-		}
-	}
-	on_fail = {
-		custom_tooltip = {
-			text = donghak_radical_tt
-			ig:ig_intelligentsia = { #scholars become donghak
-				set_interest_group_name = ig_donghak
-				add_ideology = ideology_republican
-			}
-			remove_modifier = modifier_moderate_intelligentsia
-		}
-	}
-	on_invalid = {
-		ig:ig_intelligentsia = { #scholars get republican to fit with no monarchy
-			add_ideology = ideology_republican
-		} 
-	}
-	should_be_pinned_by_default = yes
-}
-
-je_sojunghwa = {
-	icon = "gfx/interface/icons/event_icons/event_diplomacy.dds"
-    immediate = {
-    	c:CHI = {
-      		save_scope_as = chi_scope
-      	}
-        c:CHI = { active_law:lawgroup_governance_principles.type = { save_scope_as = china_governance_principles } }
-        c:CHI = { active_law:lawgroup_distribution_of_power.type = { save_scope_as = china_distribution_of_power } }
-        c:CHI = { active_law:lawgroup_land_reform.type = { save_scope_as = china_land_reform } }
-        c:CHI = { active_law:lawgroup_church_and_state.type = { save_scope_as = china_church_and_state } }
-    }
-    complete = {
-    	OR = {
-	        AND = { 
-	            custom_tooltip = {
-					text = sadae_law_je_tt_1
-					active_law:lawgroup_governance_principles.type != scope:china_governance_principles
-				}
-	            hidden_trigger =  { NOT = { has_variable = kor_chi_gov_principle_broken} }
-	        }
-	        AND = { 
-	            custom_tooltip = {
-					text = sadae_law_je_tt_2
-					active_law:lawgroup_distribution_of_power.type != scope:china_distribution_of_power
-				}
-	            hidden_trigger =  { NOT = { has_variable = kor_chi_distr_of_power_broken} }
-	        }
-	        AND = { 
-	            custom_tooltip = {
-					text = sadae_law_je_tt_3
-					active_law:lawgroup_land_reform.type != scope:china_land_reform
-				}
-	            hidden_trigger =  { NOT = { has_variable = kor_chi_land_reform_broken} }
-	        }
-	        AND = { 
-	            custom_tooltip = {
-					text = sadae_law_je_tt_4
-					active_law:lawgroup_church_and_state.type != scope:china_church_and_state
-				}
-	            hidden_trigger =  { NOT = { has_variable = kor_chi_church_and_state_broken} }
-	        }
-	    }
-    } 
-    invalid = {
-    	OR = {
-    		NOT = { is_subject_of = c:CHI }
-			AND = {
-	    		has_variable = kor_chi_gov_principle_broken
-	    		has_variable = kor_chi_distr_of_power_broken
-	    		has_variable = kor_chi_land_reform_broken
-	    		has_variable = kor_chi_church_and_state_broken
-	    	}
-    	}
-	}
-    on_complete = {
-    	trigger_event = { id = kor.5 }
-    	change_relations = {
-	        country = c:CHI
-	        value = -20
-	    }
-    }
-    should_be_pinned_by_default = yes
-}
-
-je_donghak = { #spread of the donghak religion
-	icon = "gfx\interface\icons\religion_icons\cheondoist.dds"
-	on_monthly_pulse = {
-		random_events = {
-			30 = donghak.2
-			5 = donghak.3
-			65 = 0
-		}
-		effect = {
-			trigger_event = {
-				id = donghak.4
-			}
-		}
-	}
-	complete = {
-		NOT = {
-			any_scope_state = {
-				has_modifier = cheondoists
-			}
-		}
-	}
-	fail = { #cheondoists are mad
-		any_scope_state = {
-			has_modifier = cheondoists
-			turmoil >= 0.15
 		}
 	}
 }

@@ -20,7 +20,8 @@ vfm_natural_disaster_events.1 = { #Draught for more arid zones
 	icon = "gfx/interface/icons/event_icons/event_skull.dds"
 
 	trigger = {
-	    has_agricultural_disaster = no
+        NOT = { has_modifier = modifier_drought }
+		NOT = { has_modifier = modifier_big_drought }
 		any_scope_building = {
 			OR = {
   				is_farm_building = yes
@@ -60,7 +61,8 @@ vfm_natural_disaster_events.1 = { #Draught for more arid zones
 		}
 		random_neighbouring_state = {
 			limit = {
-			    has_agricultural_disaster = no
+			    NOT = { has_modifier = modifier_drought }
+				NOT = { has_modifier = modifier_big_drought }
 				owner = scope:state_owner
 			}
 			add_modifier = {
@@ -73,7 +75,8 @@ vfm_natural_disaster_events.1 = { #Draught for more arid zones
 		}
 		random_neighbouring_state = {
 			limit = {
-				has_agricultural_disaster = no
+				NOT = { has_modifier = modifier_drought }
+				NOT = { has_modifier = modifier_big_drought }
 				NOT = { owner = scope:state_owner }
 			}
 			add_modifier = {
@@ -110,13 +113,14 @@ vfm_natural_disaster_events.2 = { #Draught for normal
 	icon = "gfx/interface/icons/event_icons/event_skull.dds"
 
 	trigger = {
-	    has_agricultural_disaster = no
 		any_scope_building = {
 			OR = {
   				is_farm_building = yes
   				is_plantation_building = yes
   			}
 		}
+		NOT = { has_modifier = modifier_drought }
+		NOT = { has_modifier = modifier_big_drought }
 	}
 
     immediate = {
@@ -149,7 +153,8 @@ vfm_natural_disaster_events.2 = { #Draught for normal
 		}
 		random_neighbouring_state = {
 			limit = {
-			    has_agricultural_disaster = no
+			    NOT = { has_modifier = modifier_drought }
+				NOT = { has_modifier = modifier_big_drought }
 				owner = scope:state_owner
 			}
 			add_modifier = {
@@ -162,7 +167,8 @@ vfm_natural_disaster_events.2 = { #Draught for normal
 		}
 		random_neighbouring_state = {
 			limit = {
-				has_agricultural_disaster = no
+				NOT = { has_modifier = modifier_drought }
+				NOT = { has_modifier = modifier_big_drought }
 				NOT = { owner = scope:state_owner }
 			}
 			add_modifier = {
@@ -250,7 +256,8 @@ vfm_natural_disaster_events.4 = { #Catastrophic draught for more arid zones
 	icon = "gfx/interface/icons/event_icons/event_skull.dds"
 
 	trigger = {
-        has_agricultural_disaster = no
+        NOT = { has_modifier = modifier_drought }
+		NOT = { has_modifier = modifier_big_drought }
 		any_scope_building = {
 			OR = {
   				is_farm_building = yes
@@ -290,7 +297,8 @@ vfm_natural_disaster_events.4 = { #Catastrophic draught for more arid zones
 		}
 		random_neighbouring_state = {
 			limit = {
-			    has_agricultural_disaster = no
+			    NOT = { has_modifier = modifier_drought }
+				NOT = { has_modifier = modifier_big_drought }
 				owner = scope:state_owner
 			}
 			add_modifier = {
@@ -303,7 +311,8 @@ vfm_natural_disaster_events.4 = { #Catastrophic draught for more arid zones
 		}
 		random_neighbouring_state = {
 			limit = {
-			    has_agricultural_disaster = no
+			    NOT = { has_modifier = modifier_drought }
+				NOT = { has_modifier = modifier_big_drought }
 				owner = scope:state_owner
 			}
 			add_modifier = {
@@ -316,7 +325,8 @@ vfm_natural_disaster_events.4 = { #Catastrophic draught for more arid zones
 		}
 		random_neighbouring_state = {
 			limit = {
-			    has_agricultural_disaster = no
+			    NOT = { has_modifier = modifier_drought }
+				NOT = { has_modifier = modifier_big_drought }
 				owner = scope:state_owner
 			}
 			add_modifier = {
@@ -329,7 +339,8 @@ vfm_natural_disaster_events.4 = { #Catastrophic draught for more arid zones
 		}
 		random_neighbouring_state = {
 			limit = {
-				has_agricultural_disaster = no
+				NOT = { has_modifier = modifier_drought }
+				NOT = { has_modifier = modifier_big_drought }
 				NOT = { owner = scope:state_owner }
 			}
 			add_modifier = {
@@ -669,12 +680,15 @@ vfm_natural_disaster_events.8 = { #Draught for normal
 	icon = "gfx/interface/icons/event_icons/event_fire.dds"
 
 	trigger = {
-	    has_agricultural_disaster = no
 		any_scope_building = {
 			OR = {
   				is_farm_building = yes
   				is_plantation_building = yes
   			}
+		}
+		NOR = {
+			has_modifier = modifier_crop_failure
+			has_modifier = modifier_crop_failure_relief_effect
 		}
 	}
 
@@ -714,7 +728,10 @@ vfm_natural_disaster_events.8 = { #Draught for normal
 		}
 		random_neighbouring_state = {
 			limit = {
-			    has_agricultural_disaster = no
+			    NOR = {
+					has_modifier = modifier_crop_failure
+					has_modifier = modifier_crop_failure_relief_effect
+			    }
 				owner = scope:state_owner
 			}
 			add_modifier = {
@@ -741,7 +758,10 @@ vfm_natural_disaster_events.8 = { #Draught for normal
 		}
 		random_neighbouring_state = {
 			limit = {
-			    has_agricultural_disaster = no
+			    NOR = {
+					has_modifier = modifier_crop_failure
+					has_modifier = modifier_crop_failure_relief_effect
+			    }
 				owner = scope:state_owner
 			}
 			add_modifier = {

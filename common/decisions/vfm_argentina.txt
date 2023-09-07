@@ -1,0 +1,54 @@
+ranquelche_expedition = {
+
+	is_shown = {
+	    OR = {
+		    root= c:ARG
+		    root= c:BUE
+		    }
+
+		NOT = {
+		    owns_entire_state_region = STATE_BUENOS_AIRES
+		}   
+
+	    NOT = { has_variable = ranquelche_conquered }		  	    
+	}
+
+	    possible = {
+	        hidden_trigger = {
+		        NOT = {
+		    	    owns_entire_state_region = STATE_BUENOS_AIRES
+		            }
+		        }
+		    year >= 1867
+		    is_at_war = no
+	    }
+
+	when_taken = {
+		custom_tooltip = {
+			text = je_text_arg_1867.1
+		}
+		hidden_effect = {
+			create_diplomatic_play = {			
+				target_state = s:STATE_BUENOS_AIRES.region_state:RQH
+				
+				war = yes
+				
+				type = dp_annex_war
+			}
+			create_diplomatic_play = {			
+				target_state = s:STATE_BUENOS_AIRES.region_state:RQH
+				
+				war = yes
+				
+				type = dp_annex_war
+			}
+		}
+		set_variable = {
+			name = ranquelche_conquered
+		}
+	}
+
+	ai_chance = {
+		base = 100 	
+	}	
+}
