@@ -381,7 +381,7 @@ je_1881_treaty = {
 	is_shown_when_inactive = {
 	    OR = {
 			c:ARG = this  
-			c:BUE = this
+			c:bue = this
 			}
             has_global_variable = indigenous_nations_defeated			
 	    }
@@ -418,8 +418,12 @@ je_pacificacion_araucania = {
 	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
 	is_shown_when_inactive = {
-			c:CHL = this  		
+			c:CHL = this  	
 	    }
+
+	possible = {
+            owns_entire_state_region = STATE_LOS_RIOS	
+        }	    
 
 	complete = {
 	        owns_entire_state_region = STATE_LOS_RIOS
@@ -438,6 +442,82 @@ je_pacificacion_araucania = {
              remove_modifier = severe_patagonia_slow_down
             }	
         }
+    should_be_pinned_by_default = no
+	weight = 100   
+}     
+
+je_silver_rush = {
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	is_shown_when_inactive = {
+			c:CHL = this  		
+	    }
+
+	complete = {
+	        s:STATE_SANTIAGO = {
+		        any_scope_state = {
+		    	 any_scope_building = {
+		    	  is_building_type = building_gold_fields
+		    	  level >= 4
+		    	  percent > 0.9
+			      occupancy > 0.9
+		    	    }
+		    	}
+		    }
+		}
+
+	on_complete = { 
+	    trigger_event = { 
+	        id = journal_flavor_chile.7  
+	        }
+        }
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_silver_rush_status
+			}
+		}
+	}        
+
+    should_be_pinned_by_default = no
+	weight = 100   
+}     
+
+je_trains_efe = {
+	icon = "gfx/interface/icons/event_icons/event_industry.dds"
+
+	complete = {
+	        s:STATE_SANTIAGO = {
+		        any_scope_state = {
+		    	 any_scope_building = {
+		    	  is_building_type = building_railway
+		    	  level >= 1
+		    	    }
+		    	}
+		    }
+            s:STATE_SANTIAGO = {
+		        any_scope_building = {
+			        is_building_type = building_gold_fields
+			        has_active_production_method = pm_rail_transportation
+		        }
+		    }
+		}
+
+	on_complete = { 
+	    trigger_event = { 
+	        id = journal_flavor_chile.8  
+	        }
+        }
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_trains_efe_status
+			}
+		}
+	}           
+
     should_be_pinned_by_default = no
 	weight = 100   
 }     

@@ -266,13 +266,16 @@ je_pampas_pacification = {
 			c:ARG = this  
 			c:BUE = this 		
 	    }
+	}
+
+    possible = {
+            owns_entire_state_region = STATE_BUENOS_AIRES
+	        owns_entire_state_region = STATE_RIOS_NEGRO   
+	    }        
 
 	complete = {
-	        custom_tooltip = {
-			    text = je_pampas_pacification_text
 	        owns_entire_state_region = STATE_BUENOS_AIRES
 	        owns_entire_state_region = STATE_RIOS_NEGRO
-	        }
 	        s:STATE_BUENOS_AIRES = {
 		        any_scope_state = {
 		    	 any_scope_building = {
@@ -292,10 +295,57 @@ je_pampas_pacification = {
 		}
 
 	on_complete = {
-	    c:ARG= {
-             remove_modifier = severe_patagonia_slow_down
-            }	
+         remove_modifier = severe_patagonia_slow_down	
         }
     should_be_pinned_by_default = no
+	weight = 100   
+}   
+
+paraguay_independene = {
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+
+	is_shown_when_inactive = {
+	    OR = {
+			c:ARG = this  
+			c:BUE = this 		
+	    }
+	}
+
+	complete = {
+	    OR = {
+	        AND = {
+	            country_or_subject_owns_entire_state_region = STATE_CORRIENTES
+	            country_or_subject_owns_entire_state_region = STATE_BAJO_PARAGUAY
+                }
+	        c:PRG = {
+	            is_ai = yes		
+		        has_diplomatic_pact = {
+				    who = ROOT
+				    type = customs_union
+						    }
+			    relations:root >= relations_threshold:amicable
+			            }
+			        }
+			    }    
+
+	on_complete = {
+	    trigger_event = { id = journal_flavor_argentina.3 }
+        }	
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_paraguay_independence_status
+			}
+		}
+	}        		    
+
+	timeout = 2190
+
+	on_timeout = {
+		trigger_event = { id = journal_flavor_argentina.4 }
+		}
+
+    should_be_pinned_by_default = yes
 	weight = 100   
 }   
