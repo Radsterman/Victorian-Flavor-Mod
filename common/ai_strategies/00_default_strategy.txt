@@ -368,13 +368,37 @@ ai_strategy_default = {
 		value = 5
 	
 		# Compare ranks - higher rank than us has increased value, lower rank decreased value
-		add = {
-			value = scope:target_country.country_rank
-			multiply = 2
+		if = {
+			limit = {
+				scope:target_country.country_rank > country_rank
+			}
+			add = {
+				value = scope:target_country.country_rank
+				multiply = 5
+			}	
+			subtract = {
+				value = country_rank
+				multiply = 5
+			}				
 		}
-		subtract = {
-			value = country_rank
-			multiply = 2
+		else_if = {
+			limit = {
+				scope:target_country.country_rank < country_rank
+			}
+			add = {
+				value = scope:target_country.country_rank
+				multiply = 2
+			}	
+			subtract = {
+				value = country_rank
+				multiply = 2
+			}			
+		}
+		
+		# Bonus for obligations from Great Powers
+		if = {
+			limit = { scope:target_country.country_rank = rank_value:great_power }
+			add = 5
 		}
 		
 		# Domineering/Protective AI wants to use the obligation to cajole the country into a subordinate relationship
@@ -439,23 +463,6 @@ ai_strategy_default = {
 				}			
 			}
 			add = 5
-		}	
-
-		# If AI doesn't care about them, they don't want an obligation
-		if = {
-			limit = {
-				OR = {
-					has_attitude = {
-						who = scope:target_country
-						attitude = cautious
-					}
-					has_attitude = {
-						who = scope:target_country
-						attitude = disinterested
-					}				
-				}			
-			}
-			add = -100
 		}			
 		
 		# Countries with Economic Imperialism is always looking to bring more countries into their market
@@ -497,6 +504,25 @@ ai_strategy_default = {
 			min = 0.5
 			max = 1.5
 		}
+
+		if = { # If AI doesn't care about them at all, they don't want an obligation
+			limit = {
+				has_attitude = {
+					who = scope:target_country
+					attitude = disinterested
+				}						
+			}
+			multiply = 0.0
+		}				
+		else_if = { # Obligations are less valuable if it's from a country the AI is just cautious towards	
+			limit = {
+				has_attitude = {
+					who = scope:target_country
+					attitude = cautious
+				}						
+			}
+			multiply = 0.25
+		}			
 
 		min = 0
 		max = 30
@@ -763,8 +789,12 @@ ai_strategy_default = {
 				country_rank = rank_value:great_power
 				scope:target_country = {
 					infamy >= infamy_threshold:pariah
-					is_diplomatic_play_committed_participant = no
-					is_at_war = no
+					NOT = {
+						any_diplomatic_play = {
+							is_diplomatic_play_type = dp_contain_threat
+							target_is = scope:target_country					
+						}					
+					}
 				}
 			}
 			add = 25
@@ -2410,7 +2440,7 @@ ai_strategy_default = {
 					}
 					scope:target_country = { NOT = { is_subject_of = root } }
 					root = { NOT = { is_subject_of = scope:target_country } }					
-					NOT = { is_adjacent = scope:target_country }
+					NOT = { is_adjacent_to_country = scope:target_country }
 				}
 				add = 1000
 			}
@@ -4007,7 +4037,7 @@ ai_strategy_default = {
 					if = {
 						limit = { 
 							has_strategic_land_adjacency = scope:target_state
-							NOT = { is_adjacent = scope:target_state }
+							NOT = { is_adjacent_to_state = scope:target_state }
 						}
 						multiply = 0.5
 					}
@@ -4022,8 +4052,8 @@ ai_strategy_default = {
 
 					else_if = {
 						limit = {
-							is_adjacent = scope:target_country
-							NOT = { is_adjacent = scope:target_state }
+							is_adjacent_to_country = scope:target_country
+							NOT = { is_adjacent_to_state = scope:target_state }
 						}
 						multiply = 0.5
 					}															
@@ -4043,7 +4073,7 @@ ai_strategy_default = {
 							who = scope:target_country
 							attitude = antagonistic
 						}				
-						is_diplomatic_play_enemy_of = scope:target_country
+						is_diplomatic_play_involved_with = scope:target_country
 						has_war_with = scope:target_country							
 					}
 					has_strategic_adjacency = scope:target_state
@@ -4101,15 +4131,25 @@ ai_strategy_default = {
 					}					
 					else_if = {
 						limit = {
-							is_adjacent = scope:target_country
-							NOT = { is_adjacent = scope:target_state }
+							is_adjacent_to_country = scope:target_country
+							NOT = { is_adjacent_to_state = scope:target_state }
 						}
 						multiply = 0.5
-					}							
+					}
 
 					if = {
 						limit = {
 							country_rank < scope:target_country.country_rank
+						}
+						multiply = 0.5
+					}
+					
+					if = {
+						limit = {
+							NOR = { 
+								is_diplomatic_play_enemy_of = scope:target_country 
+								has_war_with = scope:target_country
+							}
 						}
 						multiply = 0.5
 					}
@@ -4520,23 +4560,50 @@ ai_strategy_default = {
 			}					
 					
 			if = {
-				limit = {
-					has_strategic_land_adjacency = scope:target_state
+				# Used to determine how much the AI values currently states they already own for scoring transfer state/subject sways
+				limit = { 
 					scope:target_state = { 
-						is_split_state = yes 
-						region = { 
-							any_scope_state = { owner = ROOT }
-						}
+						OR = { 
+							owner = root 
+							owner = { is_subject_of = root }
+						}				
 					}
 				}
-				add = 60
+				
 				if = {
 					limit = {
+						scope:target_state = { is_incorporated = no }
+					}
+					multiply = 0.5
+				}
+
+				if = {
+					limit = {
+						scope:target_state = { is_isolated_from_market = yes }
+					}
+					multiply = 0.5
+				}				
+			}
+			else = {
+				if = {
+					limit = {
+						has_strategic_land_adjacency = scope:target_state
 						scope:target_state = { 
-							is_homeland_of_country_cultures = ROOT
+							is_split_state = yes 
+							region = { 
+								any_scope_state = { owner = ROOT }
+							}
 						}
 					}
-					add = 30
+					add = 60
+					if = {
+						limit = {
+							scope:target_state = { 
+								is_homeland_of_country_cultures = ROOT
+							}
+						}
+						add = 30
+					}
 				}
 			}
 			
@@ -4585,14 +4652,14 @@ ai_strategy_default = {
 			if = {
 				limit = {
 					has_strategic_land_adjacency = scope:target_state
-					NOT = { is_adjacent = scope:target_state }
+					NOT = { is_adjacent_to_state = scope:target_state }
 				}
 				multiply = 0.5
 			}
 			else_if = {
 				limit = {
-					is_adjacent = scope:target_country
-					NOT = { is_adjacent = scope:target_state }
+					is_adjacent_to_country = scope:target_country
+					NOT = { is_adjacent_to_state = scope:target_state }
 				}
 				multiply = 0.5
 			}
@@ -4608,7 +4675,7 @@ ai_strategy_default = {
 				limit = {
 					lenient_ai_behavior_trigger = yes
 					scope:target_state = { is_homeland_of_country_cultures = scope:target_country }
-					}
+				}
 				multiply = 0.2
 			}
 
