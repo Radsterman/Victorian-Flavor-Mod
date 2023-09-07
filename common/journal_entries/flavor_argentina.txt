@@ -257,3 +257,45 @@ je_argentina_constitution_minor = {
     should_be_pinned_by_default = yes
 	weight = 20
 }
+
+je_pampas_pacification = {
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	is_shown_when_inactive = {
+	    OR = {
+			c:ARG = this  
+			c:BUE = this 		
+	    }
+
+	complete = {
+	        custom_tooltip = {
+			    text = je_pampas_pacification_text
+	        owns_entire_state_region = STATE_BUENOS_AIRES
+	        owns_entire_state_region = STATE_RIOS_NEGRO
+	        }
+	        s:STATE_BUENOS_AIRES = {
+		        any_scope_state = {
+		    	 any_scope_building = {
+		    	  is_building_type = barracks
+		    	  level >= 5
+		    	    }
+		    	}
+		    }
+            s:STATE_RIO_NEGRO = {
+		        any_scope_state = {
+		    	 any_scope_building = {
+		    	  is_building_type = barracks
+		    	  level >= 3
+		    	    }
+		    	}
+		    }	    
+		}
+
+	on_complete = {
+	    c:ARG= {
+             remove_modifier = severe_patagonia_slow_down
+            }	
+        }
+    should_be_pinned_by_default = no
+	weight = 100   
+}   

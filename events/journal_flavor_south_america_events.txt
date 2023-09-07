@@ -1,0 +1,56 @@
+hispanic_america_unification.1 = {
+	type = country_event
+	placement = ROOT
+
+	title = hispanic_america_unification.1.t
+	desc = hispanic_america_unification.1.d
+	flavor = hispanic_america_unification.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+	duration = 3		
+
+	immediate = {
+		capital = {
+			save_scope_as = capital_scope
+		}
+		every_country = {			
+			if = {
+				limit = {
+					is_ai = yes			
+					OR = {
+						has_diplomatic_pact = {
+							who = ROOT
+							type = customs_union
+						}
+						is_supporting_unification_candidate = { who = root country_formation = PGD }
+					}
+				}			
+				root = {
+					create_diplomatic_pact = {
+						country = prev
+						type = confederation
+					}
+				}
+			}
+		}
+		change_infamy = 75
+	}
+
+	option = {
+		name = hispanic_america_unification.1.a
+
+		add_modifier = {
+			name = partial_hispanic_unification_influence_prestige
+			months = normal_modifier_time
+		}
+		change_tag = HAC		
+	}
+}

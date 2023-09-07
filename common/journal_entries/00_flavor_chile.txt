@@ -1,0 +1,443 @@
+je_generation_42 = {
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	is_shown_when_inactive = {
+		exists = c:CHL
+		root= c:CHL
+	}
+
+    possible = {
+		any_scope_state = {	
+			turmoil > 0.2
+		}
+	}
+
+	complete = {
+		ig:ig_intelligentsia = {    
+			ig_clout > 0.15  
+		    is_in_government = no
+		}
+	    AND = {
+            OR = {
+			has_law = law_type:law_landed_voting
+			has_law = law_type:law_wealth_voting
+		    }			   
+        }
+    }   
+
+	on_complete = {
+        trigger_event = { 
+			id = journal_flavor_chile.2 
+		}
+	}
+
+	fail = {
+		AND = {
+            OR = {		     
+			has_law = law_type:law_universal_suffrage
+			has_law = law_type:law_census_voting	       
+	        }
+	    }
+    }
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_generation_42_status
+			}
+		}
+	}
+
+    should_be_pinned_by_default = yes
+	weight = 100
+}
+
+je_puq_colonization = {
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+	is_shown_when_inactive = {
+		exists = c:CHL
+		root= c:CHL
+	}
+
+	complete = {
+		institution_investment_level = {
+			institution = institution_colonial_affairs
+			value >= 2
+		}
+	}
+
+	on_complete = {
+        trigger_event = { 
+			id = journal_flavor_chile.3
+		}
+	}
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_puq_colonization_status
+			}
+		}
+	}
+
+    should_be_pinned_by_default = yes
+	weight = 100
+}
+
+je_easter_chl = {
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+	is_shown_when_inactive = {
+		exists = c:CHL
+		root= c:CHL
+		has_technology_researched = civilizing_mission
+	}
+
+    possible = { 
+		has_interest_marker_in_region = region_oceania
+	        }
+
+	complete = {
+		institution_investment_level = {
+			institution = institution_colonial_affairs
+			value >= 3
+		}
+    }				        
+
+	on_complete = {
+        trigger_event = { 
+			id = journal_flavor_chile.4
+		}
+	}
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_polynesia_chl
+			}
+		}
+	}
+
+    should_be_pinned_by_default = yes
+	weight = 100
+}
+
+je_pacific_war_chl = {
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	is_shown_when_inactive = {
+	    market_capital.market = {
+			mg:sulfur = { 
+				market_goods_pricier > 0.25 
+			}
+		}
+		exists = c:CHL
+		root= c:CHL
+	}
+
+	possible = {
+		OR = {
+		    ig:ig_industrialists = {
+			    is_powerful = yes
+			    is_in_government = yes
+			AND = {
+                OR = {
+			        leader = {
+				        has_ideology = ideology:ideology_jingoist_leader
+				        has_ideology = ideology:ideology_market_liberal
+				        has_ideology = ideology:ideology_protectionist	
+				        }
+				    }    			        		        				        		        	
+		        }
+	        }
+	    }
+	}        
+
+	complete = {
+		    NOT = {
+		    	owns_entire_state_region = STATE_ANTOFAGASTA
+		    }
+		exists = c:BOL
+	    c:BOL = {
+			relations:root <= -30 
+	    	is_at_war = no			
+		}            
+        any_scope_state = {
+			is_incorporated = yes
+			    any_scope_building = {
+				    is_building_type = building_sulfur_mine
+				    level >= 3
+				    percent > 0.9
+			        occupancy > 0.9
+			    }
+	        }
+		}
+
+	on_complete = {
+		trigger_event = { id = journal_flavor_chile.5 }
+	}
+
+	fail = {
+		owns_entire_state_region = STATE_ANTOFAGASTA
+		}
+
+	invalid = {
+		ig:ig_industrialists = {
+			is_marginal = yes
+		}
+	}
+
+	weight = 100
+	should_be_pinned_by_default = yes
+}
+
+je_pacific_port.a = {
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	is_shown_when_inactive = {
+			hidden_trigger = { NOT = { has_global_variable = pacific_port_completed } }		
+            exists = c:CHL
+            c:CHL = THIS
+		    }
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		    	    	}    	    
+	    is_at_war = no
+	    s:STATE_SANTIAGO = {
+		    any_scope_state = {
+		        any_scope_building = {
+		        is_building_type = building_port
+		        level >= 2
+		    	}
+		    }
+		}  	   
+	    market_capital.market = {
+	        mg:grain = { 
+	        	market_goods_pricier < 0.15
+	        	    }
+	        	}	
+	        }
+
+	current_value = {
+		value = root.num_trade_routes
+	}
+
+	goal_add_value = {
+		value = root.num_trade_routes
+		multiply = 0.2
+	}	    
+
+	on_complete = {
+		hidden_effect = { set_global_variable = pacific_port_completed }	
+        trigger_event = { 
+			id = journal_flavor_chile.9 
+		}	
+	}
+
+	progressbar = yes
+
+	    fail = {
+	        has_global_variable = pacific_port_completed
+	        NOT = { exists = c:PEU }
+	        }
+	   
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_pacific_port_status
+			}
+		}
+	}
+    should_be_pinned_by_default = yes
+	weight = 100
+}
+
+je_pacific_port.b = {
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	is_shown_when_inactive = {
+			hidden_trigger = { NOT = { has_global_variable = pacific_port_completed } }		
+            exists = c:PEU
+            c:PEU = THIS
+		    }
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		    	    	}	    	    	
+	    is_at_war = no
+	    s:STATE_LIMA = {
+		    any_scope_state = {
+		    	any_scope_building = {
+		    	is_building_type = building_port
+		    	level >= 2
+		    	}
+		    }
+		}  	   
+	    market_capital.market = {
+	        mg:grain = { 
+	        	market_goods_pricier < 0.15
+	        	    }
+	        	}	
+	        }
+
+	current_value = {
+		value = root.num_trade_routes
+	}
+
+	goal_add_value = {
+		value = root.num_trade_routes
+		multiply = 0.2
+	}	    
+
+	on_complete = {
+		hidden_effect = { set_global_variable = pacific_port_completed }	
+        trigger_event = { 
+			id =  journal_flavor_chile.9 
+		}	
+	}
+
+	progressbar = yes
+
+	    fail = {
+	        has_global_variable = pacific_port_completed
+	        NOT = { exists = c:PEU }
+	        }
+	   
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_pacific_port_status
+			}
+		}
+	}
+    should_be_pinned_by_default = yes
+	weight = 100
+}
+
+je_chl_immigration = {
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+	is_shown_when_inactive = {
+		exists = c:CHL
+		root= c:CHL            
+		is_at_war = no
+		institution_investment_level = {
+			institution = institution_colonial_affairs
+			    value >= 2
+		    }
+	    }
+
+	complete = {
+		    NOT = {
+		    	has_law = law_type:law_closed_borders
+		    }
+	        AND = {
+                OR = {
+	                c:PRU = {
+                        relations:root >= 20 
+		            } 
+	                c:AUS = {
+                        relations:root >= 20 
+		            }     
+	            }
+	        }
+		    custom_tooltip = {
+			text = chl_immigration1
+		    AND = {
+                OR = {
+                    has_global_variable = peoples_springtime_happening
+                    has_global_variable = peoples_springtime_happened
+                    }
+                }
+            }
+        }          
+
+	on_complete = {
+        trigger_event = { 
+			id = journal_flavor_chile.12
+		}
+	}
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_chl_immigration_status
+			    }
+		    }
+	    }
+    should_be_pinned_by_default = yes
+	weight = 100
+}
+    
+je_1881_treaty = {
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+	is_shown_when_inactive = {
+	    OR = {
+			c:ARG = this  
+			c:BUE = this
+			}
+            has_global_variable = indigenous_nations_defeated			
+	    }
+
+	complete = {
+        has_global_variable = indigenous_nations_defeated
+        c:ARG = {
+            owns_entire_state_region = STATE_PATAGONIA
+		}
+        c:CHL = {
+            owns_entire_state_region = STATE_ARAUCANIA
+		}
+		year >= 1881
+		}	
+
+	on_complete = {
+	    c:CHL = {
+            trigger_event = { 
+		    	id = journal_flavor_chile.13 
+		    }
+		}
+	}
+
+	fail = {
+        c:ARG = {
+            owns_entire_state_region = STATE_ARAUCANIA
+		}
+	}
+    should_be_pinned_by_default = yes
+	weight = 100
+}
+
+je_pacificacion_araucania = {
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	is_shown_when_inactive = {
+			c:CHL = this  		
+	    }
+
+	complete = {
+	        owns_entire_state_region = STATE_LOS_RIOS
+	        s:STATE_LOS_RIOS = {
+		        any_scope_state = {
+		    	 any_scope_building = {
+		    	  is_building_type = building_barracks
+		    	  level >= 8
+		    	    }
+		    	}
+		    }
+		}
+
+	on_complete = {
+	    c:CHL = {
+             remove_modifier = severe_patagonia_slow_down
+            }	
+        }
+    should_be_pinned_by_default = no
+	weight = 100   
+}     
