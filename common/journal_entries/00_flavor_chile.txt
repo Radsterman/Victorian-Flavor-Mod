@@ -423,6 +423,7 @@ je_pacificacion_araucania = {
 
 	possible = {
             owns_entire_state_region = STATE_LOS_RIOS	
+            NOT = { c:PAT = exists }
         }	    
 
 	complete = {
@@ -521,3 +522,92 @@ je_trains_efe = {
     should_be_pinned_by_default = no
 	weight = 100   
 }     
+
+je_chilean_identity1 = {
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+	complete = {	
+		custom_tooltip = {
+			text = je_chilean_identity1_desc
+			    c:CHL = {
+					any_scope_war = {
+					    is_war_participant = c:BOL
+					    }
+					    year <= 1840
+					    }
+					}
+				}
+
+	on_complete = { 
+	    trigger_event = { 
+	        id = journal_flavor_chile.19  
+	        }
+	    set_variable = {
+	        name = war_of_the_confederation    
+        }
+    }
+    
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_chilean_identity1_status
+			}
+		}
+	}        
+
+    should_be_pinned_by_default = yes
+	weight = 100 
+}
+
+je_chilean_identity2 = {
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+	complete = {
+		custom_tooltip = {
+			text = je_chilean_identity1_desc
+			    c:CHL = {
+					has_variable = {
+					    name = war_of_the_confederation
+					    }
+					}
+				}
+			c:CHL = {
+			    is_at_war = no
+			    }
+			}
+
+	on_complete = {
+		random_primary_culture = {
+			save_scope_as = andean_cu
+		}
+		add_primary_culture = cu:chilean
+		remove_primary_culture = andean_cu
+
+		every_scope_state = {
+			limit = {
+				state_region = {
+						is_homeland = cu:andean
+						OR = {
+						    is_homeland = cu:aimara
+						    is_homeland = cu:quechua
+				    }
+			    }
+			state_region = {
+				remove_homeland = andean
+				add_homeland = chilean
+			    }
+		    }
+	    }			
+    }
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_chilean_identity2_status
+			}
+		}
+	} 
+	
+    should_be_pinned_by_default = yes
+	weight = 100 
+}
