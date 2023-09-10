@@ -1,0 +1,127 @@
+﻿net_expand_east_indies = {
+	is_shown = {
+		country_is_in_europe = yes
+		exists = c:DEI
+		c:DEI = {
+			is_direct_subject_of = ROOT
+			is_subject_type = subject_type_dominion
+		}
+	}
+	possible = {
+		custom_tooltip = {
+			text = expand_dei_cooldown_tt
+			NOT = { has_variable = expand_dei_cooldown }
+		}
+		OR = { 
+			any_state = {
+				owner = ROOT
+				region = sr:region_indonesia
+				is_under_colonization = no # vfm
+			}
+			any_subject_or_below = {
+				capital.region = sr:region_indonesia
+				NOT = { 
+					THIS = c:DEI
+					is_subject_of = c:DEI
+				}
+			}
+		}
+	}
+	when_taken = {
+		custom_tooltip = expand_east_indies_tt
+		set_variable = {
+			name = expand_dei_cooldown
+			years = 2
+		}
+		if = {
+			limit= {
+				any_state = {
+					owner = ROOT
+					region = sr:region_indonesia
+				}
+			}
+			every_scope_state = {
+				limit = {
+					owner = ROOT
+					region = sr:region_indonesia
+				}
+				set_state_owner = c:DEI
+				set_state_type = unincorporated
+			}
+		}
+		if = {
+			limit= {
+				any_subject_or_below = {
+					capital.region = sr:region_indonesia
+					NOT = { 
+						THIS = c:DEI 
+						is_subject_of = c:DEI 
+					}
+				}
+			}
+			every_subject_or_below = {
+				if = {
+					limit = { 
+						is_subject_type = subject_type_protectorate
+						capital.region = sr:region_indonesia
+						NOT = { 
+							THIS = c:DEI 
+							is_subject_of = c:DEI 
+						} 						
+					}
+					hidden_effect = { make_independent = yes }
+					save_scope_as = new_dei_protectorate
+					c:DEI = {
+						create_diplomatic_pact = {
+							country = scope:new_dei_protectorate
+							type = protectorate
+						}
+					}
+				}
+				if = {
+					limit = { 
+						is_subject_type = subject_type_vassal
+						capital.region = sr:region_indonesia
+						NOT = { 
+							THIS = c:DEI 
+							is_subject_of = c:DEI 
+						} 
+					}
+					hidden_effect = { make_independent = yes }
+					save_scope_as = new_dei_vassal
+					c:DEI = {
+						create_diplomatic_pact = {
+							country = scope:new_dei_vassal
+							type = puppet
+						}
+					}
+				}
+				if = {
+					limit = { 
+						is_subject_type = subject_type_puppet
+						capital.region = sr:region_indonesia
+						NOT = { 
+							THIS = c:DEI 
+							is_subject_of = c:DEI 
+						} 
+					}
+					hidden_effect = { make_independent = yes }
+					save_scope_as = new_dei_puppet
+					c:DEI = {
+						create_diplomatic_pact = {
+							country = scope:new_dei_puppet
+							type = puppet
+						}
+					}
+				}
+			}
+		}
+	}
+	ai_chance = {
+		base = 100
+	}
+}
+
+
+
+
