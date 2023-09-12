@@ -449,6 +449,7 @@ kor.9 = { #gwangmu nationalism
             limit = { 
                 country_rank = rank_value:great_power 
                 relations:root >= relations_threshold:neutral
+                has_interest_marker_in_region = region_manchuria
             }
             save_scope_as = nationalism_country_1
         }
@@ -457,6 +458,7 @@ kor.9 = { #gwangmu nationalism
                 country_rank = rank_value:great_power 
                 relations:root >= relations_threshold:neutral
                 this != scope:nationalism_country_1
+                has_interest_marker_in_region = region_manchuria
             }
             save_scope_as = nationalism_country_2
         }
@@ -466,6 +468,12 @@ kor.9 = { #gwangmu nationalism
 
     trigger = {
         NOT = { has_variable = gwangmu_nationalism_event }
+        any_country = {
+            count = 2
+            country_rank = rank_value:great_power 
+            relations:root >= relations_threshold:neutral
+            has_interest_marker_in_region = region_manchuria
+        }
     }
 
     #TODO
@@ -500,7 +508,7 @@ kor.9 = { #gwangmu nationalism
     #B: sovereignty mission to great power i, GPi gets event with option start diplo play free subject
     option = {
         name = kor.9.b
-        add_treasury = -165000
+        add_treasury = -500000
         scope:nationalism_country_1 = {
             trigger_event = {
                 id = kor.14
@@ -511,7 +519,7 @@ kor.9 = { #gwangmu nationalism
     #C: sovereignty mission to great power ii, GPii gets event with option start diplo play free subject
     option = {
         name = kor.9.c
-        add_treasury = -165000
+        add_treasury = -500000
         scope:nationalism_country_2 = {
             trigger_event = {
                 id = kor.14
@@ -1058,7 +1066,7 @@ kor.13 = { #gwangmu democracy
     }
 }
 
-kor.14 = {
+kor.14 = { #korea pleads their sovereignty
     type = country_event
     placement = root
 
@@ -1076,31 +1084,113 @@ kor.14 = {
     icon = "gfx/interface/icons/event_icons/waving_flag.dds"
 
     immediate = {
+        save_scope_as = western_liberator_scope
         c:KOR = { save_scope_as = kor_scope }
+        c:KOR.overlord = { save_scope_as = chi_scope }
     }
 
     duration = 3
 
-    option = {
+    option = { #liberate korea for free trade
         name = kor.14.a
-        create_diplomatic_play = {
-             target_country = scope:kor_scope
-             type = dp_liberate_subject
-        }
-        create_diplomatic_pact = {
-             country = scope:kor_scope
-             type = defensive_pact
+        trigger_event = {
+            id = kor.15
         }
     }
-    option = {
+    option = { #liberate korea for an obligation
         name = kor.14.b
+        trigger_event = {
+            id = kor.16
+        }
+    }
+    option = { #refuse the delegation
+        name = kor.14.c
         change_relations = {
             country = scope:kor_scope
             value = -30
         }
+        scope:kor_scope = {
+            post_notification = kor_gp_refused_liberation
+        }
     }
 }
 
+kor.15 = { #liberate korea for free trade
+    type = country_event
+    placement = root
+
+    title = kor.15.t
+    desc = kor.15.d
+    flavor = kor.15.f
+    
+    event_image = {
+        video = "gfx/event_pictures/europenorthamerica_sufferage.bk2"
+    }
+
+    on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+    on_opened_soundeffect = "event:/SFX/Events/asia/europenorthamerica_sufferage"
+
+    icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+    duration = 3
+
+    option = { #agree
+        name = kor.15.a
+        create_diplomatic_play = {
+            target_country = scope:chi_scope
+            type = dp_independence
+            add_initiator_backers = { scope:western_liberator_scope }
+        }
+        if = {
+            limit = { has_law = law_type:law_isolationism }
+            activate_law = law_type:law_free_trade
+        }
+        create_diplomatic_pact = {
+            target_country = scope:western_liberator_scope
+            type = trade_agreement
+        }
+    }
+    option = { #refuse
+        name = kor.15.b
+    }
+}
+
+kor.16 = { #liberate korea for an obligation
+    type = country_event
+    placement = root
+
+    title = kor.16.t
+    desc = kor.16.d
+    flavor = kor.16.f
+    
+    event_image = {
+        video = "gfx/event_pictures/europenorthamerica_sufferage.bk2"
+    }
+
+    on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+    on_opened_soundeffect = "event:/SFX/Events/asia/europenorthamerica_sufferage"
+
+    icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+    duration = 3
+
+    option = { #agree
+        name = kor.16.a
+        create_diplomatic_play = {
+            target_country = scope:chi_scope
+            type = dp_independence
+            add_initiator_backers = { scope:western_liberator_scope }
+        }
+        set_owes_obligation_to = {
+            country = scope:western_liberator_scope
+            setting = yes
+        }
+    }
+    option = { #refuse
+        name = kor.16.b
+    }
+
+}
 kor.100 = { #DEBUG EVENT
     type = country_event
     placement = root
