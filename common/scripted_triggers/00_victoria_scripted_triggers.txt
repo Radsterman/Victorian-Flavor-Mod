@@ -1,0 +1,80 @@
+﻿# vanilla 1.5 ---> todo remove when we use 1.5
+has_commander_traits = {
+	OR = {
+		has_trait = traditionalist_commander
+		has_trait = popular_commander
+		has_trait = celebrity_commander
+		has_trait = dockyard_master
+		has_trait = resupply_commander
+		has_trait = pillager
+		has_trait = surveyor
+		has_trait = forest_commander
+		has_trait = plains_commander
+		has_trait = mountain_commander
+		has_trait = basic_artillery_commander
+		has_trait = experienced_artillery_commander
+		has_trait = expert_artillery_commander
+		has_trait = stalwart_defender
+		has_trait = trench_rat
+		has_trait = defense_in_depth_specialist
+		has_trait = basic_offensive_planner
+		has_trait = experienced_offensive_planner
+		has_trait = expert_offensive_planner
+		has_trait = basic_defensive_strategist
+		has_trait = experienced_defensive_strategist
+		has_trait = expert_defensive_strategist
+		has_trait = basic_naval_commander
+		has_trait = experienced_naval_commander
+		has_trait = expert_naval_commander
+		has_trait = convoy_raider_commander
+		has_trait = experienced_convoy_raider
+		has_trait = expert_convoy_raider
+	}
+}
+
+ig_desires_laws_for_petition = {
+	any_interest_group = {
+		is_in_government = yes
+		is_marginal = no
+		any_preferred_law = {
+			law_is_valid_for_ig_petition = yes
+		}
+	}
+}
+
+law_is_valid_for_ig_petition = {
+	save_temporary_scope_as = petition_law_trig
+	prev = {
+		law_stance = {
+			law = scope:petition_law_trig.type
+			value > neutral
+		}
+	}
+	NOT = {
+		ROOT = {
+			has_law = scope:petition_law_trig.type
+		}
+	}  
+	ROOT = { 
+		can_have_political_movement = scope:petition_law_trig.type
+	} 			
+	can_be_enacted = yes
+}
+
+ruler_is_bonapartist = {
+	ruler = {
+		has_variable = bonapartist_leader
+	}
+}
+
+ruler_is_orleanist = {
+	ruler = {
+		has_variable = orleanist_leader
+	}
+}
+
+ruler_is_legitimist = {
+	ruler = {
+		has_variable = legitimist_leader
+	}
+}

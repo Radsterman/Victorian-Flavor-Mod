@@ -238,13 +238,15 @@ ai_strategy_default = {
 			limit = {
 				has_journal_entry = je_sick_man_syria
 				scope:enemy_country = {
-					OR = {
-						owns_entire_state_region = STATE_ALEPPO
-						owns_entire_state_region = STATE_SYRIA
-						owns_entire_state_region = STATE_LEBANON
-						owns_entire_state_region = STATE_PALESTINE
-						owns_entire_state_region = STATE_TRANSJORDAN
-						owns_entire_state_region = STATE_ADANA
+					any_scope_state = {
+						OR = {
+							state_region = s:STATE_ALEPPO
+							state_region = s:STATE_SYRIA
+							state_region = s:STATE_LEBANON
+							state_region = s:STATE_PALESTINE
+							state_region = s:STATE_TRANSJORDAN
+							state_region = s:STATE_ADANA
+						}	
 					}
 				}
 			}
@@ -270,15 +272,7 @@ ai_strategy_default = {
             }
             add = 0.6
         }
-		if = {
-            limit = {
-                OR = {
-                    has_journal_entry = je_sick_man_syria
-                    has_journal_entry = je_sick_man_egypt
-                }
-            }
-            add = 0.3
-        }	
+		
 		# France should very aggressively go for Algeria.
         if = {
 			limit = {
@@ -368,13 +362,37 @@ ai_strategy_default = {
 		value = 5
 	
 		# Compare ranks - higher rank than us has increased value, lower rank decreased value
-		add = {
-			value = scope:target_country.country_rank
-			multiply = 2
+		if = {
+			limit = {
+				scope:target_country.country_rank > country_rank
+			}
+			add = {
+				value = scope:target_country.country_rank
+				multiply = 5
+			}	
+			subtract = {
+				value = country_rank
+				multiply = 5
+			}				
 		}
-		subtract = {
-			value = country_rank
-			multiply = 2
+		else_if = {
+			limit = {
+				scope:target_country.country_rank < country_rank
+			}
+			add = {
+				value = scope:target_country.country_rank
+				multiply = 2
+			}	
+			subtract = {
+				value = country_rank
+				multiply = 2
+			}			
+		}
+		
+		# Bonus for obligations from Great Powers
+		if = {
+			limit = { scope:target_country.country_rank = rank_value:great_power }
+			add = 5
 		}
 		
 		# Domineering/Protective AI wants to use the obligation to cajole the country into a subordinate relationship
@@ -439,23 +457,6 @@ ai_strategy_default = {
 				}			
 			}
 			add = 5
-		}	
-
-		# If AI doesn't care about them, they don't want an obligation
-		if = {
-			limit = {
-				OR = {
-					has_attitude = {
-						who = scope:target_country
-						attitude = cautious
-					}
-					has_attitude = {
-						who = scope:target_country
-						attitude = disinterested
-					}				
-				}			
-			}
-			add = -100
 		}			
 		
 		# Countries with Economic Imperialism is always looking to bring more countries into their market
@@ -497,6 +498,25 @@ ai_strategy_default = {
 			min = 0.5
 			max = 1.5
 		}
+
+		if = { # If AI doesn't care about them at all, they don't want an obligation
+			limit = {
+				has_attitude = {
+					who = scope:target_country
+					attitude = disinterested
+				}						
+			}
+			multiply = 0.0
+		}				
+		else_if = { # Obligations are less valuable if it's from a country the AI is just cautious towards	
+			limit = {
+				has_attitude = {
+					who = scope:target_country
+					attitude = cautious
+				}						
+			}
+			multiply = 0.25
+		}			
 
 		min = 0
 		max = 30
@@ -554,30 +574,34 @@ ai_strategy_default = {
 					AND = {
 						has_journal_entry = je_sick_man_syria
 						scope:target_country = {
-							OR = {
-								owns_entire_state_region = STATE_ALEPPO
-								owns_entire_state_region = STATE_SYRIA
-								owns_entire_state_region = STATE_LEBANON
-								owns_entire_state_region = STATE_PALESTINE
-								owns_entire_state_region = STATE_TRANSJORDAN
-								owns_entire_state_region = STATE_ADANA
+							any_scope_state = {
+								OR = {
+									state_region = s:STATE_ALEPPO
+									state_region = s:STATE_SYRIA
+									state_region = s:STATE_LEBANON
+									state_region = s:STATE_PALESTINE
+									state_region = s:STATE_TRANSJORDAN
+									state_region = s:STATE_ADANA
+								}	
 							}
 						}
 					}
 					AND = {
 						has_journal_entry = je_sick_man_egypt
 						scope:target_country = {
-							OR = {
-								owns_entire_state_region = STATE_SINAI
-								owns_entire_state_region = STATE_UPPER_EGYPT
-								owns_entire_state_region = STATE_MIDDLE_EGYPT
-								owns_entire_state_region = STATE_LOWER_EGYPT
+							any_scope_state = {
+								OR = {
+									state_region = s:STATE_SINAI
+									state_region = s:STATE_UPPER_EGYPT
+									state_region = s:STATE_MIDDLE_EGYPT
+									state_region = s:STATE_LOWER_EGYPT
+								}	
 							}
 						}
 					}
 				}
 			}
-			add = 10
+			add = 5
 		}
 
 		# USA should be confident against owners of their Manifest Destiny states
@@ -763,8 +787,12 @@ ai_strategy_default = {
 				country_rank = rank_value:great_power
 				scope:target_country = {
 					infamy >= infamy_threshold:pariah
-					is_diplomatic_play_committed_participant = no
-					is_at_war = no
+					NOT = {
+						any_diplomatic_play = {
+							is_diplomatic_play_type = dp_contain_threat
+							target_is = scope:target_country					
+						}					
+					}
 				}
 			}
 			add = 25
@@ -845,24 +873,33 @@ ai_strategy_default = {
 					AND = {
 						has_journal_entry = je_sick_man_syria
 						scope:target_country = {
-							OR = {
-								owns_entire_state_region = STATE_ALEPPO
-								owns_entire_state_region = STATE_SYRIA
-								owns_entire_state_region = STATE_LEBANON
-								owns_entire_state_region = STATE_PALESTINE
-								owns_entire_state_region = STATE_TRANSJORDAN
-								owns_entire_state_region = STATE_ADANA
+							any_scope_state = {
+								OR = {
+									state_region = s:STATE_ALEPPO
+									state_region = s:STATE_SYRIA
+									state_region = s:STATE_LEBANON
+									state_region = s:STATE_PALESTINE
+									state_region = s:STATE_TRANSJORDAN
+									state_region = s:STATE_ADANA
+								}	
 							}
 						}
 					}
 					AND = {
 						has_journal_entry = je_sick_man_egypt
+						OR = { # either we or target owns Sinai
+							scope:target_country = {
+								any_scope_state = { state_region = s:STATE_SINAI }
+							}
+							owns_entire_state_region = STATE_SINAI
+						}
 						scope:target_country = {
-							OR = {
-								owns_entire_state_region = STATE_SINAI
-								owns_entire_state_region = STATE_UPPER_EGYPT
-								owns_entire_state_region = STATE_MIDDLE_EGYPT
-								owns_entire_state_region = STATE_LOWER_EGYPT
+							any_scope_state = {
+								OR = {
+									state_region = s:STATE_UPPER_EGYPT
+									state_region = s:STATE_MIDDLE_EGYPT
+									state_region = s:STATE_LOWER_EGYPT
+								}	
 							}
 						}
 					}
@@ -1003,6 +1040,20 @@ ai_strategy_default = {
 				}
 			}
 			add = 500
+		}
+		
+		if = {
+			limit = {
+				OR = { c:ROM ?= this c:BUL ?= this c:HUN ?= this c:POL ?= this }
+				is_subject = no
+				has_technology_researched = nationalism
+				scope:target_country = {
+					any_scope_state = {
+						is_homeland_of_country_cultures = root
+					}
+				}
+			}
+			add = 5
 		}
 	
 		if = { #Russian Far East
@@ -2424,6 +2475,54 @@ ai_strategy_default = {
 		}	
 		befriend = {
 			value = 200
+			
+			if = { # venice you had ONE chance, ONE
+				limit = {
+					country_has_primary_culture = cu:north_italian
+					is_secessionist = yes
+					scope:target_country = {
+						country_has_primary_culture = cu:north_italian
+					}
+				}
+				add = 500
+			}
+
+			if = {
+				limit = {
+					OR = {
+						country_has_primary_culture = cu:south_italian
+						country_has_primary_culture = cu:north_italian
+					}
+					country_rank < rank_value:minor_power
+					scope:target_country = {
+						has_technology_researched = nationalism
+						has_journal_entry = je_italian_unification
+					}
+				}
+				add = 200
+			}
+			
+			if = { # between a rock and a hard place
+				limit = {
+					OR = {
+						country_has_primary_culture = cu:romanian
+						country_has_primary_culture = cu:bulgarian
+						country_has_primary_culture = cu:greek
+					}
+					is_secessionist = yes
+					OR = {
+						c:TUR ?= { country_rank = rank_value:major_power }
+						c:AUS ?= { country_rank = rank_value:major_power }
+					}
+					scope:target_country = {
+						country_has_primary_culture = cu:romanian
+						country_has_primary_culture = cu:bulgarian
+						country_has_primary_culture = cu:greek
+						is_subject = no
+					}
+				}
+				add = 300
+			}
 			
 			# AI should be not be friendly with countries it has claims on
 			if = {
@@ -4520,23 +4619,50 @@ ai_strategy_default = {
 			}					
 					
 			if = {
-				limit = {
-					has_strategic_land_adjacency = scope:target_state
+				# Used to determine how much the AI values currently states they already own for scoring transfer state/subject sways
+				limit = { 
 					scope:target_state = { 
-						is_split_state = yes 
-						region = { 
-							any_scope_state = { owner = ROOT }
-						}
+						OR = { 
+							owner = root 
+							owner = { is_subject_of = root }
+						}				
 					}
 				}
-				add = 60
+				
 				if = {
 					limit = {
+						scope:target_state = { is_incorporated = no }
+					}
+					multiply = 0.5
+				}
+
+				if = {
+					limit = {
+						scope:target_state = { is_isolated_from_market = yes }
+					}
+					multiply = 0.5
+				}				
+			}
+			else = {
+				if = {
+					limit = {
+						has_strategic_land_adjacency = scope:target_state
 						scope:target_state = { 
-							is_homeland_of_country_cultures = ROOT
+							is_split_state = yes 
+							region = { 
+								any_scope_state = { owner = ROOT }
+							}
 						}
 					}
-					add = 30
+					add = 60
+					if = {
+						limit = {
+							scope:target_state = { 
+								is_homeland_of_country_cultures = ROOT
+							}
+						}
+						add = 30
+					}
 				}
 			}
 			
@@ -4564,7 +4690,23 @@ ai_strategy_default = {
 					}
 				}
 				add = 100
-			}			
+			}	
+            if = {
+				limit = {
+					has_journal_entry = je_sick_man_egypt
+					scope:target_country = {
+						any_scope_state = {
+							OR = {
+								state_region = s:STATE_SINAI
+								state_region = s:STATE_UPPER_EGYPT
+								state_region = s:STATE_MIDDLE_EGYPT
+								state_region = s:STATE_LOWER_EGYPT
+							}	
+						}
+					}
+				}
+				add = 75
+            }				
 
 			if = {
 				limit = { 
@@ -5064,8 +5206,9 @@ ai_strategy_default = {
 						has_journal_entry = je_sick_man_egypt
 						has_journal_entry = je_veiled_protectorate
 					}
-					exists = c:EGY
-					scope:target_country = c:EGY
+					scope:target_country = {
+						c:EGY ?= this
+					}
 				}
 				add = 100
 			}
@@ -5317,8 +5460,9 @@ ai_strategy_default = {
 						has_journal_entry = je_sick_man_egypt
 						has_journal_entry = je_veiled_protectorate
 					}
-					exists = c:EGY
-					scope:target_country = c:EGY
+					scope:target_country = {
+						c:EGY ?= this
+					}
 				}
 				add = 100
 			}	
@@ -5448,8 +5592,9 @@ ai_strategy_default = {
 						has_journal_entry = je_sick_man_egypt
 						has_journal_entry = je_veiled_protectorate
 					}
-					exists = c:EGY
-					scope:target_country = c:EGY
+					scope:target_country = {
+						c:EGY ?= this
+					}
 				}
 				add = 100
 			}	

@@ -1,0 +1,70 @@
+﻿je_trans_german_railway = {
+	icon = "gfx/interface/icons/event_icons/event_industry.dds"
+
+	is_shown_when_inactive = {
+		is_player = yes
+		NOT = { has_global_variable = trans_german_done }
+		game_date < 1856.1.1
+		OR = {
+		    owns_entire_state_region = STATE_BRANDENBURG
+			owns_entire_state_region = STATE_WESTPHALIA
+			owns_entire_state_region = STATE_HESSE
+		}
+	}
+
+	possible = {
+		has_technology_researched = railways
+	}
+
+	complete = {
+		any_scope_state = {
+			state_region = s:STATE_BRANDENBURG
+			has_building = building_railway
+		}
+		any_scope_state = {
+			state_region = s:STATE_ANHALT
+			has_building = building_railway
+		}
+		any_scope_state = {
+			state_region = s:STATE_BRUNSWICK
+			has_building = building_railway
+		}
+		OR = {
+			any_scope_state = {
+				state_region = s:STATE_WESTPHALIA
+				has_building = building_railway
+			}
+			any_scope_state = {
+				state_region = s:STATE_HESSE
+				has_building = building_railway
+			}
+		}
+		OR = {
+			any_scope_state = {
+				state_region = s:STATE_NORTH_RHINE
+				has_building = building_railway
+			}
+			any_scope_state = {
+				state_region = s:STATE_RHINELAND
+				has_building = building_railway
+			}
+		}
+	}
+	
+	fail = {
+		game_date > 1856.1.1
+	}
+
+	on_complete = {
+		set_global_variable = trans_german_done
+		show_as_tooltip = {
+			add_modifier = {
+				name = generic_production_tech_research
+				months = long_modifier_time
+			}
+		}
+		trigger_event = { id = journal_flavor_germany.1 }
+	}
+
+	weight = 50
+}
