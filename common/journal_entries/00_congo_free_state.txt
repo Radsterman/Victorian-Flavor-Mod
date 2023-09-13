@@ -1,0 +1,172 @@
+﻿je_free_state = {
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	is_shown_when_inactive = {
+		has_variable = scramble_for_africa_complete
+		has_law = law_type:law_monarchy #Check there is a Monarch
+		NOT = { has_global_variable = free_state_created }
+	}
+
+	possible = {
+	    has_law = law_type:law_colonial_exploitation
+		ruler = {
+			OR = {
+				has_trait = cruel
+				has_trait = ambitious
+			}
+		}
+		any_scope_state = {
+			is_incorporated = no
+			custom_tooltip = {
+				text = in_africa_tt
+				state_in_africa = yes
+			}
+			any_neighbouring_state = {
+				is_incorporated = no
+				custom_tooltip = {
+					text = in_africa_tt
+					state_in_africa = yes
+				}
+			}
+		}
+	}
+
+	immediate = {
+		custom_tooltip = { 
+			text = free_state_immediate_tooltip
+			trigger_event = { id = congo_free_state_events.1 popup = yes }
+		}
+		set_variable = {
+			name = free_state_international_opinion
+			value = 0
+		}
+		ruler = {
+			set_variable = free_state_monarch
+		}
+		random_scope_state = {
+			limit = {
+				is_incorporated = no
+				state_in_africa = yes
+				any_neighbouring_state = {
+					is_incorporated = no
+					state_in_africa = yes
+				}
+			}
+			save_scope_as = colonial_state
+		}
+	}
+
+	complete = {
+		OR = {
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+			NOT = { has_law = law_type:law_monarchy }
+			custom_tooltip = {
+				text = free_state_monarch_dead_tooltip
+				ruler = {
+					NOT = {
+						has_variable = free_state_monarch
+					}
+				}
+			}	
+		}
+	}
+
+	on_complete = {
+		if = {
+			limit = {
+				exists = c:AFS
+			}
+			c:AFS = {
+				remove_modifier = free_state_mort
+			}
+		}
+		trigger_event = { id = congo_free_state_events.5 popup = yes }
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				limit = { #check if the possible conditions are still true
+					has_law = law_type:law_monarchy
+					has_law = law_type:law_colonial_exploitation
+					exists = c:AFS
+					c:AFS = {
+						is_subject_of = ROOT
+					}
+				}
+				change_variable = {
+					name = free_state_international_opinion
+					add = 1
+				}
+			}
+		}
+		random_events = {
+			100 = 0
+			20 = congo_free_state_events.2 #rumours
+			10 = congo_free_state_events.3 #people dying
+			10 = congo_free_state_events.4 #newspaper article
+			30 = congo_free_state_events.6 #report
+		}
+	}
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = free_state_status_known
+				trigger = {
+					var:free_state_international_opinion >= 90
+				}
+			}
+			triggered_desc = {
+				desc = free_state_status_suspected
+				trigger = {
+					var:free_state_international_opinion >= 45
+				}
+			}
+			triggered_desc = {
+				desc = free_state_status_new
+				trigger = {
+					var:free_state_international_opinion < 45
+				}
+			}
+		}
+	}
+	
+	invalid = {
+		custom_tooltip = {
+			text = free_state_journal_complete_tt
+			OR = {
+				AND = {
+					NOT = {
+						exists = c:AFS
+					}
+					has_variable = free_state_made
+				}
+				AND = {
+					exists = c:AFS
+					c:AFS = {
+						NOT = { is_subject_of = ROOT }
+					}
+				}
+			}
+		}
+		NOT = { has_law = law_type:law_colonial_exploitation }
+	}
+
+	weight = 200
+	should_be_pinned_by_default = yes
+	
+	current_value = {
+		value = root.var:free_state_international_opinion
+	}
+
+	goal_add_value = {
+		add = 120 #10 years of monthly ticks
+	}
+	
+	progressbar = yes
+
+	transferable = no
+}
