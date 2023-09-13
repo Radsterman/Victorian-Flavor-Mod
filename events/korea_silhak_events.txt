@@ -259,13 +259,29 @@ silhak.4 = { #failed to defend korea
 		exists = c:KOR
 		root = c:KOR
 		NOT = { has_variable = korean_sovereignty_breached }
-		NOT = { exists = c:DHK }
+		is_at_war = no
+		is_diplomatic_play_committed_participant = no
 		OR = {
-			NOT = { owns_entire_state_region = STATE_SEOUL }
-			NOT = { owns_entire_state_region = STATE_SARIWON }
-			NOT = { owns_entire_state_region = STATE_PYONGYANG }
-			NOT = { owns_entire_state_region = STATE_BUSAN }
-			NOT = { owns_entire_state_region = STATE_YANGHO }
+			AND = {
+				s:STATE_SEOUL = { any_scope_state = { owner = root } }
+				NOT = { owns_entire_state_region = STATE_SEOUL }
+			}
+			AND = {
+				s:STATE_SARIWON = { any_scope_state = { owner = root } }
+				NOT = { owns_entire_state_region = STATE_SARIWON }
+			}
+			AND = {
+				s:STATE_PYONGYANG = { any_scope_state = { owner = root } }
+				NOT = { owns_entire_state_region = STATE_PYONGYANG }
+			}
+			AND = {
+				s:STATE_BUSAN = { any_scope_state = { owner = root } }
+				NOT = { owns_entire_state_region = STATE_BUSAN }
+			}
+			AND = {
+				s:STATE_YANGHO = { any_scope_state = { owner = root } }
+				NOT = { owns_entire_state_region = STATE_YANGHO }
+			}
 		}
 	}
 	immediate = {
