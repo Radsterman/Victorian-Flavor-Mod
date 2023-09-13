@@ -8,13 +8,39 @@ je_government_petition = {
                 is_in_government = yes
                 is_marginal = no
                 any_preferred_law = {
-                    law_is_valid_for_ig_petition = yes
+                    save_temporary_scope_as = petition_law_trig
+                    prev = {
+                        law_stance = {
+                            law = scope:petition_law_trig.type
+                            value > neutral
+                        }
+                    }
+                    NOT = {
+                        ROOT = {
+                            has_law = prev.type
+                        }
+                    }  
+                    can_be_enacted = yes
                 }
             }
             save_scope_as = government_petition_ig
             ordered_preferred_law = {
                 limit = {
-					law_is_valid_for_ig_petition = yes
+                    save_temporary_scope_as = petition_law
+                    ROOT = {
+                        scope:government_petition_ig = {
+                            law_stance = {
+                                law = scope:petition_law.type
+                                value > neutral
+                            }
+                        }
+                    }
+                    NOT = {
+                        ROOT = {
+                            has_law = prev.type
+                        }
+                    }  
+                    can_be_enacted = yes
                 }
                 min = 0 
                 max = 2
