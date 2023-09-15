@@ -4,16 +4,36 @@ seohak.1 = { #Spawn Seohak
 	type = country_event
 	placement = scope:seohak_state
 
-	hidden = yes
+	title = seohak.1.t
+	desc = seohak.1.d
+	flavor = seohak.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_christianity.bk2"
+	}
+	
+	icon = "gfx/interface/icons/event_icons/event_religion.dds"
+	
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/christianity"
 
 	duration = 3
 
+	trigger = {
+		NOT = { has_variable = seohak_1_event }
+	}
+
 	immediate = {
-		s:STATE_PYONGYANG = {
-			every_scope_state = {
-				limit = {owner = root}
-				save_scope_as = seohak_state
-			}
+		set_variable = seohak_1_event
+		random_scope_state = {
+			limit = {owner = root}
+			save_scope_as = seohak_state
+		}
+		rel:catholic = {
+			save_scope_as = western_religion
+		}
+		rel:confucian = {
+			save_scope_as = confucian_scope
 		}
 		ig:ig_landowners = {
 			save_scope_as = landowners_ig
@@ -31,20 +51,17 @@ seohak.1 = { #Spawn Seohak
 		}
 	}
 
-	trigger = {
-		#triggered by silhak_return JE
-	}
 	option = {
 		name = seohak.1.a
 		default_option = yes
 		scope:seohak_state = {
-			add_radicals = {
+			add_radicals_in_state = {
 				value = medium_radicals
 				interest_group = scope:landowners_ig
 			}
 			convert_population = {
 				target = rel:catholic
-				value = 0.01
+				value = 0.005
 			}
 		}
 	}
@@ -61,13 +78,13 @@ seohak.2 = { #convert some guys
 		#triggered by monthly pulse JE
 	}
 	immediate = {
-		every_state = {
+		every_scope_state = {
 			limit = {
 				has_modifier = seohak_religion_present
 			}
 			convert_population = {
 				target = rel:catholic
-				value = 0.01
+				value = 0.005
 			}
 		}
 	}
@@ -84,13 +101,13 @@ seohak.3 = { #spread to a neighbouring state
 		#triggered by monthly pulse JE
 	}
 	immediate = {
-		every_state = {
+		every_scope_state = {
 			limit = {
 				has_modifier = seohak_religion_present
 			}
 			convert_population = {
 				target = rel:catholic
-				value = 0.005
+				value = 0.0025
 			}
 			random_neighbouring_state = {
 				limit = {
@@ -104,7 +121,7 @@ seohak.3 = { #spread to a neighbouring state
 				}
 				convert_population = {
 					target = rel:catholic
-					value = 0.01
+					value = 0.005
 				}
 				add_modifier = { 
 					name = seohak_religion_present 
@@ -128,30 +145,11 @@ seohak.4 = { #remove modifier if no catholics
 				has_modifier = seohak_religion_present
 				NOT = {
 					any_scope_pop = {
-						has_religion = rel:catholic
+						has_pop_religion = catholic
 					}
 				}
 			}
 			remove_modifier = seohak_religion_present
 		}
-	}
-}
-
-seohak.5 = {
-	type = country_event
-	placement = root
-
-	immediate = {
-		every_state = {
-			limit = {
-				has_modifier = seohak_religion_present
-			}
-			save_scope_as = donghak_state
-		}
-	}
-
-	create_country = {
-		origin = root
-		state = scope:donghak_state
 	}
 }

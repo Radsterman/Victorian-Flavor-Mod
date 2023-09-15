@@ -1,4 +1,4 @@
-je_hanja_issue = {
+﻿je_hanja_issue = {
 	icon = "gfx/interface/icons/event_icons/event_academia.dds"
 
 	complete = {
@@ -10,7 +10,7 @@ je_hanja_issue = {
 			}
 			institution_investment_level = {
 				institution = institution_schools 
-				value >= 2
+				value >= 1
 			}
 		}
 	}
@@ -98,7 +98,7 @@ je_sadae = {
 }
 
 je_silhak = {
-	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+	icon = "gfx/interface/icons/event_icons/event_religion.dds"
 	immediate = {
 		ig:ig_intelligentsia = { save_scope_as = ig_intelligentsia }
 	}
@@ -134,6 +134,7 @@ je_silhak = {
 		hidden_effect = {
 			trigger_event = {
 				id = seohak.1
+				days = 3
 			}
 			trigger_event = {
 				id = seohak.2
@@ -166,9 +167,10 @@ je_silhak_return = {
 			text = donghak_radical_tt
 			ig:ig_intelligentsia = { #scholars become donghak
 				set_interest_group_name = ig_donghak
-				add_ideology = ideology_republican
+				add_ideology = ideology_donghak
+				remove_ideology = ideology_silhak
 			}
-			remove_modifier = modifier_moderate_intelligentsia
+			remove_modifier = modifier_secular_philosophy
 		}
 		trigger_event = {
 			id = donghak.1
@@ -202,6 +204,7 @@ je_silhak_return = {
 }
 
 je_silhak_reform = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
 	complete = {
 		OR = {
 			NOT = { has_law = law_type:law_serfdom }
@@ -217,18 +220,16 @@ je_silhak_reform = {
 
 	timeout = 3650
 
+	immediate = {
+		ig:ig_intelligentsia = { save_scope_as = ig_intelligentsia }
+	}
+
 	on_complete = {
 		trigger_event = {
-			id = silhak.1
+			id = kor.8
 		}
-		if = { #IF China is a monarchy, reforming will damage relations
-			limit = {
-				c:CHI = { has_law = law_type:law_monarchy }
-			}
-			change_relations = {
-		        country = c:CHI
-		        value = -30
-		    }
+		hidden_effect = {
+			remove_modifier = modifier_kor_reforms_silhak
 		}
 	}
 	on_monthly_pulse = { 
@@ -252,9 +253,10 @@ je_silhak_reform = {
 			text = donghak_radical_tt
 			ig:ig_intelligentsia = { #scholars become donghak
 				set_interest_group_name = ig_donghak
-				add_ideology = ideology_republican
+				add_ideology = ideology_donghak
+				remove_ideology = ideology_silhak
 			}
-			remove_modifier = modifier_moderate_intelligentsia
+			remove_modifier = modifier_secular_philosophy
 		}
 	}
 	on_fail = {
@@ -262,21 +264,23 @@ je_silhak_reform = {
 			text = donghak_radical_tt
 			ig:ig_intelligentsia = { #scholars become donghak
 				set_interest_group_name = ig_donghak
-				add_ideology = ideology_republican
+				add_ideology = ideology_donghak
+				remove_ideology = ideology_silhak
 			}
-			remove_modifier = modifier_moderate_intelligentsia
+			remove_modifier = modifier_secular_philosophy
 		}
 	}
 	on_invalid = {
 		ig:ig_intelligentsia = { #scholars get republican to fit with no monarchy
-			add_ideology = ideology_republican
+			add_ideology = ideology_donghak
+			remove_ideology = ideology_silhak
 		} 
 	}
 	should_be_pinned_by_default = yes
 }
 
 je_sojunghwa = {
-	icon = "gfx/interface/icons/event_icons/event_diplomacy.dds"
+	icon = "gfx/interface/icons/event_icons/event_chi.dds"
     immediate = {
     	c:CHI = {
       		save_scope_as = chi_scope
@@ -319,13 +323,15 @@ je_sojunghwa = {
 	    }
     } 
     invalid = {
-    	OR = {
-    		NOT = { is_subject_of = c:CHI }
-			AND = {
-	    		has_variable = kor_chi_gov_principle_broken
-	    		has_variable = kor_chi_distr_of_power_broken
-	    		has_variable = kor_chi_land_reform_broken
-	    		has_variable = kor_chi_church_and_state_broken
+    	hidden_trigger = {
+    		OR = {
+	    		NOT = { is_subject_of = c:CHI }
+				AND = {
+		    		has_variable = kor_chi_gov_principle_broken
+		    		has_variable = kor_chi_distr_of_power_broken
+		    		has_variable = kor_chi_land_reform_broken
+		    		has_variable = kor_chi_church_and_state_broken
+		    	}
 	    	}
     	}
 	}
@@ -340,8 +346,8 @@ je_sojunghwa = {
 }
 
 je_donghak = { #spread of the donghak religion
-	icon = "gfx\interface\icons\religion_icons\cheondoist.dds"
-	on_monthly_pulse = {
+	icon = "gfx/interface/icons/religion_icons/cheondoist.dds"
+	on_weekly_pulse = {
 		random_events = {
 			30 = donghak.2
 			5 = donghak.3
@@ -363,7 +369,98 @@ je_donghak = { #spread of the donghak religion
 	fail = { #cheondoists are mad
 		any_scope_state = {
 			has_modifier = cheondoists
-			turmoil >= 0.15
+			turmoil >= 0.25
 		}
 	}
+	on_fail = {
+		trigger_event = { id = donghak.5 }
+	}
+}
+
+je_donghak_rebelling = {
+	icon = "gfx/interface/icons/religion_icons/cheondoist.dds"
+	complete = {
+		AND = {
+			is_at_war = no
+			is_diplomatic_play_committed_participant = no
+		}
+	}
+	on_complete = {
+		every_state = {
+			limit = { has_variable = donghak_rebelling }
+			remove_variable = donghak_rebelling
+			set_state_type = incorporated
+		}
+		trigger_event = { id = kor.8 }
+	}
+}
+
+je_jpn_influence_kor = {
+	icon = "gfx/interface/icons/event_icons/event_jpn.dds"
+	immediate = {
+		set_variable = {
+			name = japanese_influence
+			value = 0
+		}
+	}
+	on_monthly_pulse = {
+		change_variable = {
+			name = japanese_influence
+			add = kor_japanese_influence
+		}
+	}
+	complete = {
+		any_country = {
+			count = 3
+			country_rank = rank_value:great_power
+			relations:root >= relations_threshold:amicable
+		}
+		any_country = {
+			country_rank = rank_value:great_power
+			OR = {
+				owes_obligation_to = root
+				has_diplomatic_pact = { 
+					who = root 
+					type = defensive_pact 
+				}
+			}
+		}
+	}
+	fail = {
+		custom_tooltip = {
+			text = jpn_influence_army_tt
+			has_variable = jpn_in_army
+		}
+		custom_tooltip = {
+			text = jpn_influence_government_tt
+			has_variable = jpn_in_govt
+		}
+		custom_tooltip = {
+			text = jpn_influence_taxes_tt
+			has_variable = jpn_in_econ
+		}
+		custom_tooltip = {
+			text = ganghwa_island_treaty_tt
+			has_variable = ganghwa_island_treaty
+		}
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+	current_value = {
+		value = var:japanese_influence
+	}
+	goal_add_value = {
+		add = 100
+	}
+	on_complete = {
+
+	}
+	on_fail = {
+		trigger_event = {
+			id = kor.15
+		}
+	}
+	progressbar = yes
+	should_be_pinned_by_default = yes
 }

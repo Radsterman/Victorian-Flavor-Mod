@@ -51,7 +51,7 @@ gdp_chi = {
 }
 
 kor_silhak_delta = {
-	value = 0 #scholars are marginalised/suppressed
+	value = 1 #scholars are marginalised/suppressed
 	if = {
 		limit = { #while scholars are influential and not being suppressed move closer to revolt
 			OR = {
@@ -59,7 +59,7 @@ kor_silhak_delta = {
 				ig:ig_intelligentsia = {is_being_suppressed = yes}
 			}
 		}
-		subtract = 1
+		subtract = 2
 	}
 	if = {
 		limit = { #move at double speed if they are powerful
@@ -71,6 +71,26 @@ kor_silhak_delta = {
 		limit = { #move even faster if they are bolstered
 			ig:ig_intelligentsia = {is_being_bolstered = yes}
 		}
+		add = 1
+	}
+}
+
+kor_japanese_influence = {
+	value = 0
+	if = {
+		limit = { has_variable = jpn_in_army }
+		add = 1
+	}
+	if = {
+		limit = { has_variable = jpn_in_govt }
+		add = 1
+	}
+	if = {
+		limit = { has_variable = jpn_in_econ }
+		add = 1
+	}
+	if = {
+		limit = { has_variable = ganghwa_island_treaty }
 		add = 1
 	}
 }
