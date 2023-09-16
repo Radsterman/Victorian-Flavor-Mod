@@ -50,8 +50,8 @@ silhak.1 = { #Third Wave Silhak
 		highlighted_option = yes
 		name =  silhak.1.c
 		trigger = {
-		exists = c:KOR
-		root = c:KOR
+			exists = c:KOR
+			root = c:KOR
 			ig:ig_devout = { is_in_government = yes }
 		}
 		add_modifier = {
@@ -116,6 +116,7 @@ silhak.2 = { #Western disturbance (French expedition to Korea)
 	}
 	option = {
 		name = silhak.2.a
+		default_option = yes
 		add_radicals = {
 			value = very_large_radicals
 			religion = rel:catholic
@@ -169,14 +170,13 @@ silhak.3 = { #To France, Korea killed your missionaries
 		ai_chance = { 
 			base = 50 
 			modifier = {
-				add = 20
 				ig:ig_devout = {
 					is_powerful = yes
 				}
+				add = 20
 			}
 		}
 		create_diplomatic_play = {
-	        set_key = french_expedition_to_korea
 	      
 	        target_country = scope:kor_scope
 	        
@@ -195,8 +195,8 @@ silhak.3 = { #To France, Korea killed your missionaries
 		ai_chance = { 
 			base = 0 
 			modifier = {
-				add = 50
 				is_at_war = yes
+				add = 50
 			}
 		}
 		change_relations = {
@@ -221,7 +221,6 @@ silhak.3 = { #To France, Korea killed your missionaries
 			}
 		}
 		create_diplomatic_play = {
-	        set_key = french_expedition_to_korea
 	      
 	        target_country = scope:kor_scope
 	        
@@ -260,12 +259,29 @@ silhak.4 = { #failed to defend korea
 		exists = c:KOR
 		root = c:KOR
 		NOT = { has_variable = korean_sovereignty_breached }
+		is_at_war = no
+		is_diplomatic_play_committed_participant = no
 		OR = {
-			NOT = { owns_entire_state_region = STATE_SEOUL }
-			NOT = { owns_entire_state_region = STATE_SARIWON }
-			NOT = { owns_entire_state_region = STATE_PYONGYANG }
-			NOT = { owns_entire_state_region = STATE_BUSAN }
-			NOT = { owns_entire_state_region = STATE_YANGHO }
+			AND = {
+				s:STATE_SEOUL = { any_scope_state = { owner = root } }
+				NOT = { owns_entire_state_region = STATE_SEOUL }
+			}
+			AND = {
+				s:STATE_SARIWON = { any_scope_state = { owner = root } }
+				NOT = { owns_entire_state_region = STATE_SARIWON }
+			}
+			AND = {
+				s:STATE_PYONGYANG = { any_scope_state = { owner = root } }
+				NOT = { owns_entire_state_region = STATE_PYONGYANG }
+			}
+			AND = {
+				s:STATE_BUSAN = { any_scope_state = { owner = root } }
+				NOT = { owns_entire_state_region = STATE_BUSAN }
+			}
+			AND = {
+				s:STATE_YANGHO = { any_scope_state = { owner = root } }
+				NOT = { owns_entire_state_region = STATE_YANGHO }
+			}
 		}
 	}
 	immediate = {
@@ -329,6 +345,7 @@ silhak.4 = { #failed to defend korea
 	option = { #embolden the scholars and christians
 		name = silhak.4.a 
 		highlighted_option = yes
+		default_option = yes
 		trigger = {
 		exists = c:KOR
 			has_journal_entry = je_silhak_return
@@ -398,7 +415,7 @@ silhak.5 = { #Salbangye, association of killers of the yangban
 			}
 		}
 		scope:random_state = {
-			add_radicals = {
+			add_radicals_in_state = {
 				value = medium_radicals
 				interest_group = scope:landowners_ig
 			}
@@ -415,19 +432,19 @@ silhak.5 = { #Salbangye, association of killers of the yangban
 			}
 		}
 		scope:random_state = {
-			add_radicals = {
+			add_radicals_in_state = {
 				value = medium_radicals
 				pop_type = peasants
 			}
 		}
 		scope:random_state = {
-			add_radicals = {
+			add_radicals_in_state = {
 				value = medium_radicals
 				pop_type = academics
 			}
 		}
 		scope:random_state = {
-			add_radicals = {
+			add_radicals_in_state = {
 				value = medium_radicals
 				pop_type = bureaucrats
 			}
@@ -482,7 +499,7 @@ silhak.6 = { #Saljugye, association of killers of the slave's masters
 			}
 		}
 		scope:random_state = {
-			add_radicals = {
+			add_radicals_in_state = {
 				value = medium_radicals
 				interest_group = scope:landowners_ig
 			}
@@ -499,19 +516,19 @@ silhak.6 = { #Saljugye, association of killers of the slave's masters
 			}
 		}
 		scope:random_state = {
-			add_radicals = {
+			add_radicals_in_state = {
 				value = medium_radicals
 				pop_type = peasants
 			}
 		}
 		scope:random_state = {
-			add_radicals = {
+			add_radicals_in_state = {
 				value = medium_radicals
 				pop_type = academics
 			}
 		}
 		scope:random_state = {
-			add_radicals = {
+			add_radicals_in_state = {
 				value = medium_radicals
 				pop_type = bureaucrats
 			}
@@ -542,7 +559,7 @@ silhak.7 = { #Geomgye, association of the sword
 		exists = c:KOR
 		root = c:KOR
 		has_journal_entry = je_silhak_return
-		NOT = { has_variable = salbangye }
+		NOT = { has_variable = geomgye }
 	}
 	immediate = {
 		set_variable = geomgye
@@ -566,7 +583,7 @@ silhak.7 = { #Geomgye, association of the sword
 			}
 		}
 		scope:random_state = {
-			add_radicals = {
+			add_radicals_in_state = {
 				value = medium_radicals
 				interest_group = scope:landowners_ig
 			}
@@ -583,19 +600,19 @@ silhak.7 = { #Geomgye, association of the sword
 			}
 		}
 		scope:random_state = {
-			add_radicals = {
+			add_radicals_in_state = {
 				value = medium_radicals
 				pop_type = peasants
 			}
 		}
 		scope:random_state = {
-			add_radicals = {
+			add_radicals_in_state = {
 				value = medium_radicals
 				pop_type = academics
 			}
 		}
 		scope:random_state = {
-			add_radicals = {
+			add_radicals_in_state = {
 				value = medium_radicals
 				pop_type = bureaucrats
 			}
@@ -650,7 +667,7 @@ silhak.8 = { #Nokrimdang, group of the green woods
 			}
 		}
 		scope:random_state = {
-			add_radicals = {
+			add_radicals_in_state = {
 				value = medium_radicals
 				interest_group = scope:landowners_ig
 			}
@@ -670,19 +687,19 @@ silhak.8 = { #Nokrimdang, group of the green woods
 			}
 		}
 		scope:random_state = {
-			add_radicals = {
+			add_radicals_in_state = {
 				value = medium_radicals
 				pop_type = peasants
 			}
 		}
 		scope:random_state = {
-			add_radicals = {
+			add_radicals_in_state = {
 				value = medium_radicals
 				pop_type = academics
 			}
 		}
 		scope:random_state = {
-			add_radicals = {
+			add_radicals_in_state = {
 				value = medium_radicals
 				pop_type = bureaucrats
 			}
@@ -726,7 +743,7 @@ silhak.9 = { #Declaration of human rights
 		ig:ig_rural_folk = {
 			save_scope_as = peasants_ig
 		}
-		ig:landowners = {
+		ig:ig_landowners = {
 			save_scope_as = landowners_ig
 		}
 	}
@@ -740,13 +757,13 @@ silhak.9 = { #Declaration of human rights
 			}
 		}
 		scope:random_state = {
-			add_radicals = {
+			add_radicals_in_state = {
 				value = medium_radicals
 				interest_group = scope:peasants_ig
 			}
 		}
 		scope:random_state = {
-			add_radicals = {
+			add_radicals_in_state = {
 				value = large_radicals
 				interest_group = scope:intelligentsia_ig
 			}
@@ -846,13 +863,13 @@ silhak.10 = { #Fate of the General Sherman
 	option = { #pay concessions
 		name = silhak.10.a
 		ai_chance = { base = 0 }
-		add_treasury = -50000
+		add_treasury = -500000
 		change_relations = {
 			country = scope:kor_ship_scope
-			subtract = 50
+			value = -50
 		}
 		scope:kor_ship_scope = {
-			add_treasury = 50000
+			add_treasury = 500000
 		}
 		if = {
 			limit = {
@@ -913,8 +930,8 @@ silhak.11 = { #To US, I burned your ship
 		ai_chance = { 
 			base = 0 
 			modifier = {
-				add = 1
 				is_at_war = yes
+				add = 1
 			}
 		}
 		scope:kor_scope = {
@@ -945,10 +962,10 @@ silhak.11 = { #To US, I burned your ship
 		ai_chance = { 
 			base = 0 
 			modifier = {
-				add = 2
 				ruler = {
 					has_ideology = ideology:ideology_jingoist
 				}
+				add = 2
 			}
 		}
 		create_diplomatic_play = {	      
@@ -1020,18 +1037,18 @@ silhak.13 = { #demands for concessions
 		ai_chance = { 
 			base = 1 
 			modifier = {
-				subtract = 1
 				scaled_debt > 0
+				add = -1
 			}
 		}
 		name = silhak.13.a
-		add_treasury -250000
+		add_treasury = -750000
 		scope:kor_ship_scope = {
-			add_treasury = 250000
+			add_treasury = 750000
 		}
 		change_relations = {
 			country = scope:kor_ship_scope
-			add = 30
+			value = 30
 		}
 		if = {
 			limit = {
@@ -1050,7 +1067,7 @@ silhak.13 = { #demands for concessions
 		name = silhak.13.b
 		default_option = yes
 		ai_chance = { base = 2 }
-		add_treasury -15000
+		add_treasury = -15000
 		scope:kor_ship_scope = {
 			add_treasury = 15000
 		}
@@ -1078,7 +1095,7 @@ silhak.13 = { #demands for concessions
 			50 = {
 				change_relations = {
 					country = scope:kor_ship_scope
-					add = 30
+					value = 30
 				}
 			}
 		}
@@ -1135,10 +1152,10 @@ silhak.14 = {
 		ai_chance = { 
 			base = 0 
 			modifier = {
-				add = 2
 				ruler = {
 					has_ideology = ideology:ideology_jingoist
 				}
+				add = 2
 			}
 		}
 		create_diplomatic_play = {	      

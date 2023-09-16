@@ -1,126 +1,126 @@
 ﻿namespace = kor
 
 kor.1 = { #Hangul event
-  type = country_event
-  
-  title = kor.1.t
-  desc = kor.1.d
-  flavor = kor.1.f
-  
-  event_image = {
-    video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
-  }
-  
-  icon = "gfx/interface/icons/event_icons/event_portrait.dds"
-  
-  on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-  on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
-  
-  duration = 3
-  
-  trigger = {
-    #Complete the issue of hanja journal entry
-  }
-  
-  option = { #embrace hangul
-    name = kor.1.a
-    default_option = yes
-    add_modifier = {
-      name = modifier_kor_hangul
+    type = country_event
+    
+    title = kor.1.t
+    desc = kor.1.d
+    flavor = kor.1.f
+    
+    event_image = {
+        video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
     }
-    remove_modifier = modifier_kor_ill_fitting_writing_system
-    if = { 
-      limit = { is_subject_of = c:CHI }
-      change_relations = {
-        country = c:CHI
-        value = -30
-      }
+    
+    icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+    
+    on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+    on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+    
+    duration = 3
+    
+    trigger = {
+        #Complete the issue of hanja journal entry
     }
-  }
-  option = { #keep hanja
-    name = kor.1.b
-    add_modifier = {
-      name = modifier_kor_kept_hanja
-      is_decaying = yes
-      months = 60
+    
+    option = { #embrace hangul
+        name = kor.1.a
+        default_option = yes
+        add_modifier = {
+            name = modifier_kor_hangul
+        }
+        remove_modifier = modifier_kor_ill_fitting_writing_system
+        if = { 
+            limit = { is_subject_of = c:CHI }
+            change_relations = {
+                country = c:CHI
+                value = -30
+            }
+        }
     }
-    if = { 
-      limit = { is_subject_of = c:CHI }
-      change_relations = {
-        country = c:CHI
-        value = 30
-      }
+    option = { #keep hanja
+        name = kor.1.b
+        add_modifier = {
+            name = modifier_kor_kept_hanja
+            is_decaying = yes
+            months = 60
+        }
+        if = { 
+            limit = { is_subject_of = c:CHI }
+            change_relations = {
+                country = c:CHI
+                value = 30
+            }
+        }
     }
-  }
-  option = { #use both
-    name = kor.1.c
-    remove_modifier = modifier_kor_ill_fitting_writing_system
-    if = { 
-      limit = { is_subject_of = c:CHI }
-      change_relations = {
-        country = c:CHI
-        value = -5
-      }
+    option = { #use both
+        name = kor.1.c
+        remove_modifier = modifier_kor_ill_fitting_writing_system
+        if = { 
+            limit = { is_subject_of = c:CHI }
+            change_relations = {
+                country = c:CHI
+                value = -5
+            }
+        }
     }
-  }
 
 }
 
 #kor.2 = { #gyeongbokgung event
-#  type = country_event
-#  placement = ROOT
+#    type = country_event
+#    placement = ROOT
 #
-#  title = kor.2.t
-#  desc = kor.2.d
-#  flavor = kor.2.f
-#  
-#  event_image = {
-#    video = "gfx/event_pictures/asia_confucianism_shinto.bk2"
-#  }
-#
-#  icon = "gfx/interface/icons/event_icons/event_portrait.dds"
-#  
-#  on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-#  on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
-#  
-#  duration = 3
-#
-#  trigger = {
-#    year > 1845
-#    exists = c:KOR
-#    this = c:KOR
-#    NOT = { has_global_variable = gyeongbokgung_restored }
-#  }
-#
-#  immediate = {
-#    set_global_variable = gyeongbokgung_restored
-#  }
-#
-#  option = { #Restore the palace
-#    name = kor.2.a
-#    default_option = yes
-#    add_modifier = {
-#      name = modifier_kor_restoration_of_gyeongbokgung
-#      months = 86
+#    title = kor.2.t
+#    desc = kor.2.d
+#    flavor = kor.2.f
+#    
+#    event_image = {
+#        video = "gfx/event_pictures/asia_confucianism_shinto.bk2"
 #    }
-#  }
-#  option = { #Don't restore the palace
-#    name = kor.2.b
-#    add_modifier = {
-#      name = modifier_kor_delapidated_palace
-#      months = 48
+#
+#    icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+#    
+#    on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+#    on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+#    
+#    duration = 3
+#
+#    trigger = {
+#        year > 1845
+#        exists = c:KOR
+#        this = c:KOR
+#        NOT = { has_global_variable = gyeongbokgung_restored }
 #    }
-#  }
+#
+#    immediate = {
+#        set_global_variable = gyeongbokgung_restored
+#    }
+#
+#    option = { #Restore the palace
+#        name = kor.2.a
+#        default_option = yes
+#        add_modifier = {
+#            name = modifier_kor_restoration_of_gyeongbokgung
+#            months = 86
+#        }
+#    }
+#    option = { #Don't restore the palace
+#        name = kor.2.b
+#        add_modifier = {
+#            name = modifier_kor_delapidated_palace
+#            months = 48
+#        }
+#    }
 
 #}
 
 kor.3 = { #China Appeased
-  type = country_event
-  
-  title = kor.3.t
-  desc = kor.3.d
-  flavor = kor.3.f
-  
+    type = country_event
+    
+    title = kor.3.t
+    desc = kor.3.d
+    flavor = kor.3.f
+    
 	event_image = {
 		video = "gfx/event_pictures/unspecific_military_parade.bk2"
 	}
@@ -128,38 +128,38 @@ kor.3 = { #China Appeased
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/unspecific/military_parade"
 
-	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
-  
-  duration = 3
-  
-  trigger = {
-    #Complete sadae journal entry
-  }
+	icon = "gfx/interface/icons/event_icons/event_chi.dds"
+    
+    duration = 3
+    
+    trigger = {
+        #Complete sadae journal entry
+    }
 
-  immediate = {
-    c:CHI = {
-      save_scope_as = chi_scope
+    immediate = {
+        c:CHI = {
+            save_scope_as = chi_scope
+        }
     }
-  }
-  
-  option = { 
-    name = kor.3.a
-    default_option = yes
-    custom_tooltip = kor_chi_alliance_tt
-    set_variable = {
-      name = kor_chi_alliance_available
+    
+    option = { 
+        name = kor.3.a
+        default_option = yes
+        custom_tooltip = kor_chi_alliance_tt
+        set_variable = {
+            name = kor_chi_alliance_available
+        }
     }
-  }
 
 }
 
 kor.4 = { #China Angered
-  type = country_event
-  
-  title = kor.4.t
-  desc = kor.4.d
-  flavor = kor.4.f
-  
+    type = country_event
+    
+    title = kor.4.t
+    desc = kor.4.d
+    flavor = kor.4.f
+    
 	event_image = {
 		video = "gfx/event_pictures/asia_union_leader.bk2"
 	}
@@ -168,199 +168,1049 @@ kor.4 = { #China Angered
 	on_opened_soundeffect = "event:/SFX/Events/asia/union_leader"
 
 	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
-  
-  duration = 3
-  
-  trigger = {
-    #Fail sadae journal entry
-  }
-
-  immediate = {
-    c:KOR= {
-      save_scope_as = kor_scope
-    }
-  }
-  
-  option = { #subjugate korea
-    name = kor.4.a
-    default_option = yes
-    ai_chance = { base = 1 }
-
-    if = {
-      limit = {
-        is_country_type = recognized
-      }
-      create_diplomatic_play = {
-        name = korean_subjugation
-      
-        target_country = c:KOR
-        
-        type = dp_make_puppet
-  
-        add_war_goal = {
-          holder = c:KOR
-          type = independence
-          target_state = s:STATE_BEIJING.region_state:CHI
-        }
-  
-      }
-    }
-    else = {
-      create_diplomatic_play = {
-        set_key = korean_subjugation
-      
-        target_country = c:KOR
-        
-        type = dp_make_vassal
-  
-        add_war_goal = {
-          holder = c:KOR
-          type = independence
-          target_state = s:STATE_BEIJING.region_state:CHI
-        }
-  
-      }
-    }
-
     
-  }
-  option = { #let korea go
-    name = kor.4.b
-
-    ai_chance = { base = 0 }
+    duration = 3
     
-    add_modifier = {
+    trigger = {
+        #Fail sadae journal entry
+    }
+
+    immediate = {
+        c:KOR= {
+            save_scope_as = kor_scope
+        }
+    }
+    
+    option = { #subjugate korea
+        name = kor.4.a
+        default_option = yes
+        ai_chance = { base = 1 }
+
+        if = {
+            limit = {
+                is_country_type = recognized
+            }
+            create_diplomatic_play = {
+                name = korean_subjugation
+            
+                target_country = c:KOR
+                
+                type = dp_make_puppet
+    
+                add_war_goal = {
+                    holder = c:KOR
+                    type = independence
+                    target_state = s:STATE_BEIJING.region_state:CHI
+                }
+    
+            }
+        }
+        else = {
+            create_diplomatic_play = {
+                name = korean_subjugation
+            
+                target_country = c:KOR
+                
+                type = dp_make_vassal
+    
+                add_war_goal = {
+                    holder = c:KOR
+                    type = independence
+                    target_state = s:STATE_BEIJING.region_state:CHI
+                }
+    
+            }
+        }
+
+        
+    }
+    option = { #let korea go
+        name = kor.4.b
+
+        ai_chance = { base = 0 }
+        
+        add_modifier = {
 			name = china_let_korea_go
 			months = short_modifier_time
 		}
-  }
+    }
 
 }
 
 kor.5 = {
-  type = country_event
+    type = country_event
 
-  title = kor.5.t
-  desc = kor.5.d
-  flavor = kor.5.f
-  
-  event_image = {
-    video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
-  }
+    title = kor.5.t
+    desc = kor.5.d
+    flavor = kor.5.f
+    
+    event_image = {
+        video = "gfx/event_pictures/unspecific_ruler_speaking_to_people.bk2"
+    }
 
-  on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-  on_opened_soundeffect = "event:/SFX/Events/asia/union_leader"
+    on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+    on_opened_soundeffect = "event:/SFX/Events/asia/union_leader"
 
-  icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+    icon = "gfx/interface/icons/event_icons/event_chi.dds"
 
-  duration = 1
-  immediate = {
-    if = {
-      limit = { active_law:lawgroup_governance_principles.type != scope:china_governance_principles }
-      set_variable = kor_chi_gov_principle_broken
+    duration = 1
+    immediate = {
+        if = {
+            limit = { active_law:lawgroup_governance_principles.type != scope:china_governance_principles }
+            set_variable = kor_chi_gov_principle_broken
+        }
+        if = {
+            limit = { active_law:lawgroup_distribution_of_power.type != scope:china_distribution_of_power }
+            set_variable = kor_chi_distr_of_power_broken
+        }
+        if = {
+            limit = { active_law:lawgroup_land_reform.type != scope:china_land_reform }
+            set_variable = kor_chi_land_reform_broken
+        }
+        if = {
+            limit = { active_law:lawgroup_church_and_state.type != scope:china_church_and_state }
+            set_variable = kor_chi_church_and_state_broken
+        }
     }
-    if = {
-      limit = { active_law:lawgroup_distribution_of_power.type != scope:china_distribution_of_power }
-      set_variable = kor_chi_distr_of_power_broken
+    option = {
+        name = kor.5.a
+        default_option = yes
+        add_journal_entry = { type = je_sojunghwa }
     }
-    if = {
-      limit = { active_law:lawgroup_land_reform.type != scope:china_land_reform }
-      set_variable = kor_chi_land_reform_broken
-    }
-    if = {
-      limit = { active_law:lawgroup_church_and_state.type != scope:china_church_and_state }
-      set_variable = kor_chi_church_and_state_broken
-    }
-  }
-  option = {
-    name = kor.5.a
-    default_option = yes
-    add_journal_entry = { type = je_sojunghwa }
-  }
 }
 
 kor.6 = { #Successor to the mandate of heaven
-  type = country_event
-  placement = root
+    type = country_event
+    placement = root
 
-  title = kor.6.t
-  desc = kor.6.d
-  flavor = kor.6.f
-  
-  event_image = {
-    video = "gfx/event_pictures/asia_confucianism_shinto.bk2"
-  }
+    title = kor.6.t
+    desc = kor.6.d
+    flavor = kor.6.f
+    
+    event_image = {
+        video = "gfx/event_pictures/asia_confucianism_shinto.bk2"
+    }
 
-  on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-  on_opened_soundeffect = "event:/SFX/Events/asia/confucianism_shinto"
+    on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+    on_opened_soundeffect = "event:/SFX/Events/asia/confucianism_shinto"
 
-  icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+    icon = "gfx/interface/icons/event_icons/waving_flag.dds"
 
-  duration = 12
-  trigger = {
-    exists = c:KOR
-    this = c:KOR
-    has_global_variable = china_shatters
-    has_technology_researched = pan-nationalism
-    NOT = { has_variable = korean_mandate_event }
-  }
+    duration = 12
+    trigger = {
+        exists = c:KOR
+        this = c:KOR
+        has_global_variable = china_shatters
+        has_technology_researched = pan-nationalism
+        NOT = { has_variable = korean_mandate_event }
+    }
 
-  immediate = {
-    set_variable = korean_mandate_event
-  }
-  option ={ #take the mandate of heaven
-    name = kor.6.a 
-    ai_chance = { base = 0 }
-    add_primary_culture = cu:han
-    custom_tooltip = {
-      text = claim_china_tt
-      every_state_region = {
-        limit = {
-          OR = {
-            is_homeland = cu:han
-            is_homeland = cu:manchu
-          }
+    immediate = {
+        set_variable = korean_mandate_event
+    }
+    option ={ #take the mandate of heaven
+        name = kor.6.a 
+        ai_chance = { base = 0 }
+        add_primary_culture = cu:han
+        custom_tooltip = {
+            text = claim_china_tt
+            every_state_region = {
+                limit = {
+                    OR = {
+                        is_homeland = cu:han
+                        is_homeland = cu:manchu
+                    }
+                }
+                add_claim = c:KOR
+            }
+            every_country = {
+                limit = { 
+                    country_has_primary_culture = cu:han
+                }
+                change_relations = {
+                    country = c:KOR
+                    value = -80
+                }
+            }
         }
-        add_claim = c:KOR
-      }
-      every_country = {
-      limit = { 
-        country_has_primary_culture = cu:han
-      }
-      change_relations = {
-        country = c:KOR
-        value = -80
-      }
     }
+    option = { #ignore the mandate of heaven
+        name = kor.6.b
+        ai_chance = { base = 1 }
+        every_country = {
+            limit = { 
+                country_has_primary_culture = cu:han
+            }
+            change_relations = {
+                country = c:KOR
+                value = 20
+            }
+        }
     }
-  }
-  option = { #ignore the mandate of heaven
-    name = kor.6.b
-    ai_chance = { base = 1 }
-    every_country = {
-      limit = { 
-        country_has_primary_culture = cu:han
-      }
-      change_relations = {
-        country = c:KOR
-        value = 20
-      }
-    }
-  }
 }
 
 kor.7 = {
-  type = country_event
-  placement = root
-  hidden = yes
-  trigger = {
-    root = c:CHI
-    was_formed_from = KOR
-    NOT = { has_variable = korean_culture }
-  }
-  immediate = {
-    add_primary_culture = cu:korean
-    remove_primary_culture = cu:manchu
-    set_variable = korean_culture
-  }
+    type = country_event
+    placement = root
+    hidden = yes
+    trigger = {
+        root = c:CHI
+        was_formed_from = KOR
+        NOT = { has_variable = korean_culture }
+    }
+    immediate = {
+        add_primary_culture = cu:korean
+        remove_primary_culture = cu:manchu
+        set_variable = korean_culture
+    }
+}
+
+kor.8 = {
+    type = country_event
+    placement = root
+
+    title = kor.8.t
+    desc = kor.8.d
+    flavor = kor.8.f
+    
+    event_image = {
+        video = "gfx/event_pictures/asia_confucianism_shinto.bk2"
+    }
+
+    on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+    on_opened_soundeffect = "event:/SFX/Events/asia/confucianism_shinto"
+
+    icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+    duration = 1
+
+    option = {
+        name = kor.8.a
+        default_option = yes
+        add_journal_entry = { type = je_gwangmu_nationalism }
+        add_journal_entry = { type = je_gwangmu_army }
+        add_journal_entry = { type = je_gwangmu_navy }
+        add_journal_entry = { type = je_gwangmu_taxes }
+        add_journal_entry = { type = je_gwangmu_democracy }
+        add_journal_entry = { type = je_gwangmu_main }
+    }
+}
+
+##
+## TODO: GWANGMU EVENTS
+## Random Events triggered on monthly pulse through je_gwangmu_main
+## - AI CHANCE NOT DONE
+
+kor.9 = { #gwangmu nationalism
+    type = country_event
+    placement = root
+
+    title = kor.9.t
+    desc = kor.9.d
+    flavor = kor.9.f
+    
+    event_image = {
+        video = "gfx/event_pictures/asia_confucianism_shinto.bk2"
+    }
+
+    on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+    on_opened_soundeffect = "event:/SFX/Events/asia/confucianism_shinto"
+
+    icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+    immediate = {
+        set_variable = gwangmu_nationalism_event
+	random_country = {
+		limit = {
+		        is_subject = no
+			OR = { 
+			        this = c:BEL
+				this = c:DEN
+				this = c:NET
+				this = c:FIN
+			}
+		}
+		save_scope_as = free_country1_scope
+	}
+	random_country = {
+		limit = {
+		        is_subject = no
+			OR = { 
+			        this = c:SWI
+				this = c:POL
+				this = c:SAR
+				this = c:SWE
+			}
+		}
+		save_scope_as = free_country2_scope
+	}
+
+        random_country = {
+            limit = { 
+                country_rank = rank_value:great_power 
+                relations:root >= relations_threshold:neutral
+                has_interest_marker_in_region = region_manchuria
+            }
+            save_scope_as = nationalism_country_1
+        }
+        random_country = {
+            limit = { 
+                country_rank = rank_value:great_power 
+                relations:root >= relations_threshold:neutral
+                this != scope:nationalism_country_1
+                has_interest_marker_in_region = region_manchuria
+            }
+            save_scope_as = nationalism_country_2
+        }
+    }
+
+    duration = 3
+
+    trigger = {
+        NOT = { has_variable = gwangmu_nationalism_event }
+        any_country = {
+            count = 2
+            country_rank = rank_value:great_power 
+            relations:root >= relations_threshold:neutral
+            has_interest_marker_in_region = region_manchuria
+        }
+    }
+
+    #TODO
+    #A: (jpn has meiji) korea gets independent, free trade, add jpn influence JE, add variable ganghwa island treaty
+    option = {
+        name = kor.9.a
+        highlighted_option = yes
+        trigger = { 
+            custom_tooltip = {
+                text = japan_completed_meiji_tt
+                exists = c:JAP
+                c:JAP = { has_variable = meiji_restoration_complete }
+            } 
+        }
+        make_independent = yes
+        if = {
+            limit = { NOT = { has_law = law_type:law_free_trade } }
+            activate_law = law_type:law_free_trade
+        }
+        if = {
+            limit = { NOT = { has_journal_entry = je_jpn_influence_kor } }
+            add_journal_entry = { type = je_jpn_influence_kor }
+        }
+        hidden_effect = { 
+            set_variable = { name = ganghwa_island_treaty } 
+            change_variable = { 
+                name = japanese_influence 
+                add = 1
+            }
+        }
+    }
+    #B: sovereignty mission to great power i, GPi gets event with option start diplo play free subject
+    option = {
+        name = kor.9.b
+        add_treasury = -500000
+        scope:nationalism_country_1 = {
+            trigger_event = {
+                id = kor.14
+                days = 14
+            }
+        }
+    }
+    #C: sovereignty mission to great power ii, GPii gets event with option start diplo play free subject
+    option = {
+        name = kor.9.c
+        add_treasury = -500000
+        scope:nationalism_country_2 = {
+            trigger_event = {
+                id = kor.14
+                days = 14
+            }
+        }
+    }
+}
+
+kor.10 = { #gwangmu army
+    type = country_event
+    placement = root
+
+    title = kor.10.t
+    desc = kor.10.d
+    flavor = kor.10.f
+    
+    event_image = {
+        video = "gfx/event_pictures/asia_confucianism_shinto.bk2"
+    }
+
+    on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+    on_opened_soundeffect = "event:/SFX/Events/asia/confucianism_shinto"
+
+    icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+    immediate = {
+        set_variable = gwangmu_army_event
+        c:JAP = { save_scope_as = japan_scope }
+        random_country = {
+            limit = { 
+                country_rank = rank_value:great_power 
+                relations:root >= relations_threshold:neutral
+            }
+            save_scope_as = army_country_1
+        }
+        random_country = {
+            limit = { 
+                country_rank = rank_value:great_power 
+                relations:root >= relations_threshold:neutral
+                this != scope:army_country_1
+            }
+            save_scope_as = army_country_2
+        }
+    }
+
+    duration = 3
+
+    trigger = {
+        has_variable = gwangmu_nationalism_complete
+        NOT = { has_variable = gwangmu_army_event }
+    }
+
+    #TODO
+    #A: (jpn has meiji) research next possible mil tech, enact professional army, add jpn influence JE, add variable 'jpnese in army'
+    option = {
+        name = kor.10.a
+        highlighted_option = yes
+
+        trigger = {
+            custom_tooltip = {
+                text = japan_completed_meiji_tt
+                exists = c:JAP
+                c:JAP = { has_variable = meiji_restoration_complete }
+            }
+        }
+	
+	#research army
+	if = { limit = { has_technology_researched = artillery has_technology_researched = napoleonic_warfare has_technology_researched = field_works has_technology_researched = line_infantry }
+                add_technology_progress = { 
+			progress = 5000 technology = general_staff
+		}	
+	}
+	else_if = { limit = { has_technology_researched = artillery has_technology_researched = napoleonic_warfare has_technology_researched = field_works }
+                add_technology_progress = { 
+			progress = 5000 technology = line_infantry
+		}	
+	}
+        else_if = { limit = { has_technology_researched = artillery has_technology_researched = field_works }
+                add_technology_progress = { 
+			progress = 5000 technology = napoleonic_warfare
+		}	
+	}
+	else_if = { limit = { has_technology_researched = field_works }
+	        add_technology_progress = { 
+			progress = 5000 technology = artillery
+		}
+	}
+	else = {
+	        add_technology_progress = { 
+			progress = 5000 technology = field_works
+		}
+	}
+
+        if = {
+            limit = { NOT = { has_journal_entry = je_jpn_influence_kor } }
+            add_journal_entry = { type = je_jpn_influence_kor }
+        }
+
+        if = {
+            limit = { has_law = law_type:law_peasant_levies }
+            activate_law = law_type:law_professional_army
+        }
+
+        hidden_effect = {        
+            set_variable = { name = jpn_in_army } 
+            change_variable = { 
+                name = japanese_influence 
+                add = 1
+            }
+        }
+    }
+    #B: army advisors from great power i, improve relations, tech progress on next important mil tech
+    option = {
+        name = kor.10.b
+	#research army
+	if = { 
+	        limit = { 
+			has_technology_researched = artillery
+			has_technology_researched = napoleonic_warfare
+			has_technology_researched = field_works
+			has_technology_researched = line_infantry 
+		}
+                add_technology_progress = { 
+			progress = 5000 technology = general_staff
+		}	
+	}
+	else_if = {
+	        limit = { 
+			has_technology_researched = artillery
+			has_technology_researched = napoleonic_warfare
+			has_technology_researched = field_works
+		}
+                add_technology_progress = { 
+			progress = 5000 technology = line_infantry
+		}	
+	}
+        else_if = {
+	        limit = { 
+			has_technology_researched = artillery
+			has_technology_researched = field_works
+		}
+                add_technology_progress = { 
+			progress = 5000 technology = napoleonic_warfare
+		}	
+	}
+	else_if = {
+	        limit = { 
+			has_technology_researched = field_works
+		}
+	        add_technology_progress = { 
+			progress = 5000 technology = artillery
+		}
+	}
+	else = {
+	        add_technology_progress = { 
+			progress = 5000 technology = field_works
+		}
+	}
+	
+        change_relations = {
+            country = scope:army_country_1
+            value = 20
+        }
+        add_treasury = -150000
+        scope:army_country_1 = { add_treasury = 150000 }
+    }
+    #C: army advisors from great power ii, improve relations, enact professional army
+    option = {
+        name = kor.10.c
+        change_relations = {
+            country = scope:army_country_2
+            value = 20
+        }
+        add_treasury = -150000
+        scope:army_country_2 = { add_treasury = 150000 }
+        if = { 
+            limit = { has_law = law_type:law_peasant_levies } 
+            activate_law = law_type:law_professional_army 
+        }
+    }
+}
+
+kor.11 = { #gwangmu navy, establishment of naval academy
+    type = country_event
+    placement = root
+
+    title = kor.11.t
+    desc = kor.11.d
+    flavor = kor.11.f
+    
+    event_image = {
+        video = "gfx/event_pictures/unspecific_steam_ship.bk2"
+    }
+
+    on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+    on_opened_soundeffect = "event:/SFX/Events/asia/unspecific_steam_ship"
+
+    icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+    immediate = {
+        set_variable = gwangmu_navy_event
+        random_country = {
+            limit = { 
+                country_rank = rank_value:great_power 
+                relations:root >= relations_threshold:neutral
+            }
+            save_scope_as = navy_country_1
+        }
+        random_country = {
+            limit = { 
+                country_rank = rank_value:great_power 
+                relations:root >= relations_threshold:neutral
+                this != scope:navy_country_1
+            }
+            save_scope_as = navy_country_2
+        }
+        random_country = {
+            limit = { 
+                country_rank = rank_value:great_power 
+                relations:root >= relations_threshold:neutral
+                this != scope:navy_country_1
+                this != scope:navy_country_2
+            }
+            save_scope_as = navy_country_3
+        }
+    }
+
+    duration = 3
+
+    trigger = {
+        has_variable = gwangmu_nationalism_complete
+        NOT = { has_variable = gwangmu_navy_event }
+    }
+
+    #TODO
+    #A: purchase ships from great power i, improve relations, lose money, GPi gains money, build lvl 5 naval base in STATE_BUSAN
+    option = {
+        name = kor.11.a
+        change_relations = {
+            country = scope:navy_country_1
+            value = 20
+        }
+        add_treasury = -1000000
+        scope:navy_country_1 = { add_treasury = 1000000 }
+        s:STATE_BUSAN = {
+            random_scope_state = {
+                limit = { owner = root }
+                create_building = {
+                    building = building_naval_base
+                    reserves = 0.5
+                    level = 4
+                }
+            }
+        }
+    }
+    #B: acquire tech from great power ii, improve relations, research next important naval tech
+    option = {
+        name = kor.11.b
+        change_relations = {
+            country = scope:navy_country_2
+            value = 20
+        }
+        add_treasury = -600000
+        scope:navy_country_2 = { add_treasury = 600000 }
+
+        # shipbuilding research progress
+	if = { limit = { has_technology_researched = screw_frigate }
+                add_technology_progress = { 
+			progress = 5000 technology = ironclad_tech
+		}	
+	}
+	else = {
+	        add_technology_progress = { 
+			progress = 5000 technology = screw_frigate
+		}
+	}
+    }
+    option = {
+        name = kor.11.c
+        change_relations = {
+            country = scope:navy_country_3
+            value = 20
+        }
+        add_treasury = -600000
+        scope:navy_country_3 = { add_treasury = 600000 }
+        add_technology_researched = power_of_the_purse
+	
+	# naval research progress
+	if = { limit = { has_technology_researched = power_of_the_purse }
+                add_technology_progress = { 
+			progress = 5000 technology = jeune_ecole
+		}	
+	}
+	else = {
+	        add_technology_progress = { 
+			progress = 5000 technology = power_of_the_purse
+		}
+	}
+    }
+}
+
+kor.12 = { #gwangmu taxes
+    type = country_event
+    placement = root
+
+    title = kor.12.t
+    desc = kor.12.d
+    flavor = kor.12.f
+    
+    event_image = {
+        video = "gfx/event_pictures/asia_union_leader.bk2"
+    }
+
+    on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+    on_opened_soundeffect = "event:/SFX/Events/asia/asia_union_leader"
+
+    icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+    duration = 3
+
+    immediate = {
+        set_variable = gwangmu_taxes_event
+        c:JAP = { save_scope_as = japan_scope }
+    }
+
+    trigger = {
+        has_variable = gwangmu_nationalism_complete
+        NOT = { has_variable = gwangmu_taxes_event }
+    }
+
+    #TODO
+    #A: (jpn has meiji) enact per capita tax, add jpn influence JE, add variable 'using jpnese currency'
+    option = {
+        name = kor.12.a
+        highlighted_option = yes
+        trigger = {
+            custom_tooltip = {
+                text = japan_completed_meiji
+                exists = c:JAP
+                c:JAP = { has_variable = meiji_restoration_complete }
+            }
+        }
+        add_modifier = { name = japanese_loans years = 10}
+        #research taxation
+	if = { limit = { has_technology_researched = central_archives }
+                add_technology_progress = { 
+			progress = 5000 technology = identification_documents
+		}	
+	}
+	else = {
+	        add_technology_progress = { 
+			progress = 5000 technology = central_archives
+		}
+	}
+
+        #enact per-capita tax
+        if = {
+            limit = { 
+                OR = {
+                    has_law = law_type:law_land_based_taxation
+                    has_law = law_type:law_consumption_based_taxation
+                }
+            }
+            activate_law = law_type:law_per_capita_based_taxation
+        }
+        #add jpn influence JE
+        if = {
+            limit = { NOT = { has_journal_entry = je_jpn_influence_kor } }
+            add_journal_entry = { type = je_jpn_influence_kor }
+        }
+        #progress JE
+        set_variable = { name = jpn_in_econ } 
+        change_variable = { 
+            name = japanese_influence 
+            add = 1
+        }
+    }
+    #B: (has debt)(jpn has meiji) remove all debt, add jpn influence JE, add variable 'using jpnese currency'
+    option = {
+        name = kor.12.b
+        highlighted_option = yes
+        trigger = {
+            custom_tooltip = {
+                text = japan_completed_meiji_tt
+                exists = c:JAP
+                c:JAP = { has_variable = meiji_restoration_complete }
+            }
+            scaled_debt > 0
+        }
+        add_modifier = { name = japanese_loans years = 10}
+	#research taxation
+        if = { limit = { has_technology_researched = central_archives }
+                add_technology_progress = { 
+			progress = 5000 technology = identification_documents
+		}	
+	}
+	else = {
+	        add_technology_progress = { 
+			progress = 5000 technology = central_archives
+		}
+	}
+	
+        #remove all debt
+        clear_debt = yes
+        #add jpn influence JE
+        if = {
+            limit = { NOT = { has_journal_entry = je_jpn_influence_kor } }
+            add_journal_entry = { type = je_jpn_influence_kor }
+        }
+        #progress JE
+        set_variable = { name = jpn_in_econ } 
+        change_variable = { 
+            name = japanese_influence 
+            add = 1
+        }
+    }
+    #C: (autocracy) enact per capita tax, landowners malus approval
+    option = {
+        name = kor.12.c
+        trigger = {
+            has_law = law_type:law_autocracy
+        }
+        if = {
+            limit = { 
+                OR = {
+                    has_law = law_type:law_land_based_taxation
+                    has_law = law_type:law_consumption_based_taxation
+                }
+            }
+            activate_law = law_type:law_per_capita_based_taxation
+        }
+        ig:ig_landowners = {
+            add_modifier = {
+                name = royal_prerogative
+                years = 2
+            }
+        }
+    }
+    option = {
+        name = kor.12.e
+        #research taxation
+        if = { limit = { has_technology_researched = central_archives }
+                add_technology_progress = { 
+			progress = 5000 technology = identification_documents
+		}	
+	}
+	else = {
+	        add_technology_progress = { 
+			progress = 5000 technology = central_archives
+		}
+	}
+    }
+}
+
+kor.13 = { #gwangmu democracy
+    type = country_event
+    placement = root
+
+    title = kor.13.t
+    desc = kor.13.d
+    flavor = kor.13.f
+    
+    event_image = {
+        video = "gfx/event_pictures/europenorthamerica_sufferage.bk2"
+    }
+
+    on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+    on_opened_soundeffect = "event:/SFX/Events/asia/europenorthamerica_sufferage"
+
+    icon = "gfx/interface/icons/event_icons/event_election.dds"
+
+    duration = 3
+
+    immediate = {
+        set_variable = gwangmu_democracy_event
+        c:JAP = { save_scope_as = japan_scope }
+        if = {
+            limit = { exists = c:JAP }
+            c:JAP = { active_law:lawgroup_governance_principles.type = { save_scope_as = japan_governance_principles } }
+            c:JAP = { active_law:lawgroup_distribution_of_power.type = { save_scope_as = japan_distribution_of_power } }
+        }
+        random_country = {
+            limit = { 
+                recognized_major_trigger = yes
+                NOT = { coa_undemocratic_monarchy_trigger = yes }
+                relations:root >= relations_threshold:neutral
+            }
+            save_scope_as = democratic_country_1
+            active_law:lawgroup_distribution_of_power.type = { save_scope_as = democratic_country_1_law }
+        }
+        random_country = {
+            limit = { 
+                recognized_major_trigger = yes
+                NOT = { coa_undemocratic_monarchy_trigger = yes }
+                relations:root >= relations_threshold:neutral
+                this != scope:democratic_country_1
+            }
+            save_scope_as = democratic_country_2
+            active_law:lawgroup_distribution_of_power.type = { save_scope_as = democratic_country_2_law }
+        }
+    }
+
+    trigger = {
+        has_variable = gwangmu_nationalism_complete
+        NOT = { has_variable = gwangmu_democracy_event }
+    }
+
+    #TODO
+    #A: (jpn has meiji) set leader ig to industrialist, enact oligarchy, add variable 'jpnese in govt'
+    option = {
+        name = kor.13.a
+        highlighted_option = yes
+        trigger = {
+            custom_tooltip = {
+                text = japan_completed_meiji_tt
+                exists = c:JAP
+                c:JAP = { has_variable = meiji_restoration_complete }
+            }
+        }
+        activate_law = scope:japan_governance_principles
+        activate_law = scope:japan_distribution_of_power
+        #add jpn influence JE
+        if = {
+            limit = { NOT = { has_journal_entry = je_jpn_influence_kor } }
+            add_journal_entry = { type = je_jpn_influence_kor }
+        }
+        #progress JE
+        set_variable = { name = jpn_in_govt } 
+        change_variable = { 
+            name = japanese_influence 
+            add = 1
+        }
+    }
+    #B: copy great power i
+    option = {
+        name = kor.13.b
+        activate_law = scope:democratic_country_1_law
+    }
+    #C: copy great power ii
+    option = {
+        name = kor.13.c
+        activate_law = scope:democratic_country_1_law
+    }
+}
+
+kor.14 = { #korea pleads their sovereignty
+    type = country_event
+    placement = root
+
+    title = kor.14.t
+    desc = kor.14.d
+    flavor = kor.14.f
+    
+    event_image = {
+        video = "gfx/event_pictures/europenorthamerica_sufferage.bk2"
+    }
+
+    on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+    on_opened_soundeffect = "event:/SFX/Events/asia/europenorthamerica_sufferage"
+
+    icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+    immediate = {
+        save_scope_as = western_liberator_scope
+        c:KOR = { save_scope_as = kor_scope }
+        c:KOR.overlord = { save_scope_as = chi_scope }
+    }
+
+    duration = 3
+
+    option = { #liberate korea for free trade
+        name = kor.14.a
+        trigger_event = {
+            id = kor.15
+        }
+    }
+    option = { #liberate korea for an obligation
+        name = kor.14.b
+        trigger_event = {
+            id = kor.16
+        }
+    }
+    option = { #refuse the delegation
+        name = kor.14.c
+        change_relations = {
+            country = scope:kor_scope
+            value = -30
+        }
+        scope:kor_scope = {
+            post_notification = kor_gp_refused_liberation
+        }
+    }
+}
+
+kor.15 = { #liberate korea for free trade
+    type = country_event
+    placement = root
+
+    title = kor.15.t
+    desc = kor.15.d
+    flavor = kor.15.f
+    
+    event_image = {
+        video = "gfx/event_pictures/europenorthamerica_sufferage.bk2"
+    }
+
+    on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+    on_opened_soundeffect = "event:/SFX/Events/asia/europenorthamerica_sufferage"
+
+    icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+    duration = 3
+
+    option = { #agree
+        name = kor.15.a
+        create_diplomatic_play = {
+            target_country = scope:chi_scope
+            type = dp_independence
+            add_initiator_backers = { scope:western_liberator_scope }
+        }
+        if = {
+            limit = { has_law = law_type:law_isolationism }
+            activate_law = law_type:law_free_trade
+        }
+        create_diplomatic_pact = {
+            target_country = scope:western_liberator_scope
+            type = trade_agreement
+        }
+    }
+    option = { #refuse
+        name = kor.15.b
+    }
+}
+
+kor.16 = { #liberate korea for an obligation
+    type = country_event
+    placement = root
+
+    title = kor.16.t
+    desc = kor.16.d
+    flavor = kor.16.f
+    
+    event_image = {
+        video = "gfx/event_pictures/europenorthamerica_sufferage.bk2"
+    }
+
+    on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+    on_opened_soundeffect = "event:/SFX/Events/asia/europenorthamerica_sufferage"
+
+    icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+    duration = 3
+
+    option = { #agree
+        name = kor.16.a
+        create_diplomatic_play = {
+            target_country = scope:chi_scope
+            type = dp_independence
+            add_initiator_backers = { scope:western_liberator_scope }
+        }
+        set_owes_obligation_to = {
+            country = scope:western_liberator_scope
+            setting = yes
+        }
+    }
+    option = { #refuse
+        name = kor.16.b
+    }
+
+}
+kor.100 = { #DEBUG EVENT
+    type = country_event
+    placement = root
+
+    title = kor.100.t
+    desc = kor.100.d
+    flavor = kor.100.f
+    
+    event_image = {
+        video = "gfx/event_pictures/asia_confucianism_shinto.bk2"
+    }
+
+    on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+    on_opened_soundeffect = "event:/SFX/Events/asia/confucianism_shinto"
+
+    icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+    duration = 12
+    option = {
+        name = kor.100.a
+        default_option = yes
+    }
 }
