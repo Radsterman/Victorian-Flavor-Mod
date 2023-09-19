@@ -71,3 +71,66 @@
 
 	weight = 50
 }
+
+je_prussian_guard = {
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	complete = {
+	    ig:ig_armed_forces = {
+			is_powerful = yes
+		}
+		any_scope_state = {
+			state_region = s:STATE_BRANDENBURG
+			any_scope_building = {
+				is_building_type = building_barracks
+				occupancy > 0.9
+				has_active_production_method = pm_skirmish_infantry
+				level >= 30
+			}
+		}
+		any_scope_state = {
+			state_region = s:STATE_WEST_PRUSSIA
+			any_scope_building = {
+				is_building_type = building_barracks
+				occupancy > 0.9
+				has_active_production_method = pm_skirmish_infantry
+				level >= 20
+			}
+		}
+		any_scope_state = {
+			state_region = s:STATE_EAST_PRUSSIA
+			any_scope_building = {
+				is_building_type = building_barracks
+				occupancy > 0.9
+				has_active_production_method = pm_skirmish_infantry
+				level >= 20
+			}
+		}
+		
+		any_scope_state = {
+			state_region = s:STATE_RHINELAND
+			any_scope_building = {
+				is_building_type = building_barracks
+				occupancy > 0.9
+				has_active_production_method = pm_skirmish_infantry
+				level >= 20
+			}
+		}
+	}
+	
+	fail = {
+		game_date > 1856.1.1
+	}
+
+	on_complete = {
+		show_as_tooltip = {
+			add_modifier = {
+				name = generic_military_tech_research
+				months = long_modifier_time
+			}
+		}
+		trigger_event = { id = journal_flavor_germany.2 }
+	}
+
+	weight = 50
+}
