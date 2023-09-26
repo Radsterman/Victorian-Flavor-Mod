@@ -1084,7 +1084,7 @@ kor.14 = { #korea pleads their sovereignty
     icon = "gfx/interface/icons/event_icons/waving_flag.dds"
 
     immediate = {
-        save_scope_as = western_liberator_scope
+        save_scope_as = western_liberator_scope # TODO: fix setting of this scope
         c:KOR = { save_scope_as = kor_scope }
         c:KOR.overlord = { save_scope_as = chi_scope }
     }
@@ -1093,15 +1093,21 @@ kor.14 = { #korea pleads their sovereignty
 
     option = { #liberate korea for free trade
         name = kor.14.a
-        trigger_event = {
-            id = kor.15
-        }
+        scope:kor_scope = {
+            trigger_event = {
+                id = kor.15
+			    days = 7
+            }
+		}
     }
     option = { #liberate korea for an obligation
         name = kor.14.b
-        trigger_event = {
-            id = kor.16
-        }
+		scope:kor_scope = {
+            trigger_event = {
+                id = kor.16
+		    	days = 7
+            }
+		}
     }
     option = { #refuse the delegation
         name = kor.14.c
@@ -1112,6 +1118,7 @@ kor.14 = { #korea pleads their sovereignty
         scope:kor_scope = {
             post_notification = kor_gp_refused_liberation
         }
+		 # TODO: send event to korea
     }
 }
 
@@ -1133,6 +1140,11 @@ kor.15 = { #liberate korea for free trade
     icon = "gfx/interface/icons/event_icons/waving_flag.dds"
 
     duration = 3
+	
+	immediate = {
+        save_scope_as = western_liberator_scope # TODO: fix setting of this scope
+        c:KOR.overlord = { save_scope_as = chi_scope }
+    }
 
     option = { #agree
         name = kor.15.a
@@ -1146,7 +1158,7 @@ kor.15 = { #liberate korea for free trade
             activate_law = law_type:law_free_trade
         }
         create_diplomatic_pact = {
-            target_country = scope:western_liberator_scope
+            country = scope:western_liberator_scope
             type = trade_agreement
         }
     }
@@ -1173,6 +1185,11 @@ kor.16 = { #liberate korea for an obligation
     icon = "gfx/interface/icons/event_icons/waving_flag.dds"
 
     duration = 3
+	
+	immediate = {
+        save_scope_as = western_liberator_scope
+        c:KOR.overlord = { save_scope_as = chi_scope }
+    }
 
     option = { #agree
         name = kor.16.a
