@@ -103,34 +103,6 @@ gov_governor_generalship = {
 	}
 }
 
-
-
-gov_grand_duchy_posen = {
-	transfer_of_power = hereditary
-	new_leader_on_reform_government = no
-	
-	male_ruler = "RULER_TITLE_GOVERNOR"
-	female_ruler = "RULER_TITLE_GOVERNOR"
-
-	male_heir = "" # Empty on purpose
-	female_heir = "" # Empty on purpose
-	
-	possible = {
-		has_law = law_type:law_presidential_republic
-		has_law = law_type:law_autocracy
-		country_tier = grand_principality
-		exists = c:POS
-		c:POS = ROOT
-	}
-
-	on_government_type_change = {
-		change_to_presidential_elective = yes
-	}
-	on_post_government_type_change = {
-		post_change_to_presidential_elective = yes
-	}
-}
-
 gov_french_2nd_republic_presidential = {
 	transfer_of_power = presidential_elective
 	new_leader_on_reform_government = yes
@@ -448,6 +420,37 @@ gov_chartered_company = {
 			AND = { exists = c:BIC c:BIC = ROOT }
 		}
 		is_subject_type = subject_type_dominion
+	}
+
+	on_government_type_change = {
+		change_to_presidential_elective = yes
+	}
+	on_post_government_type_change = {
+		post_change_to_presidential_elective = yes
+	}
+}
+
+gov_crown_colony = {
+	transfer_of_power = presidential_elective
+	new_leader_on_reform_government = no
+
+	male_ruler = "RULER_TITLE_GOVERNOR"
+	female_ruler = "RULER_TITLE_GOVERNOR"
+	
+	possible = {
+		has_law = law_type:law_presidential_republic
+		exists = c:GBR
+		is_subject_of = c:GBR
+		c:GBR = {
+			has_law = law_type:law_monarchy
+		}
+		is_subject_type = subject_type_dependency
+		is_country_type = colonial
+		top_overlord = { NOT = { is_country_type = colonial } }
+		any_primary_culture = {
+			has_discrimination_trait = european_heritage
+		}
+		country_is_in_europe = no
 	}
 
 	on_government_type_change = {
