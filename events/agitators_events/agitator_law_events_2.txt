@@ -1,0 +1,3359 @@
+﻿namespace = agitator_legal_events
+
+# Agitator talks the new law dead.
+agitator_legal_events.1 = {
+	type = country_event
+	event_image = {
+		video = "unspecific_politicians_arguing"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	title = agitator_legal_events.1.t
+	desc = agitator_legal_events.1.d
+	flavor = agitator_legal_events.1.f
+	
+	category = enactment
+
+	duration = 3
+	
+	trigger = { #Triggers when you enact laws; agitator does not like the law AND governing interest group doesn't care about the law
+		agitator_opposes_enaction = yes
+		government_ig_ambivalent_enaction = yes
+	}
+
+	cancellation_trigger = {
+		OR = {
+			scope:opposing_agitator = {
+				is_character_alive = no
+			}
+			NOT = {
+				exists = scope:opposing_agitator
+			}
+			NOT = {
+				exists = root.currently_enacting_law
+			}
+		}
+	}
+	
+	immediate = { #Immediately, the law you're working on resets its timer — it's stalled — and the options will target the Agitator's IG and SOL Radicals
+		save_agitator_law_scopes = yes
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+		capital = {
+			save_scope_as = capital_scope
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.1.a
+		default_option = yes
+		random_interest_group = {
+			limit = {
+				is_in_government = yes
+				NOT = {
+					is_same_interest_group_type = scope:opposing_agitator.interest_group
+				}
+			}
+			add_modifier = {
+				name = modifier_legalised_gag_laws
+				months = short_modifier_time
+			}
+		}
+		add_radicals = {
+			value = small_radicals
+			interest_group = scope:opposing_agitator.interest_group
+		}
+		add_enactment_modifier = {
+			name = modifier_wasted_session
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.1.b
+		add_radicals = {
+			value = medium_radicals
+			interest_group = scope:opposing_agitator.interest_group
+		}
+		scope:opposing_agitator = {
+			add_modifier = {
+				name = modifier_public_smears
+				months = short_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = modifier_wasted_session
+			multiplier = 2
+		}
+	}
+}
+
+# Agitator gags the new law dead.
+agitator_legal_events.2 = {
+	type = country_event
+	event_image = {
+		video = "africa_leader_arguing"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	title = agitator_legal_events.2.t
+	desc = agitator_legal_events.2.d
+	flavor = agitator_legal_events.2.f
+	
+	category = enactment
+
+	duration = 3
+	
+	trigger = { #Triggers when you enact laws; agitator does not like the law	
+		agitator_opposes_enaction = yes
+		government_ig_supports_enaction = yes
+		government_ig_opposes_enaction = yes
+	}
+
+	cancellation_trigger = {
+		OR = {
+			scope:opposing_agitator = {
+				is_character_alive = no
+			}
+			NOT = {
+				exists = scope:opposing_agitator
+			}
+			NOT = {
+				exists = root.currently_enacting_law
+			}
+		}
+	}
+	
+	immediate = { #Immediately, the law you're working on resets its timer — it's stalled — and the options will target the Agitator's IG and SOL Radicals
+		save_agitator_law_scopes = yes
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+		random_interest_group = {
+			limit = {
+				is_in_government = yes
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value > neutral
+				}
+			}
+			save_scope_as = governing_ig
+		}
+		random_interest_group = {
+			limit = {
+				is_in_government = yes
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value < neutral
+				}
+			}
+			save_scope_as = opposing_ig
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.2.a
+		default_option = yes
+		random_list = {
+			70 = {
+				scope:opposing_ig = {
+					add_modifier = {
+						name = gagging_the_opposition
+						months = normal_modifier_time
+					}
+				}
+			}
+			30 = {
+				scope:governing_ig = {
+					add_modifier = {
+						name = reasonable_exercise_of_authority
+						months = normal_modifier_time
+					}
+				}
+			}
+		}
+		add_enactment_modifier = {
+			name = modifier_gag_laws_controversy
+		}
+	}
+	
+	option = {
+		name = agitator_legal_events.2.b
+		scope:opposing_agitator = {
+			add_modifier = {
+				name = bridle_gagged
+				months = normal_modifier_time
+			}
+		}
+		random_list = {
+			50 = {
+				
+			}
+			50 = {
+				scope:governing_ig = {
+					add_modifier = {
+						name = tasteless_kink_shaming
+						months = normal_modifier_time
+					}
+				}
+			}
+		}
+	}
+}
+
+#Stalls because Agitator has food-poisoning
+agitator_legal_events.3 = {
+	type = country_event
+	event_image = {
+		video = "unspecific_politicians_arguing"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	title = agitator_legal_events.3.t
+	desc = agitator_legal_events.3.d
+	flavor = agitator_legal_events.3.f
+	
+	category = enactment
+
+	duration = 3
+	
+	trigger = {
+		agitator_supports_enaction = yes
+	}
+
+	cancellation_trigger = {
+		OR = {
+			scope:supporting_agitator = {
+				is_character_alive = no
+			}
+			NOT = {
+				exists = scope:supporting_agitator
+			}
+			NOT = {
+				exists = root.currently_enacting_law
+			}
+		}
+	}
+	
+	immediate = { #The options will target the governing IG, Agitator's IG and Agitator themselves
+		save_agitator_law_scopes = yes
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+	}
+
+	option = { 
+		name = agitator_legal_events.3.a
+		default_option = yes
+		add_enactment_modifier = {
+			name = modifier_sick_leave
+			multiplier = 2
+		}
+		scope:supporting_agitator = {
+			add_modifier = {
+				name = unfortunate_accident
+				months = normal_modifier_time
+			}
+		}
+		add_loyalists = {
+			value = small_radicals
+			interest_group = scope:supporting_agitator.interest_group
+		}
+	}
+
+	option = { #This option gains sympathy for the interest group, but wounds the agitator
+		name = agitator_legal_events.3.b
+		add_enactment_modifier = {
+			name = modifier_sick_leave
+			multiplier = 1
+		}
+		scope:supporting_agitator = {
+			add_modifier = {
+				name = totally_unfortunate_accident
+				months = normal_modifier_time
+			}
+			add_trait = wounded
+		}
+	}
+}
+
+#Agitator stalls to demand an expert
+agitator_legal_events.4 = {
+	type = country_event
+	event_image = {
+		video = "middleeast_engineer_blueprint"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	title = agitator_legal_events.4.t
+	desc = agitator_legal_events.4.d
+	flavor = agitator_legal_events.4.f
+	
+	category = enactment
+
+	duration = 3
+	
+	trigger = {
+		agitator_opposes_enaction = yes
+		government_ig_supports_enaction = yes
+	}
+
+	cancellation_trigger = {
+		OR = {
+			scope:opposing_agitator = {
+				is_character_alive = no
+			}
+			NOT = {
+				exists = scope:opposing_agitator
+			}
+			NOT = {
+				exists = root.currently_enacting_law
+			}
+		}
+	}
+	
+	immediate = { #The options will target the enacting law, governing IG, Agitator's IG and Agitator themselves
+		save_agitator_law_scopes = yes
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+		random_interest_group = {
+			limit = {
+				is_marginal = no
+				is_in_government = yes
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value > neutral
+				}
+			}
+			save_scope_as = supporting_ig
+		}
+	}
+	option = { #Cave to the Agitator, gets them attraction and you lose muns; this is meant to represent the expedient option. Not recommended if you're in heavy debt.
+		name = agitator_legal_events.4.a
+		default_option = yes
+		add_treasury = -3000
+		scope:supporting_ig = {
+			add_modifier = {
+				name = expert_finder
+				months = normal_modifier_time
+			}
+		}
+	}
+	option = { #Try to call a bluff: can make the agitator more popular, also has chance of draining the IG loyalists. Has smol chance of increasing next enactment success
+		name = agitator_legal_events.4.b
+		random_list = {
+			70 = {
+				scope:supporting_ig = {
+					add_modifier = {
+						name = found_real_expert
+						months = normal_modifier_time
+					}
+				}
+				add_enactment_modifier = {
+					name = modifier_expert_dissents
+				}
+			}
+			30 = {
+				scope:opposing_agitator = {
+					add_modifier = {
+						name = bluff_called
+						months = normal_modifier_time
+					}
+				}
+				add_enactment_modifier = {
+					name = expert_agreed_with_gov
+					multiplier = 1
+				}
+			}
+		}
+	}
+
+	option = { #Go to a university in the country, which can go either way on helping the agitator or the government
+		name = agitator_legal_events.4.c
+		trigger = {
+			any_scope_building = {
+				is_building_type = building_university
+				OR = {
+					has_active_production_method = pm_philosophy_department
+					has_active_production_method = pm_analytical_philosophy_department
+				}
+			}
+		}
+		highlighted_option = yes
+		random_list = {
+			60 = {
+				add_radicals = {
+					value = small_radicals
+				}
+				add_enactment_modifier = {
+					name = failed_law_abandoned
+					multiplier = 2
+				}
+			}
+
+			40 = {
+				add_enactment_modifier = {
+					name = professional_agreed_with_gov
+					multiplier = 1.5
+				}
+			}
+		}
+	}
+}
+
+#Agitator conveniently stalls debates by spilling a scandal
+agitator_legal_events.5 = {
+	type = country_event
+	event_image = {
+		video = "europenorthamerica_capitalists_meeting"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	title = agitator_legal_events.5.t
+	desc = agitator_legal_events.5.d
+	flavor = agitator_legal_events.5.f
+	
+	category = enactment
+
+	duration = 3
+	
+	trigger = {
+		any_interest_group = {
+			law_stance = {
+				law = owner.currently_enacting_law.type
+				value >= neutral
+			}
+		}
+		agitator_opposes_enaction = yes
+	}
+
+	cancellation_trigger = {
+		OR = {
+			scope:opposing_agitator = {
+				is_character_alive = no
+			}
+			NOT = {
+				exists = scope:opposing_agitator
+			}
+			NOT = {
+				exists = root.currently_enacting_law
+			}
+		}
+	}
+	
+	immediate = {
+		save_agitator_law_scopes = yes
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+		random_interest_group = {
+			limit = {
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value >= neutral
+				}
+			}
+			save_scope_as = opposing_ig #Actually supporting the law
+			leader = {
+				save_scope_as = opposing_ig_leader
+			}	
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.5.a
+		default_option = yes
+		scope:opposing_agitator = {
+			add_modifier = {
+				name = whistleblower
+				months = normal_modifier_time
+			}
+		}
+		scope:opposing_ig_leader = {
+			add_modifier = {
+				name = scandalous
+				months = normal_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = failed_law_abandoned
+			multiplier = 2
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.5.b
+		scope:opposing_agitator = {
+			add_modifier = {
+				name = unopposed_whistleblower
+				months = normal_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = failed_law_ram
+		}
+	}
+}
+
+#Agitator acts like Lenin and runs on a platform of adamant non-compliance
+agitator_legal_events.6 = {
+	type = country_event
+	event_image = {
+		video = "unspecific_politicians_arguing"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	title = agitator_legal_events.6.t
+	desc = agitator_legal_events.6.d
+	flavor = agitator_legal_events.6.f
+	
+	category = enactment
+
+	duration = 3
+	
+	trigger = {
+		agitator_opposes_enaction = yes
+		OR = {
+			government_ig_supports_enaction = yes
+			government_ig_ambivalent_enaction = yes
+		}
+		any_interest_group = {
+			ig_approval <= 0
+			is_in_government = no
+		}
+	}
+
+	cancellation_trigger = {
+		OR = {
+			scope:opposing_agitator = {
+				is_character_alive = no
+			}
+			NOT = {
+				exists = scope:opposing_agitator
+			}
+			NOT = {
+				exists = root.currently_enacting_law
+			}
+		}
+	}
+	
+	immediate = {
+		save_agitator_law_scopes = yes
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+		random_interest_group = {
+			limit = {
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value >= neutral
+				}	
+				is_marginal = no
+				is_in_government = yes
+			}
+			save_scope_as = govnas
+		}
+
+		random_interest_group = {
+			limit = {
+				ig_approval <= 0
+				is_in_government = no
+			}
+			save_scope_as = opposing_ig
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.6.a
+		default_option = yes
+		random_list = {
+			70 = {
+				scope:opposing_agitator.interest_group = {
+					add_modifier = {
+						name = just_like_lenin
+						months = normal_modifier_time
+					}
+				}
+			}
+			30 = {
+				scope:govnas = {
+					add_modifier = {
+						name = resisted_oppositional_tomfoolery
+						months = normal_modifier_time
+					}
+				}
+			}
+		}
+		add_enactment_modifier = {
+			name = modifier_adamant_refusal
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.6.b
+		random_list = {
+			50 = {
+				scope:opposing_agitator = {
+					add_modifier = {
+						name = foul_play_sympathies
+						months = normal_modifier_time
+					}
+				}
+			}
+			40 = {
+				scope:opposing_agitator = {
+					add_modifier = {
+						name = bluff_called
+						months = normal_modifier_time
+					}
+				}
+			}
+			10 = {
+				scope:opposing_agitator = {
+					add_trait = wounded
+				}
+			}
+		}
+		add_enactment_modifier = {
+			name = modifier_doxed_opposition
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.6.c
+		trigger = {
+			enactment_setback_count < 2
+		}
+		highlighted_option = yes
+		add_enactment_setback = 1
+		add_radicals = {
+			value = small_radicals
+			interest_group = scope:opposing_agitator.interest_group
+		}
+		scope:opposing_agitator = {
+			add_modifier = {
+				name = bluff_called
+				months = normal_modifier_time
+			}
+		}
+	}
+}
+
+#Agitator stalls by causing infighting in a party
+agitator_legal_events.7 = {
+	type = country_event
+	event_image = {
+		video = "africa_leader_arguing"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	title = agitator_legal_events.7.t
+	desc = agitator_legal_events.7.d
+	flavor = agitator_legal_events.7.f
+	
+	category = enactment
+
+	duration = 3
+	
+	trigger = {
+		OR = {
+			government_ig_supports_enaction = yes
+			government_ig_ambivalent_enaction = yes
+		}
+		agitator_opposes_enaction = yes
+	}
+
+	cancellation_trigger = {
+		OR = {
+			scope:opposing_agitator = {
+				is_character_alive = no
+			}
+			NOT = {
+				exists = scope:opposing_agitator
+			}
+			NOT = {
+				exists = root.currently_enacting_law
+			}
+		}
+	}
+	
+	immediate = {
+		save_agitator_law_scopes = yes
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+		random_interest_group = {
+			limit = {
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value >= neutral
+				}
+				is_in_government = yes
+			}
+			save_scope_as = govnas
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.7.a
+		default_option = yes
+		scope:govnas = {
+			add_modifier = {
+				name = resisted_oppositional_tomfoolery
+				months = short_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = failed_law_ram
+			multiplier = 2
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.7.b
+		scope:govnas = {
+			add_modifier = {
+				name = house_divided
+				months = short_modifier_time
+			}
+		}	
+		add_enactment_modifier = {
+			name = failed_law_ram
+			multiplier = 1
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.7.c
+		scope:opposing_agitator = {
+			add_modifier = {
+				name = foul_play_success
+	 			months = short_modifier_time
+			}
+		}
+		scope:govnas = {
+			add_modifier = {
+				name = house_divided
+				months = short_modifier_time
+				multiplier = 1.5
+			}
+		}
+		add_enactment_modifier = {
+			name = failed_law_ram
+			multiplier = 3
+		}
+	}
+}
+
+#Someone does a dirty deal that the agitator finds advantageous
+agitator_legal_events.8 = {
+	type = country_event
+	event_image = {
+		video = "votp_conspiring"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	title = agitator_legal_events.8.t
+	desc = agitator_legal_events.8.d
+	flavor = agitator_legal_events.8.f
+	
+	category = enactment
+
+	duration = 3
+	
+	trigger = {
+		agitator_supports_enaction = yes
+		any_interest_group = {
+			law_stance = {
+				law = owner.currently_enacting_law.type
+				value >= neutral
+			}	
+			is_marginal = no
+			is_in_government = no
+		}
+		OR = {
+			government_ig_supports_enaction = yes
+			government_ig_ambivalent_enaction = yes
+		}
+	}
+
+	cancellation_trigger = {
+		OR = {
+			scope:supporting_agitator = {
+				is_character_alive = no
+			}
+			NOT = {
+				exists = scope:supporting_agitator
+			}
+			NOT = {
+				exists = root.currently_enacting_law
+			}
+		}
+	}
+
+	immediate = {
+		save_agitator_law_scopes = yes
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+		random_interest_group = {
+			limit = {
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value >= neutral
+				}	
+				is_marginal = no
+				is_in_government = no
+			}
+			save_scope_as = dirty_dealers
+		}
+		random_interest_group = {
+			limit = {
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value >= neutral
+				}
+				is_in_government = yes
+			}
+			save_scope_as = govnas
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.8.a
+		default_option = yes
+		scope:govnas = {
+			add_modifier = {
+				name = modifier_crippling_corruption
+				months = normal_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = failed_law_abandoned
+			multiplier = 2
+		}	
+	}
+
+	option = {
+		name = agitator_legal_events.8.b
+		scope:supporting_agitator = {
+			add_modifier = {
+				name = modifier_blamed_for_corruption
+				months = normal_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = failed_law_ram
+		}
+	}
+	option = {
+		name = agitator_legal_events.8.c
+		trigger = {
+			enactment_setback_count < 2
+		}
+		highlighted_option = yes
+		add_enactment_setback = 1
+		add_enactment_modifier = {
+			name = modifier_corruption_is_very_good
+		}
+	}		
+}
+
+#Agitator stalls by falling back on ye olde classic: the price of bread
+agitator_legal_events.9 = {
+	type = country_event
+	event_image = {
+		video = "southamerica_election"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	title = agitator_legal_events.9.t
+	desc = agitator_legal_events.9.d
+	flavor = agitator_legal_events.9.f
+	
+	category = enactment
+
+	duration = 3
+	
+	trigger = {
+		agitator_opposes_enaction = yes
+		OR = {
+			government_ig_supports_enaction = yes
+			government_ig_ambivalent_enaction = yes
+		}
+	}
+
+	cancellation_trigger = {
+		OR = {
+			scope:opposing_agitator = {
+				is_character_alive = no
+			}
+			NOT = {
+				exists = scope:opposing_agitator
+			}
+			NOT = {
+				exists = root.currently_enacting_law
+			}
+		}
+	}
+	
+	immediate = {
+		save_agitator_law_scopes = yes
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+		random_interest_group = {
+			limit = {
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value >= neutral
+				}
+				is_in_government = yes
+			}
+			save_scope_as = govnas
+			leader = {
+				save_scope_as = da_boss
+			}
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.9.a
+		default_option = yes
+		scope:opposing_agitator = {
+			add_modifier = {
+				name = homo_plebii
+				months = normal_modifier_time
+			}
+		}
+		scope:govnas = {
+			add_modifier = {
+				name = foul_play_success
+				months = normal_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = failed_law_abandoned
+			multiplier = 1
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.9.b
+		scope:da_boss = {
+			add_modifier = {
+				name = forgot_bread_prices
+				months = normal_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = failed_law_ram
+			multiplier = 1
+		}
+	}
+}
+
+#Agitator stalls by throwing another IG under the bus
+agitator_legal_events.10 = {
+	type = country_event
+	event_image = {
+		video = "unspecific_politicians_arguing"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	title = agitator_legal_events.10.t
+	desc = agitator_legal_events.10.d
+	flavor = agitator_legal_events.10.f
+	
+	category = enactment
+
+	duration = 3
+	
+	trigger = {
+		any_interest_group = {
+			law_stance = {
+				law = owner.currently_enacting_law.type
+				value < neutral
+			}
+			is_in_government = no
+		}
+		agitator_opposes_enaction = yes
+		OR = {
+			government_ig_supports_enaction = yes
+			government_ig_ambivalent_enaction = yes
+		}
+	} #Intentional: meant to simulate agitator believing integrity takes precedence. Player can shoot them in the back or help them.
+
+	cancellation_trigger = {
+		OR = {
+			scope:opposing_agitator = {
+				is_character_alive = no
+			}
+			NOT = {
+				exists = scope:opposing_agitator
+			}
+			NOT = {
+				exists = root.currently_enacting_law
+			}
+		}
+	}
+
+	immediate = {
+		save_agitator_law_scopes = yes
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+		random_interest_group = {
+			limit = {
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value >= neutral
+				}	
+				is_in_government = yes
+			}
+			save_scope_as = govnas
+			leader = {
+				save_scope_as = da_boss
+			}	
+		}
+		random_interest_group = {
+			limit = {
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value < neutral
+				}
+				is_in_government = no
+			}
+			save_scope_as = opposing_ig
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.10.a
+		default_option = yes
+		scope:opposing_agitator = {
+			add_modifier = {
+				name = book_yeeter
+				months = normal_modifier_time
+			}
+		}
+		scope:da_boss = {
+			add_modifier = {
+				name = book_yeeter
+				months = normal_modifier_time
+				}
+		}
+		scope:opposing_ig = {
+			add_modifier = {
+				name = foul_play_success
+				months = normal_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = failed_law_abandoned
+			multiplier = 2
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.10.b
+		scope:opposing_agitator = {
+			add_modifier = {
+				name = closeted_skeletons
+				months = normal_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = failed_law_ram
+			multiplier = 2
+		}
+	}
+}
+
+
+#The agitator raises a good point, and the governors can appease for no progress or ram it while looking dodgy
+agitator_legal_events.11 = {
+	type = country_event
+	event_image = {
+		video = "southamerica_aristocrats"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	title = agitator_legal_events.11.t
+	desc = agitator_legal_events.11.d
+	flavor = agitator_legal_events.11.f
+	
+	category = enactment
+
+	duration = 3
+	
+	trigger = {
+		agitator_opposes_enaction = yes
+		government_ig_supports_enaction = yes
+	}
+
+	cancellation_trigger = {
+		OR = {
+			scope:opposing_agitator = {
+				is_character_alive = no
+			}
+			NOT = {
+				exists = scope:opposing_agitator
+			}
+			NOT = {
+				exists = root.currently_enacting_law
+			}
+		}
+	}
+	
+	immediate = {
+		save_agitator_law_scopes = yes
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+		random_interest_group = {
+			limit = {
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value > neutral
+				}
+				is_marginal = no
+				is_in_government = yes
+			}
+			save_scope_as = govnas
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.11.a
+		default_option = yes
+		scope:opposing_agitator = {
+			add_modifier = {
+				name = shrewd_politico
+				months = normal_modifier_time
+			}
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.11.b
+		scope:govnas = {
+			add_modifier = {
+				name = foul_play_success
+				months = normal_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = successful_law_ram
+		}
+	}
+}
+
+#Agitator controls the balance needed to swing a law
+agitator_legal_events.12 = {
+	type = country_event
+	event_image = {
+		video = "unspecific_ruler_speaking_to_people"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	title = agitator_legal_events.12.t
+	desc = agitator_legal_events.12.d
+	flavor = agitator_legal_events.12.f
+	category = enactment
+
+	duration = 3
+	
+	trigger = {
+		government_ig_supports_enaction = yes
+		any_scope_character = {
+			has_role = agitator
+			law_stance = {
+				law = owner.currently_enacting_law.type
+				value > neutral
+			}
+			this.interest_group = {
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value = neutral
+				}
+			}
+		}
+	}
+
+	cancellation_trigger = {
+		OR = {
+			scope:supporting_agitator = {
+				is_character_alive = no
+			}
+			NOT = {
+				exists = scope:supporting_agitator
+			}
+			NOT = {
+				exists = root.currently_enacting_law
+			}
+		}
+	}
+	
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_role = agitator
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value > neutral
+				}
+				this.interest_group = {
+					law_stance = {
+						law = owner.currently_enacting_law.type
+						value = neutral
+					}
+				}
+			}
+			save_scope_as = supporting_agitator
+			this.interest_group = {
+				save_scope_as = ambivalent_ig
+			}
+		}
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+		random_interest_group = {
+			limit = {
+				is_marginal = no
+				is_in_government = yes
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value > neutral
+				}
+			}
+			save_scope_as = govnas
+			leader = {
+				save_scope_as = da_boss
+			}
+		}
+		random_primary_culture = {
+			save_scope_as = primary_culture_scope
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.12.a
+		default_option = yes
+		scope:ambivalent_ig = {
+			add_modifier = {
+				name = middle_meeter
+				months = normal_modifier_time
+				multiplier = 3
+			}
+		}
+		add_enactment_modifier = {
+			name = successful_law_focus
+			multiplier = 2
+		}
+	}
+	option = {
+		name = agitator_legal_events.12.b
+		scope:ambivalent_ig.leader = {
+			add_modifier = {
+				name = rumours_going_around
+				months = normal_modifier_time
+			}
+		}
+		scope:da_boss = {
+			add_modifier = {
+				name = scandalous
+				months = normal_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = successful_law_focus
+			multiplier = 1
+		}
+	}
+	option = {
+		name = agitator_legal_events.12.c
+		scope:govnas = {
+			add_modifier = {
+				name = foul_play_sympathies
+				months = normal_modifier_time
+				multiplier = 3
+			}
+		}
+		add_enactment_modifier = {
+			name = failed_law_ram
+			multiplier = 1
+		}
+	}
+}
+
+#The agitator's faction is sick of their shenanigans
+agitator_legal_events.13 = {
+	type = country_event
+	event_image = {
+		video = "middleeast_courtroom_upheaval"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	title = agitator_legal_events.13.t
+	desc = agitator_legal_events.13.d
+	flavor = agitator_legal_events.13.f
+	category = enactment
+
+	duration = 3
+	
+	trigger = {
+		any_scope_character = {
+			has_role = agitator
+			law_stance = {
+				law = owner.currently_enacting_law.type
+				value > neutral
+			}
+			this.interest_group = {
+				is_in_government = yes
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value <= neutral
+				}
+			}
+		}
+	}
+
+	cancellation_trigger = {
+		OR = {
+			scope:supporting_agitator = {
+				is_character_alive = no
+			}
+			NOT = {
+				exists = scope:supporting_agitator
+			}
+			NOT = {
+				exists = root.currently_enacting_law
+			}
+		}
+	}
+	
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_role = agitator
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value > neutral
+				}
+				this.interest_group = {
+					is_in_government = yes
+					law_stance = {
+						law = owner.currently_enacting_law.type
+						value <= neutral
+					}
+				}
+			}
+			save_scope_as = supporting_agitator
+			interest_group = {
+				save_scope_as = supporting_interest_group
+			}
+		}
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+		random_primary_culture = {
+			save_scope_as = primary_culture_scope
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.13.a
+		default_option = yes
+		random_list = {
+			60 = {
+				scope:supporting_interest_group = {
+					add_modifier = {
+						name = foul_play_sympathies
+						months = normal_modifier_time
+					}
+				}
+			}
+			40 = {
+				add_radicals = {
+					value = small_radicals
+					interest_group = scope:supporting_interest_group
+				}
+				add_enactment_modifier = {
+					name = successful_law_ram
+					multiplier = 2
+				}
+			}
+		}
+	}
+	option = {
+		name = agitator_legal_events.13.b
+		scope:supporting_agitator = {
+			add_modifier = {
+				name = homo_plebii
+				months = normal_modifier_time
+			}
+		}
+		scope:supporting_interest_group = {
+			add_modifier = {
+				name = clean_hands
+				months = normal_modifier_time
+				multiplier = -1
+			}
+		}
+	}
+}
+
+#The agitator tries to filibuster a law, and one of two ambivalent parties can shut them down
+agitator_legal_events.14 = {
+	type = country_event
+	event_image = {
+		video = "unspecific_politicians_arguing"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	title = agitator_legal_events.14.t
+	desc = agitator_legal_events.14.d
+	flavor = agitator_legal_events.14.f
+	category = enactment
+
+	duration = 3
+	
+	trigger = {
+		agitator_opposes_enaction = yes
+		OR = {
+			government_ig_supports_enaction = yes
+			government_ig_ambivalent_enaction = yes
+		}
+	}
+
+	cancellation_trigger = {
+		OR = {
+			scope:opposing_agitator = {
+				is_character_alive = no
+			}
+			NOT = {
+				exists = scope:opposing_agitator
+			}
+			NOT = {
+				exists = root.currently_enacting_law
+			}
+		}
+	}
+	
+	immediate = {
+		save_agitator_law_scopes = yes
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+		random_interest_group = {
+			limit = {
+				is_marginal = no
+				is_in_government = yes
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value >= neutral
+				}
+			}
+			save_scope_as = govnas
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.14.a
+		default_option = yes
+		scope:govnas = {
+			add_modifier = {
+				name = lock_breaker
+				months = normal_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = successful_law_focus
+			multiplier = 1
+		}
+	}
+	option = {
+		name = agitator_legal_events.14.b
+		scope:agitator_ig = {
+			add_modifier = {
+				name = lock_breaker
+				months = normal_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = successful_law_focus
+			multiplier = 1
+		}
+	}
+	option = {
+		name = agitator_legal_events.14.c
+		random_list = {
+			50 = {
+				scope:agitator_ig = {
+					add_modifier = {
+						name = foul_play_success
+						months = normal_modifier_time
+						multiplier = 2
+					}
+				}
+				add_loyalists = {
+					value = medium_radicals
+					interest_group = scope:govnas
+				}
+			}
+			50 = {
+				scope:govnas = {
+					add_modifier = {
+						name = foul_play_success
+						months = normal_modifier_time
+						multiplier = 2
+					}
+				}
+				add_loyalists = {
+					value = medium_radicals
+					interest_group = scope:agitator_ig
+				}
+			}
+		}
+		add_enactment_modifier = {
+			name = failed_law_ram
+			multiplier = 1
+		}
+	}
+}
+
+#Media does what they do best and misleads the public. The agitator wants a redraft
+agitator_legal_events.15 = {
+	type = country_event
+	event_image = {
+		video = "southamerica_election"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	title = agitator_legal_events.15.t
+	desc = agitator_legal_events.15.d
+	flavor = agitator_legal_events.15.f
+	category = enactment
+
+	duration = 3
+	
+	trigger = {
+		has_technology_researched = mass_communication
+		agitator_opposes_enaction = yes
+		OR = {
+			government_ig_supports_enaction = yes
+			government_ig_ambivalent_enaction = yes
+		}
+	}
+
+	cancellation_trigger = {
+		OR = {
+			scope:opposing_agitator = {
+				is_character_alive = no
+			}
+			NOT = {
+				exists = scope:opposing_agitator
+			}
+			NOT = {
+				exists = root.currently_enacting_law
+			}
+		}
+	}
+	
+	immediate = {
+		save_agitator_law_scopes = yes
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+		random_interest_group = {
+			limit = {
+				is_marginal = no
+				is_in_government = yes
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value >= neutral
+				}
+			}
+			save_scope_as = govnas
+			leader = {
+				save_scope_as = da_boss
+			}
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.15.a
+		default_option = yes
+		add_treasury = -2500
+		scope:govnas = {
+			add_modifier = {
+				name = comms_fault
+				months = normal_modifier_time
+				multiplier = 1
+			}
+		}
+		add_enactment_modifier = {
+			name = successful_law_focus
+			multiplier = 1
+		}
+	}
+	option = {
+		name = agitator_legal_events.15.b
+		scope:da_boss = {
+			add_modifier = {
+				name = duplicitous
+				months = normal_modifier_time
+				multiplier = 1
+			}
+		}
+		add_enactment_modifier = {
+			name = successful_law_ram
+			multiplier = 1
+		}
+	}
+	option = {
+		name = agitator_legal_events.15.c
+		scope:da_boss = {
+			add_modifier = {
+				name = broken_clocks
+				months = normal_modifier_time
+				multiplier = 1
+			}
+		}
+		add_loyalists = {
+			value = small_radicals
+			interest_group = scope:opposing_agitator.interest_group
+		}
+		add_enactment_modifier = {
+			name = failed_law_abandoned
+			multiplier = 2
+		}
+	}
+}
+
+#Agitator wants a third opinion through a totally not corrupt commission of experts
+agitator_legal_events.16 = {
+	type = country_event
+	event_image = {
+		video = "europenorthamerica_capitalists_meeting"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	title = agitator_legal_events.16.t
+	desc = agitator_legal_events.16.d
+	flavor = agitator_legal_events.16.f
+	category = enactment
+
+	duration = 3
+	
+	trigger = {
+		agitator_supports_enaction = yes
+		OR = {
+			government_ig_supports_enaction = yes
+			government_ig_ambivalent_enaction = yes
+		}
+	}
+
+	cancellation_trigger = {
+		OR = {
+			scope:supporting_agitator = {
+				is_character_alive = no
+			}
+			NOT = {
+				exists = scope:supporting_agitator
+			}
+			NOT = {
+				exists = root.currently_enacting_law
+			}
+		}
+	}
+	
+	immediate = {
+		save_agitator_law_scopes = yes
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+		random_interest_group = {
+			limit = {
+				is_marginal = no
+				is_in_government = yes
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value >= neutral
+				}
+			}
+			save_scope_as = govnas
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.16.a
+		default_option = yes
+		add_modifier = {
+			name = alleged_expert_committee
+			months = normal_modifier_time
+			multiplier = money_amount_multiplier_medium
+		}
+		add_enactment_modifier = {
+			name = successful_law_ram
+			multiplier = 2
+		}
+	}
+	option = {
+		name = agitator_legal_events.16.b
+		scope:govnas = {
+			add_modifier = {
+				name = slowpoke
+				months = normal_modifier_time
+			}
+		}
+		random_list = {
+			40 = {
+				add_enactment_modifier = {
+					name = successful_law_focus
+					multiplier = 1
+				}
+			}
+			60 = {
+
+			}
+		}
+	}
+	option = {
+		name = agitator_legal_events.16.c
+		trigger = {
+			any_scope_building = {
+				is_building_type = building_university
+				level >= 3
+			}
+		}
+		add_enactment_modifier = {
+			name = successful_law_ram
+			multiplier = 2
+		}
+	}
+}
+
+#Two different IGs want a law ruled in their favour, while the agitator wants nobody to prosper
+agitator_legal_events.17 = {
+	type = country_event
+	event_image = {
+		video = "middleeast_courtroom_upheaval"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	title = agitator_legal_events.17.t
+	desc = agitator_legal_events.17.d
+	flavor = agitator_legal_events.17.f
+	category = enactment
+
+	duration = 3
+	
+	trigger = {
+		any_interest_group = {
+			is_marginal = no
+			is_in_government = yes
+			count = 2
+		}
+		agitator_opposes_enaction = yes
+	}
+
+	cancellation_trigger = {
+		OR = {
+			scope:opposing_agitator = {
+				is_character_alive = no
+			}
+			NOT = {
+				exists = scope:opposing_agitator
+			}
+			NOT = {
+				exists = root.currently_enacting_law
+			}
+		}
+	}
+	
+	immediate = {
+		save_agitator_law_scopes = yes
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+		random_interest_group = {
+			limit = {
+				is_marginal = no
+				is_in_government = yes
+			}
+			save_scope_as = opposing_ig
+		}
+		random_interest_group = {
+			limit = {
+				is_marginal = no
+				is_in_government = yes
+				NOT = {
+					scope:opposing_ig = THIS
+				}
+			}
+			save_scope_as = quarrelling_ig
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.17.a
+		default_option = yes
+		random_list = {
+			50 = {
+				scope:opposing_ig = {
+					add_modifier = {
+						name = semantics_ruling
+						months = normal_modifier_time
+					}
+				}
+				scope:quarrelling_ig = {
+					add_modifier = {
+						name = semantics_ruling
+						months = normal_modifier_time
+						multiplier = -1
+					}
+				}
+			}
+			50 = {
+				scope:quarrelling_ig = {
+					add_modifier = {
+						name = semantics_ruling
+						months = normal_modifier_time
+					}
+				}
+				scope:opposing_ig = {
+					add_modifier = {
+						name = semantics_ruling
+						months = normal_modifier_time
+						multiplier = -1
+					}
+				}
+			}
+		}
+	}
+	option = {
+		name = agitator_legal_events.17.b
+		scope:opposing_agitator = {
+			add_modifier = {
+				name = semantics_for_the_people
+				months = normal_modifier_time
+			}
+		}
+	}
+}
+
+#Agitator and a non-government interest group have a stoush over a small set of laws. Marginals allowed to play this time.
+agitator_legal_events.18 = {
+	type = country_event
+	event_image = {
+		video = "africa_leader_arguing"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	title = agitator_legal_events.18.t
+	desc = agitator_legal_events.18.d
+	flavor = agitator_legal_events.18.f
+
+	category = enactment
+	
+	duration = 3
+	
+	trigger = {
+		agitator_supports_enaction = yes
+		any_interest_group = {
+			is_in_government = no
+			law_stance = {
+				law = owner.currently_enacting_law.type
+				value <= neutral
+			}
+		}
+	}
+
+	cancellation_trigger = {
+		OR = {
+			scope:supporting_agitator = {
+				is_character_alive = no
+			}
+			NOT = {
+				exists = scope:supporting_agitator
+			}
+			NOT = {
+				exists = root.currently_enacting_law
+			}
+		}
+	}
+	
+	immediate = {
+		save_agitator_law_scopes = yes
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+		random_interest_group = {
+			limit = {
+				is_in_government = no
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value <= neutral
+				}
+			}
+			save_scope_as = opposing_ig
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.18.a
+		default_option = yes
+		random_list = {
+			34 = {
+				scope:supporting_agitator ?= {
+					add_modifier = {
+						name = bicker_win
+						months = normal_modifier_time
+					}
+				}
+				scope:opposing_ig = {
+					add_modifier = {
+						name = bicker_loss
+						months = normal_modifier_time
+					}
+				}
+			}
+			33 = {
+				scope:supporting_agitator ?= {
+					add_modifier = {
+						name = bicker_loss
+						months = normal_modifier_time
+					}
+				}
+				scope:opposing_ig = {
+					add_modifier = {
+						name = bicker_win
+						months = normal_modifier_time
+					}
+				}
+			}
+			33 = {
+				add_radicals = {
+					value = small_radicals
+					strata = poor
+				}
+			}
+		}
+	}
+	option = {
+		name = agitator_legal_events.18.b
+		scope:supporting_agitator = {
+			add_modifier = {
+				name = agitator_law_breakthrough
+				months = normal_modifier_time
+			}
+		}
+		scope:opposing_ig = {
+			add_modifier = {
+				name = opposition_law_collapse
+				months = normal_modifier_time
+			}
+		}
+	}
+	option = {
+		name = agitator_legal_events.18.c
+		scope:supporting_agitator = {
+			add_modifier = {
+				name = agitator_law_collapse
+				months = normal_modifier_time
+			}
+		}
+		scope:opposing_ig = {
+			add_modifier = {
+				name = opposition_law_breakthrough
+				months = normal_modifier_time
+			}
+		}
+	}
+}
+
+#Two IGs bicker about semantics, sort-of agitated by the agitator
+agitator_legal_events.19 = {
+	type = country_event
+	event_image = {
+		video = "unspecific_politicians_arguing"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	title = agitator_legal_events.19.t
+	desc = agitator_legal_events.19.d
+	flavor = agitator_legal_events.19.f
+
+	category = enactment
+
+	duration = 3
+	
+	trigger = {
+		agitator_supports_enaction = yes
+		any_interest_group = {
+			is_marginal = no
+			law_stance = {
+				law = owner.currently_enacting_law.type
+				value <= neutral
+			}
+			count >= 2
+		}
+	}
+
+	cancellation_trigger = {
+		OR = {
+			scope:supporting_agitator = {
+				is_character_alive = no
+			}
+			NOT = {
+				exists = scope:supporting_agitator
+			}
+			NOT = {
+				exists = root.currently_enacting_law
+			}
+		}
+	}
+	
+	immediate = {
+		save_agitator_law_scopes = yes
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+		random_interest_group = {
+			limit = {
+				is_marginal = no
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value <= neutral
+				}
+			}
+			save_scope_as = angry_ig
+		}
+		random_interest_group = {
+			limit = {
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value <= neutral
+				}
+				is_marginal = no
+				NOT = {
+					scope:angry_ig = THIS
+				}
+			}
+			save_scope_as = opposing_ig
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.19.a
+		default_option = yes
+		scope:opposing_ig = {
+			add_modifier = {
+				name = opposition_law_breakthrough
+				months = normal_modifier_time
+			}
+		}
+	}
+	option = {
+		name = agitator_legal_events.19.b
+		scope:angry_ig = {
+			add_modifier = {
+				name = opposition_law_breakthrough
+				months = normal_modifier_time
+			}
+		}
+	}
+	option = {
+		name = agitator_legal_events.19.c
+		scope:supporting_agitator = {
+			add_modifier = {
+				name = pot_stirrer
+				months = normal_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = failed_law_ram
+			multiplier = 1
+		}
+	}
+}
+
+#Two IGs, counting the Agitator's, and the government try to fix a law
+agitator_legal_events.20 = {
+	type = country_event
+	event_image = {
+		video = "africa_leader_arguing"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	title = agitator_legal_events.20.t
+	desc = agitator_legal_events.20.d
+	flavor = agitator_legal_events.20.f
+
+	category = enactment
+
+	duration = 3
+	
+	trigger = {
+		any_interest_group = {
+			is_marginal = no
+			law_stance = {
+				law = owner.currently_enacting_law.type
+				value >= neutral
+			}
+			count >= 2
+		}
+		agitator_supports_enaction = yes
+		OR = {
+			government_ig_supports_enaction = yes
+			government_ig_ambivalent_enaction = yes
+		}
+	}
+
+	cancellation_trigger = {
+		OR = {
+			scope:supporting_agitator = {
+				is_character_alive = no
+			}
+			NOT = {
+				exists = scope:supporting_agitator
+			}
+			NOT = {
+				exists = root.currently_enacting_law
+			}
+		}
+	}
+	
+	immediate = {
+		save_agitator_law_scopes = yes
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+		random_interest_group = {
+			limit = {
+				is_marginal = no
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value >= neutral
+				}
+			}
+			save_scope_as = opposing_ig
+		}
+		random_interest_group = {
+			limit = {
+				is_marginal = no
+				is_in_government = yes
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value >= neutral
+				}
+				NOT = {
+					scope:opposing_ig = this
+				}
+			}
+			save_scope_as = govnas
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.20.a
+		default_option = yes
+		scope:opposing_ig = {
+			add_modifier = {
+				name = ignored_provisions
+				months = normal_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = successful_law_focus
+			multiplier = 1
+		}
+	}
+	option = {
+		name = agitator_legal_events.20.b
+		scope:supporting_agitator = {
+			add_modifier = {
+				name = architect_of_change
+				months = normal_modifier_time
+			}
+		}
+		random_list = {
+			1 = {
+				add_enactment_modifier = {
+					name = failed_law_ram
+					multiplier = 1
+				}
+			}
+			1 = {
+				add_enactment_modifier = {
+					name = successful_law_ram
+					multiplier = 1
+				}
+			}
+		}
+	}
+	option = {
+		name = agitator_legal_events.20.c
+		scope:opposing_ig = {
+			add_modifier = {
+				name = partisan_favoritism
+				months = normal_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = compromised_law_ram
+			multiplier = 1
+		}
+	}
+}
+
+#Agitator likes the law enough to throw their support in.
+agitator_legal_events.21 = {
+	type = country_event
+	event_image = {
+		video = "unspecific_ruler_speaking_to_people"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	title = agitator_legal_events.21.t
+	desc = agitator_legal_events.21.d
+	flavor = agitator_legal_events.21.f
+	
+	category = enactment
+
+	duration = 3
+	
+	trigger = {
+		any_scope_character = {
+			has_role = agitator
+			law_stance = {
+				law = owner.currently_enacting_law.type
+				value = neutral
+			}
+		}
+		government_ig_supports_enaction = yes
+	}
+
+	cancellation_trigger = {
+		OR = {
+			scope:supporting_agitator = {
+				is_character_alive = no
+			}
+			NOT = {
+				exists = scope:supporting_agitator
+			}
+			NOT = {
+				exists = root.currently_enacting_law
+			}
+		}
+	}
+	
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_role = agitator
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value = neutral
+				}
+			}
+			save_scope_as = supporting_agitator
+		}
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+		random_interest_group = {
+			limit = {
+				is_marginal = no
+				is_in_government = yes
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value > neutral
+				}
+			}
+			save_scope_as = govnas
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.21.a
+		default_option = yes
+		scope:supporting_agitator = {
+			add_modifier = {
+				name = middle_meeter
+				months = normal_modifier_time
+			}
+		}
+		scope:govnas = {
+			add_modifier = {
+				name = middle_meeter
+				months = normal_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = successful_law_focus
+			multiplier = 1
+		}
+	}
+	option = {
+		name = agitator_legal_events.21.b
+		scope:supporting_agitator = {
+			add_modifier = {
+				name = rumours_going_around
+				months = normal_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = successful_law_ram
+			multiplier = 1
+		}
+	}
+}
+
+# Agitator concedes defeat on a matter and makes a gracious exit
+agitator_legal_events.22 = {
+	type = country_event
+	event_image = {
+		video = "middleeast_upperclass_party"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	title = agitator_legal_events.22.t
+	desc = agitator_legal_events.22.d
+	flavor = agitator_legal_events.22.f
+	
+	category = enactment
+
+	duration = 3
+	
+	trigger = {
+		agitator_opposes_enaction = yes
+		OR = {
+			government_ig_supports_enaction = yes
+			government_ig_ambivalent_enaction = yes
+		}
+	}
+
+	cancellation_trigger = {
+		OR = {
+			scope:opposing_agitator = {
+				is_character_alive = no
+			}
+			NOT = {
+				exists = scope:opposing_agitator
+			}
+			NOT = {
+				exists = root.currently_enacting_law
+			}
+		}
+	}
+	
+	immediate = {
+		save_agitator_law_scopes = yes
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+		random_interest_group = {
+			limit = {
+				is_in_government = yes
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value >= neutral
+				}
+			}
+			save_scope_as = govnas
+			leader = {
+				save_scope_as = da_boss
+			}
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.22.a
+		default_option = yes
+		scope:govnas = {
+			add_modifier = {
+				name = clean_hands
+				months = normal_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = successful_law_focus
+			multiplier = 1
+		}
+	}
+	option = {
+		name = agitator_legal_events.22.b
+		scope:opposing_agitator = {
+			add_modifier = {
+				name = homo_plebii
+				months = normal_modifier_time
+			}
+		}
+		scope:da_boss = {
+			add_modifier = {
+				name = homo_plebii
+				months = normal_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = successful_law_slide
+			multiplier = 1
+		}
+	}
+}
+
+# Agitator Spider-Man swings in at the 11th hour to save a law
+agitator_legal_events.23 = {
+	type = country_event
+	event_image = {
+		video = "unspecific_politicians_arguing"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	title = agitator_legal_events.23.t
+	desc = agitator_legal_events.23.d
+	flavor = agitator_legal_events.23.f
+	
+	category = enactment
+
+	duration = 3
+	
+	trigger = {
+		agitator_supports_enaction = yes
+		OR = {
+			government_ig_supports_enaction = yes
+			government_ig_ambivalent_enaction = yes
+		}
+	}
+
+	cancellation_trigger = {
+		OR = {
+			scope:supporting_agitator = {
+				is_character_alive = no
+			}
+			NOT = {
+				exists = scope:supporting_agitator
+			}
+			NOT = {
+				exists = root.currently_enacting_law
+			}
+		}
+	}
+	
+	immediate = {
+		save_agitator_law_scopes = yes
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+		random_interest_group = {
+			limit = {
+				is_in_government = yes
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value >= neutral
+				}
+			}
+			save_scope_as = govnas
+		}
+		random_primary_culture = {
+			save_scope_as = primary_culture_scope
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.23.a
+		default_option = yes
+		scope:supporting_agitator = {
+			add_modifier = {
+				name = middle_meeter
+				months = normal_modifier_time
+			}
+		}
+		add_loyalists = {
+			culture = scope:primary_culture_scope
+			value = 0.01
+		}
+		add_enactment_modifier = {
+			name = successful_law_slide
+			multiplier = 1
+		}
+	}
+	option = {
+		name = agitator_legal_events.23.b
+		scope:supporting_agitator = {
+			add_modifier = {
+				name = convenient_ally
+				months = normal_modifier_time
+			}
+		}
+		scope:govnas = {
+			add_modifier = {
+				name = convenient_ally
+				months = normal_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = successful_law_slide
+			multiplier = 1
+		}
+	}
+}
+
+# Agitator wasn't cool enough to do a boycott and now looks foolish
+agitator_legal_events.24 = {
+	type = country_event
+	event_image = {
+		video = "middleeast_courtroom_upheaval"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	title = agitator_legal_events.24.t
+	desc = agitator_legal_events.24.d
+	flavor = agitator_legal_events.24.f
+	
+	category = enactment
+
+	duration = 3
+	
+	trigger = {
+		agitator_opposes_enaction = yes
+		OR = {
+			government_ig_supports_enaction = yes
+			government_ig_ambivalent_enaction = yes
+		}
+	}
+
+	cancellation_trigger = {
+		OR = {
+			scope:opposing_agitator = {
+				is_character_alive = no
+			}
+			NOT = {
+				exists = scope:opposing_agitator
+			}
+			NOT = {
+				exists = root.currently_enacting_law
+			}
+		}
+	}
+	
+	immediate = {
+		save_agitator_law_scopes = yes
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+		random_interest_group = {
+			limit = {
+				is_in_government = yes
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value >= neutral
+				}
+			}
+			save_scope_as = govnas
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.24.a
+		default_option = yes
+		scope:opposing_agitator = {
+			add_modifier = {
+				name = shocking_blunder
+				months = normal_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = successful_law_slide
+			multiplier = 1
+		}
+	}
+	option = {
+		name = agitator_legal_events.24.b
+		add_modifier = {
+			name = loyalty_bonuses
+			months = normal_modifier_time
+			multiplier = money_amount_multiplier_small
+		}
+		scope:govnas = {
+			add_modifier = {
+				name = overgenerousity_dividends
+				months = normal_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = successful_law_slide
+			multiplier = 1
+		}
+	}
+}
+
+
+# Flipped the script for a stall event: Agitator bungles the Bread Question
+agitator_legal_events.25 = {
+	type = country_event
+	event_image = {
+		video = "southamerica_election"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	title = agitator_legal_events.25.t
+	desc = agitator_legal_events.25.d
+	flavor = agitator_legal_events.25.f
+	
+	category = enactment
+
+	duration = 3
+	
+	trigger = {
+		agitator_opposes_enaction = yes
+		OR = {
+			government_ig_supports_enaction = yes
+			government_ig_ambivalent_enaction = yes
+		}
+	}
+
+	cancellation_trigger = {
+		OR = {
+			scope:opposing_agitator = {
+				is_character_alive = no
+			}
+			NOT = {
+				exists = scope:opposing_agitator
+			}
+			NOT = {
+				exists = root.currently_enacting_law
+			}
+		}
+	}
+	
+	immediate = {
+		save_agitator_law_scopes = yes
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+		random_primary_culture = {
+			save_scope_as = primary_culture_scope
+		}
+		random_interest_group = {
+			limit = {
+				is_in_government = yes
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value >= neutral
+				}
+			}
+			save_scope_as = govnas
+		}
+		scope:govnas = {
+			leader = {
+				save_scope_as = da_boss
+			}
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.25.a
+		default_option = yes
+		scope:opposing_agitator = {
+			add_modifier = {
+				name = shocking_blunder
+				months = normal_modifier_time
+			}
+		}
+		scope:da_boss = {
+			add_modifier = {
+				name = staying_classy
+				months = normal_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = successful_law_focus
+			multiplier = 1
+		}
+	}
+	option = {
+		name = agitator_legal_events.25.b
+		add_loyalists = {
+			culture = scope:primary_culture_scope
+			value = 0.01
+		}
+		add_enactment_modifier = {
+			name = successful_law_ram
+			multiplier = 1
+		}
+	}
+}
+
+# Agitator tries to rules-lawyer, only to get shut down
+agitator_legal_events.26 = {
+	type = country_event
+	event_image = {
+		video = "middleeast_courtroom_upheaval"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	title = agitator_legal_events.26.t
+	desc = agitator_legal_events.26.d
+	flavor = agitator_legal_events.26.f
+	
+	category = enactment
+
+	duration = 3
+	
+	trigger = {
+		agitator_opposes_enaction = yes
+		any_interest_group = {
+			law_stance = {
+				law = owner.currently_enacting_law.type
+				value >= neutral
+			}	
+			is_marginal = no
+			is_in_government = no
+		}
+		OR = {
+			government_ig_supports_enaction = yes
+			government_ig_ambivalent_enaction = yes
+		}
+	}
+
+	cancellation_trigger = {
+		OR = {
+			scope:opposing_agitator = {
+				is_character_alive = no
+			}
+			NOT = {
+				exists = scope:opposing_agitator
+			}
+			NOT = {
+				exists = root.currently_enacting_law
+			}
+		}
+	}
+	
+	immediate = {
+		save_agitator_law_scopes = yes
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+		random_interest_group = {
+			limit = {
+				is_in_government = yes
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value >= neutral
+				}
+			}
+			save_scope_as = govnas
+		}
+		scope:govnas = {
+			leader = {
+				save_scope_as = da_boss
+			}
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.26.a
+		default_option = yes
+		scope:opposing_agitator = {
+			add_modifier = {
+				name = shocking_blunder
+				months = normal_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = successful_law_slide
+			multiplier = 1
+		}
+	}
+	option = {
+		name = agitator_legal_events.26.b
+		scope:da_boss = {
+			add_modifier = {
+				name = staying_classy
+				months = normal_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = successful_law_ram
+			multiplier = 1
+		}
+	}
+}
+
+#An agitator and another IG get punk in drublic and raise excellent points about a law
+agitator_legal_events.27 = {
+	type = country_event
+	event_image = {
+		video = "votp_conspiring"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	title = agitator_legal_events.27.t
+	desc = agitator_legal_events.27.d
+	flavor = agitator_legal_events.27.f
+	
+	category = enactment
+
+	duration = 3
+	
+	trigger = {
+		agitator_supports_enaction = yes
+		any_interest_group = {
+			law_stance = {
+				law = owner.currently_enacting_law.type
+				value >= neutral
+			}	
+			is_marginal = no
+			is_in_government = no
+		}
+		OR = {
+			government_ig_supports_enaction = yes
+			government_ig_ambivalent_enaction = yes
+		}
+	}
+
+	cancellation_trigger = {
+		OR = {
+			scope:supporting_agitator = {
+				is_character_alive = no
+			}
+			NOT = {
+				exists = scope:supporting_agitator
+			}
+			NOT = {
+				exists = root.currently_enacting_law
+			}
+		}
+	}
+	
+	immediate = {
+		save_agitator_law_scopes = yes
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+		random_interest_group = {
+			limit = {
+				is_in_government = yes
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value >= neutral
+				}
+			}
+			save_scope_as = govnas
+		}
+		random_interest_group = {
+			limit = {
+				is_marginal = no
+				is_in_government = no
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value >= neutral
+					}
+				}
+			save_scope_as = cavalry_ig
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.27.a
+		default_option = yes
+		scope:supporting_agitator = {
+			add_modifier = {
+				name = humanised_people
+				months = normal_modifier_time
+			}
+		}
+		scope:cavalry_ig = {
+			add_modifier = {
+				name = humanised_people
+				months = normal_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = successful_law_ram
+			multiplier = 1
+		}
+	}
+	option = {
+		name = agitator_legal_events.27.b
+		random_list = {
+			70 = {
+				scope:supporting_agitator = {
+					add_modifier = {
+						name = people_like_them_tho
+						months = normal_modifier_time
+					}
+				}
+				scope:cavalry_ig = {
+					add_modifier = {
+						name = people_like_them_tho
+						months = normal_modifier_time
+					}
+				}
+			}
+			25 = {
+				scope:supporting_agitator = {
+					add_modifier = {
+						name = destructive_bender
+						months = normal_modifier_time
+					}
+				}
+				scope:cavalry_ig = {
+					add_modifier = {
+						name = destructive_bender
+						months = normal_modifier_time
+					}
+				}
+			}
+			5 = {
+				scope:supporting_agitator = {
+					exile_character_with_martyrdom = yes
+				}
+			}
+		}
+		add_enactment_modifier = {
+			name = successful_law_ram
+			multiplier = 1
+		}
+	}
+}
+
+#Two random IGs act like bickering children; the Agitator is saying to give nobody the bottle
+agitator_legal_events.28 = {
+	type = country_event
+	event_image = {
+		video = "unspecific_politicians_arguing"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	title = agitator_legal_events.28.t
+	desc = agitator_legal_events.28.d
+	flavor = agitator_legal_events.28.f
+	
+	category = enactment
+
+	duration = 3
+	
+	trigger = {
+		any_interest_group = {
+			law_stance = {
+				law = owner.currently_enacting_law.type
+				value > neutral
+			}	
+			is_marginal = no
+		}
+		any_interest_group = {
+			law_stance = {
+				law = owner.currently_enacting_law.type
+				value < neutral
+			}	
+			is_marginal = no
+		}
+		agitator_supports_enaction = yes
+	}
+
+	cancellation_trigger = {
+		OR = {
+			scope:supporting_agitator = {
+				is_character_alive = no
+			}
+			NOT = {
+				exists = scope:supporting_agitator
+			}
+			NOT = {
+				exists = root.currently_enacting_law
+			}
+		}
+	}
+	
+	immediate = {
+		save_agitator_law_scopes = yes
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+		random_interest_group = {
+			limit = {
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value > neutral
+				}	
+				is_marginal = no
+			}
+			save_scope_as = opposing_ig
+		}
+		random_interest_group = {
+			limit = {
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value < neutral
+				}	
+				is_marginal = no
+				NOT = {
+					scope:opposing_ig = THIS
+				}
+			}
+			save_scope_as = angry_ig
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.28.a
+		default_option = yes
+		scope:supporting_agitator = {
+			add_modifier = {
+				name = people_like_them_tho
+				months = normal_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+				name = successful_law_ram
+				multiplier = 1
+			}
+		}
+	option = {
+		name = agitator_legal_events.28.b
+		random_list = {
+			50 = {
+				scope:opposing_ig = {
+					add_modifier = {
+						name = legal_placation
+						months = normal_modifier_time
+					}
+				}
+			}
+			50 = {
+				scope:angry_ig = {
+					add_modifier = {
+						name = legal_placation
+						months = normal_modifier_time
+					}
+				}
+			}
+		}
+		add_enactment_modifier = {
+			name = successful_law_ram
+			multiplier = 1
+		}
+	}
+}
+
+#Agitator has a book that offers a very sound take on new legislation
+agitator_legal_events.29 = {
+	type = country_event
+	event_image = {
+		video = "africa_leader_arguing"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	title = agitator_legal_events.29.t
+	desc = agitator_legal_events.29.d
+	flavor = agitator_legal_events.29.f
+	
+	category = enactment
+
+	duration = 3
+	
+	trigger = {
+		agitator_supports_enaction = yes
+		OR = {
+			government_ig_supports_enaction = yes
+			government_ig_ambivalent_enaction = yes
+		}
+		# VFM Don't stack these
+		NOT = { has_modifier = facts_over_fiction }
+		NOT = { has_modifier = authorial_accredation }
+		NOT = { 
+			any_scope_character = {
+				has_role = agitator
+				has_modifier = homo_plebii
+			}
+		}
+	}
+
+	cancellation_trigger = {
+		OR = {
+			scope:supporting_agitator = {
+				is_character_alive = no
+			}
+			NOT = {
+				exists = scope:supporting_agitator
+			}
+			NOT = {
+				exists = root.currently_enacting_law
+			}
+			has_modifier = facts_over_fiction
+			has_modifier = authorial_accredation
+		}
+	}
+	
+	immediate = {
+		save_agitator_law_scopes = yes
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+		random_interest_group = {
+			limit = {
+				is_in_government = yes
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value >= neutral
+				}
+			}
+			save_scope_as = govnas
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.29.a
+		default_option = yes
+		scope:supporting_agitator = {
+			add_modifier = {
+				name = homo_plebii
+				months = normal_modifier_time
+			}
+		}
+		scope:govnas = {
+			add_modifier = {
+				name = people_like_them_tho
+				months = normal_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = successful_law_ram
+			multiplier = 1
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.29.b
+		add_modifier = {
+			name = authorial_accredation
+			months = normal_modifier_time
+			multiplier = money_amount_multiplier_small
+		}
+		scope:govnas = {
+			add_modifier = {
+				name = foul_play_sympathies
+				months = normal_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = successful_law_ram
+			multiplier = 2
+		}
+	}
+	option = {
+		name = agitator_legal_events.29.c
+		add_modifier = {
+			name = facts_over_fiction
+			multiplier = 1
+		}
+		add_enactment_modifier = {
+			name = successful_law_ram
+			multiplier = 1
+		}
+	}
+}
+
+#Agitator has a cuppa and realises they were acting against common interest
+agitator_legal_events.30 = {
+	type = country_event
+	event_image = {
+		video = "unspecific_politicians_arguing"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	title = agitator_legal_events.30.t
+	desc = agitator_legal_events.30.d
+	flavor = agitator_legal_events.30.f
+	
+	category = enactment
+
+	duration = 3
+	
+	trigger = {
+		agitator_supports_enaction = yes
+		OR = {
+			government_ig_supports_enaction = yes
+			government_ig_ambivalent_enaction = yes
+		}
+	}
+
+	cancellation_trigger = {
+		OR = {
+			scope:supporting_agitator = {
+				is_character_alive = no
+			}
+			NOT = {
+				exists = scope:supporting_agitator
+			}
+			NOT = {
+				exists = root.currently_enacting_law
+			}
+		}
+	}
+	
+	immediate = {
+		save_agitator_law_scopes = yes
+		currently_enacting_law = {
+			save_scope_as = current_law_scope
+		}
+		random_interest_group = {
+			limit = {
+				is_in_government = yes
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value >= neutral
+				}
+			}
+			save_scope_as = govnas
+		}
+	}
+
+	option = {
+		name = agitator_legal_events.30.a
+		default_option = yes
+		random_list = {
+			50 = {
+				scope:supporting_agitator = {
+					add_modifier = {
+						name = broken_clocks
+						months = normal_modifier_time
+					}
+				}
+			}
+			45 = {
+				scope:govnas = {
+				add_modifier = {
+					name = people_like_them_tho
+					months = normal_modifier_time
+					}
+				}
+			}
+			5 = {
+				scope:supporting_agitator = {
+					exile_character_with_martyrdom = yes
+				}
+			}
+		}
+		add_enactment_modifier = {
+			name = successful_law_slide
+			multiplier = 1
+		}
+	}
+	option = {
+		name = agitator_legal_events.30.b
+		scope:supporting_agitator = {
+			add_modifier = {
+				name = foul_play_success
+				months = normal_modifier_time
+			}
+		}
+		scope:govnas = {
+			add_modifier = {
+				name = foul_play_sympathies
+				months = normal_modifier_time
+			}
+		}
+		add_enactment_modifier = {
+			name = successful_law_slide
+			multiplier = 1
+		}
+	}
+}
