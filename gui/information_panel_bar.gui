@@ -1,0 +1,685 @@
+#positions for sidepanel buttons
+#(they cant be in flowcontainer because of the way the label buttons is set up to scale with the longest localized text)
+@budget_position = 50
+@buildings_position = 100
+@trade_position = 150
+@military_position = 200
+
+@spacing_widget_1_position = 250
+@spacing_widget_size = 20
+
+@diplomatic_position = 270
+@technology_position = 310
+@culture_position = 350
+@population_position = 390
+@journal_position = 430
+@outliner_position = 470
+
+@spacing_widget_2_position = 510
+
+@maplist_position = 530
+@vfm_position = 570
+
+types information_panel_bar_types {
+	type information_panel_bar = widget {
+		name = "information_panel_bar"
+		using = hud_visibility
+		allow_outside = yes
+		focuspolicy = all
+
+		position = { 0 200 }
+
+		state = {
+			name = _show
+			using = default_show_properties
+		}
+		state = {
+			name = _hide
+			using = default_hide_properties
+			on_start = "[InformationPanelBar.ClosePanel]"
+		}
+
+		### BACKGROUND FOR LABEL BUTTONS
+		widget = {
+			size = { 100% 100% }
+			using = clickthrough_blocker
+			alpha = 0
+
+			background = {
+				using = dark_area
+				alpha = 1
+				margin_right = 40
+				margin_top = -5
+				margin_left = -25
+				margin_bottom = -5
+
+				modify_texture = {
+					texture = "gfx/interface/masks/fade_horizontal_right.dds"
+					spriteType = Corneredstretched
+					spriteborder = { 0 0 }
+					blend_mode = alphamultiply
+				}
+			}
+
+			state = {
+				name = show_sidebar_labels
+				alpha = 0.7
+				duration = 0.15
+				using = Animation_Curve_Default
+				start_sound = {
+					soundeffect = "event:/SFX/UI/SideBar/list_show"
+				}
+			}
+			state = {
+				name = hide_sidebar_labels
+				alpha = 0
+				duration = 0.15
+				using = Animation_Curve_Default
+				start_sound = {
+					soundeffect = "event:/SFX/UI/SideBar/list_hide"
+				}
+			}
+		}
+
+		### SIDEBAR BACKGROUND
+		icon = {
+			texture = "gfx/interface/main_hud/sidebar_bg.dds"
+			size = { 50 620 }
+			position = { 0 -17 }
+
+			using = hud_shiny_effect
+		}
+
+		### LABEL BUTTONS
+		flowcontainer = {
+			name = "tutorial_highlight_sidebar"
+			resizeparent = yes
+			margin = { 0 5 }
+			margin_right = -8 #margin to trim the hover area for the labels
+			onmousehierarchyenter = "[PdxGuiInterruptThenTriggerAllAnimations('hide_sidebar_labels','show_sidebar_labels')]"
+			onmousehierarchyleave = "[PdxGuiInterruptThenTriggerAllAnimations('show_sidebar_labels','hide_sidebar_labels')]"
+
+			container = {
+				### POLITICS
+				sidebar_label_button = {
+					position = { -100 0 }
+					blockoverride "onclick" {
+						onclick = "[InformationPanelBar.OpenPanelCycleTabs('politics', 'default|interest_groups|laws|institutions')]"
+						onclick = "[GetVariableSystem.Clear('politics_overview_exile_pool')]"
+						input_action = "open_politics"
+					}
+				}
+				sidebar_label_text = {
+					position = { -100 0 }
+					text = "POLITICS"
+				}
+				widget = {
+					name = "tutorial_highlight_politics"
+					using = clickthrough_blocker
+					using = sidebar_button_size
+					using = selected_sidepanel_animation
+					blockoverride "selected_visibility" {
+						visible = "[InformationPanelBar.IsPanelOpen('politics')]"
+					}
+					sidepanel_button_big = {
+						blockoverride "icon" {
+							texture = "gfx/interface/main_hud/pol_btn.dds"
+						}
+						blockoverride "button_selected" {
+							visible = "[InformationPanelBar.IsPanelOpen('politics')]"
+						}
+						onclick = "[InformationPanelBar.OpenPanelCycleTabs('politics', 'default|interest_groups|laws|institutions')]"
+						onclick = "[GetVariableSystem.Clear('politics_overview_exile_pool')]"
+
+						animated_progresspie = {
+							parentanchor = center
+							texture = "gfx/interface/main_hud/sidebar_progress.dds"
+							size = { 100% 100% }
+							framesize = { 100 100 }
+							frame = 2
+							datacontext = "[GetPlayer.GetLawBeingEnacted]"
+							value = "[FixedPointToFloat(GetPlayer.GetLawEnactmentProgress)]"
+							alwaystransparent = yes
+						}
+					}
+				}
+				sidebar_tooltip_area = {
+					position = { 0 0 }
+					tooltip = "BUTTON_POLITICS"
+					input_action = "open_politics"
+				}
+
+				### BUDGET
+				sidebar_label_button = {
+					position = { -100 @budget_position }
+					blockoverride "onclick" {
+						onclick = "[InformationPanelBar.OpenPanelCycleTabs('budget', 'default|states|assets')]"
+						input_action = "open_budget"
+					}
+				}
+				sidebar_label_text = {
+					position = { -100 @budget_position }
+					text = "BUDGET"
+				}
+				widget = {
+					position = { 0 @budget_position }
+					name = "tutorial_highlight_budget"
+					using = clickthrough_blocker
+					using = sidebar_button_size
+					using = selected_sidepanel_animation
+					blockoverride "selected_visibility" {
+						visible = "[InformationPanelBar.IsPanelOpen('budget')]"
+					}
+					sidepanel_button_big = {
+						blockoverride "icon" {
+							texture = "gfx/interface/main_hud/budget_btn.dds"
+						}
+						blockoverride "button_selected" {
+							visible = "[InformationPanelBar.IsPanelOpen('budget')]"
+						}
+						onclick = "[InformationPanelBar.OpenPanelCycleTabs('budget', 'default|states|assets')]"
+					}
+				}
+				sidebar_tooltip_area = {
+					position = { 0 @budget_position }
+					tooltip = "BUTTON_BUDGET"
+					input_action = "open_budget"
+				}
+
+				### BUILDINGS
+				sidebar_label_button = {
+					position = { -100 @buildings_position }
+					blockoverride "onclick" {
+						onclick = "[InformationPanelBar.OpenPanelCycleTabs('production_methods', 'urban|rural|development|construction_queues')]"
+						input_action = "open_buildings"
+					}
+				}
+				sidebar_label_text = {
+					position = { -100 @buildings_position }
+					text = "BUILDINGS"
+				}
+				widget = {
+					position = { 0 @buildings_position }
+					name = "tutorial_highlight_buildings"
+					using = clickthrough_blocker
+					using = sidebar_button_size
+					using = selected_sidepanel_animation
+					blockoverride "selected_visibility" {
+						visible = "[InformationPanelBar.IsPanelOpen('production_methods')]"
+					}
+					sidepanel_button_big = {
+						blockoverride "icon" {
+							texture = "gfx/interface/main_hud/production_overview_btn.dds"
+						}
+						blockoverride "button_selected" {
+							visible = "[InformationPanelBar.IsPanelOpen('production_methods')]"
+						}
+						onclick = "[InformationPanelBar.OpenPanelCycleTabs('production_methods', 'urban|rural|development|construction_queues')]"
+					}
+				}
+				sidebar_tooltip_area = {
+					position = { 0 @buildings_position }
+					tooltip = "BUTTON_BUILDINGS"
+					input_action = "open_buildings"
+				}
+
+				### TRADE OVERVIEW
+				sidebar_label_button = {
+					position = { -100 @trade_position }
+					blockoverride "onclick" {
+						onclick = "[InformationPanelBar.OpenMarketPanelCycleTabs(AccessPlayer.AccessFirstMarket, 'market', 'default|trade_routes|trade_suggestions|states')]"
+						input_action = "open_market"
+					}
+				}
+				sidebar_label_text = {
+					position = { -100 @trade_position }
+					text = "MARKET"
+				}
+				widget = {
+					position = { 0 @trade_position }
+					name = "tutorial_highlight_market"
+					using = clickthrough_blocker
+					using = sidebar_button_size
+					using = selected_sidepanel_animation
+					blockoverride "selected_visibility" {
+						visible = "[InformationPanelBar.IsPanelOpen('market')]"
+					}
+					sidepanel_button_big = {
+						blockoverride "icon" {
+							texture = "gfx/interface/main_hud/trade_overview_btn.dds"
+						}
+						blockoverride "button_selected" {
+							visible = "[InformationPanelBar.IsPanelOpen('market')]"
+						}
+						onclick = "[InformationPanelBar.OpenMarketPanelCycleTabs(AccessPlayer.AccessFirstMarket, 'market', 'default|trade_routes|trade_suggestions|states')]"
+					}
+				}
+				sidebar_tooltip_area = {
+					position = { 0 @trade_position }
+					tooltip = "BUTTON_TRADE_OVERVIEW"
+					input_action = "open_market"
+				}
+
+				### MILITARY
+				sidebar_label_button = {
+					position = { -100 @military_position }
+					blockoverride "onclick" {
+						onclick = "[InformationPanelBar.OpenPanelCycleTabs('military', 'army|garrison|navy')]"
+						input_action = "open_military"
+					}
+				}
+				sidebar_label_text = {
+					position = { -100 @military_position }
+					text = "MILITARY"
+				}
+				widget = {
+					position = { 0 @military_position }
+					name = "tutorial_highlight_military"
+					using = clickthrough_blocker
+					using = sidebar_button_size
+					using = selected_sidepanel_animation
+					blockoverride "selected_visibility" {
+						visible = "[InformationPanelBar.IsPanelOpen('military')]"
+					}
+					sidepanel_button_big = {
+						blockoverride "icon" {
+							texture = "gfx/interface/main_hud/mil_btn.dds"
+						}
+						blockoverride "button_selected" {
+							visible = "[InformationPanelBar.IsPanelOpen('military')]"
+						}
+						onclick = "[InformationPanelBar.OpenPanelCycleTabs('military', 'army|garrison|navy')]"
+					}
+				}
+				sidebar_tooltip_area = {
+					position = { 0 @military_position }
+					tooltip = "BUTTON_MILITARY"
+					input_action = "open_military"
+				}
+
+				### SECONDARY BUTTONS
+
+				#widget needed to prevent you from clicking on the map
+				widget = {
+					using = clickthrough_blocker
+					position = { 0 @spacing_widget_1_position }
+					size = { 100% @spacing_widget_size }
+				}
+
+				### DIPLOMATIC
+				sidebar_label_button_small = {
+					enabled = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
+					position = { -100 @diplomatic_position }
+					blockoverride "onclick" {
+						onclick = "[InformationPanelBar.OpenPanelCycleTabs('diplomatic_overview', 'default|release_subject')]"
+						input_action = "open_diplomatic"
+					}
+				}
+				sidebar_label_text_small = {
+					position = { -100 @diplomatic_position }
+					text = "DIPLOMACY"
+				}
+				widget = {
+					enabled = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
+					position = { 0 @diplomatic_position }
+					name = "tutorial_highlight_diplomacy"
+					using = clickthrough_blocker
+					using = sidebar_button_size_small
+					using = selected_sidepanel_animation_small
+					blockoverride "selected_visibility" {
+						visible = "[InformationPanelBar.IsPanelOpen('diplomatic_overview')]"
+					}
+					sidepanel_button_small = {
+						blockoverride "icon" {
+							texture = "gfx/interface/main_hud/dip_btn.dds"
+						}
+						blockoverride "button_selected" {
+							visible = "[InformationPanelBar.IsPanelOpen('diplomatic_overview')]"
+						}
+						onclick = "[InformationPanelBar.OpenPanelCycleTabs('diplomatic_overview', 'default|release_subject')]"
+					}
+				}
+				sidebar_tooltip_area_small = {
+					position = { 0 @diplomatic_position }
+					tooltip = "BUTTON_DIPLOMATIC_OVERVIEW"
+					input_action = "open_diplomatic"
+				}
+
+				### TECHNOLOGY
+				sidebar_label_button_small = {
+					enabled = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
+					position = { -100 @technology_position }
+					blockoverride "onclick" {
+						onclick = "[InformationPanelBar.OpenPanelCycleTabs('tech_tree', 'production|military|society')]"
+						input_action = "open_technology"
+					}
+				}
+				sidebar_label_text_small = {
+					position = { -100 @technology_position }
+					text = "TECHNOLOGY"
+				}
+				widget = {
+					enabled = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
+					datacontext = "[AccessPlayer.AccessCurrentlyResearchedTechnology]"
+					position = { 0 @technology_position }
+					using = clickthrough_blocker
+					using = sidebar_button_size_small
+					using = selected_sidepanel_animation_small
+					blockoverride "selected_visibility" {
+						visible = "[InformationPanelBar.IsPanelOpen('tech_tree')]"
+					}
+					sidepanel_button_small = {
+						blockoverride "icon" {
+							texture = "gfx/interface/main_hud/tech_btn.dds"
+						}
+						blockoverride "button_selected" {
+							visible = "[InformationPanelBar.IsPanelOpen('tech_tree')]"
+						}
+						onclick = "[InformationPanelBar.OpenPanelCycleTabs('tech_tree', 'production|military|society')]"
+
+						animated_progresspie = {
+							visible = "[Technology.IsValid]"
+							parentanchor = center
+							texture = "gfx/interface/main_hud/sidebar_progress.dds"
+							size = { 100% 100% }
+							framesize = { 100 100 }
+							frame = 2
+							value = "[Technology.GetProgressPercentage(GetPlayer.Self)]"
+							alwaystransparent = yes
+						}
+					}
+
+					textbox = {
+						parentanchor = right|top
+						position = { -2 2 }
+						autoresize = yes
+						text = "TECH_QUEUE_BUTTON_NUMBER"
+						visible = "[GreaterThan_int32( GetDataModelSize(AccessPlayer.GetResearchQueueTop), '(int32)0')]"
+						align = left|nobaseline
+						using = fontsize_small
+						background = {
+							using = default_background
+							margin = { 8 5 }
+						}
+					}
+				}
+				sidebar_tooltip_area_small = {
+					datacontext = "[AccessPlayer.AccessCurrentlyResearchedTechnology]"
+					position = { 0 @technology_position }
+					tooltip = "BUTTON_TECHNOLOGY"
+					input_action = "open_technology"
+				}
+
+				### CULTURE
+				sidebar_label_button_small = {
+					enabled = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
+					position = { -100 @culture_position }
+					blockoverride "onclick" {
+						onclick = "[InformationPanelBar.OpenPanelCycleTabs('culture', 'default|nation_formation')]"
+						input_action = "open_culture"
+					}
+				}
+				sidebar_label_text_small = {
+					position = { -100 @culture_position }
+					text = "CULTURE_OVERVIEW"
+				}
+				widget = {
+					name = "tutorial_highlight_culture"
+					enabled = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
+					position = { 0 @culture_position }
+					using = clickthrough_blocker
+					using = sidebar_button_size_small
+					using = selected_sidepanel_animation_small
+					blockoverride "selected_visibility" {
+						visible = "[InformationPanelBar.IsPanelOpen('culture')]"
+					}
+					sidepanel_button_small = {
+						blockoverride "icon" {
+							texture = "gfx/interface/main_hud/culture_overview_btn.dds"
+						}
+						blockoverride "button_selected" {
+							visible = "[InformationPanelBar.IsPanelOpen('culture')]"
+						}
+						onclick = "[InformationPanelBar.OpenPanelCycleTabs('culture', 'default|nation_formation')]"
+					}
+				}
+				sidebar_tooltip_area_small = {
+					position = { 0 @culture_position }
+					tooltip = "BUTTON_CULTURE_OVERVIEW"
+					input_action = "open_culture"
+				}
+
+				### POPULATION
+				sidebar_label_button_small = {
+					enabled = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
+					position = { -100 @population_position }
+					blockoverride "onclick" {
+						onclick = "[InformationPanelBar.OpenPanelCycleTabs('pops_overview', 'default|population_charts|pop_list')]"
+						input_action = "open_population"
+					}
+				}
+				sidebar_label_text_small = {
+					position = { -100 @population_position }
+					text = "POPULATION"
+				}
+				widget = {
+					name = "tutorial_highlight_pops"
+					enabled = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
+					position = { 0 @population_position }
+					using = clickthrough_blocker
+					using = sidebar_button_size_small
+					using = selected_sidepanel_animation_small
+					blockoverride "selected_visibility" {
+						visible = "[InformationPanelBar.IsPanelOpen('pops_overview')]"
+					}
+					sidepanel_button_small = {
+						blockoverride "icon" {
+							texture = "gfx/interface/main_hud/pops_btn.dds"
+						}
+						blockoverride "button_selected" {
+							visible = "[InformationPanelBar.IsPanelOpen('pops_overview')]"
+						}
+						onclick = "[InformationPanelBar.OpenPanelCycleTabs('pops_overview', 'default|population_charts|pop_list')]"
+					}
+				}
+				sidebar_tooltip_area_small = {
+					position = { 0 @population_position }
+					tooltip = "BUTTON_POPULATION"
+					input_action = "open_population"
+				}
+
+				### JOURNAL
+				sidebar_label_button_small = {
+					enabled = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
+					position = { -100 @journal_position }
+					blockoverride "onclick" {
+						onclick = "[InformationPanelBar.OpenPanelCycleTabs('journal', 'default|decisions')]"
+						input_action = "open_journal"
+					}
+				}
+				# HIDDEN DECISIONS BUTTON, JUST FOR SHORTCUT
+				button = {
+					size = { 0 0 }
+					input_action = "open_decisions"
+					onclick = "[InformationPanelBar.OpenPanelTab('journal', 'decisions')]"
+				}
+				sidebar_label_text_small = {
+					position = { -100 @journal_position }
+					text = "JOURNAL"
+				}
+				widget = {
+					enabled = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
+					name = "tutorial_highlight_journal"
+					position = { 0 @journal_position }
+					using = clickthrough_blocker
+					using = sidebar_button_size_small
+					using = selected_sidepanel_animation_small
+					blockoverride "selected_visibility" {
+						visible = "[InformationPanelBar.IsPanelOpen('journal')]"
+					}
+					sidepanel_button_small = {
+						blockoverride "icon" {
+							texture = "gfx/interface/main_hud/journal_btn.dds"
+						}
+						blockoverride "button_selected" {
+							visible = "[InformationPanelBar.IsPanelOpen('journal')]"
+						}
+						onclick = "[InformationPanelBar.OpenPanelCycleTabs('journal', 'default|decisions')]"
+					}
+					textbox = {
+						parentanchor = right|top
+						position = { -2 2 }
+						autoresize = yes
+						raw_text = "#bold [GetDataModelSize(AccessPlayer.AccessActiveJournalEntries)]#!"
+						visible = "[GreaterThan_int32( GetDataModelSize(AccessPlayer.AccessActiveJournalEntries), '(int32)0')]"
+						align = left|nobaseline
+						using = fontsize_small
+						background = {
+							using = default_background
+							margin = { 8 5 }
+						}
+					}
+				}
+				sidebar_tooltip_area_small = {
+					position = { 0 @journal_position }
+					tooltip = "BUTTON_JOURNAL"
+					input_action = "open_journal"
+				}
+
+				### OUTLINER
+				sidebar_label_button_small = {
+					enabled = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
+					position = { -100 @outliner_position }
+					blockoverride "onclick" {
+						onclick = "[InformationPanelBar.OpenPanel('outliner')]"
+						input_action = "open_outliner"
+					}
+				}
+
+				sidebar_label_text_small = {
+					position = { -100 @outliner_position }
+					text = "OUTLINER"
+				}
+				widget = {
+					enabled = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
+					name = "tutorial_highlight_outliner"
+					position = { 0 @outliner_position }
+					using = clickthrough_blocker
+					using = sidebar_button_size_small
+					using = selected_sidepanel_animation_small
+					blockoverride "selected_visibility" {
+						visible = "[InformationPanelBar.IsPanelOpen('outliner')]"
+					}
+					sidepanel_button_small = {
+						blockoverride "icon" {
+							texture = "gfx/interface/main_hud/outliner_btn.dds"
+						}
+						blockoverride "button_selected" {
+							visible = "[InformationPanelBar.IsPanelOpen('outliner')]"
+						}
+						onclick = "[InformationPanelBar.OpenPanel('outliner')]"
+					}
+				}
+				sidebar_tooltip_area_small = {
+					position = { 0 @outliner_position }
+					tooltip = "OUTLINER_TOOLTIP"
+					input_action = "open_outliner"
+				}
+
+				#widget needed to prevent you from clicking on the map
+				widget = {
+					using = clickthrough_blocker
+					position = { 0 @spacing_widget_2_position }
+					size = { 100% @spacing_widget_size }
+				}
+
+				### MAP LIST
+				sidebar_label_button_small = {
+
+					position = { -100 @maplist_position }
+					blockoverride "onclick" {
+						onclick = "[MapListPanelManager.ToggleCurrentPanel]"
+						input_action = map_list
+					}
+				}
+
+				sidebar_label_text_small = {
+					position = { -100 @maplist_position }
+					text = "MAP_LIST"
+				}
+
+				widget = {
+					position = { 0 @maplist_position }
+					using = clickthrough_blocker
+					using = sidebar_button_size_small
+					using = selected_sidepanel_animation_small
+					blockoverride "selected_visibility" {
+						visible = "[MapListPanelManager.IsVisible]"
+					}
+					sidepanel_button_small = {
+						blockoverride "icon" {
+							texture = "gfx/interface/main_hud/maplist_btn.dds"
+						}
+						blockoverride "button_selected" {
+							visible = "[MapListPanelManager.IsVisible]"
+						}
+						onclick = "[MapListPanelManager.ToggleCurrentPanel]"
+					}
+				}
+
+				sidebar_tooltip_area_small = {
+					position = { 0 @maplist_position }
+					tooltip = "MAP_LIST_TOOLTIP"
+					input_action = map_list
+				}
+
+				### VFM Button
+				sidebar_label_button_small = {
+
+					position = { -100 @vfm_position }
+					blockoverride "onclick" {
+						onclick = "[ExecuteConsoleCommand( Select_CString( GetVariableSystem.Exists('my_window_open'), 'gui.ClearWidgets my_custom_window', 'gui.createwidget gui/custom_windows/vfm_window.gui my_custom_window' ) )]"
+						onclick = "[GetVariableSystem.Toggle('my_window_open')]"
+					}
+				}
+
+				sidebar_label_text_small = {
+					position = { -100 @vfm_position }
+					text = "Victorian Flavor Mod"
+				}
+
+				widget = {
+					position = { 0 @vfm_position }
+					using = clickthrough_blocker
+					using = sidebar_button_size_small
+					using = selected_sidepanel_animation_small
+					blockoverride "selected_visibility" {
+						visible = "[MapListPanelManager.IsVisible]"
+					}
+					sidepanel_button_small = {
+						blockoverride "icon" {
+							texture = "gfx/interface/icons/generic_icons/vfm_smaller.dds"
+						}
+						blockoverride "button_selected" {
+							visible = "[MapListPanelManager.IsVisible]"
+						}
+						onclick = "[ExecuteConsoleCommand( Select_CString( GetVariableSystem.Exists('my_window_open'), 'gui.ClearWidgets my_custom_window', 'gui.createwidget gui/custom_windows/vfm_window.gui my_custom_window' ) )]"
+						onclick = "[GetVariableSystem.Toggle('my_window_open')]"
+					}
+				}
+
+				sidebar_tooltip_area_small = {
+					position = { 0 @vfm_position }
+					tooltip = "VFM_TOOLTIP"
+				}
+			}
+		}
+	}
+}
+
+template sidebar_button_size {
+	size = { 48 50 }
+}
+template sidebar_button_size_small {
+	size = { 42 40 }
+}
