@@ -1,0 +1,720 @@
+﻿namespace = strike
+
+# Strike!
+strike.1 = {
+	type = country_event
+	placement = scope:strike_state
+
+	title = strike.1.t
+	desc = strike.1.d
+	flavor = strike.1.f
+
+	duration = 3
+
+	event_image = {
+		video = "asia_factory_accident"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	trigger = {
+		# triggered by je_strike_start
+	}
+
+	immediate = {
+		ig:ig_trade_unions = {
+			save_scope_as = unions_ig
+		}
+		ig:ig_industrialists = {
+			save_scope_as = industrialist_ig
+		}
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				radical_fraction = {
+					value >= 0.2
+					pop_type = laborers
+				}
+				any_scope_pop = {
+					is_pop_type = laborers
+					pop_is_discriminated = no
+					OR = {
+						pop_employment_building_group = bg_manufacturing
+						pop_employment_building_group = bg_mining
+						pop_employment_building_group = bg_private_infrastructure
+					}
+				}
+			}
+			save_scope_as = strike_state
+			random_scope_pop = {
+				limit = {
+					is_pop_type = laborers
+					standard_of_living < 15
+					pop_is_discriminated = no
+					OR = {
+						pop_employment_building_group = bg_manufacturing
+						pop_employment_building_group = bg_mining
+						pop_employment_building_group = bg_private_infrastructure
+					}
+				}
+				save_scope_as = prime_strike_pop
+				workplace = {
+					save_scope_as = prime_strike_workplace
+				}
+				if = {
+					limit = {
+						pop_employment_building_group = bg_manufacturing
+					}
+					ROOT = { set_variable = industrial_strike }
+				}
+				else_if = {
+					limit = {
+						pop_employment_building_group = bg_mining
+					}
+					ROOT = { set_variable = mining_strike }
+				}
+				else_if = {
+					limit = {
+						pop_employment_building_group = bg_private_infrastructure
+					}
+					ROOT = { set_variable = railway_strike }
+				}
+			}
+		}
+	}
+	option = { # negotiate
+		name = strike.1.a
+		default_option = yes
+		set_variable = strike_negotiator
+		custom_tooltip = {
+			text = strike_negotiate_tooltip
+			trigger_event = {
+				id = strike.2
+				days = 30
+			}
+		}
+		scope:strike_state = {
+			strike_state_add_modifier_effect_strong = yes
+		}
+	}
+	option = { # break the strike
+		name = strike.1.b
+		set_variable = strike_breaker
+		trigger_event = {
+			id = strike.4
+			days = 30
+		}
+		scope:strike_state = {
+			strike_state_add_modifier_effect_strong = yes
+		}
+	}
+}
+
+# Strike Negotiation
+strike.2 = {
+	type = country_event
+	placement = scope:strike_state
+
+	title = strike.2.t
+	desc = strike.2.desc
+	flavor = strike.2.flavor
+
+	duration = 3
+
+	event_image = {
+		video = "asia_union_leader" 
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	trigger = {
+	}
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_has_strike_modifier_trigger = yes
+			}
+			save_scope_as = strike_state
+		}
+	}
+	option = {
+		name = strike.2.a
+		default_option = yes
+		trigger = {
+			NOT = {	has_law = law_type:law_old_age_pension	}
+			has_law = law_type:law_wage_subsidies
+		}
+		set_variable = strike_promised_pensions
+		custom_tooltip = pass_pensions_or_else
+		every_scope_state = {
+			strike_state_add_modifier_effect_weak = yes
+		}
+	}
+	option = {
+		name = strike.2.b
+		trigger = {
+		    NOT = {	has_law = law_type:law_old_age_pension }# VFM fix bug where this option is enabled when you have the best law
+			NOT = { has_law = law_type:law_wage_subsidies }
+		}
+		set_variable = strike_promised_wage_controls
+		custom_tooltip = pass_controls_or_else
+		strike_state_add_modifier_effect_weak = yes
+	}
+	option = {
+		name = strike.2.c
+		trigger = {
+			NOT = { has_law = law_type:law_regulatory_bodies }
+			NOT = { has_law = law_type:law_worker_protections }# VFM fix bug where this option is enabled when you have the best law
+		}
+		set_variable = strike_promised_regulatory_bodies
+		custom_tooltip = pass_regulation_or_else
+		strike_state_add_modifier_effect_weak = yes
+	}
+	option = {
+		name = strike.2.d
+		trigger = {
+			has_law = law_type:law_regulatory_bodies
+			NOT = { has_law = law_type:law_worker_protections }
+		}
+		set_variable = strike_promised_worker_protections
+		custom_tooltip = pass_protections_or_else
+		strike_state_add_modifier_effect_weak = yes
+	}
+	option = {
+		name = strike.2.e
+		trigger = {
+			OR = {
+				has_law = law_type:law_regulatory_bodies
+				has_law = law_type:law_worker_protections
+			}
+			institution_investment_level = {
+				institution = institution_workplace_safety
+				value < 3
+			}
+		}
+		set_variable = strike_safety_institution
+		custom_tooltip = pass_institution_or_else
+		strike_state_add_modifier_effect_weak = yes
+	}
+}
+
+# escalation into a general strike if unions are strong and concerns are unaddressed
+strike.3 = {
+	type = country_event
+	placement = ROOT
+
+	title = strike.3.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = strike.3.d1
+				trigger = {
+					has_variable = mining_strike
+				}
+			}
+			triggered_desc = {
+				desc = strike.3.d2
+				trigger = {
+					has_variable = industrial_strike
+				}
+			}
+			triggered_desc = {
+				desc = strike.3.d3
+				trigger = {
+					has_variable = railway_strike
+				}
+			}
+		}
+	}
+	flavor = strike.3.f
+
+	duration = 3
+
+	event_image = {
+		video = "votp_agitator_speaking"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	trigger = {
+		root.var:strike_timer_var >= 60
+		NOT = { has_variable = general_strike_var }
+	}
+	immediate = {
+		set_variable = general_strike_var
+		save_scope_as = strike_country
+		random_scope_state = {
+			limit = {
+				state_has_strike_modifier_trigger = yes
+			}
+			save_scope_as = strike_state
+		}
+	}
+	option = {
+		name = strike.3.a
+		custom_tooltip = {
+			text = general_strike_effect_tt
+			every_scope_state = {
+				limit = {
+					is_incorporated = yes
+					state_has_strike_modifier_trigger = no
+				}
+				strike_state_add_modifier_effect_strong = yes
+			}
+		}
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				state_has_strike_modifier_trigger = no
+			}
+			strike_state_add_modifier_effect_strong = yes
+		}
+	}
+}
+
+# Anti-strike measures
+strike.4 = {
+	type = country_event
+	placement = scope:strike_state
+
+	title = strike.4.t
+	desc = strike.4.d
+	flavor = strike.4.f
+
+	duration = 3
+
+	event_image = {
+		video = "unspecific_ruler_speaking_to_people"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_has_strike_modifier_trigger = yes
+			}
+			save_scope_as = strike_state
+		}
+	}
+
+	option = { # Police crackdown
+		name = strike.4.a
+		default_option = yes
+		trigger = {
+			OR = {
+				has_law = law_type:law_national_guard
+				has_law = law_type:law_militarized_police
+			}
+		}
+		set_variable = strike_police_crackdown_var
+		ig:ig_trade_unions = {
+			add_modifier = {
+				name = strike_suppression_unions
+				months = normal_modifier_time
+			}
+		}
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = strike_suppression_industrialists
+				months = normal_modifier_time
+			}
+		}
+		scope:strike_state = {
+			add_modifier = {
+				name = strike_suppression
+			}
+		}
+	}
+
+	option = { # Hire strikebreakers
+		name = strike.4.b
+		set_variable = strike_strikebreakers_var
+		scope:strike_state = {
+			if = {
+				limit = {
+					has_modifier = mining_strike_modifier
+				}
+				add_modifier = {
+					name = mining_scabs_modifier
+				}
+			}
+			else_if = {
+				limit = {
+					has_modifier = industrial_strike_modifier
+				}
+				add_modifier = {
+					name = industrial_scabs_modifier
+				}
+			}
+			else_if = {
+				limit = {
+					has_modifier = railway_strike_modifier
+				}
+				add_modifier = {
+					name = railway_scabs_modifier
+				}
+			}
+		}
+		ig:ig_trade_unions = {
+			add_modifier = {
+				name = strike_suppression_unions
+				months = normal_modifier_time
+			}
+		}
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = strike_suppression_industrialists
+				months = normal_modifier_time
+			}
+		}
+	}
+}
+
+
+# trade unions gain popularity while you are implementing a promise
+strike.5 = {
+	type = country_event
+	placement = scope:strike_state
+
+	title = strike.5.t
+	desc = strike.5.d
+	flavor = strike.5.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:union_ig_leader_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	trigger = {
+		OR = {
+			AND = {
+				has_variable = strike_promised_pensions
+				is_enacting_law = law_type:law_old_age_pension
+			}
+			AND = {
+				has_variable = strike_promised_wage_controls
+				is_enacting_law = law_type:law_wage_subsidies
+			}
+			AND = {
+				has_variable = strike_promised_regulatory_bodies
+				is_enacting_law = law_type:law_regulatory_bodies
+			}
+			AND = {
+				has_variable = strike_promised_worker_protections
+				expanding_institution = institution_workplace_safety
+			}
+		}
+		ig:ig_trade_unions = {
+			NOT = {
+				has_modifier = successful_strike_action
+			}
+		}
+	}
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_has_strike_modifier_trigger = yes
+			}
+			save_scope_as = strike_state
+		}
+		ig:ig_trade_unions = {
+			save_scope_as = union_ig_scope
+			leader = {
+				save_scope_as = union_ig_leader_scope
+			}
+		}
+	}
+	option = {
+		name = strike.5.a
+		ig:ig_trade_unions = {
+			add_modifier = {
+				name = successful_strike_action
+				months = normal_modifier_time
+			}
+		}
+	}
+}
+
+
+# police brutality against strikers if police action
+strike.6 = {
+	type = country_event
+	placement = scope:strike_state
+
+	title = strike.6.t
+	desc = strike.6.d
+	flavor = strike.6.f
+
+	duration = 3
+
+	event_image = {
+		video = "votp_cops_march"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	trigger = {
+		has_variable = strike_police_crackdown_var
+		ig:ig_trade_unions = {
+			NOT = { has_modifier = police_anti_strike_disapproval }
+		}
+		any_scope_state = {
+			state_has_strike_modifier_trigger = yes
+		}
+	}
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_has_strike_modifier_trigger = yes
+			}
+			save_scope_as = strike_state
+		}
+		ig:ig_trade_unions = {
+			save_scope_as = union_ig_scope
+			leader = {
+				save_scope_as = union_ig_leader_scope
+			}
+		}
+		random_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_militarized_police
+					value > neutral
+				}
+			}
+			save_scope_as = reactionary_ig
+			leader = {
+				save_scope_as = reactionary_ig_leader
+			}
+		}
+	}
+	option = {
+		name = strike.6.a
+		scope:reactionary_ig = {
+			add_modifier = {
+				name = police_anti_strike_approval
+				months = normal_modifier_time
+			}
+		}
+		ig:ig_trade_unions = {
+			add_modifier = {
+				name = police_anti_strike_disapproval
+				months = normal_modifier_time
+			}
+		}
+		scope:strike_state = {
+			add_loyalists_in_state = {
+				value = 0.1
+				pop_type = laborers
+			}
+			add_loyalists_in_state = {
+				value = 0.1
+				pop_type = machinists
+			}
+		}
+	}
+}
+
+# unions lose popularity if promoting strikbreaking
+strike.7 = {
+	type = country_event
+	placement = scope:strike_state
+
+	title = strike.7.t
+	desc = strike.7.d
+	flavor = strike.7.f
+
+	duration = 3
+
+	event_image = {
+		video = "europenorthamerica_political_extremism"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	trigger = {
+		has_variable = strike_police_crackdown_var
+		NOT = {
+			ig:ig_industrialists = {
+				has_modifier = industrialists_anti_union
+			}
+		}
+		any_scope_state = {
+			state_has_strike_modifier_trigger = yes
+		}
+	}
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_has_strike_modifier_trigger = yes
+			}
+			save_scope_as = strike_state
+		}
+		ig:ig_trade_unions = {
+			save_scope_as = union_ig_scope
+			leader = {
+				save_scope_as = union_ig_leader_scope
+			}
+		}
+		ig:ig_industrialists = {
+			save_scope_as = industrialist_ig
+			leader = {
+				save_scope_as = industrialist_ig_leader
+			}
+		}
+	}
+	option = {
+		name = strike.7.a
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = industrialists_anti_union
+				months = normal_modifier_time
+			}
+		}
+		ig:ig_trade_unions = {
+			add_modifier = {
+				name = unions_strikebreakers_attraction
+				months = normal_modifier_time
+			}
+		}
+	}
+}
+
+# Conclusion event: Strikers appeased
+strike.8 = {
+	type = country_event
+	placement = root
+
+	title = strike.8.t
+	desc = strike.8.d
+	flavor = strike.8.f
+
+	duration = 3
+
+	event_image = {
+		video = "asia_union_leader"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		strike_end_effect = yes
+	}
+	option = { # Keep negotiating with unions
+		name = strike.8.a
+		default_option = yes
+		ig:ig_trade_unions = {
+			add_modifier = {
+				name = strike_successful_unions
+				months = normal_modifier_time
+			}
+		}
+		add_loyalists = {
+			value = 0.2
+			pop_type = laborers
+		}
+		add_loyalists = {
+			value = 0.2
+			pop_type = machinists
+		}
+	}
+	option = { # Celebrate a better future for workers
+		name = strike.8.b
+		ig:ig_trade_unions = {
+			add_modifier = {
+				name = strike_successful_unions_opinion
+				months = normal_modifier_time
+			}
+		}
+		add_loyalists = {
+			value = 0.2
+			pop_type = laborers
+		}
+		add_loyalists = {
+			value = 0.2
+			pop_type = machinists
+		}
+	}
+}
+
+# Conclusion event: Strikers crushed
+strike.9 = {
+	type = country_event
+	placement = root
+
+	title = strike.9.t
+	desc = strike.9.d
+	flavor = strike.9.f
+
+	duration = 3
+
+	event_image = {
+		video = "votp_cops_march"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	trigger = {
+	}
+	immediate = {
+		strike_end_effect = yes
+	}
+	option = {
+		name = strike.9.a
+		default_option = yes
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = strike_successful_industrialists
+				months = normal_modifier_time
+			}
+		}
+		add_modifier = {
+			name = strike_suppression_reward
+			months = normal_modifier_time
+		}
+	}
+	option = {
+		name = strike.9.b
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = strike_successful_industrialists
+				months = normal_modifier_time
+			}
+		}
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = strike_weak_unions
+				months = normal_modifier_time
+			}
+		}
+	}
+}

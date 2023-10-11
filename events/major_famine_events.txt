@@ -1,0 +1,432 @@
+﻿namespace = famine_events
+
+famine_events.1 = { #there's a great famine
+	type = country_event
+	placement = scope:famine_state
+
+	title = famine_events.1.t
+	desc = famine_events.1.d
+	flavor = famine_events.1.f
+
+	event_image = {
+		video = "europenorthamerica_russian_serfs"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	duration = 3
+
+	trigger = {
+		# triggered by JE
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = { has_variable = famine_var }
+			save_scope_as = famine_state
+		}
+	}
+
+	option = { #there's nothing we can do
+		name = famine_events.1.a
+		default_option = yes
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = thats_life_modifier
+				months = normal_modifier_time
+			}
+		}
+		scope:famine_state = {
+			add_modifier = {
+				name = great_famine_modifier
+				months = short_modifier_time
+			}
+		}
+	}
+
+	option = { #emergency relief
+		name = famine_events.1.b
+		custom_tooltip = emergency_relief_promise_tt
+		add_modifier = {
+			name = emergency_hunger_relief_modifier
+			months = short_modifier_time
+		}
+		scope:famine_state = {
+			add_modifier = {
+				name = great_famine_modifier
+				months = short_modifier_time
+			}
+		}
+	}
+}
+
+famine_events.2 = { #famine spreads
+	type = country_event
+	placement = scope:famine_2_state
+
+	title = famine_events.2.t
+	desc = famine_events.2.d
+	flavor = famine_events.2.f
+
+	event_image = {
+		video = "europenorthamerica_russian_serfs"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	duration = 3
+
+	cooldown = { months = short_modifier_time }
+
+	trigger = {
+		any_scope_state = {
+			has_variable = famine_var
+			any_neighbouring_state = {
+				is_incorporated = yes
+				owner = ROOT
+				NOT = { has_variable = famine_var }
+			}
+		}
+        # VFM don't stack this
+		NOT = { has_modifier = emergency_hunger_relief_modifier }
+		trigger_if = {
+    		limit = { exists = var:famine_spread_var }
+			NOT = { var:famine_spread_var >= 3 }
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				has_variable = famine_var
+				any_neighbouring_state = {
+					is_incorporated = yes
+					owner = ROOT
+					NOT = { has_variable = famine_var }
+				}
+			}
+			save_scope_as = famine_state
+			random_neighbouring_state = {
+				limit = {
+					is_incorporated = yes
+					owner = ROOT
+					NOT = { has_variable = famine_var }
+				}
+				save_scope_as = famine_2_state
+				set_variable = famine_var
+			}
+		}
+		if = {
+			limit = { exists = var:famine_spread_var }
+			change_variable = {
+				name = famine_spread_var
+				add = 1
+			}
+		}
+		else = {
+			set_variable = {
+				name = famine_spread_var
+				value = 1
+			}
+		}
+	}
+
+	option = { #kept our promise
+		name = famine_events.2.a
+		default_option = yes
+		highlighted_option = yes
+		trigger = {
+			scope:famine_state = {
+				has_decree = decree_emergency_relief
+			}
+		}
+		scope:famine_2_state = {
+			add_modifier = {
+				name = emergency_famine_modifier
+				months = short_modifier_time
+			}
+		}
+	}
+
+	option = { #famine gets bigger
+		name = famine_events.2.b
+		custom_tooltip = no_emergency_relief_tt
+		default_option = yes
+		trigger = {
+			scope:famine_state = {
+				NOT = { has_decree = decree_emergency_relief }
+			}
+		}
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = thats_life_modifier
+				months = normal_modifier_time
+			}
+		}
+		scope:famine_2_state = {
+			add_modifier = {
+				name = great_famine_modifier
+				months = short_modifier_time
+			}
+		}
+	}
+
+	option = { #emergency relief again
+		name = famine_events.2.c
+		custom_tooltip = emergency_relief_promise_tt
+		trigger = {
+			scope:famine_state = {
+				NOT = { has_decree = decree_emergency_relief }
+			}
+		}
+		scope:famine_2_state = {
+			add_modifier = {
+				name = great_famine_modifier
+				months = short_modifier_time
+			}
+		}
+		add_modifier = {
+			name = emergency_hunger_relief_modifier
+			months = short_modifier_time
+		}
+	}
+}
+
+famine_events.3 = { #people migrate
+	type = country_event
+	placement = scope:famine_state
+
+	title = famine_events.3.t
+	desc = famine_events.3.d
+	flavor = famine_events.3.f
+
+	event_image = {
+		video = "unspecific_trains"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	duration = 3
+
+	trigger = {
+		any_scope_state = {
+			is_incorporated = yes
+			has_building = building_railway
+			has_variable = famine_var
+		}
+		# VFM don't stack this
+		NOT = { has_modifier = emergency_hunger_relief_modifier }
+		trigger_if = {
+			limit = { exists = var:famine_migration_var
+			}
+			var:famine_migration_var <= 3
+		}
+	}
+
+	immediate = {
+		if = {
+			limit = { exists = var:famine_migration_var }
+			change_variable = {
+				name = famine_migration_var
+				add = 1
+			}
+		}
+		else = {
+			set_variable = {
+				name = famine_migration_var
+				value = 1
+			}
+		}
+		random_scope_state = {
+			limit = {
+				has_variable = famine_var
+			}
+			save_scope_as = famine_state
+		}
+	}
+
+	option = { #kept our promise
+		name = famine_events.3.a
+		default_option = yes
+		highlighted_option = yes
+		trigger = {
+			scope:famine_state = {
+				has_decree = decree_emergency_relief
+			}
+		}
+		scope:famine_state = {
+			add_modifier = {
+				name = famine_migration_modifier
+				months = short_modifier_time
+			}
+		}
+	}
+
+	option = { #people migrate a lot
+		name = famine_events.3.b
+		custom_tooltip = no_emergency_relief_migration_tt
+		default_option = yes
+		trigger = {
+			scope:famine_state = {
+				NOT = { has_decree = decree_emergency_relief }
+			}
+		}
+		every_interest_group = {
+			limit = {
+				OR = {
+					has_ideology = ideology:ideology_laissez_faire
+					has_ideology = ideology:ideology_individualist
+				}
+			}
+			add_modifier = {
+				name = thats_life_modifier
+				months = normal_modifier_time
+			}
+		}
+		scope:famine_state = {
+			add_modifier = {
+				name = great_famine_migration_modifier
+				months = short_modifier_time
+			}
+		}
+	}
+
+	option = { #emergency relief again
+		name = famine_events.3.c
+		custom_tooltip = emergency_relief_promise_tt
+		trigger = {
+			scope:famine_state = {
+				NOT = { has_decree = decree_emergency_relief }
+			}
+		}
+		scope:famine_state = {
+			add_modifier = {
+				name = great_famine_migration_modifier
+				months = short_modifier_time
+			}
+		}
+		add_modifier = {
+			name = emergency_hunger_relief_modifier
+			months = short_modifier_time
+		}
+	}
+}
+
+famine_events.4 = { #donations
+	type = country_event
+	placement = ROOT
+
+	title = famine_events.4.t
+	desc = famine_events.4.d
+	flavor = famine_events.4.f
+
+	event_image = {
+		video = "africa_diplomats_negotiating"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	duration = 3
+
+	trigger = {
+		any_country = {
+			relations:root > relations_threshold:cordial
+			NOT = { is_country_type = unrecognized }
+			NOT = { is_country_type = decentralized }
+			count >= 2
+		}
+		NOT = { has_variable = famine_donations_var }
+		any_interest_group = {
+			is_powerful = yes
+		}
+	}
+
+	immediate = {
+		set_variable = famine_donations_var
+		random_country = {
+			limit = {
+				relations:root > relations_threshold:cordial
+			}
+			save_scope_as = neighbor_country_1
+			set_variable = neighbor_country_1_var
+		}
+		random_country = {
+			limit = {
+				relations:root > relations_threshold:cordial
+				NOT = { has_variable = neighbor_country_1_var }
+			}
+			save_scope_as = neighbor_country_2
+		}
+		random_interest_group = {
+			limit = {
+				is_powerful = yes
+			}
+			save_scope_as = donations_ig
+		}
+		random_scope_state = {
+			limit = {
+				has_variable = famine_var
+			}
+			save_scope_as = famine_state
+		}
+	}
+
+	option = { #this country wants to donate
+		name = famine_events.4.a
+		change_relations = {
+			country = scope:neighbor_country_1
+			value = 30
+		}
+		scope:famine_state = {
+			add_modifier = {
+				name = famine_donations_modifier
+				months = normal_modifier_time
+			}
+		}
+	}
+
+	option = { #no THIS one wants to donate
+		name = famine_events.4.b
+		trigger = {
+			any_country = {
+				relations:root > relations_threshold:neutral
+				NOT = { has_variable = neighbor_country_1_var }
+			}
+		}
+		change_relations = {
+			country = scope:neighbor_country_2
+			value = 30
+		}
+		scope:famine_state = {
+			add_modifier = {
+				name = famine_donations_modifier
+				months = normal_modifier_time
+			}
+		}
+	}
+
+	option = { #we shall only accept internal donations
+		name = famine_events.4.c
+		default_option = yes
+		scope:donations_ig = {
+			add_modifier = {
+				name = donations_ig_modifier
+				months = normal_modifier_time
+			}
+		}
+		scope:famine_state = {
+			add_modifier = {
+				name = famine_internal_donations_modifier
+				months = normal_modifier_time
+			}
+		}
+	}
+}

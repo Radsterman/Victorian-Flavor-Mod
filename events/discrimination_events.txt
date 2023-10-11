@@ -1,0 +1,557 @@
+﻿namespace = discrimination_events
+
+# Breaking Out of Segregation
+discrimination_events.1 = {
+	type = country_event
+	placement = ROOT
+
+	title = discrimination_events.1.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = discrimination_events.1.d.culture
+				trigger = {
+					exists = scope:discriminated_culture_pop
+				}
+			}
+			triggered_desc = {
+				desc = discrimination_events.1.d.religion
+				trigger = {
+					exists = scope:discriminated_religion_pop
+				}
+			}
+		}
+	}
+
+	flavor = discrimination_events.1.f
+
+	duration = 3
+
+	event_image = {
+		video = "europenorthamerica_rich_and_poor"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	trigger = {
+		any_scope_state = {
+			is_incorporated = yes
+			any_scope_pop = {
+				pop_is_discriminated = yes
+				OR = {
+					culture_accepted = no
+					religion_accepted = no
+				}
+				wealth > 20
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = { 
+				is_incorporated = yes
+				any_scope_pop = {
+					pop_is_discriminated = yes
+					OR = {
+						culture_accepted = no
+						religion_accepted = no
+					}
+					wealth > 20
+				}
+			}
+			random_scope_pop = {
+				limit = { 
+					pop_is_discriminated = yes
+					OR = {
+						culture_accepted = no
+						religion_accepted = no
+					}
+					wealth > 20
+				}
+				if = {
+					limit = { culture_accepted = no }
+					save_scope_as = discriminated_culture_pop
+				}
+				else_if = {
+					limit = { religion_accepted = no }
+					save_scope_as = discriminated_religion_pop
+				}
+			}
+		}
+	}
+
+	cancellation_trigger = {
+		NOR = {
+			exists = scope:discriminated_culture_pop
+			exists = scope:discriminated_religion_pop
+		}
+	}
+
+	option = {
+		name = discrimination_events.1.a
+		add_modifier = {
+			name = enforced_segregation
+			months = normal_modifier_time
+		}
+		# vfm bugfix missing scope:discriminated_culture_pop
+		if = {
+			limit = { exists = scope:discriminated_culture_pop }
+			add_radicals = {
+				value = small_radicals
+				culture = scope:discriminated_culture_pop.culture
+			}
+		}
+		if = {
+			limit = { exists = scope:discriminated_religion_pop }
+			add_radicals = {
+				value = small_radicals
+				religion = scope:discriminated_religion_pop.religion
+			}
+		}
+	}
+
+	option = {
+		name = discrimination_events.1.b
+		default_option = yes
+
+		if = {
+			limit = { exists = scope:discriminated_culture_pop }
+			every_interest_group = {
+				limit = {
+					law_stance = {
+						law = law_type:law_national_supremacy
+						value > neutral
+					}
+				}
+				add_modifier = {
+					name = segregation_eroding
+					months = normal_modifier_time
+				}
+			}
+		}
+
+		if = {
+			limit = { exists = scope:discriminated_religion_pop }
+			every_interest_group = {
+				limit = {
+					law_stance = {
+						law = law_type:law_state_religion
+						value > neutral
+					}
+				}
+				add_modifier = {
+					name = segregation_eroding
+					months = normal_modifier_time
+				}
+			}
+		}
+		# vfm bugfix missing scope:discriminated_culture_pop
+		if = {
+			limit = { exists = scope:discriminated_culture_pop }
+			add_loyalists = {
+				value = small_radicals
+				culture = scope:discriminated_culture_pop.culture
+			}
+		}
+		if = {
+			limit = { exists = scope:discriminated_religion_pop }
+			add_loyalists = {
+				value = small_radicals
+				religion = scope:discriminated_religion_pop.religion
+			}
+		}
+	}
+}
+
+# Stab-in-the-back Myth
+discrimination_events.2 = {
+	type = country_event
+	placement = ROOT
+
+	title = discrimination_events.2.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = discrimination_events.2.d.culture
+				trigger = {
+					exists = scope:discriminated_culture_pop
+				}
+			}
+			triggered_desc = {
+				desc = discrimination_events.2.d.religion
+				trigger = {
+					exists = scope:discriminated_religion_pop
+				}
+			}
+		}
+	}
+
+	flavor = discrimination_events.2.f
+
+	duration = 3
+
+	event_image = {
+		video = "europenorthamerica_political_extremism"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	trigger = {
+		has_variable = recent_capitulation
+		any_scope_pop = {
+			pop_is_discriminated = yes
+		}
+	}
+
+	immediate = {
+		random_scope_pop = {
+			limit = { pop_is_discriminated = yes }
+			if = {
+				limit = { culture_accepted = no }
+				save_scope_as = discriminated_culture_pop
+			}
+			else_if = {
+				limit = { religion_accepted = no }
+				save_scope_as = discriminated_religion_pop
+			}
+		}
+	}
+
+	cancellation_trigger = {
+		NOR = {
+			exists = scope:discriminated_culture_pop
+			exists = scope:discriminated_religion_pop
+		}
+	}
+
+	option = {
+		name = discrimination_events.2.a
+		if = {
+			limit = { exists = scope:discriminated_culture_pop }
+			add_radicals = {
+				value = large_radicals
+				culture = scope:discriminated_culture_pop.culture
+			}
+		}
+		if = {
+			limit = { exists = scope:discriminated_religion_pop }
+			add_radicals = {
+				value = large_radicals
+				religion = scope:discriminated_religion_pop.religion
+			}
+		}
+
+		every_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_national_supremacy
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = stab_in_the_back_myth
+				months = normal_modifier_time
+			}
+		}
+		if = {
+			limit = {
+				exists = py:fascist_party
+				in_election_campaign = yes
+			}
+			py:fascist_party = { add_momentum = momentum_large }
+		}
+	}
+
+	option = {
+		name = discrimination_events.2.b
+		default_option = yes
+
+		every_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_national_supremacy
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = narrative_rejected
+				months = normal_modifier_time
+			}
+		}
+		if = {
+			limit = {
+				exists = py:fascist_party
+				in_election_campaign = yes
+			}
+			py:fascist_party = { add_momentum = momentum_medium_decrease }
+		}
+	}
+}
+
+# Language in Schools
+discrimination_events.3 = {
+	type = country_event
+	placement = ROOT
+
+	title = discrimination_events.3.t
+	desc = discrimination_events.3.d
+	flavor = discrimination_events.3.f
+
+	duration = 3
+
+	event_image = {
+		video = "africa_public_protest"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	trigger = {
+		institution_investment_level = {
+			institution = institution_schools
+			value > 0
+		}
+		any_scope_pop = {
+			culture_accepted = no
+			language_accepted = no
+		}
+	}
+
+	immediate = {
+		random_scope_pop = {
+			limit = {
+				culture_accepted = no
+				language_accepted = no
+			}
+			save_scope_as = discriminated_culture_pop
+			culture = { save_scope_as = discriminated_culture }
+		}
+	}
+
+	option = {
+		name = discrimination_events.3.a
+		add_radicals = {
+			value = large_radicals
+			culture = scope:discriminated_culture_pop.culture
+		}
+		add_modifier = {
+			name = linguistic_discrimination
+			months = normal_modifier_time
+		}
+	}
+
+	option = {
+		name = discrimination_events.3.b
+		default_option = yes
+
+		add_modifier = {
+			name = linguistic_freedom
+			months = normal_modifier_time
+		}
+
+		every_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_multicultural
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = language_acceptance
+				months = normal_modifier_time
+			}
+		}
+
+		every_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_national_supremacy
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = language_acceptance
+				months = normal_modifier_time
+				multiplier = -1
+			}
+		}
+	}
+}
+
+# Discrimination in Industries
+discrimination_events.4 = {
+	type = country_event
+	placement = scope:discrimination_state
+
+	title = discrimination_events.4.t
+	desc = discrimination_events.4.d
+	flavor = discrimination_events.4.f
+
+	duration = 3
+
+	event_image = {
+		video = "europenorthamerica_rich_and_poor"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	trigger = {
+		any_scope_state = {
+			any_scope_culture = {
+				culture_is_discriminated_in = root
+				save_temporary_scope_as = discrim_culture
+			}
+			culture_percent_state = {
+			    target = scope:discrim_culture
+			    value >= 0.1
+			}
+			any_scope_building = {
+				OR = {
+					is_building_group = bg_light_industry
+					is_building_group = bg_heavy_industry
+				}
+				occupancy >= 0.25
+			}
+			any_scope_pop = {
+				culture = {
+					this = scope:discrim_culture
+				}
+				pop_employment_building_group = bg_manufacturing
+			}
+		}
+		any_interest_group = {
+			law_stance = {
+				law = law_type:law_national_supremacy
+				value > neutral
+			}
+			is_marginal = no
+		}
+	}
+
+	immediate = {
+		ROOT = {
+			save_scope_as = home_country
+		}
+		ordered_scope_state = {
+			limit = {
+				any_scope_culture = {
+					culture_is_discriminated_in = root
+					save_temporary_scope_as = discrim_culture
+				}
+				culture_percent_state = {
+				    target = scope:discrim_culture
+				    value >= 0.1
+				}
+				any_scope_building = {
+					OR = {
+						is_building_group = bg_light_industry
+						is_building_group = bg_heavy_industry
+					}
+					occupancy >= 0.25
+				}
+				any_scope_pop = {
+					culture = {
+						this = scope:discrim_culture
+					}
+					pop_employment_building_group = bg_manufacturing
+				}
+			}
+			order_by = state_population
+			save_scope_as = discrimination_state
+			random_scope_pop = {
+				limit = { 
+					culture_accepted = no 
+					pop_employment_building_group = bg_manufacturing
+				}
+				culture = { save_scope_as = discriminated_culture_pop }
+			}
+		}
+	}
+
+	option = {
+		name = discrimination_events.4.a
+		if = {
+			limit = {
+				any_interest_group = {
+					law_stance = {
+						law = law_type:law_national_supremacy
+						value > neutral
+					}
+					is_in_government = yes
+				}
+			}
+			ordered_interest_group = {
+				limit = {
+					law_stance = {
+						law = law_type:law_national_supremacy
+						value > neutral
+					}
+					is_in_government = yes
+				}
+				order_by = ig_clout
+				add_modifier = {
+					name = segregation_eroding
+					months = normal_modifier_time
+				}
+			}
+		}
+		else = {
+			ordered_interest_group = {
+				limit = {
+					law_stance = {
+						law = law_type:law_national_supremacy
+						value > neutral
+					}
+					is_marginal = no
+				}
+				order_by = ig_clout
+				add_modifier = {
+					name = segregation_eroding
+					months = normal_modifier_time
+				}
+			}
+		}
+		add_modifier = {
+			name = modifier_industrial_barriers_nat_supremacy
+			months = normal_modifier_time
+		}
+	}
+
+	option = {
+		name = discrimination_events.4.b
+		default_option = yes
+
+		custom_tooltip = {
+			text = industrial_barriers_b_tt
+			every_scope_state = {
+				add_culture_standard_of_living_modifier = {
+					culture = scope:discriminated_culture_pop
+					months = normal_modifier_time
+					multiplier = -2
+				}
+			}
+		}
+		scope:discrimination_state = {
+			add_radicals_in_state = {
+				value = medium_radicals
+				culture = scope:discriminated_culture_pop
+			}
+		}
+		add_radicals = {
+			value = small_radicals
+			culture = scope:discriminated_culture_pop
+		}
+		add_modifier = {
+			name = modifier_industrial_barriers_against_nat_supremacy
+			months = normal_modifier_time
+		}
+	}
+}

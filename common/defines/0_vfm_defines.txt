@@ -35,6 +35,8 @@ NAI = {
 	
 	MONEY_SPENDING_SUPPLY_NETWORK_DESIRED_THRESHOLD = 1.1 # If supply network is worse than this, AI wants to improve it
 
+	MONEY_SPENDING_CONSTRUCTION_CRITICAL_THRESHOLD = 0.88 # If actual-to-wanted number of construction sector buildings is below this, AI considers it very important to get more
+	
 	MONEY_SPENDING_WANTED_CONVOYS_PER_BARRACKS_LEVEL = 4 # If the AI has fewer free convoys than this per level of barracks, it wants more ports
 	MONEY_SPENDING_BUREAUCRACY_CRITICAL_THRESHOLD = 0.95 # If bureaucracy income to expenses is worse than this, AI considers it critical to improve it
 	MONEY_SPENDING_BUREAUCRACY_DESIRED_THRESHOLD = 1.08 # If bureaucracy income to expenses is worse than this, AI wants to improve it
@@ -43,8 +45,12 @@ NAI = {
 	MONEY_SPENDING_INFRASTRUCTURE_DESIRED_THRESHOLD = 1.15 # If infra production to usage is worse than this, AI wants to improve it
 	
 	PRODUCTION_METHOD_PROFIT_FACTOR = 1.75 #1.0 Per pound of profit the produced goods would generate
-	PRODUCTION_METHOD_DEFICIT_FACTOR = 1.4	 #1.5 Per pound of deficit the produced goods would generate (multiplies a negative value)
+	PRODUCTION_METHOD_DEFICIT_FACTOR = 1.4 #1.5 Per pound of deficit the produced goods would generate (multiplies a negative value)
 	PRODUCTION_METHOD_CHANCE_TO_CHANGE = 0.2 # Chance that the AI will consider changing a production method when evaluating methods
+	
+	PRODUCTION_METHOD_INCREASE_OUTPUT_PENALTY_FACTOR = 0.2 #0.01 # Multiply method score by this if we're increasing the building's output penalties
+	
+	PRODUCTION_BUILDING_INCREASE_SHORTAGE_MULT = 0.2 #0.01 Multiply score by this if we're increasing the state region's shortages
 	
 	AI_PEACE_AGREEMENT_WHITE_PEACE_BASE = 15 # If no wargoals are being enforced on either side
 	AI_PEACE_AGREEMENT_WHITE_PEACE_WAR_DURATION = 2 # For each month the war goes on add this to the acceptance for a white peace
@@ -85,10 +91,21 @@ NPolitics = {
 	POP_IG_RANDOM_FACTOR = 0.3
 	MAX_POP_FRACTION_LEAVE_IG = 0.1
 	
-	SECESSION_WEEKLY_CHANCE_EXCESS_DIV = 50			# Excess turmoil is divided by this and used to increase chance for secession movements
+	SECESSION_WEEKLY_CHANCE_EXCESS_DIV = 10			# Excess turmoil is divided by this and used to increase chance for secession movements
+	MIN_POP_SIZE_TO_SECEDE = 50000						# Num pops (including dependents) needed for a secession movement to start
+	SECESSION_STATE_CUTOFF_PERCENT = 0.33				# Required pop percentage in State to be egligble (oi) for secession
+	SECESSION_COOLDOWN_YEARS = 5
 }
 
 NEconomy = {
+    MAX_WAGE_STEP_CHANGE = 0.15
+	BUILDING_WEEKS_BETWEEN_PAY_CHANGES = 8
+	
+	TRADE_ROUTE_AUTO_INCREASE_ACCEPTABLE_REVENUE_DIFFERENCE = 1.15 #1.1 Multiply revenue of new trade route level by this for the purpose of considering whether it's OK to auto-increase level (means that trade routes can level up even when slightly decreasing overall revenue)
+	TRADE_ROUTE_AUTO_INCREASE_VERY_LOW_PRODUCTIVITY_THRESHOLD = 2.5 #3 If trade route's productivity is below this, always automatically decrease its level (regardless of total revenue)
+	TRADE_ROUTE_AUTO_INCREASE_LOW_PRODUCTIVITY_THRESHOLD = 4.5 #6 If trade route's productivity would drop below this, don't automatically increase its level (regardless of total revenue)
+	TRADE_ROUTE_AUTO_INCREASE_HIGH_PRODUCTIVITY_THRESHOLD = 8 #10 If trade route's productivity is above this, it's always fine to automatically increase its level (regardless of total revenue)
+	TRADE_ROUTE_AUTO_REDUCTION_ACCEPTABLE_REVENUE_DIFFERENCE = 1.2 # Multiply revenue of current trade route level by this for the purpose of considering whether we should auto-decrease level (means that trade routes won't level down just for the purpose of a small revenue increase)
 } 
 
 NMilitary = {
@@ -109,7 +126,6 @@ NDiplomacy = {
 	WAR_GOAL_INFAMY_REGIME_CHANGE = 1.0
 	SWAY_OFFER_WARGOAL_MANEUVERS_COST_RETURN_STATE = 5
 	
-	WAR_GOAL_FORCE_RECOGNITION_ACTOR_RANK = "unrecognized_regional_power"
 	WAR_GOAL_CONTAIN_THREAT_YEARS_SINCE_CONQUEST = 25
 	
 	BASE_YEARLY_INFAMY_DECAY_RATE = 3.5 	# Decay rate of infamy per year
@@ -175,8 +191,8 @@ NTechnology = {
 NCharacters = {
 	RULER_MIN_AGE_FOR_HEIR = 20 				# Before this age, don't randomly generate heirs for rulers
 	RULER_AGE_FOR_HEIR_CHANCE_BOOST = 30 		# A year after this age start boosting chance of heir generation
-	RULER_HEIR_GENERATION_CHANCE = 0.0005 		# Per day
-	RULER_HEIR_CHANCE_BOOST_SCALE = -0.000025	# Added to RULER_HEIR_CHANCE_BOOST for each year after RULER_AGE_FOR_HEIR_CHANCE_BOOST
+	RULER_HEIR_GENERATION_CHANCE = 0.000125 	# Per day
+	RULER_HEIR_CHANCE_BOOST_SCALE = -0.00000833	# Added to RULER_HEIR_CHANCE_BOOST for each year after RULER_AGE_FOR_HEIR_CHANCE_BOOST
 }
 
 NCommands = {

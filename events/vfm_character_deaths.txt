@@ -1,0 +1,41 @@
+﻿namespace = character_deaths
+
+#President dies, Vice President rises
+character_deaths.1 = {
+	type = country_event
+	placement = ROOT
+
+	title = character_deaths.1.t
+	desc = character_deaths.1.d
+	flavor = character_deaths.1.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:former_vice_president
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	duration = 1
+	
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = vice_president_trigger
+			}
+			save_scope_as = former_vice_president
+		}
+	}
+
+	option = {
+		name = character_deaths.1.a
+		default_option = yes
+		scope:former_vice_president = {
+			remove_variable = vice_president_trigger
+			set_character_as_ruler = yes
+		}
+		trigger_event = character_roles_hidden.2
+	}
+}
