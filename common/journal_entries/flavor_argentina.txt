@@ -228,10 +228,6 @@ je_argentina_constitution_minor = {
 		
 		bureaucracy > 0
 		approaching_bureaucracy_shortage = no
-		#institution_investment_level = { #REPLACE
-		#	institution = institution_centralization
-		#	value >= 2
-		#}
 
 		custom_tooltip = {
 			text = voting_franchise_yes_tt
@@ -257,3 +253,46 @@ je_argentina_constitution_minor = {
     should_be_pinned_by_default = yes
 	weight = 20
 }
+
+je_paraguay_independence = {
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+
+	is_shown_when_inactive = {
+			c:BUE = this 		
+	    }
+
+	complete = {
+	    OR = {
+            c:PRG = { is_subject_of = ROOT }
+	        c:PRG = {
+	            is_ai = yes		
+		        has_diplomatic_pact = {
+				    who = ROOT
+				    type = customs_union
+						    }
+			    relations:root >= relations_threshold:amicable
+			            }
+			        }
+			    }    
+
+	on_complete = {
+	    trigger_event = { id = journal_flavor_argentina.3 }
+        }	
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_paraguay_independence_status
+			}
+		}
+	}        		    
+
+	timeout = 2190
+
+	on_timeout = {
+		trigger_event = { id = journal_flavor_argentina.4 }
+		}
+
+    should_be_pinned_by_default = yes
+	weight = 100   
+}   

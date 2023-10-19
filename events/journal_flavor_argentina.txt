@@ -97,7 +97,41 @@ journal_flavor_argentina.2 = {
 	duration = 1
 
 	immediate = {
+
+    c:BUE = {
+        change_tag = ARG
 	}
+
+		create_country = {
+            tag = BUE
+			origin = c:ARG
+			state = s:STATE_BUENOS_AIRES.region_state:ARG
+		}
+        s:STATE_BUENOS_AIRES = {
+            set_owner_of_provinces = {
+                country = c:BUE
+                provinces = { xB42CFD xB0C090 x365A5B xBE8BB1 x522FE7 x257F09 x9FC353 xD4A781 xD60BE9 x9BF036 x8D241F x273D46 x1BC602 x3724A0 x264684 xB04190 x693145 x672B93 xD51453 xD36F75 x76B3DE xAF5FC7 x43859F xDF0343 xCA746C x4BA895 xB67755 xC8D04B x43966D x2F8EEF x2A263C xA1C031 xAB8E24 x9371C9 xAA6512 x6D6334 x500F71 x0078F4 x21A4C8 xB07F50 x2C2F3C x3BEB2E x94B28A xA427EB x996A84 xB1EAC9 x4BFE37 xB41CB3 xB04111 x882F94 xDAC4ED x01BF3A xBE17B4 x186D61 xBC83B9 x318050 x2D3E46 x1B3858 x722D2B x593C7C x822397 xEBCAEF x039D7B x1B3D7D x362CB9 xD254DD x2A2DF9 x393FDF x85E56B x04DB73 xF74125 x31C090 x7E59EB x90F2A4 xF1F9BA x438067 x35D461 x5B6292 xF00190 x107756 xF10B85 }
+            }
+        }
+
+        play_as = c:BUE        
+
+    c:ENT = {
+        annex = c:COE
+	}
+
+    c:ENT = {
+        annex = c:MSS
+	}
+
+    c:ENT = {
+        annex = c:ARG
+	}	
+
+    c:ENT = {
+        change_tag = ARG
+	}
+}   
 
 	option = {
 		name = journal_flavor_argentina.2.a
@@ -135,4 +169,123 @@ journal_flavor_argentina.2 = {
 			base = 0
 		}
     }
+}
+
+journal_flavor_argentina.3 = { 
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_argentina.3.t
+	desc = journal_flavor_argentina.3.d
+	flavor = journal_flavor_argentina.3.f
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_aristocrats.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
+
+	icon = "gfx/interface/icons/event_icons/bicorne_hat.dds"
+
+	duration = 3
+
+	immediate = {
+		c:PRG = {
+			save_scope_as = prg_scope
+		}	
+	}
+
+	option = {
+		name = journal_flavor_argentina.3.a
+
+		root = {
+			annex = c:PRG
+			}
+		s:STATE_ALTO_PARAGUAY = {
+		    add_claim = c:BUE
+		    }
+		add_modifier = {
+			name = paraguay_annexed
+			months = normal_modifier_time
+		}
+	}
+}
+
+journal_flavor_argentina.4 = { 
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_argentina.4.t
+	desc = journal_flavor_argentina.4.d
+	flavor = journal_flavor_argentina.4.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_politicians_arguing.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/politicians_arguing"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	duration = 3
+
+	immediate = {
+		c:PRG = {
+			save_scope_as = prg_scope
+		}		
+	}
+
+	option = {
+		name = journal_flavor_argentina.4.a
+
+		s:STATE_BAJO_PARAGUAY = {
+		    add_claim = c:BUE
+		    }
+		add_modifier = {
+			name = paraguay_not_annexed
+			months = normal_modifier_time
+		}
+		add_radicals = {
+			value = 0.15
+		}		
+	}
+}
+
+journal_flavor_argentina.5 = { 
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_argentina.5.t
+	desc = journal_flavor_argentina.5.d
+	flavor = journal_flavor_argentina.5.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+	duration = 3
+
+	immediate = {
+	}
+
+	option = {
+		name = journal_flavor_argentina.5.a
+
+		add_modifier = {
+			name = act_of_independence_prg
+			months = normal_modifier_time
+		}
+		c:PRG = { 
+		    add_loyalists = {
+			    value = 0.2
+		    }
+	    }
+	}
 }
