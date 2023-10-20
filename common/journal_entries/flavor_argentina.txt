@@ -140,5 +140,72 @@ je_paraguay_independence = {
 
     should_be_pinned_by_default = yes
 	weight = 100   
-}   
-   
+}       
+
+je_french_blockade = { 
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+
+	immediate = {
+		set_variable = {
+			name = french_blockade_var
+			value = 0
+		}
+	}	
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					c:FRA = {
+						relations:root <= -20
+					}
+				}
+				change_variable = {
+					name = french_blockade_var
+					add = 1
+				}
+			}
+		}
+	}	
+
+	is_shown_when_inactive = {
+		exists = c:BUE
+        THIS = c:BUE
+	}
+
+	possible = {
+		c:FRA ?= {
+			relations:root <= -20
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { is_goal_complete = yes }
+	    }
+
+	on_complete = {
+			trigger_event = {
+				id = journal_flavor_argentina.7
+		    }
+		}
+
+	fail = {
+		c:FRA ?= {
+			relations:root >= -20
+		}
+	}
+
+	current_value = {
+		value = var:french_blockade_var
+	}
+
+	goal_add_value = {
+		value = 22
+	}
+
+	progressbar = yes
+
+	weight = 10000
+
+	should_be_pinned_by_default = yes
+}
