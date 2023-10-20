@@ -1,4 +1,4 @@
-﻿je_argentina_constitution = {
+je_argentina_constitution = {
 	icon = "gfx/interface/icons/event_icons/event_scales.dds"
 
 	complete = {
@@ -40,153 +40,6 @@
 	timeout = 5475
 	on_timeout = {
 		trigger_event = { id = journal_flavor_argentina.2 }
-		
-			if={
-				limit = { 
-					any_country = {
-						is_subject_type = subject_type_confederation
-						overlord = ROOT
-						is_player = yes
-					}
-				}
-				random_country = {
-					limit = {
-						is_subject_type = subject_type_confederation
-						overlord = ROOT
-						is_player = yes
-					}
-					save_scope_as = new_argentina_leader
-				}
-				scope:new_argentina_leader = {
-					set_variable = argentina_leader_var
-					custom_tooltip = {
-						text = argentine_constitution_timeout_tt
-					}
-					change_relations = {
-						country = ROOT
-						value = -100
-					}
-					create_diplomatic_pact = {
-						country = ROOT
-						type = rivalry
-					}
-					add_journal_entry = {
-						type = je_argentina_constitution_minor
-					}
-				}
-				hidden_effect = {
-					remove_diplomatic_pact = {
-						country = scope:new_argentina_leader
-						type = confederation
-					}
-					every_country = {
-						limit = {
-							is_subject_type = subject_type_confederation
-							overlord = ROOT
-							NOT = { this = c:ENT }
-						}
-						save_scope_as = transfer_scope
-						scope:new_argentina_leader = {
-							create_diplomatic_pact = {
-								country = scope:transfer_scope
-								type = confederation
-							}
-						}
-					}
-				}
-			}
-		else_if={
-			limit = { 
-				exists = c:ENT 
-				c:ENT = {
-					is_subject_type = subject_type_confederation
-					overlord = ROOT
-				}
-			}
-			c:ENT = {
-				set_variable = argentina_leader_var
-				custom_tooltip = {
-					text = argentine_constitution_timeout_tt
-				}	
-				change_relations = {
-					country = ROOT
-					value = -100
-				}
-				create_diplomatic_pact = {
-					country = ROOT
-					type = rivalry
-				}
-				add_journal_entry = {
-					type = je_argentina_constitution_minor
-				}
-			}
-			hidden_effect = {
-				remove_diplomatic_pact = {
-					country = c:ENT
-					type = confederation
-				}
-				every_country = {
-					limit = {
-						is_subject_type = subject_type_confederation
-						overlord = ROOT
-						NOT = { this = c:ENT }
-					}
-					save_scope_as = transfer_scope
-					c:ENT = {
-						create_diplomatic_pact = {
-							country = scope:transfer_scope
-							type = confederation
-						}
-					}
-				}
-			}
-		}
-		else = {
-			random_country = {
-				limit = {
-					is_subject_type = subject_type_confederation
-					overlord = ROOT
-				}
-				save_scope_as = new_argentina_leader
-			}
-			scope:new_argentina_leader = {
-				set_variable = argentina_leader_var
-				custom_tooltip = {
-					text = argentine_constitution_timeout_tt
-				}
-				change_relations = {
-					country = ROOT
-					value = -100
-				}
-				create_diplomatic_pact = {
-					country = ROOT
-					type = rivalry
-				}
-				add_journal_entry = {
-					type = je_argentina_constitution_minor
-				}
-			}
-			hidden_effect = {
-				remove_diplomatic_pact = {
-					country = scope:new_argentina_leader
-					type = confederation
-				}
-				every_country = {
-					limit = {
-						is_subject_type = subject_type_confederation
-						overlord = ROOT
-						NOT = { this = c:ENT }
-					}
-					save_scope_as = transfer_scope
-					scope:new_argentina_leader = {
-						create_diplomatic_pact = {
-							country = scope:transfer_scope
-							type = confederation
-						}
-					}
-				}
-			}
-		}
 	}
 
     should_be_pinned_by_default = yes
@@ -258,14 +111,14 @@ je_paraguay_independence = {
 	icon = "gfx/interface/icons/event_icons/event_fire.dds"
 
 	is_shown_when_inactive = {
-			c:BUE = this 		
+			c:BUE = this 
+			c:PRG = exists		
 	    }
 
 	complete = {
 	    OR = {
             c:PRG = { is_subject_of = ROOT }
 	        c:PRG = {
-	            is_ai = yes		
 		        has_diplomatic_pact = {
 				    who = ROOT
 				    type = customs_union
@@ -277,15 +130,7 @@ je_paraguay_independence = {
 
 	on_complete = {
 	    trigger_event = { id = journal_flavor_argentina.3 }
-        }	
-
-	status_desc = {
-		first_valid = {
-			triggered_desc = {
-				desc = je_paraguay_independence_status
-			}
-		}
-	}        		    
+        }	        		    
 
 	timeout = 2190
 
@@ -296,3 +141,4 @@ je_paraguay_independence = {
     should_be_pinned_by_default = yes
 	weight = 100   
 }   
+   
