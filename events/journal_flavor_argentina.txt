@@ -1,4 +1,4 @@
-namespace = journal_flavor_argentina
+﻿namespace = journal_flavor_argentina
 
 journal_flavor_argentina.1 = { 
 	type = country_event
@@ -107,6 +107,12 @@ journal_flavor_argentina.2 = {
 			origin = c:ARG
 			state = s:STATE_BUENOS_AIRES.region_state:ARG
 		}
+        s:STATE_BUENOS_AIRES = {
+            set_owner_of_provinces = {
+                country = c:BUE
+                provinces = { xB42CFD xB0C090 x365A5B xBE8BB1 x522FE7 x257F09 x9FC353 xD4A781 xD60BE9 x9BF036 x8D241F x273D46 x1BC602 x3724A0 x264684 xB04190 x693145 x672B93 xD51453 xD36F75 x76B3DE xAF5FC7 x43859F xDF0343 xCA746C x4BA895 xB67755 xC8D04B x43966D x2F8EEF x2A263C xA1C031 xAB8E24 x9371C9 xAA6512 x6D6334 x500F71 x0078F4 x21A4C8 xB07F50 x2C2F3C x3BEB2E x94B28A xA427EB x996A84 xB1EAC9 x4BFE37 xB41CB3 xB04111 x882F94 xDAC4ED x01BF3A xBE17B4 x186D61 xBC83B9 x318050 x2D3E46 x1B3858 x722D2B x593C7C x822397 xEBCAEF x039D7B x1B3D7D x362CB9 xD254DD x2A2DF9 x393FDF x85E56B x04DB73 xF74125 x31C090 x7E59EB x90F2A4 xF1F9BA x438067 x35D461 x5B6292 xF00190 x107756 xF10B85 }
+            }
+        }
 
         play_as = c:BUE        
 
@@ -124,70 +130,46 @@ journal_flavor_argentina.2 = {
 
     c:ENT = {
         change_tag = ARG
-	    }
-
-		s:STATE_BUENOS_AIRES= {
-			add_claim = c:BUE
-			}
-
-		s:STATE_BUENOS_AIRES= {
-			remove_claim = c:ARG
-			}
-
-    c:ARG = {
-		create_diplomatic_pact = {
-			country = ROOT
-			type = rivalry
-		}
-
-		change_relations = {
-			country = ROOT
-			value = -100
-		}
 	}
-
-    c:BUE = {
-        trigger_event = { 
-			id = journal_flavor_argentina.6
-		}
-	}
-
-    c:BUE = {
-		create_character = {
-			# Juan Manuel de Rosas
-			first_name = "Juan_Manuel"
-			last_name = "de_Rosas"
-			historical = yes
-			ruler = yes
-			is_general = yes
-			birth_date = 1793.3.30
-			dna = dna_president_manuel_de_rosas
-			interest_group = ig_armed_forces
-			ideology = ideology_moderate
-			traits = {
-				ambitious
-				}
-			}
-		}
-
-    c:ARG = {
-		create_character = {
-			first_name = "Justo_Jose"
-			last_name = "de_Urquiza"
-			historical = yes
-			ruler = yes
-			is_general = yes
-			dna = dna_Justo_Jose_de_Urquiza
-			birth_date = 1801.10.18
-			interest_group = ig_armed_forces
-			ideology = ideology_moderate
-			traits = {
-				ambitious
-				}			
-		    }	
-	    }   		
-    }
 }   
+
+	option = {
+		name = journal_flavor_argentina.2.a
+		default_option = yes
+
+		random_country = {
+			limit= {
+				has_variable = argentina_leader_var
+			}
+			save_scope_as = argentina_leader
+			s:STATE_BUENOS_AIRES = {
+				add_claim = scope:argentina_leader
+			}
+		}
+
+	    ai_chance = {
+			base = 1	
+		}
+    }
+
+	option = {
+		name = journal_flavor_argentina.2.b
+
+		random_country = {
+			limit= {
+				has_variable = argentina_leader_var
+			}
+			create_diplomatic_pact = {
+				country = ROOT
+				type = confederation
+			}
+		}
+
+	    ai_chance = {
+			base = 0
+		}
+    }
+}
 
 journal_flavor_argentina.3 = { 
 	type = country_event
@@ -258,6 +240,9 @@ journal_flavor_argentina.4 = {
 	option = {
 		name = journal_flavor_argentina.4.a
 
+		s:STATE_BAJO_PARAGUAY = {
+		    add_claim = c:BUE
+		    }
 		add_modifier = {
 			name = paraguay_not_annexed
 			months = normal_modifier_time
@@ -303,48 +288,4 @@ journal_flavor_argentina.5 = {
 		    }
 	    }
 	}
-}
-
-journal_flavor_argentina.6 = { 
-	type = country_event
-	placement = ROOT
-
-	title = journal_flavor_argentina.6.t
-	desc = journal_flavor_argentina.6.d
-	flavor = journal_flavor_argentina.6.f
-
-	event_image = {
-		video = "gfx/event_pictures/southamerica_war_civilians.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/southamerica/war_civilians"
-
-	icon = "gfx/interface/icons/event_icons/event_fire.dds"
-
-	duration = 3
-
-	immediate = {
-
-        c:ARG = {
-            save_scope_as = arg_scope
-		}
-	}	
-
-	option = {
-		name = journal_flavor_argentina.6.a
-		
-        c:ARG = {
-
-            create_diplomatic_play = {
-			    name = guerra_grande
-			    target_state = s:STATE_BUENOS_AIRES.region_state:BUE
-			
-			    type = dp_annex_war
-
-			    war = yes
-
-            }
-		}
-    }
 }
