@@ -20,18 +20,18 @@ journal_flavor_argentina.1 = {
 	duration = 1
 
 	immediate = {
+		if={
+			limit = {
+				NOT = { exists = c:ARG }
+			}
+			change_tag = ARG
+		}	
 	}
 
 	option = {
 		name = journal_flavor_argentina.1.a
 		default_option = yes
 
-		if={
-			limit = {
-				NOT = { exists = c:ARG }
-			}
-			change_tag = ARG
-		}
 		if= {
 			limit = {
 				exists = c:GNI
@@ -218,11 +218,10 @@ journal_flavor_argentina.3 = {
 		name = journal_flavor_argentina.3.a
 
 		root = {
-			annex = c:PRG
+			create_diplomatic_pact = {
+				country = c:PRG
+				type = confederation
 			}
-		s:STATE_ALTO_PARAGUAY = {
-		    add_claim = c:BUE
-		    }
 		add_modifier = {
 			name = paraguay_annexed
 			months = normal_modifier_time
@@ -263,7 +262,7 @@ journal_flavor_argentina.4 = {
 			months = normal_modifier_time
 		}
 		add_radicals = {
-			value = 0.15
+			value = 0.1
 		}		
 	}
 }
@@ -288,6 +287,9 @@ journal_flavor_argentina.5 = {
 	duration = 3
 
 	immediate = {
+		c:PRG = {
+			save_scope_as = prg_scope
+		}		
 	}
 
 	option = {
@@ -322,7 +324,7 @@ journal_flavor_argentina.6 = {
 
 	icon = "gfx/interface/icons/event_icons/event_fire.dds"
 
-	duration = 3
+	duration = 1
 
 	immediate = {
 
