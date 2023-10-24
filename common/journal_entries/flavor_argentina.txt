@@ -122,15 +122,17 @@ je_paraguay_independence = {
 	complete = {
 	    OR = {
             c:PRG = { is_subject_of = ROOT }
-	        c:PRG = {
+	        c:BUE = {
 		        has_diplomatic_pact = {
-				    who = ROOT
+				    who = c:PRG
 				    type = customs_union
 						    }
-			    relations:root >= relations_threshold:amicable
-			            }
-			        }
-			    }    
+					c:PRG = {
+						relations:root < relations_threshold:cordial
+				    }
+			    }
+			} 
+        }   
 
 	on_complete = {
 	    trigger_event = { id = journal_flavor_argentina.3 }
@@ -195,7 +197,7 @@ je_french_blockade = {
 
 	fail = {
 		c:FRA ?= {
-			relations:root >= -20
+			relations:root >= 50
 		}
 	}
 
