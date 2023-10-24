@@ -259,3 +259,34 @@ je_tarija = {
 		trigger_event = { id = journal_flavor_argentina.9 }
 	}
 }	   	
+
+je_barn_of_world = { 
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	is_shown_when_inactive = {
+        exists = c:ARG
+        c:ARG = THIS           
+	    }
+
+	complete = {
+        is_at_war = no
+        has_law = law_type:law_free_trade
+        OR = {
+            has_law = law_type:law_agrarianism 
+            has_law = law_type:law_interventionism
+	        }
+        any_scope_state = {
+			is_incorporated = yes
+			    any_scope_building = {
+				    is_building_type = building_wheat_farm
+				    level >= 24
+				    percent > 0.9
+			        occupancy > 0.9
+			    }
+	        }	        
+	    }    
+
+	on_complete = {
+		trigger_event = { id = journal_flavor_argentina.10 }
+		}
+	}
