@@ -257,61 +257,6 @@ je_pacific_port.b = {
     should_be_pinned_by_default = yes
 	weight = 100
 }
-
-je_chl_immigration = {
-	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
-
-	is_shown_when_inactive = {
-		exists = c:CHL
-		root= c:CHL            
-		is_at_war = no
-		institution_investment_level = {
-			institution = institution_colonial_affairs
-			    value >= 2
-		    }
-	    }
-
-	complete = {
-		    NOT = {
-		    	has_law = law_type:law_closed_borders
-		    }
-	        AND = {
-                OR = {
-	                c:PRU = {
-                        relations:root >= 20 
-		            } 
-	                c:AUS = {
-                        relations:root >= 20 
-		            }     
-	            }
-	        }
-		    custom_tooltip = {
-			text = chl_immigration1
-		    AND = {
-                OR = {
-                    has_global_variable = peoples_springtime_happening
-                    has_global_variable = peoples_springtime_happened
-                    }
-                }
-            }
-        }          
-
-	on_complete = {
-        trigger_event = { 
-			id = journal_flavor_chile.12
-		}
-	}
-
-	status_desc = {
-		first_valid = {
-			triggered_desc = {
-				desc = je_chl_immigration_status
-			    }
-		    }
-	    }
-    should_be_pinned_by_default = yes
-	weight = 100
-}
     
 je_1881_treaty = {
 	icon = "gfx/interface/icons/event_icons/event_map.dds"
