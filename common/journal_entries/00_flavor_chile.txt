@@ -447,3 +447,40 @@ je_chilean_identity2 = {
     should_be_pinned_by_default = yes
 	weight = 100 
 }
+
+je_patagonia_araucania_kingdom = {
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+	is_shown_when_inactive = {
+		exists = c:FRA
+		root= c:FRA		
+		    institution_investment_level = {
+			    institution = institution_colonial_affairs
+			    value >= 2
+		    }		
+	    }	
+
+	complete = {
+		institution_investment_level = {
+			    institution = institution_colonial_affairs
+			    value >= 3
+		    }
+		has_interest_marker_in_region = region_la_plata
+		c:CHL = {
+		    cu:patagonian = {
+		    	turmoil >= 0.2
+	        }
+	    }
+	}        
+
+	on_complete = {
+		c:CHL = {
+	        trigger_event = { 
+			    id = journal_flavor_chile.20
+		    }		    				
+        }
+    }    
+
+    should_be_pinned_by_default = yes
+	weight = 100 
+}
