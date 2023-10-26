@@ -926,7 +926,7 @@ journal_flavor_chile.20 = {
 	flavor = journal_flavor_chile.20.f
 
 	duration = 1
- 
+
 	event_image = {
 		video = "gfx/event_pictures/europenorthamerica_native_american.bk2"
 	}
@@ -937,20 +937,19 @@ journal_flavor_chile.20 = {
 	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
 	immediate = {
+
+		c:FRA = {
+			save_scope_as = fra_scope
+		}				
+
 		create_country = {
             tag = APK
-			origin = c:CHL
-			state = s:STATE_LOS_RIOS.region_state:CHL
+			origin = c:PAT
+			state = s:STATE_LOS_RIOS.region_state:PAT
 		}
         c:APK = {
             annex = c:PAT
 	    }
-		s:STATE_LOS_RIOS = {
-			set_owner_of_provinces = {
-				country = c:CHL
-				provinces = { xD78C29 x29AFD4 xF63FA0 x10C050 x304688 xAAA21B x24D8BD x427820 xDAE7CA x904050 x9DA2FB xE70539 xA316F5 xB72711 x90C050 xE855B1 x31F03F x42A6B5 x9040D0 }
-			}
-		}
 		c:APK = {
 			set_relations = { country = c:CHL value = -100 }
 			set_relations = { country = c:FRA value = 30 }			
@@ -988,6 +987,16 @@ journal_flavor_chile.20 = {
 					activate_law = law_type:law_mass_conscription
 				}								    		
 	        }
+        c:CHL = {
+            create_diplomatic_play = {
+			    name = araucania_ocupacion
+			    target_state = s:STATE_LOS_RIOS.region_state:APK
+
+			    war = yes
+			
+			    type = dp_return_state
+	            }	            
+	        }    	        
 	    }   
 
 	option = {
@@ -1000,24 +1009,30 @@ journal_flavor_chile.20 = {
         }
         c:CHL = {
 			add_radicals = {
-			    value = 0.15
+			    value = 0.05
 			    pop_type = peasants		
 		    }
-		}
-	}                
+            add_journal_entry = {
+			    type = je_araucania_ocupacion
+		        }	            
+	        } 		    
+		}                
 
 	option = {
 		name = journal_flavor_chile.20.b
 
         play_as = c:APK
 
-		c:APK = {
-	        trigger_event = { 
-			    id = journal_flavor_chile.21
-		    }	
-		add_loyalists = {
+		c:APK = {	    	
+		    add_loyalists = {
 			    value = 0.3		
 		    }    	    				
-        }        
-	}	
+        }
+        c:CHL = {
+            add_journal_entry = {
+			    type = je_araucania_ocupacion
+			}    
+		}               
+	}	         
 }
+

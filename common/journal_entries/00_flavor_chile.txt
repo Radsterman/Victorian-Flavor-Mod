@@ -49,14 +49,6 @@ je_easter_chl = {
 		}
 	}
 
-	status_desc = {
-		first_valid = {
-			triggered_desc = {
-				desc = je_polynesia_chl
-			}
-		}
-	}
-
     should_be_pinned_by_default = yes
 	weight = 100
 }
@@ -317,7 +309,7 @@ je_silver_rush = {
 	        }
         }    
 
-    should_be_pinned_by_default = no
+    should_be_pinned_by_default = yes
 	weight = 100   
 }     
 
@@ -345,15 +337,7 @@ je_trains_efe = {
 	    trigger_event = { 
 	        id = journal_flavor_chile.8  
 	        }
-        }
-
-	status_desc = {
-		first_valid = {
-			triggered_desc = {
-				desc = je_trains_efe_status
-			}
-		}
-	}           
+        }           
 
     should_be_pinned_by_default = no
 	weight = 100   
@@ -448,39 +432,34 @@ je_chilean_identity2 = {
 	weight = 100 
 }
 
-je_patagonia_araucania_kingdom = {
-	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
-
-	is_shown_when_inactive = {
-		exists = c:FRA
-		root= c:FRA		
-		    institution_investment_level = {
-			    institution = institution_colonial_affairs
-			    value >= 2
-		    }		
-	    }	
+je_araucania_ocupacion = {
+	icon = "gfx/interface/icons/event_icons/event_war.dds"
 
 	complete = {
-		institution_investment_level = {
-			    institution = institution_colonial_affairs
-			    value >= 3
-		    }
-		has_interest_marker_in_region = region_la_plata
-		c:CHL = {
-		    cu:patagonian = {
-		    	turmoil >= 0.2
-	        }
-	    }
-	}        
+		owns_entire_state_region = STATE_LOS_RIOS
+			}
 
 	on_complete = {
-		c:CHL = {
-	        trigger_event = { 
-			    id = journal_flavor_chile.20
-		    }		    				
-        }
-    }    
-
+		every_scope_state = {
+			limit = {
+				state_region = {
+						is_homeland = cu:patagonian
+			    }
+			state_region = {
+				remove_homeland = patagonian
+			    }
+		    }
+	    }
+		create_country = {
+            tag = PAT
+			origin = c:APK
+			state = s:STATE_PATAGONIA.region_state:APK
+		}
+        c:PAT = {
+            annex = c:APK
+	    }				
+    }
+	
     should_be_pinned_by_default = yes
 	weight = 100 
 }
