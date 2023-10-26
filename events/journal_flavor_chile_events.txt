@@ -80,12 +80,8 @@ journal_flavor_chile.1 = { #Freire expedition
 			    months = normal_modifier_time
 		        }
 		    } 		      
-
-		add_journal_entry = {
-			type = je_chilean_identity1
-		}
-	}
-}
+	    }
+    }
 
 	option = {
 		default_option = no
@@ -150,10 +146,12 @@ journal_flavor_chile.1 = { #Freire expedition
 
 		trigger_event = {
 			id = journal_flavor_chile.17
+			days = 1
 		}
 
 		trigger_event = {
 			id = journal_flavor_chile.18
+			days = 1
 			}
 		}		
 	}
@@ -281,17 +279,83 @@ journal_flavor_chile.5 = { #War of the Pacific
 
 	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
+	immediate = {
+	    s:STATE_TARAPACA= {
+            random_scope_state = {
+                save_scope_as = tarapaca_state
+            }
+        }
+    }    	
+
 	option = {
 		default_option = yes
 		name = journal_flavor_chile.5.a
 
-        create_diplomatic_play = {
-			name = war_of_the_pacific
-			target_state = s:STATE_ANTOFAGASTA.region_state:BOL
-			
-			type = dp_conquer_state
+		    if = {
+			    limit = {
+			        AND = {
+                        OR = {
+				            c:BOL = {
+				                owns_entire_state_region = STATE_TARAPACA
+			                    }
+			                c:BOL = {
+		                        has_diplomatic_pact = {
+			                    country = c:PEU
+			                    type = defensive_pact
+		                        }
 			                }
-			            }
+			            } 
+			        }
+			    }           
+
+            create_diplomatic_play = {
+			    name = war_of_the_pacific
+			    target_state = s:STATE_ANTOFAGASTA.region_state:BOL
+
+			    war = yes
+			
+			    type = dp_return_state
+
+            add_war_goal = {
+				holder = c:CHL				
+				type = conquer_state
+				target_state = scope:tarapaca_state
+			}
+		}
+	}	
+		    if = {
+			    limit = {
+			        NOT = {
+                        AND = {
+                            OR = {
+				                c:BOL = {
+				                    owns_entire_state_region = STATE_TARAPACA 
+			                    }
+			                    c:BOL = {
+		                            has_diplomatic_pact = {
+			                            country = c:PEU
+			                            type = defensive_pact 
+			                        }    
+		                        }
+			                }
+			            } 
+			        }			    
+			    }
+            create_diplomatic_play = {
+			    name = war_of_the_pacific
+			    target_state = s:STATE_ANTOFAGASTA.region_state:BOL
+
+			    war = yes
+			
+			    type = dp_return_state
+			}
+		}	
+
+        add_journal_entry = {
+			type = je_saltpeter_war.1
+			}
+		change_infamy = 30	
+		}		
 			            
 	option = {
 		default_option = yes
@@ -300,7 +364,18 @@ journal_flavor_chile.5 = { #War of the Pacific
         add_modifier = {
 			name = pacific_war_rejected
 			months = normal_modifier_time
+			}
+		add_radicals = {
+			value = 0.1		
 		}
+		add_radicals = {
+			value = 0.15
+			pop_type = soldiers		
+		}
+		add_radicals = {
+			value = 0.2
+			pop_type = officers		
+		}				
 	}
 }
 
@@ -438,8 +513,16 @@ journal_flavor_chile.11 = {
         add_modifier = {
 			name = codigo_civil1
 		}
-	}
-}
+		add_loyalists = {
+			value = 0.05
+			pop_type = bureaucrats	
+			}
+		add_loyalists = {
+			value = 0.05
+			pop_type = academics	
+			}							
+	    }
+	}    
 
 journal_flavor_chile.12 = {
 	type = country_event
@@ -541,6 +624,14 @@ journal_flavor_chile.13  = {
 
 	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
 
+	immediate = {
+		c:ARG = {
+			save_scope_as = arg_scope
+		}
+		c:CHL = {
+			save_scope_as = chl_scope
+		}		
+
 	option = {
 		name = journal_flavor_chile.13.a
 		custom_tooltip = journal_flavor_chile.13.a.tt
@@ -640,10 +731,9 @@ journal_flavor_chile.16 = {
 
 	icon = "gfx/interface/icons/event_icons/event_map.dds"
 
-	option = {
-		name = journal_flavor_chile.16.a
+    immediate = {
 
-		create_country = {
+    create_country = {
             tag = IDP
 			origin = c:CHL
 			state = s:STATE_TAHITI.region_state:CHL
@@ -693,6 +783,10 @@ journal_flavor_chile.16 = {
 		c:IDP = {
 			set_relations = { country = c:CHL value = 80 }
         }
+    }   
+
+	option = {
+		name = journal_flavor_chile.16.a
 
         s:STATE_TAHITI = {
 		    add_homeland = south_andean
@@ -780,6 +874,9 @@ journal_flavor_chile.17 = {
 	duration = 3
 
 	immediate = {
+		c:CHL = {
+			save_scope_as = chl_scope
+		}	
 	}
 
 	event_image = {
