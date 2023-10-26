@@ -1,0 +1,131 @@
+﻿namespace = vfm_ai
+# 1836
+vfm_ai.1 = {
+	type = country_event
+	placement = root
+
+	hidden = yes
+
+	duration = 1
+
+	trigger = {
+		#is_ai = yes
+	}
+
+	immediate = {
+	    # root = swe, change this
+	    if = {
+			limit = {
+			    c:SWE = {
+					exists = yes
+					is_ai = yes
+				}
+			}
+			c:SWE = {
+				s:STATE_SCANIA = {
+					random_scope_state = {
+						start_building_construction = building_coal_mine
+					}
+				}
+				s:STATE_GOTALAND = {
+					random_scope_state = {
+						start_building_construction = building_tooling_workshops
+					}
+				}
+				s:STATE_NORRLAND = {
+					random_scope_state = {
+						start_building_construction = building_iron_mine
+					}
+				}
+			}
+		}
+		#if = {
+		#	limit = {
+		#	    c:PER = {
+		#			exists = yes
+		#			is_ai = yes
+		#		}
+		#	}
+		#	c:PER = {
+		#		s:STATE_FARS = {
+		#			random_scope_state = {
+		#				start_building_construction = building_port
+		#			}
+		#		}
+		#	}
+		#}
+		if = {
+			limit = {
+				c:SWI = {
+					exists = yes
+				}
+			}
+			c:SWI = {
+           	create_trade_route = {
+				    goods = tools
+				    level = 3
+				    direction = export
+				    target = c:AUS.market
+		   	}
+		  	create_trade_route = {
+				goods = small_arms
+				level = 1
+				direction = import
+				target = c:PRU.market
+			}	
+			create_trade_route = {
+				goods = tobacco
+				level = 1
+				direction = import
+				target = c:FRA.market
+			}	
+			create_trade_route = {
+				goods = furniture
+				level = 1
+				direction = import
+				target = c:FRA.market
+			}	
+			}
+		}
+	}
+}
+
+# 1839
+vfm_ai.2 = {
+	type = country_event
+	placement = root
+
+	hidden = yes
+
+	duration = 1
+
+	trigger = {
+	    c:SWE ?= this
+		is_ai = yes
+		game_date > 1839.1.1
+		game_date < 1840.6.1
+	}
+
+	immediate = {
+	    if = {
+			limit = {
+				has_state_in_state_region = STATE_SCANIA
+			}
+			s:STATE_SCANIA = {
+				random_scope_state = {
+					start_building_construction = building_coal_mine
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_state_in_state_region = STATE_NORRLAND
+			}
+			s:STATE_NORRLAND = {
+				random_scope_state = {
+					start_building_construction = building_iron_mine
+				}
+			}
+		}
+	}
+}

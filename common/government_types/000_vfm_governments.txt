@@ -1,0 +1,124 @@
+﻿gov_parliamentary_oligarchy_chancellor = {
+	transfer_of_power = dictatorial
+
+	male_ruler = "RULER_TITLE_CHANCELLOR"
+	female_ruler = "RULER_TITLE_CHANCELLOR"
+	
+	possible = {
+		has_law = law_type:law_parliamentary_republic
+		country_has_voting_franchise = no
+		OR = {
+			country_has_primary_culture = cu:north_german
+			country_has_primary_culture = cu:south_german
+		}
+	}
+}
+
+gov_parliamentary_democracy_chancellor = {
+	transfer_of_power = parliamentary_elective
+	new_leader_on_reform_government = yes
+
+	male_ruler = "RULER_TITLE_CHANCELLOR"
+	female_ruler = "RULER_TITLE_CHANCELLOR"
+	
+	possible = {
+		has_law = law_type:law_parliamentary_republic
+		country_has_voting_franchise = yes
+		OR = {
+			country_has_primary_culture = cu:north_german
+			country_has_primary_culture = cu:south_german
+		}
+	}
+}
+
+#ANDORRA
+gov_co_principality = {
+	transfer_of_power = hereditary
+
+	male_ruler = "RULER_TITLE_CO_PRINCE"
+	female_ruler = "RULER_TITLE_CO_PRINCESS"
+	
+	possible = {
+		exists = c:ANR
+		c:ANR = ROOT
+		has_law = law_type:law_monarchy
+	}
+}
+
+#POSEN
+gov_grand_duchy_posen = {
+	transfer_of_power = dictatorial
+	new_leader_on_reform_government = no
+	
+	male_ruler = "RULER_TITLE_GOVERNOR"
+	female_ruler = "RULER_TITLE_GOVERNOR"
+
+	male_heir = "" # Empty on purpose
+	female_heir = "" # Empty on purpose
+	
+	possible = {
+		is_subject_type = subject_type_dependency
+		exists = c:POS
+		c:POS = ROOT
+	}
+
+	on_government_type_change = {
+		change_to_presidential_elective = yes
+	}
+	on_post_government_type_change = {
+		post_change_to_presidential_elective = yes
+	}
+}
+
+#FINLAND
+gov_grand_duchy_finland = {
+	transfer_of_power = dictatorial
+	new_leader_on_reform_government = no
+	
+	male_ruler = "RULER_TITLE_GOVERNOR_GENERAL"
+	female_ruler = "RULER_TITLE_GOVERNOR_GENERAL"
+
+	male_heir = "" # Empty on purpose
+	female_heir = "" # Empty on purpose
+	
+	possible = {
+		is_subject_type = subject_type_real_union
+		has_law = law_type:law_monarchy
+		#country_tier = grand_principality
+		exists = c:RUS
+		is_subject_of = c:RUS
+		exists = c:FIN
+		c:FIN = ROOT
+	}
+
+	on_government_type_change = {
+		change_to_presidential_elective = yes
+	}
+	on_post_government_type_change = {
+		post_change_to_presidential_elective = yes
+	}
+}
+
+#CONGRESS POLAND
+gov_real_union_viceroy = {
+    transfer_of_power = dictatorial
+	new_leader_on_reform_government = no
+
+	male_ruler = "RULER_TITLE_VICEROY"
+	female_ruler = "RULER_TITLE_VICEROY"
+	
+	possible = {
+		is_subject_type = subject_type_real_union
+		exists = c:RUS
+		is_subject_of = c:RUS
+		exists = c:CPL
+		c:CPL = ROOT
+	}
+
+	on_government_type_change = {
+		change_to_presidential_elective = yes
+	}
+	on_post_government_type_change = {
+		post_change_to_presidential_elective = yes
+	}
+}

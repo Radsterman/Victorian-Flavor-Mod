@@ -35,6 +35,20 @@ CPL = { # Poland -> Congress Poland
 			}
 		}
 	}
+	dynamic_country_name = {
+		name = dyn_c_warsaw
+		adjective = dyn_c_warsaw_adj
+		
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_subject_of = c:FRA
+			}
+		}
+	}
 }
 
 COL = { # British Columbia
@@ -288,6 +302,21 @@ RHO = {
 			scope:actor = {
 				is_subject = yes
 			}
+		}
+	}
+	dynamic_country_name = {
+		name = dyn_c_rhodesia_nyasaland
+		adjective = dyn_c_rhodesia_nyasaland_adj
+
+		is_main_tag_only = yes
+		priority = 1
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_subject = yes
+			}
+			owns_entire_state_region = STATE_NYASALAND
 		}
 	}
 }
@@ -681,8 +710,9 @@ RGT = {
 
 KOR = { # Korea
 	dynamic_country_name = { # Joseon
-		name = dyn_c_korea_joseon
-		adjective = dyn_c_korea_joseon_adj
+		# Is a subject, is an absolute monarchy.
+		name = dyn_c_korea_great_joseon
+		adjective = dyn_c_korea_great_joseon_adj
 		
 		is_main_tag_only = yes
 		priority = 1
@@ -694,28 +724,13 @@ KOR = { # Korea
 					is_subject = yes
 					is_subject_type = subject_type_tributary
 				}
-				
-				 has_law = law_type:law_monarchy
+				has_law = law_type:law_autocracy
+				has_law = law_type:law_monarchy
 			}
 		}
 	}
-	dynamic_country_name = { # Joseon
-	name = dyn_c_korea_great_joseon
-	adjective = dyn_c_korea_great_joseon_adj
-	
-	is_main_tag_only = yes
-	priority = 10
-	
-	trigger = {
-		
-		scope:actor = {
-			 is_subject = no
-			 NOT = { is_subject_type = subject_type_tributary }
-			 has_law = law_type:law_monarchy
-		}
-	}
-}
 	dynamic_country_name = { # Chaoxian
+		# Is a direct subject of China
 		name = dyn_c_korea_chaoxian
 		adjective = dyn_c_korea_chaoxian_adj
 		
@@ -727,6 +742,7 @@ KOR = { # Korea
 		}
 	}
     dynamic_country_name = { # Korean Empire
+		# Not a subject, Is an autocracy but not an absolute monarchy
 		name = dyn_c_korea_empire
 		adjective = dyn_c_korea_empire_adj
 		
@@ -736,12 +752,13 @@ KOR = { # Korea
 		trigger = {
 			scope:actor = { 
 				is_subject = no
-				has_law = law_type:law_autocracy
-				NOT = { has_law = law_type:law_monarchy }
+				has_law = law_type:law_monarchy
 			}
 		}
 	}
 	dynamic_country_name = { # Ilminist Korea
+		# Fascist. Koreans who think that they are racially superior.
+		# Autocracy, Ethnostate/ National Supremacy, Republic, Not communist
 		name = dyn_c_korea_ilmin
 		adjective = dyn_c_korea_ilmin_adj
 		
@@ -767,11 +784,12 @@ KOR = { # Korea
 		}
 	}
 	dynamic_country_name = { # Republic of Korea
+		#Not a tributary, not communist, Republic
 		name = dyn_c_korea_republic
 		adjective = dyn_c_korea_republic_adj
 		
 		is_main_tag_only = yes
-		priority = 1500
+		priority = 1550
 		
 		trigger = {
 			scope:actor = {
@@ -787,6 +805,7 @@ KOR = { # Korea
 		}
 	} 
 	dynamic_country_name = { # People's Republic of Korea
+		#Communist, Not Single Party State
 		name = dyn_c_korea_prepublic
 		adjective = dyn_c_korea_prepublic_adj
 		
@@ -795,10 +814,217 @@ KOR = { # Korea
 		
 		trigger = {
 			scope:actor = {
-				NOT = { is_subject_type = subject_type_tributary }
+				NOT = { is_subject_type = subject_type_tributary
+						has_law = law_type:law_single_party_state }
 				has_law = law_type:law_council_republic
 			}
 		}
 	}
     
+}
+
+PDM = {
+	dynamic_country_name = {
+		name = dyn_c_subalpina
+		adjective = dyn_c_subalpina_adj
+		
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_subject_of = c:FRA
+			}
+		}
+	}
+}
+
+SAR = {
+	dynamic_country_name = {
+		name = dyn_c_subalpina
+		adjective = dyn_c_subalpina_adj
+		
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_subject_of = c:FRA
+			}
+		}
+	}
+}
+
+GEN = {
+	dynamic_country_name = {
+		name = dyn_c_liguria
+		adjective = dyn_c_liguria_adj
+		
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_subject_of = c:FRA
+			}
+		}
+	}
+}
+
+MLN = {
+	dynamic_country_name = {
+		name = dyn_c_transpadana
+		adjective = dyn_c_transpadana_adj
+		
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_subject_of = c:FRA
+			}
+		}
+	}
+}
+
+MOD = {
+	dynamic_country_name = {
+		name = dyn_c_cispadana
+		adjective = dyn_c_cispadana_adj
+		
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_subject_of = c:FRA
+			}
+		}
+	}
+}
+
+SIC = {
+	dynamic_country_name = {
+		name = dyn_c_partenopea
+		adjective = dyn_c_partenopea_adj
+		
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_subject_of = c:FRA
+			}
+		}
+	}
+}
+
+LOM = {
+	dynamic_country_name = {
+		name = dyn_c_cisalpina
+		adjective = dyn_c_cisalpina_adj
+		
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_subject_of = c:FRA
+			}
+		}
+	}
+}
+
+NET = {
+	dynamic_country_name = {
+		name = dyn_c_batavia
+		adjective = dyn_c_batavia_adj
+		
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_subject_of = c:FRA
+			}
+		}
+	}
+}
+
+SWI = {
+	dynamic_country_name = {
+		name = dyn_c_helvetica
+		adjective = dyn_c_helvetica_adj
+		
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_subject_of = c:FRA
+			}
+		}
+	}
+}
+
+POL = {
+	dynamic_country_name = {
+		name = dyn_c_warsaw
+		adjective = dyn_c_warsaw_adj
+		
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_subject_of = c:FRA
+			}
+		}
+	}
+}
+
+BTS = {
+	dynamic_country_name = {
+		name = dyn_c_botswana_colony_british
+		adjective = dyn_c_botswana_colony_british_adj
+
+		is_main_tag_only = yes
+		priority = 1
+		
+		trigger = {
+			exists = scope:actor
+			exists = c:GBR
+			scope:actor = {
+				is_subject_of = c:GBR
+			}
+		}
+	}
+}
+
+MLW = {
+	dynamic_country_name = {
+		name = dyn_c_malawi_colony_british
+		adjective = dyn_c_malawi_colony_british_adj
+
+		is_main_tag_only = yes
+		priority = 1
+		
+		trigger = {
+			exists = scope:actor
+			exists = c:GBR
+			scope:actor = {
+				is_subject_of = c:GBR
+			}
+		}
+	}
 }

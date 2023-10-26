@@ -1,0 +1,260 @@
+﻿namespace = tahiti_events
+
+# Conquest of Tahiti - missionaries attacked - trigger JE
+tahiti_events.1 = {
+	type = country_event
+	placement = scope:tahiti_state_scope
+	title = tahiti_events.1.t
+	desc = tahiti_events.1.d
+	flavor = tahiti_events.1.f
+
+	duration = 3
+
+	event_image = {
+		video = "africa_animism"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/bicorne_hat.dds"
+
+	trigger = {
+	    country_rank >= rank_value:major_power
+		NOT = { has_journal_entry = je_conquest_of_tahiti }
+        c:PLY ?= { NOT = { is_subject_of = ROOT } }
+		game_date > 1839.3.1
+		OR = { 
+		    AND = {
+				c:FRA = this
+		   	 	game_date > 1839.3.1
+			}
+			AND = {
+				has_interest_marker_in_region = region_oceania
+		   	 	game_date > 1844.6.1
+			}
+		}
+	}
+
+	immediate = {
+		s:STATE_TAHITI = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:PLY = THIS
+					}
+				}
+				save_scope_as = tahiti_state_scope
+			}
+		}
+		c:PLY = {
+			save_scope_as = ply_scope
+		}
+		ig:ig_devout = {
+			save_scope_as = church
+			leader = { save_scope_as = church_leader }
+		}
+	}
+
+	option = {
+		name = tahiti_events.1.a
+		default_option = yes
+		add_journal_entry = {
+			type = je_conquest_of_tahiti
+		}
+	}
+	
+	option = {
+		name = tahiti_events.1.b
+		add_modifier = {
+			name = government_admits_failure
+			months = 60
+		}
+		ig:ig_devout = {
+			add_modifier = {
+				name = ig_minor_setback
+				months = normal_modifier_time
+			}
+		}
+	}
+}
+
+# Conquest of Tahiti - Success event
+tahiti_events.2 = {
+	type = country_event
+	placement = scope:tahiti_state_scope
+	title = tahiti_events.2.t
+	desc = tahiti_events.2.d
+	flavor = tahiti_events.2.f
+
+	duration = 3
+
+	event_image = {
+		video = "africa_animism"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/bicorne_hat.dds"
+
+	trigger = {
+		# Triggered by JE
+	}
+
+	immediate = {
+		s:STATE_TAHITI = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:PLY = THIS
+					}
+				}
+				save_scope_as = tahiti_state_scope
+			}
+		}
+	}
+
+	option = { # Focus on partying with the lads
+		name = tahiti_events.2.a
+		ai_chance = {
+			base = 0
+		}
+		if = {
+			limit = {
+				has_journal_entry = je_divided_monarchists
+			}
+			custom_tooltip = {
+				text = bonapartist_progress_increase_5_tt
+				change_variable = { name = bonapartist_progress add = 5 }
+			}
+		}
+		ig:ig_armed_forces = {
+			add_modifier = {
+				name = vanquished_barbary
+				months = normal_modifier_time
+			}
+		}
+		add_loyalists = {
+			pop_type = officers
+			value = medium_radicals
+		}
+		add_loyalists = {
+			pop_type = soldiers
+			value = small_radicals
+		}
+	}
+	option = { # Focus on missionaries
+		name = tahiti_events.2.b
+		default_option = yes
+		ai_chance = {
+			base = 1
+		}
+		if = {
+			limit = {
+				has_journal_entry = je_divided_monarchists
+			}
+			custom_tooltip = {
+				text = legitimist_progress_increase_5_tt
+				change_variable = { name = legitimist_progress add = 5 }
+			}
+		}
+		ig:ig_devout = {
+			add_modifier = {
+				name = vanquished_barbary
+				months = normal_modifier_time
+			}
+		}
+		add_loyalists = {
+			pop_type = clergymen
+			value = small_radicals
+		}
+	}
+	option = {  # Focus on appeasement
+		name = tahiti_events.2.c
+		ai_chance = {
+			base = 0
+		}
+		if = {
+			limit = {
+				has_journal_entry = je_divided_monarchists
+			}
+			custom_tooltip = {
+				text = orleanist_progress_increase_5_tt
+				change_variable = { name = orleanist_progress add = 5 }
+			}
+		}
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_TAHITI
+				owner = {
+					ROOT = THIS
+				}
+			}
+			add_loyalists_in_state = {
+				culture = cu:polynesian
+				value = small_radicals
+			}
+		}
+	}
+}
+
+# Tahiti - Fail event
+tahiti_events.3 = {
+	type = country_event
+	placement = root
+	title = tahiti_events.3.t
+	desc = tahiti_events.3.d
+	flavor = tahiti_events.3.f
+
+	duration = 3
+
+	event_image = {
+		video = "africa_animism"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	trigger = {
+		# triggered by JE
+	}
+
+	immediate = {
+	    s:STATE_TAHITI = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						OR = { 
+						c:PLY = THIS
+						NOT = { ROOT = THIS }
+						}
+					}
+				}
+				save_scope_as = tahiti_state_scope
+			}
+		}
+		ig:ig_devout = {
+			save_scope_as = church
+			leader = { save_scope_as = church_leader }
+		}
+	}
+
+	option = {
+		name = tahiti_events.3.a
+		default_option = yes
+		add_modifier = {
+			name = government_admits_failure
+			months = 60
+		}
+		ig:ig_devout = {
+			add_modifier = {
+				name = ig_minor_setback
+				months = normal_modifier_time
+			}
+		}
+		add_radicals = {
+			value = 0.01
+			culture = cu:french
+		}
+	}
+}

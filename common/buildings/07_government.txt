@@ -32,9 +32,20 @@ building_government_administration = {
 	city_type = city
 
 	levels_per_mesh = 10
+	downsizeable = no
 
 	unlocking_technologies = {
 		tech_bureaucracy
+	}
+
+	should_auto_expand = {
+		occupancy >= 0.8
+		OR = {
+			state.tax_capacity < state.tax_capacity_usage
+			owner = {
+				bureaucracy < -10
+			}
+		}
 	}
 
 	production_method_groups = {
@@ -55,6 +66,7 @@ building_university = {
 	city_type = city
 
 	levels_per_mesh = 5
+	downsizeable = no
 
 	unlocking_technologies = {
 		academia

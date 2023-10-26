@@ -33,6 +33,31 @@ stupify = {
 				}
 			}
 		}
+		#Decentralized peoples without written Christianity/Islam
+		every_country = {
+			limit = {
+				is_country_type = decentralized
+			}
+			every_scope_pop = {
+				limit = {
+					NOT = {
+						OR = {
+							has_pop_religion = sunni
+							has_pop_religion = shia
+							has_pop_religion = anglican
+							has_pop_religion = lutheran
+							has_pop_religion = reformed
+						}
+					}
+				}
+				set_pop_literacy = {
+					literacy_rate = {
+						value = literacy_rate
+						multiply = 0.1
+					}
+				}
+			}
+		}
 		# Laborers and Peasants illiterate
 		every_country = {
 			every_scope_pop = {
@@ -83,6 +108,7 @@ stupify = {
 			every_scope_pop = {
 				limit = {
 					pop_is_discriminated = yes
+					NOT = { has_pop_religion = jewish }
 				}
 				set_pop_literacy = {
 					literacy_rate = {
@@ -158,6 +184,94 @@ stupify = {
 					literacy_rate = {
 						value = literacy_rate
 						multiply = 1.55
+					}
+				}
+			}
+		}
+		#Buffs for German minors
+		every_country = {
+			limit = {
+				country_has_primary_culture = cu:north_german
+				country_has_state_religion = rel:lutheran
+				NOT = { THIS = c:PRU }
+			}
+			every_scope_pop = {
+				limit = {
+					pop_is_discriminated = no
+					state = { is_incorporated = yes }
+				}
+				set_pop_literacy = {
+					literacy_rate = {
+						value = literacy_rate
+						multiply = 1.5
+					}
+				}
+			}
+		}
+		#Buffs for Baltic states
+		every_country = {
+			limit = {
+				OR = {
+					THIS = c:CRL
+					THIS = c:LVN
+					THIS = c:EST
+				}
+			}
+			every_scope_pop = {
+				limit = {
+					state = { is_incorporated = yes }
+					#literacy_rate <= .21
+				}
+				set_pop_literacy = {
+					literacy_rate = {
+						value = literacy_rate
+						multiply = 5
+					}
+				}
+			}
+		}
+		#Regional France Literacy
+		every_state = {
+			limit = {
+				OR = {
+					state_region = s:STATE_CHAMPAGNE
+					state_region = s:STATE_LORRAINE
+					state_region = s:STATE_ALSACE_LORRAINE
+					state_region = s:STATE_FRANCHE_COMTE
+					state_region = s:STATE_ILE_DE_FRANCE
+				}
+			}
+			every_scope_pop = {
+				limit = {
+					pop_is_discriminated = no
+					state = { is_incorporated = yes }
+				}
+				set_pop_literacy = {
+					literacy_rate = {
+						value = literacy_rate
+						multiply = 1.4
+					}
+				}
+			}
+		}
+		every_state = {
+			limit = {
+				OR = {
+					state_region = s:STATE_PICARDY
+					state_region = s:STATE_CALAIS
+					state_region = s:STATE_NORMANDY
+					state_region = s:STATE_RHONE
+				}
+			}
+			every_scope_pop = {
+				limit = {
+					pop_is_discriminated = no
+					state = { is_incorporated = yes }
+				}
+				set_pop_literacy = {
+					literacy_rate = {
+						value = literacy_rate
+						multiply = 1.25
 					}
 				}
 			}

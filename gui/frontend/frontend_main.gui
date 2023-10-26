@@ -650,6 +650,49 @@ widget = {
 							}
 						}
 					}
+                    button_group = {
+                        onclick = "[ToggleThemeSettings]"
+                        using = select_button_sound
+                        onclick = "[GetVariableSystem.Set( 'theme_selector_theme_tab', 'true' )]"
+						onclick = "[GetVariableSystem.Clear( 'theme_selector_settings_tab')]"
+                        flowcontainer = {
+                                direction = vertical
+                                button_theme_selector = {
+                                        name = "theme_selector"
+                                        parentanchor = hcenter
+                                        size = { 35 35 }
+                                }
+                                text_single = {
+                                        parentanchor = hcenter
+                                        max_width = 100
+                                        min_width = 100
+                                        autoresize = yes
+                                        text = "THEME"
+                                        default_format = "#clickable;glow_color:{0.1,0.1,0.1,1}"
+                                        align = center|nobaseline
+                                }
+                        }
+                        icon = {
+                                visible = "[And(HasAnyAvailableNewThemes, Not(HasAnyThemeIssues))]"
+                                texture = "gfx/interface/current_situations/icon_situation_unread.dds"
+                                size = { 25 25 }
+                                position = { -20 -20 }
+                                parentanchor = bottom|right
+                                widgetanchor = bottom|right
+                                
+                                tooltip = "NEW_THEMES_AVAILABLE"
+                        }
+                        icon = {
+                                visible = "[HasAnyThemeIssues]"
+                                texture = "gfx/interface/icons/generic_icons/warning.dds"
+                                size = { 25 25 }
+                                position = { -20 -20 }
+                                parentanchor = bottom|right
+                                widgetanchor = bottom|right
+                                
+                                tooltip = "THEME_ISSUES"
+                        }
+                    }
 				}
 			}
 		}

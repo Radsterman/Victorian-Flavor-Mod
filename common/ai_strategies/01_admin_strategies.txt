@@ -99,6 +99,7 @@
 						}						
 						has_strategy = ai_strategy_resource_expansion
 						has_strategy = ai_strategy_industrial_expansion
+                        has_strategy = ai_strategy_mining_exporter
 					}		
 				}
 			}
@@ -181,8 +182,8 @@ ai_strategy_resource_expansion = {
 	building_group_weights = {
 		bg_rubber = 1.5
 		bg_oil_extraction = 1.5
-		bg_coal_mining = 2.75
-		bg_iron_mining = 2.5
+		bg_coal_mining = 2.5
+		bg_iron_mining = 2.25
 		bg_sulfur_mining = 1.75
 		bg_lead_mining = 1.75
 		bg_gold_fields = 1.75
@@ -256,6 +257,108 @@ ai_strategy_resource_expansion = {
 			}
 			multiply = 2.0
 		}
+
+		if = {
+			limit = {
+				exists = overlord
+				overlord = { 
+					OR = { 
+						AND = {
+							is_ai = no
+							NOT = { has_law = law_type:law_traditionalism }				
+						}						
+						has_strategy = ai_strategy_resource_expansion
+						has_strategy = ai_strategy_industrial_expansion
+					}		
+				}
+			}
+			multiply = 2.0
+		}	
+	}
+}
+
+ai_strategy_mining_exporter = {
+	icon = "gfx/interface/icons/ai_strategy_icons/resource_expansion.dds"
+	
+	type = administrative	
+
+	building_group_weights = {
+		bg_coal_mining = 7.5
+		bg_iron_mining = 5
+		bg_sulfur_mining = 1.5
+		bg_lead_mining = 1.5
+		bg_gold_fields = 1.5
+		bg_gold_mining = 1.5
+		bg_logging = 1.5
+	}
+	
+	subsidies = {
+		building_tooling_workshops = wants_to_have
+		building_chemical_plants = wants_to_have
+		building_coal_mine = wants_to_have
+		building_iron_mine = wants_to_have
+	}
+	
+	goods_stances = {
+		explosives = { 
+			stance = wants_high_supply 
+			trigger = {
+				has_technology_researched = nitroglycerin
+			}			
+		}	
+		fertilizer = { # Explosives byproduct
+			stance = wants_export   
+			trigger = {
+				has_technology_researched = nitroglycerin
+			}				
+		}
+		tools = { stance = wants_high_supply }
+		coal = { stance = wants_export }
+		iron = { stance = wants_export }
+		oil = { stance = wants_export }
+		lead = { stance = wants_export }
+		wood = { stance = wants_export }
+		hardwood = { stance = wants_export }
+		sulfur = { stance = wants_export }			
+	}
+
+
+	possible = {
+		always = yes
+	}
+	
+	weight = {
+		value = 7.5		
+		
+		if = {
+			limit = { 
+				OR = {
+					country_is_in_europe = yes
+					country_is_in_north_america = yes
+				}
+			}
+			add = 10
+		}
+		
+		if = {
+			limit = { is_country_type = unrecognized }
+			multiply = 0.5
+		}		
+
+		if = {
+			limit = { 
+				exists = ig:ig_industrialists
+				ig:ig_industrialists = { is_powerful = yes } 
+			}
+			multiply = 1.5
+		}
+
+		if = {
+			limit = {
+				has_technology_researched = railways
+			}
+			multiply = 2.0
+		}
 		
 		if = {
 			limit = {
@@ -267,7 +370,7 @@ ai_strategy_resource_expansion = {
 					owns_entire_state_region = STATE_MARRAKECH
 				}
 			}
-			multiply = 1.5
+			multiply = 5.0
 		}
 		
 		if = {
@@ -280,6 +383,7 @@ ai_strategy_resource_expansion = {
 							NOT = { has_law = law_type:law_traditionalism }				
 						}						
 						has_strategy = ai_strategy_resource_expansion
+						has_strategy = ai_strategy_mining_exporter
 						has_strategy = ai_strategy_industrial_expansion
 					}		
 				}
@@ -306,11 +410,21 @@ ai_strategy_industrial_expansion = {
 	}
 	
 	goods_stances = {
+		rubber = { 
+			stance = wants_high_supply 
+			trigger = {
+				has_technology_researched = rubber_mastication
+			}			
+		}
+		oil = { 
+			stance = wants_high_supply 
+			trigger = {
+				has_technology_researched = pumpjacks
+			}			
+		}
 		electricity = { stance = wants_high_supply }
-		oil = { stance = wants_high_supply }
 		dye = { stance = wants_high_supply }
 		silk = { stance = wants_high_supply }
-		rubber = { stance = wants_high_supply }
 		tools = { stance = wants_high_supply }
 		coal = { stance = wants_high_supply }
 		iron = { stance = wants_high_supply }
@@ -343,13 +457,16 @@ ai_strategy_industrial_expansion = {
 			}
 			add = 20
 		}
-
+		
 		if = {
 			limit = {
-				has_variable = japan_forced_to_open_market
+                OR = {
+					has_variable = japan_forced_to_open_market
+					has_variable = gwangmu_reforms_var
+                }
 			}
-			add = 20
-		}
+			add = 1000
+		}		
 
 		if = {
 			limit = { 

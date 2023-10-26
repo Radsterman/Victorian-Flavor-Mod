@@ -184,6 +184,66 @@ DEFAULT = {
 			}
 		}
 	}
+	# Law-based
+	dynamic_country_name = {
+		name = generic_revolt_absolutist
+		adjective = generic_revolt_absolutist_adj
+		
+		is_revolutionary = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_secessionist = no
+				has_law = law_type:law_monarchy
+				has_law = law_type:law_autocracy
+			}
+			scope:actor.civil_war_origin_country = {
+				NOT = { has_law = law_type:law_monarchy }
+				NOT = { has_law = law_type:law_autocracy }
+			}
+		}
+	}
+	dynamic_country_name = {
+		name = generic_revolt_monarchist
+		adjective = generic_revolt_monarchist_adj
+		
+		is_revolutionary = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_secessionist = no
+				has_law = law_type:law_monarchy
+			}
+			scope:actor.civil_war_origin_country = {
+				NOT = { has_law = law_type:law_monarchy }
+			}
+		}
+	}
+	dynamic_country_name = {
+		name = generic_revolt_republican
+		adjective = generic_revolt_republican_adj
+		
+		is_revolutionary = yes
+		priority = 0
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				is_secessionist = no
+				OR = {
+					has_law = law_type:law_presidential_republic
+					has_law = law_type:law_parliamentary_republic
+				}
+			}
+			scope:actor.civil_war_origin_country = {
+				has_law = law_type:law_monarchy
+			}
+		}
+	}
 	# Powerful interest groups
 	dynamic_country_name = {
 		name = generic_revolt_peasant
@@ -794,6 +854,20 @@ CHC = { # Chechnya
 }
 
 CHI = { # China
+	dynamic_country_name = {
+		name = dyn_c_great_han
+		adjective = dyn_c_great_han_adj
+		
+		is_main_tag_only = yes
+		priority = 1
+		
+		trigger = {
+			scope:actor = {
+				was_formed_from = KOR
+				has_law = law_type:law_monarchy
+			}
+		}
+	}
 	dynamic_country_name = {
 		name = dyn_c_great_qing
 		adjective = dyn_c_great_qing_adj

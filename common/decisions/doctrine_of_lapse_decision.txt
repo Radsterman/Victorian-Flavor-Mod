@@ -14,10 +14,29 @@
 		}
 		THIS = c:BIC
 		any_subject_or_below = {
+			count > 3
 			is_player = no
 			OR = {
 				has_government_type = gov_princely_state_hindu
 				hidden_trigger = { has_government_type = gov_princely_state_muslim }
+			}
+			OR = {
+				ruler = {
+					OR = {
+						age < 16
+						has_trait = senile
+						has_trait = psychological_affliction
+						has_trait = sickly
+						has_trait = cancer
+						has_trait = opium_addiction
+						has_trait = cocaine_addiction
+					}
+				}
+				NOT = {
+					any_scope_character = {
+						is_heir = no
+					}
+				}
 			}
 		}
 	}

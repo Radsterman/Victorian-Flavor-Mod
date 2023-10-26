@@ -6,6 +6,9 @@
 		character_roles_hidden.4
 		character_roles_hidden.5
 		character_roles_hidden.6
+		religion_rule_hidden.1
+		religion_rule_hidden.2
+		religion_rule_hidden.3
 	}
 }
 
@@ -44,6 +47,11 @@ vfm_events_italy = {
 	}
 }
 
+vfm_events_colonial_conquest = {
+	events = {
+		tahiti_events.1
+	}
+}
 #vfm_events_france = {
 #	events = {
 #		france_event.2
@@ -84,6 +92,12 @@ vfm_events_yearly_greece = {
 	}
 }
 
+vfm_hidden_ai = {
+	events = {
+		vfm_ai.2 # 1839, put hidden ai script triggering in 1839 here
+	}
+}
+
 vfm_events_five_year_greece = {
 	events = {
 		vfm_greece.7
@@ -107,6 +121,24 @@ vfm_discrimination_yearly_country = {
 	}
 }
 
+vfm_events_korea = {
+	random_events = {
+		44 = 0
+		25 = silhak.2
+		25 = silhak.10
+		1 = silhak.5
+		1 = silhak.6
+		1 = silhak.7
+		1 = silhak.8
+	}
+	events = {
+		silhak.9
+		silhak.4
+		kor.7
+		kor.6
+	}
+}
+
 vfm_natural_disaster_yearly = {
 	random_events = {
 	    # TODO: make crops failure and flooding state events?
@@ -117,6 +149,7 @@ vfm_natural_disaster_yearly = {
 		2 = vfm_natural_disaster_events.7 # coastal state hurricane
         1 = vfm_natural_disaster_events.2 # drought
 		2 = vfm_potato_blight.2 # generic potato blight
+		1 = vfm_natural_disaster_events.8 # generic crop failure
 	}
 }
 
@@ -311,22 +344,45 @@ vfm_frontier_colonialism_colony_created = {
 		}
 		if = {
 			limit = {
-				owner = { has_law = law_type:law_frontier_colonialism }
-				NOT = {
-					any_neighbouring_state = {
-						OR = {
-							is_incorporated = yes
-							any_neighbouring_state = {
+				ROOT = {
+					owner = { has_law = law_type:law_frontier_colonialism }
+					NOT = {
+						any_neighbouring_state = {
+							OR = {
 								is_incorporated = yes
-								owner = scope:colony_founder
+								any_neighbouring_state = {
+									is_incorporated = yes
+									owner = scope:colony_founder
+								}
 							}
+							owner = scope:colony_founder
 						}
-						owner = scope:colony_founder
+						#has_modifier = frontier_colonialism_modifier
 					}
-					#has_modifier = frontier_colonialism_modifier
 				}
 			}
 			add_modifier = frontier_colonialism_modifier
+		}
+	}
+}
+
+vfm_frontier_colonialism_clearance = {
+	effect = {
+		owner = {
+			save_scope_as = owner_scope
+		}
+		if = {
+			limit = {
+				any_neighbouring_state = {
+					has_modifier = frontier_colonialism_modifier
+				}
+			}
+			every_neighbouring_state = {
+				limit = {
+					owner = scope:owner_scope
+				}
+				remove_modifier = frontier_colonialism_modifier
+			}
 		}
 	}
 }
@@ -382,6 +438,131 @@ vfm_barracks_colony_created = {
 #				}
 #				make_independent = yes
 #			}
+#		}
+#	}
+#}
+
+#vfm_religion_condensing_pops = {
+#	effect = {
+#		if = {
+#			limit = {
+#				has_game_rule = condensed_religions
+#			}
+#			every_scope_pop = {
+#				limit = {
+#					OR = {
+#						has_pop_religion = taoist
+#						has_pop_religion = siberian_shamanist
+#						has_pop_religion = alcheringa
+#						has_pop_religion = generic_african
+#						has_pop_religion = generic_native_american
+#						has_pop_religion = bon
+#						has_pop_religion = bimoist
+#						has_pop_religion = hmongist
+#						has_pop_religion = mormon
+#						has_pop_religion = camaquen
+#					}
+#				}
+#				change_pop_religion = { target = rel:animist value = 1.0 }
+#			}
+#			every_scope_pop = {
+#				limit = {
+#					OR = {
+#						has_pop_religion = reformed
+#						has_pop_religion = anglican
+#						has_pop_religion = lutheran
+#						has_pop_religion = methodist
+#						has_pop_religion = baptist
+#						has_pop_religion = presbyterian
+#						has_pop_religion = congregationalist
+#						has_pop_religion = anabaptist
+#						has_pop_religion = mormon
+#						has_pop_religion = god_society
+#					}
+#				}
+#				change_pop_religion = { target = rel:protestant value = 1.0 }
+#			}
+#			every_scope_pop = {
+#				limit = {
+#					OR = {
+#						has_pop_religion = druze
+#						has_pop_religion = ibadi
+#					}
+#				}
+#				change_pop_religion = { target = rel:sunni value = 1.0 }
+#			}
+#			every_scope_pop = {
+#				limit = {
+#					OR = {
+#						has_pop_religion = shenist
+#						has_pop_religion = confucian
+#						has_pop_religion = taoist
+#					}
+#				}
+#				change_pop_religion = { target = rel:mahayana value = 1.0 }
+#			}
+#		}
+#	}
+#}
+#
+#vfm_religion_condensing_states = {
+#	effect = {
+#		if = {
+#			limit = {
+#				has_game_rule = condensed_religions
+#				OR = {
+#					country_has_state_religion = rel:reformed
+#					country_has_state_religion = rel:anglican
+#					country_has_state_religion = rel:lutheran
+#					country_has_state_religion = rel:methodist
+#					country_has_state_religion = rel:baptist
+#					country_has_state_religion = rel:presbyterian
+#					country_has_state_religion = rel:congregationalist
+#					country_has_state_religion = rel:anabaptist
+#					country_has_state_religion = rel:mormon
+#					country_has_state_religion = rel:god_society
+#				}
+#			}
+#			set_state_religion = rel:protestant
+#		}
+#		if = {
+#			limit = {
+#				has_game_rule = condensed_religions
+#				OR = {
+#					country_has_state_religion = rel:taoist
+#					country_has_state_religion = rel:siberian_shamanist
+#					country_has_state_religion = rel:alcheringa
+#					country_has_state_religion = rel:generic_african
+#					country_has_state_religion = rel:generic_native_american
+#					country_has_state_religion = rel:bon
+#					country_has_state_religion = rel:bimoist
+#					country_has_state_religion = rel:hmongist
+#					country_has_state_religion = rel:mormon
+#					country_has_state_religion = rel:camaquen
+#				}
+#			}
+#			set_state_religion = rel:animist
+#		}
+#		if = {
+#			limit = {
+#				has_game_rule = condensed_religions
+#				OR = {
+#					country_has_state_religion = rel:druze
+#					country_has_state_religion = rel:ibadi
+#				}
+#			}
+#			set_state_religion = rel:sunni
+#		}
+#		if = {
+#			limit = {
+#				has_game_rule = condensed_religions
+#				OR = {
+#					country_has_state_religion = rel:shenist
+#					country_has_state_religion = rel:confucian
+#					country_has_state_religion = rel:taoist
+#				}
+#			}
+#			set_state_religion = rel:mahayana
 #		}
 #	}
 #}

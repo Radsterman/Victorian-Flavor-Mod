@@ -86,16 +86,21 @@
 	}
 	
 	secret_goal_weights = {
-		protect = 1.5
-		dominate = 1.5
-		reconcile = 1.5
+		protect = 0.5
+		dominate = 0.5
+		reconcile = 0.5
+		conquer = 0.5
+        antagonize = 0.5
 	}
-	
+
 	wargoal_weights = {
 		regime_change = 3.0
 		humiliation = 2.0
 		liberate_subject = 1.5
 		liberate_country = 1.5
+        take_treaty_port = 1.5
+		conquer_state = 1.0
+		return_state = 1.0
 	}
 
 	possible = {
@@ -207,12 +212,16 @@ ai_strategy_territorial_expansion = {
 	
 	secret_goal_weights = {
 		protect = 0.5
+		dominate = 0.5
+		reconcile = 0.5
+        antagonize = 0.75
 		conquer = 1.5
 	}
 
 	wargoal_weights = {
 		conquer_state = 1.5
 		return_state = 1.5
+        take_treaty_port = 0.5
 	}	
 		
 	possible = {
@@ -504,7 +513,19 @@ ai_strategy_armed_isolationism = {
 		if = {
 			limit = { has_law = law_type:law_isolationism }
 			add = 100
-		}	
+		}
+
+		if = {
+			limit = { has_variable = korean_sovereignty_breached }
+			add = 200
+		}
+
+        if = {
+			limit = {
+					has_variable = japan_forced_to_open_market
+			}
+			multiply = 0.1
+		}			
 
 		if = {
 			limit = { country_rank = rank_value:great_power }
@@ -575,13 +596,15 @@ ai_strategy_economic_imperialism = {
 		
 		if = {
 			limit = { 
-				has_technology_researched = civilizing_mission
+				country_rank = rank_value:great_power
+				navy_size >= 25
 				scope:target_country = { 
-					has_law = law_type:law_isolationism 
-					capital.region = sr:region_japan					
+					exists = c:JAP
+					this = c:JAP		
+					has_law = law_type:law_isolationism 				
 				} 
 			}
-			add = 10
+			add = 5
 		}
 
 		if = {
@@ -639,17 +662,33 @@ ai_strategy_economic_imperialism = {
 		}			
 	}
 	
+	strategic_region_scores = {
+		region_japan = { # Great Powers should try to open Japan
+			if = {
+				limit = {
+					exists = c:JAP
+					c:JAP = { has_law = law_type:law_isolationism }
+					country_rank = rank_value:great_power
+					navy_size >= 25
+				}
+				add = 1000
+			}				
+		}	
+	}
+	
 	secret_goal_scores = {
 		dominate = {
 			if = {
 				limit = {
-					has_strategic_adjacency = scope:target_country
+					country_rank = rank_value:great_power
+					navy_size >= 25
 					scope:target_country = { 
-						has_law = law_type:law_isolationism
-						capital.region = sr:region_japan	
-					}
+						exists = c:JAP
+						this = c:JAP		
+						has_law = law_type:law_isolationism 				
+					} 
 				}
-				add = 1000
+				add = 500
 			}		
 			if = {
 				limit = {
@@ -690,6 +729,14 @@ ai_strategy_economic_imperialism = {
 				multiply = 0.5
 			}			
 		}		
+	}
+	
+	secret_goal_weights = {
+		protect = 0.25
+		dominate = 0.75
+		reconcile = 0.25
+		conquer = 0.5
+        antagonize = 0.5
 	}
 
 	wargoal_weights = {

@@ -4,7 +4,7 @@
 	type = political
 	
 	revolution_aversion = {
-		value = 5
+		value = 25 #vfm 1/4 of vanilla 1.5
 	}
 	
 	min_law_chance_to_pass = {
@@ -25,7 +25,12 @@
 		if = {
 			limit = { any_interest_group = { is_insurrectionary = yes } }
 			add = 7.5
-		}		
+		}
+
+		if = {
+			limit = { has_journal_entry = je_government_petition  }
+			add = 12
+		}			
 	}		
 	
 	pro_interest_groups = {
@@ -79,9 +84,9 @@
 			}
 			
 			add = 10
-		}
+		}	
 
-        if = {
+		if = {
 			limit = { 
 				exists = c:FRA
 				c:FRA = this
@@ -90,7 +95,7 @@
 				}
 			}
 			add = 10
-		}		
+		}
 	}
 }
 
@@ -98,7 +103,7 @@ ai_strategy_reactionary_agenda = {
 	icon = "gfx/interface/icons/ai_strategy_icons/reactionary_agenda.dds"
 	
 	revolution_aversion = {
-		value = 2.5
+		value = 12 #vfm half of vanilla 1.5
 	}
 	
 	min_law_chance_to_pass = {
@@ -119,6 +124,11 @@ ai_strategy_reactionary_agenda = {
 		if = {
 			limit = { any_interest_group = { is_insurrectionary = yes } }
 			add = 1.5
+		}
+
+		if = {
+			limit = { has_journal_entry = je_government_petition  }
+			add = 5
 		}			
 	}	
 	
@@ -207,7 +217,7 @@ ai_strategy_reactionary_agenda = {
 			
 			add = 10
 		}
-		
+
 		if = {
 			limit = { 
 				exists = c:FRA
@@ -239,7 +249,7 @@ ai_strategy_progressive_agenda = {
 	type = political
 	
 	revolution_aversion = {
-		value = 2.5
+		value = 17 #vfm half of vanilla 1.5
 	}
 	
 	min_law_chance_to_pass = {
@@ -260,6 +270,11 @@ ai_strategy_progressive_agenda = {
 		if = {
 			limit = { any_interest_group = { is_insurrectionary = yes } }
 			add = 10
+		}	
+
+		if = {
+			limit = { has_journal_entry = je_government_petition  }
+			add = 12
 		}			
 	}	
 	
@@ -356,9 +371,12 @@ ai_strategy_progressive_agenda = {
 
 		if = {
 			limit = {
-				has_variable = japan_forced_to_open_market
+				OR = {
+					has_variable = japan_forced_to_open_market
+					has_variable = gwangmu_reforms_var
+                }
 			}
-			add = 100
+			add = 1000
 		}
 		
 		if = {
@@ -388,7 +406,7 @@ ai_strategy_egalitarian_agenda = {
 	type = political
 	
 	revolution_aversion = {
-		value = 1
+		value = 12 #vfm half of vanilla 1.5
 	}
 	
 	min_law_chance_to_pass = {
@@ -409,6 +427,11 @@ ai_strategy_egalitarian_agenda = {
 		if = {
 			limit = { any_interest_group = { is_insurrectionary = yes } }
 			add = 5
+		}	
+
+		if = {
+			limit = { has_journal_entry = je_government_petition  }
+			add = 12
 		}			
 	}	
 	
@@ -513,7 +536,7 @@ ai_strategy_nationalist_agenda = {
 	type = political
 	
 	revolution_aversion = {
-		value = 2.5
+		value = 17 #vfm half of vanilla 1.5
 	}
 	
 	min_law_chance_to_pass = {
@@ -534,7 +557,12 @@ ai_strategy_nationalist_agenda = {
 		if = {
 			limit = { any_interest_group = { is_insurrectionary = yes } }
 			add = 10
-		}			
+		}
+
+		if = {
+			limit = { has_journal_entry = je_government_petition  }
+			add = 12
+		}		
 	}	
 	
 	pro_interest_groups = {
@@ -601,8 +629,8 @@ ai_strategy_nationalist_agenda = {
 			}
 			
 			add = 30
-		}			
-		
+		}		
+
 		if = {
 			limit = { 
 				exists = c:FRA
@@ -652,7 +680,7 @@ ai_strategy_maintain_mandate_of_heaven = {
 	type = political
 
 	revolution_aversion = {
-		value = 5
+		value = 25 #vfm 1/4 of vanilla 1.5
 	}
 	
 	min_law_chance_to_pass = {
@@ -669,6 +697,11 @@ ai_strategy_maintain_mandate_of_heaven = {
 	
 	change_law_chance = { 
 		value = 1
+		
+		if = {
+			limit = { has_journal_entry = je_government_petition  }
+			add = 5
+		}		
 	}	
 
 	pro_interest_groups = {

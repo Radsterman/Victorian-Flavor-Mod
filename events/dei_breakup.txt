@@ -1,0 +1,155 @@
+﻿namespace = dei_breakup
+
+# Independent Dutch East Indies
+dei_breakup.1 = {
+	type = country_event
+	placement = root
+	
+	title = dei_breakup.1.t
+	desc = dei_breakup.1.d
+	flavor = dei_breakup.1.f
+	
+	event_image = {
+		video = "asia_sepoy_mutiny"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+	
+	duration = 3
+	
+	cooldown = { months = very_long_modifier_time }
+
+	trigger = {
+	    exists = c:DEI # vfm bugfix
+		this = c:DEI
+		is_subject = no
+		is_at_war = no
+	}
+
+	immediate = {
+		set_variable = bic_collapse_var #Intended
+	}
+
+	option = {
+		name = dei_breakup.1.a
+		ai_chance = {
+			base = 8 # this is the default pick for the AI
+		}
+		while = {
+			limit = {
+				any_scope_state = { 
+					is_capital = no
+					NOT = {
+						state_region = {
+							is_homeland = cu:javan
+						}
+					}
+					any_neighbouring_state = {
+						owner = { is_subject_of = ROOT }
+					}
+				}
+			}
+			random_country = {
+				limit = {
+					OR = {
+						is_subject_of = ROOT
+						any_primary_culture = {
+							has_discrimination_trait = malay_culture
+						}
+					}
+					any_scope_state = {
+						any_neighbouring_state = {
+							is_capital = no
+							NOT = {
+								state_region = {
+									is_homeland = cu:javan
+								}
+							}
+							owner = ROOT
+						}
+					}
+				}
+				save_scope_as = test_scope
+			}
+			random_scope_state = {
+				limit = {
+					is_capital = no
+					NOT = {
+						state_region = {
+							is_homeland = cu:javan
+						}
+					}
+					any_neighbouring_state = {
+						owner = scope:test_scope
+					}
+				}
+				set_state_owner = scope:test_scope
+			}
+			clear_saved_scope = test_scope
+		}
+		custom_tooltip = {
+			text = dei_vassals_independent_tt
+			every_country = {
+				limit = {
+					is_subject_of = ROOT
+				}
+				make_independent = yes
+			}
+		}
+		change_tag = JAV
+		hidden_effect = {
+			remove_primary_culture = cu:dutch
+			add_primary_culture = cu:javan
+			set_state_religion = rel:sunni
+			every_scope_character = {
+				limit = {
+					OR = {
+						culture = cu:dutch
+					}
+				}
+				kill_character = yes
+			}
+		}
+	}
+
+	option = {
+		name = dei_breakup.1.b
+		highlighted_option = yes
+		trigger = {
+			has_technology_researched = pan-nationalism
+		}
+		ai_chance = {
+			factor = 1
+		}
+		change_tag = IDN
+		hidden_effect = {
+			remove_primary_culture = cu:dutch
+			add_primary_culture = cu:balinese
+			add_primary_culture = cu:batak
+			add_primary_culture = cu:bornean
+			add_primary_culture = cu:dayak
+			add_primary_culture = cu:javan
+			add_primary_culture = cu:malay
+			add_primary_culture = cu:moluccan
+			add_primary_culture = cu:sumatran
+			every_scope_character = {
+				limit = {
+					culture = cu:dutch
+				}
+				kill_character = yes
+			}
+		}
+	}
+	option = {
+		name = dei_breakup.1.c
+		ai_chance = {
+			base = 0
+		}
+		default_option = yes
+		add_radicals = {
+			value = very_large_radicals
+		}
+	}
+}
