@@ -71,6 +71,7 @@ je_pacific_war_chl = {
 		    ig:ig_industrialists = {
 			    is_powerful = yes
 			    is_in_government = yes
+			    }			    
 			AND = {
                 OR = {
 			        leader = {
@@ -82,12 +83,11 @@ je_pacific_war_chl = {
 		        }
 	        }
 	    }
-	}        
 
 	complete = {
-		    NOT = {
-		    	owns_entire_state_region = STATE_ANTOFAGASTA
-		    }
+		NOT = {
+		    owns_entire_state_region = STATE_ANTOFAGASTA
+		}
 		exists = c:BOL
 	    c:BOL = {
 			relations:root <= -30 
@@ -146,7 +146,7 @@ je_pacific_port.a = {
 		}  	   
 	    market_capital.market = {
 	        mg:grain = { 
-	        	market_goods_pricier < 0.15
+	        	market_goods_pricier < 0.25
 	        	    }
 	        	}	
 	        }
@@ -210,7 +210,7 @@ je_pacific_port.b = {
 		}  	   
 	    market_capital.market = {
 	        mg:grain = { 
-	        	market_goods_pricier < 0.15
+	        	market_goods_pricier < 0.25
 	        	    }
 	        	}	
 	        }
@@ -254,8 +254,8 @@ je_1881_treaty = {
 	icon = "gfx/interface/icons/event_icons/event_map.dds"
 
 	is_shown_when_inactive = {
-			c:BUE = this  
-            year >= 1881			
+	        exists = c:ARG
+			c:ARG = this  			
 	    }
 
 	complete = {
@@ -463,3 +463,21 @@ je_araucania_ocupacion = {
     should_be_pinned_by_default = yes
 	weight = 100 
 }
+
+je_saltpeter_war.1 = {
+	icon = "gfx/interface/icons/event_icons/event_war.dds"
+
+	complete = {
+		owns_entire_state_region = STATE_ANTOFAGASTA
+		owns_entire_state_region = STATE_TARAPACA
+			}
+
+	on_complete = {
+            s:STATE_AREQUIPA = {
+		    	set_owner_of_provinces = {
+		    		country = c:CHL
+		    		provinces = { x007035 x67EC55 }
+		    	}
+		    }
+		}
+	}	    						
