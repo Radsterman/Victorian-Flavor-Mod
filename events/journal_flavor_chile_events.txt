@@ -304,6 +304,12 @@ journal_flavor_chile.5 = { #War of the Pacific
 			                    type = defensive_pact
 		                        }
 			                }
+			                c:BOL ?= {
+			                    c:PEU.relations:ROOT >= relations_threshold:cordial
+		                    }    
+			                c:PEU ?= {
+			                    c:CHL.relations:root <= -30 			
+		                    }   
 			            } 
 			        }
 			    }           
@@ -322,6 +328,9 @@ journal_flavor_chile.5 = { #War of the Pacific
 				target_state = scope:tarapaca_state
 			}
 		}
+		add_journal_entry = {
+			type = je_saltpeter_war.1
+		}
 	}	
 		    if = {
 			    limit = {
@@ -337,6 +346,12 @@ journal_flavor_chile.5 = { #War of the Pacific
 			                            type = defensive_pact 
 			                        }    
 		                        }
+		                        c:BOL ?= {
+			                        c:PEU.relations:ROOT >= relations_threshold:cordial
+		                        }
+		                        c:PEU ?= {
+			                        c:CHL.relations:root <= -30 			
+		                        }
 			                }
 			            } 
 			        }			    
@@ -351,9 +366,6 @@ journal_flavor_chile.5 = { #War of the Pacific
 			}
 		}	
 
-        add_journal_entry = {
-			type = je_saltpeter_war.1
-			}
 		change_infamy = 30	
 		}		
 			            
@@ -678,6 +690,7 @@ journal_flavor_chile.13  = {
 		}	
         ai_chance = {
 			base = 35
+			}
 		}		
 	}
 }
@@ -1060,12 +1073,18 @@ journal_flavor_chile.20 = {
 				birth_date = 1825.05.12
 				female = no
 				culture = cu:french
+				dna = dna_orelie_antoine_tounens
 				ideology = ideology_moderate
 				religion = rel:catholic
 				traits = {
 					ambitious
 				}
-		    }
+			on_created = {
+				set_variable = {
+					name = is_tounens
+				}
+			}							
+		}
 
 				if = {
 					limit = {
@@ -1123,7 +1142,12 @@ journal_flavor_chile.20 = {
 		c:APK = {	    	
 		    add_loyalists = {
 			    value = 0.3		
-		    }    	    				
+		    }
+            add_modifier = {
+                name = toquis_reunited
+			    months = long_modifier_time
+		        }  
+		    }  		        	    				
         }
         c:CHL = {
             add_journal_entry = {
