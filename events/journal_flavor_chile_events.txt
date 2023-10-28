@@ -268,6 +268,9 @@ journal_flavor_chile.5 = { #War of the Pacific
 		c:CHL = {
 			save_scope_as = chl_scope
 		}
+		c:PEU = {
+			save_scope_as = peu_scope
+		}			
 	}
 
 	event_image = {
@@ -304,11 +307,11 @@ journal_flavor_chile.5 = { #War of the Pacific
 			                    type = defensive_pact
 		                        }
 			                }
-			                c:BOL ?= {
+			                c:BOL = {
 			                    c:PEU.relations:ROOT >= relations_threshold:cordial
 		                    }    
-			                c:PEU ?= {
-			                    c:CHL.relations:root <= -30 			
+			                c:PEU = {
+			                    relations:root <= -30 			
 		                    }   
 			            } 
 			        }
@@ -330,7 +333,7 @@ journal_flavor_chile.5 = { #War of the Pacific
 		}
 		add_journal_entry = {
 			type = je_saltpeter_war.1
-		}
+		}			
 	}	
 		    if = {
 			    limit = {
@@ -349,13 +352,13 @@ journal_flavor_chile.5 = { #War of the Pacific
 		                        c:BOL ?= {
 			                        c:PEU.relations:ROOT >= relations_threshold:cordial
 		                        }
-		                        c:PEU ?= {
-			                        c:CHL.relations:root <= -30 			
-		                        }
+		                        c:PEU = {
+			                        relations:root <= -30 
 			                }
 			            } 
 			        }			    
 			    }
+			}    
             create_diplomatic_play = {
 			    name = war_of_the_pacific
 			    target_state = s:STATE_ANTOFAGASTA.region_state:BOL
@@ -365,29 +368,56 @@ journal_flavor_chile.5 = { #War of the Pacific
 			    type = dp_return_state
 			}
 		}	
-
+		add_loyalists = {
+			value = 0.15
+		}			
 		change_infamy = 30	
-		}		
+
+		hidden_effect = {
+		    trigger_event = {
+			    id = journal_flavor_chile.22
+			    months = 1
+		    }
+			create_character = {
+				first_name = arturo
+				last_name = prat
+				historical = yes
+				interest_group = ig_military
+				birth_date = 1848.04.03
+				female = no
+				culture = cu:south_andean
+				dna = dna_arturo_prat
+				ideology = ideology_moderate
+				religion = rel:catholic
+				traits = {
+					ambitious
+				}
+			set_variable = {
+					name = is_prat
+				}	 
+			}	   
+		}
+		trigger_event = {
+			    id = journal_flavor_bolivia.1
+		    }
+		}        				
 			            
 	option = {
 		default_option = yes
 		name = journal_flavor_chile.5.b
 
+    c:CHL = {
         add_modifier = {
 			name = pacific_war_rejected
 			months = normal_modifier_time
 			}
 		add_radicals = {
-			value = 0.1		
+			value = 0.025	
 		}
 		add_radicals = {
-			value = 0.15
-			pop_type = soldiers		
-		}
-		add_radicals = {
-			value = 0.2
-			pop_type = officers		
-		}				
+			value = 0.4
+			pop_type = capitalists	
+		}					
 	}
 }
 
