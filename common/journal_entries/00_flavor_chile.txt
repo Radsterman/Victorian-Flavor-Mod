@@ -72,15 +72,10 @@ je_pacific_war_chl = {
 			    is_powerful = yes
 			    is_in_government = yes
 			    }			    
-            OR = {
-			    leader = {
-				    has_ideology = ideology:ideology_jingoist_leader
-				    has_ideology = ideology:ideology_market_liberal
-				    has_ideology = ideology:ideology_protectionist	
-				        }
-				    }    			        		        				        		        	
-		        }
-	        }
+			has_law = law_type:law_free_trade
+			has_law = law_type:law_protectionism
+		    }    			        		        				        		        	
+		}
 
 	complete = {
 		NOT = {
@@ -129,11 +124,9 @@ je_pacific_port.a = {
             c:CHL = THIS
 		    }
 
-	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
-		    	    	}    	    
+	complete = { 	    
 	    is_at_war = no
+	    has_law = law_type:law_free_trade
 	    s:STATE_SANTIAGO = {
 		    any_scope_state = {
 		        any_scope_building = {
@@ -144,19 +137,10 @@ je_pacific_port.a = {
 		}  	   
 	    market_capital.market = {
 	        mg:grain = { 
-	        	market_goods_pricier < 0.25
+	        	market_goods_pricier <= 0.25
 	        	    }
 	        	}	
-	        }
-
-	current_value = {
-		value = root.num_trade_routes
-	}
-
-	goal_add_value = {
-		value = root.num_trade_routes
-		multiply = 0.3
-	}	    
+	        }	    
 
 	on_complete = {
 		hidden_effect = { set_global_variable = pacific_port_completed }	
@@ -164,8 +148,6 @@ je_pacific_port.a = {
 			id = journal_flavor_chile.9 
 		}	
 	}
-
-	progressbar = yes
 
 	    fail = {
 	        AND = {
@@ -196,11 +178,9 @@ je_pacific_port.b = {
             c:PEU = THIS
 		    }
 
-	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
-		    	    	}	    	    	
+	complete = {    	    	
 	    is_at_war = no
+	    has_law = law_type:law_free_trade
 	    s:STATE_LIMA = {
 		    any_scope_state = {
 		    	any_scope_building = {
@@ -211,19 +191,10 @@ je_pacific_port.b = {
 		}  	   
 	    market_capital.market = {
 	        mg:grain = { 
-	        	market_goods_pricier < 0.25
+	        	market_goods_pricier <= 0.25
 	        	    }
 	        	}	
-	        }
-
-	current_value = {
-		value = root.num_trade_routes
-	}
-
-	goal_add_value = {
-		value = root.num_trade_routes
-		multiply = 0.3
-	}	    
+	        }	    
 
 	on_complete = {
 		hidden_effect = { set_global_variable = pacific_port_completed }	
@@ -231,8 +202,6 @@ je_pacific_port.b = {
 			id =  journal_flavor_chile.9 
 		}	
 	}
-
-	progressbar = yes
 
 	    fail = {
 	        AND = {
@@ -296,16 +265,16 @@ je_silver_rush = {
 	    }
 
 	complete = {
-	       any_scope_state = {
-	        s:STATE_SANTIAGO = {
-		    	 any_scope_building = {
-		    	  is_building_type = building_gold_mine
-		    	  level >= 4
-			      occupancy > 0.9
-		    	    }
+	    s:STATE_SANTIAGO = {
+		    any_scope_state = {
+		        any_scope_building = {
+		        is_building_type = building_gold_mine
+		        level >= 4
+		        occupancy > 0.9
 		    	}
 		    }
 		}
+	}			    
 
 	on_complete = { 
 	    trigger_event = { 
