@@ -72,17 +72,15 @@ je_pacific_war_chl = {
 			    is_powerful = yes
 			    is_in_government = yes
 			    }			    
-			AND = {
-                OR = {
-			        leader = {
-				        has_ideology = ideology:ideology_jingoist_leader
-				        has_ideology = ideology:ideology_market_liberal
-				        has_ideology = ideology:ideology_protectionist	
+            OR = {
+			    leader = {
+				    has_ideology = ideology:ideology_jingoist_leader
+				    has_ideology = ideology:ideology_market_liberal
+				    has_ideology = ideology:ideology_protectionist	
 				        }
 				    }    			        		        				        		        	
 		        }
 	        }
-	    }
 
 	complete = {
 		NOT = {
@@ -170,11 +168,14 @@ je_pacific_port.a = {
 	progressbar = yes
 
 	    fail = {
-	        has_global_variable = pacific_port_completed
-	        NOT = { exists = c:PEU }
+	        AND = {
+                OR = {
+	                has_global_variable = pacific_port_completed
+	                NOT = { exists = c:PEU }
+	            }    
 	        }
+	    }
 	   
-
 	status_desc = {
 		first_valid = {
 			triggered_desc = {
@@ -234,10 +235,13 @@ je_pacific_port.b = {
 	progressbar = yes
 
 	    fail = {
-	        has_global_variable = pacific_port_completed
-	        NOT = { exists = c:PEU }
+	        AND = {
+                OR = {
+	                has_global_variable = pacific_port_completed
+	                NOT = { exists = c:PEU }
+	            }    
 	        }
-	   
+	    }
 
 	status_desc = {
 		first_valid = {
@@ -295,7 +299,7 @@ je_silver_rush = {
 	       any_scope_state = {
 	        s:STATE_SANTIAGO = {
 		    	 any_scope_building = {
-		    	  is_building_type = building_gold_fields
+		    	  is_building_type = building_gold_mine
 		    	  level >= 4
 			      occupancy > 0.9
 		    	    }
