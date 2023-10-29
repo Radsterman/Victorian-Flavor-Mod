@@ -56,6 +56,10 @@ codigo_civil = {
 			name = codigo_civil
 		}
 	}
+	
+	ai_chance = {
+		base = 100
+	}	
 }	 	
 
 ohiggins1 = {
@@ -120,69 +124,7 @@ ohiggins1 = {
         trigger_event = { 
 			id = journal_flavor_chile.6
 		    }
-        }
-    }			
-
-create_idp = {
-	is_shown = {
-		this = c:CHL  
-        has_variable = idp_annexed
-        NOT = { has_variable = idp_created1 }
-        }
-
-	possible = {
-		custom_tooltip = {
-			text = dip_annexed1
-            has_variable = idp_annexed
-            }
-	    }
-
-	when_taken = {	
-        trigger_event = { 
-			id = journal_flavor_chile.16
-			}
-		set_variable = {
-			name = idp_created1
-		    }
-		}
-
-	ai_chance = {
-		base = 60
-	}	
-}		
-
-expand_idp = {
-	is_shown = {
-		exists = c:IDP
-		c:IDP = {
-			is_subject_of = ROOT
-		}
-	}
-	possible = {
-		any_state = {
-			owner = ROOT
-			region = sr:region_oceania
-		}
-	}	
-	when_taken = {
-		custom_tooltip = expand_dip_tt
-		if = {
-			limit= {
-				any_state = {
-					owner = ROOT
-					region = sr:region_oceania
-				}
-			}
-			every_scope_state = {
-				limit = {
-					owner = ROOT
-					region = sr:region_oceania
-				}
-				set_state_owner = c:IDP
-				set_state_type = unincorporated
-			}
-		}
-	}
+        }			
 
 	ai_chance = {
 		base = 100
