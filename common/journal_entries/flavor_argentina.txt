@@ -39,11 +39,100 @@ je_argentina_constitution = {
 	timeout = 5475
 
 	    on_timeout = { 
-		    trigger_event = { 
-		    id = journal_flavor_argentina.2 
-            days = 1
-		    }
-        }
+	    custom_tooltip = {
+			text = arg_constitution_tt
+		    hidden_effect = {
+
+    c:BUE = {
+        change_tag = ARG
+	}
+
+		create_country = {
+            tag = BUE
+			origin = c:ARG
+			state = s:STATE_BUENOS_AIRES.region_state:ARG
+		}
+
+        play_as = c:BUE        
+
+    c:ENT = {
+        annex = c:COE
+	}
+
+    c:ENT = {
+        c:MSS = exists
+        annex = c:MSS
+	}
+
+    c:ENT = {
+        exists = c:ARG
+        annex = c:ARG
+	}	
+
+    c:ENT = {
+        change_tag = ARG
+	}
+
+		s:STATE_BUENOS_AIRES= {
+			add_claim = c:BUE
+			}
+
+    c:ARG = {
+        exists = c:ARG
+
+		create_diplomatic_pact = {
+			country = ROOT
+			type = rivalry
+		}
+
+		change_relations = {
+			country = ROOT
+			value = -100
+		}
+
+		create_character = {
+			first_name = "Justo_Jose"
+			last_name = "de_Urquiza"
+			historical = yes
+			ruler = yes
+			is_general = yes
+			dna = dna_Justo_Jose_de_Urquiza
+			birth_date = 1801.10.18
+			interest_group = ig_armed_forces
+			ideology = ideology_moderate
+			traits = {
+				ambitious
+			}			
+		}						
+	}	
+
+    c:BUE = {
+        trigger_event = { 
+			id = journal_flavor_argentina.6
+			days = 1
+		}
+	}
+
+    c:BUE = {
+		create_character = {
+			# Juan Manuel de Rosas
+			first_name = "Juan_Manuel"
+			last_name = "de_Rosas"
+			historical = yes
+			ruler = yes
+			is_general = yes
+			birth_date = 1793.3.30
+			dna = dna_president_manuel_de_rosas
+			interest_group = ig_armed_forces
+			ideology = ideology_moderate
+			traits = {
+				ambitious
+				    }
+			    }
+		    }    
+	    }    
+	}
+}
 
     should_be_pinned_by_default = yes
 	weight = 20
@@ -115,7 +204,7 @@ je_paraguay_independence = {
 
 	is_shown_when_inactive = {
 			c:BUE = this 
-			c:PRG = exists		
+			exists = c:PRG		
 	    }
 
 	complete = {
