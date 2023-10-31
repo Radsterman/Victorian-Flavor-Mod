@@ -1087,8 +1087,13 @@ journal_flavor_chile.20 = {
 
 	immediate = {
 
-	    remove_modifier = malones
-
+	    c:ARG = {
+		    trigger_event = {
+			    id = journal_flavor_argentina.10
+			    years = 14
+		    }
+		}	
+    
 		c:FRA = {
 			save_scope_as = fra_scope
 		}				
@@ -1144,6 +1149,18 @@ journal_flavor_chile.20 = {
 					activate_law = law_type:law_mass_conscription
 				}								    		
 	        }
+
+            s:STATE_LOS_RIOS = {
+                region_state:APK={
+                    create_building={
+                        building="building_barracks"
+                        level=1
+                        reserves=1
+                        activate_production_methods={ "pm_irregular_infantry" "pm_no_artillery" "pm_cavalry_scouts" "pm_no_specialists" "pm_wound_dressing"  }
+                    }
+                }
+            }
+
         c:CHL = {
             create_diplomatic_play = {
 			    name = araucania_ocupacion
@@ -1164,24 +1181,14 @@ journal_flavor_chile.20 = {
 	        trigger_event = { 
 			    id = journal_flavor_chile.21
 			    months = 3
-		    }
-            s:STATE_LOS_RIOS = {
-                region_state:APK={
-                    create_building={
-                        building="building_barracks"
-                        level=1
-                        reserves=1
-                        activate_production_methods={ "pm_irregular_infantry" "pm_no_artillery" "pm_cavalry_scouts" "pm_no_specialists" "pm_wound_dressing"  }
-                    }
-                }
-            } 
+		    } 
         }
     }               		    
             add_modifier = {
                 name = toquis_reunited
 			    months = long_modifier_time
 		        }		    		    				
-            }
+
         c:CHL = {
 			add_radicals = {
 			    value = 0.05
@@ -1189,9 +1196,9 @@ journal_flavor_chile.20 = {
 		    }
             add_journal_entry = {
 			    type = je_araucania_ocupacion
-		        }	            
-	        } 		    
-		}                
+		        }	        
+		}		    
+	}    	                           
 
 	option = {
 		name = journal_flavor_chile.20.b
