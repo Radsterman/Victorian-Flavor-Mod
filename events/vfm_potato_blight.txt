@@ -1,0 +1,219 @@
+﻿namespace = vfm_potato_blight
+
+vfm_potato_blight.1 = {
+	type = country_event
+	placement = ROOT
+
+	title = vfm_potato_blight.1.t
+	desc = vfm_potato_blight.1.d
+	flavor = vfm_potato_blight.1.f
+
+	duration = 3
+
+	event_image = {
+		video = "unspecific_devastation"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	trigger = {
+	}
+	
+	immediate = {
+		every_scope_state = {
+			limit = {
+				in_potato_blight_zone = yes
+				NOT = {
+					any_scope_building = {
+  			     	   is_building_type = building_wheat_farm
+	           		}
+				}
+			}
+			add_modifier = {
+				name = modifier_potato_blight
+				months = 72
+			}
+		}
+		every_scope_state = {
+			limit = {
+				in_potato_blight_mild_zone = yes
+				NOT = {
+					any_scope_building = {
+  			     	   is_building_type = building_wheat_farm
+	           		}
+				}
+			}
+			add_modifier = {
+				name = modifier_potato_blight_mild
+				months = 72
+			}
+		}
+	}
+	
+	option = { # todo: option to blame certain IG, landowners?
+		name = vfm_potato_blight.1.a
+		default_option = yes
+		show_as_tooltip = {
+			every_scope_state = {
+				limit = {
+					in_potato_blight_zone = yes
+					NOT = {
+						any_scope_building = {
+  			     		   is_building_type = building_wheat_farm
+	           			}
+					}
+				}
+				add_modifier = {
+					name = modifier_potato_blight
+					months = 72
+				}
+		    }
+			every_scope_state = {
+				limit = {
+					in_potato_blight_mild_zone = yes
+					NOT = {
+						any_scope_building = {
+  			     		   is_building_type = building_wheat_farm
+	           			}
+					}
+				}
+				add_modifier = {
+					name = modifier_potato_blight_mild
+					months = 72
+				}
+			}
+		}		
+	}
+}
+
+vfm_potato_blight.2 = {
+	type = state_event
+	placement = ROOT
+
+	title = vfm_potato_blight.1.t
+	desc = vfm_potato_blight.2.d
+	flavor = vfm_potato_blight.1.f
+
+	duration = 3
+
+	event_image = {
+		video = "unspecific_devastation"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	trigger = {
+	    has_agricultural_disaster = no
+		OR = {
+			state_region = { in_potato_blight_zone = yes }
+			state_region = { in_potato_blight_mild_zone = yes }
+		}
+		any_scope_building = {
+  			is_building_type = building_rye_farm
+		}
+	}
+
+	immediate = {
+		save_scope_as = blight_state
+		owner = { save_scope_as = state_owner }
+	}
+	
+	option = {
+		name = vfm_potato_blight.1.a
+		default_option = yes
+		if = { 
+		    limit = {
+				state_region = { in_potato_blight_zone = yes }
+			}
+			add_modifier = {
+			    name = modifier_potato_blight
+			    months = 24
+		    }
+		}
+		else = { 
+		    add_modifier = {
+			    name = modifier_potato_blight_mild
+			    months = 24
+		    }
+	    }
+		random_neighbouring_state = {
+			limit = {
+			    has_agricultural_disaster = no
+				owner = scope:state_owner
+				OR = {
+					state_region = { in_potato_blight_zone = yes }
+					state_region = { in_potato_blight_mild_zone = yes }
+				}
+			}
+			if = { 
+				limit = {
+				    state_region = { in_potato_blight_zone = yes }
+				}
+				add_modifier = {
+			        name = modifier_potato_blight
+			        months = 24
+		        }
+			}
+			else = { 
+				add_modifier = {
+			        name = modifier_potato_blight_mild
+			        months = 24
+		        }
+			}
+		}		
+	}
+}
+
+vfm_potato_blight.100 = {
+	type = country_event
+	hidden = yes
+
+	title = vfm_potato_blight.1.t
+	desc = vfm_potato_blight.1.d
+	flavor = vfm_potato_blight.1.f
+
+	duration = 3
+
+	event_image = {
+		video = "asia_dead_cattle_poor_harvest"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	trigger = {
+	    NOT = { has_global_variable = potato_blight_var }
+		game_date > 1841.1.1 # happened 1845 historically
+		any_scope_state = {
+			state_region = s:STATE_CONNAUGHT
+		}
+	}
+	
+	immediate = {
+	    set_global_variable = potato_blight_var
+		every_country = {
+			limit = {
+				any_scope_state = {
+				    OR = {
+						in_potato_blight_zone = yes
+						in_potato_blight_mild_zone = yes
+					}
+					NOT = {
+						any_scope_building = {
+  			     		   is_building_type = building_wheat_farm
+	           			}
+					}
+				}
+			}
+			trigger_event = { id = vfm_potato_blight.1 }
+		}
+	}
+}

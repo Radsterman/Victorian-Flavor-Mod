@@ -76,12 +76,29 @@ je_sick_man_syria = {
 	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
 	complete = {
-		owns_entire_state_region = STATE_ALEPPO
-		owns_entire_state_region = STATE_SYRIA
-		owns_entire_state_region = STATE_LEBANON
-		owns_entire_state_region = STATE_PALESTINE
-		owns_entire_state_region = STATE_TRANSJORDAN
-		owns_entire_state_region = STATE_ADANA
+			AND = {
+				AND = {
+					has_state_in_state_region = STATE_ALEPPO
+					has_state_in_state_region = STATE_SYRIA
+					has_state_in_state_region = STATE_LEBANON
+					has_state_in_state_region = STATE_PALESTINE
+					has_state_in_state_region = STATE_TRANSJORDAN
+					has_state_in_state_region = STATE_ADANA
+				}
+				c:EGY = {
+					custom_tooltip = {
+						text = je_sick_man_syria_tt
+						NOT = {
+							has_state_in_state_region = STATE_ALEPPO
+							has_state_in_state_region = STATE_SYRIA
+							has_state_in_state_region = STATE_LEBANON
+							has_state_in_state_region = STATE_PALESTINE
+							has_state_in_state_region = STATE_TRANSJORDAN
+							has_state_in_state_region = STATE_ADANA
+						}
+					}
+				}
+			}
 	}
 
 	on_complete = {
@@ -152,7 +169,7 @@ je_sick_man_syria = {
 		}
 	}
 
-	inheritable = no
+	transferable = no
 
 	weight = 5000
 }
@@ -163,8 +180,7 @@ je_sick_man_egypt = {
 	complete = {
 		OR = {
 			AND = {
-				exists = c:EGY
-				c:EGY = {
+				c:EGY ?= {
 					is_subject_of = ROOT
 				}
 			}
@@ -177,14 +193,17 @@ je_sick_man_egypt = {
 					has_state_in_state_region = STATE_EGYPTIAN_DESERT
 					has_state_in_state_region = STATE_MATRUH
 				}
-				c:EGY = {
-					NOT = {
-						has_state_in_state_region = STATE_SINAI
-						has_state_in_state_region = STATE_UPPER_EGYPT
-						has_state_in_state_region = STATE_MIDDLE_EGYPT
-						has_state_in_state_region = STATE_LOWER_EGYPT
-						has_state_in_state_region = STATE_EGYPTIAN_DESERT
-						has_state_in_state_region = STATE_MATRUH
+				custom_tooltip = {
+					text = je_sick_man_egypt_tt
+					c:EGY = {
+						NOT = {
+							has_state_in_state_region = STATE_SINAI
+							has_state_in_state_region = STATE_UPPER_EGYPT
+							has_state_in_state_region = STATE_MIDDLE_EGYPT
+							has_state_in_state_region = STATE_LOWER_EGYPT
+							has_state_in_state_region = STATE_EGYPTIAN_DESERT
+							has_state_in_state_region = STATE_MATRUH
+						}
 					}
 				}
 			}
@@ -205,7 +224,7 @@ je_sick_man_egypt = {
 		}
 	}
 
-	inheritable = no
+	transferable = no
 
 	weight = 5000
 }
@@ -231,7 +250,7 @@ je_sick_man_economy = {
 		any_scope_state = {
 			is_incorporated = yes
 			has_building = building_urban_center
-			percent >= 0.75
+			percent >= 0.60
 		}
 		scope:journal_entry = {
 			is_goal_complete = yes
@@ -271,7 +290,7 @@ je_sick_man_economy = {
 		}
 	}
 
-	inheritable = no
+	transferable = no
 
 	weight = 5000
 	progressbar = yes
@@ -298,7 +317,7 @@ je_sick_man_education = {
 		any_scope_building = {
 			is_building_type = building_university
 			occupancy > 0.9
-			level >= 5
+			level >= 4
 		}
 		scope:journal_entry = {
 			is_goal_complete = yes
@@ -319,8 +338,7 @@ je_sick_man_education = {
 	}
 
 	goal_add_value = {
-		value = root.literacy_rate
-		add = 0.2
+		add = 0.1
 	}
 
 	invalid = {
@@ -330,7 +348,7 @@ je_sick_man_education = {
 		}
 	}
 
-	inheritable = no
+	transferable = no
 
 	weight = 5000
 
@@ -361,7 +379,7 @@ je_sick_man_separatism = {
 		highest_secession_progress < 0.5
 		NOT = {
 			any_scope_state = {
-				turmoil >= 0.35
+				turmoil >= 0.45
 			}
 		}
 	}
@@ -395,7 +413,7 @@ je_sick_man_separatism = {
 	}
 
 	fail = {
-		highest_secession_progress > 0.9
+		highest_secession_progress > 0.5
 	}
 
 	current_value = {
@@ -413,7 +431,7 @@ je_sick_man_separatism = {
 		}
 	}
 
-	inheritable = no
+	transferable = no
 
 	weight = 5000
 
@@ -476,7 +494,7 @@ je_sick_man_army = {
 		}
 	}
 
-	inheritable = no
+	transferable = no
 
 	weight = 5000
 }
@@ -539,7 +557,7 @@ je_sick_man_navy = {
 		}
 	}
 
-	inheritable = no
+	transferable = no
 
 	weight = 5000
 }
@@ -596,7 +614,7 @@ je_sick_man_bureaucracy = {
 		}
 	}
 
-	inheritable = no
+	transferable = no
 
 	weight = 5000
 }
@@ -659,7 +677,7 @@ je_sick_man_vilayets = {
 		}
 	}
 
-	inheritable = no
+	transferable = no
 
 	weight = 5000
 }
@@ -709,7 +727,7 @@ je_sick_man_kurdistan = {
 		}
     }
 
-	inheritable = no
+	transferable = no
 
 	weight = 5000
 }

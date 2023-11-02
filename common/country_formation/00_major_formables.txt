@@ -1,26 +1,55 @@
 ﻿GER = {
-	use_culture_states = yes
+	states = {
+		STATE_SCHLESWIG_HOLSTEIN
+		STATE_HANNOVER
+		STATE_ELBE
+		STATE_MECKLENBURG
+		STATE_WEST_PRUSSIA
+		STATE_EAST_PRUSSIA
+		STATE_POMERANIA
+		STATE_SILESIA
+		STATE_UPPER_SILESIA
+		STATE_BRANDENBURG
+		STATE_POSEN
+		STATE_ANHALT
+		STATE_BRUNSWICK
+		STATE_WESTPHALIA
+		STATE_NORTH_RHINE
+		STATE_RHINELAND
+		STATE_LUXEMBOURG
+		STATE_ALSACE_LORRAINE
+		STATE_HESSE
+		STATE_THURINGIA
+		STATE_SAXONY
+		STATE_BOHEMIA
+		STATE_MORAVIA
+		STATE_BADEN
+		STATE_WURTTEMBERG
+		STATE_FRANCONIA
+		STATE_BAVARIA
+		STATE_AUSTRIA
+		STATE_STYRIA
+		STATE_SLOVENIA
+		STATE_TYROL
+		STATE_SOUTH_TYROL
+	}
 	
 	is_major_formation = yes
 	
 	unification_play = dp_unify_germany
 	leadership_play = dp_leadership_germany
 
-	required_states_fraction = 0.63
+	required_states_fraction = 0.65
 	
 	ai_will_do = { has_technology_researched = nationalism }
 
 	possible = {
 		OR = {
-			country_has_primary_culture = cu:north_german
-			country_has_primary_culture = cu:south_german
-		}	
-		any_country = {
-			OR = {
-				country_has_primary_culture = cu:north_german
-				country_has_primary_culture = cu:south_german
-			}			
-			has_technology_researched = nationalism
+			has_technology_researched = pan-nationalism
+			custom_tooltip = {
+				text = je_german_unification_idea_trigger_desc
+				has_variable = je_german_unification_idea
+			}
 		}
 	}
 }
@@ -33,7 +62,7 @@ ITA = {
 	unification_play = dp_unify_italy
 	leadership_play = dp_leadership_italy
 
-	required_states_fraction = 0.7
+	required_states_fraction = 0.70
 
 	ai_will_do = { has_technology_researched = nationalism }
 
@@ -43,10 +72,11 @@ ITA = {
 			country_has_primary_culture = cu:south_italian
 		}
 		any_country = {
-			AND = {
-				OR = {
-					country_has_primary_culture = cu:north_italian
-					country_has_primary_culture = cu:south_italian
+				filter = {
+					OR = {
+						country_has_primary_culture = cu:north_italian
+						country_has_primary_culture = cu:south_italian				
+					}
 				}
 				OR = {
 					has_global_variable = first_italian_war_happened
@@ -54,7 +84,7 @@ ITA = {
 					has_variable = italian_state
 					has_technology_researched = nationalism
 				}
-			}
+				percent >= 0.50
 		}
 	}
 }
@@ -67,7 +97,7 @@ SCA = {
 	unification_play = dp_unify_scandinavia
 	leadership_play = dp_leadership_scandinavia
 
-	required_states_fraction = 0.7
+	required_states_fraction = 0.8
 	
 	ai_will_do = { has_technology_researched = nationalism }
 

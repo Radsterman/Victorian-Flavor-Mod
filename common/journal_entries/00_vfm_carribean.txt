@@ -2,12 +2,18 @@
 	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
 
 	is_shown_when_inactive = {
-		THIS = c:HAI
+		exists = c:HAI
+		this = c:HAI
 	}
 	
 	possible = {
 		owns_entire_state_region = STATE_SANTO_DOMINGO
-		has_modifier = modifier_french_independence_payments
+		OR = {
+            has_modifier = modifier_french_independence_payments_4
+            has_modifier = modifier_french_independence_payments_3
+            has_modifier = modifier_french_independence_payments_2
+            has_modifier = modifier_french_independence_payments_1
+		}
 		taking_loans = yes
 		any_scope_state = {	
 			state_region = s:STATE_SANTO_DOMINGO
@@ -23,7 +29,12 @@
 	}
 
 	fail = {
-		has_modifier = modifier_french_independence_payments
+		OR = {
+            has_modifier = modifier_french_independence_payments_4
+            has_modifier = modifier_french_independence_payments_3
+            has_modifier = modifier_french_independence_payments_2
+            has_modifier = modifier_french_independence_payments_1
+		}
 		OR = {
 			year > 1845
 			in_default = yes
@@ -44,8 +55,12 @@
 	}
 
 	complete = {
-		NOT = {
-			has_modifier = modifier_french_independence_payments
+		NOR = {
+            has_modifier = modifier_french_independence_payments_4
+            has_modifier = modifier_french_independence_payments_3
+            has_modifier = modifier_french_independence_payments_2
+            has_modifier = modifier_french_independence_payments_1
+            has_modifier = modifier_cancelled_haiti_debt
 			taking_loans = yes
 		}
 		any_scope_state = {	

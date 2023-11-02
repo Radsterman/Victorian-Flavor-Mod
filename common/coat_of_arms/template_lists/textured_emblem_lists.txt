@@ -1,0 +1,79 @@
+textured_emblem_texture_lists = {
+	coa_charge = {
+		# TEST CONCEPT : template with geometrical flags & coa in center or canton, very limited scopes (since CoA must be relevant to the state)
+		# This would only work using a CoA with a defined enough border (black or not, like coa_portugal in bold gold)
+		# Fall backs with weighting that would include crowns and laurels for monarchy, keys of st peter for theocracies etc
+		
+		# Strategic regions in scope ? Capitals for smaller states ?
+		
+		# Generic fall back entries
+		
+		# 10 blank
+		1 = "te_crown.dds"
+		# 1 variants
+		# 1 crown + laurels
+
+		special_selection = {
+			trigger = { 
+				coa_def_monarchy_flag_trigger = yes
+			}
+			100 = "te_crown.dds"
+		}	
+		special_selection = {
+			trigger = { 
+				coa_def_theocracy_flag_trigger = yes
+			}
+			100 = "te_keys_st_peter.dds"
+		}			
+		# Prussia (Brandenburg)
+		# Would actually need a trigger to check that the state in question is not just a conquered state but the capital
+		special_selection = {
+				trigger = {
+					exists = scope:target
+					scope:target = {					
+						owns_entire_state_region = STATE_BRANDENBURG
+				}
+			}	
+			1000 = "te_eagle_prussia_monogram_crown.dds"
+		}	
+		# Spain (Toledo -> Extremadura in VFM)
+		special_selection = {
+				trigger = {
+					exists = scope:target
+					scope:target = {					
+						owns_entire_state_region = STATE_EXTREMADURA
+				}
+			}	
+			1000 = "te_coa_spain.dds"
+		}			
+		# PORTUGAL (Estremadura)
+		special_selection = {
+				trigger = {
+					exists = scope:target
+					scope:target = {					
+						owns_entire_state_region = STATE_ESTREMADURA
+				}
+			}	
+			100 = "te_coa_portugal.dds"			
+		}
+		
+		special_selection = {
+			trigger = { 
+				coa_def_buddhist_trigger = yes
+			}
+			25 = "te_peacock.dds"
+			25 = "te_dharmachakra_sikkim.dds"
+			# endless knot with ribbon
+			# dharma chakra with ribbon
+			# elephant decorated
+			# golden fishes
+			
+			# add : elephant and peacock can be used for all of SE asia regardless of faith
+			# possibly make this a separate asian template for specific patterns (per bend, stripes)
+		}				
+		
+
+
+		
+	}
+}

@@ -1,5 +1,5 @@
 ﻿namespace = ottoman_dynasty #events around deaths and succession
-namespace = tur_major_holidays #Light flavour events for holidays
+namespace = tur_major_holidays #Light flavor events for holidays
 namespace = tanzimat_events #reform and rebellion related events
 namespace = vilayet_events #events around the provinces and tributaries
 namespace = opda_events #the Ottoman Public Debt Administration
@@ -18,6 +18,7 @@ ottoman_dynasty.1 = {
 		create_character = {
 			first_name = Abdulaziz
 			last_name = Osmanoglu
+			historical = yes
 			heir = yes
 			birth_date = 1839.2.8
 			interest_group = ig_intelligentsia
@@ -96,7 +97,7 @@ opda_events.1 = {
 
 
 vilayet_events.1 = { #State organised into Vilayet
-		type = state_event
+		type = country_event
 		title = vilayet_events.1.t
 		desc = vilayet_events.1.d
 		flavor =  vilayet_events.1.f
@@ -118,7 +119,7 @@ vilayet_events.1 = { #State organised into Vilayet
 }
 
 vilayet_events.2 = { #Bringing Egypt to heel
-		type = state_event
+		type = country_event
 		title = vilayet_events.2.t
 		desc = vilayet_events.2.d
 		flavor =  vilayet_events.2.f
@@ -146,6 +147,7 @@ vilayet_events.2 = { #Bringing Egypt to heel
 				days = 7
 			}
 		}
+		change_infamy = 3
 	}
 	option = { #He will be the Vali, no special status
 		name = vilayet_events.2.b
@@ -159,6 +161,7 @@ vilayet_events.2 = { #Bringing Egypt to heel
 		ai_chance = {
 			base = 15
 		}
+		change_infamy = 6
 	}
 	option = { #We will settle for nothing less than conquest
 		name = vilayet_events.2.c
@@ -183,11 +186,12 @@ vilayet_events.2 = { #Bringing Egypt to heel
 		ai_chance = {
 			base = 0
 		}
+		change_infamy = 10
 	}
 }
 
 vilayet_events.3 = { #Egypt response - Khedivate offered
-		type = state_event
+		type = country_event
 		title = vilayet_events.3.t
 		desc = vilayet_events.3.d
 		flavor =  vilayet_events.3.f
@@ -228,7 +232,7 @@ vilayet_events.3 = { #Egypt response - Khedivate offered
 		owner = {
 			change_relations = {
 				country = c:EGY
-				value = 100
+				value = 60
 			}
 		}
 
@@ -255,7 +259,7 @@ vilayet_events.3 = { #Egypt response - Khedivate offered
 }
 
 vilayet_events.4 = { #Egypt response - no Khedivate offered
-		type = state_event
+		type = country_event
 		title = vilayet_events.4.t
 		desc = vilayet_events.4.d
 		flavor =  vilayet_events.4.f
@@ -310,7 +314,7 @@ vilayet_events.4 = { #Egypt response - no Khedivate offered
 }
 
 vilayet_events.5 = { #Ottoman notification - Egypt accepts subjection
-		type = state_event
+		type = country_event
 		title = vilayet_events.5.t
 		desc = vilayet_events.5.d
 		flavor =  vilayet_events.5.f
@@ -332,7 +336,7 @@ vilayet_events.5 = { #Ottoman notification - Egypt accepts subjection
 }
 
 vilayet_events.6 = { #Ottoman notification - Egypt rejects subjection
-		type = state_event
+		type = country_event
 		title = vilayet_events.6.t
 		desc = vilayet_events.6.d
 		flavor =  vilayet_events.6.f
@@ -368,6 +372,11 @@ vilayet_events.6 = { #Ottoman notification - Egypt rejects subjection
 		s:STATE_MATRUH = {
 			add_claim = ROOT
 		}
+		change_infamy = 8
+	}
+	
+	option = { #Clam down
+		name = vilayet_events.6.b
 	}
 }
 
@@ -385,6 +394,16 @@ vilayet_events.7 = { #Centralising the Kurdish Emirates
 	on_opened_soundeffect = "event:/SFX/Events/asia/hinduism_sikhism"
 	icon = "gfx/interface/icons/event_icons/event_skull.dds"
 	minor_left_icon = c:TUR
+	trigger = {
+		any_state = {
+			owner = {
+				is_subject_of = ROOT
+				is_player = no
+				country_has_primary_culture = cu:kurdish
+				can_form_nation = KUR
+			}
+		}
+	}
 	immediate = {
 		random_state = {
 			limit = {
@@ -395,7 +414,7 @@ vilayet_events.7 = { #Centralising the Kurdish Emirates
 					can_form_nation = KUR
 				}
 			}
-			save_scope_as = kurdish_annexation_target_state_1
+			owner = { save_scope_as = kurdish_annexation_target_state_1 }
 		}
 		random_state = {
 			limit = {
@@ -404,10 +423,10 @@ vilayet_events.7 = { #Centralising the Kurdish Emirates
 					is_player = no
 					country_has_primary_culture = cu:kurdish
 					can_form_nation = KUR
+					NOT = { this = scope:kurdish_annexation_target_state_1 }
 				}
-				NOT = { this = scope:kurdish_annexation_target_state_1 }
 			}
-			save_scope_as = kurdish_annexation_target_state_2
+			owner = { save_scope_as = kurdish_annexation_target_state_2 }
 		}
 		random_state = {
 			limit = {
@@ -416,11 +435,11 @@ vilayet_events.7 = { #Centralising the Kurdish Emirates
 					is_player = no
 					country_has_primary_culture = cu:kurdish
 					can_form_nation = KUR
+					NOT = { this = scope:kurdish_annexation_target_state_1 }
+					NOT = { this = scope:kurdish_annexation_target_state_2 }
 				}
-				NOT = { this = scope:kurdish_annexation_target_state_1 }
-				NOT = { this = scope:kurdish_annexation_target_state_2 }
 			}
-			save_scope_as = kurdish_annexation_target_state_3
+			owner = { save_scope_as = kurdish_annexation_target_state_3 }
 		}
 	}
 
@@ -428,11 +447,11 @@ vilayet_events.7 = { #Centralising the Kurdish Emirates
 		name = vilayet_events.7.a
 		default_option = yes
 		scope:kurdish_annexation_target_state_1 = {
-			set_state_owner = ROOT
 			add_radicals = {
 				value = very_large_radicals
 			}
 		}
+		annex = scope:kurdish_annexation_target_state_1
 		create_incident = {
 			country = scope:kurdish_annexation_target_state_1.owner
 			value = 2
@@ -445,11 +464,11 @@ vilayet_events.7 = { #Centralising the Kurdish Emirates
 			exists = scope:kurdish_annexation_target_state_2
 		}
 		scope:kurdish_annexation_target_state_2 = {
-			set_state_owner = ROOT
 			add_radicals = {
 				value = very_large_radicals
 			}
 		}
+		annex = scope:kurdish_annexation_target_state_2
 		create_incident = {
 			country = scope:kurdish_annexation_target_state_2.owner
 			value = 2
@@ -462,11 +481,11 @@ vilayet_events.7 = { #Centralising the Kurdish Emirates
 			exists = scope:kurdish_annexation_target_state_3
 		}
 		scope:kurdish_annexation_target_state_3 = {
-			set_state_owner = ROOT
 			add_radicals = {
 				value = very_large_radicals
 			}
 		}
+		annex = scope:kurdish_annexation_target_state_3
 		create_incident = {
 			country = scope:kurdish_annexation_target_state_3.owner
 			value = 2
@@ -558,8 +577,8 @@ vilayet_events.8 = { #Creation of the Kurdish Autonomy
 
 # Tensions around Mount Lebanon
 tanzimat_events.11 = {
-	type = state_event
-	placement = s:STATE_LEBANON
+	type = country_event
+	placement = scope:mount_lebanon_state
 	title = tanzimat_events.11.t
 	desc = tanzimat_events.11.d
 	flavor =  tanzimat_events.11.f
@@ -618,11 +637,11 @@ tanzimat_events.11 = {
 			days = { 35 60 }
 		}
 		scope:mount_lebanon_state = {
-			add_radicals = {
+			add_radicals_in_state = {
 				value = large_radicals
 				religion = rel:druze
 			}
-			add_radicals = {
+			add_radicals_in_state = {
 				value = large_radicals
 				religion = rel:catholic
 			}
@@ -632,7 +651,7 @@ tanzimat_events.11 = {
 
 # Mt Lebanon situation escalates
 tanzimat_events.12 = {
-	type = state_event
+	type = country_event
 	placement = scope:mount_lebanon_state
 	title = tanzimat_events.12.t
 	desc = tanzimat_events.12.d
@@ -666,6 +685,9 @@ tanzimat_events.12 = {
 				save_scope_as = damascus_state
 			}
 		}
+		owner = {
+					save_scope_as = ottomans
+				}
 	}
 	trigger = {
 		#triggered by prior event
@@ -677,11 +699,11 @@ tanzimat_events.12 = {
 			add_devastation = 20
 		}
 		scope:mount_lebanon_state = {
-			add_radicals = {
+			add_radicals_in_state = {
 				value = very_large_radicals
 				religion = rel:druze
 			}
-			add_radicals = {
+			add_radicals_in_state = {
 				value = very_large_radicals
 				religion = rel:catholic
 			}
@@ -705,14 +727,14 @@ tanzimat_events.12 = {
 	}
 	option = { #The Kurds can't be trusted, reinforce the local garrisons
 		name = tanzimat_events.12.b
-		owner = {
+		scope:ottomans = {
 			every_scope_state = {
 				limit = {
 					state_region = {
 						is_homeland = cu:kurdish
 					}
 				}
-				add_radicals = {
+				add_radicals_in_state = {
 					value = small_radicals
 					culture = cu:kurdish
 				}
@@ -722,11 +744,11 @@ tanzimat_events.12 = {
 			add_devastation = 15
 		}
 		scope:mount_lebanon_state = {
-			add_radicals = {
+			add_radicals_in_state = {
 				value = very_large_radicals
 				religion = rel:druze
 			}
-			add_radicals = {
+			add_radicals_in_state = {
 				value = very_large_radicals
 				religion = rel:catholic
 			}
@@ -752,7 +774,7 @@ tanzimat_events.12 = {
 
 #Our forces join the anti-Christian massacres
 tanzimat_events.13 = {
-	type = state_event
+	type = country_event
 	placement = scope:mount_lebanon_state
 	title = tanzimat_events.13.t
 	desc = tanzimat_events.13.d
@@ -809,11 +831,11 @@ tanzimat_events.13 = {
 			}
 		}
 		scope:damascus_state = {
-			add_radicals = {
+			add_radicals_in_state = {
 				value = large_radicals
 				religion = rel:druze
 			}
-			add_radicals = {
+			add_radicals_in_state = {
 				value = large_radicals
 				religion = rel:catholic
 			}
@@ -828,7 +850,7 @@ tanzimat_events.13 = {
 
 #Refugees cause tensions in Damascus
 tanzimat_events.14 = {
-	type = state_event
+	type = country_event
 	placement = scope:damascus_state
 	title = tanzimat_events.14.t
 	desc = tanzimat_events.14.d
@@ -870,7 +892,7 @@ tanzimat_events.14 = {
 		name = tanzimat_events.14.a
 		default_option = yes
 		scope:damascus_state = {
-			add_radicals = {
+			add_radicals_in_state = {
 				value = very_large_radicals
 				religion = rel:sunni
 			}
@@ -881,7 +903,7 @@ tanzimat_events.14 = {
 
 #Damascene massacres
 tanzimat_events.15 = {
-	type = state_event
+	type = country_event
 	placement = scope:damascus_state
 	title = tanzimat_events.15.t
 	desc = tanzimat_events.15.d
@@ -969,7 +991,7 @@ tanzimat_events.15 = {
 		}
 	}
 	option = { #Send leader #2
-		name = tanzimat_events.15.a
+		name = tanzimat_events.15.b
 		default_option = yes
 		scope:damascus_state = {
 			add_modifier = { 
@@ -983,7 +1005,7 @@ tanzimat_events.15 = {
 		}
 	}
 	option = { #Send leader #3
-		name = tanzimat_events.15.a
+		name = tanzimat_events.15.c
 		default_option = yes
 		scope:damascus_state = {
 			add_modifier = { 
@@ -1000,7 +1022,7 @@ tanzimat_events.15 = {
 
 #Conflict quelled
 tanzimat_events.16 = {
-	type = state_event
+	type = country_event
 	placement = scope:mount_lebanon_state
 	title = tanzimat_events.16.t
 	desc = tanzimat_events.16.d

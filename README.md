@@ -12,13 +12,9 @@ Credits:
 
 Early Modding Period - Radsterman, Cynic, Tawani, Steelwind
 
-Development - Cruci, Cynic, Davi Cerqueira, Doble, Engram, Obstination, OmegaCorps, Orine, Paul, Question-Asker, Radserman, Steelwind, stjern, Tawani, Timur the Lame, Typhion, UlfDerDritte, vjw, woojin, Wrench, YashaCarry
+Development - Chrys131, Cruci, Cynic, Dacios, Davi Cerqueira, Doble, Engram, Nightingale, OmegaCorps, Orine, Paul, Radsterman, Steelwind, Tawani, Timur the Lame, Typhion, UlfDerDritte, woojin, YashaCarry
 
-Simplified Chinese Translation - VXCN1812, leaves13
-
-Portuguese Translation - Davi Cerqueira, Orine, Chrysocyon
-
-Spanish Translation - Sith Kermit
+Bug Fixes, Typo Corrections - HiddeLekanne, klorpa
 
 
 VFM wouldn't be possible without the contributions of these developers, the community on the Modding Co-op, and the many mods for Victoria 2 that inspired it.

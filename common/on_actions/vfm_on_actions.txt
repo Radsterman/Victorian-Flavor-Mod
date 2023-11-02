@@ -1,0 +1,568 @@
+﻿vfm_events_hidden = {
+	events = {
+		character_roles_hidden.1
+		character_roles_hidden.2
+		character_roles_hidden.3
+		character_roles_hidden.4
+		character_roles_hidden.5
+		character_roles_hidden.6
+		religion_rule_hidden.1
+		religion_rule_hidden.2
+		religion_rule_hidden.3
+	}
+}
+
+vfm_events_low_countries = {
+	events = {
+		low_countries_events.3
+		low_countries_events.4
+	}
+}
+
+vfm_events_italy = {
+	events = {
+		treaty_of_villafranca.1
+		italy_1848.1
+		italy_1848.3
+		italy_1848.6
+		italy_1848.7
+		italy_1848.18
+		italy_1848.19
+		italy_1848.20
+		italy_1848.22
+		italy_1848.23
+		italy_1848.24
+		italy_1848.27
+		italy_1848.30
+		italy_1848.31
+		italy_1848.32
+		italy_1848.35
+		italy_flavor.1
+		italy_flavor.2
+		exp_thousand.7
+		exp_thousand.8
+		exp_thousand.103
+		exp_thousand.107
+		exp_thousand.108
+	}
+}
+
+vfm_events_colonial_conquest = {
+	events = {
+		tahiti_events.1
+	}
+}
+#vfm_events_france = {
+#	events = {
+#		france_event.2
+#		france_event.6
+#		france_event.7
+#		france_event.8
+#		france_event.9
+#		france_event.13
+#		france_event.16
+#		france_event.17
+#	}
+#}
+
+vfm_events_usa = {
+	events = {
+		flavor_usa_events.1
+	}
+}
+
+vfm_events_new_zealand = {
+	events = {
+		flavor_new_zealand_events.1
+		flavor_new_zealand_events.6
+	}
+}
+
+vfm_events_weekly_italy = {
+	events = {
+		exp_thousand.103
+		exp_thousand.107
+	}
+}
+
+vfm_events_yearly_greece = {
+	random_events = {
+		20 = 0
+		10 = vfm_historical_agitators.1
+	}
+}
+
+vfm_hidden_ai = {
+	events = {
+		vfm_ai.2 # 1839, put hidden ai script triggering in 1839 here
+	}
+}
+
+vfm_events_five_year_greece = {
+	events = {
+		vfm_greece.7
+	}
+}
+
+vfm_disasters_yearly_country = {
+	random_events = {
+		3 = 0
+		1 = vfm_potato_blight.100 # potato blight of the 1840s
+	}
+}
+
+vfm_discrimination_yearly_country = {
+	random_events = {
+		26 = 0
+		1 = vfm_discrimination_events.1
+		1 = vfm_discrimination_events.2
+		1 = vfm_discrimination_events.3
+		1 = vfm_discrimination_events.4
+	}
+}
+
+vfm_events_korea = {
+	random_events = {
+		44 = 0
+		25 = silhak.2
+		25 = silhak.10
+		1 = silhak.5
+		1 = silhak.6
+		1 = silhak.7
+		1 = silhak.8
+	}
+	events = {
+		silhak.9
+		silhak.4
+		kor.7
+		kor.6
+	}
+}
+
+vfm_natural_disaster_yearly = {
+	random_events = {
+	    # TODO: make crops failure and flooding state events?
+		241 = 0
+		3 = vfm_natural_disaster_events.5 # coastal state storm
+		2 = vfm_natural_disaster_events.1 # drought in more arrid regions
+		1 = vfm_natural_disaster_events.6 # storm
+		2 = vfm_natural_disaster_events.7 # coastal state hurricane
+        1 = vfm_natural_disaster_events.2 # drought
+		2 = vfm_potato_blight.2 # generic potato blight
+		1 = vfm_natural_disaster_events.8 # generic crop failure
+	}
+}
+
+vfm_natural_disaster_decade = {
+	random_events = {
+		119 = 0
+        1 = vfm_natural_disaster_events.4 # BIG drought
+	}
+}
+
+vfm_jizya_law = {
+	effect = {
+		if = {
+			limit = {
+				ROOT = {
+					owner = {
+						has_law = law_type:law_jizya
+					}
+					NOT = { has_modifier = jizya_state }
+				
+					any_scope_pop = {
+						state = { save_temporary_scope_as = m_state }
+	
+						culture = { 
+							has_homeland = scope:m_state
+							NOT = { is_primary_culture_of = root }
+							NOT = { 
+								#Check for muslim cultures to identify muslims,
+								#until I can figure out how to find majority religions of cultures.
+								OR = { 
+									has_discrimination_trait = middle_eastern_heritage
+									has_discrimination_trait = malay_culture
+									has_discrimination_trait = iranian_turanian_culture_group
+									has_discrimination_trait = albanian_language
+									has_discrimination_trait = arab_speaking
+								}
+							}
+						}
+						#These muslim cultures don't fit into any specific trait group and need to be pointed out specifically
+						NOT = { 
+							OR = {
+							culture = cu:bosniak
+							culture = cu:tatar
+							culture = cu:fur
+							culture = cu:swahili
+							culture = cu:beja
+							culture = cu:afar
+							culture = cu:hausa
+							culture = cu:fulbe
+							culture = cu:dyula
+							culture = cu:haratin
+							culture = cu:mande
+							culture = cu:bidan
+							culture = cu:songhai
+							culture = cu:tuareg
+							culture = cu:wolof
+							}
+						}
+	
+						religion = {
+							NOT = { has_discrimination_trait = muslim }
+						}
+					}
+				
+				}
+			}
+			add_modifier = jizya_state
+		}
+		else_if = {
+			limit = {
+				ROOT = {
+					owner = {
+						NOT = { has_law = law_type:law_jizya }
+					}
+					has_modifier = jizya_state
+				}
+			}
+			remove_modifier = jizya_state
+		}
+	}
+}
+
+vfm_released_independent_recognized = {
+	effect = {
+		if = {
+			limit = {
+				OR = {
+					is_country_type = recognized
+					is_country_type = colonial
+				}
+				country_rank >= rank_value:great_power
+				scope:target = {
+					is_country_type = unrecognized
+				}
+			}
+			scope:target = {
+				set_country_type = recognized
+			}
+		}
+	}
+}
+
+vfm_released_own_subject_recognized = {
+	effect = {
+		if = {
+			limit = {
+				OR = {
+					is_country_type = recognized
+					is_country_type = colonial
+				}
+				country_rank >= rank_value:great_power
+				scope:target = {
+					is_country_type = unrecognized
+				}
+			}
+			scope:target = {
+				set_country_type = recognized
+			}
+		}
+	}
+}
+
+vfm_released_overlord_subject_recognized = {
+	effect = {
+		if = {
+			limit = {
+				OR = {
+					is_country_type = recognized
+					is_country_type = colonial
+				}
+				country_rank >= rank_value:great_power
+				scope:target = {
+					is_country_type = unrecognized
+				}
+			}
+			scope:target = {
+				set_country_type = recognized
+			}
+		}
+	}
+}
+
+vfm_peace_agreement_signed_war_leader_events = {
+	events = {
+		peru_bolivia_confederation.2
+	}
+}
+
+vfm_enemy_capitulated_events = {
+	events = {
+		peru_bolivia_confederation.2
+	}
+}
+
+vfm_sakhalin_colony_created = {
+	effect = {
+		owner = {
+			if = {
+				limit = {
+					owner = c:RUS
+					OR = {
+						c:RUS = {
+							has_state_in_state_region = STATE_SAKHALIN 
+						}
+						c:RUS = {
+							has_state_in_state_region = STATE_HOKKAIDO 
+						}
+					}
+					NOT = {
+						has_global_variable = japanese_response
+					}
+				}
+				set_global_variable = japanese_response
+				c:JAP = {
+					create_diplomatic_play = {
+						name = testname
+						war = yes
+						type = dp_annex_war
+						
+						target_state = s:STATE_HOKKAIDO.region_state:AIN
+					}
+				}
+			}
+		}
+	}
+}
+
+vfm_frontier_colonialism_colony_created = {
+	effect = {
+		owner = {
+			save_scope_as = colony_founder
+		}
+		if = {
+			limit = {
+				ROOT = {
+					owner = { has_law = law_type:law_frontier_colonialism }
+					NOT = {
+						any_neighbouring_state = {
+							OR = {
+								is_incorporated = yes
+								any_neighbouring_state = {
+									is_incorporated = yes
+									owner = scope:colony_founder
+								}
+							}
+							owner = scope:colony_founder
+						}
+						#has_modifier = frontier_colonialism_modifier
+					}
+				}
+			}
+			add_modifier = frontier_colonialism_modifier
+		}
+	}
+}
+
+vfm_frontier_colonialism_clearance = {
+	effect = {
+		owner = {
+			save_scope_as = owner_scope
+		}
+		if = {
+			limit = {
+				any_neighbouring_state = {
+					has_modifier = frontier_colonialism_modifier
+				}
+			}
+			every_neighbouring_state = {
+				limit = {
+					owner = scope:owner_scope
+				}
+				remove_modifier = frontier_colonialism_modifier
+			}
+		}
+	}
+}
+
+vfm_barracks_colony_created = {
+	effect = {
+		#temporary solution giving barracks to colonies to prevent being overrun by uprisings instantly
+		if = {
+			limit = {
+				owner = {
+					country_is_in_africa = no
+					is_ai = yes
+				}
+				is_under_colonization = yes
+				is_incorporated = no
+				OR = {
+					state_in_africa = yes
+				}
+				NOT = {
+					has_building = building_barracks
+				}
+			}
+			create_building = {
+				building = building_barracks
+				level = 1
+			}
+		}
+	}
+}
+
+#vfm_colonial_dismantlement = {
+#	effect = {
+#		if = {
+#			limit = {
+#				is_country_type = recognized
+#				is_subject = no
+#				has_law = law_type:law_no_colonial_affairs
+#			}
+#			every_subject_or_below = {
+#				limit = {
+#					is_subject_of = ROOT
+#					#OR = {
+#					#	#is_subject_type = subject_type_chartered_company
+#					#	is_country_type = unrecognized
+#					#	AND = {
+#					#		is_country_type = colonial
+#					#	}
+#					#	NOT = {
+#					#		is_country_type = colonial
+#					#		is_subject_type = subject_type_dependency
+#					#	}
+#					#}
+#				}
+#				make_independent = yes
+#			}
+#		}
+#	}
+#}
+
+#vfm_religion_condensing_pops = {
+#	effect = {
+#		if = {
+#			limit = {
+#				has_game_rule = condensed_religions
+#			}
+#			every_scope_pop = {
+#				limit = {
+#					OR = {
+#						has_pop_religion = taoist
+#						has_pop_religion = siberian_shamanist
+#						has_pop_religion = alcheringa
+#						has_pop_religion = generic_african
+#						has_pop_religion = generic_native_american
+#						has_pop_religion = bon
+#						has_pop_religion = bimoist
+#						has_pop_religion = hmongist
+#						has_pop_religion = mormon
+#						has_pop_religion = camaquen
+#					}
+#				}
+#				change_pop_religion = { target = rel:animist value = 1.0 }
+#			}
+#			every_scope_pop = {
+#				limit = {
+#					OR = {
+#						has_pop_religion = reformed
+#						has_pop_religion = anglican
+#						has_pop_religion = lutheran
+#						has_pop_religion = methodist
+#						has_pop_religion = baptist
+#						has_pop_religion = presbyterian
+#						has_pop_religion = congregationalist
+#						has_pop_religion = anabaptist
+#						has_pop_religion = mormon
+#						has_pop_religion = god_society
+#					}
+#				}
+#				change_pop_religion = { target = rel:protestant value = 1.0 }
+#			}
+#			every_scope_pop = {
+#				limit = {
+#					OR = {
+#						has_pop_religion = druze
+#						has_pop_religion = ibadi
+#					}
+#				}
+#				change_pop_religion = { target = rel:sunni value = 1.0 }
+#			}
+#			every_scope_pop = {
+#				limit = {
+#					OR = {
+#						has_pop_religion = shenist
+#						has_pop_religion = confucian
+#						has_pop_religion = taoist
+#					}
+#				}
+#				change_pop_religion = { target = rel:mahayana value = 1.0 }
+#			}
+#		}
+#	}
+#}
+#
+#vfm_religion_condensing_states = {
+#	effect = {
+#		if = {
+#			limit = {
+#				has_game_rule = condensed_religions
+#				OR = {
+#					country_has_state_religion = rel:reformed
+#					country_has_state_religion = rel:anglican
+#					country_has_state_religion = rel:lutheran
+#					country_has_state_religion = rel:methodist
+#					country_has_state_religion = rel:baptist
+#					country_has_state_religion = rel:presbyterian
+#					country_has_state_religion = rel:congregationalist
+#					country_has_state_religion = rel:anabaptist
+#					country_has_state_religion = rel:mormon
+#					country_has_state_religion = rel:god_society
+#				}
+#			}
+#			set_state_religion = rel:protestant
+#		}
+#		if = {
+#			limit = {
+#				has_game_rule = condensed_religions
+#				OR = {
+#					country_has_state_religion = rel:taoist
+#					country_has_state_religion = rel:siberian_shamanist
+#					country_has_state_religion = rel:alcheringa
+#					country_has_state_religion = rel:generic_african
+#					country_has_state_religion = rel:generic_native_american
+#					country_has_state_religion = rel:bon
+#					country_has_state_religion = rel:bimoist
+#					country_has_state_religion = rel:hmongist
+#					country_has_state_religion = rel:mormon
+#					country_has_state_religion = rel:camaquen
+#				}
+#			}
+#			set_state_religion = rel:animist
+#		}
+#		if = {
+#			limit = {
+#				has_game_rule = condensed_religions
+#				OR = {
+#					country_has_state_religion = rel:druze
+#					country_has_state_religion = rel:ibadi
+#				}
+#			}
+#			set_state_religion = rel:sunni
+#		}
+#		if = {
+#			limit = {
+#				has_game_rule = condensed_religions
+#				OR = {
+#					country_has_state_religion = rel:shenist
+#					country_has_state_religion = rel:confucian
+#					country_has_state_religion = rel:taoist
+#				}
+#			}
+#			set_state_religion = rel:mahayana
+#		}
+#	}
+#}

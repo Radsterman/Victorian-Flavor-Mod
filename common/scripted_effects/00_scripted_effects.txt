@@ -221,337 +221,990 @@ enslave_discriminated_farm_workers = {
 	}
 }
 
-
-assign_taiping_states = {
-	if = {
+save_revolution_scopes = {
+	random_civil_war = {
 		limit = {
-			any_scope_state = {
-				has_variable = cult_center
-			}
+			is_civil_war_type = revolution
 		}
-		every_scope_state = {
-			limit = {
-				has_variable = cult_center
-			}
-			save_scope_as = tpg_defector_state
-			custom_tooltip = {
-				text = taiping_state_defection
-				set_state_owner = c:TPG
-				set_state_type = incorporated
-				add_culture_standard_of_living_modifier = {
-					culture = cu:manchu
-					months = long_modifier_time
-					multiplier = -5
-				}
-			}
-		}
-		every_scope_state = {
-			limit = {
-				is_capital = no
-				NOT = { 
-					has_variable = cult_center 
-					state_region = { 
-						is_homeland = cu:manchu
-					}
-				}
-				any_neighbouring_state = {
-					has_variable = cult_center
-				}
-				turmoil >= 0.1
-			}
-			if = {
-				limit = {
-					this = {
-						state_region = { 
-							OR = {
-								is_homeland = cu:han 
-								is_homeland = cu:hakka 
-							}
-						}
-					}
-				}
-				save_scope_as = tpg_defector_state
-				custom_tooltip = {
-					text = taiping_state_defection
-					set_state_owner = c:TPG
-					set_state_type = incorporated
-					add_culture_standard_of_living_modifier = {
-						culture = cu:manchu
-						months = long_modifier_time
-						multiplier = -5
-					}
-				}
-				
-			}
-			else_if = {
-				random_list = {
-					50 = {
-						save_scope_as = tpg_defector_state
-						custom_tooltip = {
-							text = taiping_state_defection
-							set_state_owner = c:TPG
-							set_state_type = incorporated
-							add_culture_standard_of_living_modifier = {
-								culture = cu:manchu
-								months = long_modifier_time
-								multiplier = -5
-							}
-						}
-					}
-					50 = {
-						add_radicals = {
-							value = very_large_radicals
-							religion = rel:protestant
-						}
-						this.state_region = {
-							add_claim = c:TPG
-						}
-					}
-				}
-			}
-		}
+		save_scope_as = ongoing_revolution
 	}
-	hidden_effect = {
-		every_state = {
-			limit = {
-				owner = c:TPG
-			}
-			this.state_region = {
-				add_claim = c:CHI
-			}
-		}	
+	random_political_movement = {
+		limit = {
+			is_revolutionary_movement = yes
+		}
+		save_scope_as = ongoing_revolution_movement
 	}
 }
 
-create_taiping_characters = {
+save_agitator_law_scopes = {
 	if = {
 		limit = {
-			game_date < 1880.1.1
+			agitator_supports_enaction = yes
 		}
-		create_character = {
-			first_name = Hong
-			last_name = Xiuquan
-			birth_date = 1814.1.1
-			culture = cu:hakka
-			religion = rel:god_society
-			interest_group = ig_devout
-			dna = dna_hong_xiuquan
-			ideology = ideology_taiping_king
-			ruler = yes
-			traits = {
-				inspirational_orator
-				persistent
-				psychological_affliction
+		random_scope_character = {
+			limit = {
+				has_role = agitator
+				OR = {
+					law_stance = {
+						law = owner.currently_enacting_law.type
+						value > neutral
+					}
+					AND = {	
+						law_stance = {
+							law = owner.currently_enacting_law.type
+							value > strongly_approve # Equals 'count'
+						}
+						interest_group = {
+							law_stance = {
+								law = owner.currently_enacting_law.type
+								value > neutral
+							}
+							NOT = {
+								law_stance = {
+									law = owner.currently_enacting_law.type
+									value > strongly_approve # Equals 'count'
+								}
+							}
+						}
+					}
+				}
 			}
+			save_scope_as = supporting_agitator
+			interest_group = {
+				save_scope_as = agitator_ig
+			}
+		}
+		random_political_movement = {
+			limit = {
+				OR = {	
+					is_political_movement_type = movement_to_enact
+					is_political_movement_type = movement_to_restore	
+				}
+				this.desired_law = root.currently_enacting_law.type
+			}
+			save_scope_as = supporting_movement
+		}
+	}
+	
+	if = {
+		limit = {
+			agitator_opposes_enaction = yes
+		}
+		random_scope_character = {
+			limit = {
+				has_role = agitator
+				OR = {
+					law_stance = {
+						law = owner.currently_enacting_law.type
+						value < neutral
+					}
+					AND = {	
+						law_stance = {
+							law = owner.currently_enacting_law.type
+							value > strongly_approve # Equals 'count'
+						}
+						interest_group = {
+							law_stance = {
+								law = owner.currently_enacting_law.type
+								value < neutral
+							}
+							NOT = {
+								law_stance = {
+									law = owner.currently_enacting_law.type
+									value > strongly_approve # Equals 'count'
+								}
+							}
+						}
+					}
+				}
+			}
+			save_scope_as = opposing_agitator
+			interest_group = {
+				save_scope_as = agitator_ig
+			}
+		}
+		random_political_movement = {
+			limit = {
+				is_political_movement_type = movement_to_preserve
+			}
+			save_scope_as = opposing_movement
+		}
+	}
+}
+
+generate_french_monarch = {
+	hidden_effect = {
+		if = {
+			limit = {
+				any_scope_character = {
+					is_heir = yes
+				}
+			}
+			random_scope_character = {
+				limit = {
+					is_heir = yes
+				}
+				kill_character = yes
+			}
+		}
+	}
+	if = {
+		limit = {
+			has_variable = orleanist_restoration_var
 		}
 		if = {
 			limit = {
-				game_date > 1847.1.1
+				year < 1850
 			}
 			create_character = {
-				first_name = Hong
-				last_name = Tianguifu
-				birth_date = 1846.6.6
-				culture = cu:hakka
-				religion = rel:god_society
-				interest_group = ig_devout
-				heir = yes
-				ideology = ideology_moderate
+				# Louis Philippe I, starting ruler of France
+				first_name = "Louis-Philippe"
+				last_name = "d_Orleans"
+				ruler = yes
+				birth_date = 1773.10.6
+				dna = dna_king_louis_philippe_01
+				culture = cu:french
+				interest_group = ig_industrialists
+				ideology = ideology_orleanist
 				traits = {
-					reserved 
+					tactful
+				}
+				on_created = {
+					set_variable = {
+						name = orleanist_leader
+					}				
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				year >= 1850
+				year < 1870
+			}
+			create_character = {
+				# Prince Philippe, Count of Paris
+				first_name = "Philippe"
+				last_name = "d_Orleans"
+				ruler = yes
+				birth_date = 1838.8.24
+				culture = cu:french
+				interest_group = ig_armed_forces
+				ideology = ideology_orleanist
+				traits = {
+					# historian & journalist
+					# "outspoken democrat"
+					basic_offensive_planner # served "with distinction" as a staff officer in the Peninsula Campaign
+				}
+				on_created = {
+					set_variable = {
+						name = orleanist_leader
+					}				
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				year >= 1870
+				year < 1894
+			}
+			create_character = {
+				# Prince Philippe, Count of Paris
+				first_name = "Philippe"
+				last_name = "d_Orleans"
+				ruler = yes
+				birth_date = 1838.8.24
+				culture = cu:french
+				interest_group = ig_armed_forces
+				ideology = ideology_orleanist
+				traits = {
+					# historian & journalist
+					# "outspoken democrat"
+					basic_offensive_planner # served "with distinction" as a staff officer in the Peninsula Campaign
+				}
+				on_created = {
+					set_variable = {
+						name = orleanist_leader
+					}				
+				}
+			}
+			create_character = {
+				# Prince Philippe, Duke of Orléans
+				first_name = "Philippe"
+				last_name = "d_Orleans"
+				heir = yes
+				birth_date = 1869.2.6
+				culture = cu:french
+				interest_group = ig_armed_forces
+				ideology = ideology_orleanist
+				traits = {
+					basic_political_operator
+					persistent
+					explorer
+				}
+				on_created = {
+					set_variable = {
+						name = orleanist_leader
+					}				
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				year >= 1894
+				year < 1926
+			}
+			create_character = {
+				# Prince Philippe, Duke of Orléans
+				first_name = "Philippe"
+				last_name = "d_Orleans"
+				ruler = yes
+				birth_date = 1869.2.6
+				culture = cu:french
+				interest_group = ig_armed_forces
+				ideology = ideology_orleanist
+				traits = {
+					basic_political_operator
+					persistent
+					explorer
+				}
+				on_created = {
+					set_variable = {
+						name = orleanist_leader
+					}				
+				}
+			}
+			create_character = {
+				# Prince Jean, Duke of Guise
+				first_name = "Jean"
+				last_name = "d_Orleans"
+				heir = yes
+				birth_date = 1874.9.4
+				culture = cu:french
+				interest_group = ig_armed_forces
+				ideology = ideology_orleanist
+				traits = {
+					# amateur historian / archeologist
+				}
+				on_created = {
+					set_variable = {
+						name = orleanist_leader
+					}				
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				year >= 1926
+			}
+			create_character = {
+				# Prince Jean, Duke of Guise
+				first_name = "Jean"
+				last_name = "d_Orleans"
+				ruler = yes
+				birth_date = 1874.9.4
+				culture = cu:french
+				interest_group = ig_armed_forces
+				ideology = ideology_orleanist
+				traits = {
+					# amateur historian / archeologist
+				}
+				on_created = {
+					set_variable = {
+						name = orleanist_leader
+					}				
+				}
+			}
+			create_character = {
+				# Henri, Count of Paris
+				first_name = "Henri"
+				last_name = "d_Orleans"
+				ruler = yes
+				birth_date = 1908.7.5
+				culture = cu:french
+				interest_group = ig_armed_forces
+				ideology = ideology_orleanist
+				traits = {
+					ambitious
+					experienced_political_operator
+					arrogant
+				}
+				on_created = {
+					set_variable = {
+						name = orleanist_leader
+					}				
 				}
 			}
 		}
 	}
-	if = {
+	else_if = {
 		limit = {
-			game_date > 1841.1.1
-			game_date < 1880.1.1
+			has_variable = legitimist_restoration_var
 		}
-		create_character = {
-			first_name = Yang
-			last_name = Xiuqing
-			birth_date = 1821.9.23
-			culture = cu:han
-			religion = rel:god_society
-			is_general = yes
-			ig_leader = yes
-			interest_group = ig_armed_forces
-			hq = region_south_china
-			ideology = ideology_theocrat
-			commander_rank = commander_rank_3
-			traits = {
-				grifter
-				expert_political_operator
-				ambitious
-				demagogue
+		if = {
+			limit = {
+				year < 1844
+			}
+			create_character = {
+				# Louis Antoine, Duke of Angoulême
+				first_name = "Louis"
+				last_name = "de_Bourbon"
+				ruler = yes
+				birth_date = 1775.8.6
+				culture = cu:french
+				interest_group = ig_armed_forces
+				ideology = ideology_legitimist
+				traits = {
+					basic_offensive_planner # see the battle of Trocadero
+					bigoted
+				}
+				on_created = {
+					set_variable = {
+						name = legitimist_leader
+					}				
+				}
+			}
+			create_character = {
+				# Henri, Count of Chambord
+				first_name = "Henri"
+				last_name = "de_Bourbon"
+				heir = yes
+				birth_date = 1820.9.29
+				culture = cu:french
+				interest_group = ig_landowners
+				ideology = ideology_legitimist
+				traits = {
+					arrogant
+					basic_political_operator
+				}
+				on_created = {
+					set_variable = {
+						name = legitimist_leader
+					}				
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				year >= 1844
+				year < 1883
+			}
+			create_character = {
+				# Henri, Count of Chambord
+				first_name = "Henri"
+				last_name = "de_Bourbon"
+				ruler = yes
+				birth_date = 1820.9.29
+				culture = cu:french
+				interest_group = ig_landowners
+				ideology = ideology_legitimist
+				traits = {
+					arrogant
+					basic_political_operator
+				}
+				on_created = {
+					set_variable = {
+						name = legitimist_leader
+					}				
+				}
+			}
+			create_character = {
+				# Infante Juan, Count of Montizón - Carlist
+				first_name = "Jean"
+				last_name = "de_Bourbon"
+				heir = yes
+				birth_date = 1822.5.15
+				culture = cu:spanish
+				interest_group = ig_landowners
+				ideology = ideology_legitimist
+				traits = {
+					# "liberal tendencies"
+					reserved
+				}
+				on_created = {
+					set_variable = {
+						name = legitimist_leader
+					}				
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				year >= 1883
+				year < 1887
+			}
+			create_character = {
+				# Infante Juan, Count of Montizón - Carlist
+				first_name = "Jean"
+				last_name = "de_Bourbon"
+				ruler = yes
+				birth_date = 1822.5.15
+				culture = cu:spanish
+				interest_group = ig_landowners
+				ideology = ideology_legitimist
+				traits = {
+					# "liberal tendencies"
+					reserved
+				}
+				on_created = {
+					set_variable = {
+						name = legitimist_leader
+					}				
+				}
+			}
+			create_character = {
+				# Infante Carlos, Duke of Madrid - Carlist
+				first_name = "Charles"
+				last_name = "de_Bourbon"
+				heir = yes
+				birth_date = 1848.3.30
+				culture = cu:spanish
+				interest_group = ig_landowners
+				ideology = ideology_legitimist
+				traits = {
+					basic_offensive_planner
+					ambitious
+					pious
+				}
+				on_created = {
+					set_variable = {
+						name = legitimist_leader
+					}				
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				year >= 1887
+				year < 1909
+			}
+			create_character = {
+				# Infante Carlos, Duke of Madrid - Carlist
+				first_name = "Charles"
+				last_name = "de_Bourbon"
+				ruler = yes
+				birth_date = 1848.3.30
+				culture = cu:spanish
+				interest_group = ig_landowners
+				ideology = ideology_legitimist
+				traits = {
+					basic_offensive_planner
+					ambitious
+					pious
+				}
+				on_created = {
+					set_variable = {
+						name = legitimist_leader
+					}				
+				}
+			}
+			create_character = {
+				# Infante Jaime, Duke of Madrid - Carlist
+				first_name = "Jacques"
+				last_name = "de_Bourbon"
+				heir = yes
+				birth_date = 1870.6.27
+				culture = cu:spanish
+				interest_group = ig_armed_forces
+				ideology = ideology_legitimist
+				traits = {
+					# suspected of liberal tendencies (gah!)
+					surveyor
+					pious
+				}
+				on_created = {
+					set_variable = {
+						name = legitimist_leader
+					}				
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				year >= 1909
+				year < 1931
+			}
+			create_character = {
+				# Infante Jaime, Duke of Madrid - Carlist
+				first_name = "Jacques"
+				last_name = "de_Bourbon"
+				ruler = yes
+				birth_date = 1870.6.27
+				culture = cu:spanish
+				interest_group = ig_armed_forces
+				ideology = ideology_legitimist
+				traits = {
+					# suspected of liberal tendencies (gah!)
+					surveyor
+					pious
+				}
+				on_created = {
+					set_variable = {
+						name = legitimist_leader
+					}				
+				}
+			}
+			create_character = {
+				# Infante Alfonso Carlos, Duke of San Jaime - Carlist
+				first_name = "Charles"
+				last_name = "de_Bourbon"
+				heir = yes
+				birth_date = 1849.9.12
+				culture = cu:spanish
+				interest_group = ig_armed_forces
+				ideology = ideology_legitimist
+				traits = {
+					stalwart_defender
+					pious
+					meticulous
+				}
+				on_created = {
+					set_variable = {
+						name = legitimist_leader
+					}				
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				year >= 1931
+			}
+			create_character = {
+				# Infante Alfonso Carlos, Duke of San Jaime - Carlist
+				first_name = "Charles"
+				last_name = "de_Bourbon"
+				ruler = yes
+				birth_date = 1849.9.12
+				culture = cu:spanish
+				interest_group = ig_armed_forces
+				ideology = ideology_legitimist
+				traits = {
+					stalwart_defender
+					pious
+					meticulous
+				}
+				on_created = {
+					set_variable = {
+						name = legitimist_leader
+					}				
+				}
+			}
+			create_character = {
+				# Alfonso XIII of Spain
+				first_name = "Alphonse"
+				last_name = "de_Bourbon"
+				heir = yes
+				birth_date = 1886.5.17
+				culture = cu:spanish
+				interest_group = ig_armed_forces
+				ideology = ideology_legitimist
+				traits = {
+					arrogant
+					expensive_tastes
+					basic_political_operator
+				}
+				on_created = {
+					set_variable = {
+						name = legitimist_leader
+					}				
+				}
 			}
 		}
 	}
-	if = {
+	else_if = {
 		limit = {
-			game_date > 1840.1.1
-			game_date < 1880.1.1
+			has_variable = bonapartist_restoration_var
 		}
-		create_character = {
-			first_name = Xiao
-			last_name = Chaogui
-			birth_date = 1820.1.1
-			culture = cu:hakka
-			religion = rel:god_society
-			is_general = yes
-			ig_leader = yes
-			interest_group = ig_devout
-			hq = region_south_china
-			ideology = ideology_theocrat
-			commander_rank = commander_rank_1
-			traits = {
-				reckless
-				charismatic
-				demagogue
+	#		limit = { # Joseph and Louis commented out due Louis-Napoleon taking precedence, and due to them not having any real designs on the throne.
+	#			year < 1844
+	#		}
+	#		create_character = {
+	#			# Joseph-Napoléon Bonaparte
+	#			first_name = "Joseph"
+	#			last_name = "Bonaparte"
+	#			ruler = yes
+	#			birth_date = 1768.1.7
+	#			culture = cu:corsican
+	#			interest_group = ig_landowners
+	#			ideology = ideology_bonapartist
+	#			traits = {
+	#				ambitious
+	#				basic_diplomat
+	#			}
+	#			on_created = {
+	#				set_variable = {
+	#					name = bonapartist_leader
+	#				}				
+	#			}
+	#		}
+	#		create_character = {
+	#			# Louis Napoléon Bonaparte
+	#			first_name = "Louis"
+	#			last_name = "Bonaparte"
+	#			heir = yes
+	#			birth_date = 1778.9.2
+	#			culture = cu:corsican
+	#			interest_group = ig_armed_forces
+	#			ideology = ideology_bonapartist
+	#			traits = {
+	#				basic_artillery_commander
+	#				meticulous
+	#				tactful
+	#			}
+	#			on_created = {
+	#				set_variable = {
+	#					name = bonapartist_leader
+	#				}				
+	#			}
+	#		}
+	#	}
+	#	else_if = {
+	#		limit = {
+	#			year >= 1844
+	#			year < 1846
+	#		}
+	#		create_character = {
+	#			# Louis Napoléon Bonaparte
+	#			first_name = "Louis"
+	#			last_name = "Bonaparte"
+	#			ruler = yes
+	#			birth_date = 1778.9.2
+	#			culture = cu:corsican
+	#			interest_group = ig_armed_forces
+	#			ideology = ideology_bonapartist
+	#			traits = {
+	#				basic_artillery_commander
+	#				meticulous
+	#				tactful
+	#			}
+	#			on_created = {
+	#				set_variable = {
+	#					name = bonapartist_leader
+	#				}				
+	#			}
+	#		}
+	#		create_character = {
+	#			# Charles Louis Napoléon Bonaparte
+	#			first_name = "Louis-Napoleon"
+	#			last_name = "Bonaparte"
+	#			heir = yes
+	#			birth_date = 1808.4.20
+	#			culture = cu:french
+	#			interest_group = ig_petty_bourgeoisie
+	#			ideology = ideology_bonapartist
+	#			traits = {
+	#				ambitious
+	#				experienced_political_operator
+	#				demagogue
+	#			}
+	#			on_created = {
+	#				set_variable = {
+	#					name = bonapartist_leader
+	#				}				
+	#			}
+	#		}
+	#	}
+		if = {
+			limit = {
+				year < 1873
+			}
+			if = {
+				limit = {
+					any_scope_character = {
+						has_variable = napoleon_iii_var
+					}
+				}
+				random_scope_character =  {
+					limit = {
+						has_variable = napoleon_iii_var
+					}
+					set_character_as_ruler = yes
+					add_character_role = politician
+					if = {
+						limit = {
+							has_role = agitator
+						}
+						remove_character_role = agitator
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					any_character_in_exile_pool = {
+						has_variable = napoleon_iii_var
+					}
+				}
+				random_character_in_exile_pool =  {
+					limit = {
+						has_variable = napoleon_iii_var
+					}
+					transfer_character = root
+					hidden_effect = {
+						remove_modifier = in_exile_modifier
+					}
+					set_character_as_ruler = yes
+					add_character_role = politician
+					if = {
+						limit = {
+							has_role = agitator
+						}
+						remove_character_role = agitator
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					any_country = {
+						NOT = {
+							this = root
+						}
+						any_scope_character = {
+							has_variable = napoleon_iii_var
+						}
+					}
+				}
+				random_country = {
+					limit = {
+						NOT = {
+							this = root
+						}
+						any_scope_character = {
+							has_variable = napoleon_iii_var
+						}
+					}
+					random_scope_character = {
+						limit = {
+							has_variable = napoleon_iii_var
+						}
+						kill_character = {
+							hidden = yes
+						}
+					}
+					post_notification = napoleon_iii_leaves_country
+				}
+				create_character = {
+					template = fra_napoleon_iii_character_template
+					on_created = {
+						set_variable = {
+							name = bonapartist_leader
+						}		
+						set_variable = napoleon_iii_var	
+						set_global_variable = napoleon_iii_spawn
+						set_character_as_ruler = yes
+						add_character_role = politician
+						remove_character_role = agitator
+					}
+				}
+			}
+			else = {
+				create_character = {
+					template = fra_napoleon_iii_character_template
+					on_created = {
+						set_variable = {
+							name = bonapartist_leader
+						}		
+						set_variable = napoleon_iii_var
+						set_global_variable = napoleon_iii_spawn
+						set_character_as_ruler = yes	
+						add_character_role = politician	
+						remove_character_role = agitator
+					}
+				}
+			}
+			if = {
+				limit = {
+					year >= 1857
+					year < 1873
+				}
+				create_character = {
+					# Napoléon Eugène Louis Jean Joseph Bonaparte
+					first_name = "Napoleon"
+					last_name = "Bonaparte"
+					heir = yes
+					birth_date = 1856.3.16
+					culture = cu:french
+					interest_group = ig_armed_forces
+					ideology = ideology_bonapartist
+					traits = {
+						brave
+						surveyor
+					}
+					on_created = {
+						set_variable = {
+							name = bonapartist_leader
+						}				
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				year >= 1873
+				year < 1879
+			}
+			create_character = {
+				# Napoléon Eugène Louis Jean Joseph Bonaparte
+				first_name = "Napoleon"
+				last_name = "Bonaparte"
+				ruler = yes
+				birth_date = 1856.3.16
+				culture = cu:french
+				interest_group = ig_armed_forces
+				ideology = ideology_bonapartist
+				traits = {
+					brave
+					surveyor
+				}
+				on_created = {
+					set_variable = {
+						name = bonapartist_leader
+					}				
+				}
+			}
+			create_character = {
+				# Victor, Prince Napoléon
+				first_name = "Victor"
+				last_name = "Bonaparte"
+				heir = yes
+				birth_date = 1862.7.18
+				culture = cu:french
+				interest_group = ig_landowners
+				ideology = ideology_bonapartist
+				traits = {
+					arrogant
+					basic_political_operator
+				}
+				on_created = {
+					set_variable = {
+						name = bonapartist_leader
+					}				
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				year >= 1879
+				year < 1915
+			}
+			create_character = {
+				# Victor, Prince Napoléon
+				first_name = "Victor"
+				last_name = "Bonaparte"
+				ruler = yes
+				birth_date = 1862.7.18
+				culture = cu:french
+				interest_group = ig_landowners
+				ideology = ideology_bonapartist
+				traits = {
+					arrogant
+					basic_political_operator
+				}
+				on_created = {
+					set_variable = {
+						name = bonapartist_leader
+					}				
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				year >= 1915
+				year < 1926
+			}
+			create_character = {
+				# Victor, Prince Napoléon
+				first_name = "Victor"
+				last_name = "Bonaparte"
+				ruler = yes
+				birth_date = 1862.7.18
+				culture = cu:french
+				interest_group = ig_landowners
+				ideology = ideology_bonapartist
+				traits = {
+					arrogant
+					basic_political_operator
+				}
+				on_created = {
+					set_variable = {
+						name = bonapartist_leader
+					}				
+				}
+			}
+			create_character = {
+				# Louis, Prince Napoléon
+				first_name = "Louis"
+				last_name = "Bonaparte"
+				ruler = yes
+				birth_date = 1914.1.23
+				culture = cu:french
+				interest_group = ig_petty_bourgeoisie
+				ideology = ideology_bonapartist
+				traits = {
+					brave
+					reckless
+					mountain_commander
+				}
+				on_created = {
+					set_variable = {
+						name = bonapartist_leader
+					}				
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				year >= 1926
+			}
+			create_character = {
+				# Louis, Prince Napoléon
+				first_name = "Louis"
+				last_name = "Bonaparte"
+				ruler = yes
+				birth_date = 1914.1.23
+				culture = cu:french
+				interest_group = ig_petty_bourgeoisie
+				ideology = ideology_bonapartist
+				traits = {
+					brave
+					reckless
+					mountain_commander
+				}
+				on_created = {
+					set_variable = {
+						name = bonapartist_leader
+					}				
+				}
 			}
 		}
 	}
-	if = {
-		limit = {
-			game_date > 1842.1.1
-			game_date < 1880.1.1
-		}
-		create_character = {
-			first_name = Hong
-			last_name = Rengan
-			birth_date = 1822.2.18
-			culture = cu:han
-			religion = rel:god_society
-			ig_leader = yes
-			interest_group = ig_intelligentsia
-			ideology = ideology_market_liberal
-			traits = {
-				innovative
-				persistent
-				basic_diplomat
-			}
-		}
+	ruler = {
+		save_scope_as = french_monarch_scope
 	}
 }
 
-# Vicky and the Expedition Machine
-ai_expedition_simulator_start = {
-	random_scope_character = {
+clean_up_exile_character_roles = { # scope: character
+	if = {
 		limit = {
-			is_ruler = no
-			OR = {
-				has_role = general
-				has_role = admiral
-			}
+			NOT = { has_role = agitator }
 		}
-		set_variable = expedition_leader_var
-		set_character_busy = yes
-	}
-	set_variable = on_expedition
-	add_modifier = {
-		name = modifier_large_expedition_cost
-		multiplier = money_amount_multiplier_medium
+		add_character_role = agitator
 	}
 	if = {
 		limit = {
-			has_variable = AI_EXPEDITION_ANTARCTICA
+			has_role = politician
 		}
-		random_list = {
-			3 = {
-				trigger_event = { id = cold.10 days = 365 }
-			}
-			2 = {
-				trigger_event = { id = cold.7 days = 365 }
-				set_variable = antarctica_expedition_success_var
-			}
-		}
+		set_as_interest_group_leader = no
+		remove_character_role = politician
 	}
-	else_if = {
+	if = {
 		limit = {
-			has_variable = AI_EXPEDITION_NILE
+			has_role = general
 		}
-		random_list = {
-			3 = {
-				trigger_event = { id = expedition_events.512 days = 365 }
-				set_variable = failed_central_africa_expedition_var
-			}
-			2 = {
-				trigger_event = { id = expedition_events.511 days = 365 }
-				set_variable = central_africa_expedition_success_var
-			}
-		}
+		remove_character_role = general
 	}
-	else_if = {
+	if = {
 		limit = {
-			has_variable = AI_EXPEDITION_CONGO
+			has_role = admiral
 		}
-		random_list = {
-			3 = {
-				trigger_event = { id = expedition_events.612 days = 365 }
-			}
-			2 = {
-				trigger_event = { id = expedition_events.611 days = 365 }
-				set_variable = congo_river_expedition_success_var
-			}
-		}
+		remove_character_role = admiral
 	}
-	else_if = {
-		limit = {
-			has_variable = AI_EXPEDITION_NIGER
-		}
-		random_list = {
-			3 = {
-				trigger_event = { id = expedition_events.12 days = 365 }
-			}
-			2 = {
-				trigger_event = { id = expedition_events.11 days = 365 }
-				set_variable = niger_river_expedition_success_var
-			}
-		}
-	}
-	else_if = {
-		limit = {
-			has_variable = AI_EXPEDITION_WAMERICA
-		}
-		random_list = {
-			2 = {
-				trigger_event = { id = expedition_events.205 days = 365 }
-			}
-			1 = {
-				trigger = { NOT = { has_global_variable = buenaventura_river_disproven } }
-				trigger_event = { id = expedition_events.300 days = 365 }
-				set_variable = west_america_expedition_success_var
-			}
-			1 = {
-				trigger = { NOT = { has_global_variable = oregon_trail_mapped } }
-				trigger_event = { id = expedition_events.301 days = 365 }
-				set_variable = west_america_expedition_success_var
-			}
-			1 = {
-				trigger = { NOT = { has_global_variable = great_salt_lake_mapped } }
-				trigger_event = { id = expedition_events.302 days = 365 }
-				set_variable = west_america_expedition_success_var
-			}
-		}
-	}
-	ai_expedition_simulator_end = yes
-}
-
-ai_expedition_simulator_end = {
-	remove_variable = on_expedition
-	remove_modifier = modifier_large_expedition_cost
-	remove_modifier = expedition_extra_expenses_modifier
-	random_scope_character = {
-		limit = {
-			has_variable = expedition_leader_var
-		}
-		remove_variable = expedition_leader_var
-	}
-	remove_variable = AI_EXPEDITION_ANTARCTICA
-	remove_variable = AI_EXPEDITION_NILE
-	remove_variable = AI_EXPEDITION_CONGO
-	remove_variable = AI_EXPEDITION_NIGER
-	remove_variable = AI_EXPEDITION_WAMERICA
-	remove_expedition_events_effect = yes
 }

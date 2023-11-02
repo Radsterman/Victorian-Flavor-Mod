@@ -4,10 +4,10 @@
 	complete = {
 		year < 1839
 		gdp > 7200000
-		c:BEL = {
+		c:BEL ?= {
 			c:GBR.relations:ROOT > relations_threshold:cordial
 		}
-		c:BEL = {
+		c:BEL ?= {
 			c:FRA.relations:ROOT > relations_threshold:cordial
 		}
 	}
@@ -35,7 +35,7 @@ je_treaty_of_london_1867 = {
 
 	complete = {
 		year > 1867
-		c:LUX = {
+		c:LUX ?= {
 			is_subject_of = c:NET
 		}
 	}
@@ -45,12 +45,12 @@ je_treaty_of_london_1867 = {
 		}	
 	}
 	is_shown_when_inactive = {
-		THIS = c:NET
+		exists = c:NET
+		this = c:NET
 		exists = c:LBG
 	}
 	possible = {
-		exists = c:LBG
-		c:LBG = {
+		c:LBG ?= {
 			is_subject_of = c:NET
 		}
 	}
@@ -83,12 +83,12 @@ je_luxembourg_separation = {
 		}
 	}
 	is_shown_when_inactive = {
-		THIS = c:NET
+		exists = c:NET
+		this = c:NET
 		exists = c:LUX
 	}
 	possible = {
-		exists = c:LUX
-		c:LUX = {
+		c:LUX ?= {
 			is_subject_of = c:NET
 		}
 	}
@@ -182,11 +182,12 @@ je_expedition_into_celebes = {
 		}
 	}
 	is_shown_when_inactive = {
-		THIS = c:DEI
+		exists = c:DEI
+		this = c:DEI
 	}
 	possible = {
 		NOT = {
-			owns_entire_state_region = s:STATE_CELEBES
+			owns_entire_state_region = STATE_CELEBES
 		}
 	}
 }
@@ -252,12 +253,13 @@ je_expedition_into_sumatra = {
 		}
 	}
 	is_shown_when_inactive = {
-		THIS = c:DEI
+		exists = c:DEI
+		this = c:DEI
 	}
 	possible = {
 		NOT = {
-			owns_entire_state_region = s:STATE_NORTH_SUMATRA
-			owns_entire_state_region = s:STATE_ACEH
+			owns_entire_state_region = STATE_NORTH_SUMATRA
+			owns_entire_state_region = STATE_ACEH
 		}
 	}
 }
@@ -332,12 +334,13 @@ je_expedition_into_borneo = {
 		}
 	}
 	is_shown_when_inactive = {
-		THIS = c:DEI
+	    exists = c:DEI
+		this = c:DEI
 	}
 	possible = {
 		NOT = {
-			owns_entire_state_region = s:STATE_EAST_BORNEO
-			owns_entire_state_region = s:STATE_WEST_BORNEO
+			owns_entire_state_region = STATE_EAST_BORNEO
+			owns_entire_state_region = STATE_WEST_BORNEO
 		}
 	}
 }

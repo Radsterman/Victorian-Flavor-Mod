@@ -24,7 +24,7 @@
 		
 			if = {
 				limit = {
-					c:RAC = ROOT
+					c:RAC ?= ROOT
 				}
 
 				every_in_list = {
@@ -37,7 +37,7 @@
 			}
 			else_if = {
 				limit = {
-					c:NWT = ROOT
+					c:NWT ?= ROOT
 				}
 
 				every_in_list = {
@@ -48,7 +48,7 @@
 			}
 			else_if = {
 				limit = {
-					c:COL = ROOT
+					c:COL ?= ROOT
 				}
 					every_in_list = {
 					variable = past_overlord 
@@ -58,7 +58,7 @@
 			}
 			else_if = {
 				limit = {
-					c:HBC = ROOT
+					c:HBC ?= ROOT
 				}
 
 				every_in_list = {
@@ -69,7 +69,7 @@
 			}
 			else_if = {
 				limit = {
-					c:RNC = ROOT
+					c:RNC ?= ROOT
 				}
 				
 				every_in_list = {
@@ -81,7 +81,7 @@
 			}
 			else_if = {
 				limit = {
-					c:IAC = ROOT
+					c:IAC ?= ROOT
 				}
 
 				every_in_list = {
@@ -92,7 +92,7 @@
 			}
 			else_if = {
 				limit = {
-					c:GEA = ROOT
+					c:GEA ?= ROOT
 				}
 				every_in_list = {
 					variable = past_overlord 
@@ -101,7 +101,7 @@
 			}
 			else_if = {
 				limit = {
-					c:BSA = ROOT
+					c:BSA ?= ROOT
 				}
 				every_in_list = {
 					variable = past_overlord 
@@ -110,7 +110,7 @@
 			}
 			else_if = {
 				limit = {
-					c:RGT = ROOT
+					c:RGT ?= ROOT
 				}
 
 				every_in_list = {
@@ -122,7 +122,7 @@
 			else_if = {
 				limit = {
 					OR = {
-						c:BIC = ROOT
+						c:BIC ?= ROOT
 					}
 				}
 
@@ -135,7 +135,7 @@
 			else_if = {
 				limit = {
 					OR = {
-						c:MPR = ROOT
+						c:MPR ?= ROOT
 					}
 				}
 
@@ -148,7 +148,7 @@
 			else_if = {
 				limit = {
 					OR = {
-						c:BPR = ROOT
+						c:BPR ?= ROOT
 					}
 				}
 
@@ -179,16 +179,16 @@ je_autonomy = {
 		is_subject_type = subject_type_chartered_company
 		NOT = {
 			OR = {
-				c:BIC = ROOT
+				c:BIC ?= ROOT
 				AND = {
-					c:MPR = ROOT
-					c:MPR = {
+					c:MPR ?= ROOT
+					c:MPR ?= {
 						overlord = c:BIC
 					}
 				}
 				AND = {
-					c:BPR = ROOT
-					c:BPR = {
+					c:BPR ?= ROOT
+					c:BPR ?= {
 						overlord = c:BIC
 					}
 				}	
@@ -197,7 +197,11 @@ je_autonomy = {
 	}
 
     possible = {
-		GDP >= 1000000
+		custom_tooltip = {
+			text = gdp_per_capita_2
+			
+			gdp_per_capita >= 2
+		}
 	}
 
 	fail = {
@@ -225,37 +229,37 @@ je_autonomy = {
 		}
 		if = {
 			limit = {
-				c:RAC = ROOT
+				c:RAC ?= ROOT
 			}
 			change_tag = AKA
 		}	
+		#else_if = {
+		#	limit = {
+		#		c:HBC = ROOT
+		#	}
+		#	change_tag = CAN
+		#}	
 		else_if = {
 			limit = {
-				c:HBC = ROOT
-			}
-			change_tag = CAN
-		}	
-		else_if = {
-			limit = {
-				c:RNC = ROOT
+				c:RNC ?= ROOT
 			}
 			change_tag = NGR
 		}
 		else_if = {
 			limit = {
-				c:GEA = ROOT
+				c:GEA ?= ROOT
 			}
 			change_tag = TZN
 		}
+		#else_if = {
+		#	limit = {
+		#		c:COL = ROOT
+		#	}
+		#	change_tag = ORG
+		#}
 		else_if = {
 			limit = {
-				c:COL = ROOT
-			}
-			change_tag = ORG
-		}
-		else_if = {
-			limit = {
-				c:RGT = ROOT
+				c:RGT ?= ROOT
 			}
 			change_tag = GRN
 		}
@@ -281,27 +285,12 @@ je_rac_hbc_deal = {
 	}
 
     possible = {
-		OR = {
-			AND = {
-				exists = c:NWT 
-				c:NWT = {
-					relations:root < relations_threshold:cordial
-				} 
-			}
-			AND = {
-				exists = c:COL
-				c:COL = {
-					relations:root < relations_threshold:cordial
-				} 
-			}
-			AND = {
-				exists = c:HBC
-				c:HBC = {
-					relations:root < relations_threshold:cordial
-				} 
-			}
+		AND = {
+			exists = c:HBC
+			c:HBC = {
+				relations:root < relations_threshold:cordial
+			} 
 		}
-
 	}
 
 	fail = {
@@ -313,26 +302,26 @@ je_rac_hbc_deal = {
 	}
 
 	invalid = {
-		AND = {
-			AND = {
-				NOT = { exists = c:HBC }
-				c:HBC = {
-					NOT = { is_subject_of = c:GBR }
-				}
+		OR = {
+			NOT = { exists = c:HBC }
+			c:HBC ?= {
+				NOT = { is_subject_of = c:GBR }
 			}
-			AND = {
-				NOT = { exists = c:NWT }
-				c:NWT = {
-					NOT = { is_subject_of = c:GBR }
-				}
-			}
-			AND = {
-				NOT = { exists = c:COL }
-				c:COL = {
-					NOT = { is_subject_of = c:GBR }
-				}
-			}	
 		}
+		#OR = {
+		#	OR = {
+		#		NOT = { exists = c:NWT }
+		#		c:NWT ?= {
+		#			NOT = { is_subject_of = c:GBR }
+		#		}
+		#	}
+		#	OR = {
+		#		NOT = { exists = c:COL }
+		#		c:COL ?= {
+		#			NOT = { is_subject_of = c:GBR }
+		#		}
+		#	}	
+		#}
 	}
 
 	immediate = {
@@ -383,7 +372,7 @@ je_company_bankruptcy = {
 		top_overlord = {
 			create_diplomatic_pact = {
 				country = root
-				type = puppet
+				type = dependency
 			}
 		}
 		if = {
@@ -427,19 +416,19 @@ je_company_bankruptcy = {
 		}	
 		else_if = {
 			limit = {
-				c:RNC = ROOT
+				c:RNC ?= ROOT
 			}
 			change_tag = NGR
 		}
 		else_if = {
 			limit = {
-				c:RGT = ROOT
+				c:RGT ?= ROOT
 			}
 			change_tag = GRN
 		}
 		else_if = {
 			limit = {
-				c:BSA = ROOT
+				c:BSA ?= ROOT
 			}
 
 			if = { 
@@ -483,7 +472,7 @@ je_company_bankruptcy = {
 		}
 		else_if = {
 			limit = {
-				c:IAC = ROOT
+				c:IAC ?= ROOT
 			}
 			change_tag = KNY
 
@@ -545,6 +534,7 @@ je_relocate_bic = {
 	}
 
     possible = {
+	    exists = c:BIC
 		overlord = c:BIC
 		overlord = {
 			is_subject_type = subject_type_chartered_company
@@ -560,6 +550,9 @@ je_relocate_bic = {
 
 	invalid = {
 		OR = {
+		    NOT = {
+				exists = c:BIC
+			}
 			NOT = {
 				overlord = c:BIC
 			}

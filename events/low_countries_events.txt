@@ -35,7 +35,7 @@ low_countries_events.1 = {
 				origin = THIS
 				state = s:STATE_LUXEMBOURG.region_state:BEL
 			}
-			c:NET = {
+			c:NET ?= {
 				create_diplomatic_pact = {
 						country = c:LBG
 						type = personal_union
@@ -50,15 +50,15 @@ low_countries_events.1 = {
 			text = treaty_of_london_event_tooltip_1
 		}
 		change_relations = {
-			country = C:GBR
+			country = c:GBR
 			value = 20
 		}
 		change_relations = {
-			country = C:FRA
+			country = c:FRA
 			value = 15
 		}
 		change_relations = {
-			country = C:NET
+			country = c:NET
 			value = 10
 		}
 	}
@@ -66,7 +66,7 @@ low_countries_events.1 = {
 	option = {
 		name = low_countries_events.2.a
 		ai_chance = 0
-		c:NET = {
+		c:NET ?= {
 			create_diplomatic_play = {
 				name = dutch_belgian_war
 			
@@ -79,15 +79,15 @@ low_countries_events.1 = {
 		}
 		change_infamy = 30
 		change_relations = {
-			country = C:GBR
+			country = c:GBR
 			value = -30
 		}
 		change_relations = {
-			country = C:FRA
+			country = c:FRA
 			value = -30
 		}
 		change_relations = {
-			country = C:NET
+			country = c:NET
 			value = -30
 		}
 		add_modifier = {
@@ -113,6 +113,9 @@ low_countries_events.2 = {
 
 	icon = "gfx/interface/icons/event_icons/event_map.dds"
 
+	trigger = {
+		exists = c:LBG
+	}
 
 	option = {
 		name = low_countries_events.3.a
@@ -141,7 +144,8 @@ low_countries_events.3 = {
 	icon = "gfx/interface/icons/event_icons/event_map.dds"
 
 	trigger = {
-		THIS = c:NET
+        exists = c:NET
+		this = c:NET
 		NOT = { has_variable = philips_company }
 		has_technology_researched = electrical_capacitors
 	}
@@ -179,10 +183,11 @@ low_countries_events.4 = {
 	icon = "gfx/interface/icons/event_icons/event_map.dds"
 
 	trigger = {
-		THIS = c:NET
+		exists = c:NET
+		this = c:NET
 		NOT = { has_variable = dutch_shell }
 		has_building = building_oil_rig
-		country_or_subject_owns_entire_state_region = s:STATE_SOUTH_SUMATRA
+		country_or_subject_owns_entire_state_region = STATE_SOUTH_SUMATRA
 	}
 	
 	immediate = {
@@ -216,6 +221,10 @@ low_countries_events.5 = {
 
 	icon = "gfx/interface/icons/event_icons/event_map.dds"
 
+	trigger = {
+		exists = c:LAR
+	}
+
 	option = {
 		name = low_countries_events.5.a
 		highlighted_option = yes
@@ -223,13 +232,13 @@ low_countries_events.5 = {
 		ai_chance = {
 			base = 100
 		}
-		c:DEI = {
+		c:DEI ?= {
 			annex = c:LAR
 		}
-		c:NET = {
+		c:NET ?= {
 			add_treasury = -250000
 		}
-		c:POR = {
+		c:POR ?= {
 			add_treasury = 250000
 		}
 	}

@@ -131,7 +131,7 @@ peru_bolivia_confederation.2 = { #Fin de la Revuelta
 		c:PEU = {
 			save_scope_as = peu_scope
 		}
-		c:PES = {
+		c:PES ?= {
 			save_scope_as = pes_scope
 		}
 		c:BOL = {
@@ -140,9 +140,13 @@ peru_bolivia_confederation.2 = { #Fin de la Revuelta
 	}
 
 	trigger = {
+	    OR = {
+			exists = c:PEU
+		    exists = c:BOL
+		}
 		OR = {
-		  c:PEU = THIS
-		  c:BOL = THIS
+		    this = c:PEU
+			this = c:BOL
 		} 
 		NOT = { has_global_variable = coup_ended }
 	}
@@ -237,13 +241,13 @@ peru_bolivia_confederation.3 = { #Division of Peru
 		s:STATE_ACRE = {
 			set_owner_of_provinces = {
 				country = c:ESP
-				provinces = { xFA73DA x174A88 x9A5667 xAB73D1 x93D464 x2C1E28 xF605CB xFDB1E8 x5720BB xF23C51 x46F090 }
+				provinces = { xFA73DA x174A88 x9A5667 xAB73D1 x93D464 x2C1E28 xF605CB xFDB1E8 x5720BB xF23C51 x46F090 x41C0D0 }
 			}
 		}
 		s:STATE_AMAZONAS = {
 			set_owner_of_provinces = {
 				country = c:ESP
-				provinces = { x83B1BA x8BD00A x4C2A62 xEC140B xFC221C xB43B72 xE8E12A xF192D6 x4751E8 xCF9E9F x8F231D xB29291 x2AF127 x8A5A62 x41C0D0 x7CD52C xA88EBF x9AE5DE xBC7468 x6809E1 x5C413B x2404C7 x3FA0FB x6C2ED1 x2F69F7 }
+				provinces = { x83B1BA x8BD00A x4C2A62 xEC140B xFC221C xB43B72 xE8E12A xF192D6 x4751E8 xCF9E9F xB29291 x2AF127 x8A5A62 x7CD52C xA88EBF x9AE5DE xBC7468 x6809E1 x5C413B x2404C7 x3FA0FB x6C2ED1 x2F69F7 }
 			}
 		}
         create_diplomatic_pact = {
@@ -253,25 +257,27 @@ peru_bolivia_confederation.3 = { #Division of Peru
 		c:ESP = {
 			set_relations = { country = c:BOL value = 80 }
 			create_character = {
-			 first_name = nicolas
-			 last_name = fernandez_de_pierola
-			 ig_leader = yes
-			 interest_group = ig_intelligentsia
-			 ruler = yes
-			 birth_date = 1788.01.23
-			 female = no
-			 culture = cu:south_andean
-			 dna = dna_nicolas_fernandez_de_pierola
-			 ideology = ideology_meritocratic
-			 religion = rel:catholic
-			 traits = {
-				 persistent
-				 basic_diplomat
+				first_name = nicolas
+				last_name = fernandez_de_pierola
+				historical = yes
+				ig_leader = yes
+				interest_group = ig_intelligentsia
+				ruler = yes
+				birth_date = 1788.01.23
+				female = no
+				culture = cu:south_andean
+				dna = dna_nicolas_fernandez_de_pierola
+				ideology = ideology_meritocratic
+				religion = rel:catholic
+				traits = {
+					persistent
+					basic_diplomat
 				}
 		    }
 			create_character = {
 				first_name = blas
 				last_name = cardena
+				historical = yes
 				ig_leader = no 
 				interest_group = ig_armed_forces
 				is_general = yes
@@ -382,19 +388,64 @@ peru_bolivia_confederation.4 = { #Viva Peru del Sur
 		}
 		hidden_effect = {
             c:ESP = { 
-				ig:ig_landowners = {
-			      remove_ideology = ideology_paternalistic
-			      add_ideology = ideology_caudillismo
-		        }
-				ig:ig_armed_forces = {
-			      add_ideology = ideology_caudillismo
-		        }
 				add_modifier = {
 			      name = age_of_caudillos_modifier
 			      months = very_long_modifier_time
 			      is_decaying = yes
 		        }
-            }
+
+				ig:ig_armed_forces = {
+					add_ideology = ideology_caudillismo
+				}
+		
+				ig:ig_intelligentsia = {
+					remove_ideology = ideology_liberal
+					add_ideology = ideology_liberalismo
+					add_ideology = ideology_soberania_aristocratica
+				}
+
+				ig:ig_landowners = {
+					add_ruling_interest_group = yes
+					remove_ideology = ideology_paternalistic
+					remove_ideology = ideology_stratocratic
+					add_ideology = ideology_conservadurismo
+					add_ideology = ideology_soberania_aristocratica
+				}
+
+				ig:ig_rural_folk = {
+					remove_ideology = ideology_agrarian
+					remove_ideology = ideology_isolationist
+					remove_ideology = ideology_particularist
+					add_ideology = ideology_agroexportadores
+					add_ideology = ideology_pious
+					add_ideology = ideology_patriarchal
+					add_ideology = ideology_communalist
+				}
+
+				ig:ig_petty_bourgeoisie = {
+					remove_ideology = ideology_reactionary
+					add_ideology = ideology_artesanado
+				}
+
+				random_scope_state = {
+					limit = {
+						state_region = s:STATE_ICA
+					}
+					set_state_type = incorporated
+				}
+				random_scope_state = {
+					limit = {
+						state_region = s:STATE_LIMA
+					}
+					set_state_type = incorporated
+				}
+				random_scope_state = {
+					limit = {
+						state_region = s:STATE_TARAPACA
+					}
+					set_state_type = incorporated
+				}
+			}	
 		}	
 		c:ESP = {
 			set_next_election_date = "1837.9.17"
@@ -407,59 +458,42 @@ peru_bolivia_confederation.4 = { #Viva Peru del Sur
 				value = 0.3
 			}
 			create_character = {
-			  first_name = pio
-			  last_name = tristan
-			  ig_leader = no
-			  interest_group = ig_armed_forces
-			  ruler = yes
-			  birth_date = 1773.07.11
-			  female = no
-			  culture = cu:south_andean
-			  dna = dna_pio_tristan
-			  ideology = ideology_moderate
-			  religion = rel:catholic
-			  traits = { 
-				 reserved
-                 tactful
-                 experienced_defensive_strategist
+				first_name = pio
+				last_name = tristan
+				historical = yes
+				ig_leader = no
+				interest_group = ig_armed_forces
+				ruler = yes
+				birth_date = 1773.07.11
+				female = no
+				culture = cu:south_andean
+				dna = dna_pio_tristan
+				ideology = ideology_moderate
+				religion = rel:catholic
+				traits = {
+					reserved
+					tactful
+					experienced_defensive_strategist
 				}
 			}
 			create_character = {
-			 first_name = ramon
-			 last_name = herrera
-			 ig_leader = yes
-			 interest_group = ig_armed_forces
-			 birth_date = 1799.12.7
-			 female = no
-			 culture = cu:south_andean
-			 dna = dna_ramon_herrera
-			 ideology = ideology_moderate
-			 religion = rel:catholic
-			 traits = { 
-				 tactful
-				 traditionalist_commander
-				 basic_diplomat
+				first_name = ramon
+				last_name = herrera
+				historical = yes
+				ig_leader = yes
+				interest_group = ig_armed_forces
+				birth_date = 1799.12.7
+				female = no
+				culture = cu:south_andean
+				dna = dna_ramon_herrera
+				ideology = ideology_moderate
+				religion = rel:catholic
+				traits = { 
+					tactful
+					traditionalist_commander
+					basic_diplomat
 				}
 			}
-			
-			random_scope_state = {
-				limit = {
-					state_region = s:STATE_ICA
-				}
-				set_state_type = incorporated
-		    }
-			random_scope_state = {
-				limit = {
-					state_region = s:STATE_LIMA
-				}
-				set_state_type = incorporated
-		    }
-			random_scope_state = {
-				limit = {
-					state_region = s:STATE_TARAPACA
-				}
-				set_state_type = incorporated
-		    }
 		}
 	}	
 	option = { #viva la independecia! - PEU
@@ -679,7 +713,7 @@ peru_bolivia_confederation.9 = { #Elecciones
 	hidden = yes
 
 	trigger = {
-		c:BOL = THIS
+		this ?= c:BOL
 		NOT = { has_global_variable = no_ten_year }
 	}
 
@@ -860,7 +894,7 @@ peru_bolivia_confederation.12 = { #Bolivian reaction/notification of Aliaga - Be
 			value = -20
 		}
 		add_radicals = {
-			value = 0.1	
+			value = 0.05	
 		}
 		ai_chance = 25
 	}
@@ -883,7 +917,7 @@ peru_bolivia_confederation.12 = { #Bolivian reaction/notification of Aliaga - Be
 	}
 }
 
-peru_bolivia_confederation.13 = { Portales Chile
+peru_bolivia_confederation.13 = { #Portales Chile
 
 	type = country_event
 	placement = ROOT
@@ -1071,7 +1105,7 @@ peru_bolivia_confederation.15 = { #Death of Portales
 			value = 0.1
 		}
 
-		c:BOl = {
+		c:BOL = {
 			post_notification = rumors_have_spread_of_bolivias_involvement
 		}
 	}

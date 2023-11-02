@@ -119,45 +119,11 @@ dp_liberate_subject = {
 			NOT = { is_subject_type = subject_type_confederation }
 			NOT = { is_subject_of = root }
 		}
-		custom_tooltip = {
-			text = DIPLO_ACTION_OVERLORD_RELATIONS_CORDIAL_OR_GREATER_NOT
-			scope:target_country.overlord.relations:root < relations_threshold:cordial
-		}	
+		diplomatic_play_has_no_relations_blocker_with_overlord = yes	
 	}
 
 	on_weekly_pulse = {}
 
-	on_war_begins = {}
-
-	on_war_end = {}
-}
-
-dp_transfer_subject = {
-	war_goal = transfer_subject
-	
-	texture = "gfx/interface/icons/war_goals/transfer_subject.dds"
-	
-	possible = {	
-		NOT = { is_country_type = decentralized }
-		aggressive_diplomatic_plays_permitted = yes
-		NOT = { is_subject_of = scope:target_country }	
-		scope:target_country = {
-			NOT = { is_country_type = decentralized }
-			is_subject = yes
-			NOT = { is_subject_of = root }
-			NOT = { is_subject_type = subject_type_personal_union }
-			NOT = { is_subject_type = subject_type_real_union }
-			NOT = { is_subject_type = subject_type_dependency }
-			NOT = { is_subject_type = subject_type_confederation }
-		}	
-		custom_tooltip = {
-			text = DIPLO_ACTION_OVERLORD_RELATIONS_CORDIAL_OR_GREATER_NOT
-			scope:target_country.overlord.relations:root < relations_threshold:cordial
-		}				
-	}
-	
-	on_weekly_pulse = {}
-	
 	on_war_begins = {}
 
 	on_war_end = {}
@@ -240,6 +206,36 @@ dp_leadership_india= {
 			aggressive_diplomatic_plays_permitted = yes
 			can_form_nation = BHT
 		}
+	}
+	
+	on_weekly_pulse = {}
+	
+	on_war_begins = {}
+
+	on_war_end = {}
+}
+
+dp_leadership_china = {
+	war_goal = unification_leadership
+	
+	requires_interest_marker = no
+	mirror_war_goal = yes
+	
+	texture = "gfx/interface/icons/war_goals/annex_country.dds"
+	
+	selectable_in_lens = {
+		always = no
+	}	
+	
+	possible = {
+		NOT = { is_country_type = decentralized }
+		is_subject = no 
+		can_form_nation = CHI
+		scope:target_country = {
+			NOT = { is_country_type = decentralized }
+			aggressive_diplomatic_plays_permitted = yes
+			can_form_nation = CHI
+		}	
 	}
 	
 	on_weekly_pulse = {}
@@ -344,52 +340,175 @@ dp_unify_india = {
 	on_war_end = {}
 }
 
-dp_algerian_conquest = {
-	war_goal = annex_country
+dp_unify_china = {
+	war_goal = unification
 	
-	texture = "gfx/interface/icons/war_goals/annex_country.dds"
+	requires_interest_marker = no
+	blocked_by_diplomatic_status = no
+	
+	texture = "gfx/interface/icons/war_goals/unification.dds"
 	
 	selectable_in_lens = {
-		AND = {
-			exists = c:FRA
-			c:FRA = ROOT
-			any_country = {
-				AND = {
-					OR = {
-						country_has_primary_culture = cu:berber
-						country_has_primary_culture = cu:maghrebi
-					}
-					capital = {
-						OR = {
-							state_region = s:STATE_ALGIERS
-							state_region = s:STATE_TLEMCEN
-							state_region = s:STATE_CONSTANTINE
-							state_region = s:STATE_GHARDAIA
-						}	
-					}
-					is_country_type = unrecognized
-				}
+		always = no
+	}
+	
+	possible = {
+		#NOT = { exists = c:CHI }
+		NOT = { is_country_type = decentralized }
+		is_subject = no
+		custom_tooltip = {
+			text = CHI_tt
+			can_form_nation = CHI
+		}
+		scope:target_country = {
+			NOT = { is_country_type = decentralized }
+			aggressive_diplomatic_plays_permitted = yes
+			custom_tooltip = {
+				text = CHI_tt
+				can_form_nation = CHI
 			}
 		}
 	}
 	
-	possible = {
-		is_subject = no
+	on_weekly_pulse = {}
+	
+	on_war_begins = {}
 
+	on_war_end = {}
+}
+
+#dp_dismantle_colonial_empire = {
+#	war_goal = humiliation
+#	
+#	texture = "gfx/interface/icons/war_goals/humiliation.dds"
+#	
+#	selectable_in_lens = {
+#		always = no
+#	}
+#	
+#	possible = {
+#		aggressive_diplomatic_plays_permitted = yes
+#		scope:target_country = {
+#			any_subject_or_below = {
+#				is_direct_subject_of = prev
+#				OR = {
+#					AND = {
+#						is_subject_type = subject_type_chartered_company
+#						is_country_type = colonial
+#					}
+#					AND = {
+#						is_subject_type = subject_type_dependency
+#						is_country_type = colonial
+#					}
+#					is_subject_type = subject_type_protectorate
+#				}
+#			}
+#		}
+#	}
+#	
+#	on_weekly_pulse = {}
+#	
+#	on_war_begins = {}
+#
+#	on_war_end = {
+#		scope:target_country = {
+#			every_subject_or_below = {
+#				limit = {
+#					is_direct_subject_of = prev
+#					OR = {
+#						AND = {
+#							is_subject_type = subject_type_chartered_company
+#							is_country_type = colonial
+#						}
+#						AND = {
+#							is_subject_type = subject_type_dependency
+#							is_country_type = colonial
+#						}
+#						is_subject_type = subject_type_protectorate
+#					}
+#				}
+#				make_independent = yes
+#			}
+#		}
+#	}
+#}
+
+dp_subjugate_unrecognized = {
+	war_goal = make_puppet
+	
+	texture = "gfx/interface/icons/war_goals/make_puppet.dds"
+	
+	selectable_in_lens = {
+		OR = {
+			is_country_type = recognized
+			is_country_type = colonial
+		}
+	}
+	
+	possible = {
+		aggressive_diplomatic_plays_permitted = yes
 		scope:target_country = {
 			is_country_type = unrecognized
-			aggressive_diplomatic_plays_permitted = yes
-			OR = {
-				country_has_primary_culture = cu:berber
-				country_has_primary_culture = cu:maghrebi
+		}
+		OR = {
+			AND = {
+				has_institution = institution_colonial_affairs
+				NOT = { has_law = law_type:law_frontier_colonialism }
+				scope:target_country = {
+					any_scope_state = {
+						is_coastal = yes
+					}
+				}
 			}
-			capital = {
+			AND = {
 				OR = {
-					state_region = s:STATE_ALGIERS
-					state_region = s:STATE_TLEMCEN
-					state_region = s:STATE_CONSTANTINE
-					state_region = s:STATE_GHARDAIA
-				}	
+					NOT = { has_institution = institution_colonial_affairs }
+					has_law = law_type:law_frontier_colonialism
+				}
+				has_strategic_land_adjacency = scope:target_country
+			}
+		}
+	}
+	
+	on_weekly_pulse = {}
+	
+	on_war_begins = {}
+
+	on_war_end = {
+	}
+}
+
+dp_conquer_unrecognized_state = {
+	war_goal = conquer_state
+	
+	texture = "gfx/interface/icons/war_goals/conquer_state.dds"
+	
+	possible = {
+		aggressive_diplomatic_plays_permitted = yes
+		NOT = { is_subject_of = scope:target_country }	
+		scope:target_country = {
+			NOT = { is_country_type = decentralized }
+			NOT = { is_subject_of = root }
+		}
+		scope:target_country = {
+			is_country_type = unrecognized
+		}
+		OR = {
+			AND = {
+				has_institution = institution_colonial_affairs
+				NOT = { has_law = law_type:law_frontier_colonialism }
+				scope:target_country = {
+					any_scope_state = {
+						is_coastal = yes
+					}
+				}
+			}
+			AND = {
+				OR = {
+					NOT = { has_institution = institution_colonial_affairs }
+					has_law = law_type:law_frontier_colonialism
+				}
+				has_strategic_land_adjacency = scope:target_country
 			}
 		}
 	}

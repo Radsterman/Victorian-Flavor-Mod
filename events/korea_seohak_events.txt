@@ -1,0 +1,155 @@
+﻿namespace = seohak
+
+seohak.1 = { #Spawn Seohak
+	type = country_event
+	placement = scope:seohak_state
+
+	title = seohak.1.t
+	desc = seohak.1.d
+	flavor = seohak.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_christianity.bk2"
+	}
+	
+	icon = "gfx/interface/icons/event_icons/event_religion.dds"
+	
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/christianity"
+
+	duration = 3
+
+	trigger = {
+		NOT = { has_variable = seohak_1_event }
+	}
+
+	immediate = {
+		set_variable = seohak_1_event
+		random_scope_state = {
+			limit = {owner = root}
+			save_scope_as = seohak_state
+		}
+		rel:catholic = {
+			save_scope_as = western_religion
+		}
+		rel:confucian = {
+			save_scope_as = confucian_scope
+		}
+		ig:ig_landowners = {
+			save_scope_as = landowners_ig
+		}
+		scope:seohak_state = {
+			if = {
+				limit = {
+					NOT = { has_modifier = seohak_religion_present }
+				}
+				add_modifier = { 
+					name = seohak_religion_present 
+					months = -1 
+				}
+			}
+		}
+	}
+
+	option = {
+		name = seohak.1.a
+		default_option = yes
+		scope:seohak_state = {
+			add_radicals_in_state = {
+				value = medium_radicals
+				interest_group = scope:landowners_ig
+			}
+			convert_population = {
+				target = rel:catholic
+				value = 0.005
+			}
+		}
+	}
+}
+
+seohak.2 = { #convert some guys
+	type = country_event
+	placement = root
+
+	hidden = yes
+	duration = 1
+
+	trigger = {
+		#triggered by monthly pulse JE
+	}
+	immediate = {
+		every_scope_state = {
+			limit = {
+				has_modifier = seohak_religion_present
+			}
+			convert_population = {
+				target = rel:catholic
+				value = 0.005
+			}
+		}
+	}
+}
+
+seohak.3 = { #spread to a neighbouring state
+	type = country_event
+	placement = root
+	
+	hidden = yes
+	duration = 1
+
+	trigger = {
+		#triggered by monthly pulse JE
+	}
+	immediate = {
+		every_scope_state = {
+			limit = {
+				has_modifier = seohak_religion_present
+			}
+			convert_population = {
+				target = rel:catholic
+				value = 0.0025
+			}
+			random_neighbouring_state = {
+				limit = {
+					owner = root
+					state_region = {
+						is_homeland = cu:korean
+					}
+					NOT = {
+						has_modifier = seohak_religion_present
+					}
+				}
+				convert_population = {
+					target = rel:catholic
+					value = 0.005
+				}
+				add_modifier = { 
+					name = seohak_religion_present 
+					months = -1 
+				}
+			}
+		}
+	}
+}
+
+seohak.4 = { #remove modifier if no catholics
+	type = country_event
+	placement = root
+
+	hidden = yes
+	duration = 1
+
+	immediate = {
+		every_scope_state = {
+			limit = {
+				has_modifier = seohak_religion_present
+				NOT = {
+					any_scope_pop = {
+						has_pop_religion = catholic
+					}
+				}
+			}
+			remove_modifier = seohak_religion_present
+		}
+	}
+}

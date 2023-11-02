@@ -66,6 +66,7 @@ italy_1848.1 = {
 					is_general = no
 					first_name = "Ruggero"
 					last_name = "Settimo"
+					historical = yes
 					ruler = no
 					birth_date = 1778.05.19
 					ig_leader = yes
@@ -286,6 +287,7 @@ italy_1848.3 = {
 			is_general = no
 			first_name = "Alberto_Amedeo_I"
 			last_name = "di_Savoia-Genova"
+			historical = yes
 			culture = cu:north_italian
 			ruler = yes
 			birth_date = 1822.11.15
@@ -335,15 +337,13 @@ italy_1848.5 = {
 
 	duration = 0
 
-	option = {
-		name = italy_1848.5.a
-		default_option = yes
-
+	immediate = {
 		create_character = {
 			# Alberto Amedeo I
 			is_general = no
 			first_name = "Alberto_Amedeo_I"
 			last_name = "di_Savoia-Genova"
+			historical = yes
 			culture = cu:north_italian
 			ruler = yes
 			birth_date = 1822.11.15
@@ -353,11 +353,6 @@ italy_1848.5 = {
 			traits = {
 				cautious
 			}
-		}
-
-
-	    ai_chance = {
-			base = 1	
 		}
     }
 }
@@ -576,6 +571,7 @@ italy_1848.7 = {
 	trigger = {
 		exists = c:AUS
 		this = c:AUS
+		NOT = { has_global_variable = san_marco_created }
 		has_state_in_state_region = STATE_VENETIA
 		OR = {
 			any_scope_state = { 
@@ -593,7 +589,7 @@ italy_1848.7 = {
 			}
 			has_journal_entry = je_springtime_of_the_peoples
 		}
-		NOT = { has_global_variable = san_marco_created }
+		
 		OR = {
 			c:AUS = {
 				has_state_in_state_region = STATE_VENETIA
@@ -636,6 +632,7 @@ italy_1848.7 = {
 					is_general = no
 					first_name = "Daniele"
 					last_name = "Manin"
+					historical = yes
 					ruler = no
 					birth_date = 1804.05.13
 					ig_leader = yes
@@ -934,6 +931,7 @@ italy_1848.10 = {
 					is_general = no
 					first_name = "Carlo"
 					last_name = "Cattaneo"
+					historical = yes
 					ruler = no
 					birth_date = 1801.01.15
 					ig_leader = yes
@@ -985,7 +983,7 @@ italy_1848.10 = {
 		}
 
 	    ai_chance = {
-			base = 95
+			base = 50
 		}
     }
 
@@ -1015,7 +1013,31 @@ italy_1848.10 = {
 		}
 
 	    ai_chance = {
-			base = 5
+			base = 4
+			modifier = {
+				trigger = {
+					is_at_war = yes
+				}
+				add = 10
+			}
+			modifier = {
+				trigger = {
+					in_default = yes
+				}
+				add = 25
+			}
+			modifier = {
+				trigger = {
+                    is_at_war = yes
+				    OR = { 
+						has_war_with = c:FRA
+						has_war_with = c:PRU
+						has_war_with = c:RUS
+						has_war_with = c:TUR
+					}	
+				}
+				add = 50
+			}
 		}
 	}
 	option = {
@@ -1059,7 +1081,7 @@ italy_1848.11 = {
 
 	immediate = {
 		c:MLN = {
-			save_scope_as = sar_scope
+			save_scope_as = sar_scope # what? milano as sardinia?
 		}
 		c:SMR = {
 			save_scope_as = smr_scope
@@ -1146,7 +1168,7 @@ italy_1848.11 = {
 		}
 
 	    ai_chance = {
-			base = 95
+			base = 95 # depend on strength ratio
 		}
 	}
 	option = {
@@ -1749,6 +1771,7 @@ italy_1848.20 = {
 						is_general = no
 						first_name = "Giuseppe"
 						last_name = "Mazzini"
+						historical = yes
 						ruler = no
 						birth_date = 1805.06.22
 						ig_leader = yes

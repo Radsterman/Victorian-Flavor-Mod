@@ -1,0 +1,159 @@
+﻿beards = {
+    	usage = game
+    	selection_behavior = weighted_random
+    	fallback = no_beard
+    
+    no_beard = {
+         dna_modifiers = {
+             accessory = {
+                 mode = add
+                 gene = beards
+                 template = no_beard
+                 range = { 0 1 } # For the randomness to work correctly
+             }
+         }   
+    
+         weight = {
+             base = 0
+         }
+    }
+    
+    asian_beards = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = asian_beards
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                exists = scope:character
+                scope:character = { age > 16 }
+                OR = {
+                    chinese_court_clothes_trigger = yes
+                    chinese_imperial_clothes_trigger = yes
+                    east_asian_clothes_pop_trigger = yes
+                } 
+            }
+        }
+    }
+    
+    african_beards = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = african_beards
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                exists = scope:character
+                 scope:character = { age > 16 }
+                OR = {
+                    african_clothes_trigger = yes
+                    african_diaspora_clothes_trigger = yes
+                    african_diaspora_pop_clothes_trigger = yes
+                    african_clothes_pop_trigger = yes
+                } 
+            }
+        }
+    }
+    
+    arabic_beards = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = african_beards
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                OR = {
+                    arabic_clothes_trigger = yes
+                    arabic_clothes_pop_trigger = yes
+                }  
+            }
+        }
+    }    
+
+    european_beards = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = african_beards
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                exists = scope:character
+                scope:character = { age > 16 }
+                add = 100
+                OR = {
+                    arabic_clothes_trigger = yes
+                    arabic_clothes_pop_trigger = yes
+                } 
+            }
+        }
+    }
+
+    full_facial_hair = {
+        dna_modifiers = {
+            accessory = {
+                mode = replace
+                gene = beards
+                template = full_beards
+                range = { 0 1 }
+            }
+            accessory = {
+                mode = replace
+                gene = mustaches
+                template = full_mustache
+                range = { 0 1 }
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 1000
+                OR = {
+                    AND = {
+                        european_clothes_trigger = yes # sanity check so that things aren't being applied in wildly edge case scenarios
+                        exists = scope:character
+                        scope:character = { 
+                            age > 16 
+                            religion = {
+                                has_discrimination_trait = jewish_religion_heritage
+                            }
+							is_interest_group_type = ig_devout 
+                        }
+                    }
+                    AND = {
+                        european_clothes_pop_trigger = yes # sanity check so that things aren't being applied in wildly edge case scenarios
+                        exists = scope:pop
+                        scope:pop = {
+                            is_pop_type = clergymen
+                            religion = {
+                                has_discrimination_trait = jewish_religion_heritage
+                            }
+                        }
+                    }
+                }                
+            }
+        }
+    } 
+}

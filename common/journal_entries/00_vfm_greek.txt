@@ -1,0 +1,76 @@
+﻿je_modern_greek_enlightenment = {
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	is_shown_when_inactive = {
+		country_has_primary_culture = cu:greek
+	}
+
+	possible = {
+		custom_tooltip = {
+			text = greek_enlightenment_state_possible_tt
+			any_scope_state = {
+				state_region = {
+					is_homeland = cu:greek
+				}
+				count >= 4
+			}
+		}
+		ig:ig_intelligentsia = {
+			OR = {
+				is_being_bolstered = yes
+				is_in_government = yes
+			}
+		}
+		any_scope_building = {
+			is_building_type = building_university
+		}
+	}
+
+	immediate = {
+		trigger_event = { id = vfm_greece.1 }
+	}
+
+	complete = {
+	    ig:ig_intelligentsia = {
+			is_powerful = yes
+		}
+		any_scope_building = {
+			is_building_type = building_university
+			occupancy >= 0.9
+			level >= 2
+		}
+	}
+
+	on_complete = {
+		trigger_event = { id = vfm_greece.2 }
+	}
+
+	weight = 10
+}
+
+
+je_greek_royal_phalanx = {
+	icon = "gfx/interface/icons/pops_icons/officers.dds"
+
+	is_shown_when_inactive = {
+		country_has_primary_culture = cu:greek
+	}
+
+	possible = {
+		is_subject = no
+	}
+
+	immediate = {
+		trigger_event = { id = vfm_greece.5 }
+	}
+
+	complete = {
+		army_size >= 15
+	}
+
+	on_complete = {
+		trigger_event = { id = vfm_greece.6 }
+	}
+
+	weight = 20
+}

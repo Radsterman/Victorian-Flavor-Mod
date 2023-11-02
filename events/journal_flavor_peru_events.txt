@@ -37,6 +37,32 @@ journal_flavor_peru.1 = {
 			c:PEU = {
 				set_strategy = ai_strategy_restore_peruvian_sovereignty
 			}
+
+			create_character = {
+				first_name = Agustin
+				last_name = gamarra
+				historical = yes
+				interest_group = ig_armed_forces
+				birth_date = 1785.08.27
+				female = no
+				culture = cu:south_andean
+				dna = dna_agustin_gamarra
+				ideology = ideology_moderate
+				religion = rel:catholic
+				traits = {
+					persistent
+					reckless
+					ambitious
+					celebrity_commander
+					experienced_offensive_planner
+				}
+
+				on_created = {
+					set_variable = {
+						name = is_gamarra
+					}				
+				}
+			}
 		}
 
 		create_diplomatic_play = {
@@ -85,9 +111,9 @@ journal_flavor_peru.2 = {
 
 	duration = 1
 
-	event_image = {
-		video = "gfx/event_pictures/southamerica_aristocrats.bk2"
-	}
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:is_gamarra
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
@@ -98,6 +124,15 @@ journal_flavor_peru.2 = {
 
 	}
 
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = is_gamarra
+			}
+			save_scope_as = is_gamarra
+		}
+	}
+
 	option = {
 		
 		name = journal_flavor_peru.2.a
@@ -105,6 +140,7 @@ journal_flavor_peru.2 = {
 		create_character = {
 			first_name = Agustin
 			last_name = gamarra
+			historical = yes
 			ig_leader = yes
 			interest_group = ig_armed_forces
 			ruler = yes

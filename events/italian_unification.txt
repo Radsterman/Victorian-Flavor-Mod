@@ -10,13 +10,12 @@ italian_unification.1 = {
 	flavor = italian_unification.1.f
 
 	event_image = {
-		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+		video = "votp_garibaldi"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
 
-	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
 
 	duration = 3
 
@@ -40,7 +39,7 @@ italian_unification.1 = {
 		}
 	}
 	option = {
-		name = german_unification.1.b
+		name = italian_unification.1.b
 		give_claims_on_italy = yes
 		# ruler IG attraction
 		scope:ruler_ig_scope = {
@@ -62,13 +61,12 @@ italian_unification.2 = {
 	flavor = italian_unification.2.f
 
 	event_image = {
-		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+		video = "unspecific_signed_contract"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
 
-	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
 
 	duration = 1
 
@@ -129,7 +127,7 @@ italian_unification.2 = {
 		default_option = yes
 		create_incident = {
 			country = scope:italian_annex_country
-			value = 10
+			value = 6
 		}
 		annex = scope:italian_annex_country
 		ai_chance = {
@@ -153,96 +151,83 @@ italian_unification.2 = {
 		}
 	}
 }
-
-# Garibaldi
-italian_unification.3 = {
-	type = country_event
-	placement = ROOT
-
-	title = italian_unification.3.t
-	desc = italian_unification.3.d
-	flavor = italian_unification.3.f
-
-	event_image = {
-		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
-
-	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
-
-	duration = 3
-
-	trigger = {
-		NOT = { has_global_variable = garibaldi_variable }
-		NOT = { has_variable = garibaldi_var }
-		any_country = {
-			OR = {
-				has_variable = italian_state
-				has_variable = italian_provocateur
-			}
-		}
-		game_date < 1882.1.1
-	}
-
-	immediate = {
-		set_global_variable = garibaldi_variable
-		set_variable = garibaldi_var
-	}
-
-	option = {
-		name = italian_unification.3.a
-		default_option = yes
-		create_character = {
-			first_name = Giuseppe
-			last_name = Garibaldi
-			is_general = yes
-			interest_group = ig_armed_forces
-			female = no
-			birth_date = 1807.7.4
-			dna = dna_giuseppe_garibaldi
-			ideology = ideology_republican_leader
-			traits = {
-				resupply_commander
-				surveyor
-				expert_artillery_commander
-			}
-			on_created = {
-				add_modifier = {
-					name = garibaldi_popularity
-				}
-				set_variable = giuseppe_garibaldi
-			}
-		}
-	    ai_chance = {
-			base = 85	
-		}
-	}
-	option = {
-		name = italian_unification.3.b
-		create_character = {
-			first_name = Giuseppe
-			last_name = Garibaldi
-			ig_leader = yes
-			interest_group = ig_armed_forces
-			female = no
-			birth_date = 1807.7.4
-			dna = dna_giuseppe_garibaldi
-			ideology = ideology_republican_leader
-			traits = {
-				meticulous
-				cautious
-			}
-			on_created = {
-				add_modifier = {
-					name = garibaldi_popularity
-				}
-				set_variable = giuseppe_garibaldi
-			}
-		}
-	    ai_chance = {
-			base = 15	
-		}
-	}
-}
+#
+## Garibaldi
+#italian_unification.3 = {
+#	type = country_event
+#	placement = ROOT
+#
+#	title = italian_unification.3.t
+#	desc = italian_unification.3.d
+#	flavor = italian_unification.3.f
+#
+#	event_image = {
+#		video = "europenorthamerica_before_the_battle"
+#	}
+#
+#	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+#
+#	icon = "gfx/interface/icons/event_icons/bicorne_hat.dds"
+#
+#	duration = 3
+#
+#	trigger = {
+#		NOT = { has_global_variable = garibaldi_variable }
+#		NOT = { has_variable = garibaldi_var }
+#		game_date < 1882.1.1
+#	}
+#
+#	immediate = {
+#		set_global_variable = garibaldi_variable
+#		set_variable = garibaldi_var
+#	}
+#
+#	option = {
+#		name = italian_unification.3.a
+#		default_option = yes
+#		create_character = {
+#			first_name = Giuseppe
+#			last_name = Garibaldi
+#			historical = yes
+#			is_general = yes
+#			interest_group = ig_armed_forces
+#			female = no
+#			birth_date = 1807.7.4
+#			dna = dna_giuseppe_garibaldi
+#			ideology = ideology_republican_leader
+#			traits = {
+#				resupply_commander
+#				surveyor
+#				expert_artillery_commander
+#			}
+#			on_created = {
+#				add_modifier = {
+#					name = garibaldi_popularity
+#				}
+#			}
+#		}
+#	}
+#	option = {
+#		name = italian_unification.3.b
+#		create_character = {
+#			first_name = Giuseppe
+#			last_name = Garibaldi
+#			historical = yes
+#			ig_leader = yes
+#			interest_group = ig_armed_forces
+#			female = no
+#			birth_date = 1807.7.4
+#			dna = dna_giuseppe_garibaldi
+#			ideology = ideology_republican_leader
+#			traits = {
+#				meticulous
+#				cautious
+#			}
+#			on_created = {
+#				add_modifier = {
+#					name = garibaldi_popularity
+#				}
+#			}
+#		}
+#	}
+#}

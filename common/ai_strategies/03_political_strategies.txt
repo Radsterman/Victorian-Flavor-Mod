@@ -1,0 +1,758 @@
+﻿ai_strategy_conservative_agenda = {
+	icon = "gfx/interface/icons/ai_strategy_icons/conservative_agenda.dds"
+	
+	type = political
+	
+	revolution_aversion = {
+		value = 25 #vfm 1/4 of vanilla 1.5
+	}
+	
+	min_law_chance_to_pass = {
+		value = 25
+	}
+	
+	max_progressiveness = {
+		value = 50
+	}
+	
+	max_regressiveness = {
+		value = 25
+	}
+	
+	change_law_chance = { 
+		value = 2.5
+		
+		if = {
+			limit = { any_interest_group = { is_insurrectionary = yes } }
+			add = 7.5
+		}
+
+		if = {
+			limit = { has_journal_entry = je_government_petition  }
+			add = 12
+		}			
+	}		
+	
+	pro_interest_groups = {
+		ig_rural_folk
+		ig_devout
+		ig_landowners
+		ig_armed_forces
+		ig_petty_bourgeoisie
+	}
+	
+	institution_scores = {
+		institution_colonial_affairs = {	
+			value = 150			
+		}				
+		institution_social_security = {	
+			value = 50			
+		}
+		institution_workplace_safety = {	
+			value = 50			
+		}		
+		institution_schools = {	
+			value = 100			
+		}		
+		institution_police = {	
+			value = 150			
+		}		
+		institution_health_system = {	
+			value = 100		
+		}		
+		institution_home_affairs = {	
+			value = 150		
+		}				
+	}
+
+	possible = {
+		always = yes
+	}
+	
+	weight = {
+		value = 20	
+		
+		if = {
+			limit = {
+				exists = ruler
+				ruler = {
+					OR = {
+						has_ideology = ideology:ideology_traditionalist
+						has_monarchist_ideology = yes
+					}
+				}
+			}
+			
+			add = 10
+		}	
+
+		if = {
+			limit = { 
+				exists = c:FRA
+				c:FRA = this
+				ruler = {
+					has_variable = orleanist_leader
+				}
+			}
+			add = 10
+		}
+	}
+}
+
+ai_strategy_reactionary_agenda = {
+	icon = "gfx/interface/icons/ai_strategy_icons/reactionary_agenda.dds"
+	
+	revolution_aversion = {
+		value = 12 #vfm half of vanilla 1.5
+	}
+	
+	min_law_chance_to_pass = {
+		value = 20
+	}
+	
+	max_progressiveness = {
+		value = 25
+	}
+	
+	max_regressiveness = {
+		value = 100
+	}
+	
+	change_law_chance = { 
+		value = 3.5	
+		
+		if = {
+			limit = { any_interest_group = { is_insurrectionary = yes } }
+			add = 1.5
+		}
+
+		if = {
+			limit = { has_journal_entry = je_government_petition  }
+			add = 5
+		}			
+	}	
+	
+	type = political
+	
+	pro_interest_groups = {
+		ig_devout
+		ig_landowners
+	}
+	
+	anti_interest_groups = {
+		ig_intelligentsia
+		ig_trade_unions
+		ig_industrialists
+	}
+	
+	institution_scores = {
+		institution_colonial_affairs = {	
+			value = 200			
+		}				
+		institution_social_security = {	
+			value = 50			
+		}
+		institution_workplace_safety = {	
+			value = 50			
+		}		
+		institution_schools = {	
+			value = 75		
+		}		
+		institution_police = {	
+			value = 200			
+		}		
+		institution_health_system = {	
+			value = 75			
+		}		
+		institution_home_affairs = {	
+			value = 200			
+		}				
+	}
+
+	possible = {
+		exists = ruler
+		ruler = {
+			interest_group = { 
+				NOR = {
+					is_interest_group_type = ig_intelligentsia
+					is_interest_group_type = ig_trade_unions
+					is_interest_group_type = ig_industrialists
+				}
+			}
+			OR = {
+				has_ideology = ideology:ideology_traditionalist
+				has_ideology = ideology:ideology_slaver
+				has_ideology = ideology:ideology_theocrat
+			}
+		}
+		OR = {
+			AND = {
+				exists = ig:ig_landowners
+				ig:ig_landowners = { is_marginal = no }		
+			}
+			AND = {			
+				exists = ig:ig_devout
+				ig:ig_devout = { is_marginal = no }
+			}
+		}			
+	}
+	
+	weight = {
+		value = 10	
+		
+		if = {
+			limit = {
+				exists = ig:ig_landowners
+				ig:ig_landowners = { is_powerful = yes }
+			}
+			
+			add = 10
+		}		
+		
+		if = {
+			limit = {
+				exists = ig:ig_devout
+				ig:ig_devout = { is_powerful = yes }
+			}
+			
+			add = 10
+		}
+
+		if = {
+			limit = { 
+				exists = c:FRA
+				c:FRA = this
+				ruler = {
+					has_variable = legitimist_leader
+				}
+			}
+			add = 10
+		}
+
+		if = {
+			limit = {
+				has_modifier = forced_regime_change
+				OR = {
+					ig:ig_devout ?= { is_in_government = yes }
+					ig:ig_landowners ?= { is_in_government = yes }
+				}				
+			}
+			
+			add = 1000
+		}					
+	}
+}
+
+ai_strategy_progressive_agenda = {
+	icon = "gfx/interface/icons/ai_strategy_icons/progressive_agenda.dds"
+	
+	type = political
+	
+	revolution_aversion = {
+		value = 17 #vfm half of vanilla 1.5
+	}
+	
+	min_law_chance_to_pass = {
+		value = 20
+	}
+	
+	max_progressiveness = {
+		value = 100
+	}
+	
+	max_regressiveness = {
+		value = 25
+	}
+	
+	change_law_chance = { 
+		value = 10	
+		
+		if = {
+			limit = { any_interest_group = { is_insurrectionary = yes } }
+			add = 10
+		}	
+
+		if = {
+			limit = { has_journal_entry = je_government_petition  }
+			add = 12
+		}			
+	}	
+	
+	pro_interest_groups = {
+		ig_intelligentsia
+		ig_industrialists
+	}
+
+	institution_scores = {
+		institution_colonial_affairs = {	
+			value = 75	
+		}				
+		institution_social_security = {	
+			value = 100			
+		}
+		institution_workplace_safety = {	
+			value = 100			
+		}		
+		institution_schools = {	
+			value = 150			
+		}		
+		institution_police = {	
+			value = 75			
+		}		
+		institution_health_system = {	
+			value = 100			
+		}		
+		institution_home_affairs = {	
+			value = 100			
+		}				
+	}
+
+	possible = {
+		OR = {
+			AND = {
+				exists = ig:ig_intelligentsia
+				ig:ig_intelligentsia = { is_marginal = no }
+			}
+			AND = {			
+				exists = ig:ig_industrialists
+				ig:ig_industrialists = { is_marginal = no }
+			}
+		}	
+	}
+	
+	weight = {
+		value = 5
+		
+		if = {
+			limit = {
+				exists = ruler
+				ruler = {
+					OR = {
+						has_ideology = ideology:ideology_radical
+						has_ideology = ideology:ideology_atheist
+						has_ideology = ideology:ideology_feminist
+						has_ideology = ideology:ideology_abolitionist
+						has_ideology = ideology:ideology_market_liberal
+					}
+				}
+			}
+			
+			add = 20
+		}	
+
+		if = {
+			limit = {
+				exists = ruler
+				ruler = {
+					has_ideology = ideology:ideology_republican_leader
+				}
+			}
+			
+			add = 40
+		}			
+				
+		if = {
+			limit = {
+				exists = ig:ig_intelligentsia
+				ig:ig_intelligentsia = { is_powerful = yes }
+			}
+			
+			add = 10
+		}
+		
+		if = {
+			limit = {
+				exists = ig:ig_industrialists
+				ig:ig_industrialists = { is_powerful = yes }
+			}
+			
+			add = 10
+		}	
+
+		if = {
+			limit = {
+				OR = {
+					has_variable = japan_forced_to_open_market
+					has_variable = gwangmu_reforms_var
+                }
+			}
+			add = 1000
+		}
+		
+		if = {
+			limit = {
+				has_journal_entry = je_sick_man_main
+			}
+			add = 100
+		}
+		
+		if = {
+			limit = {
+				has_modifier = forced_regime_change
+				OR = {
+					ig:ig_industrialists ?= { is_in_government = yes }
+					ig:ig_intelligentsia ?= { is_in_government = yes }
+				}				
+			}
+			
+			add = 1000
+		}			
+	}
+}
+
+ai_strategy_egalitarian_agenda = {
+	icon = "gfx/interface/icons/ai_strategy_icons/egalitarian_agenda.dds"
+	
+	type = political
+	
+	revolution_aversion = {
+		value = 12 #vfm half of vanilla 1.5
+	}
+	
+	min_law_chance_to_pass = {
+		value = 15
+	}
+	
+	max_progressiveness = {
+		value = 1000
+	}
+	
+	max_regressiveness = {
+		value = 0
+	}
+
+	change_law_chance = { 
+		value = 15	
+		
+		if = {
+			limit = { any_interest_group = { is_insurrectionary = yes } }
+			add = 5
+		}	
+
+		if = {
+			limit = { has_journal_entry = je_government_petition  }
+			add = 12
+		}			
+	}	
+	
+	pro_interest_groups = {
+		ig_trade_unions
+	}
+	
+	anti_interest_groups = {
+		ig_landowners
+		ig_industrialists
+		ig_petty_bourgeoisie
+	}
+	
+	institution_scores = {
+		institution_colonial_affairs = {	
+			value = 50			
+		}				
+		institution_social_security = {	
+			value = 150			
+		}
+		institution_workplace_safety = {	
+			value = 150			
+		}		
+		institution_schools = {	
+			value = 150			
+		}		
+		institution_police = {	
+			value = 50			
+		}		
+		institution_health_system = {	
+			value = 150			
+		}		
+		institution_home_affairs = {	
+			value = 75			
+		}				
+	}
+
+	possible = {
+		has_technology_researched = egalitarianism
+		exists = ig:ig_trade_unions
+		ig:ig_trade_unions = { is_marginal = no }
+	}
+	
+	weight = {
+		value = 10	
+
+		if = {
+			limit = {
+				exists = ruler
+				ruler = {
+					OR = {
+						has_ideology = ideology:ideology_radical
+						has_ideology = ideology:ideology_reformer
+						has_ideology = ideology:ideology_feminist
+						has_ideology = ideology:ideology_abolitionist
+						has_ideology = ideology:ideology_social_democrat
+						
+					}
+				}
+			}
+			
+			add = 20
+		}
+
+		if = {
+			limit = {
+				exists = ruler
+				ruler = {
+					OR = {
+						has_ideology = ideology:ideology_vanguardist
+						has_ideology = ideology:ideology_anarchist
+					}					
+				}
+			}
+			
+			add = 50
+		}		
+		
+		if = {
+			limit = {
+				exists = ig:ig_trade_unions
+				ig:ig_trade_unions = { is_powerful = yes }
+			}
+			
+			add = 10
+		}	
+
+		if = {
+			limit = {
+				has_modifier = forced_regime_change
+				ig:ig_trade_unions ?= { is_in_government = yes }			
+			}
+			
+			add = 1000
+		}			
+	}
+}
+
+ai_strategy_nationalist_agenda = {
+	icon = "gfx/interface/icons/ai_strategy_icons/nationalist_agenda.dds"
+	
+	type = political
+	
+	revolution_aversion = {
+		value = 17 #vfm half of vanilla 1.5
+	}
+	
+	min_law_chance_to_pass = {
+		value = 20
+	}
+	
+	max_progressiveness = {
+		value = 50
+	}
+	
+	max_regressiveness = {
+		value = 50
+	}
+	
+	change_law_chance = { 
+		value = 10	
+		
+		if = {
+			limit = { any_interest_group = { is_insurrectionary = yes } }
+			add = 10
+		}
+
+		if = {
+			limit = { has_journal_entry = je_government_petition  }
+			add = 12
+		}		
+	}	
+	
+	pro_interest_groups = {
+		ig_armed_forces
+		ig_petty_bourgeoisie
+	}
+	
+	anti_interest_groups = {
+		ig_rural_folk
+		ig_trade_unions
+	}
+	
+	institution_scores = {
+		institution_colonial_affairs = {	
+			value = 150			
+		}				
+		institution_social_security = {	
+			value = 75	
+		}
+		institution_workplace_safety = {	
+			value = 75		
+		}		
+		institution_schools = {	
+			value = 100			
+		}		
+		institution_police = {	
+			value = 200			
+		}		
+		institution_health_system = {	
+			value = 100			
+		}		
+		institution_home_affairs = {	
+			value = 150			
+		}				
+	}	
+
+	possible = {
+		has_technology_researched = nationalism
+		OR = {
+			AND = {
+				exists = ig:ig_armed_forces
+				ig:ig_armed_forces = { is_marginal = no }
+			}
+			AND = {			
+				exists = ig:ig_petty_bourgeoisie
+				ig:ig_petty_bourgeoisie = { is_marginal = no }
+			}
+		}			
+	}
+	
+	weight = {
+		value = 7.5
+		
+		if = {
+			limit = {
+				exists = ruler
+				ruler = {
+					OR = {
+						has_ideology = ideology:ideology_jingoist_leader
+						has_ideology = ideology:ideology_fascist
+						has_ideology = ideology:ideology_ethno_nationalist
+					}
+				}
+			}
+			
+			add = 30
+		}		
+
+		if = {
+			limit = { 
+				exists = c:FRA
+				c:FRA = this
+				ruler = {
+					has_variable = bonapartist_leader
+				}
+			}
+			add = 10
+		}	
+		
+		if = {
+			limit = {
+				exists = ig:ig_armed_forces
+				ig:ig_armed_forces = { is_powerful = yes }
+			}
+			
+			add = 10
+		}	
+		
+		if = {
+			limit = {
+				exists = ig:ig_petty_bourgeoisie
+				ig:ig_petty_bourgeoisie = { is_powerful = yes }
+			}
+			
+			add = 10
+		}	
+
+		if = {
+			limit = {
+				has_modifier = forced_regime_change
+				OR = {
+					ig:ig_petty_bourgeoisie ?= { is_in_government = yes }
+					ig:ig_armed_forces ?= { is_in_government = yes }
+				}				
+			}
+			
+			add = 1000
+		}		
+	}
+}
+
+ai_strategy_maintain_mandate_of_heaven = {
+	icon = "gfx/interface/icons/ai_strategy_icons/reactionary_agenda.dds"
+	
+	type = political
+
+	revolution_aversion = {
+		value = 25 #vfm 1/4 of vanilla 1.5
+	}
+	
+	min_law_chance_to_pass = {
+		value = 50
+	}
+	
+	max_progressiveness = {
+		value = 25
+	}
+	
+	max_regressiveness = {
+		value = 2
+	}
+	
+	change_law_chance = { 
+		value = 1
+		
+		if = {
+			limit = { has_journal_entry = je_government_petition  }
+			add = 5
+		}		
+	}	
+
+	pro_interest_groups = {
+		ig_landowners
+		ig_armed_forces
+	}
+	
+	anti_interest_groups ={
+		ig_industrialists
+		ig_trade_unions
+		ig_intelligentsia
+	}
+	
+	institution_scores = {
+		institution_colonial_affairs = {	
+			value = 50			
+		}				
+		institution_social_security = {	
+			value = 50			
+		}
+		institution_workplace_safety = {	
+			value = 50			
+		}		
+		institution_schools = {	
+			value = 50			
+		}		
+		institution_police = {	
+			value = 200			
+		}		
+		institution_health_system = {	
+			value = 50		
+		}		
+		institution_home_affairs = {	
+			value = 200			
+		}				
+	}	
+	
+	possible = {
+		exists = c:CHI
+		this = c:CHI
+		is_country_type = unrecognized
+		has_law = law_type:law_monarchy
+	}
+	
+	weight = {
+		value = 100
+		if = {
+			limit = {
+				has_variable = lost_opium_wars
+			}
+			multiply = 0.05
+		}
+	}
+}

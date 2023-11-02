@@ -1,0 +1,1221 @@
+﻿namespace = algeria_events
+
+# Conquest of Algeira - Success event
+algeria_events.1 = {
+	type = country_event
+	placement = scope:algeria_algiers_state_scope
+	title = algeria_events.1.t
+	desc = algeria_events.1.d
+	flavor = algeria_events.1.f
+
+	duration = 3
+
+	dlc = dlc004
+
+	event_image = {
+		video = "votp_french_algeria"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/bicorne_hat.dds"
+
+	trigger = {
+		# Triggered by JE
+	}
+
+	immediate = {
+		set_variable = algeria_je_success
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_ALGIERS
+			}
+			save_scope_as = algeria_algiers_state_scope
+		}
+		add_journal_entry = {
+			type = je_the_algerian_departements
+		}
+		add_journal_entry = {
+			type = je_french_foreign_legion
+		}
+		random_scope_character = {
+			limit = { 
+				has_role = general
+				is_ruler = no
+			}
+			save_scope_as = algerian_parade_general_scope
+		}
+	}
+
+	option = { # Focus on partying with the lads
+		name = algeria_events.1.a
+		ai_chance = {
+			base = 0
+		}
+		if = {
+			limit = {
+				has_journal_entry = je_divided_monarchists
+			}
+			custom_tooltip = {
+				text = bonapartist_progress_increase_15_tt
+				change_variable = { name = bonapartist_progress add = 15 }
+			}
+		}
+		ig:ig_armed_forces = {
+			add_modifier = {
+				name = vanquished_barbary
+				months = normal_modifier_time
+			}
+		}
+		add_loyalists = {
+			pop_type = officers
+			value = large_radicals
+		}
+		add_loyalists = {
+			pop_type = soldiers
+			value = medium_radicals
+		}
+		s:STATE_EAST_SAHARA = {
+			add_claim = c:FRA
+		}
+		s:STATE_SAHARA = {
+			add_claim = c:FRA
+		}
+		s:STATE_TUNISIA = {
+			add_claim = c:FRA
+		}
+		s:STATE_INNER_MOROCCO = {
+			add_claim = c:FRA
+		}
+		s:STATE_FEZ = {
+			add_claim = c:FRA
+		}
+		s:STATE_MARRAKECH = {
+			add_claim = c:FRA
+		}
+	}
+	option = { # Focus on migration
+		name = algeria_events.1.b
+		default_option = yes
+		ai_chance = {
+			base = 1
+		}
+		if = {
+			limit = {
+				has_journal_entry = je_divided_monarchists
+			}
+			custom_tooltip = {
+				text = legitimist_progress_increase_15_tt
+				change_variable = { name = legitimist_progress add = 15 }
+			}
+		}
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_ALGIERS
+			}
+			add_modifier = {
+				name = algerian_migration
+				months = long_modifier_time
+			}
+		}
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_TLEMCEN
+			}
+			add_modifier = {
+				name = algerian_migration
+				months = long_modifier_time
+			}
+		}
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_CONSTANTINE
+			}
+			add_modifier = {
+				name = algerian_migration
+				months = long_modifier_time
+			}
+		}
+		s:STATE_EAST_SAHARA = {
+			add_claim = c:FRA
+		}
+		s:STATE_SAHARA = {
+			add_claim = c:FRA
+		}
+		s:STATE_TUNISIA = {
+			add_claim = c:FRA
+		}
+		s:STATE_INNER_MOROCCO = {
+			add_claim = c:FRA
+		}
+		s:STATE_FEZ = {
+			add_claim = c:FRA
+		}
+		s:STATE_MARRAKECH = {
+			add_claim = c:FRA
+		}
+	}
+	option = {  # Focus on appeasement
+		name = algeria_events.1.c
+		ai_chance = {
+			base = 0
+		}
+		if = {
+			limit = {
+				has_journal_entry = je_divided_monarchists
+			}
+			custom_tooltip = {
+				text = orleanist_progress_increase_15_tt
+				change_variable = { name = orleanist_progress add = 15 }
+			}
+		}
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_ALGIERS
+			}
+			add_loyalists_in_state = {
+				culture = cu:berber
+				value = small_radicals
+			}
+			add_loyalists_in_state = {
+				culture = cu:maghrebi
+				value = small_radicals
+			}
+		}
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_TLEMCEN
+			}
+			add_loyalists_in_state = {
+				culture = cu:berber
+				value = small_radicals
+			}
+			add_loyalists_in_state = {
+				culture = cu:maghrebi
+				value = small_radicals
+			}
+		}
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_CONSTANTINE
+			}
+			add_loyalists_in_state = {
+				culture = cu:berber
+				value = small_radicals
+			}
+			add_loyalists_in_state = {
+				culture = cu:maghrebi
+				value = small_radicals
+			}
+		}
+		s:STATE_EAST_SAHARA = {
+			add_claim = c:FRA
+		}
+		s:STATE_SAHARA = {
+			add_claim = c:FRA
+		}
+		s:STATE_TUNISIA = {
+			add_claim = c:FRA
+		}
+		s:STATE_INNER_MOROCCO = {
+			add_claim = c:FRA
+		}
+		s:STATE_FEZ = {
+			add_claim = c:FRA
+		}
+		s:STATE_MARRAKECH = {
+			add_claim = c:FRA
+		}
+	}
+}
+
+# Crémieux Decree
+algeria_events.2 = {
+	type = country_event
+	placement = scope:cremieux_decree_sign_state_scope
+	title = algeria_events.2.t
+	desc = algeria_events.2.d
+	flavor = algeria_events.2.f
+
+	duration = 3
+
+	dlc = dlc004
+
+	event_image = {
+		video = "votp_french_algeria"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+	trigger = {
+		has_variable = algeria_je_success
+		NOR = {
+			has_law = law_type:law_ethnostate
+			has_law = law_type:law_national_supremacy
+		}
+		any_scope_state = {
+			OR = {
+				state_region = s:STATE_ALGIERS
+				state_region = s:STATE_CONSTANTINE
+				state_region = s:STATE_TLEMCEN
+			}
+			is_being_incorporated = yes
+			any_scope_pop = {
+				culture = cu:sephardic
+				religion = rel:jewish
+			}
+		}
+		any_interest_group = {
+			is_in_government = yes
+			leader = {
+				OR = {
+					culture = cu:sephardic
+					culture = cu:ashkenazi
+					religion = rel:jewish
+					has_ideology = ideology:ideology_republican_leader
+					has_ideology = ideology:ideology_reformer
+					has_ideology = ideology:ideology_radical
+					has_ideology = ideology:ideology_social_democrat
+					has_ideology = ideology:ideology_market_liberal
+					has_ideology = ideology:ideology_humanitarian
+				}
+				NOT = { has_trait = bigoted }
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				OR = {
+					state_region = s:STATE_ALGIERS
+					state_region = s:STATE_CONSTANTINE
+					state_region = s:STATE_TLEMCEN
+				}
+				is_being_incorporated = yes
+				any_scope_pop = {
+					culture = cu:sephardic
+					religion = rel:jewish
+				}
+			}
+			random_scope_pop = {
+				limit = {
+					culture = cu:sephardic
+					religion = rel:jewish
+				}
+				save_scope_as = cremieux_decree_pop_scope
+			}
+			save_scope_as = cremieux_decree_state_scope
+		}
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+			}
+			save_scope_as = cremieux_decree_sign_state_scope
+		}
+		random_interest_group = {
+			limit = {
+				is_in_government = yes
+				leader = {
+					OR = {
+						culture = cu:sephardic
+						culture = cu:ashkenazi
+						religion = rel:jewish
+						has_ideology = ideology:ideology_republican_leader
+						has_ideology = ideology:ideology_reformer
+						has_ideology = ideology:ideology_radical
+						has_ideology = ideology:ideology_social_democrat
+						has_ideology = ideology:ideology_market_liberal
+						has_ideology = ideology:ideology_humanitarian
+					}
+					NOT = { has_trait = bigoted }
+				}
+			}
+			leader = {
+				save_scope_as = cremieux_decree_leader_scope
+			}
+			save_scope_as = cremieux_decree_ig_scope
+		}
+	}
+
+	option = {
+		name = algeria_events.2.a
+		default_option = yes
+		every_scope_state = {
+			limit = {
+				OR = {
+					state_region = s:STATE_ALGIERS
+					state_region = s:STATE_CONSTANTINE
+					state_region = s:STATE_TLEMCEN
+				}
+			}
+			add_culture_standard_of_living_modifier = {
+				culture = cu:sephardic
+			}
+			if = {
+				limit = {
+					any_scope_pop = {
+						culture = cu:sephardic
+					}
+				}
+				add_loyalists_in_state = {
+					culture = cu:sephardic
+					value = 0.20
+				}
+			}
+			if = {
+				limit = {
+					any_scope_pop = {
+						culture = cu:maghrebi
+					}
+				}
+				add_radicals_in_state = {
+					culture = cu:maghrebi
+					value = 0.05
+				}
+			}
+			if = {
+				limit = {
+					any_scope_pop = {
+						culture = cu:berber
+					}
+				}
+				add_radicals_in_state = {
+					culture = cu:berber
+					value = 0.05
+				}
+			}
+		}
+	}
+
+	option = {
+		name = algeria_events.2.b
+		every_scope_state = {
+			limit = {
+				OR = {
+					state_region = s:STATE_ALGIERS
+					state_region = s:STATE_CONSTANTINE
+					state_region = s:STATE_TLEMCEN
+				}
+			}
+			if = {
+				limit = {
+					any_scope_pop = {
+						culture = cu:sephardic
+					}
+				}
+				add_radicals_in_state = {
+					culture = cu:sephardic
+					value = 0.05
+				}
+			}
+			if = {
+				limit = {
+					any_scope_pop = {
+						culture = cu:maghrebi
+					}
+				}
+				add_loyalists_in_state = {
+					culture = cu:maghrebi
+					value = 0.02
+				}
+			}
+			if = {
+				limit = {
+					any_scope_pop = {
+						culture = cu:berber
+					}
+				}
+				add_loyalists_in_state = {
+					culture = cu:berber
+					value = 0.02
+				}
+			}
+		}
+	}
+}
+
+# Algeira - Fail event
+algeria_events.3 = {
+	type = country_event
+	placement = root
+	title = algeria_events.3.t
+	desc = algeria_events.3.d
+	flavor = algeria_events.3.f
+
+	duration = 3
+
+	dlc = dlc004
+
+	event_image = {
+		video = "asia_sepoy_mutiny"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	trigger = {
+		# triggered by JE
+	}
+
+	immediate = {
+		ig:ig_armed_forces = {
+			leader = {
+				save_scope_as = algerian_fiasco_ig_leader
+			}
+			save_scope_as = algerian_fiasco_ig
+		}
+	}
+
+	option = {
+		name = algeria_events.3.a
+		default_option = yes
+		add_modifier = {
+			name = the_algerian_fiasco
+			months = long_modifier_time
+		}
+		ig:ig_armed_forces = {
+			add_modifier = {
+				name = widespread_condemnation_modifier
+				months = normal_modifier_time
+			}
+		}
+		add_radicals = {
+			value = 0.02
+			culture = cu:french
+		}
+		add_radicals = {
+			value = 0.4
+			pop_type = officers
+		}
+		add_radicals = {
+			value = 0.02
+			pop_type = soldiers
+		}
+		random_list = {
+			50 = {
+				scope:algerian_fiasco_ig_leader = {
+					kill_character = yes
+				}
+			}
+			50 = {
+				scope:algerian_fiasco_ig_leader = {
+					add_trait = wounded
+					add_trait = psychological_affliction
+				}
+			}
+		}
+	}
+}
+
+# Algerian Departments - Success Event
+algeria_events.4 = {
+	type = country_event
+	placement = scope:algeria_algiers_dep_state_scope
+	title = algeria_events.4.t
+	desc = algeria_events.4.d
+	flavor = algeria_events.4.f
+
+	duration = 3
+
+	dlc = dlc004
+
+	event_image = {
+		video = "votp_french_algeria"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+	trigger = {
+		# triggered by JE
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_ALGIERS
+			}
+			save_scope_as = algeria_algiers_dep_state_scope
+		}
+	}
+
+	option = {
+		name = algeria_events.4.a
+		default_option = yes
+		ig:ig_intelligentsia = {
+			add_modifier = {
+				name = the_algerian_dream
+				months = normal_modifier_time
+			}
+		}
+		ig:ig_petty_bourgeoisie = {
+			add_modifier = {
+				name = the_algerian_dream
+				months = normal_modifier_time
+			}
+		}
+		every_scope_state = {
+			limit = {
+				OR = {
+					state_region = s:STATE_ALGIERS
+					state_region = s:STATE_CONSTANTINE
+					state_region = s:STATE_TLEMCEN
+				}
+			}
+			add_modifier = {
+				name = evolues_focus
+				months = long_modifier_time
+			}
+		}
+	}
+	option = {
+		name = algeria_events.4.b
+		ig:ig_petty_bourgeoisie = {
+			add_modifier = {
+				name = the_algerian_dream
+				months = normal_modifier_time
+			}
+		}
+		ig:ig_rural_folk = {
+			add_modifier = {
+				name = the_algerian_dream
+				months = normal_modifier_time
+			}
+		}
+		every_scope_state = {
+			limit = {
+				OR = {
+					state_region = s:STATE_ALGIERS
+					state_region = s:STATE_CONSTANTINE
+					state_region = s:STATE_TLEMCEN
+				}
+			}
+			add_modifier = {
+				name = colons_focus
+				months = long_modifier_time
+			}
+		}
+	}
+	option = {
+		name = algeria_events.4.c
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = the_algerian_dream
+				months = normal_modifier_time
+			}
+		}
+		ig:ig_landowners = {
+			add_modifier = {
+				name = the_algerian_dream
+				months = normal_modifier_time
+			}
+		}
+		every_scope_state = {
+			limit = {
+				OR = {
+					state_region = s:STATE_ALGIERS
+					state_region = s:STATE_CONSTANTINE
+					state_region = s:STATE_TLEMCEN
+				}
+			}
+			add_modifier = {
+				name = algerian_industry_focus
+				months = long_modifier_time
+			}
+		}
+	}
+}
+
+# Algerians Raid Your Shit
+algeria_events.5 = {
+	type = country_event
+	placement = scope:algerian_raided_state_scope
+	title = algeria_events.5.t
+	desc = algeria_events.5.d
+	flavor = algeria_events.5.f
+
+	duration = 3
+
+	dlc = dlc004
+
+	cooldown = { months = normal_modifier_time }
+
+	event_image = {
+		video = "unspecific_vandalized_storefront"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+	trigger = {
+		OR = {
+			AND = { 
+				exists = c:CON 
+				c:CON = { relations:root <= relations_threshold:neutral }
+				NOT = {	c:CON = { is_subject_of = c:FRA } }
+			}
+			AND = { 
+				exists = c:AIT 
+				c:AIT = { relations:root <= relations_threshold:neutral }
+				NOT = { c:AIT = { is_subject_of = c:FRA } }
+			}
+			AND = { 
+				exists = c:MAS 
+				c:MAS = { relations:root <= relations_threshold:neutral }
+				NOT = { c:MAS = { is_subject_of = c:FRA } }
+			}
+			AND = { 
+				exists = c:TUG
+				c:TUG = { relations:root <= relations_threshold:neutral }
+				NOT = { c:TUG = { is_subject_of = c:FRA } }
+			}
+		}
+		any_scope_character = {
+			has_role = general
+			is_ruler = no
+			is_heir = no
+		}
+	}
+
+	immediate = {
+		save_scope_as = algerian_raided_scope
+		random_scope_state = {
+			limit = {
+				OR = {
+					state_region = s:STATE_ALGIERS
+					state_region = s:STATE_CONSTANTINE
+					state_region = s:STATE_TLEMCEN
+				}
+			}
+			save_scope_as = algerian_raided_state_scope
+			random_neighbouring_state = {
+				limit = {
+					OR = {
+						owner = c:CON
+						owner = c:AIT
+						owner = c:TUG
+						owner = c:MAS
+					}
+					NOT = { owner = { is_subject_of = c:FRA } }
+					owner = { relations:root <= relations_threshold:neutral }
+				}
+				owner = { save_scope_as = algerian_raider_scope }
+			}
+		}
+		random_scope_character = {
+			limit = { 
+				has_role = general
+				is_ruler = no
+				is_heir = no
+			}
+			save_scope_as = algerian_raid_general_scope
+		}
+	}
+
+	option = {
+		name = algeria_events.5.a
+		default_option = yes
+		scope:algerian_raided_state_scope = {
+			add_modifier = {
+				name = algerian_state_raided
+				months = short_modifier_time
+			}
+		}
+		change_relations = {
+			country = scope:algerian_raider_scope
+			value = -20
+		}
+		scope:algerian_raider_scope = {
+			post_notification = algerian_raid
+		}
+	}
+
+	option = {
+		name = algeria_events.5.b
+		scope:algerian_raided_state_scope = {
+			add_modifier = {
+				name = algerian_state_raided
+				months = short_modifier_time
+			}
+		}
+		custom_tooltip = {
+			text = algeria_events.5.tt
+			random_list = {
+				50 = {
+					scope:algerian_raid_general_scope = {
+						kill_character = yes
+					}
+				}
+				50 = { 
+				}
+			}
+		}
+		change_relations = {
+			country = scope:algerian_raider_scope
+			value = -20
+		}
+		scope:algerian_raider_scope = {
+			post_notification = algerian_raid
+		}
+	}
+}
+
+# Arab Bureaux
+algeria_events.6 = {
+	type = country_event
+	placement = scope:arab_bureaux_state
+	title = algeria_events.6.t
+	desc = algeria_events.6.d
+	flavor = algeria_events.6.f
+
+	duration = 3
+
+	dlc = dlc004
+
+	event_image = {
+		video = "africa_diplomats_negotiating"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+	trigger = {
+		# JE single fire pulse event
+		NOT = { has_variable = arab_bureaux_var }
+		NOT = { has_law = law_type:law_no_colonial_affairs }
+		any_scope_character = {
+			has_role = general
+			is_ruler = no
+			is_heir = no
+			NOT = { has_trait = bigoted }
+		}
+		any_scope_state = {
+			is_incorporated = yes
+			has_building = building_university
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = { 
+				has_role = general
+				is_ruler = no
+				is_heir = no
+				NOT = { has_trait = bigoted }
+			}
+			save_scope_as = arab_bureaux_general_scope
+		}
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				has_building = building_university
+			}
+			save_scope_as = arab_bureaux_university_state
+		}
+		random_scope_state = {
+			limit = {
+				OR = {
+					state_region = s:STATE_ALGIERS
+					state_region = s:STATE_CONSTANTINE
+					state_region = s:STATE_TLEMCEN
+				}
+			}
+			save_scope_as = arab_bureaux_state
+		}
+		set_variable = arab_bureaux_var
+	}
+
+	option = {
+		name = algeria_events.6.a
+		default_option = yes
+		scope:arab_bureaux_university_state = {
+			add_modifier = {
+				name = arab_bureaux_university_modifier
+				months = long_modifier_time
+			}
+		}
+		every_scope_state = {
+			limit = {
+				OR = {
+					state_region = s:STATE_ALGIERS
+					state_region = s:STATE_CONSTANTINE
+					state_region = s:STATE_TLEMCEN
+				}
+			}
+			add_modifier = {
+				name = arab_bureaux_peacekeepers_modifier
+				months = long_modifier_time
+			}
+		}
+	}
+	option = {
+		name = algeria_events.6.b
+		scope:arab_bureaux_university_state = {
+			add_modifier = {
+				name = arab_bureaux_university_modifier
+				months = long_modifier_time
+			}
+		}
+		every_scope_state = {
+			limit = {
+				OR = {
+					state_region = s:STATE_ALGIERS
+					state_region = s:STATE_CONSTANTINE
+					state_region = s:STATE_TLEMCEN
+				}
+			}
+			add_modifier = {
+				name = arab_bureaux_administrators_modifier
+				months = long_modifier_time
+			}
+		}
+	}
+	option = {
+		name = algeria_events.6.c
+		every_scope_state = {
+			limit = {
+				OR = {
+					state_region = s:STATE_ALGIERS
+					state_region = s:STATE_CONSTANTINE
+					state_region = s:STATE_TLEMCEN
+				}
+			}
+			add_modifier = {
+				name = unrestricted_algerian_migration
+				months = long_modifier_time
+			}
+		}
+	}
+}
+
+# Algerian Reunification Event
+algeria_events.8 = {
+	type = country_event
+	placement = scope:algeria_algiers_state_scope
+	title = algeria_events.8.t
+	desc = algeria_events.8.d
+	flavor = algeria_events.8.f
+
+	duration = 3
+
+	dlc = dlc004
+
+	event_image = {
+		video = "africa_city_center"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+	trigger = {
+	# triggered by JE
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_ALGIERS
+			}
+			save_scope_as = algeria_algiers_state_scope
+		}
+	}
+
+	option = {
+		name = algeria_events.8.a
+		highlighted_option = yes
+		default_option = yes
+		trigger = {
+			custom_tooltip = {
+				text = algeria_events.8.tt.1
+				has_variable = algeria_constantine_var
+				has_law = law_type:law_monarchy
+			}
+		}
+		set_variable = algeria_deylik_restored
+		set_capital = STATE_ALGIERS
+		add_loyalists = {
+			value = 0.1
+			culture = cu:turkish
+		}
+		add_modifier = {
+			name = barbary_pirates_modifier	
+			months = very_long_modifier_time
+		}
+		s:STATE_EAST_SAHARA = {
+			add_claim = c:ALD
+		}
+		s:STATE_SAHARA = {
+			add_claim = c:ALD
+		}
+	}
+
+	option = {
+		name = algeria_events.8.b
+		highlighted_option = yes
+		trigger = {
+			custom_tooltip = {
+				text = algeria_events.8.tt.1
+				has_variable = algeria_constantine_var
+				has_law = law_type:law_monarchy
+				exists = c:TUR
+				c:TUR = { 
+					has_law = law_type:law_monarchy
+				}
+			}
+		}
+		set_variable = algeria_deylik_restored
+		set_capital = STATE_ALGIERS
+		add_primary_culture = cu:turkish
+		if = {
+			limit = {
+				c:TUR = { 
+					is_country_type = recognized 
+				}
+			}
+			c:TUR = {
+				create_diplomatic_pact = {
+					country = c:ALD
+					type = puppet
+				}
+			}
+		}
+		else_if = {
+			c:TUR = {
+				create_diplomatic_pact = {
+					country = c:ALD
+					type = vassal
+				}
+			}
+		}
+		add_modifier = {
+			name = barbary_pirates_modifier	
+			months = very_long_modifier_time
+		}
+		add_loyalists = {
+			value = 0.2
+			culture = cu:turkish
+		}
+		s:STATE_EAST_SAHARA = {
+			add_claim = c:ALD
+		}
+		s:STATE_SAHARA = {
+			add_claim = c:ALD
+		}
+	}
+	option = {
+		name = algeria_events.8.c
+		default_option = yes
+		highlighted_option = yes
+		trigger = {
+			custom_tooltip = {
+				text = algeria_events.8.tt.2
+				has_variable = algeria_mascara_var
+			}
+		}
+		set_variable = algeria_maghreb_restored
+		if = { 
+			limit = {
+				NOT = { 
+					has_law = law_type:law_theocracy
+				}
+			}
+			activate_law = law_type:law_theocracy
+		}
+		s:STATE_AL_RIF = {
+			add_claim = c:ALD
+		}
+		s:STATE_FEZ = {
+			add_claim = c:ALD
+		}
+		s:STATE_MARRAKECH = {
+			add_claim = c:ALD
+		}
+		s:STATE_INNER_MOROCCO = {
+			add_claim = c:ALD
+		}
+		s:STATE_EAST_SAHARA = {
+			add_claim = c:ALD
+		}
+		s:STATE_SAHARA = {
+			add_claim = c:ALD
+		}
+	}
+	option = {
+		name = algeria_events.8.e
+		default_option = yes
+		highlighted_option = yes
+		trigger = {
+			custom_tooltip = {
+				text = algeria_events.8.tt.3
+				OR = {
+					has_variable = algeria_ait_abbas_var
+					has_variable = algeria_touggourt_var
+				}
+			}
+		}
+		set_variable = algeria_barbary_restored
+		set_capital = STATE_ALGIERS
+		remove_primary_culture = cu:maghrebi
+		add_modifier = {
+			name = barbary_pirates_modifier
+			months = very_long_modifier_time
+		}
+		s:STATE_TUNISIA = {
+			add_claim = c:ALD
+		}
+		s:STATE_AL_RIF = {
+			add_claim = c:ALD
+		}
+		s:STATE_FEZ = {
+			add_claim = c:ALD
+		}
+		s:STATE_MARRAKECH = {
+			add_claim = c:ALD
+		}
+		s:STATE_INNER_MOROCCO = {
+			add_claim = c:ALD
+		}
+		s:STATE_EAST_SAHARA = {
+			add_claim = c:ALD
+		}
+		s:STATE_SAHARA = {
+			add_claim = c:ALD
+		}
+	}
+	option = {
+		name = algeria_events.8.g
+		ruler = {
+			add_modifier = {
+				name = modern_jugurtha	
+				months = long_modifier_time
+			}
+		}
+		add_loyalists = {
+			value = 0.1
+			culture = cu:berber
+		}
+		add_loyalists = {
+			value = 0.1
+			culture = cu:maghrebi
+		}
+		s:STATE_EAST_SAHARA = {
+			add_claim = c:ALD
+		}
+		s:STATE_SAHARA = {
+			add_claim = c:ALD
+		}
+	}
+}
+
+# French Foreign Legion
+algeria_events.9 = {
+	type = country_event
+	placement = scope:algeria_state_scope
+	title = algeria_events.9.t
+	desc = algeria_events.9.d
+	flavor = algeria_events.9.f
+
+	duration = 3
+
+	dlc = dlc004
+
+	event_image = {
+		video = "africa_construction_colony"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/bicorne_hat.dds"
+
+	trigger = {
+		# triggered by JE
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				region = sr:region_north_africa
+				any_scope_building = {
+				 	is_building_type = building_barracks
+					level >= 20
+					occupancy >= 0.5
+				}
+			}
+			save_scope_as = algeria_state_scope
+			random_scope_building = {
+				limit = {
+					is_building_type = building_barracks
+				}
+				save_scope_as = legion_barracks
+			}
+		}
+	}
+
+	option = {
+		name = algeria_events.9.a
+		default_option = yes
+		scope:legion_barracks = {
+			add_modifier = {
+				name = legion_headquarters
+				months = very_long_modifier_time
+			}
+		}
+		if = {
+			limit = {
+				has_journal_entry = je_divided_monarchists
+			}
+			custom_tooltip = {
+				text = bonapartist_progress_increase_15_tt
+				change_variable = { name = bonapartist_progress add = 15 }
+			}
+		}
+		ig:ig_armed_forces = {
+			# ig approval and some polstr
+			add_modifier = {
+				name = french_foreign_legion_ig
+				months = very_long_modifier_time
+			}
+		}
+	}
+	option = {
+		name = algeria_events.9.b
+		scope:legion_barracks = {
+			add_modifier = {
+				name = legion_headquarters
+				months = very_long_modifier_time
+			}
+		}
+		if = {
+			limit = {
+				has_journal_entry = je_divided_monarchists
+			}
+			custom_tooltip = {
+				text = bonapartist_progress_increase_5_tt
+				change_variable = { name = bonapartist_progress add = 5 }
+			}
+		}
+		every_scope_state = {
+			limit = {
+				region = sr:region_north_africa
+				any_scope_building = {
+				 	is_building_type = building_barracks
+					level >= 20
+					occupancy >= 0.5
+				}
+			}
+			# migration attraction and training rate
+			add_modifier = {
+				name = french_foreign_legion_recruitment
+				months = very_long_modifier_time
+			}
+		}
+	}
+}

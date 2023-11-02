@@ -6,3 +6,91 @@ tax_capacity_balance = {
 	add = tax_capacity
 	subtract = tax_capacity_usage
 }
+
+gdp_per_capita = {
+	value = 0
+	
+	if = {
+		limit = {
+			total_population > 0
+		}
+		add = gdp
+		divide = total_population
+	}
+}
+
+gdp_per_state = {
+	value = 0
+	
+	if = {
+		limit = {
+			num_states > 0
+		}
+		add = gdp
+		divide = num_states
+	}
+}
+
+gdp_per_incorporated_state = {
+	value = 0
+	
+	if = {
+		limit = {
+			num_incorporated_states > 0
+		}
+		add = gdp
+		divide = num_incorporated_states
+	}
+}
+
+gdp_chi = {
+	value = {
+		add = c:CHI.GDP
+		multiply = 0.2
+	}
+}
+
+kor_silhak_delta = {
+	value = 1 #scholars are marginalised/suppressed
+	if = {
+		limit = { #while scholars are influential and not being suppressed move closer to revolt
+			OR = {
+				ig:ig_intelligentsia = {is_marginal = yes}
+				ig:ig_intelligentsia = {is_being_suppressed = yes}
+			}
+		}
+		subtract = 2
+	}
+	if = {
+		limit = { #move at double speed if they are powerful
+			ig:ig_intelligentsia = {is_powerful = yes}
+		}
+		add = 1
+	}
+	if = {
+		limit = { #move even faster if they are bolstered
+			ig:ig_intelligentsia = {is_being_bolstered = yes}
+		}
+		add = 1
+	}
+}
+
+kor_japanese_influence = {
+	value = 0
+	if = {
+		limit = { has_variable = jpn_in_army }
+		add = 1
+	}
+	if = {
+		limit = { has_variable = jpn_in_govt }
+		add = 1
+	}
+	if = {
+		limit = { has_variable = jpn_in_econ }
+		add = 1
+	}
+	if = {
+		limit = { has_variable = ganghwa_island_treaty }
+		add = 1
+	}
+}

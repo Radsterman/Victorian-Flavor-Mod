@@ -3,6 +3,7 @@
 		is_subject_type = subject_type_chartered_company
 		country_is_in_india = yes
 		NOT = { has_variable = doctrine_of_lapse_ended }
+		THIS = c:BIC
 	}
 
 	possible = {
@@ -11,41 +12,44 @@
 			text = doctrine_of_lapse_cooldown_tt
 			NOT = { has_variable = doctrine_of_lapse_cooldown }
 		}
-		OR = {
-			AND = {
-				overlord = c:BIC
-				c:BIC = {
-					any_subject_or_below = {
-						is_player = no
-						OR = {
-							has_government_type = gov_princely_state_hindu
-							hidden_trigger = { has_government_type = gov_princely_state_muslim }
-						}
+		THIS = c:BIC
+		any_subject_or_below = {
+			count > 3
+			is_player = no
+			OR = {
+				has_government_type = gov_princely_state_hindu
+				hidden_trigger = { has_government_type = gov_princely_state_muslim }
+			}
+			OR = {
+				ruler = {
+					OR = {
+						age < 16
+						has_trait = senile
+						has_trait = psychological_affliction
+						has_trait = sickly
+						has_trait = cancer
+						has_trait = opium_addiction
+						has_trait = cocaine_addiction
+					}
+				}
+				NOT = {
+					any_scope_character = {
+						is_heir = no
 					}
 				}
 			}
-			
-			any_subject_or_below = {
-				is_player = no
-				OR = {
-					has_government_type = gov_princely_state_hindu
-					hidden_trigger = { has_government_type = gov_princely_state_muslim }
-				}
-			}
 		}
-
-
 	}
 
 	when_taken = {
 		trigger_event = { id = raj.2 days = 0 popup = yes }
 		set_variable = {
 			name = doctrine_of_lapse_cooldown
-			years = 5
+			years = 2
 		}
 	}
 
 	ai_chance = {
-		base = 5
+		base = 1000
 	}
 }

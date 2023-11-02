@@ -1,0 +1,878 @@
+﻿namespace = vfm_natural_disaster_events
+
+vfm_natural_disaster_events.1 = { #Draught for more arid zones
+	type = state_event
+	placement = ROOT
+
+	title = vfm_natural_disaster_events.1.t
+	desc = vfm_natural_disaster_events.1.d
+	flavor = vfm_natural_disaster_events.1.f
+
+	duration = 3
+
+	event_image = {
+		video = "asia_dead_cattle_poor_harvest"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	trigger = {
+	    has_agricultural_disaster = no
+		any_scope_building = {
+			OR = {
+  				is_farm_building = yes
+  				is_plantation_building = yes
+  			}
+		}
+		state_region = { in_more_drought_zone = yes }
+	}
+	
+	immediate = {
+		save_scope_as = drought_state
+		owner = { save_scope_as = state_owner }
+		state_region = {
+			add_devastation = 15
+			every_scope_state = {
+			    add_modifier = {
+					name = modifier_drought
+					months = 25
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = vfm_natural_disaster_events.1.a
+		default_option = yes
+		show_as_tooltip = {
+			add_modifier = {
+				name = modifier_drought
+				months = 25
+			}
+			state_region = {
+				add_devastation = 15
+			}
+		}
+		custom_tooltip = natural_disaster_variable_tt
+		hidden_effect = {
+			random_list = {
+				50 = {
+					set_variable = {
+						name = natural_disaster_variable
+						months = short_modifier_time
+					}
+				}
+				50 = {
+				}
+			}
+		}
+		random_neighbouring_state = {
+			limit = {
+			    has_agricultural_disaster = no
+				owner = scope:state_owner
+			}
+			state_region = {
+				add_devastation = 15
+				every_scope_state = {
+			  	  add_modifier = {
+						name = modifier_drought
+						months = 25
+					}
+				}
+			}
+		}
+		random_neighbouring_state = {
+			limit = {
+				has_agricultural_disaster = no
+				NOT = { owner = scope:state_owner }
+			}
+			state_region = {
+				add_devastation = 15
+				every_scope_state = {
+			  	  add_modifier = {
+						name = modifier_drought
+						months = 25
+					}
+				}
+			}
+			hidden_effect = {
+			    trigger_event = { id = vfm_natural_disaster_events.3 }
+			}
+		}	
+	}
+}
+
+vfm_natural_disaster_events.2 = { #Draught for normal
+	type = state_event
+	placement = scope:drought_state
+
+	title = vfm_natural_disaster_events.1.t
+	desc = vfm_natural_disaster_events.1.d
+	flavor = vfm_natural_disaster_events.1.f
+
+	duration = 3
+
+	event_image = {
+		video = "asia_dead_cattle_poor_harvest"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	trigger = {
+	    has_agricultural_disaster = no
+		any_scope_building = {
+			OR = {
+  				is_farm_building = yes
+  				is_plantation_building = yes
+  			}
+		}
+	}
+
+    immediate = {
+		save_scope_as = drought_state
+		owner = { save_scope_as = state_owner }
+		state_region = {
+			add_devastation = 15
+			every_scope_state = {
+			    add_modifier = {
+					name = modifier_drought
+					months = 25
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = vfm_natural_disaster_events.1.a
+		default_option = yes
+		show_as_tooltip = {
+			add_modifier = {
+				name = modifier_drought
+				months = 25
+			}
+			state_region = {
+				add_devastation = 15
+			}
+		}
+		custom_tooltip = natural_disaster_variable_tt
+		hidden_effect = {
+			random_list = {
+				50 = {
+					set_variable = {
+						name = natural_disaster_variable
+						months = short_modifier_time
+					}
+				}
+				50 = {
+				}
+			}
+		}
+		random_neighbouring_state = {
+			limit = {
+			    has_agricultural_disaster = no
+				owner = scope:state_owner
+			}
+			state_region = {
+				add_devastation = 15
+				every_scope_state = {
+			  	  add_modifier = {
+						name = modifier_drought
+						months = 25
+					}
+				}
+			}
+		}
+		random_neighbouring_state = {
+			limit = {
+				has_agricultural_disaster = no
+				NOT = { owner = scope:state_owner }
+			}
+			state_region = {
+				add_devastation = 15
+				every_scope_state = {
+			  	  add_modifier = {
+						name = modifier_drought
+						months = 25
+					}
+				}
+			}
+			hidden_effect = {
+			    trigger_event = { id = vfm_natural_disaster_events.3 }
+			}
+		}
+	}
+}
+
+vfm_natural_disaster_events.3 = { #anounce effect to owner of neighbouring state affected
+	type = state_event
+	placement = ROOT
+
+	title = vfm_natural_disaster_events.3.t
+	desc = vfm_natural_disaster_events.3.d
+	flavor = vfm_natural_disaster_events.1.f
+
+	duration = 3
+
+	event_image = {
+		video = "asia_dead_cattle_poor_harvest"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+    immediate = {
+		save_scope_as = drought_state2
+	}
+	
+	option = {
+		name = vfm_natural_disaster_events.1.a
+		default_option = yes
+		show_as_tooltip = {
+			add_modifier = {
+				name = modifier_drought
+				months = 25
+			}
+			state_region = {
+			   add_devastation = 15
+		    }
+		}
+		custom_tooltip = natural_disaster_variable_tt
+		hidden_effect = {
+			random_list = {
+				50 = {
+					set_variable = {
+						name = natural_disaster_variable
+						months = short_modifier_time
+					}
+				}
+				50 = {
+				}
+			}
+		}
+	}
+}
+
+vfm_natural_disaster_events.4 = { #Catastrophic draught for more arid zones
+	type = state_event
+	placement = ROOT
+
+	title = vfm_natural_disaster_events.4.t
+	desc = vfm_natural_disaster_events.1.d
+	flavor = vfm_natural_disaster_events.1.f
+
+	duration = 3
+
+	event_image = {
+		video = "asia_dead_cattle_poor_harvest"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	trigger = {
+        has_agricultural_disaster = no
+		any_scope_building = {
+			OR = {
+  				is_farm_building = yes
+  				is_plantation_building = yes
+  			}
+		}
+		state_region = { in_more_drought_zone = yes }
+	}
+	
+	immediate = {
+		save_scope_as = drought_state
+		owner = { save_scope_as = state_owner }
+		state_region = {
+			add_devastation = 25
+			every_scope_state = {
+			    add_modifier = {
+					name = modifier_big_drought
+					months = 25
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = vfm_natural_disaster_events.1.a
+		default_option = yes
+		show_as_tooltip = {
+			add_modifier = {
+				name = modifier_big_drought
+				months = 25
+			}
+			state_region = {
+				add_devastation = 25
+			}
+		}
+		custom_tooltip = natural_disaster_variable_tt
+		hidden_effect = {
+			random_list = {
+				50 = {
+					set_variable = {
+						name = natural_disaster_variable
+						months = short_modifier_time
+					}
+				}
+				50 = {
+				}
+			}
+		}
+		random_neighbouring_state = {
+			limit = {
+			    has_agricultural_disaster = no
+				owner = scope:state_owner
+			}
+			state_region = {
+                every_scope_state = {
+					add_modifier = {
+			 	 	  name = modifier_big_drought
+			 		   months = 25
+		   			}
+                }
+			   add_devastation = 25
+		    }
+		}
+		random_neighbouring_state = {
+			limit = {
+			    has_agricultural_disaster = no
+				owner = scope:state_owner
+			}
+			state_region = {
+				every_scope_state = {
+					add_modifier = {
+			 		   name = modifier_drought
+			 		   months = 25
+		   			}
+                }
+			   add_devastation = 15
+		    }
+		}
+		random_neighbouring_state = {
+			limit = {
+			    has_agricultural_disaster = no
+				owner = scope:state_owner
+			}
+			state_region = {
+				every_scope_state = {
+					add_modifier = {
+			 		   name = modifier_drought
+			 		   months = 25
+		   			}
+                }
+			   add_devastation = 15
+		    }
+		}
+		random_neighbouring_state = {
+			limit = {
+				has_agricultural_disaster = no
+				NOT = { owner = scope:state_owner }
+			}
+			state_region = {
+				every_scope_state = {
+					add_modifier = {
+			 		   name = modifier_drought
+			 		   months = 25
+		   			}
+                }
+			   add_devastation = 15
+		    }
+			hidden_effect = {
+			    trigger_event = { id = vfm_natural_disaster_events.3 }
+			}
+		}		
+	}
+}
+
+vfm_natural_disaster_events.5 = { #Storm - coastal state
+	type = state_event
+	placement = scope:storm_state
+
+	title = vfm_natural_disaster_events.5.t
+	desc = vfm_natural_disaster_events.5.d
+	flavor = vfm_natural_disaster_events.5.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/state_pictures/ocean.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	trigger = {
+	    is_coastal = yes
+		NOR = { # exclude inner seas like black sea
+			region = sr:region_ukraine
+			region = sr:region_east_balkans
+			region = sr:region_caucasus
+			region = sr:region_baltic
+			state_region = s:STATE_EASTERN_THRACE
+			state_region = s:STATE_HUDAVENDIGAR
+			state_region = s:STATE_KASTAMONU
+			state_region = s:STATE_TRABZON
+			state_region = s:STATE_BASRA
+			state_region = s:STATE_HAIL
+			state_region = s:STATE_NEJD
+			state_region = s:STATE_KHUZESTAN
+			
+		}
+		any_scope_building = {
+			is_building_type = building_logging_camp
+		}
+		NOT = { has_modifier = modifier_storm }
+	}
+
+    immediate = {
+		save_scope_as = storm_state
+		owner = { save_scope_as = state_owner }
+		state_region = {
+		    every_scope_state = {
+				add_modifier = {
+			 	   name = modifier_storm
+			       months = 18
+		   		}
+            }
+			add_devastation = 10
+		}
+	}
+	
+	option = {
+		name = vfm_natural_disaster_events.5.a
+		default_option = yes
+		show_as_tooltip = {
+			add_modifier = {
+				name = modifier_storm
+			    months = 18
+			}
+			state_region = {
+			    add_devastation = 10
+			}
+		}
+		random_neighbouring_state = {
+			limit = {
+			    NOT = { has_modifier = modifier_storm }
+				owner = scope:state_owner
+			}
+			state_region = {
+			    every_scope_state = {
+					add_modifier = {
+			 		   name = modifier_storm
+			    	   months = 18
+		   			}
+                }
+			    add_devastation = 10
+		    }
+		}
+	}
+}
+
+vfm_natural_disaster_events.6 = { #Storm - any state
+	type = state_event
+	placement = scope:storm_state
+
+	title = vfm_natural_disaster_events.5.t
+	desc = vfm_natural_disaster_events.5.d
+	flavor = vfm_natural_disaster_events.5.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/state_pictures/ocean.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	trigger = {
+		any_scope_building = {
+			is_building_type = building_logging_camp
+		}
+		NOT = { has_modifier = modifier_storm }
+	}
+
+    immediate = {
+		save_scope_as = storm_state
+		owner = { save_scope_as = state_owner }
+		state_region = {
+		    every_scope_state = {
+				add_modifier = {
+			 	   name = modifier_storm
+			       months = 18
+		   		}
+            }
+			add_devastation = 10
+		}
+	}
+	
+	option = {
+		name = vfm_natural_disaster_events.5.a
+		default_option = yes
+		show_as_tooltip = {
+			add_modifier = {
+				name = modifier_storm
+			    months = 18
+			}
+			state_region = {
+			    add_devastation = 10
+			}
+		}
+		random_neighbouring_state = {
+			limit = {
+			    NOT = { has_modifier = modifier_storm }
+				owner = scope:state_owner
+			}
+			state_region = {
+			    every_scope_state = {
+					add_modifier = {
+			 		   name = modifier_storm
+			    	   months = 18
+		   			}
+            	}
+			    add_devastation = 10
+		    }
+		}
+	}
+}
+
+vfm_natural_disaster_events.7 = { #Hurricane - coastal state
+	type = state_event
+	placement = scope:storm_state
+
+	title = {
+		first_valid = {		
+			triggered_desc = {
+				desc = vfm_natural_disaster_events.7.t1
+				trigger = {
+					OR = {
+						region = sr:region_gaelic
+						region = sr:region_barents
+						region = sr:region_new_england
+						region = sr:region_the_midwest
+						region = sr:region_dixie
+						region = sr:region_central_america
+						region = sr:region_caribbean
+						region = sr:region_mexico
+					}
+				}
+			}
+			triggered_desc = {
+				desc = vfm_natural_disaster_events.7.t2
+				trigger = {
+					NOR = {
+						region = sr:region_gaelic
+						region = sr:region_barents
+						region = sr:region_new_england
+						region = sr:region_the_midwest
+						region = sr:region_dixie
+						region = sr:region_central_america
+						region = sr:region_caribbean
+						region = sr:region_mexico
+					}
+				}
+			}
+		}
+	}
+	desc = {
+		first_valid = {		
+			triggered_desc = {
+				desc = vfm_natural_disaster_events.7.d1
+				trigger = {
+					OR = {
+						region = sr:region_gaelic
+						region = sr:region_barents
+						region = sr:region_new_england
+						region = sr:region_the_midwest
+						region = sr:region_dixie
+						region = sr:region_central_america
+						region = sr:region_caribbean
+						region = sr:region_mexico
+					}
+				}
+			}
+			triggered_desc = {
+				desc = vfm_natural_disaster_events.7.d2
+				trigger = {
+					NOR = {
+						region = sr:region_gaelic
+						region = sr:region_barents
+						region = sr:region_new_england
+						region = sr:region_the_midwest
+						region = sr:region_dixie
+						region = sr:region_central_america
+						region = sr:region_caribbean
+						region = sr:region_mexico
+					}
+				}
+			}
+		}
+	}
+	flavor = vfm_natural_disaster_events.7.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/state_pictures/ocean.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	trigger = {
+	    is_coastal = yes
+		in_hurricane_zone = yes
+		OR = {
+			any_scope_building = {
+				is_building_type = building_port
+			}
+			any_scope_building = {
+				is_building_type = building_whaling_station
+			}
+			any_scope_building = {
+				is_building_type = building_naval_base
+			}
+		}
+		NOT = { has_modifier = modifier_storm }
+	}
+
+    immediate = {
+		save_scope_as = storm_state
+		owner = { save_scope_as = state_owner }
+		
+		if = { 
+			limit = { 
+				any_scope_building = {
+					is_building_type = building_logging_camp
+				}
+			}
+			state_region = {
+				every_scope_state = {
+					add_modifier = {
+			 		   name = modifier_storm
+			    	   months = 18
+		   			}
+            	}
+			}
+		}
+		state_region = {
+			add_devastation = 15
+		}
+	}
+	
+	option = {
+		name = vfm_natural_disaster_events.5.a
+		default_option = yes
+		show_as_tooltip = {
+			if = { 
+				limit = { 
+					any_scope_building = {
+						is_building_type = building_logging_camp
+					}
+				}
+				add_modifier = {
+					name = modifier_storm
+					months = 18
+				}
+			}
+			state_region = {
+				add_devastation = 15
+			}
+		}
+		if = { 
+			limit = { 
+				any_scope_building = {
+					is_building_type = building_port
+				}
+			}
+			remove_building = building_port
+		}
+		else_if = { 
+			limit = { 
+				any_scope_building = {
+					is_building_type = building_whaling_station
+				}
+			}
+			remove_building = building_whaling_station
+		}
+		else_if = { 
+			limit = { 
+				any_scope_building = {
+					is_building_type = building_naval_base
+				}
+			}
+			remove_building = building_naval_base
+		}
+		random_neighbouring_state = {
+			limit = {
+			    NOT = { has_modifier = modifier_storm }
+				owner = scope:state_owner
+			}
+			state_region = {
+			    every_scope_state = {
+					add_modifier = {
+			 	 	  name = modifier_storm
+			    	   months = 18
+		   			}
+           	    }
+			    add_devastation = 15
+		    }
+			if = { 
+			limit = { 
+				any_scope_building = {
+					is_building_type = building_port
+				}
+			}
+				remove_building = building_port
+			}
+			else_if = { 
+				limit = { 
+					any_scope_building = {
+						is_building_type = building_whaling_station
+					}
+				}
+				remove_building = building_whaling_station
+			}
+			else_if = { 
+				limit = { 
+					any_scope_building = {
+						is_building_type = building_naval_base
+					}
+				}
+				remove_building = building_naval_base
+			}
+		}
+	}
+}
+
+#crop fialure -> natural_disaster_events.5 -> vfm_natural_disaster_events.8
+vfm_natural_disaster_events.8 = { #Draught for normal
+	type = state_event
+	placement = scope:crop_fail_state
+
+	title = natural_disaster_events.5.t
+	desc = natural_disaster_events.5.d
+	flavor = natural_disaster_events.5.f
+
+	duration = 3
+
+	event_image = {
+		video = "asia_dead_cattle_poor_harvest"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+
+	trigger = {
+	    has_agricultural_disaster = no
+		any_scope_building = {
+			OR = {
+  				is_farm_building = yes
+  				is_plantation_building = yes
+  			}
+		}
+	}
+
+    immediate = {
+		save_scope_as = crop_fail_state
+		random_scope_building = {
+			limit = {
+				OR = {
+  					is_farm_building = yes
+  					is_plantation_building = yes
+  			    }
+			}
+			save_scope_as = crop_failure_building
+		}
+		owner = { save_scope_as = state_owner }
+		add_modifier = {
+			name = modifier_crop_failure
+			months = normal_modifier_time
+		}
+	}
+	
+	option = { #No extra help
+		name = natural_disaster_events.5.a
+		default_option = yes
+		show_as_tooltip = {
+			add_modifier = {
+				name = modifier_crop_failure
+				months = normal_modifier_time
+			}
+		}
+		custom_tooltip = natural_disaster_variable_tt
+		hidden_effect = {
+			random_list = {
+				50 = {
+					set_variable = {
+						name = natural_disaster_variable
+						months = short_modifier_time
+					}
+				}
+				50 = {
+				}
+			}
+		}
+		random_neighbouring_state = {
+			limit = {
+			    has_agricultural_disaster = no
+				owner = scope:state_owner
+			}
+			add_modifier = {
+			    name = modifier_crop_failure
+			    months = normal_modifier_time
+		    }
+		}
+	}
+	
+	option = { # extra help
+		name = natural_disaster_events.5.b
+		add_modifier = {
+			name = modifier_crop_failure_relief
+			multiplier = money_amount_multiplier_small
+			months = short_modifier_time
+		}
+		show_as_tooltip = {
+			add_modifier = {
+				name = modifier_crop_failure
+				months = normal_modifier_time
+			}
+		}
+		add_modifier = {
+			name = modifier_crop_failure_relief_effect
+			months = normal_modifier_time
+		}
+		random_neighbouring_state = {
+			limit = {
+			    has_agricultural_disaster = no
+				owner = scope:state_owner
+			}
+			add_modifier = {
+			    name = modifier_crop_failure
+			    months = normal_modifier_time
+		    }
+			add_modifier = {
+				name = modifier_crop_failure_relief_effect
+				months = normal_modifier_time
+			}
+		}
+	}
+}

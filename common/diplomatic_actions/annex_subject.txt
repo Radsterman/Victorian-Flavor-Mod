@@ -5,11 +5,41 @@
 
 	potential = {
 		scope:target_country = {
-			is_direct_subject_of = ROOT
+			#if = {
+			#	limit = {
+			#		is_country_type = unrecognized
+			#	}
+			#	country_rank < rank_value:unrecognized_regional_power
+			#}
+			#if = {
+			#	limit = {
+			#		is_country_type = recognized
+			#	}
+			#	country_rank < rank_value:major_power
+			#}
+			is_direct_subject_of = root
+			OR = {
+				is_adjacent = root
+				AND = {
+					any_scope_state = {
+						is_coastal = yes
+					}
+					any_neighbouring_state = {
+						owner = { 
+							is_adjacent = root
+							is_direct_subject_of = root
+						}
+					}
+				}
+			}
 			OR = {
 				is_subject_type = subject_type_puppet
-				is_subject_type = subject_type_dependency
 				is_subject_type = subject_type_vassal
+				is_subject_type = subject_type_dependency
+				is_subject_type = subject_type_real_union
+			}
+			NOT = { 
+				is_country_type = colonial
 			}
 			overlord = { NOT = { is_subject_type = subject_type_customs_union } }
 			#NOT = { overlord = { has_diplomatic_pact = { who = overlord type = customs_union } } 
@@ -28,17 +58,20 @@
 		approaching_bureaucracy_shortage = no
 
 		custom_tooltip = {
-			text = annex_subject_institutions_tt
+			text = annex_subject_laws_tt
 
 			OR = {
 				AND = {
 					scope:target_country = {
 						is_subject_type = subject_type_dependency
 					}
-					institution_investment_level = {
-						institution = institution_centralization
-						value >= 3
+					NOT = { has_law = law_type:law_unitary }
+				}
+				AND = {
+					scope:target_country = {
+						is_subject_type = subject_type_real_union
 					}
+					NOT = { has_law = law_type:law_unitary }
 				}
 				AND = {
 					scope:target_country = {
@@ -46,10 +79,7 @@
 							is_subject_type = subject_type_puppet
 						}
 					}
-					institution_investment_level = {
-						institution = institution_centralization
-						value >= 5
-					}
+					has_law = law_type:law_federal
 				}
 				AND = {
 					scope:target_country = {
@@ -57,10 +87,7 @@
 							is_subject_type = subject_type_vassal
 						}
 					}
-					institution_investment_level = {
-						institution = institution_centralization
-						value >= 5
-					}
+					has_law = law_type:law_federal
 				}
 			}
 		}
@@ -269,7 +296,40 @@
 		}
 
 		propose_score = {
-			value = 10
+			value = 0
+			
+			if = {
+				limit = {
+					any_subject_or_below = {
+						is_adjacent = root
+						is_adjacent = scope:actor
+					}
+					scope:actor = {
+						any_scope_state = {
+							is_coastal = yes
+						}
+					}
+					NOT = {
+						scope:actor = {
+							NOT = { is_adjacent = root }
+						}
+					}
+				}
+				add = {
+					value = 10
+				}
+			}
+			
+			if = {
+				limit = {
+					scope:actor = {
+						is_subject_type = subject_type_real_union
+					}
+				}
+				add = {
+					value = -15
+				}
+			}
 		}
 
 		propose_break_score = {

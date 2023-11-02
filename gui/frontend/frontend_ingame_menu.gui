@@ -7,7 +7,7 @@ window = {
 	parentanchor = center
 	movable = no
 	size = { 100% 105% }
-	layer = layer_ingame_menu
+	layer = layer_ingame_hud
 	filter_mouse = all
 
 	background = {
@@ -368,6 +368,36 @@ window = {
 
 								text = "ACHIEVEMENTS_LABEL"
 								default_format = "#clickable"
+							}
+						}
+
+						button_theme_selector = {
+							name = "theme_selector"
+							size = { 45 45 }
+
+							onclick = "[ToggleThemeSettings]"
+							using = select_button_sound
+
+							onclick = "[GetVariableSystem.Set( 'theme_selector_theme_tab', 'true' )]"
+	        				onclick = "[GetVariableSystem.Clear( 'theme_selector_settings_tab')]"
+
+							text_single = {
+								parentanchor = bottom|hcenter
+								position = { 0 20 }
+								max_width = 100
+								min_width = 100
+
+								text = "THEME"
+								default_format = "#clickable"
+								align = center
+							}
+
+							icon = {
+								visible = "[HasAnyAvailableNewThemes]"
+								texture = "gfx/interface/current_situations/icon_situation_unread.dds"
+								size = { 25 25 }
+								position = { 10 0 }
+								parentanchor = bottom|right
 							}
 						}
 
