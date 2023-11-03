@@ -414,12 +414,21 @@ gov_chartered_company = {
 	
 	possible = {
 		has_law = law_type:law_presidential_republic
-		AND = { exists = c:GBR is_subject_of = c:GBR }
 		OR = {
-			AND = { exists = c:HBC c:HBC = ROOT }
-			AND = { exists = c:BIC c:BIC = ROOT }
+			AND = {
+				exists = c:GBR 
+				is_subject_of = c:GBR
+				OR = {
+					AND = { exists = c:HBC c:HBC = ROOT }
+					AND = { exists = c:BIC c:BIC = ROOT }
+				}
+				is_subject_type = subject_type_dominion
+			}
+			AND = {
+				has_variable = african_chartered_company_var
+				is_subject = yes
+			}
 		}
-		is_subject_type = subject_type_dominion
 	}
 
 	on_government_type_change = {
@@ -497,6 +506,26 @@ gov_colonial_administration = {
 					has_discrimination_trait = european_heritage
 				}
 				country_is_in_europe = no
+			}
+			AND = {
+				has_variable = senegal_subject_var
+				is_subject = yes
+			}
+			AND = {
+				has_variable = niger_subject_var
+				is_subject = yes
+			}
+			AND = {
+				has_variable = ethiopia_subject_var
+				is_subject = yes
+			}
+			AND = {
+				has_variable = zanj_subject_var
+				is_subject = yes
+			}
+			AND = {
+				has_variable = congo_subject_var
+				is_subject = yes
 			}
 		}
 	}

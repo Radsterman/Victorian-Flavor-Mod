@@ -750,6 +750,74 @@ conservative_party = {
 		if = {
 			limit = {
 				owner = {
+					country_is_in_north_america = yes
+					OR = {
+						country_has_primary_culture = cu:yankee
+						country_has_primary_culture = cu:dixie
+					}
+					has_law = law_type:law_presidential_republic
+				}
+				leader = {
+					NOR = {
+						has_socialist_ideology = yes
+						has_progressive_ideology = yes
+					}
+				}
+			}
+			add = {
+				value = 3
+				desc = "usa_two_party_system"
+			}
+		}
+		if = {
+			limit = {
+				owner = {
+					OR = {
+						country_has_primary_culture = cu:yankee
+						country_has_primary_culture = cu:dixie
+					}
+					OR = {
+						NOT = {
+							has_law = law_type:law_slavery_banned
+						}
+						has_modifier = missouri_compromise
+					}
+				}
+				leader = {
+					culture = cu:dixie
+				}
+			}
+			add = {
+				value = 3
+				desc = "from_southern_interests"
+			}
+		}
+		if = {
+			limit = {
+				owner = {
+					OR = {
+						country_has_primary_culture = cu:yankee
+						country_has_primary_culture = cu:dixie
+					}
+					OR = {
+						NOT = {
+							has_law = law_type:law_slavery_banned
+						}
+						has_modifier = missouri_compromise
+					}
+				}
+				leader = {
+					culture = cu:yankee
+				}
+			}
+			add = {
+				value = -5
+				desc = "from_northern_interests"
+			}
+		}
+		if = {
+			limit = {
+				owner = {
 	         		has_variable = only_valid_party
 	         	}
 	         	NOT = {

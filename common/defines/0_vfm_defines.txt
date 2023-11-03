@@ -31,8 +31,6 @@ NAI = {
 	PRODUCTION_BUILDING_RANDOM_FACTOR = 5
 	VIOLATE_SOVEREIGNTY_RANDOM_FACTOR = 1.5
 	
-	DIPLO_PLAY_TAKE_SIDES_CONTAINMENT_MULT = 25 # Chance of taking sides in a containment play is multiplied by this 
-	
 	MONEY_SPENDING_SUPPLY_NETWORK_DESIRED_THRESHOLD = 1.1 # If supply network is worse than this, AI wants to improve it
 
 	MONEY_SPENDING_CONSTRUCTION_CRITICAL_THRESHOLD = 0.88 # If actual-to-wanted number of construction sector buildings is below this, AI considers it very important to get more
@@ -56,16 +54,14 @@ NAI = {
 	AI_PEACE_AGREEMENT_WHITE_PEACE_WAR_DURATION = 2 # For each month the war goes on add this to the acceptance for a white peace
 	
 	TRADE_ROUTE_MIN_MARKET_SHARE = 0.05 # If the AI is junior in a customs union and has less than this market share in a market, don't make any trade routes
-	TRADE_ROUTE_MIN_SCORE_TO_CREATE_BASE = 750 #1000 If a potential trade route is scored less than this, don't create it
+	TRADE_ROUTE_MIN_ACCEPTABLE_PRODUCTIVITY = 2.4 #3 # If a potential trade route would result in lower productivity than this, don't create it unless it's to resolve a shortage
+	TRADE_ROUTE_MIN_WANTED_RELATIVE_VOLUME = 0.07 #0.1 # If a trade route won't account for at least this fraction of buy/sell orders in the market, don't create it
+	TRADE_ROUTE_MIN_VALUE_TO_IGNORE_VOLUME_CHECK = 500 # If a trade route is trading at least this much base value worth of goods, ignore the relative check above
 	TRADE_ROUTE_ACCEPTABLE_SPENDING = 0.004 #0.002 AI will not spend more BUR than this on trade routes (scaled by weekly GDP)
-	TRADE_ROUTE_ACCEPTABLE_SPENDING_MINIMUM = 125 #100 If TRADE_ROUTE_ACCEPTABLE_SPENDING is less than this, this is used instead (so even small countries can do some trading)
+	TRADE_ROUTE_ACCEPTABLE_SPENDING_MINIMUM = 85 #20 If TRADE_ROUTE_ACCEPTABLE_SPENDING is less than this, this is used instead (so even small countries can do some trading)
 	
-	TRADE_ROUTE_EXPORT_VS_IMPORT_TOLERANCE = 2.5 #1.5 The AI is OK with having up to this amount more import than export routes or vice versa
-	TRADE_ROUTE_WANTED_NEW_GOODS_FACTOR = 7000 #5000 Add this if the trade route is importing a good to the market that the AI wants and has no local production for
 	TRADE_ROUTE_REPLACE_THRESHOLD = 3.5 #5.0 If there is a sufficiently better new trade route (old route score x this), remove the old one
 	TRADE_ROUTE_SUPPLY_NETWORK_STRENGTH_THRESHOLD = 0.9 #1.0 If supply network strength less than this, don't make new trade routes
-	TRADE_ROUTE_MIN_ACCEPTABLE_PRODUCTIVITY = 4 #5.0 If a potential trade route would result in lower productivity than this, apply penalty below
-	TRADE_ROUTE_BELOW_ACCEPTABLE_PRODUCTIVITY_MULT = 0.2 #0.25 Multiply score by this if the trade route is below TRADE_ROUTE_MIN_ACCEPTABLE_PRODUCTIVITY
 	TRADE_ROUTE_DURATION_FACTOR = 5.0 #10.0 # AI multiplies value of a route by ( 1 + this ) at COMPETITIVENESS_DURATION_BONUS_MAX_MONTHS (scales linearly up to this value at a lower duration)
 	
 	# Below data is used for naval invasions:
@@ -117,9 +113,9 @@ NDiplomacy = {
 	WAR_GOAL_INFAMY_CONQUER_STATE = 6.0
 	WAR_GOAL_INFAMY_RETURN_STATE = 1.5
 	WAR_GOAL_INFAMY_TAKE_TREATY_PORT = 2.0
-	WAR_GOAL_INFAMY_MAKE_PUPPET = 4.0
-	WAR_GOAL_INFAMY_MAKE_VASSAL = 4.0
-	WAR_GOAL_INFAMY_MAKE_DOMINION = 2.5
+	WAR_GOAL_INFAMY_MAKE_PROTECTORATE = 4.0
+	WAR_GOAL_INFAMY_MAKE_TRIBUTARY = 4.0
+	WAR_GOAL_INFAMY_REDUCE_AUTONOMY = 2.5
 	WAR_GOAL_INFAMY_TRANSFER_SUBJECT = 2.5	
 	WAR_GOAL_INFAMY_ANNEX_COUNTRY = 6.0
 	WAR_GOAL_INFAMY_UNIFICATION = 0.5
@@ -164,9 +160,9 @@ NPops = {
 
 ### Pop Growth Constants
 @min_birthrate = 0.0010
-@max_birthrate = 0.0050
+@max_birthrate = 0.0060
 @min_mortality = 0.0005
-@max_mortality = 0.0070
+@max_mortality = 0.0085
 @pop_growth_sol_equilibrium = 5 #was 8					# Equilibrium is where (with no birthrate/death-rate mods) growth is stagnant
 @pop_growth_sol_delta_cap = 15							# SoL Delta Cap is where net growth stops increasing with rising SoL, i.e. both drop at the same pace
 @pop_growth_sol_cap = 30								# SoL Cap is where they birthrate/death-rate stop dropping

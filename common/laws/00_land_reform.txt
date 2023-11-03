@@ -11,6 +11,27 @@
 		law_command_economy
 	}
 	
+	on_enact = {
+		if = {
+			limit = {
+				OR = {
+					has_law = law_type:law_commercialized_agriculture
+					has_law = law_type:law_homesteading
+				}
+			}
+			custom_tooltip = farmers_pb_ig_shift_effect_negative_tt
+		}
+		if = {
+			limit = {
+				OR = {
+					has_law = law_type:law_commercialized_agriculture
+					has_law = law_type:law_collectivized_agriculture
+				}
+			}
+			custom_tooltip = rural_laborers_tu_ig_shift_effect_negative_tt
+		}
+	}
+	
 	modifier = {
 		interest_group_ig_landowners_pol_str_mult = 0.5
 		interest_group_ig_rural_folk_pol_str_mult = -0.25
@@ -35,6 +56,10 @@
 			}
 		}
 	}
+	
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	} 
 	
 	# AI should never try to bring back serfdom
 	ai_will_do = {
@@ -71,6 +96,27 @@ law_tenant_farmers = {
 		law_collectivized_agriculture
 		law_commercialized_agriculture
 	}
+	
+	on_enact = {
+		if = {
+			limit = {
+				OR = {
+					has_law = law_type:law_commercialized_agriculture
+					has_law = law_type:law_homesteading
+				}
+			}
+			custom_tooltip = farmers_pb_ig_shift_effect_negative_tt
+		}
+		if = {
+			limit = {
+				OR = {
+					has_law = law_type:law_commercialized_agriculture
+					has_law = law_type:law_collectivized_agriculture
+				}
+			}
+			custom_tooltip = rural_laborers_tu_ig_shift_effect_negative_tt
+		}
+	}
 
 	pop_support = {
 		value = 0
@@ -102,6 +148,10 @@ law_tenant_farmers = {
 			}			
 		}
 	}
+	
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	} 
 
 	ai_enact_weight_modifier = { #Petitions
 		value = 0
@@ -137,6 +187,27 @@ law_commercialized_agriculture = {
 	unlocking_technologies = {
 		mutual_funds
 	}
+	
+	on_enact = {
+		if = {
+			limit = {
+				NOR = {
+					has_law = law_type:law_commercialized_agriculture
+					has_law = law_type:law_homesteading
+				}
+			}
+			custom_tooltip = farmers_pb_ig_shift_effect_tt
+		}
+		if = {
+			limit = {
+				NOR = {
+					has_law = law_type:law_commercialized_agriculture
+					has_law = law_type:law_collectivized_agriculture
+				}
+			}
+			custom_tooltip = rural_laborers_tu_ig_shift_effect_tt
+		}
+	}
 
 	pop_support = {
 		value = 0
@@ -167,6 +238,10 @@ law_commercialized_agriculture = {
 			}			
 		}
 	}
+	
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	} 
 
 	ai_enact_weight_modifier = { #Petitions
 		value = 0
@@ -196,7 +271,29 @@ law_homesteading = {
 	}
 
 	modifier = {
-		interest_group_ig_rural_folk_pol_str_mult = 0.25
+		interest_group_ig_rural_folk_pol_str_mult = 0.15
+	    country_farmers_pol_str_mult = 0.15
+	}
+
+	on_enact = {
+		if = {
+			limit = {
+				NOR = {
+					has_law = law_type:law_commercialized_agriculture
+					has_law = law_type:law_homesteading
+				}
+			}
+			custom_tooltip = farmers_pb_ig_shift_effect_tt
+		}
+		if = {
+			limit = {
+				OR = {
+					has_law = law_type:law_commercialized_agriculture
+					has_law = law_type:law_collectivized_agriculture
+				}
+			}
+			custom_tooltip = rural_laborers_tu_ig_shift_effect_negative_tt
+		}
 	}
 
 	pop_support = {
@@ -230,6 +327,10 @@ law_homesteading = {
 			}			
 		}
 	}
+	
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	}
 
 	ai_enact_weight_modifier = { #Petitions
 		value = 0
@@ -254,6 +355,19 @@ law_collectivized_agriculture = {
 
 	modifier = {
 		country_bureaucrats_pol_str_mult = 0.25
+	}
+	
+	on_enact = {
+		custom_tooltip = rural_laborers_tu_ig_shift_effect_tt
+		if = {
+			limit = {
+				OR = {
+					has_law = law_type:law_commercialized_agriculture
+					has_law = law_type:law_homesteading
+				}
+			}
+			custom_tooltip = farmers_pb_ig_shift_effect_negative_tt
+		}
 	}
 
 	unlocking_laws = {
@@ -287,6 +401,10 @@ law_collectivized_agriculture = {
 			}			
 		}
 	}
+	
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	} 
 
 	ai_enact_weight_modifier = { #Petitions
 		value = 0
@@ -298,6 +416,13 @@ law_collectivized_agriculture = {
                 scope:law = var:desired_law_var
 			}
 			add = 750
+		}
+		
+		if = {
+			limit = { 
+				has_law = law_type:law_council_republic
+			}
+			add = 250
 		}
 	}
 }

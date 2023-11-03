@@ -55,8 +55,7 @@ dp_ban_slavery = {
 		NOT = { is_subject_of = scope:target_country }	
 		scope:target_country = {
 			NOT = { is_country_type = decentralized }
-		}
-		diplomatic_play_has_no_relations_blockers = yes			
+		}	
 	}
 
 	on_weekly_pulse = {}
@@ -148,7 +147,7 @@ dp_take_treaty_port = {
 			NOT = { is_country_type = decentralized }
 			NOT = { is_subject_of = root }
 		}
-		diplomatic_play_has_no_relations_blocker_with_overlord = yes						
+		diplomatic_play_has_no_relations_blockers = yes						
 	}
 	
 	on_weekly_pulse = {}
@@ -158,22 +157,15 @@ dp_take_treaty_port = {
 	on_war_end = {}
 }
 
-dp_make_dominion = {
+dp_increase_autonomy = {
+	war_goal = increase_autonomy
 	
-	war_goal = make_dominion
+	requires_interest_marker = no
 	
-	texture = "gfx/interface/icons/war_goals/make_dominion.dds"
+	texture = "gfx/interface/icons/war_goals/increase_autonomy.dds"
 	
 	possible = {
-		aggressive_diplomatic_plays_permitted = yes	
-		scope:target_country = {
-			OR = {
-				is_country_type = recognized
-				is_country_type = colonial
-			}
-			country_rank >= rank_value:minor_power
-		}
-		diplomatic_play_has_no_relations_blocker_with_target = yes				
+		is_subject = yes
 	}
 	
 	on_weekly_pulse = {}
@@ -183,14 +175,16 @@ dp_make_dominion = {
 	on_war_end = {}
 }
 
-dp_make_vassal = {	
-	war_goal = make_vassal
+dp_reduce_autonomy = {
+	war_goal = reduce_autonomy
 	
-	texture = "gfx/interface/icons/war_goals/make_vassal.dds"
+	requires_interest_marker = no
+	
+	texture = "gfx/interface/icons/war_goals/reduce_autonomy.dds"
 	
 	possible = {
 		aggressive_diplomatic_plays_permitted = yes
-		diplomatic_play_has_no_relations_blocker_with_target = yes					
+		scope:target_country = { is_subject = yes }
 	}
 	
 	on_weekly_pulse = {}
@@ -200,20 +194,29 @@ dp_make_vassal = {
 	on_war_end = {}
 }
 
-dp_make_puppet = {
-	war_goal = make_puppet
+dp_make_tributary = {	
+	war_goal = make_tributary
 	
-	texture = "gfx/interface/icons/war_goals/make_puppet.dds"
+	texture = "gfx/interface/icons/war_goals/make_tributary.dds"
+	
+	possible = {
+		aggressive_diplomatic_plays_permitted = yes	
+	}
+	
+	on_weekly_pulse = {}
+	
+	on_war_begins = {}
+
+	on_war_end = {}
+}
+
+dp_make_protectorate = {
+	war_goal = make_protectorate
+	
+	texture = "gfx/interface/icons/war_goals/make_protectorate.dds"
 	
 	possible = {	
-		aggressive_diplomatic_plays_permitted = yes	
-        diplomatic_play_has_no_relations_blocker_with_target = yes				
-		scope:target_country = {
-			OR = {
-				is_country_type = recognized
-				is_country_type = colonial
-			}
-		}
+		aggressive_diplomatic_plays_permitted = yes				
 	}
 	
 	on_weekly_pulse = {}
@@ -296,8 +299,7 @@ dp_force_recognition = {
 				is_country_type = recognized
 				is_country_type = colonial
 			}		
-		}			
-		diplomatic_play_has_no_relations_blocker_with_target = yes		
+		}				
 	}
 	
 	on_weekly_pulse = {}
@@ -511,6 +513,12 @@ dp_unify_germany = {
 		NOT = { exists = c:GER }
 		NOT = { is_country_type = decentralized }
 		has_technology_researched = pan-nationalism
+		custom_tooltip = {
+			text = no_confederation_of_the_rhine_tt
+			NOT = {
+				exists = c:RHN
+			}
+		}
 	}
 	
 	on_weekly_pulse = {}
