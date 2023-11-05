@@ -1,0 +1,222 @@
+﻿# Vinnaia Monopoliia
+company_vodka_monopoly = {
+	texture = "gfx/interface/icons/company_icons/historical_company_icons/russian_vodka_monopoly.dds"
+	
+	flavored_company = yes
+	
+	building_types = {  
+		building_food_industry
+		building_vineyard_plantation
+	}
+	
+	potential = {
+		country_has_primary_culture = cu:russian
+	}
+	
+	possible = { 
+		country_has_primary_culture = cu:russian
+		NOT = {
+			has_law = law_type:law_laissez_faire
+		}
+	}
+	
+	prosperity_modifier = {
+		state_radicals_from_sol_change_mult = -0.15
+	}	
+	
+	ai_weight = {
+		value = 3 # Higher base value for flavored companies
+	}
+}
+
+# Society of Putilov Factories
+company_putilov_company = {
+	texture = "gfx/interface/icons/company_icons/historical_company_icons/russian_putilov.dds"
+	
+	flavored_company = yes
+	
+	building_types = {  
+		building_motor_industry
+		building_military_shipyards
+		building_artillery_foundries
+	}
+	
+	potential = {
+		has_interest_marker_in_region = region_baltic
+	}
+	
+	possible = { 
+		any_scope_state = {
+			state_region = s:STATE_INGRIA
+			is_incorporated = yes
+			any_scope_building = {
+				OR = {
+					is_building_type = building_motor_industry
+					is_building_type = building_military_shipyards
+					is_building_type = building_artillery_foundries
+				}
+				level > 10
+			}
+		}
+		has_technology_researched = railways
+	}
+	
+	prosperity_modifier = {
+		building_railway_throughput_add = 0.1
+		state_infrastructure_mult = 0.05
+	}	
+	
+	ai_weight = {
+		value = 3 # Higher base value for flavored companies
+	}
+}
+
+# The Petroleum Production Company Nobel Brothers, Limited
+company_branobel = {
+	texture = "gfx/interface/icons/company_icons/historical_company_icons/russian_branobel.dds"
+	
+	flavored_company = yes
+	
+	building_types = {  
+		building_oil_rig
+	}
+	
+	potential = {
+		has_interest_marker_in_region = region_caucasus
+	}
+	
+	possible = { 
+		any_scope_state = {
+			state_region = s:STATE_AZERBAIJAN
+			any_scope_building = {
+				is_building_type = building_oil_rig
+				level >= 5
+			}
+		}
+		has_technology_researched = pumpjacks
+	}
+	
+	prosperity_modifier = {
+		state_migration_pull_mult = 0.1
+		building_railway_throughput_add = 0.05
+	}	
+	
+	ai_weight = {
+		value = 3 # Higher base value for flavored companies
+	}
+}
+
+# Izhevsk Arms Plant
+company_izhevsk_arms_plant = {
+	texture = "gfx/interface/icons/company_icons/historical_company_icons/russian_izhevsk_arms_plant.dds"
+	
+	flavored_company = yes
+	
+	building_types = {  
+		building_arms_industry
+		building_munition_plants
+	}
+	
+	potential = {
+		has_interest_marker_in_region = region_west_siberia
+	}
+	
+	possible = { 
+		any_scope_state = {
+			state_region = s:STATE_PERM
+			is_incorporated = yes
+			any_scope_building = {
+				is_building_type = building_arms_industry
+				level > 10
+			}
+		}
+		has_technology_researched = rifling # corresponds roughly with the Izhevsk plant's incorporation as a private commercial enterprise, and not a state arsenal.
+	}
+	
+	prosperity_modifier = {
+		building_arms_industry_throughput_add = 0.1
+		building_artillery_foundries_throughput_add = 0.1
+	}	
+	
+	ai_weight = {
+		value = 3 # Higher base value for flavored companies
+	}
+}
+
+# Savva Morozov & Sons Cotton Textile Mfg. Co.
+company_savva_morozov = {
+	texture = "gfx/interface/icons/company_icons/historical_company_icons/russian_savva_morozov_and_sons.dds"
+	
+	flavored_company = yes
+	
+	building_types = {  
+		building_textile_mills
+	}
+	
+	potential = {
+		has_interest_marker_in_region = region_central_russia
+	}
+	
+	possible = { 
+		any_scope_state = {
+			state_region = s:STATE_MOSCOW
+			is_incorporated = yes
+			any_scope_building = {
+				is_building_type = building_textile_mills
+				level > 10
+			}
+		}
+		has_technology_researched = joint_stock_companies
+	}
+	
+	prosperity_modifier = {
+		country_prestige_mult = 0.1
+		interest_group_ig_industrialists_pop_attraction_mult = 0.1
+	}	
+	
+	ai_weight = {
+		value = 3 # Higher base value for flavored companies
+	}
+}
+
+# New Russia Company Limited
+company_john_hughes = {
+	texture = "gfx/interface/icons/company_icons/historical_company_icons/russian_new_russia_company.dds"
+	
+	flavored_company = yes
+	
+	building_types = {  
+		building_steel_mills
+		building_coal_mine
+		building_iron_mine
+	}
+	
+	potential = {
+		has_interest_marker_in_region = region_ukraine
+	}
+	
+	possible = { 
+		any_scope_state = {
+			state_region = s:STATE_EKATERINOSLAV
+			is_incorporated = yes
+			any_scope_building = {
+				OR = {
+					is_building_type = building_steel_mills
+					is_building_type = building_coal_mine
+					is_building_type = building_iron_mine
+				}
+				level > 10
+			}
+		}
+		has_technology_researched = bessemer_process
+	}
+	
+	prosperity_modifier = {
+		building_railway_throughput_add = 0.1
+		interest_group_ig_industrialists_approval_add = 3
+	}	
+	
+	ai_weight = {
+		value = 3 # Higher base value for flavored companies
+	}
+}

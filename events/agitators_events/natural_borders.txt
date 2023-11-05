@@ -121,7 +121,7 @@ natural_borders.1 = {
 			months = very_long_modifier_time
 			# country_infamy_decay_mult
 		}
-	    every_country = {
+		every_country = {
 			limit = {
 				NOT = { THIS = ROOT }
 				any_scope_state = {
@@ -384,6 +384,9 @@ natural_borders.3 = {
 				set_state_owner = ROOT
 			}
 		}
+		s:STATE_SAVOY = {
+			remove_homeland = north_italian
+		}
 	}
 
 	option = { # conduct a plebiscite
@@ -430,6 +433,9 @@ natural_borders.3 = {
 			scope:nice_state = {
 				set_state_owner = ROOT
 			}
+		}
+		s:STATE_SAVOY = {
+			remove_homeland = north_italian
 		}
 	}
 }
@@ -591,6 +597,231 @@ natural_borders.5 = {
 				months = 12
 				multiplier = 20000
 			}
+		}
+	}
+}
+
+namespace = rhine_confederation
+
+rhine_confederation.1 = {
+	type = country_event
+	placement = root
+	title = rhine_confederation.1.t
+	desc = rhine_confederation.1.d
+	flavor = rhine_confederation.1.f
+
+	duration = 3
+
+	dlc = dlc004
+
+	event_image = {
+		video = "unspecific_signed_contract"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+	trigger = {
+
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				any_country = {
+					is_subject_of = ROOT
+					capital = {
+						OR = {
+							region = sr:region_rhine
+							region = sr:region_north_germany
+							region = sr:region_south_germany
+						}
+					}
+					NOT = {
+						has_diplomatic_pact = {
+							who = ROOT
+							type = personal_union
+							is_initiator = no
+						}
+					}
+					is_player = yes
+				}
+			}
+			random_country = {
+				limit = {
+					is_subject_of = ROOT
+					capital = {
+						OR = {
+							region = sr:region_rhine
+							region = sr:region_north_germany
+							region = sr:region_south_germany
+						}
+					}
+					NOT = {
+						has_diplomatic_pact = {
+							who = ROOT
+							type = personal_union
+							is_initiator = no
+						}
+					}
+					is_player = yes
+				}
+				change_tag = RHN
+			}
+		}
+		else = {
+			ordered_country = {
+				limit = {
+					is_subject_of = ROOT
+					capital = {
+						OR = {
+							region = sr:region_rhine
+							region = sr:region_north_germany
+							region = sr:region_south_germany
+						}
+					}
+					NOT = {
+						has_diplomatic_pact = {
+							who = ROOT
+							type = personal_union
+							is_initiator = no
+						}
+					}
+				}
+				order_by = country_rank
+				change_tag = RHN
+			}
+		}
+		c:RHN = {
+			save_scope_as = rhine_scope
+		}
+	}
+
+	option = {
+		name = rhine_confederation.1.a
+		trigger = {
+			country_has_primary_culture = cu:french
+			any_state = {
+				OR = {
+					state_region = s:STATE_RHINELAND
+					state_region = s:STATE_NORTH_RHINE
+					state_region = s:STATE_WALLONIA
+					state_region = s:STATE_FLANDERS
+				}
+				NOT = {
+					ROOT = owner
+				}
+			}
+		}
+		every_country = {
+			limit = {
+				NOT = {
+					c:RHN ?= THIS
+				}
+				is_subject_of = ROOT
+				capital = {
+					OR = {
+						region = sr:region_rhine
+						region = sr:region_north_germany
+						region = sr:region_south_germany
+					}
+				}
+				NOT = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = personal_union
+						is_initiator = no
+					}
+				}
+			}
+			c:RHN = {
+				annex_with_incorporation = prev
+			}
+		}
+		every_scope_state = {
+			limit = {
+				state_region = {
+					OR = {
+						is_homeland = cu:south_german
+						is_homeland = cu:north_german
+					}
+				}
+				OR = {
+					region = sr:region_rhine
+					region = sr:region_north_germany
+					region = sr:region_south_germany
+				}
+				NOR = {
+					state_region = s:STATE_RHINELAND
+					state_region = s:STATE_NORTH_RHINE
+					state_region = s:STATE_WALLONIA
+					state_region = s:STATE_FLANDERS
+				}
+				is_incorporated = no
+			}
+			set_state_owner = c:RHN
+			set_state_type = incorporated
+		}
+		every_state = {
+			limit = {
+				OR = {
+					state_region = s:STATE_RHINELAND
+					state_region = s:STATE_NORTH_RHINE
+					state_region = s:STATE_WALLONIA
+					state_region = s:STATE_FLANDERS
+				}
+				c:RHN ?= owner
+			}
+			set_state_owner = root
+		}
+	}
+
+	option = {
+		name = rhine_confederation.1.b
+		default_option = yes
+		every_country = {
+			limit = {
+				NOT = {
+					c:RHN ?= THIS
+				}
+				is_subject_of = ROOT
+				capital = {
+					OR = {
+						region = sr:region_rhine
+						region = sr:region_north_germany
+						region = sr:region_south_germany
+					}
+				}
+				NOT = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = personal_union
+						is_initiator = no
+					}
+				}
+			}
+			c:RHN = {
+				annex_with_incorporation = prev
+			}
+		}
+		every_scope_state = {
+			limit = {
+				state_region = {
+					OR = {
+						is_homeland = cu:south_german
+						is_homeland = cu:north_german
+					}
+				}
+				OR = {
+					region = sr:region_rhine
+					region = sr:region_north_germany
+					region = sr:region_south_germany
+				}
+				is_incorporated = no
+			}
+			set_state_owner = c:RHN
+			set_state_type = incorporated
 		}
 	}
 }

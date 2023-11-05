@@ -69,7 +69,18 @@ can_aus.1 = {
 				}
 			}
 		}
-		annex = scope:canada_annex_scope
+		hidden_effect = {
+			every_state = {
+				limit = {
+					has_claim_by = scope:canada_annex_scope
+				}
+				state_region = {
+					remove_claim = scope:canada_annex_scope
+					add_claim = ROOT
+				}
+			}
+		}
+		annex_with_incorporation = scope:canada_annex_scope
 	}
 }
 
@@ -130,6 +141,17 @@ can_aus.2 = {
 			limit = {
 				scope:canada_scope_1.gdp > scope:canada_scope_2.gdp
 			}
+			hidden_effect = {
+				every_state = {
+					limit = {
+						has_claim_by = scope:canada_scope_2
+					}
+					state_region = {
+						remove_claim = scope:canada_scope_2
+						add_claim = scope:canada_scope_1
+					}
+				}
+			}
 			scope:canada_scope_1 = {
 				every_country = {
 					limit = {
@@ -146,10 +168,21 @@ can_aus.2 = {
 						}
 					}
 				}
-				annex = scope:canada_scope_2
+				annex_with_incorporation = scope:canada_scope_2
 			}
 		}
 		else = {
+		    hidden_effect = {
+				every_state = {
+					limit = {
+						has_claim_by = scope:canada_scope_1
+					}
+					state_region = {
+						remove_claim = scope:canada_scope_1
+						add_claim = scope:canada_scope_2
+					}
+				}
+			}
 			scope:canada_scope_2 = {
 				every_country = {
 					limit = {
@@ -166,7 +199,7 @@ can_aus.2 = {
 						}
 					}
 				}
-				annex = scope:canada_scope_1
+				annex_with_incorporation = scope:canada_scope_1
 			}
 		}
 	}
@@ -226,7 +259,7 @@ can_aus.3 = {
 	option = {
 		name = can_aus.1.a
 		default_option = yes
-		annex = scope:canada_annex_scope
+		annex_with_incorporation = scope:canada_annex_scope
 	}
 }
 
@@ -293,12 +326,12 @@ can_aus.4 = {
 				scope:canada_scope_1.gdp > scope:canada_scope_2.gdp
 			}
 			scope:canada_scope_1 = {
-				annex = scope:canada_scope_2
+				annex_with_incorporation = scope:canada_scope_2
 			}
 		}
 		else = {
 			scope:canada_scope_2 = {
-				annex = scope:canada_scope_1
+				annex_with_incorporation = scope:canada_scope_1
 			}
 		}
 	}
