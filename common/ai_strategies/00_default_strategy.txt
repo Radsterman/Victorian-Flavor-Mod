@@ -1393,38 +1393,56 @@ ai_strategy_default = {
 			}
 			add = 25
 		}
+		
+		# Scramble for Africa participants want everything
+		if = {
+			limit = {
+				has_journal_entry = je_scramble_for_africa
+				scope:target_country = {
+					capital = {
+						# Africa, omitting North Africa and the Nile Basin
+						OR = {
+							region = sr:region_ethiopia
+							region = sr:region_senegal
+							region = sr:region_niger
+							region = sr:region_congo
+							region = sr:region_southern_africa
+							region = sr:region_zanj		
+						}
+					}
+				}
+			}
+			add = 50
+		}
 	}
 	
-	# How many levels of construction sector should the AI aim to have
+	# How much construction output should the AI aim for
 	# Using this value in other strategies will function additively
-	wanted_construction_sector_levels = {
-		value = 0
-		
+	wanted_construction_output = {
+		value = 2 # Accounts for the 2 free construction from base modifiers
+
 		add = {
-			value = investment_pool
-			divide = 1000000 # 1 construction sector per 1 million investment pool			
+			value = investment_pool_income
+			divide = 750 # 1 construction output per this much into the investment pool				
 		}
 		
-		max = 8 # max 8 from pool
+		add = {
+			value = income
+					
+			divide = 3000 # 1 construction output per this much income
+
+			min = 0
+		}	
 		
 		add = {
 			value = total_population
-			divide = 3500000 # 1 construction sector per 3.5 million pop					
+			divide = 500000 # 1 construction point per 500k pop				
 		}
-
-		max = 60 # max 60 from pop and pool
 		
 		add = {
 			value = gdp
-			divide = 2700000 # 1 construction sector per 2.7 million gdp								
+			divide = 1000000 # 1 construction point per 1.0 million gdp								
 		}	
-
-        if = {
-			limit = { gold_reserves > 25000 gdp > 300000 } # 300k
-			add = {
-			    value = 1								
-		    }
-		}
 		
 		if = {
 			limit = { has_law = law_type:law_traditionalism }
@@ -1478,10 +1496,10 @@ ai_strategy_default = {
 		if = {
 			limit = { has_strategy = ai_strategy_maintain_mandate_of_heaven }
 			multiply = 0.35		
-		}		
+		}			
 
 		min = 1
-		max = 100
+		max = 700
 	}
 	
 	# How many levels of barracks should the AI have
@@ -1646,6 +1664,117 @@ ai_strategy_default = {
 
 		max = 500
 		min = 0		
+	}
+	
+	# Set the weights for combat unit groups, this determines the ratio that the AI aims to have of each, and thus what unit types it adds to formations
+	# Using this value in other strategies will function additively
+	# root = country
+	# scope:military_formation = military formation
+	combat_unit_group_weights = {
+		combat_unit_group_infantry = {
+			value = 100
+		}
+		combat_unit_group_artillery = {
+			value = 0			
+			if = {
+				limit = { has_technology_researched = artillery }
+				add = 10
+			}	
+			if = {
+				limit = { has_technology_researched = napoleonic_warfare }
+				add = 5
+			}	
+			if = {
+				limit = { has_technology_researched = breech_loading_artillery }
+				add = 5
+			}
+			if = {
+				limit = { has_technology_researched = wargaming }
+				add = 5
+			}
+			
+			if = {
+				limit = { has_law = law_type:law_peasant_levies }
+				multiply = 0.5
+			}			
+			else_if = {
+				limit = { has_law = law_type:law_national_militia }
+				multiply = 0.75
+			}
+			else_if = {
+				limit = { has_law = law_type:law_professional_army }
+				multiply = 1.25
+			}			
+		}
+		combat_unit_group_cavalry = {
+			value = 20
+			if = {
+				limit = { has_technology_researched = mobile_armor }
+				add = 10
+			}
+			
+			if = {
+				limit = { has_law = law_type:law_national_militia }
+				multiply = 0.5
+			}
+			else_if = {
+				limit = { has_law = law_type:law_professional_army }
+				multiply = 1.25
+			}			
+			else_if = {
+				limit = { has_law = law_type:law_peasant_levies }
+				multiply = 1.5
+			}				
+		}
+		combat_unit_group_light_ship = {
+			value = 100				
+		}
+		combat_unit_group_capital_ship = {
+			value = 0
+			if = {
+				limit = { country_rank = rank_value:great_power }
+				add = 30
+			}
+			if = {
+				limit = { country_rank = rank_value:major_power }
+				add = 10
+			}			
+		}
+		combat_unit_group_support_ship = {
+			value = 0
+			if = {
+				limit = { has_technology_researched = submarine }
+				add = 10
+			}
+			if = {
+				limit = { has_technology_researched = carrier_tech }
+				add = 10
+			}			
+		}		
+	}
+	
+	# How many conscript battalions should the AI aim to have for each regular battalion in a formation?
+	# root = country
+	# scope:military_formation = military formation
+	# Using this value in other strategies will function additively
+	conscript_battalion_ratio = {
+		value = 0
+		if = {
+			limit = { has_law = law_type:law_national_militia }
+			add = 5
+		}
+		else_if = {
+			limit = { has_law = law_type:law_professional_army }
+			add = 0.5
+		}			
+		else_if = {
+			limit = { has_law = law_type:law_peasant_levies }
+			add = 1
+		}	
+		else_if = {
+			limit = { has_law = law_type:law_mass_conscription }
+			add = 2
+		}		
 	}
 	
 	# Add a multiplier to the score AI assigns to particular building groups (default 1)
@@ -1863,7 +1992,7 @@ ai_strategy_default = {
 							country_rank = rank_value:great_power
 							has_technology_researched = malaria_prevention
 						}
-						has_journal_entry = scramble_for_africa
+						has_journal_entry = je_scramble_for_africa
 					}						
 				}
 				add = 200
@@ -1877,7 +2006,7 @@ ai_strategy_default = {
 							country_rank = rank_value:great_power
 							has_technology_researched = malaria_prevention
 						}
-						has_journal_entry = scramble_for_africa
+						has_journal_entry = je_scramble_for_africa
 					}		
 				}
 				add = 200
@@ -1891,7 +2020,7 @@ ai_strategy_default = {
 							country_rank = rank_value:great_power
 							has_technology_researched = malaria_prevention
 						}
-						has_journal_entry = scramble_for_africa
+						has_journal_entry = je_scramble_for_africa
 					}		
 				}
 				add = 200
@@ -1905,7 +2034,7 @@ ai_strategy_default = {
 							country_rank = rank_value:great_power
 							has_technology_researched = malaria_prevention
 						}
-						has_journal_entry = scramble_for_africa
+						has_journal_entry = je_scramble_for_africa
 					}		
 				}
 				add = 200
@@ -1919,7 +2048,7 @@ ai_strategy_default = {
 							country_rank = rank_value:great_power
 							has_technology_researched = malaria_prevention
 						}
-						has_journal_entry = scramble_for_africa
+						has_journal_entry = je_scramble_for_africa
 					}		
 				}
 				add = 200
@@ -1933,7 +2062,7 @@ ai_strategy_default = {
 							country_rank = rank_value:great_power
 							has_technology_researched = malaria_prevention
 						}
-						has_journal_entry = scramble_for_africa
+						has_journal_entry = je_scramble_for_africa
 					}		
 				}
 				add = 200
@@ -1947,7 +2076,7 @@ ai_strategy_default = {
 							country_rank = rank_value:great_power
 							has_technology_researched = malaria_prevention
 						}
-						has_journal_entry = scramble_for_africa
+						has_journal_entry = je_scramble_for_africa
 					}		
 				}
 				add = 200
@@ -2019,6 +2148,15 @@ ai_strategy_default = {
 			}
 		}
 		region_east_balkans = {
+			if = {
+				limit = {
+					country_is_in_europe = yes
+					country_rank >= rank_value:great_power
+				}
+				add = 50
+			}
+		}
+		region_hungary = {
 			if = {
 				limit = {
 					country_is_in_europe = yes
@@ -2101,6 +2239,15 @@ ai_strategy_default = {
 				add = 50
 			}
 		}	
+		region_low_countries = {
+			if = {
+				limit = {
+					country_is_in_europe = yes
+					country_rank >= rank_value:great_power
+				}
+				add = 50
+			}
+		}
 		region_north_china = {
 			if = {
 				limit = {
@@ -2474,7 +2621,7 @@ ai_strategy_default = {
 					}
 					scope:target_country = { NOT = { is_subject_of = root } }
 					root = { NOT = { is_subject_of = scope:target_country } }					
-					NOT = { is_adjacent = scope:target_country }
+					NOT = { is_adjacent_to_country = scope:target_country }
 				}
 				add = 1000
 			}
@@ -4119,7 +4266,7 @@ ai_strategy_default = {
 					if = {
 						limit = { 
 							has_strategic_land_adjacency = scope:target_state
-							NOT = { is_adjacent = scope:target_state }
+							NOT = { is_adjacent_to_state = scope:target_state }
 						}
 						multiply = 0.5
 					}
@@ -4134,11 +4281,11 @@ ai_strategy_default = {
 
 					else_if = {
 						limit = {
-							is_adjacent = scope:target_country
-							NOT = { is_adjacent = scope:target_state }
+							is_adjacent_to_country = scope:target_country
+							NOT = { is_adjacent_to_state = scope:target_state }
 						}
 						multiply = 0.5
-					}															
+					}																
 				
 					if = {
 						limit = {
@@ -4155,11 +4302,11 @@ ai_strategy_default = {
 							who = scope:target_country
 							attitude = antagonistic
 						}				
-						is_diplomatic_play_enemy_of = scope:target_country
+						is_diplomatic_play_involved_with = scope:target_country
 						has_war_with = scope:target_country							
 					}
 					has_strategic_adjacency = scope:target_state
-					scope:target_state = { is_homeland_of_country_cultures = root }				
+					scope:target_state = { is_homeland_of_country_cultures = root }
 				}
 				add = {
 					value = 20
@@ -4213,8 +4360,8 @@ ai_strategy_default = {
 					}					
 					else_if = {
 						limit = {
-							is_adjacent = scope:target_country
-							NOT = { is_adjacent = scope:target_state }
+							is_adjacent_to_country = scope:target_country
+							NOT = { is_adjacent_to_state = scope:target_state }
 						}
 						multiply = 0.5
 					}							
@@ -4222,6 +4369,16 @@ ai_strategy_default = {
 					if = {
 						limit = {
 							country_rank < scope:target_country.country_rank
+						}
+						multiply = 0.5
+					}
+					
+					if = {
+						limit = {
+							NOR = { 
+								is_diplomatic_play_enemy_of = scope:target_country 
+								has_war_with = scope:target_country
+							}
 						}
 						multiply = 0.5
 					}
@@ -4721,51 +4878,51 @@ ai_strategy_default = {
 				add = 75
             }				
 
-			if = {
-				limit = { 
-					NOT = { has_strategic_land_adjacency = scope:target_state } 
-					scope:target_state = { has_port = no }
-				}
-				multiply = 0.5
-			}
-			
-			if = {
-				limit = {
-					has_strategic_land_adjacency = scope:target_country
-					NOT = { has_strategic_land_adjacency = scope:target_state }
-				}
-				multiply = 0.1
-			}
-			
-			if = {
-				limit = {
-					has_strategic_land_adjacency = scope:target_state
-					NOT = { is_adjacent = scope:target_state }
-				}
-				multiply = 0.5
-			}
-			else_if = {
-				limit = {
-					is_adjacent = scope:target_country
-					NOT = { is_adjacent = scope:target_state }
-				}
-				multiply = 0.5
-			}
-		
-			if = {
-				limit = {
-					scope:target_state = { is_homeland_of_country_cultures = root }
-				}
-				multiply = 1.5
-			}
-
-			if = {
-				limit = {
-					lenient_ai_behavior_trigger = yes
-					scope:target_state = { is_homeland_of_country_cultures = scope:target_country }
+			    if = {
+					limit = { 
+						NOT = { has_strategic_land_adjacency = scope:target_state } 
+						scope:target_state = { has_port = no }
 					}
-				multiply = 0.2
-			}
+					multiply = 0.5
+				}
+
+				if = {
+					limit = {
+						has_strategic_land_adjacency = scope:target_country
+						NOT = { has_strategic_land_adjacency = scope:target_state }
+					}
+					multiply = 0.1
+				}
+
+				if = {
+					limit = { 
+						has_strategic_land_adjacency = scope:target_state
+						NOT = { is_adjacent_to_state = scope:target_state }
+					}
+					multiply = 0.5
+				}
+				else_if = {
+					limit = {
+						is_adjacent_to_country = scope:target_country
+						NOT = { is_adjacent_to_state = scope:target_state }
+					}
+					multiply = 0.5
+				}
+																			
+				if = {
+					limit = {
+						scope:target_state = { is_homeland_of_country_cultures = root }
+					}
+					multiply = 1.5
+				}
+				
+				if = {
+					limit = {
+						lenient_ai_behavior_trigger = yes			
+						scope:target_state = { is_homeland_of_country_cultures = scope:target_country }
+					}
+					multiply = 0.25
+				}	
 
 			if = {
 				limit = {
@@ -4930,7 +5087,14 @@ ai_strategy_default = {
 							has_strategic_adjacency = scope:target_state		
 						}
 						multiply = 1.25
-					}					
+					}
+
+                    if = {
+						limit = {
+							scope:target_state = { is_incorporated = no	}
+						}
+						multiply = 0.25
+					}						
 				}										
 			}		
 						
@@ -5099,15 +5263,9 @@ ai_strategy_default = {
 		transfer_subject = {
 			if = {
 				limit = {
-					OR = {
-						has_secret_goal = {
-							who = scope:target_country
-							secret_goal = protect
-						}
-						has_secret_goal = {
-							who = scope:target_country
-							secret_goal = dominate
-						}						
+					has_secret_goal = {
+						who = scope:target_country
+						secret_goal = dominate
 					}
 				}
 			
@@ -5122,9 +5280,9 @@ ai_strategy_default = {
 
 					if = {
 						limit = {
-							has_strategic_adjacency = scope:target_country
+							NOT = { has_strategic_adjacency = scope:target_country }
 						}
-						multiply = 1.25
+						multiply = 0.5
 					}						
 				}			
 			}		
@@ -5180,19 +5338,13 @@ ai_strategy_default = {
 			max = 100			
 		}		
 		
-		make_puppet = {
+		make_protectorate = {
 			if = {
 				limit = {
-					OR = {
-						has_secret_goal = {
-							who = scope:target_country
-							secret_goal = protect
-						}
-						has_secret_goal = {
-							who = scope:target_country
-							secret_goal = dominate
-						}						
-					}
+					has_secret_goal = {
+						who = scope:target_country
+						secret_goal = dominate
+					}	
 				}
 			
 				add = {
@@ -5206,9 +5358,9 @@ ai_strategy_default = {
 
 					if = {
 						limit = {
-							has_strategic_adjacency = scope:target_country
+							NOT = { has_strategic_adjacency = scope:target_country }
 						}
-						multiply = 1.25
+						multiply = 0.5
 					}						
 				}			
 			}			
@@ -5434,19 +5586,13 @@ ai_strategy_default = {
 			max = 100			
 		}
 		
-		make_dominion = {
+		make_tributary = {
 			if = {
 				limit = {
-					OR = {
-						has_secret_goal = {
-							who = scope:target_country
-							secret_goal = protect
-						}
-						has_secret_goal = {
-							who = scope:target_country
-							secret_goal = dominate
-						}			
-					}
+					has_secret_goal = {
+						who = scope:target_country
+						secret_goal = dominate
+					}	
 				}
 				
 				add = {
@@ -5460,10 +5606,10 @@ ai_strategy_default = {
 
 					if = {
 						limit = {
-							has_strategic_adjacency = scope:target_country
+							NOT = { has_strategic_adjacency = scope:target_country }
 						}
-						multiply = 1.25
-					}						
+						multiply = 0.5
+					}					
 				}
 			}
 			
@@ -5566,88 +5712,13 @@ ai_strategy_default = {
 			max = 100				
 		}
 		
-		make_vassal = {
-			if = {
-				limit = {
-					OR = {
-						has_secret_goal = {
-							who = scope:target_country
-							secret_goal = protect
-						}
-						has_secret_goal = {
-							who = scope:target_country
-							secret_goal = dominate
-						}				
-					}
-				}
-				
-				add = {
-					value = 50
-				
-					add = {
-						value = scope:target_country.gdp
-						divide = 200000
-						max = 50						
-					}
-
-					if = {
-						limit = {
-							has_strategic_adjacency = scope:target_country
-						}
-						multiply = 1.25
-					}						
-				}
-			}
-			
-			if = {
-				limit = {
-					OR = {
-						has_journal_entry = je_sick_man_egypt
-						has_journal_entry = je_veiled_protectorate
-					}
-					scope:target_country = {
-						c:EGY ?= this
-					}
-				}
-				add = 100
-			}	
-
-			if = {
-				limit = {
-					AND = {
-						has_radical_leftist_government = no			
-						scope:target_country = {
-							has_radical_leftist_government = yes
-				}
-					}
-					
-				}
-				multiply = 1.5
-			}
+		increase_autonomy = {
+			value = 100			
+		}
 	
-			if = {
-				limit = {
-					AND = {
-						has_radical_leftist_economy = no			
-						scope:target_country = {
-							has_radical_leftist_economy = yes
-						}
-					}
-					
-				}
-				multiply = 1.5
-			}	
-
-			if = {
-				limit = {
-					lenient_ai_behavior_trigger = yes
-				}
-				multiply = 0.5
-			}
-			
-			min = 0
-			max = 100			
-		}	
+		reduce_autonomy = {
+			value = 100			
+		}		
 
 		war_reparations = {
 			value = 0
