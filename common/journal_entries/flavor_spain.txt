@@ -14,8 +14,71 @@
 	on_complete = {
 		change_tag = SPA
 		set_variable = carlist_spain
+		hidden_effect = {
+		    c:SPA = {
+			    trigger_event  = {
+				    id = journal_flavor_spain.2
+				        months = 2
+			    }
+			} 
+		}	 
 	}
 
     should_be_pinned_by_default = yes
 	weight = 100
 }
+
+je_third_reconquista1 = {
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	complete = {
+		calc_true_if = {
+			amount >= 4
+			country_or_subject_owns_entire_state_region = STATE_SANTO_DOMINGO
+			country_or_subject_owns_entire_state_region = STATE_PANAMA
+			country_or_subject_owns_entire_state_region = STATE_COSTA_RICA
+			country_or_subject_owns_entire_state_region = STATE_NICARAGUA
+			country_or_subject_owns_entire_state_region = STATE_HONDURAS
+			country_or_subject_owns_entire_state_region = STATE_SAN_SALVADOR
+			country_or_subject_owns_entire_state_region = STATE_GUATEMALA 
+			country_or_subject_owns_entire_state_region = STATE_CHIAPAS
+			country_or_subject_owns_entire_state_region = STATE_YUCATAN
+		}
+		custom_tooltip = {
+		text = je_third_reconquista1_tt
+		hidden_trigger = {
+		   NOT = { exists = c:UCA 
+		   exists = c:COS
+		   exists = c:NIC
+		   exists = c:HON 
+		   exists = c:GUA 
+		   exists = c:ELS
+		   exists = c:DOM }
+		   }		   
+		}   
+	}
+
+	on_complete = {
+		add_journal_entry = { type = je_third_reconquista2 }
+	}
+
+	timeout = 3650
+
+	on_timeout = { 	
+		add_radicals = {
+			value = 0.2		
+		}
+	}		   
+
+	weight = 100
+
+	should_be_pinned_by_default = yes
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = { 
+				desc = je_third_reconquista1_status
+			}
+		}
+	}	
+}	
