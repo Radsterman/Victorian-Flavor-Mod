@@ -290,84 +290,20 @@ journal_flavor_chile.5 = { #War of the Pacific
 		default_option = yes
 		name = journal_flavor_chile.5.a
 
-		    if = {
-			    limit = {
-			        AND = {
-                        OR = {
-				            c:BOL = {
-				                owns_entire_state_region = STATE_TARAPACA
-			                    }
-			                c:BOL = {
-		                        has_diplomatic_pact = {
-			                    country = c:PEU
-			                    type = defensive_pact
-		                        }
-			                }
-			                c:BOL = {
-			                    c:PEU.relations:ROOT >= relations_threshold:cordial
-		                    }    
-			                c:PEU = {
-			                    relations:root <= -30 			
-		                    }   
-			            } 
-			        }
-			    }           
+        create_diplomatic_play = {
+            name = war_of_the_pacific
+            target_state = s:STATE_ANTOFAGASTA.region_state:BOL
 
-            create_diplomatic_play = {
-			    name = war_of_the_pacific
-			    target_state = s:STATE_ANTOFAGASTA.region_state:BOL
+            war = no
 
-			    war = yes
-			
-			    type = dp_return_state
+            type = dp_return_state
+        }
 
-            add_war_goal = {
-				holder = c:CHL				
-				type = conquer_state
-				target_state = scope:tarapaca_state
-			}
-		}
-		add_journal_entry = {
-			type = je_saltpeter_war.1
-		}			
-	}	
-		    if = {
-			    limit = {
-			        NOT = {
-                        AND = {
-                            OR = {
-				                c:BOL = {
-				                    owns_entire_state_region = STATE_TARAPACA 
-			                    }
-			                    c:BOL = {
-		                            has_diplomatic_pact = {
-			                            country = c:PEU
-			                            type = defensive_pact 
-			                        }    
-		                        }
-		                        c:BOL ?= {
-			                        c:PEU.relations:ROOT >= relations_threshold:cordial
-		                        }
-		                        c:PEU = {
-			                        relations:root <= -30 
-			                }
-			            } 
-			        }			    
-			    }
-			}    
-            create_diplomatic_play = {
-			    name = war_of_the_pacific
-			    target_state = s:STATE_ANTOFAGASTA.region_state:BOL
-
-			    war = yes
-			
-			    type = dp_return_state
-			}
-		}	
 		add_loyalists = {
 			value = 0.15
-		}			
-		change_infamy = 30	
+		}
+					
+		change_infamy = 5	
 
 		hidden_effect = {
 		    trigger_event = {

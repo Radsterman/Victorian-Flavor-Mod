@@ -23,82 +23,48 @@ je_puq_colonization = {
 	weight = 100
 }
 
-je_easter_chl = {
-	icon = "gfx/interface/icons/event_icons/event_map.dds"
-
-	is_shown_when_inactive = {
-		exists = c:CHL
-		root= c:CHL
-		has_technology_researched = civilizing_mission
-	}
-
-    possible = { 
-		has_interest_marker_in_region = region_oceania
-	        }
-
-	complete = {
-		institution_investment_level = {
-			institution = institution_colonial_affairs
-			value >= 3
-		}
-    }				        
-
-	on_complete = {
-        trigger_event = { 
-			id = journal_flavor_chile.4
-		}
-	}
-
-    should_be_pinned_by_default = yes
-	weight = 100
-}
-
 je_pacific_war_chl = {
 	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
 	is_shown_when_inactive = {
+	    exists = c:BOL
 		exists = c:CHL
 		root= c:CHL
-	    market_capital.market = {
+	}
+
+	possible = {
+        market_capital.market = {
 			mg:sulfur = { 
 				market_goods_pricier > 0.25 
 			}
 		}
-	}
-
-	possible = {
-		OR = {
-		    ig:ig_industrialists = {
-			    is_powerful = yes
-			    is_in_government = yes
-			    }			    
+		OR = {  				    
 			has_law = law_type:law_free_trade
 			has_law = law_type:law_protectionism
-		    }    			        		        				        		        	
 		}
+        ig:ig_industrialists = {
+			is_powerful = yes
+			is_in_government = yes
+			}		 
+		}    			        		        				        		        	
 
-	complete = {
-		NOT = {
-		    owns_entire_state_region = STATE_ANTOFAGASTA
-		}
-		exists = c:BOL
+	complete = {			
 	    c:BOL = {
-			relations:root <= -30 
-	    	is_at_war = no			
-		}            
+			relations:root <= -30 		
+		}
         any_scope_state = {
-			is_incorporated = yes
 			    any_scope_building = {
 				    is_building_type = building_sulfur_mine
-				    level >= 3
-				    percent > 0.9
-			        occupancy > 0.9
+				    level >= 2
 			    }
 	        }
 		}
 
 	on_complete = {
 		trigger_event = { id = journal_flavor_chile.5 }
+		c:PEU = {
+			set_relations = { country = c:BOL value = 100 }
+		}	
 	}
 
 	fail = {
@@ -124,7 +90,7 @@ je_1881_treaty = {
 	    }
 
 	complete = {
-        c:BUE = {
+        c:ARG = {
             owns_entire_state_region = STATE_PATAGONIA
 		}
         c:CHL = {
