@@ -41,7 +41,6 @@ je_third_reconquista1 = {
 			country_or_subject_owns_entire_state_region = STATE_SAN_SALVADOR
 			country_or_subject_owns_entire_state_region = STATE_GUATEMALA 
 			country_or_subject_owns_entire_state_region = STATE_CHIAPAS
-			country_or_subject_owns_entire_state_region = STATE_YUCATAN
 		}
 		custom_tooltip = {
 		text = je_third_reconquista1_tt
@@ -58,6 +57,11 @@ je_third_reconquista1 = {
 	}
 
 	on_complete = {	
+		custom_tooltip = je_reconquista_advance
+		change_variable = {
+			name = reconquista_var
+			add = 1
+		}	
 		add_journal_entry = { type = je_third_reconquista2 }
 		add_journal_entry = { type = je_third_reconquista3 }
 		s:STATE_ANTIOQUIA = {
@@ -188,8 +192,12 @@ je_third_reconquista2 = {
 	}	
 
 	on_complete = {	
-		add_journal_entry = { type = je_third_reconquista4 }
-	}
+	    custom_tooltip = je_reconquista_advance
+		change_variable = {
+			name = reconquista_var
+			add = 1
+		}
+	}	
 
 	timeout = 3650
 
@@ -217,7 +225,7 @@ je_third_reconquista3 = {
 
 	complete = {
 		calc_true_if = {
-			amount >= 9
+			amount >= 8
 			country_or_subject_owns_entire_state_region = STATE_ANTIOQUIA
 			country_or_subject_owns_entire_state_region = STATE_PANAMA
 			country_or_subject_owns_entire_state_region = STATE_CAUCA
@@ -241,6 +249,11 @@ je_third_reconquista3 = {
 	}	
 
 	on_complete = {	
+	    custom_tooltip = je_reconquista_advance
+		change_variable = {
+			name = reconquista_var
+			add = 1
+		}
 		add_journal_entry = { type = je_third_reconquista4 }
 		s:STATE_PASTAZA= {
 		    add_claim = c:SPA
@@ -312,7 +325,7 @@ je_third_reconquista4 = {
 
 	complete = {
 		calc_true_if >= {
-			amount = 12
+			amount >= 12
 			country_or_subject_owns_entire_state_region = STATE_PASTAZA
 			country_or_subject_owns_entire_state_region = STATE_CAJAMARCA
 			country_or_subject_owns_entire_state_region = STATE_LIMA
@@ -325,8 +338,6 @@ je_third_reconquista4 = {
 			country_or_subject_owns_entire_state_region = STATE_POTOSI
 			country_or_subject_owns_entire_state_region = STATE_ANTOFAGASTA
 			country_or_subject_owns_entire_state_region = STATE_SANTIAGO
-			country_or_subject_owns_entire_state_region = STATE_LOS_RIOS
-			country_or_subject_owns_entire_state_region = STATE_ARAUCANIA
 		}
 		custom_tooltip = {
 		text = je_third_reconquista4_tt
@@ -339,6 +350,111 @@ je_third_reconquista4 = {
 	}	
 
 	on_complete = {	
+	    custom_tooltip = je_reconquista_advance
+		change_variable = {
+			name = reconquista_var
+			add = 1
+		}	
+		add_journal_entry = { type = je_third_reconquista5 }    
+		s:STATE_JUJUY= {
+		    add_claim = c:SPA
+		    }
+		s:STATE_TUCUMAN = {
+		    add_claim = c:SPA
+		    }	
+		s:STATE_RIO_NEGRO = {
+		    add_claim = c:SPA
+		    }
+		s:STATE_ALTO_PARAGUAY= {
+		    add_claim = c:SPA
+		    }
+		s:STATE_CHACO = {
+		    add_claim = c:SPA
+		    }
+		s:STATE_LA_PAMPA = {
+		    add_claim = c:SPA
+		    }
+		s:STATE_SANTA_FE = {
+		    add_claim = c:SPA
+		    } 
+	    s:STATE_CORRIENTES = {
+		    add_claim = c:SPA
+		    }
+		s:STATE_BAJO_PARAGUAY = {
+		    add_claim = c:SPA
+		    }	
+		s:STATE_URUGUAY = {
+		    add_claim = c:SPA
+		    }
+		s:STATE_BUENOS_AIRES = {
+		    add_claim = c:SPA
+		    }	
+		s:STATE_PATAGONIA = {
+		    add_claim = c:SPA
+		    }				    
+	   }
+
+
+	timeout = 3650
+
+	on_timeout = { 	
+		add_radicals = {
+			value = 0.2		
+		}	
+	}		   
+
+	weight = 100
+
+	should_be_pinned_by_default = yes
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = { 
+				desc = je_third_reconquista4_status
+			}
+		}
+	}	
+}		
+
+je_third_reconquista5 = {
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	complete = {
+		calc_true_if >= {
+			amount >= 6
+			country_or_subject_owns_entire_state_region = STATE_JUJUY
+			country_or_subject_owns_entire_state_region = STATE_TUCUMAN
+			country_or_subject_owns_entire_state_region = STATE_RIO_NEGRO
+			country_or_subject_owns_entire_state_region = STATE_ALTO_PARAGUAY
+			country_or_subject_owns_entire_state_region = STATE_CHACO
+			country_or_subject_owns_entire_state_region = STATE_LA_PAMPA
+			country_or_subject_owns_entire_state_region = STATE_SANTA_FE
+			country_or_subject_owns_entire_state_region = STATE_CORRIENTES
+			country_or_subject_owns_entire_state_region = STATE_BAJO_PARAGUAY
+			country_or_subject_owns_entire_state_region = STATE_URUGUAY
+			country_or_subject_owns_entire_state_region = STATE_BUENOS_AIRES
+			country_or_subject_owns_entire_state_region = STATE_PATAGONIA
+		}
+		custom_tooltip = {
+		text = je_third_reconquista5_tt
+		hidden_trigger = {
+		   NOT = { exists = c:BUE
+		   exists = c:PRG
+		   exists = c:URU
+		   exists = c:ENT
+		   exists = c:ARG
+		   exists = c:COE
+		   exists = c:MSS }
+		   }		   
+		} 
+	}	
+
+	on_complete = {	
+	    custom_tooltip = je_reconquista_advance
+		change_variable = {
+			name = reconquista_var
+			add = 1
+		}	
 		add_journal_entry = { type = je_third_reconquista5 }    
 	    }
 
@@ -357,8 +473,47 @@ je_third_reconquista4 = {
 	status_desc = {
 		first_valid = {
 			triggered_desc = { 
-				desc = je_third_reconquista3_status
+				desc = je_third_reconquista5_status
 			}
 		}
 	}	
+}		
+
+je_third_reconquista_main = {
+	icon = "gfx/interface/icons/event_icons/bicorne_hat.dds"
+
+	immediate = {
+		set_variable = {
+			name = reconquista_var
+			value = 0
+		}
+	}
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {	
+        trigger_event = { 
+			id = journal_flavor_spain.3
+		}
+	}
+
+	timeout = 18262	   
+
+	current_value = {
+		value = var:reconquista_var
+	}
+
+	goal_add_value = {
+		add = 5
+	}
+
+	progressbar = yes	
+
+	weight = 100
+
+	should_be_pinned_by_default = yes	
 }		
