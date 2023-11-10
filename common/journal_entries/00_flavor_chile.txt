@@ -1,3 +1,28 @@
+je_puq_colonization = {
+	icon = "gfx/interface/icons/event_icons/event_colonial.dds"
+
+	is_shown_when_inactive = {
+		exists = c:CHL
+		root= c:CHL
+	}
+
+	complete = {
+		institution_investment_level = {
+			institution = institution_colonial_affairs
+			value >= 2
+		}
+	}
+
+	on_complete = {
+        trigger_event = { 
+			id = journal_flavor_chile.3
+		}
+	}
+
+    should_be_pinned_by_default = yes
+	weight = 100
+}
+
 je_pacific_war_chl = {
 	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
@@ -60,7 +85,7 @@ je_pacific_war_chl = {
 }
 
 je_1881_treaty = {
-	icon = "gfx/interface/icons/event_icons/event_map.dds"
+	icon = "gfx/interface/icons/event_icons/event_diplomacy.dds"
 
 	is_shown_when_inactive = {
 	        exists = c:ARG
@@ -154,7 +179,7 @@ je_trains_efe = {
 }     
 
 je_araucania_ocupacion = {
-	icon = "gfx/interface/icons/event_icons/event_military.dds"
+	icon = "gfx/interface/icons/event_icons/event_helmet.dds"
 
 	complete = {
 		owns_entire_state_region = STATE_LOS_RIOS
@@ -168,6 +193,7 @@ je_araucania_ocupacion = {
 			origin = c:APK
 			state = s:STATE_PATAGONIA.region_state:APK
 		}
+		exists = c:PAT
         c:PAT = {
             annex = c:APK
 	    }				
@@ -187,34 +213,8 @@ je_araucania_ocupacion = {
 	weight = 100 
 }
 
-je_saltpeter_war.1 = {
-	icon = "gfx/interface/icons/event_icons/event_military.dds"
-
-	complete = {
-		owns_entire_state_region = STATE_TARAPACA
-			}
-
-	on_complete = {
-            s:STATE_AREQUIPA = {
-		    	set_owner_of_provinces = {
-		    		country = c:CHL
-		    		provinces = { x007035 x67EC55 }
-		    	}
-		    }
-	    }
-
-	fail = {
-	    c:PEU = {
-	        owns_entire_state_region = STATE_TARAPACA
-	        }
-	    c:CHL = {	    						
-	        is_at_war = no
-	        }
-	    }
-	}
-
 je_araucania_pacificacion = {
-	icon = "gfx/interface/icons/event_icons/event_military.dds"
+	icon = "gfx/interface/icons/event_icons/event_helmet.dds"
 
 	complete = {
  	    s:STATE_LOS_RIOS = {
@@ -251,3 +251,36 @@ je_araucania_pacificacion = {
         }
     }
 }	
+
+je_codigo_civil = {
+	icon = "gfx/interface/icons/event_icons/event_academia.dds"
+
+	is_shown_when_inactive = {
+		exists = c:CHL
+		root= c:CHL
+	}
+
+	complete = {
+		AND = {
+			any_scope_building = {
+				is_building_type = building_university
+				occupancy > 0.9
+				level >= 2
+			}
+			institution_investment_level = {
+				institution = institution_police 
+				value >= 2
+			}
+		}
+	}
+
+	on_complete = {
+        trigger_event = { 
+			id = journal_flavor_chile.2
+		}
+		
+	}
+
+    should_be_pinned_by_default = yes
+	weight = 100
+}
