@@ -221,6 +221,16 @@ journal_flavor_chile.3 = { #Colonization of Punta Arenas
 	duration = 3
 
 	immediate = {
+	    s:STATE_ARAUCANIA = {
+            random_scope_state = {
+                limit = {
+                    owner = {
+                        c:CHL = THIS
+                    }
+                }
+                save_scope_as = araucania_state
+            }
+        }	
 		c:CHL = {
 			save_scope_as = chl_scope
 		}
@@ -235,13 +245,14 @@ journal_flavor_chile.3 = { #Colonization of Punta Arenas
 	option = {
 		default_option = yes
 		name = journal_flavor_chile.3.a
-
-        add_modifier = {
-			name = surplus_convoys
-			months = long_modifier_time
-		}
-	}
-}
+        scope:araucania_state = {
+            add_modifier = {
+			    name = puq_penal_colony 
+			    months = very_long_modifier_time
+		    }
+	    }
+    }
+}   
 
 journal_flavor_chile.4  = { #rapanui!!
 	type = country_event
