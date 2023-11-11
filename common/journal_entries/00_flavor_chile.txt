@@ -185,27 +185,30 @@ je_trains_efe = {
 	icon = "gfx/interface/icons/event_icons/event_industry.dds"
 
 	complete = {
-	        s:STATE_SANTIAGO = {
-		        any_scope_state = {
-		    	 any_scope_building = {
-		    	  is_building_type = building_railway
-		    	  level >= 1
-		    	    }
+	    s:STATE_SANTIAGO = {
+		     any_scope_state = {
+		    	any_scope_building = {
+		    	    is_building_type = building_railway
+					occupancy > 0.8
 		    	}
 		    }
-            s:STATE_SANTIAGO = {
-		        any_scope_building = {
+		}
+        s:STATE_SANTIAGO = {
+		    any_scope_state = {
+		    	any_scope_building = {
 			        is_building_type = building_gold_mine
 			        has_active_production_method = pm_rail_transport_mine
-		        }
+					occupancy > 0.8
+				}
 		    }
 		}
+	}
 
 	on_complete = { 
 	    trigger_event = { 
 	        id = journal_flavor_chile.8  
-	        }
-        }           
+	    }
+    }           
 
     should_be_pinned_by_default = yes
 	weight = 100   
@@ -221,16 +224,16 @@ je_araucania_ocupacion = {
 	on_complete = {
 		custom_tooltip = {
 			text = je_araucania_ocupacion_tt
-		create_country = {
-            tag = PAT
-			origin = c:APK
-			state = s:STATE_PATAGONIA.region_state:APK
-		}
-		exists = c:PAT
-        c:PAT = {
-            annex = c:APK
-	    }				
-    }
+		    create_country = {
+                tag = PAT
+		    	origin = c:APK
+		    	state = s:STATE_PATAGONIA.region_state:APK
+		    }
+
+            c:PAT = {
+                annex = c:APK
+	        }				
+        }
 		add_journal_entry = {
 			type = je_araucania_pacificacion
 		}	    
@@ -238,7 +241,7 @@ je_araucania_ocupacion = {
 
     fail = {
         c:APK = {
-        owns_entire_state_region = STATE_LOS_RIOS  
+            owns_entire_state_region = STATE_LOS_RIOS  
         }
     }      
 	
