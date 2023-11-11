@@ -1,4 +1,4 @@
-je_argentina_constitution = {
+﻿je_argentina_constitution = {
 	icon = "gfx/interface/icons/event_icons/event_scales.dds"
 
 	complete = {	
@@ -56,30 +56,34 @@ je_argentina_constitution = {
         play_as = c:BUE        
 
     c:ENT = {
-        annex = c:COE
-	}
-
-    c:ENT = {
-        c:MSS = exists
-        annex = c:MSS
-	}
-
-    c:ENT = {
-        exists = c:ARG
-        annex = c:ARG
-	}
-
-    if = {
-        limit = {
-            c:BUE = {
-                has_diplomatic_pact = {
-                country = c:PRG
-                    type = puppet
+        if = {
+            limit = {
+                exists = c:COE
+                }
+            annex = c:COE
+            }     
+        if = {
+            limit = {
+                exists = c:MSS
+                }
+            annex = c:MSS
+            } 
+        if = {
+            limit = {
+                exists = c:ARG
+                }
+            annex = c:ARG
+            }        
+        if = {
+            limit = {
+                exists = c:PRG
+                c:BUE = {
+                    has_diplomatic_pact = {
+                    country = c:PRG
+                        type = confederation
                     }
                 }
             }        
-        c:ENT = {
-            exists = c:PRG
             annex = c:PRG
 	        }
         }		
@@ -333,6 +337,13 @@ je_tarija = {
 		trigger_event = { id = journal_flavor_argentina.9 }
 	}
 
+	fail = {
+	    OR = {
+		    c:BOL = { owns_entire_state_region = STATE_JUJUY }
+		    exists = c:ARG
+		}    
+	}	
+
 	weight = 10000
 
 	should_be_pinned_by_default = yes	
@@ -353,6 +364,10 @@ je_1828_treaty = {
 	on_complete = {
 		trigger_event = { id = journal_flavor_argentina.13 }	
 	}
+
+	fail = {
+		exists = c:ARG   
+	}	
 
 	on_weekly_pulse = {
 		events = {
