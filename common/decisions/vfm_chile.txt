@@ -1,0 +1,70 @@
+ohiggins1 = {
+
+	is_shown = {
+	    exists = c:CHL
+		this = c:CHL    
+		NOT = { has_variable = ohiggins_returned }
+		c:PEU = { any_scope_character = { has_variable = is_ohiggins } } 
+        }
+        
+	possible = {
+		is_at_war = no
+		custom_tooltip = {
+			text = is_ohiggins_desc
+            c:PEU = { any_scope_character = { has_variable = is_ohiggins } }
+            }
+        custom_tooltip = {
+			text = is_portales_desc
+        ig:ig_petty_bourgeoisie.leader = { NOT = { has_variable = is_portales } } 
+            }       
+	    }
+
+	when_taken = {
+	    custom_tooltip = return_ohiggins
+		hidden_effect = { set_global_variable = ohiggins_returned 
+		c:PEU = {
+			random_scope_character = {
+				limit = {
+					has_variable = is_ohiggins
+				}
+				save_scope_as = ohiggins_scope
+		    }
+		}
+		scope:ohiggins_scope = {
+			kill_character = yes
+		}		
+		c:CHL = {
+		    create_character = {
+			    first_name = "bernardo"
+			    last_name = "ohiggins"
+			    ig_leader = no
+			    historical = yes
+			    culture = cu:south_andean
+			    ruler = no
+			    birth_date = 1778.08.20
+			    hq = region_la_plata
+			    is_general = yes			    
+			    dna = dna_bernardo_ohiggins
+			    interest_group = ig_armed_forces
+			    ideology = ideology_republican_leader
+			    traits = {
+				    persistent
+				    brave
+				    celebrity_commander
+				    basic_offensive_planner
+				    inspirational_orator
+				    sickly
+				    }
+			    }
+		    }
+        }
+        trigger_event = { 
+			id = journal_flavor_chile.6
+		    }
+        }			
+
+	ai_chance = {
+		base = 100
+	}
+}
+		

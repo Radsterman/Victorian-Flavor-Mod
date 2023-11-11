@@ -1,7 +1,7 @@
-﻿je_argentina_constitution = {
+je_argentina_constitution = {
 	icon = "gfx/interface/icons/event_icons/event_scales.dds"
 
-	complete = {
+	complete = {	
 
 		custom_tooltip = {
 			text = voting_franchise_yes_tt
@@ -34,160 +34,120 @@
 
 	on_complete = {
 		trigger_event = { id = journal_flavor_argentina.1 }
-
 	}
 
 	timeout = 5475
-	on_timeout = {
-		trigger_event = { id = journal_flavor_argentina.2 }
-		
-			if={
-				limit = { 
-					any_country = {
-						is_subject_type = subject_type_confederation
-						overlord = ROOT
-						is_player = yes
-					}
-				}
-				random_country = {
-					limit = {
-						is_subject_type = subject_type_confederation
-						overlord = ROOT
-						is_player = yes
-					}
-					save_scope_as = new_argentina_leader
-				}
-				scope:new_argentina_leader = {
-					set_variable = argentina_leader_var
-					custom_tooltip = {
-						text = argentine_constitution_timeout_tt
-					}
-					change_relations = {
-						country = ROOT
-						value = -100
-					}
-					create_diplomatic_pact = {
-						country = ROOT
-						type = rivalry
-					}
-					add_journal_entry = {
-						type = je_argentina_constitution_minor
-					}
-				}
-				hidden_effect = {
-					remove_diplomatic_pact = {
-						country = scope:new_argentina_leader
-						type = confederation
-					}
-					every_country = {
-						limit = {
-							is_subject_type = subject_type_confederation
-							overlord = ROOT
-							NOT = { this = c:ENT }
-						}
-						save_scope_as = transfer_scope
-						scope:new_argentina_leader = {
-							create_diplomatic_pact = {
-								country = scope:transfer_scope
-								type = confederation
-							}
-						}
-					}
-				}
-			}
-		else_if={
-			limit = { 
-				exists = c:ENT 
-				c:ENT = {
-					is_subject_type = subject_type_confederation
-					overlord = ROOT
-				}
-			}
-			c:ENT = {
-				set_variable = argentina_leader_var
-				custom_tooltip = {
-					text = argentine_constitution_timeout_tt
-				}	
-				change_relations = {
-					country = ROOT
-					value = -100
-				}
-				create_diplomatic_pact = {
-					country = ROOT
-					type = rivalry
-				}
-				add_journal_entry = {
-					type = je_argentina_constitution_minor
-				}
-			}
-			hidden_effect = {
-				remove_diplomatic_pact = {
-					country = c:ENT
-					type = confederation
-				}
-				every_country = {
-					limit = {
-						is_subject_type = subject_type_confederation
-						overlord = ROOT
-						NOT = { this = c:ENT }
-					}
-					save_scope_as = transfer_scope
-					c:ENT = {
-						create_diplomatic_pact = {
-							country = scope:transfer_scope
-							type = confederation
-						}
-					}
-				}
-			}
+
+	    on_timeout = { 
+	    custom_tooltip = {
+			text = arg_constitution_tt
+		    hidden_effect = {
+
+    c:BUE = {
+        change_tag = ARG
+	}
+
+		create_country = {
+            tag = BUE
+			origin = c:ARG
+			state = s:STATE_BUENOS_AIRES.region_state:ARG
 		}
-		else = {
-			random_country = {
-				limit = {
-					is_subject_type = subject_type_confederation
-					overlord = ROOT
-				}
-				save_scope_as = new_argentina_leader
+
+        play_as = c:BUE        
+
+    c:ENT = {
+        annex = c:COE
+	}
+
+    c:ENT = {
+        c:MSS = exists
+        annex = c:MSS
+	}
+
+    c:ENT = {
+        exists = c:ARG
+        annex = c:ARG
+	}
+
+    if = {
+        limit = {
+            c:BUE = {
+                has_diplomatic_pact = {
+                country = c:PRG
+                    type = puppet
+                    }
+                }
+            }        
+        c:ENT = {
+            exists = c:PRG
+            annex = c:PRG
+	        }
+        }		
+
+    c:ENT = {
+        change_tag = ARG
+	}
+
+		s:STATE_BUENOS_AIRES= {
+			add_claim = c:BUE
 			}
-			scope:new_argentina_leader = {
-				set_variable = argentina_leader_var
-				custom_tooltip = {
-					text = argentine_constitution_timeout_tt
-				}
-				change_relations = {
-					country = ROOT
-					value = -100
-				}
-				create_diplomatic_pact = {
-					country = ROOT
-					type = rivalry
-				}
-				add_journal_entry = {
-					type = je_argentina_constitution_minor
-				}
-			}
-			hidden_effect = {
-				remove_diplomatic_pact = {
-					country = scope:new_argentina_leader
-					type = confederation
-				}
-				every_country = {
-					limit = {
-						is_subject_type = subject_type_confederation
-						overlord = ROOT
-						NOT = { this = c:ENT }
-					}
-					save_scope_as = transfer_scope
-					scope:new_argentina_leader = {
-						create_diplomatic_pact = {
-							country = scope:transfer_scope
-							type = confederation
-						}
-					}
-				}
-			}
+
+    c:ARG = {
+        exists = c:ARG
+
+		create_diplomatic_pact = {
+			country = ROOT
+			type = rivalry
+		}
+
+		change_relations = {
+			country = ROOT
+			value = -100
+		}
+
+		create_character = {
+			first_name = "Justo_Jose"
+			last_name = "de_Urquiza"
+			historical = yes
+			ruler = yes
+			is_general = yes
+			dna = dna_Justo_Jose_de_Urquiza
+			birth_date = 1801.10.18
+			interest_group = ig_armed_forces
+			ideology = ideology_moderate
+			traits = {
+				ambitious
+			}			
+		}						
+	}	
+
+    c:BUE = {
+        trigger_event = { 
+			id = journal_flavor_argentina.6
+			days = 1
 		}
 	}
+
+    c:BUE = {
+		create_character = {
+			# Juan Manuel de Rosas
+			first_name = "Juan_Manuel"
+			last_name = "de_Rosas"
+			historical = yes
+			ruler = yes
+			is_general = yes
+			birth_date = 1793.3.30
+			dna = dna_president_manuel_de_rosas
+			interest_group = ig_armed_forces
+			ideology = ideology_moderate
+			traits = {
+				ambitious
+				    }
+			    }
+		    }    
+	    }    
+	}
+}
 
     should_be_pinned_by_default = yes
 	weight = 20
@@ -228,10 +188,6 @@ je_argentina_constitution_minor = {
 		
 		bureaucracy > 0
 		approaching_bureaucracy_shortage = no
-		#institution_investment_level = { #REPLACE
-		#	institution = institution_centralization
-		#	value >= 2
-		#}
 
 		custom_tooltip = {
 			text = voting_franchise_yes_tt
@@ -257,3 +213,156 @@ je_argentina_constitution_minor = {
     should_be_pinned_by_default = yes
 	weight = 20
 }
+
+je_paraguay_independence = {
+	icon = "gfx/interface/icons/event_icons/event_diplomacy.dds"
+
+	is_shown_when_inactive = {
+	        exists = c:BUE
+			c:BUE = this 
+			exists = c:PRG		
+	    }
+
+	complete = {
+	    OR = {
+            c:PRG = { is_subject_of = ROOT }
+	        c:BUE = {
+		        has_diplomatic_pact = {
+				    who = c:PRG
+				    type = customs_union
+						    }
+						}
+					}	    
+			    }
+
+	on_complete = {
+	    trigger_event = { id = journal_flavor_argentina.3 }
+        }	        		    
+
+	timeout = 2190
+
+	on_timeout = {
+		trigger_event = { id = journal_flavor_argentina.4 }
+		}
+
+    should_be_pinned_by_default = yes
+	weight = 100   
+}       
+
+je_french_blockade = { 
+	icon = "gfx/interface/icons/event_icons/event_naval.dds"
+
+	immediate = {
+		set_variable = {
+			name = french_blockade_var
+			value = 0
+		}
+	}	
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					c:FRA = {
+						relations:root <= -20
+					}
+				}
+				change_variable = {
+					name = french_blockade_var
+					add = 1
+				}
+			}
+		}
+	}	
+
+	is_shown_when_inactive = {
+		exists = c:BUE
+        THIS = c:BUE
+	}
+
+	possible = {
+		c:FRA ?= {
+			relations:root <= -20
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { is_goal_complete = yes }
+	    }
+
+	on_complete = {
+			trigger_event = {
+				id = journal_flavor_argentina.7
+		    }
+		}
+
+	fail = {
+		c:FRA ?= {
+			relations:root >= 0
+		}
+	}
+
+	current_value = {
+		value = var:french_blockade_var
+	}
+
+	goal_add_value = {
+		value = 22
+	}
+
+	progressbar = yes
+
+	weight = 10000
+
+	should_be_pinned_by_default = yes
+}
+
+je_tarija = { 
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	is_shown_when_inactive = {
+        exists = c:BUE
+        c:BUE = THIS           
+	    }
+
+	complete = {
+        owns_entire_state_region = STATE_JUJUY
+	        }
+
+	on_complete = {
+		trigger_event = { id = journal_flavor_argentina.9 }
+	}
+
+	weight = 10000
+
+	should_be_pinned_by_default = yes	
+}	   	
+
+je_1828_treaty = { 
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	is_shown_when_inactive = {
+        exists = c:BUE
+        c:BUE = THIS      
+        }	   
+
+	complete = {
+        owns_entire_state_region = STATE_URUGUAY
+	        }
+
+	on_complete = {
+		trigger_event = { id = journal_flavor_argentina.13 }	
+	}
+
+	on_weekly_pulse = {
+		events = {
+			journal_flavor_argentina.11
+		}
+	}
+
+	timeout = 2920
+
+	weight = 10000
+
+	should_be_pinned_by_default = yes	
+}	   	
