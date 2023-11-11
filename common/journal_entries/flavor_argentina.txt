@@ -220,42 +220,7 @@ je_argentina_constitution_minor = {
 
     should_be_pinned_by_default = yes
 	weight = 20
-}
-
-je_paraguay_independence = {
-	icon = "gfx/interface/icons/event_icons/event_diplomacy.dds"
-
-	is_shown_when_inactive = {
-	        exists = c:BUE
-			c:BUE = this 
-			exists = c:PRG		
-	    }
-
-	complete = {
-	    OR = {
-            c:PRG = { is_subject_of = ROOT }
-	        c:BUE = {
-		        has_diplomatic_pact = {
-				    who = c:PRG
-				    type = customs_union
-						    }
-						}
-					}	    
-			    }
-
-	on_complete = {
-	    trigger_event = { id = journal_flavor_argentina.3 }
-        }	        		    
-
-	timeout = 2190
-
-	on_timeout = {
-		trigger_event = { id = journal_flavor_argentina.4 }
-		}
-
-    should_be_pinned_by_default = yes
-	weight = 100   
-}       
+}   
 
 je_french_blockade = { 
 	icon = "gfx/interface/icons/event_icons/event_naval.dds"
@@ -351,35 +316,4 @@ je_tarija = {
 	weight = 10000
 
 	should_be_pinned_by_default = yes	
-}	   	
-
-je_1828_treaty = { 
-	icon = "gfx/interface/icons/event_icons/event_military.dds"
-
-	is_shown_when_inactive = {
-        exists = c:BUE
-        c:BUE = THIS      
-        }	   
-
-	complete = {
-        owns_entire_state_region = STATE_URUGUAY
-	        }
-
-	on_complete = {
-		trigger_event = { id = journal_flavor_argentina.13 }	
-	}
-
-	fail = {
-		exists = c:ARG   
-	}	
-
-	on_weekly_pulse = {
-		events = {
-			journal_flavor_argentina.11
-		}
-	}
-
-	weight = 10000
-
-	should_be_pinned_by_default = yes	
-}	   	
+}	   		
