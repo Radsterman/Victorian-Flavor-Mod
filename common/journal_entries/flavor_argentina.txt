@@ -55,16 +55,38 @@
 
         play_as = c:BUE        
 
-		every_country = {
-			limit = {
-				is_subject_type = subject_type_confederation
-				overlord = c:BUE
-			}
-			save_scope_as = annex_scope
-			ROOT = {
-				annex = scope:annex_scope
-			}
-		}		
+    c:ENT = {
+        if = {
+            limit = {
+                exists = c:COE
+                }
+            annex = c:COE
+            }     
+        if = {
+            limit = {
+                exists = c:MSS
+                }
+            annex = c:MSS
+            } 
+        if = {
+            limit = {
+                exists = c:ARG
+                }
+            annex = c:ARG
+            }        
+        if = {
+            limit = {
+                exists = c:PRG
+                c:BUE = {
+                    has_diplomatic_pact = {
+                        who = c:PRG
+                        type = confederation
+                    }
+                }
+            }        
+            annex = c:PRG
+	        }
+        }		
 
     c:ENT = {
         change_tag = ARG
