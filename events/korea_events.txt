@@ -354,6 +354,7 @@ kor.7 = {
     placement = root
     hidden = yes
     trigger = {
+	    exists = c:CHI
         root = c:CHI
         was_formed_from = KOR
         NOT = { has_variable = korean_culture }
@@ -467,6 +468,8 @@ kor.9 = { #gwangmu nationalism
     duration = 3
 
     trigger = {
+		exists = c:KOR
+		is_subject_of = c:CHI
         NOT = { has_variable = gwangmu_nationalism_event }
         any_country = {
             count = 2
@@ -1186,11 +1189,164 @@ kor.16 = { #liberate korea for an obligation
             setting = yes
         }
     }
+
     option = { #refuse
         name = kor.16.b
     }
-
 }
+
+kor.17 = { #Silhak scholars demand reforms - abolish serfdom
+	type = country_event
+	placement = scope:silhak_state
+
+	title = kor.17.t
+	desc = kor.17.d
+	flavor = kor.17.f
+
+	event_image = {
+		video = "gfx/event_pictures/asia_farmers_market.bk2"
+	}
+	
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+	
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/christianity"
+
+	duration = 3
+	
+	trigger = {
+	    has_law = law_type:law_serfdom
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {owner = ROOT}
+			save_scope_as = silhak_state
+		}
+		ig:ig_rural_folk = {
+			save_scope_as = rural_folk_ig
+		}
+		ig:ig_intelligentsia = {
+			save_scope_as = intelligentsia_ig
+		}
+	}
+
+	option = {
+		name = kor.17.a #Let them be
+		default_option = yes
+		every_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_serfdom
+					value > neutral
+				}
+			}
+			
+			scope:silhak_state = {
+			    add_radicals_in_state = {
+					value = small_radicals
+					interest_group = prev
+				}
+			}
+			
+			add_modifier = {
+				name = modifier_police_ignored
+				months = normal_modifier_time
+			}
+		}
+	}
+	
+	option = {  # Their silly display ends now
+		name = kor.17.b
+		scope:silhak_state = {
+			add_radicals_in_state = {
+				value = medium_radicals
+				interest_group = scope:intelligentsia_ig
+			}
+			add_radicals_in_state = {
+				value = medium_radicals
+				interest_group = scope:rural_folk_ig
+			}
+		}
+	}
+}
+
+kor.18 = { #Silhak scholars demand reforms - abolish autocracy
+	type = country_event
+	placement = scope:silhak_state
+
+	title = kor.18.t
+	desc = kor.18.d
+	flavor = kor.18.f
+
+	event_image = {
+		video = "gfx/event_pictures/asia_union_leader.bk2"
+	}
+	
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+	
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/christianity"
+
+	duration = 3
+	
+	trigger = {
+	    has_law = law_type:law_autocracy
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {owner = ROOT}
+			save_scope_as = silhak_state
+		}
+		ig:ig_intelligentsia = {
+			save_scope_as = intelligentsia_ig
+		}
+		ig:ig_industrialists = {
+			save_scope_as = industrialists_ig
+		}
+	}
+
+	option = {
+		name = kor.18.a #Let them be
+		default_option = yes
+		every_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_autocracy
+					value > neutral
+				}
+			}
+			
+			scope:silhak_state = {
+			    add_radicals_in_state = {
+					value = small_radicals
+					interest_group = prev
+				}
+			}
+			
+			add_modifier = {
+				name = modifier_police_ignored
+				months = normal_modifier_time
+			}
+		}
+	}
+	
+	option = {  # Their silly display ends now
+		name = kor.18.b
+		scope:silhak_state = {
+			add_radicals_in_state = {
+				value = medium_radicals
+				interest_group = scope:intelligentsia_ig
+			}
+			add_radicals_in_state = {
+				value = medium_radicals
+				interest_group = scope:industrialists_ig
+			}
+		}
+	}
+}
+
 kor.100 = { #DEBUG EVENT
     type = country_event
     placement = root

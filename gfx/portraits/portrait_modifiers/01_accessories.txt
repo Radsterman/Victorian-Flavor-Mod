@@ -266,7 +266,7 @@
             accessory = {
                 mode = add
                 gene = sashes
-                template = all_sashes
+                template = no_sash
                 range = { 1 1 } # For the randomness to work correctly
             }
             accessory = {
@@ -404,13 +404,10 @@
                 }
                 exists = scope:character
                 scope:character = {
-                    OR = {
-                        AND = {
-                            home_country = {
-                                exists = c:PEU
-                                c:PEU = this
-                            }
-                        }
+				    exists = home_country
+                    home_country = {
+					    exists = c:PEU
+                        c:PEU = this
                     }
                 }
                 OR = {
@@ -481,11 +478,10 @@
                 }
                 exists = scope:character
                 scope:character = {
-                    OR = {
-                        home_country = {
-                            exists = c:ESP
-                            c:ESP = this
-                        }
+                    exists = home_country
+                    home_country = {
+                        exists = c:ESP
+                        c:ESP = this
                     }
                 }
                 OR = {
@@ -840,17 +836,13 @@
                     has_variable = is_rosas
                     exists = home_country
                     OR = {
-                        AND = {
-                            home_country = {
-                                exists = c:ARG
-                                c:ARG = this
-                            }
+                        home_country = {
+                            exists = c:ARG
+                            c:ARG = this
                         }
-                        AND = {
-                            home_country = {
-                                exists = c:BUE
-                                c:BUE = this
-                            }
+                        home_country = {
+                            exists = c:BUE
+                            c:BUE = this
                         }
                     }
                 }
@@ -858,6 +850,93 @@
         }
     }
 
+    bulnes_accesories = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = epaulettes
+                template = all_epaulettes
+                range = { 0.62 0.79 } # limiting the set to single-breasted coats, so aiguillettes work
+            }
+           accessory = {
+                mode = add
+                gene = medals
+                template = all_medals
+                range = { 0 1 } # limiting the set to single-breasted coats, so aiguillettes work
+            }            
+           accessory = {
+                mode = add
+                gene = belts
+                template = all_belts
+                range = { 0.34 0.66 } # limiting the set to single-breasted coats, so aiguillettes work
+            }  
+        }        
+        weight = {
+            base = 0
+            modifier = {
+                add = 10002
+                exists = scope:character
+                scope:character = {
+                    has_variable = is_bulnes
+                }
+            }
+        }
+    }
+
+    ohiggins_accesories = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = epaulettes
+                template = all_epaulettes
+                range = { 0.62 0.79 } # limiting the set to single-breasted coats, so aiguillettes work
+            }
+           accessory = {
+                mode = add
+                gene = medals
+                template = all_medals
+                range = { 0 1 } # limiting the set to single-breasted coats, so aiguillettes work
+            }            
+           accessory = {
+                mode = add
+                gene = belts
+                template = all_belts
+                range = { 0.34 0.66 } # limiting the set to single-breasted coats, so aiguillettes work
+            }  
+        }        
+        weight = {
+            base = 0
+            modifier = {
+                add = 10002
+                exists = scope:character
+                scope:character = {
+                    has_variable = is_ohiggins
+                }
+            }
+        }
+    }    
+
+    tounens_accesories = {
+        dna_modifiers = {           
+           accessory = {
+                mode = add
+                gene = top_layer
+                template = native_american_top_layer
+                range = { 0 1 } # limiting the set to single-breasted coats, so aiguillettes work
+            }  
+        }        
+        weight = {
+            base = 0
+            modifier = {
+                add = 10002
+                exists = scope:character
+                scope:character = {
+                    has_variable = is_tounens
+                }
+            }
+        }
+    }   
+    
     caxias_accessories = {
         dna_modifiers = {
             accessory = {
@@ -909,7 +988,7 @@
                 exists = scope:character
                 scope:character = {
                     exists = home_country
-home_country = {
+                    home_country = {
                         exists = c:MEX
                         c:MEX = this
                     }
@@ -984,7 +1063,7 @@ home_country = {
                 exists = scope:character
                 scope:character = {
                     exists = home_country
-home_country = {
+                    home_country = {
                         exists = c:AUS
                         c:AUS = this
                     }
@@ -1028,7 +1107,7 @@ home_country = {
                 exists = scope:character
                 scope:character = {
                     exists = home_country
-home_country = {
+                    home_country = {
                         exists = c:AUS
                         c:AUS = this
                     }
@@ -1130,8 +1209,7 @@ home_country = {
                         exists = scope:character
                         scope:character = {
 							exists = home_country
-                            exists = home_country
-home_country = {
+                            home_country = {
                                 exists = c:CSA
                                 c:CSA = this
                                 is_subject = no
@@ -1350,7 +1428,7 @@ home_country = {
                         exists = scope:character
                         scope:character = {
                         exists = home_country
-home_country = {
+                        home_country = {
                             OR = {
                                 c:TUR = this
                                     AND = {
@@ -1365,7 +1443,7 @@ home_country = {
                         exists = scope:pop
                         scope:pop = {
                             exists = home_country
-home_country = {
+                            home_country = {
                                 OR = {
                                     c:TUR = this
                                     is_subject_of = c:TUR

@@ -24,7 +24,7 @@ silhak.1 = { #Third Wave Silhak
 		#triggered by JE
 	}
 
-	option = { #dismiss silhak
+	option = { #dismiss silhak demand for reforms
 		name =  silhak.1.a
 		default_option = yes
 		add_modifier = {
@@ -36,8 +36,11 @@ silhak.1 = { #Third Wave Silhak
 		}
 
 	}
-	option = { #make reforms
+	option = { #make reforms, let inteligensia lead the way
 		name =  silhak.1.b
+		trigger = {
+			ig:ig_intelligentsia = { is_marginal = no }
+		}
 		add_modifier = {
 			name = modifier_kor_reforms_silhak
 			months = 120
@@ -46,20 +49,18 @@ silhak.1 = { #Third Wave Silhak
 			type = je_silhak_reform
 		}
 	}
-	option = { #strengthen the devout
+	option = { #make reforms, let devout lead the way
 		highlighted_option = yes
 		name =  silhak.1.c
 		trigger = {
-			exists = c:KOR
-			root = c:KOR
-			ig:ig_devout = { is_in_government = yes }
+			ig:ig_devout = { is_marginal = no }
 		}
 		add_modifier = {
 			name = modifier_kor_monks_silhak
 			months = 60
 		}
 		add_journal_entry = {
-			type = je_silhak_return
+			type = je_silhak_reform
 		}
 	}
 }

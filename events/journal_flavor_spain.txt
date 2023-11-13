@@ -1,0 +1,215 @@
+﻿namespace = journal_flavor_spain
+
+journal_flavor_spain.1 = { 
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_spain.1.t
+	desc = journal_flavor_spain.1.d
+	flavor = journal_flavor_spain.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_war_civilians.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/war_civilians"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	duration = 1
+
+	immediate = {
+		#hidden_effect = {
+		#	trigger_event = {
+		#		id = journal_flavor_spain.2
+		#		    months = 10
+		#	    }
+		#	}    
+	    }	
+
+    option = { 
+		default_option = yes
+		name = journal_flavor_spain.1.a
+		trigger = {
+			exists = c:SPA
+			c:SPA = THIS
+		}	
+	}
+
+	option = { 
+		default_option = yes
+		name = journal_flavor_spain.1.b
+		trigger = {
+			exists = c:CAR
+			c:CAR = THIS
+		}	
+	}
+}	
+
+journal_flavor_spain.2 = { 
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_spain.2.t
+	desc = journal_flavor_spain.2.d
+	flavor = journal_flavor_spain.2.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_military_parade.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/military_parade"
+
+	icon = "gfx/interface/icons/event_icons/bicorne_hat.dds"
+
+	duration = 1
+
+	immediate = {  
+	    }	
+
+    option = { 
+		default_option = yes
+		name = journal_flavor_spain.2.a
+
+		add_journal_entry = {
+			type = je_third_reconquista_main
+		}
+		add_journal_entry = {
+			type = je_third_reconquista1
+		}
+		s:STATE_SANTO_DOMINGO = {
+		    add_claim = c:SPA
+		    }	
+		s:STATE_COSTA_RICA = {
+		    add_claim = c:SPA
+		    }
+		s:STATE_NICARAGUA = {
+		    add_claim = c:SPA
+		    }
+		s:STATE_HONDURAS = {
+		    add_claim = c:SPA
+		    }
+		s:STATE_SAN_SALVADOR = {
+		    add_claim = c:SPA
+		    }
+		s:STATE_GUATEMALA = {
+		    add_claim = c:SPA
+		    } 
+	    s:STATE_CHIAPAS = {
+		    add_claim = c:SPA
+		    }
+
+		add_loyalists = {
+			value = 0.2
+			pop_type = officers			
+		}   
+        add_loyalists = {
+			value = 0.1
+			pop_type = soldiers			
+		}
+		add_radicals = {
+			value = 0.1
+			pop_type = academics			
+		}
+
+		ig:ig_industrialists = {
+            add_modifier = {
+                name = liberals_angry
+			    months = normal_modifier_time
+		        }  
+		    }  
+
+		ig:ig_intelligentsia = {
+            add_modifier = {
+                name = liberals_angry
+			    months = normal_modifier_time
+		        }
+		    }
+
+		c:GBR = {
+			change_relations = {
+				country = root
+				value = -80
+			}
+		}
+
+        c:USA = {
+			change_relations = {
+				country = root
+				value = -80
+			}
+		}			    
+
+		change_infamy = 25			
+	}
+
+	option = { 
+		default_option = yes
+		name = journal_flavor_spain.2.b
+
+        add_loyalists = {
+			value = 0.1		
+		}
+		add_radicals = {
+			value = 0.2
+			pop_type = officers			
+		}		
+		add_radicals = {
+			value = 0.1
+			pop_type = soldiers			
+		}
+
+		ig:ig_industrialists = {
+            add_modifier = {
+                name = liberals_happy
+			    months = normal_modifier_time
+		        }  
+		    }  
+
+		ig:ig_intelligentsia = {
+            add_modifier = {
+                name = liberals_happy
+			    months = normal_modifier_time
+		        }
+		    } 				
+	    }
+    }	
+
+journal_flavor_spain.3 = { 
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_spain.3.t
+	desc = journal_flavor_spain.3.d
+	flavor = journal_flavor_spain.3.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_military_parade.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/military_parade"
+
+	icon = "gfx/interface/icons/event_icons/bicorne_hat.dds"
+
+	duration = 1
+
+	immediate = {  	
+		c:SPA = {
+			save_scope_as = spa_scope	
+	    }
+	    set_variable = je_third_reconquista_succeed 
+	}    	
+
+    option = { 
+		default_option = yes
+		name = journal_flavor_spain.3.a
+
+        add_modifier = {
+			name = spanish_empire_restored
+			months = very_long_modifier_time
+		}        
+	}
+}

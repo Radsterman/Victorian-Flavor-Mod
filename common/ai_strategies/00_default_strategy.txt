@@ -565,8 +565,22 @@ ai_strategy_default = {
 				}
 			}
 			add = 1
+		}
+
+		# Entre Rios (or the Confederation leader) should be confident against owner of Buenos AIres to unify Argentina
+        if = {
+			limit = {
+				has_journal_entry = je_argentina_constitution
+				THIS = c:ENT				 
+				scope:target_country = {
+					any_scope_state = {
+						state_region = s:STATE_BUENOS_AIRES
+						}
+					}
+				}
+			add = 5
 		}	
-		
+
 		# Ottomans should be extremely confident against owners of Syria and Egypt when they have the relevant JE's
 		if = {
 			limit = {
@@ -959,6 +973,20 @@ ai_strategy_default = {
 			}
 			add = 25
 		}
+
+		# Extra aggression against Buenos Aires for reunification
+        if = {
+			limit = {
+				has_journal_entry = je_argentina_constitution
+				THIS = c:ENT
+				scope:target_country = {
+					any_scope_state = {
+						state_region = s:STATE_BUENOS_AIRES
+						}
+					}
+				}
+			add = 100
+		}		
 
 		# Veiled Protectorate
 		if = {
@@ -3739,6 +3767,18 @@ ai_strategy_default = {
 					}
 				}
 				add = 500
+			}
+
+            #Entre Rios should try to conquer Buenos Aires
+			if = {
+				limit = {
+					this = c:ENT
+					has_variable = je_argentina_constitution
+					scope:target_country = {
+						c:BUE = this
+					}
+				}
+				add = 100
 			}
 		
 			multiply = {
