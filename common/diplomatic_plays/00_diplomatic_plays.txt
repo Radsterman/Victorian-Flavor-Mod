@@ -269,6 +269,15 @@ dp_annex_subject = {
 				has_diplomatic_pact = { who = root type = vassal }
 				has_diplomatic_pact = { who = root type = dependency }
 			}
+		}
+		NOT = {
+			has_journal_entry = je_peru_bolivia
+			scope:target_country = {
+				OR = {
+					country_has_primary_culture = cu:quechua
+					country_has_primary_culture = cu:south_andean
+				}
+			}
 		}			
 	}
 	
@@ -648,6 +657,30 @@ dp_unify_indonesia = {
 	on_war_end = {}
 }
 
+dp_unify_andes = {
+	war_goal = unification
+	
+	requires_interest_marker = no
+	blocked_by_diplomatic_status = no
+	
+	texture = "gfx/interface/icons/war_goals/unify_germany.dds"
+	
+	selectable_in_lens = {
+		always = no
+	}
+	
+	possible = {
+		NOT = { exists = c:FND }
+		NOT = { is_country_type = decentralized }
+		has_technology_researched = pan-nationalism
+		is_subject = no 
+		custom_tooltip = {
+			text = FND_tt
+			can_form_nation = FND
+		}
+	}
+}
+
 dp_leadership_germany = {
 	war_goal = unification_leadership
 	
@@ -715,6 +748,23 @@ dp_leadership_scandinavia = {
 	on_war_begins = {}
 
 	on_war_end = {}
+}
+
+dp_leadership_andes = {
+	war_goal = unification_leadership
+	
+	requires_interest_marker = no
+	mirror_war_goal = yes
+	
+	texture = "gfx/interface/icons/war_goals/unification.dds"
+	
+	selectable_in_lens = {
+		always = no
+	}	
+	
+	possible = {
+		has_technology_researched = pan-nationalism			
+	}
 }
 
 

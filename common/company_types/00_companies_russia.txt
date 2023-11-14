@@ -14,10 +14,14 @@ company_vodka_monopoly = {
 	}
 	
 	possible = { 
-		country_has_primary_culture = cu:russian
-		NOT = {
-			has_law = law_type:law_laissez_faire
-		}
+		NOT = { has_law = law_type:law_laissez_faire }
+		any_scope_state = {
+			is_incorporated = yes
+			any_scope_building = {
+				is_building_type = building_food_industry
+				level >= 5
+			}
+		}			
 	}
 	
 	prosperity_modifier = {
@@ -45,6 +49,14 @@ company_putilov_company = {
 		has_interest_marker_in_region = region_baltic
 	}
 	
+	attainable = {
+		hidden_trigger = { # Hide attainable if it's always fulfilled by possible
+			any_scope_state = {
+				state_region = s:STATE_INGRIA
+			}
+		}
+	}		
+	
 	possible = { 
 		any_scope_state = {
 			state_region = s:STATE_INGRIA
@@ -55,7 +67,7 @@ company_putilov_company = {
 					is_building_type = building_military_shipyards
 					is_building_type = building_artillery_foundries
 				}
-				level > 10
+				level >= 10
 			}
 		}
 		has_technology_researched = railways
@@ -84,6 +96,14 @@ company_branobel = {
 	potential = {
 		has_interest_marker_in_region = region_caucasus
 	}
+	
+	attainable = {
+		hidden_trigger = { # Hide attainable if it's always fulfilled by possible
+			any_scope_state = {
+				state_region = s:STATE_AZERBAIJAN
+			}
+		}
+	}		
 	
 	possible = { 
 		any_scope_state = {
@@ -121,13 +141,21 @@ company_izhevsk_arms_plant = {
 		has_interest_marker_in_region = region_west_siberia
 	}
 	
+	attainable = {
+		hidden_trigger = { # Hide attainable if it's always fulfilled by possible
+			any_scope_state = {
+				state_region = s:STATE_PERM
+			}
+		}
+	}			
+	
 	possible = { 
 		any_scope_state = {
 			state_region = s:STATE_PERM
 			is_incorporated = yes
 			any_scope_building = {
 				is_building_type = building_arms_industry
-				level > 10
+				level >= 10
 			}
 		}
 		has_technology_researched = rifling # corresponds roughly with the Izhevsk plant's incorporation as a private commercial enterprise, and not a state arsenal.
@@ -157,13 +185,21 @@ company_savva_morozov = {
 		has_interest_marker_in_region = region_central_russia
 	}
 	
+	attainable = {
+		hidden_trigger = { # Hide attainable if it's always fulfilled by possible
+			any_scope_state = {
+				state_region = s:STATE_MOSCOW
+			}
+		}
+	}		
+	
 	possible = { 
 		any_scope_state = {
 			state_region = s:STATE_MOSCOW
 			is_incorporated = yes
 			any_scope_building = {
 				is_building_type = building_textile_mills
-				level > 10
+				level >= 10
 			}
 		}
 		has_technology_researched = joint_stock_companies
@@ -195,6 +231,14 @@ company_john_hughes = {
 		has_interest_marker_in_region = region_ukraine
 	}
 	
+	attainable = {
+		hidden_trigger = { # Hide attainable if it's always fulfilled by possible
+			any_scope_state = {
+				state_region = s:STATE_EKATERINOSLAV
+			}
+		}
+	}		
+	
 	possible = { 
 		any_scope_state = {
 			state_region = s:STATE_EKATERINOSLAV
@@ -205,7 +249,7 @@ company_john_hughes = {
 					is_building_type = building_coal_mine
 					is_building_type = building_iron_mine
 				}
-				level > 10
+				level >= 10
 			}
 		}
 		has_technology_researched = bessemer_process
@@ -213,7 +257,7 @@ company_john_hughes = {
 	
 	prosperity_modifier = {
 		building_railway_throughput_add = 0.1
-		interest_group_ig_industrialists_approval_add = 3
+		interest_group_ig_industrialists_approval_add = 2
 	}	
 	
 	ai_weight = {

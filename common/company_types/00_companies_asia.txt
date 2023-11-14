@@ -1,4 +1,52 @@
-﻿# Imperial Arsenal
+﻿# United Company of Merchants of England Trading to the East Indies
+company_east_india_company = {
+	texture = "gfx/interface/icons/company_icons/historical_company_icons/gb_eic.dds"
+	
+	flavored_company = yes
+	
+	building_types = {  
+		building_tea_plantation
+		building_tobacco_plantation
+		building_opium_plantation
+	}
+	
+	potential = {
+		c:BIC ?= this
+	}
+	
+	possible = {
+		c:BIC ?= this
+		any_scope_state = {
+			OR = {
+				region = sr:region_north_india
+				region = sr:region_south_india
+			}
+			any_scope_building = {
+				OR = {
+					is_building_type = building_tea_plantation
+					is_building_type = building_tobacco_plantation
+					is_building_type = building_opium_plantation
+				}
+				level >= 10
+			}
+			count >= 4
+		}
+		OR = {
+			has_law = law_type:law_mercantilism
+			has_law = law_type:law_protectionism
+		}
+	}
+	
+	prosperity_modifier = {
+		country_convoys_capacity_mult = 0.2
+	}	
+	
+	ai_weight = {
+		value = 3 # Higher base value for flavored companies
+	}
+}
+
+# Imperial Arsenal
 company_imperial_arsenal = {
 	texture = "gfx/interface/icons/company_icons/historical_company_icons/imperial_arsenal.dds"
 	
@@ -12,13 +60,21 @@ company_imperial_arsenal = {
 		has_interest_marker_in_region = region_anatolia
 	}
 	
+	attainable = {
+		hidden_trigger = { # Hide attainable if it's always fulfilled by possible
+			any_scope_state = {
+				state_region = s:STATE_EASTERN_THRACE
+			}
+		}
+	}			
+	
 	possible = {
 		any_scope_state = {
 			state_region = s:STATE_EASTERN_THRACE
 			is_incorporated = yes
 			any_scope_building = {
 				is_building_type = building_military_shipyards
-				level > 10
+				level >= 10
 			}
 		}
 		has_technology_researched = hydraulic_cranes
@@ -52,7 +108,7 @@ company_ottoman_tobacco_regie = {
 			is_incorporated = yes
 			any_scope_building = {
 				is_building_type = building_tobacco_plantation
-				level > 5
+				level >= 5
 				count >= 4
 			}
 		}
@@ -86,6 +142,14 @@ company_allatini_mills = {
 		has_interest_marker_in_region = region_greece
 	}
 	
+	attainable = {
+		hidden_trigger = { # Hide attainable if it's always fulfilled by possible
+			any_scope_state = {
+				state_region = s:STATE_MACEDONIA
+			}
+		}
+	}		
+	
 	possible = {
 		any_scope_state = {
 			state_region = s:STATE_MACEDONIA
@@ -95,7 +159,7 @@ company_allatini_mills = {
 					is_building_type = building_wheat_farm
 					is_building_type = building_rye_farm
 				}
-				level > 10
+				level >= 10
 			}
 		}
 		NOR = {
@@ -131,8 +195,11 @@ company_orient_express = {
 		}
 	}
 	
-	possible = {
+	attainable = {
 		owns_entire_state_region = STATE_EASTERN_THRACE
+	}			
+	
+	possible = {
 		any_scope_state = {
 			region = sr:region_greece
 			is_incorporated = yes
@@ -171,6 +238,17 @@ company_great_indian_railway = {
 		}
 	}
 	
+	attainable = {
+		hidden_trigger = { # Hide attainable if it's always fulfilled by possible
+			any_scope_state = {
+				OR = {
+					region = sr:region_south_india
+					region = sr:region_north_india
+				}
+			}
+		}
+	}			
+	
 	possible = {
 		any_scope_state = {
 			OR = {
@@ -208,6 +286,14 @@ company_tata = {
 		has_interest_marker_in_region = region_south_india
 	}
 	
+	attainable = {
+		hidden_trigger = { # Hide attainable if it's always fulfilled by possible
+			any_scope_state = {
+				state_region = s:STATE_BOMBAY
+			}
+		}
+	}		
+	
 	possible = {
 		any_scope_state = {
 			state_region = s:STATE_BOMBAY
@@ -217,7 +303,7 @@ company_tata = {
 					is_building_type = building_textile_mills
 					is_building_type = building_steel_mills
 				}
-				level > 10
+				level >= 10
 			}
 		}
 	}
@@ -246,6 +332,15 @@ company_sunhwaguk = {
 	potential = {
 		has_interest_marker_in_region = region_manchuria
 	}
+	
+	
+	attainable = {
+		hidden_trigger = { # Hide attainable if it's always fulfilled by possible
+			any_scope_state = {
+				state_region = { is_homeland = cu:korean }
+			}
+		}
+	}		
 	
 	possible = {
 		any_scope_state = {
@@ -284,13 +379,21 @@ company_nam_dinh = {
 		has_interest_marker_in_region = region_indochina
 	}
 	
+	attainable = {
+		hidden_trigger = { # Hide attainable if it's always fulfilled by possible
+			any_scope_state = {
+				state_region = s:STATE_TONKIN
+			}
+		}
+	}			
+	
 	possible = {
 		any_scope_state = {
 			state_region = s:STATE_TONKIN
 			is_incorporated = yes
 			any_scope_building = {
 				is_building_type = building_textile_mills
-				level > 10
+				level >= 10
 			}
 		}
 		has_technology_researched = corporate_charters
@@ -319,13 +422,21 @@ company_imperial_tobacco = {
 		has_interest_marker_in_region = region_persia
 	}
 	
+	attainable = {
+		hidden_trigger = { # Hide attainable if it's always fulfilled by possible
+			any_scope_state = {
+				region = sr:region_persia
+			}
+		}
+	}		
+	
 	possible = {
 		any_scope_state = {
 			region = sr:region_persia
 			is_incorporated = yes
 			any_scope_building = {
 				is_building_type = building_tobacco_plantation
-				level > 5
+				level >= 5
 			}
 			count >= 4
 		}
@@ -356,13 +467,21 @@ company_san_miguel = {
 		has_interest_marker_in_region = region_indonesia
 	}
 	
+	attainable = {
+		hidden_trigger = { # Hide attainable if it's always fulfilled by possible
+			any_scope_state = {
+				region = sr:region_indonesia
+			}
+		}
+	}	
+	
 	possible = {
 		any_scope_state = {
 			region = sr:region_indonesia
 			is_incorporated = yes
 			any_scope_building = {
 				is_building_type = building_food_industry
-				level > 10
+				level >= 10
 			}
 		}
 		has_technology_researched = corporate_charters
@@ -391,13 +510,21 @@ company_william_sandford = {
 		has_interest_marker_in_region = region_oceania
 	}
 	
+	attainable = {
+		hidden_trigger = { # Hide attainable if it's always fulfilled by possible
+			any_scope_state = {
+				state_region = s:STATE_NEW_SOUTH_WALES
+			}
+		}
+	}		
+	
 	possible = {
 		any_scope_state = {
 			state_region = s:STATE_NEW_SOUTH_WALES
 			is_incorporated = yes
 			any_scope_building = {
 				is_building_type = building_steel_mills
-				level > 10
+				level >= 10
 			}
 		}
 		has_technology_researched = bessemer_process
@@ -426,13 +553,21 @@ company_b_grimm = {
 		has_interest_marker_in_region = region_indochina
 	}
 	
+	attainable = {
+		hidden_trigger = { # Hide attainable if it's always fulfilled by possible
+			any_scope_state = {
+				state_region = s:STATE_BANGKOK
+			}
+		}
+	}		
+	
 	possible = {
 		any_scope_state = {
 			state_region = s:STATE_BANGKOK
 			is_incorporated = yes
 			any_scope_building = {
 				is_building_type = building_rice_farm
-				level > 10
+				level >= 10
 			}
 		}
 	}

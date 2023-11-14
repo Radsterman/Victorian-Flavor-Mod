@@ -70,9 +70,6 @@ NAI = {
 	NAVAL_INVASION_MIN_SCORE = 10									# AI won't bother launching naval invasions against theaters with a lower total state score than this
 	NAVAL_INVASION_MAX_LOCAL_FRONT_SCORE = 200						# Don't launch a naval invasion if there is a local front of at least this total score for the general
 	
-	# Below data is used for General Orders:
-	MIN_AVAILABLE_UNITS_TO_RECRUIT_OR_PROMOTE = 6 #10(let the ai have more HQs to cover more fronts)If an HQ has fewer than this number of combat units in reserve, don't promote/recruit any commanders for it
-	
 	MAX_INSTITUTION_SPENDING = 0.025 #0.02 AI will not spend more BUR than this on institutions (scaled by weekly GDP)
 	INSTITUTION_SPENDING_INCREASE_SPENDING_RATIO = 1.0 # If current + additional institution spending is equal or less than max spending * this, try to improve some institutions
 	INSTITUTION_SPENDING_DECREASE_SPENDING_RATIO = 2.1 # 2.0 If current institution spending is at least max spending * this, try to degrade some institutions 
@@ -106,7 +103,7 @@ NEconomy = {
 
 NMilitary = {
 	MANPOWER_LOST_DUE_TO_ATTRITION_PER_WEEK_MIN = 0.0005
-	MAPOWER_LOST_DUE_TO_ATTRITION_PER_WEEK_MAX = 0.005
+	MANPOWER_LOST_DUE_TO_ATTRITION_PER_WEEK_MAX = 0.005
 }
 
 NDiplomacy = {
@@ -159,20 +156,32 @@ NPops = {
 }
 
 ### Pop Growth Constants
-@min_birthrate = 0.0010
-@max_birthrate = 0.0060
-@min_mortality = 0.0005
-@max_mortality = 0.0085
-@pop_growth_sol_equilibrium = 5 #was 8					# Equilibrium is where (with no birthrate/death-rate mods) growth is stagnant
-@pop_growth_sol_delta_cap = 15							# SoL Delta Cap is where net growth stops increasing with rising SoL, i.e. both drop at the same pace
-@pop_growth_sol_cap = 30								# SoL Cap is where they birthrate/death-rate stop dropping
+## Base Values per month
+@min_birthrate = 0.00055			# Minimum base birthrate per month (at POP_GROWTH_STABLE_SOL)
+@max_birthrate = 0.00450			# Maximum base birthrate per month (at SOL = 0 if not modified by malnourishment)
+@min_mortality = 0.00045			# Minimum base mortality per month (at POP_GROWTH_STABLE_SOL)
+@max_mortality = 0.00600			# Maximum base mortality per month (at SOL = 0 if not modified by malnourishment)
 
-@mortality_at_equilibrium = @[max_birthrate-(pop_growth_sol_equilibrium*(max_birthrate-min_birthrate)/pop_growth_sol_cap)]
-@birthrate_at_delta_cap = @[max_birthrate-(pop_growth_sol_delta_cap*(max_birthrate-min_birthrate)/pop_growth_sol_cap)]
-@improving_slope = @[(birthrate_at_delta_cap-min_birthrate-min_mortality-mortality_at_equilibrium)/(pop_growth_sol_delta_cap-pop_growth_sol_equilibrium)]
-@improving_intercept = @[-1*improving_slope*pop_growth_sol_equilibrium+mortality_at_equilibrium]
-@mortality_at_delta_cap = @[improving_slope*pop_growth_sol_delta_cap+improving_intercept]
-@fixed_delta_slope = @[(min_mortality-mortality_at_delta_cap)/(pop_growth_sol_cap-pop_growth_sol_delta_cap)]
+## SoL Thresholds
+@pop_growth_equilibrium_sol = 5		# Equilibrium is pops stop starving and where growth first becomes positive
+@pop_growth_transition_sol = 10     # Transition determines how long birthrate "lags" behind mortality before starting to drop. Setting to same as equilibrium leads to no "lag" (only matters for birthrate)
+@pop_growth_max_sol = 15			# Growth Max is where net growth generally is at it's highest (only matters for mortality)
+@pop_growth_stable_sol = 30			# Stable is where birthrate and mortality stop changing and hit their minimum values
+
+#@min_birthrate = 0.0010
+#@max_birthrate = 0.0060
+#@min_mortality = 0.0005
+#@max_mortality = 0.0085
+#@pop_growth_sol_equilibrium = 5 #was 8					# Equilibrium is where (with no birthrate/death-rate mods) growth is stagnant
+#@pop_growth_sol_delta_cap = 15							# SoL Delta Cap is where net growth stops increasing with rising SoL, i.e. both drop at the same pace
+#@pop_growth_sol_cap = 30								# SoL Cap is where they birthrate/death-rate stop dropping
+
+#@mortality_at_equilibrium = @[max_birthrate-(pop_growth_sol_equilibrium*(max_birthrate-min_birthrate)/pop_growth_sol_cap)]
+#@birthrate_at_delta_cap = @[max_birthrate-(pop_growth_sol_delta_cap*(max_birthrate-min_birthrate)/pop_growth_sol_cap)]
+#@improving_slope = @[(birthrate_at_delta_cap-min_birthrate-min_mortality-mortality_at_equilibrium)/(pop_growth_sol_delta_cap-pop_growth_sol_equilibrium)]
+#@improving_intercept = @[-1*improving_slope*pop_growth_sol_equilibrium+mortality_at_equilibrium]
+#@mortality_at_delta_cap = @[improving_slope*pop_growth_sol_delta_cap+improving_intercept]
+#@fixed_delta_slope = @[(min_mortality-mortality_at_delta_cap)/(pop_growth_sol_cap-pop_growth_sol_delta_cap)]
 		
 NPops = {
 }

@@ -222,6 +222,32 @@ ai_strategy_territorial_expansion = {
 		conquer_state = 1.5
 		return_state = 1.5
         take_treaty_port = 0.5
+	}
+
+	secret_goal_scores = {
+		conquer = {
+			if = {
+				limit = {
+					can_reach_target_country = yes
+					has_strategic_adjacency = scope:target_country
+					scope:target_country.country_rank <= root.country_rank
+				}
+				
+				if = {
+					limit = {
+						NOT = { is_country_type = unrecognized }
+						scope:target_country = { NOT = { is_country_type = unrecognized } }
+					}
+					add = 25
+				}		
+				else_if = {
+					limit = {				
+						scope:target_country = { is_country_type = unrecognized }						
+					}
+					add = 50
+				}
+			}
+		}
 	}	
 		
 	possible = {
@@ -773,10 +799,20 @@ ai_strategy_economic_imperialism = {
 				add = {
 					value = 200
 				
-					# Less likely to use open market if we're already enemies in a play, ie they attacked us first
+					# Less interested in open market as a sway or defensive wargoal
 					if = {
-						limit = { is_diplomatic_play_enemy_of = scope:target_country }
-						multiply = 0.25
+						limit = { is_diplomatic_play_involved_with = scope:target_country }
+						multiply = 0.1
+					}
+					else_if = { # High score for opening Japan
+						limit = { 
+							scope:target_country = { 
+								exists = c:JAP
+								this = c:JAP		
+								has_law = law_type:law_isolationism 				
+							} 	
+						}
+						multiply = 2
 					}
 				}
 			}
@@ -789,6 +825,7 @@ ai_strategy_economic_imperialism = {
 					can_reach_target_state = yes
 					scope:target_country = {
 						has_law = law_type:law_isolationism
+						gdp >= 2000000 # Not worth doing against very small markets
 					}
 					scope:target_state = { is_incorporated = yes }
 				}
@@ -965,49 +1002,24 @@ ai_strategy_unify_germany = {
 		bg_army = 1.5
 	}
 	
-	wargoal_scores = {
-		conquer_state = {
-			if = {
-				limit = {
-					scope:target_state = {
-						state_region = {
-							OR = {
-								is_homeland = cu:north_german
-								is_homeland = cu:south_german
-							}
-						}
-						owner = {
-							NOR = { 
-								is_supporting_unification_candidate = { who = root country_formation = GER }
-								is_subject_of = root
-								has_diplomatic_pact = {
-									who = scope:target_country
-									type = customs_union
-								}							
-							}						
+	state_value = {
+		if = {
+			limit = {
+				scope:target_state = {
+					state_region = {
+						OR = {
+							is_homeland = cu:north_german
+							is_homeland = cu:south_german
 						}
 					}
-					can_reach_target_state = yes					
 				}
-				add = 100
+				can_reach_target_state = yes					
 			}
+			add = 100
 		}
-		return_state = {
-			if = {
-				limit = {
-					scope:target_state = {
-						state_region = {
-							OR = {
-								is_homeland = cu:north_german
-								is_homeland = cu:south_german
-							}
-						}	
-					}
-					can_reach_target_state = yes
-				}
-				add = 100
-			}
-		}		
+	}
+	
+	wargoal_scores = {	
 		unification_leadership = {
 			value = 1000
 		}	
@@ -1161,39 +1173,27 @@ ai_strategy_unify_italy = {
 		bg_army = 1.5
 	}
 	
-	wargoal_scores = {
-		conquer_state = {
-			if = {
-				limit = {
-					scope:target_state = {
-						state_region = {
-							OR = {
-								is_homeland = cu:north_italian
-								is_homeland = cu:south_italian
-							}
-						}					
-					}	
-					can_reach_target_state = yes
-				}
-				add = 100
+	state_value = {
+		if = {
+			limit = {
+				scope:target_state = {
+					state_region = {
+						OR = {
+							is_homeland = cu:north_italian
+							is_homeland = cu:south_italian
+						}
+					}						
+				}	
+				can_reach_target_state = yes
 			}
+			add = 100
 		}
-		return_state = {
-			if = {
-				limit = {
-					scope:target_state = {
-						state_region = {
-							OR = {
-								is_homeland = cu:north_italian
-								is_homeland = cu:south_italian
-							}
-						}					
-					}
-					can_reach_target_state = yes
-				}
-				add = 100
-			}
-		}		
+	}
+	
+	wargoal_scores = {
+		unification_leadership = {
+			value = 1000
+		}			
 	}	
 	
 	secret_goal_scores = {
@@ -1365,6 +1365,24 @@ ai_strategy_unify_ethiopia = {
 		bg_army = 1.5
 	}
 	
+	state_value = {
+		if = {
+			limit = {
+				scope:target_state = {
+					state_region = {
+						OR = {
+							is_homeland = cu:amhara
+							is_homeland = cu:oromo
+							is_homeland = cu:tigray
+						}					
+					}						
+				}
+				can_reach_target_state = yes
+			}
+			add = 100
+		}	
+	}
+	
 	wargoal_scores = {
 		annex_country = {
 			if = {
@@ -1376,41 +1394,7 @@ ai_strategy_unify_ethiopia = {
 				}
 				add = 300
 			}		
-		}
-		conquer_state = {
-			if = {
-				limit = {
-					scope:target_state = {
-						state_region = {
-							OR = {
-								is_homeland = cu:amhara
-								is_homeland = cu:oromo
-								is_homeland = cu:tigray
-							}					
-						}						
-					}
-					can_reach_target_state = yes
-				}
-				add = 100
-			}
-		}
-		return_state = {
-			if = {
-				limit = {
-					scope:target_state = {
-						state_region = {
-							OR = {
-								is_homeland = cu:amhara
-								is_homeland = cu:oromo
-								is_homeland = cu:tigray
-							}					
-						}						
-					}
-					can_reach_target_state = yes
-				}
-				add = 200
-			}
-		}		
+		}	
 	}		
 	
 	secret_goal_scores = {
@@ -1539,6 +1523,23 @@ ai_strategy_unify_china = {
 		bg_army = 1.5
 	}
 	
+	state_value = {
+		if = {
+			limit = {
+				scope:target_state = {				
+					state_region = {
+						OR = {
+							is_homeland = cu:manchu
+							is_homeland = cu:han
+						}		
+					}
+				}
+				can_reach_target_state = yes
+			}
+			add = 100
+		}	
+	}
+	
 	wargoal_scores = {
 		annex_country = {
 			if = {
@@ -1550,38 +1551,6 @@ ai_strategy_unify_china = {
 				}
 				add = 300
 			}		
-		}	
-		conquer_state = {
-			if = {
-				limit = {
-					scope:target_state = {				
-						state_region = {
-							OR = {
-								is_homeland = cu:manchu
-								is_homeland = cu:han
-							}		
-						}
-					}
-					can_reach_target_state = yes
-				}
-				add = 100
-			}
-		}
-		return_state = {
-			if = {
-				limit = {
-					scope:target_state = {					
-						state_region = {
-							OR = {
-								is_homeland = cu:manchu
-								is_homeland = cu:han
-							}
-						}	
-					}
-					can_reach_target_state = yes
-				}
-				add = 200
-			}
 		}		
 	}			
 	
