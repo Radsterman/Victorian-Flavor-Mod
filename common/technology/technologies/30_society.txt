@@ -21,6 +21,7 @@ urbanization = {
 		state_infrastructure_from_population_add = 2
 		state_infrastructure_from_population_max_add = 40	
 		state_building_construction_sector_max_level_add = 10
+		country_max_weekly_construction_progress_add = 10
 		market_land_trade_capacity_add = 50
 	}
 	
@@ -658,6 +659,18 @@ nationalism = {
 		international_relations
 	}
 	
+	on_researched = {
+		if = {
+			limit = {
+				NOT = { has_variable = nationalism_researched }
+			}
+			custom_tooltip = {
+				text = unlock_national_agitation_tt
+				set_variable = nationalism_researched
+			}
+		}
+	}
+	
 	ai_weight = {
 		value = 2 # Important in general
 		
@@ -936,6 +949,18 @@ socialism = {
 		state_expected_sol_from_literacy = 1
 		country_institution_workplace_safety_max_investment_add = 2
 	}
+
+	on_researched = {
+		if = {
+			limit = {
+				NOT = { has_variable = socialism_researched }
+			}
+			set_variable = socialism_researched
+			ig:ig_trade_unions = {
+				add_ideology = ideology_socialist
+			}
+		}
+	}
 	
 	unlocking_technologies = {
 		labor_movement
@@ -949,7 +974,7 @@ socialism = {
 			limit = { 
 				has_strategy = ai_strategy_egalitarian_agenda
 			}
-			add = 1
+			add = -0.5
 		}	
 		if = {
 			limit = { 
@@ -958,7 +983,54 @@ socialism = {
 					has_strategy = ai_strategy_reactionary_agenda
 				}			
 			}
+			add = 1
+		}
+	}
+}
+
+corporatism = {
+	era = era_3
+	texture = "gfx/interface/icons/invention_icons/corporatism.dds"
+	category = society
+	on_researched = {
+		if = {
+			limit = {
+				NOT = { has_variable = corporatism_researched }
+			}
+			set_variable = corporatism_researched
+			ig:ig_devout = {
+				remove_ideology = ideology_pious
+				add_ideology = ideology_corporatist
+			}
+		}
+	}
+	
+	modifier = {
+		state_radicals_from_sol_change_accepted_culture_mult = -0.10
+	}
+	
+	unlocking_technologies = {
+		labor_movement
+		nationalism
+	}
+	
+	ai_weight = {
+		value = 1
+		
+		if = {
+			limit = { 
+				has_strategy = ai_strategy_egalitarian_agenda
+			}
 			add = -0.5
+		}	
+		if = {
+			limit = { 
+				OR = {
+					has_strategy = ai_strategy_conservative_agenda
+					has_strategy = ai_strategy_reactionary_agenda
+				}			
+			}
+			add = 1.5
 		}
 	}
 }
@@ -1115,6 +1187,7 @@ elevator = {
 		state_infrastructure_from_population_add = 1
 		state_infrastructure_from_population_max_add = 20
 		state_building_construction_sector_max_level_add = 5
+		country_max_weekly_construction_progress_add = 5
 		market_land_trade_capacity_add = 10
 	}	
 	
@@ -1230,7 +1303,7 @@ political_agitation = {
 	unlocking_technologies = {
 		anarchism
 		socialism
-		pan-nationalism
+		corporatism
 	}
 	
 	ai_weight = {
@@ -1479,7 +1552,7 @@ macroeconomics = {
 	}
 	
 	ai_weight = {
-		value = 2 # very important tech
+		value = 3 # very important tech
 	}
 }
 
