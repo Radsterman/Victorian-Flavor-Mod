@@ -1,6 +1,6 @@
 ﻿je_modern_greek_enlightenment = {
 	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
-
+    group = je_group_internal_affairs
 	is_shown_when_inactive = {
 		country_has_primary_culture = cu:greek
 	}
@@ -51,7 +51,7 @@
 
 je_greek_royal_phalanx = {
 	icon = "gfx/interface/icons/pops_icons/officers.dds"
-
+    group = je_group_internal_affairs
 	is_shown_when_inactive = {
 		country_has_primary_culture = cu:greek
 	}
@@ -66,6 +66,17 @@ je_greek_royal_phalanx = {
 
 	complete = {
 		army_size >= 15
+		NOT = {
+			any_military_formation = {
+				filter = {
+					is_army = yes
+				}
+				any_combat_unit = {
+					has_unit_type = unit_type:combat_unit_type_irregular_infantry
+				}
+				percent >= 0.1
+			}
+		}
 	}
 
 	on_complete = {
