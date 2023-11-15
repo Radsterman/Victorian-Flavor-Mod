@@ -1,5 +1,57 @@
-﻿namespace = kor
+﻿namespace = korea
+# vanilla event
+korea.1 = {
+	type = country_event
+	placement = root
+	title = korea.1.t
+	desc = korea.1.d
+	flavor = korea.1.f
 
+	duration = 3
+
+	event_image = {
+		video = "votp_monarch_holding_court"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	trigger = {
+		# triggered by decision
+	}
+
+	cooldown = { months = normal_modifier_time }
+
+	immediate = {
+		ruler = {
+			save_scope_as = korea_emperor_scope
+		}
+		ig:ig_landowners = {
+			save_scope_as = yangban_scope
+		}
+	}
+
+	option = {
+		name = korea.1.a
+		default_option = yes
+		set_variable = KOR_korean_empire_declared
+		custom_tooltip = yangban_dissolution_tt
+		custom_tooltip = KOR_korean_empire_tooltip
+		add_modifier = {
+			name = modifier_korean_empire
+			months = long_modifier_time
+		}
+		hidden_effect = {
+			ig:ig_landowners = {
+				set_interest_group_name = ig_landowners
+			}
+		}
+	}
+}
+
+namespace = kor
+# VFM events
 kor.1 = { #Hangul event
     type = country_event
     
