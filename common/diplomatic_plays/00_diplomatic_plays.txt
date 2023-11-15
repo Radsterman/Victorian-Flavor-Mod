@@ -11,7 +11,6 @@
 			NOT = { is_country_type = decentralized }
 			NOT = { is_subject_of = root }
 		}
-		diplomatic_play_has_no_relations_blockers = yes	
 	}
 
 	on_weekly_pulse = {}
@@ -33,8 +32,7 @@ dp_regime_change = {
 		NOT = { is_subject_of = scope:target_country }	
 		scope:target_country = {
 			NOT = { is_country_type = decentralized }
-		}
-		diplomatic_play_has_no_relations_blockers = yes			
+		}	
 	}
 
 	on_weekly_pulse = {}
@@ -58,6 +56,68 @@ dp_ban_slavery = {
 		}	
 	}
 
+	on_weekly_pulse = {}
+
+	on_war_begins = {}
+
+	on_war_end = {}
+}
+
+dp_liberate_subject = {
+	war_goal = liberate_subject
+
+	texture = "gfx/interface/icons/war_goals/liberate_subject.dds"
+
+	possible = {
+		NOT = { is_country_type = decentralized }
+		aggressive_diplomatic_plays_permitted = yes
+		NOT = { is_subject_of = scope:target_country }	
+		scope:target_country = {
+			NOT = { is_country_type = decentralized }
+			is_subject = yes
+			NOT = { is_subject_type = subject_type_chartered_company }
+			NOT = { is_subject_type = subject_type_confederation }
+			NOT = { is_subject_of = root }
+		}
+		diplomatic_play_has_no_relations_blocker_with_overlord = yes	
+	}
+
+	on_weekly_pulse = {}
+
+	on_war_begins = {}
+
+	on_war_end = {}
+}
+
+dp_liberate_country = {
+	war_goal = liberate_country
+	texture = "gfx/interface/icons/war_goals/liberate_country.dds"
+	possible = {
+		NOT = { is_country_type = decentralized }
+		aggressive_diplomatic_plays_permitted = yes
+		NOT = { is_subject_of = scope:target_country }	
+		diplomatic_play_has_no_relations_blockers = yes
+	}
+	
+	on_weekly_pulse = {}
+	
+	on_war_begins = {}
+	
+	on_war_end = {}
+}
+
+dp_independence = {
+	requires_interest_marker = no
+
+	war_goal = independence
+
+	texture = "gfx/interface/icons/war_goals/independence.dds"
+
+	possible = {
+		NOT = { is_country_type = decentralized }
+		NOT = { is_subject_type = subject_type_chartered_company }
+	}
+	
 	on_weekly_pulse = {}
 
 	on_war_begins = {}
