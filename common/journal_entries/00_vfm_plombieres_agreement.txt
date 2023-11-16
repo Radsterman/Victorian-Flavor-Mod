@@ -1,0 +1,88 @@
+﻿je_plombieres_agreement = {
+
+	icon = "gfx/interface/icons/event_icons/event_diplomacy.dds"
+
+	is_shown_when_inactive = {
+		OR = {
+			country_has_primary_culture = cu:north_italian
+			country_has_primary_culture = cu:south_italian
+		}
+		any_neighbouring_state = {
+			owner = c:FRA
+		}
+		any_neighbouring_state = {
+			owner = c:AUS
+		}
+		is_subject = no
+
+		has_global_variable = first_italian_war_happened
+		NOR = {
+			owns_entire_state_region = STATE_LOMBARDY
+			year >= 1880
+		}
+	}
+
+
+	possible = {
+		
+		has_technology_researched = nationalism
+
+		has_state_in_state_region = STATE_SAVOY
+		has_state_in_state_region = STATE_PROVENCE
+
+		c:AUS = {
+			AND = {
+				OR = {
+					has_state_in_state_region = STATE_LOMBARDY
+					country_or_subject_owns_entire_state_region = STATE_LOMBARDY
+				}
+				is_subject = no
+			}
+		}
+	}
+
+	invalid = {
+		OR = {
+			owns_entire_state_region = STATE_LOMBARDY
+			year >= 1880
+		}
+	}
+
+	immediate = {
+		c:FRA = {
+			save_scope_as = fra_scope
+		}
+		c:AUS = {
+			save_scope_as = aus_scope
+		}
+		ROOT = {
+			save_scope_as = sar_scope
+		}
+	}
+
+	complete = {
+    	custom_tooltip = {
+			text = plombieres_agreement_complete
+			has_modifier = plombieres_agreement
+		}
+    }
+
+    fail = {
+    	custom_tooltip = {
+    		text = plombieres_agreement_fail
+    		has_variable = plombieres_failed
+    	}
+    }
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = je_plombieres_agreement_goal
+			}
+		}
+	}
+
+	weight = 200
+
+	should_be_pinned_by_default = yes
+}

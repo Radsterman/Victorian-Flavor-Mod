@@ -1,0 +1,34 @@
+﻿je_caucasia_collapse = {
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	fail = {
+        
+        is_subject = no
+       
+	}
+
+	on_fail = {
+		trigger_event = { id = journal_flavor_caucasia.1 }
+	}
+
+    complete = {
+            OR = {
+            AND = {
+                cu:armenian = {
+				    NOT = { culture_is_discriminated_in = ROOT }
+			    }
+                cu:azerbaijani = {
+				    NOT = { culture_is_discriminated_in = ROOT }
+			    }
+                has_law = law_type:law_total_separation
+            }
+  
+            NOT = { owns_entire_state_region = STATE_AZERBAIJAN }
+            NOT = { owns_entire_state_region = STATE_ARMENIA } 
+            }
+         
+    }
+
+    should_be_pinned_by_default = yes
+	weight = 100
+}

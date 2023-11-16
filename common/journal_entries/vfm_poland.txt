@@ -1,0 +1,56 @@
+﻿je_poland_liberation = {
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	complete = {
+        OR = {
+			AND = {
+				exists = c:CPL
+				c:CPL = ROOT
+				c:CPL = {
+					is_subject = no
+				}
+			}
+			AND = {
+				exists = c:POS
+				c:POS = ROOT
+				c:POS = {
+					is_subject = no
+				}
+			}
+			AND = {
+				exists = c:GAL
+				c:GAL = ROOT
+				c:GAL = {
+					is_subject = no
+				}
+			}			
+        }
+        
+       
+	}
+
+	on_complete = {
+
+		if = {
+			limit = { NOT = { country_has_primary_culture = cu:polish } }
+			random_primary_culture = {
+				save_scope_as = old_primary
+			}
+			add_primary_culture = cu:polish
+			remove_primary_culture = scope:old_primary
+		}
+		
+		if = {
+			limit = { NOT = { country_has_state_religion = rel:catholic } }
+			set_state_religion = rel:catholic
+		}
+
+		ruler = {
+			kill_character = yes
+		}
+
+	}
+
+    should_be_pinned_by_default = yes
+	weight = 100
+}

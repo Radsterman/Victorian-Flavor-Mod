@@ -1,0 +1,49 @@
+﻿je_paulett_affair = {
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+
+	is_shown_when_inactive = {
+		exists = c:HAW
+		root= c:HAW
+
+		NOT = {
+			c:HAW = {
+				AND = {
+					is_subject = yes
+					NOT = { is_subject_of = c:GBR }  
+				}
+			}
+		}
+
+	}
+	possible = {
+		is_country_type = unrecognized
+
+		c:GBR = {
+			relations:root > relations_threshold:cordial
+			has_interest_marker_in_region = region_oceania
+		}
+		
+	}
+	immediate = {
+		trigger_event = { id = journal_flavor_hawaii.1 }
+	}
+
+	complete = {
+		is_at_war = no
+		is_subject_of = C:GBR
+	}
+    fail = {
+		custom_tooltip = {
+			text = paulet_foiled_tt
+			has_global_variable = paulet_affair_fail
+		}
+		
+      }
+	on_complete = {
+		trigger_event = { id = journal_flavor_hawaii.5 }
+	}
+
+    should_be_pinned_by_default = yes
+	weight = 100
+}
