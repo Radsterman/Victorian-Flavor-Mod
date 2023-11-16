@@ -6,6 +6,7 @@
 		effect_starting_technology_tier_3_tech = yes
 		add_technology_researched = mass_communication
 		add_technology_researched = stock_exchange
+		add_technology_researched = empiricism
 		effect_starting_politics_conservative = yes
 
 		activate_law = law_type:law_monarchy
@@ -26,12 +27,28 @@
 		add_taxed_goods = g:liquor
 
 
-		add_journal_entry = {
-			type = ragamuffin_war
-		}
-
 		ig:ig_intelligentsia = {
 			add_ruling_interest_group = yes
 		}
+
+		ig:ig_devout = {
+			set_interest_group_name = ig_catholic_church
+		}
+		
+		add_journal_entry = { type = ragamuffin_war }
+		
+		if = {
+			limit = {
+				has_dlc_feature = rp1_content
+			}
+			add_journal_entry = { type = je_matter_of_slavery }
+			add_journal_entry = { type = je_pedro_brazil }
+			add_journal_entry = { type = je_brazilian_nation_building }
+		}
+		
+		add_modifier = {
+			name = unrestricted_slave_trade_modifier
+		}
+		
 	}
 }
