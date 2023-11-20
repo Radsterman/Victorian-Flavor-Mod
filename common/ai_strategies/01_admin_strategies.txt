@@ -170,7 +170,14 @@ ai_strategy_plantation_economy = {
 				ig:ig_landowners = { is_powerful = yes } 
 			}
 			multiply = 1.5
-		}		
+		}	
+		
+		if = {
+			limit = {
+				has_journal_entry = je_agricultural_development
+			}
+			add = 45
+		}
 	}
 }
 
@@ -204,12 +211,6 @@ ai_strategy_resource_expansion = {
 				has_technology_researched = nitroglycerin
 			}			
 		}	
-		fertilizer = { # Explosives byproduct
-			stance = wants_export   
-			trigger = {
-				has_technology_researched = nitroglycerin
-			}				
-		}
 		tools = { stance = wants_high_supply }
 		coal = { stance = wants_export }
 		iron = { stance = wants_export }
@@ -237,6 +238,19 @@ ai_strategy_resource_expansion = {
 			}
 			add = 20
 		}
+		
+		if = {
+			limit = {
+				has_law = law_type:law_council_republic	
+				NOT = {
+					ig:ig_rural_folk ?= {
+						is_powerful = yes
+						is_in_government = yes
+					}
+				}
+			}
+			add = 25
+		}	
 		
 		if = {
 			limit = { is_country_type = unrecognized }
@@ -483,6 +497,26 @@ ai_strategy_industrial_expansion = {
 		}
 		
 		if = {
+			limit = {
+				has_law = law_type:law_council_republic	
+				NOT = {
+					ig:ig_rural_folk ?= {
+						is_powerful = yes
+						is_in_government = yes
+					}
+				}
+			}
+			add = 50
+		}	
+		
+		if = {
+			limit = {
+				has_law = law_type:law_command_economy	
+			}
+			multiply = 2
+		}	
+		
+		if = {
 			limit = { is_country_type = unrecognized }
 			multiply = 0.25
 		}	
@@ -622,4 +656,55 @@ ai_strategy_placate_population = {
 			multiply = 0.1
 		}		
 	}
+}
+
+ai_strategy_colonial_extraction = {
+    icon = "gfx/interface/icons/ai_strategy_icons/resource_expansion.dds"
+    
+    type = administrative   
+    building_group_weights = {
+        bg_rubber = 1.5
+        bg_oil_extraction = 1.5
+        bg_mining = 1.5
+        bg_logging = 1.5
+        bg_plantations = 1.5
+    }
+    
+    subsidies = {
+        building_tooling_workshops = wants_to_have
+    }
+    
+    goods_stances = {
+        explosives = { 
+            stance = wants_high_supply 
+            trigger = {
+                has_technology_researched = nitroglycerin
+            }           
+        }
+        tools = { stance = wants_high_supply }
+        coal = { stance = wants_export }
+        iron = { stance = wants_export }
+        oil = { stance = wants_export }
+        lead = { stance = wants_export }
+        wood = { stance = wants_export }
+        hardwood = { stance = wants_export }
+        sulfur = { stance = wants_export }
+        fruit = { stance = wants_export }
+        fabric = { stance = wants_export }
+        sugar = { stance = wants_export }
+        coffee = { stance = wants_export }
+        tea = { stance = wants_export }
+        opium = { stance = wants_export }
+        tobacco = { stance = wants_export }
+        dye = { stance = wants_export }
+        silk = { stance = wants_export }    
+    }
+    possible = {
+    	is_subject = yes
+    	is_country_type = colonial
+    }
+    
+    weight = {
+        value = 100
+    }
 }

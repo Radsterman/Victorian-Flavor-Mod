@@ -6,7 +6,7 @@
 	
 	modifier = {
 		unit_morale_loss_mult = 0.1
-		state_conscription_rate_add = 0.02
+		state_conscription_rate_add = 0.04
 		interest_group_ig_landowners_pol_str_mult = 0.25
 		country_military_goods_cost_mult = -0.25
 		state_building_barracks_max_level_add = 20
@@ -15,6 +15,21 @@
 	
 	on_enact = {
 		custom_tooltip = QUALIFICATIONS_OFFICERS_PEASANT_LEVIES_DESC
+		if = {
+			limit = {
+				NOT = {
+					has_law = law_type:law_peasant_levies
+				}
+			}
+			custom_tooltip = aristocrats_af_ig_shift_effect_tt
+		}
+		if = {
+			limit = {
+				has_law = law_type:law_professional_army
+			}
+			custom_tooltip = military_pops_af_ig_shift_effect_negative_tt
+			custom_tooltip = non_military_pops_af_ig_shift_effect_negative_tt
+		}
 	}
 	
 	possible_political_movements = {
@@ -36,6 +51,13 @@
 			}
 		}
 	}
+
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	} 
+	
+	on_impose = {	
+	} 
 
 	# AI will never return to peasant levies
 	ai_will_do = {
@@ -70,10 +92,29 @@ law_professional_army = {
 		interest_group_ig_armed_forces_pol_str_mult = 0.25
 		state_building_barracks_max_level_add = 35 # vfm - dont let player place everything in capital...
 		state_building_conscription_center_max_level_add = 50
+		unit_experience_gain_mult = 0.25
 	}
 	
 	possible_political_movements = {
 		law_mass_conscription
+	}
+
+	on_enact = {
+		if = {
+			limit = {
+				has_law = law_type:law_peasant_levies
+			}
+			custom_tooltip = aristocrats_af_ig_shift_effect_negative_tt
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_law = law_type:law_professional_army
+				}
+			}
+			custom_tooltip = non_military_pops_af_ig_shift_effect_tt
+			custom_tooltip = military_pops_af_ig_shift_effect_tt
+		}
 	}
 
 	pop_support = {
@@ -99,6 +140,13 @@ law_professional_army = {
 			}
 		}
 	}
+
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	} 
+
+	on_impose = { 
+	} 
 
 	ai_enact_weight_modifier = { #Petitions
 		value = 0
@@ -135,6 +183,22 @@ law_national_militia = {
 		law_mass_conscription
 	}
 
+	on_enact = {
+		if = {
+			limit = {
+				has_law = law_type:law_peasant_levies
+			}
+			custom_tooltip = aristocrats_af_ig_shift_effect_negative_tt
+		}
+		if = {
+			limit = {
+				has_law = law_type:law_professional_army
+			}
+			custom_tooltip = military_pops_af_ig_shift_effect_negative_tt
+			custom_tooltip = non_military_pops_af_ig_shift_effect_negative_tt
+		}
+	}
+
 	pop_support = {
 		value = 0
 		# Farmers like waving a rifle around and telling people to get off their land
@@ -148,6 +212,13 @@ law_national_militia = {
 			}
 		}
 	}
+
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	} 
+
+	on_impose = { 
+	} 
 	
 	ai_will_do = {
 		exists = ruler
@@ -180,10 +251,26 @@ law_mass_conscription = {
 	
 	modifier = {
 		unit_morale_loss_mult = 0.05
-		state_conscription_rate_add = 0.04
+		state_conscription_rate_add = 0.03
 		building_training_rate_mult = 1
 		state_building_barracks_max_level_add = 35 # vfm - dont let player place everything in capital...
 		state_building_conscription_center_max_level_add = 100
+	}
+
+	on_enact = {
+		if = {
+			limit = {
+				has_law = law_type:law_peasant_levies
+			}
+			custom_tooltip = aristocrats_af_ig_shift_effect_negative_tt
+		}
+		if = {
+			limit = {
+				has_law = law_type:law_professional_army
+			}
+			custom_tooltip = military_pops_af_ig_shift_effect_negative_tt
+			custom_tooltip = non_military_pops_af_ig_shift_effect_negative_tt
+		}
 	}
 	
 	possible_political_movements = {
@@ -193,6 +280,13 @@ law_mass_conscription = {
 	pop_support = {
 		value = 0
 	}
+
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	} 
+
+	on_impose = { 
+	} 
 
 	ai_enact_weight_modifier = { #Petitions
 		value = 0

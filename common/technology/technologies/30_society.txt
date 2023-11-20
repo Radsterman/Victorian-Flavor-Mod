@@ -21,6 +21,7 @@ urbanization = {
 		state_infrastructure_from_population_add = 2
 		state_infrastructure_from_population_max_add = 40	
 		state_building_construction_sector_max_level_add = 10
+		country_max_weekly_construction_progress_add = 10
 		market_land_trade_capacity_add = 50
 	}
 	
@@ -38,6 +39,7 @@ urban_planning = {
 		state_infrastructure_from_population_add = 1
 		state_infrastructure_from_population_max_add = 20
 		state_building_construction_sector_max_level_add = 5
+		country_max_weekly_construction_progress_add = 5
 		market_land_trade_capacity_add = 10
 	}
 	
@@ -180,6 +182,24 @@ centralization = {
 	}
 }
 
+corporate_charters = {
+	era = era_1
+	texture = "gfx/interface/icons/invention_icons/corporate_charters.dds"
+	category = society
+	
+	modifier = {
+		country_max_companies_add = 1
+	}	
+	
+	unlocking_technologies = {
+		stock_exchange
+	}
+	
+	ai_weight = {
+		value = 3 # very important tech
+	}
+}
+
 banking = {
 	era = era_1
 	texture = "gfx/interface/icons/invention_icons/banking.dds"
@@ -287,7 +307,7 @@ stock_exchange = {
 	
 	modifier = {
 		country_trade_route_cost_mult = -0.25
-		country_trade_route_competitiveness_mult = 0.25
+		state_market_access_price_impact = 0.07
 	}
 	
 	unlocking_technologies = {
@@ -428,7 +448,9 @@ modern_sewerage = {
 		state_infrastructure_from_population_add = 1
 		state_infrastructure_from_population_max_add = 20
 		state_building_construction_sector_max_level_add = 5
+		country_max_weekly_construction_progress_add = 5
 		market_land_trade_capacity_add = 10
+		state_pollution_reduction_health_mult = -0.1
 	}
 	
 	unlocking_technologies = {
@@ -533,6 +555,26 @@ central_banking = {
 	}
 }
 
+joint_stock_companies = {
+	era = era_2
+	texture = "gfx/interface/icons/invention_icons/joint_stock_companies.dds"
+	category = society
+	
+	modifier = {
+		country_max_companies_add = 1
+		state_urbanization_per_level_mult = -0.1
+	}	
+	
+	unlocking_technologies = {
+		banking
+		corporate_charters
+	}
+	
+	ai_weight = {
+		value = 2 # important tech
+	}
+}
+
 dialectics = {
 	# Unlocks Philosophy Department PM in Universities
 	
@@ -617,6 +659,18 @@ nationalism = {
 		international_relations
 	}
 	
+	on_researched = {
+		if = {
+			limit = {
+				NOT = { has_variable = nationalism_researched }
+			}
+			custom_tooltip = {
+				text = unlock_national_agitation_tt
+				set_variable = nationalism_researched
+			}
+		}
+	}
+	
 	ai_weight = {
 		value = 2 # Important in general
 		
@@ -631,6 +685,19 @@ nationalism = {
 				}				
 			}
 			add = 2
+		}	
+		
+		if = {
+			limit = {
+				OR = {
+					country_has_primary_culture = cu:north_italian
+					country_has_primary_culture = cu:south_italian
+				}
+				any_country = {
+					has_journal_entry = je_risorgimento
+				}
+			}
+			multiply = 2
 		}			
 	}
 }
@@ -786,7 +853,8 @@ steel_frame_buildings = {
 		state_infrastructure_from_population_add = 1
 		state_infrastructure_from_population_max_add = 20
 		state_building_construction_sector_max_level_add = 5
-		market_land_trade_capacity_add = 10
+		country_max_weekly_construction_progress_add = 5
+		market_land_trade_capacity_add = 5
 	}
 	
 	unlocking_technologies = {
@@ -881,6 +949,18 @@ socialism = {
 		state_expected_sol_from_literacy = 1
 		country_institution_workplace_safety_max_investment_add = 2
 	}
+
+	on_researched = {
+		if = {
+			limit = {
+				NOT = { has_variable = socialism_researched }
+			}
+			set_variable = socialism_researched
+			ig:ig_trade_unions = {
+				add_ideology = ideology_socialist
+			}
+		}
+	}
 	
 	unlocking_technologies = {
 		labor_movement
@@ -894,7 +974,7 @@ socialism = {
 			limit = { 
 				has_strategy = ai_strategy_egalitarian_agenda
 			}
-			add = 1
+			add = -0.5
 		}	
 		if = {
 			limit = { 
@@ -903,7 +983,54 @@ socialism = {
 					has_strategy = ai_strategy_reactionary_agenda
 				}			
 			}
+			add = 1
+		}
+	}
+}
+
+corporatism = {
+	era = era_3
+	texture = "gfx/interface/icons/invention_icons/corporatism.dds"
+	category = society
+	on_researched = {
+		if = {
+			limit = {
+				NOT = { has_variable = corporatism_researched }
+			}
+			set_variable = corporatism_researched
+			ig:ig_devout = {
+				remove_ideology = ideology_pious
+				add_ideology = ideology_corporatist
+			}
+		}
+	}
+	
+	modifier = {
+		state_radicals_from_sol_change_accepted_culture_mult = -0.10
+	}
+	
+	unlocking_technologies = {
+		labor_movement
+		nationalism
+	}
+	
+	ai_weight = {
+		value = 1
+		
+		if = {
+			limit = { 
+				has_strategy = ai_strategy_egalitarian_agenda
+			}
 			add = -0.5
+		}	
+		if = {
+			limit = { 
+				OR = {
+					has_strategy = ai_strategy_conservative_agenda
+					has_strategy = ai_strategy_reactionary_agenda
+				}			
+			}
+			add = 1.5
 		}
 	}
 }
@@ -958,6 +1085,26 @@ mutual_funds = {
 	
 	ai_weight = {
 		value = 1
+	}
+}
+
+investment_banks = {
+	era = era_3
+	texture = "gfx/interface/icons/invention_icons/investment_banks.dds"
+	category = society
+	
+	modifier = {
+		country_max_companies_add = 1
+		state_urbanization_per_level_mult = -0.1
+	}	
+	
+	unlocking_technologies = {
+		joint_stock_companies
+		mutual_funds
+	}
+	
+	ai_weight = {
+		value = 2 # important tech
 	}
 }
 
@@ -1040,6 +1187,7 @@ elevator = {
 		state_infrastructure_from_population_add = 1
 		state_infrastructure_from_population_max_add = 20
 		state_building_construction_sector_max_level_add = 5
+		country_max_weekly_construction_progress_add = 5
 		market_land_trade_capacity_add = 10
 	}	
 	
@@ -1057,6 +1205,10 @@ zeppelins = {
 	era = era_4
 	texture = "gfx/interface/icons/invention_icons/zeppelins.dds"
 	category = society
+	
+	modifier = {
+		state_market_access_price_impact = 0.05
+	}
 	
 	unlocking_technologies = {
 		steel_frame_buildings
@@ -1151,7 +1303,7 @@ political_agitation = {
 	unlocking_technologies = {
 		anarchism
 		socialism
-		pan-nationalism
+		corporatism
 	}
 	
 	ai_weight = {
@@ -1193,6 +1345,25 @@ international_exchange_standards = {
 	
 	ai_weight = {
 		value = 1
+	}
+}
+
+corporate_management = {
+	era = era_4
+	texture = "gfx/interface/icons/invention_icons/corporate_management.dds"
+	category = society
+	
+	modifier = {
+		country_max_companies_add = 1
+		state_urbanization_per_level_mult = -0.15
+	}	
+	
+	unlocking_technologies = {
+		investment_banks
+	}
+	
+	ai_weight = {
+		value = 2 # important tech
 	}
 }
 
@@ -1366,22 +1537,22 @@ modern_financial_instruments = {
 }
 
 macroeconomics = {
-	# #todo#! Does nothing at the moment
 	era = era_5
 	texture = "gfx/interface/icons/invention_icons/macroeconomics.dds"
 	category = society
 	
 	modifier = {
-		country_trade_route_quantity_mult = 0.5
-		country_trade_route_competitiveness_mult = 0.25
+		country_max_companies_add = 1
+		state_market_access_price_impact = 0.05
 	}
 	
 	unlocking_technologies = {
 		international_exchange_standards
+		corporate_management
 	}
 	
 	ai_weight = {
-		value = 1
+		value = 3 # very important tech
 	}
 }
 
@@ -1428,7 +1599,7 @@ paved_roads = {
 	modifier = {
 		state_infrastructure_from_population_add = 1
 		state_infrastructure_from_population_max_add = 20
-		state_building_construction_sector_max_level_add = 5
+		country_max_weekly_construction_progress_add = 5
 		market_land_trade_capacity_add = 10
 	}
 	

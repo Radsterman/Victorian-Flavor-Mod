@@ -58,7 +58,7 @@ law_autocracy = {
 			}
 		}
 		add = {
-			desc = "POP_OFFICERS"
+			desc = "POP_OFFICIERS"			
 			if = {
 				limit = {
 					is_pop_type = officers
@@ -67,6 +67,10 @@ law_autocracy = {
 			}
 		}
 	}
+
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	} 
 
 	ai_enact_weight_modifier = { #Petitions
 		value = 0
@@ -154,6 +158,10 @@ law_technocracy = {
 		}
 	}
 
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	} 
+
 	ai_enact_weight_modifier = { #Petitions
 		value = 0
 		
@@ -233,6 +241,10 @@ law_oligarchy = {
 		}
 	}
 
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	} 
+
 	ai_enact_weight_modifier = { #Petitions
 		value = 0
 		
@@ -294,6 +306,10 @@ law_elder_council = {
 	pop_support = {
 		value = 0
 	}
+
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	} 
 
 	ai_enact_weight_modifier = { #Petitions
 		value = 0
@@ -380,6 +396,10 @@ law_landed_voting = {
 		}
 	}
 
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	} 
+
 	ai_enact_weight_modifier = { #Petitions
 		value = 0
 		
@@ -458,6 +478,10 @@ law_wealth_voting = {
 		}
 	}
 
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	} 
+
 	ai_enact_weight_modifier = { #Petitions
 		value = 0
 		
@@ -534,6 +558,10 @@ law_census_voting = {
 			}
 		}
 	}
+
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	} 
 
 	ai_enact_weight_modifier = { #Petitions
 		value = 0
@@ -620,6 +648,10 @@ law_universal_suffrage = {
 		}
 	}
 
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	} 
+
 	ai_enact_weight_modifier = { #Petitions
 		value = 0
 		
@@ -694,6 +726,10 @@ law_anarchy = {
 		}
 	}
 
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	} 
+
 	ai_enact_weight_modifier = { #Petitions
 		value = 0
 		
@@ -753,23 +789,35 @@ law_single_party_state = {
 	}
 
 	on_activate = {
-		ROOT = {
-			set_variable = { name = only_valid_party value = ruler.interest_group.party }
-		}
-		if = {
-			limit = {
-				NOT = {
-					any_active_party = {
-						exists = this
+		hidden_effect = {
+			if = {
+				limit = {
+					ROOT = {
+						ruler.interest_group = {
+							has_party = yes
+						}
 					}
 				}
+				ROOT = {
+					set_variable = { name = only_valid_party value = ruler.interest_group.party }
+				}
 			}
-			root = { gen_ruler_party = yes }
+			else_if = {
+				limit = {
+					NOT = {
+						any_active_party = {
+							exists = this
+						}
+					}
+				}
+				root = { gen_ruler_party = yes }
+			}
 		}
 		hidden_effect = { #Clears all currently active parties
 			deactivate_parties = yes
 		}
 		update_party_support = yes #Reactivates precisely one legal party
+		
 		custom_tooltip = {
 			text = sps_government_reshuffle_tt
 			every_interest_group = {
@@ -840,6 +888,10 @@ law_single_party_state = {
 			}
 		}
 	}
+
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	} 
 
 	ai_enact_weight_modifier = { #Petitions
 		value = 0

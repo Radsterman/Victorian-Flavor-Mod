@@ -216,45 +216,45 @@ peru_bolivia_confederation.3 = { #Division of Peru
 		name = peru_bolivia_confederation.3.a
 		default_option = yes
 		create_country = {
-            tag = ESP
+            tag = SPU
 			origin = c:PEU
 			state = s:STATE_AREQUIPA.region_state:PEU
 		}
-		s:STATE_ICA = {
-			set_owner_of_provinces = {
-				country = c:ESP
-				provinces = { x6040B0 xB0BAC0 xE5E702 x52BF37 x08623F xDFC030 x5F849A xFB1969 x003582 x3C568C xCAB5E1 x7991EE x4061BE x0D8A39 x68D883 xA7C0A9 x1CA561 xF211E2 xF0A4FE x3F9FD5 xB3DC65 xD54205 x83E894 xFF8828 xBDFBD1 x817BB5 x186AEE xB2AB53 x1F2F47 xB15AC4 x7DD2F8 x43494D x199608 x0AF425 x98E058 xE7EB9B x38EE47 x08BBBC x6780B3 x7B9FBE x40E12A x3B8AB8 xF3A702 xA4DAF3 xDF4030 x44B4A5 x807F09 xA4CA0B x08AC16 x82F15A }
-			}
+		s:STATE_ICA.region_state:PEU = {
+			set_state_owner = c:SPU
+		}
+		s:STATE_LA_PAZ.region_state:PEU = {
+			set_state_owner = c:SPU
 		}
 		s:STATE_TARAPACA = {
 			set_owner_of_provinces = {
-				country = c:ESP
+				country = c:SPU
 				provinces = { xB3DA33 x380AE9 xC9DDC4 x8733A4 x79C7F7 x2F3768 x1040D0 xD46425 xCB9DD5 xF391A7 xA00070 x49DD3B x2FB295 }
-			}
-		}
-		s:STATE_LIMA = {
-			set_owner_of_provinces = {
-				country = c:ESP
-				provinces = { xDF00B0 x32FF31 xA101CC xF333CF }
 			}
 		}
 		s:STATE_ACRE = {
 			set_owner_of_provinces = {
-				country = c:ESP
+				country = c:SPU
 				provinces = { xFA73DA x174A88 x9A5667 xAB73D1 x93D464 x2C1E28 xF605CB xFDB1E8 x5720BB xF23C51 x46F090 x41C0D0 }
 			}
 		}
 		s:STATE_AMAZONAS = {
 			set_owner_of_provinces = {
-				country = c:ESP
-				provinces = { x83B1BA x8BD00A x4C2A62 xEC140B xFC221C xB43B72 xE8E12A xF192D6 x4751E8 xCF9E9F xB29291 x2AF127 x8A5A62 x7CD52C xA88EBF x9AE5DE xBC7468 x6809E1 x5C413B x2404C7 x3FA0FB x6C2ED1 x2F69F7 }
+				country = c:SPU
+				provinces = { x83B1BA x8BD00A x4C2A62 xEC140B xFC221C xB43B72 xE8E12A xF192D6 x4751E8 xCF9E9F x2AF127 x8A5A62 x7CD52C xA88EBF x9AE5DE xBC7468 x6809E1 x5C413B x2404C7 x3FA0FB x6C2ED1 x2F69F7 }
+			}
+		}
+		s:STATE_AMAZONAS = {
+			set_owner_of_provinces = {
+				country = c:SPU
+				provinces = { xB29291 x8F231D }
 			}
 		}
         create_diplomatic_pact = {
-            country = c:ESP
+            country = c:SPU
             type = confederation
         }
-		c:ESP = {
+		c:SPU = {
 			set_relations = { country = c:BOL value = 80 }
 			create_character = {
 				first_name = nicolas
@@ -292,6 +292,9 @@ peru_bolivia_confederation.3 = { #Division of Peru
 					experienced_offensive_planner 
 				}
 			}
+		}
+		c:PEU = {
+			change_tag = NPU
 		}
 		change_relations = {
 			country = c:PEU
@@ -352,8 +355,8 @@ peru_bolivia_confederation.4 = { #Viva Peru del Sur
 			triggered_desc = {
 				desc = peru_bolivia_confederation.4.t2
 				trigger = {
-					exists = c:ESP
-					c:PEU = THIS
+					exists = c:SPU
+					c:SPU = THIS
 				}
 			}
 		}
@@ -380,8 +383,8 @@ peru_bolivia_confederation.4 = { #Viva Peru del Sur
 
 	immediate = {
 
-		c:ESP = {
-			save_scope_as = esp_scope
+		c:SPU = {
+			save_scope_as = SPU_scope
 		}	
 	}
 
@@ -397,7 +400,7 @@ peru_bolivia_confederation.4 = { #Viva Peru del Sur
 			months = 7
 		}
 		hidden_effect = {
-            c:ESP = { 
+            c:SPU = { 
 				add_modifier = {
 			      name = age_of_caudillos_modifier
 			      months = very_long_modifier_time
@@ -457,7 +460,7 @@ peru_bolivia_confederation.4 = { #Viva Peru del Sur
 				}
 			}	
 		}	
-		c:ESP = {
+		c:SPU = {
 			set_next_election_date = "1837.9.17"
 			add_loyalists = {
 				strata = poor
@@ -669,7 +672,7 @@ peru_bolivia_confederation.8 = { #Consolidation
         }
 
         c:BOL = {
-            annex = c:ESP
+            annex = c:SPU
 			random_scope_state = {
 				limit = {
 					state_region = s:STATE_PASTAZA

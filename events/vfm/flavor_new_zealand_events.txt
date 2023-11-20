@@ -1,0 +1,416 @@
+﻿namespace = flavor_new_zealand_events
+
+
+flavor_new_zealand_events.1 = { #Great Britain chooses what to do with New Zealand
+	type = country_event
+	placement = root
+
+	title = flavor_new_zealand_events.1.t
+	desc = flavor_new_zealand_events.1.d
+	flavor = flavor_new_zealand_events.1.f
+
+	event_image = {
+		video = "unspecific_ruler_speaking_to_people"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	minor_left_icon = c:NSW
+	minor_right_icon = c:UNT
+
+	duration = 1
+
+	trigger = {
+		c:GBR ?= THIS
+		exists = c:NSW
+		exists = c:UNT
+		c:NSW = {
+			is_subject_of = c:GBR
+		}
+		c:UNT = {
+			is_subject_of = c:GBR
+		}
+	}
+
+	immediate = {
+		c:GBR = {
+			ruler = {
+				save_scope_as = event_overlord
+			}
+			create_character = {
+				template = william_hobson_character_template
+				on_created = {
+					set_variable = hobson_var
+				}
+			}
+			random_scope_character = {
+				limit = {
+					has_variable = hobson_var
+				}
+				save_scope_as = hobson_scope
+			}
+		}
+		c:NSW = {
+			ruler = {
+				save_scope_as = nsw_ruler
+			}
+		}
+	}
+
+	option = { #NSW's claims are just, define the boundary to include NZ
+		name = flavor_new_zealand_events.1.a
+		default_option = yes
+		ai_chance = { base = 1 }
+		
+		c:NSW = {
+			trigger_event = flavor_new_zealand_events.2
+		}
+	}
+	option = { #NZ should be independent outright
+		name = flavor_new_zealand_events.1.b
+		ai_chance = { base = 0 }
+		
+		trigger_event = flavor_new_zealand_events.3
+	}
+}
+
+flavor_new_zealand_events.2 = { #New South Wales claims on New Zealand
+	type = country_event
+	placement = root
+
+	title = flavor_new_zealand_events.2.t
+	desc = flavor_new_zealand_events.2.d
+	flavor = flavor_new_zealand_events.2.f
+
+	event_image = {
+		video = "gfx/event_pictures/asia_hinduism_sikhism.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	minor_left_icon = c:NSW
+	minor_right_icon = c:UNT
+
+	duration = 1
+
+	trigger = {
+		c:NSW = THIS
+		exists = c:UNT
+		exists = c:GBR
+		c:NSW = {
+			is_subject_of = c:GBR
+		}
+		c:UNT = {
+			is_subject_of = c:GBR
+		}
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = flavor_new_zealand_events.2.a
+		default_option = yes
+		ai_chance = { base = 0 }
+		
+		s:STATE_NORTH_ISLAND = {
+			add_claim = c:NSW
+		}
+		s:STATE_SOUTH_ISLAND = {
+			add_claim = c:NSW
+		}
+		c:GBR = {
+			trigger_event = flavor_new_zealand_events.3
+		}
+	}
+}
+
+flavor_new_zealand_events.3 = { #Question of Maori citizenship
+	type = country_event
+	placement = root
+
+	title = flavor_new_zealand_events.3.t
+	desc = flavor_new_zealand_events.3.d
+	flavor = flavor_new_zealand_events.3.f
+
+	event_image = {
+		video = "unspecific_politicians_arguing"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	minor_left_icon = c:GBR
+	minor_right_icon = c:UNT
+
+	duration = 1
+
+	trigger = {
+		c:GBR ?= THIS
+		exists = c:UNT
+		c:UNT = {
+			is_subject_of = c:GBR
+		}
+	}
+
+	immediate = {
+	}
+
+	option = { #The Maori chiefs should be included
+		name = flavor_new_zealand_events.3.a
+		default_option = yes
+		ai_chance = { base = 1 }
+		
+		c:UNT = {
+			trigger_event = flavor_new_zealand_events.4
+		}
+	}
+
+	option = { #Create New Zealand outright
+		name = flavor_new_zealand_events.3.b
+		ai_chance = { base = 0 }
+		
+		c:GBR = {
+			create_diplomatic_pact = {
+				country = c:UNT
+				type = dependency
+			}
+		}
+		c:UNT = {
+			change_tag = NZL
+			set_country_type = colonial
+			add_primary_culture = cu:australian
+			remove_primary_culture = cu:maori
+			activate_law = law_type:law_presidential_republic
+			activate_law = law_type:law_autocracy
+			activate_law = law_type:law_frontier_colonization
+		}
+	}
+}
+
+flavor_new_zealand_events.4 = { #Treaty of Waitangi
+	type = country_event
+	placement = root
+
+	title = flavor_new_zealand_events.4.t
+	desc = flavor_new_zealand_events.4.d
+	flavor = flavor_new_zealand_events.4.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	minor_left_icon = c:GBR
+	minor_right_icon = c:UNT
+
+	duration = 1
+
+	trigger = {
+		c:UNT ?= THIS
+		exists = c:GBR
+		c:UNT = {
+			is_subject_of = c:GBR
+		}
+	}
+
+	immediate = {
+	}
+
+	option = { #Sign the treaty, becoming New Zealand crown colony
+		name = flavor_new_zealand_events.4.a
+		default_option = yes
+		ai_chance = { base = 1 }
+		
+		c:GBR = {
+			create_diplomatic_pact = {
+				country = c:UNT
+				type = protectorate
+			}
+		}
+		c:UNT = {
+			trigger_event = { id = flavor_new_zealand_events.5 months = 1 }
+		}
+	}
+
+	option = { #Reject the treaty
+		name = flavor_new_zealand_events.4.b
+		ai_chance = { base = 0 }
+		
+		c:GBR = {
+			create_diplomatic_pact = {
+				country = c:UNT
+				type = protectorate
+			}
+		}
+	}
+}
+
+flavor_new_zealand_events.5 = { #Hobson proclaims sovereignty
+	type = country_event
+	placement = root
+
+	title = flavor_new_zealand_events.5.t
+	desc = flavor_new_zealand_events.5.d
+	flavor = flavor_new_zealand_events.5.f
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:hobson_scope
+
+	duration = 1
+
+	trigger = {
+		c:UNT ?= THIS
+		exists = c:GBR
+		c:UNT = {
+			is_subject_of = c:GBR
+		}
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = flavor_new_zealand_events.5.a
+		default_option = yes
+		ai_chance = { base = 1 }
+
+		if = {
+			limit = {
+				exists = c:TNU
+				exists = c:NGA
+				exists = c:TNK
+				exists = c:THE
+				exists = c:NTO
+			}
+			s:STATE_NORTH_ISLAND.region_state:TNU = {
+				add_modifier = {
+					name = decentralized_nation_signed_treaty
+					months = long_modifier_time
+				}
+			}
+			s:STATE_NORTH_ISLAND.region_state:NGA = {
+				add_modifier = {
+					name = decentralized_nation_signed_treaty
+					months = long_modifier_time
+				}
+			}
+			s:STATE_NORTH_ISLAND.region_state:TNK = {
+				add_modifier = {
+					name = decentralized_nation_signed_treaty
+					months = long_modifier_time
+				}
+			}
+			s:STATE_NORTH_ISLAND.region_state:THE = {
+				add_modifier = {
+					name = decentralized_nation_signed_treaty
+					months = long_modifier_time
+				}
+			}
+			s:STATE_NORTH_ISLAND.region_state:NTO = {
+				add_modifier = {
+					name = decentralized_nation_signed_treaty
+					months = long_modifier_time
+				}
+			}
+		}
+	}
+}
+
+flavor_new_zealand_events.6 = { #New Zealand Crown Colony Founded
+	type = country_event
+	placement = root
+
+	title = flavor_new_zealand_events.6.t
+	desc = flavor_new_zealand_events.6.d
+	flavor = flavor_new_zealand_events.6.f
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:hobson_scope
+
+	duration = 1
+
+	trigger = {
+		c:UNT ?= THIS
+		exists = c:GBR
+		c:UNT = {
+			is_subject_of = c:GBR
+		}
+	}
+
+	immediate = {
+	    c:GBR = {
+			random_scope_character = {
+				limit = {
+					has_variable = hobson_var
+				}
+				save_scope_as = hobson_scope
+			}
+		}
+		
+		scope:hobson_scope = {
+			transfer_character = c:UNT
+		}
+		
+		c:GBR = {
+			create_diplomatic_pact = {
+				country = c:UNT
+				type = dependency
+			}
+		}
+		c:UNT = {
+			change_tag = NZL
+			set_country_type = colonial
+			add_primary_culture = cu:australian
+			activate_law = law_type:law_presidential_republic
+			activate_law = law_type:law_autocracy
+			activate_law = law_type:law_frontier_colonization
+			scope:hobson_scope = {
+				set_character_as_ruler = yes
+			}
+		}
+		s:STATE_SOUTH_ISLAND = {
+    		set_owner_of_provinces = {
+			    country = c:NZL 
+				provinces = { xD8C27E } 
+			}
+		}
+	}
+
+	option = { #Yeeeaaahh, okay, yes
+		name = flavor_new_zealand_events.6.a
+		default_option = yes
+		ai_chance = { base = 1 }
+		
+		if = {
+			limit = {
+				exists = c:NSW
+				c:NSW = {
+					is_subject_of = c:GBR
+				}
+			}
+			s:STATE_NORTH_ISLAND = {
+				remove_claim = c:NSW
+			}
+			s:STATE_SOUTH_ISLAND = {
+				remove_claim = c:NSW
+			}
+		}
+	}
+}

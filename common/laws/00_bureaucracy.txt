@@ -9,7 +9,18 @@
 		state_bureaucracy_population_base_cost_factor_mult = -0.25
 		country_bureaucracy_investment_cost_factor_mult = 0.1
         country_institution_size_change_speed_mult = -0.25
-		interest_group_ig_landowners_pol_str_mult = 0.25
+		interest_group_ig_landowners_pol_str_mult = 0.15
+        country_aristocrats_pol_str_mult = 0.15
+	}
+
+	on_enact = {
+		custom_tooltip = urban_aristocrats_int_ig_shift_effect_tt
+		if = {
+			limit = {
+				has_law = law_type:law_elected_bureaucrats
+			}
+			custom_tooltip = bureaucrats_pb_ig_shift_effect_negative_tt
+		}
 	}
 
 	disallowing_laws = {
@@ -34,6 +45,13 @@
 			}
 		}
 	}
+
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	} 
+
+	on_impose = { 
+	} 
 
 	ai_will_do = {
 		exists = ruler
@@ -64,12 +82,28 @@ law_appointed_bureaucrats = {
 	progressiveness = 0
 	
 	modifier = {
-		interest_group_ig_intelligentsia_pol_str_mult = 0.25
+		interest_group_ig_intelligentsia_pol_str_mult = 0.15
+		country_bureaucrats_pol_str_mult = 0.15
 		state_tax_capacity_mult = 0.25
 	}
 	
 	possible_political_movements = {
 		law_elected_bureaucrats
+	}
+
+	on_enact = {
+		if = {
+			limit = {
+				has_law = law_type:law_elected_bureaucrats
+			}
+			custom_tooltip = bureaucrats_pb_ig_shift_effect_negative_tt
+		}
+		if = {
+			limit = {
+				has_law = law_type:law_hereditary_bureaucrats
+			}
+			custom_tooltip = urban_aristocrats_int_ig_shift_effect_negative_tt
+		}
 	}
 
 	pop_support = {
@@ -96,6 +130,13 @@ law_appointed_bureaucrats = {
 			value = 0.25
 		}
 	}
+
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	} 
+
+	on_impose = { 
+	} 
 
 	ai_enact_weight_modifier = { #Petitions
 		value = 0
@@ -124,10 +165,19 @@ law_elected_bureaucrats = {
 		law_technocracy
 		law_elder_council
 	}
+
+	on_enact = {
+		custom_tooltip = bureaucrats_pb_ig_shift_effect_tt
+		if = {
+			limit = {
+				has_law = law_type:law_hereditary_bureaucrats
+			}
+			custom_tooltip = urban_aristocrats_int_ig_shift_effect_negative_tt
+		}
+	}
 	
 	modifier = {
 		country_bureaucracy_investment_cost_factor_mult = -0.15
-		interest_group_ig_petty_bourgeoisie_pol_str_mult = 0.25
 	}
 	
 	possible_political_movements = {
@@ -148,6 +198,13 @@ law_elected_bureaucrats = {
 			value = 0.25
 		}
 	}
+
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	} 
+
+	on_impose = { 
+	} 
 
 	ai_enact_weight_modifier = { #Petitions
 		value = 0

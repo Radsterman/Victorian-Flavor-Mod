@@ -642,25 +642,52 @@ raj.6 = {
 				escalation = 80
 				target_state = s:STATE_DELHI.region_state:MUG
 
-				add_war_goal = {
-					holder = c:MUG
-					type = conquer_state
-					target_state = s:STATE_BIHAR.region_state:BIC
 				}
-				add_war_goal = {
-					holder = c:MUG
-					type = conquer_state
-					target_state = s:STATE_NORTH_BENGAL.region_state:BIC
+			random_diplomatic_play = {
+				limit = {
+					any_scope_play_involved = {
+						c:MUG ?= this
+					}
 				}
-				add_war_goal = {
-					holder = c:MUG
-					type = conquer_state
-					target_state = s:STATE_PUNJAB.region_state:BIC
+				if = {
+					limit = {
+						exists = s:STATE_CENTRAL_INDIA.region_state:BIC 
+					}
+					add_war_goal = {
+						holder = c:MUG
+						type = conquer_state
+						target_state = s:STATE_CENTRAL_INDIA.region_state:BIC
+					}
 				}
-				add_war_goal = {
-					holder = c:MUG
-					type = conquer_state
-					target_state = s:STATE_CENTRAL_INDIA.region_state:BIC
+				if = {
+					limit = {
+						exists = s:STATE_PUNJAB.region_state:BIC
+					}
+					add_war_goal = {
+						holder = c:MUG
+						type = conquer_state
+						target_state = s:STATE_PUNJAB.region_state:BIC
+					}
+				}
+				if = {
+					limit = {
+						exists = s:STATE_NORTH_BENGAL.region_state:BIC
+					}
+					add_war_goal = {
+						holder = c:MUG
+						type = conquer_state
+						target_state = s:STATE_NORTH_BENGAL.region_state:BIC
+					}
+				}
+				if = {
+					limit = {
+						exists = s:STATE_BIHAR.region_state:BIC
+					}
+					add_war_goal = {
+						holder = c:MUG
+						type = conquer_state
+						target_state = s:STATE_BIHAR.region_state:BIC
+					}
 				}
 			}
 		}

@@ -1,6 +1,8 @@
 ﻿je_french_natural_borders = {
 	icon = "gfx/interface/icons/event_icons/bicorne_hat.dds"
 
+	group = je_group_historical_content
+
 	is_shown_when_inactive = {
 		exists = c:FRA
 		this = c:FRA
@@ -19,6 +21,7 @@
 						has_ideology = ideology:ideology_jingoist_leader
 						has_ideology = ideology:ideology_ethno_nationalist
 						has_ideology = ideology:ideology_fascist
+						has_ideology = ideology:ideology_integralist
 						has_ideology = ideology:ideology_authoritarian
 						has_ideology = ideology:ideology_bonapartist
 					}
@@ -76,6 +79,149 @@
 
 	invalid = {
 		has_variable = reject_natural_borders
+	}
+
+	should_be_pinned_by_default = yes
+
+	weight = 100
+}
+
+je_confederation_of_the_rhine = {
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+	group = je_group_foreign_affairs
+
+	is_shown_when_inactive = {
+		OR = {
+			any_country = {
+				is_subject_of = ROOT
+				capital = {
+					OR = {
+						region = sr:region_rhine
+						region = sr:region_north_germany
+						region = sr:region_south_germany
+					}
+				}
+			}
+			any_scope_state = {
+				state_region = {
+					OR = {
+						is_homeland = cu:south_german
+						is_homeland = cu:north_german
+					}
+				}
+				OR = {
+					region = sr:region_rhine
+					region = sr:region_north_germany
+					region = sr:region_south_germany
+				}
+				is_incorporated = no
+				NOT = {
+					ROOT = {
+						has_claim = prev.state_region
+					}
+				}
+			}
+		}
+		NOR = {
+			country_has_primary_culture = cu:north_german
+			country_has_primary_culture = cu:south_german
+		}
+	}
+
+	possible = {
+		any_country = {
+			is_subject_of = ROOT
+			capital = {
+				OR = {
+					region = sr:region_rhine
+					region = sr:region_north_germany
+					region = sr:region_south_germany
+				}
+			}
+			NOT = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = personal_union
+					is_initiator = no
+				}
+			}
+			count >= 2
+		}
+	}
+
+	immediate = {
+		save_scope_as = rhine_overlord
+		cu:north_german = {
+			save_scope_as = north_german_scope
+		}
+		cu:south_german = {
+			save_scope_as = south_german_scope
+		}
+	}
+
+	scripted_button = je_confederation_of_the_rhine_confederate_button
+	scripted_button = je_confederation_of_the_rhine_expand_button
+
+	invalid = {
+		NOR = {
+			any_country = {
+				is_subject_of = ROOT
+				capital = {
+					OR = {
+						region = sr:region_rhine
+						region = sr:region_north_germany
+						region = sr:region_south_germany
+					}
+				}
+			}
+			any_scope_state = {
+				state_region = {
+					OR = {
+						is_homeland = cu:south_german
+						is_homeland = cu:north_german
+					}
+				}
+				OR = {
+					region = sr:region_rhine
+					region = sr:region_north_germany
+					region = sr:region_south_germany
+				}
+				is_incorporated = no
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = no_german_great_powers_tt
+			NOT = {
+				any_country = {
+					OR = {
+						country_has_primary_culture = cu:north_german
+						country_has_primary_culture = cu:south_german
+					}
+					country_rank = rank_value:great_power
+				}
+			}
+		}
+	}
+
+	fail = {
+		exists = c:RHN
+		c:RHN ?= {
+			NOT = {
+				is_subject_of = ROOT
+			}
+		}
+	}
+
+	on_fail = {
+		add_modifier = {
+			name = modifier_fall_of_germany
+			months = normal_modifier_time
+			is_decaying = yes
+		}
 	}
 
 	should_be_pinned_by_default = yes

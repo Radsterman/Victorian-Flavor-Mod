@@ -1,5 +1,35 @@
-﻿je_meiji_restoration = {
+﻿je_terakoya = {
+	icon = "gfx/interface/icons/institution_icons/schools.dds"
+	
+	group = je_group_historical_content
+	
+	modifiers_while_active = {
+		modifier_jap_terakoya
+	}
+	
+	complete = {
+		institution_investment_level = {
+			institution = institution_schools
+			value >= 3
+		}
+	}
+	
+	on_complete = {
+		add_modifier = {
+			name = modifier_legacy_of_terakoya
+			months = long_modifier_time
+			is_decaying = yes
+		}
+	}
+	
+	weight = 100
+	should_be_pinned_by_default = yes
+}
+
+je_meiji_restoration = {
 	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+	
+	group = je_group_historical_content
 
 	is_shown_when_inactive = {
 		exists = c:JAP
@@ -96,6 +126,8 @@
 je_meiji_main = {
 	icon = "gfx/interface/icons/event_icons/event_scales.dds"
 
+	group = je_group_historical_content
+	
 	complete = {
 		scope:journal_entry = {
 			is_goal_complete = yes
@@ -135,6 +167,8 @@ je_meiji_main = {
 je_meiji_economy = {
 	icon = "gfx/interface/icons/event_icons/event_industry.dds"
 
+	group = je_group_historical_content
+	
 	complete = {
 		in_default = no
 		any_scope_state = {
@@ -173,6 +207,8 @@ je_meiji_economy = {
 je_meiji_army = {
 	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
+	group = je_group_historical_content
+	
 	complete = {
 		NOT = { has_law = law_type:law_serfdom }
 		ig:ig_armed_forces = {
@@ -180,14 +216,19 @@ je_meiji_army = {
 			is_in_government = no
 		}
 		has_technology_researched = napoleonic_warfare
-		NOT = {
+		NOR = {
 			any_scope_building = {
 				is_building_type = building_barracks
-				OR = {
-					has_active_production_method = pm_irregular_infantry
-					has_active_production_method = pm_no_artillery
-					has_active_production_method = pm_cannon_artillery
+				has_active_production_method = pm_no_organization
+			}
+			any_military_formation = {
+				filter = {
+					is_army = yes
 				}
+				any_combat_unit = {
+					has_unit_type = unit_type:combat_unit_type_irregular_infantry
+				}
+				percent >= 0.25
 			}
 		}
 	}
@@ -218,6 +259,8 @@ je_meiji_army = {
 je_meiji_diplomacy = {
 	icon = "gfx/interface/icons/event_icons/event_trade.dds"
 
+	group = je_group_historical_content
+	
 	complete = {
 		NOT = { has_law = law_type:law_isolationism }
 		NOT = { has_law = law_type:law_traditionalism }

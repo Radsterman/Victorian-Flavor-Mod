@@ -1,6 +1,8 @@
 ﻿je_sick_man_main = {
 	icon = "gfx/interface/icons/event_icons/event_skull.dds"
 
+	group = je_group_historical_content
+	
 	complete = {
 		scope:journal_entry = {
 			is_goal_complete = yes
@@ -75,6 +77,8 @@
 je_sick_man_syria = {
 	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
+	group = je_group_historical_content
+	
 	complete = {
 			AND = {
 				AND = {
@@ -177,6 +181,8 @@ je_sick_man_syria = {
 je_sick_man_egypt = {
 	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
+	group = je_group_historical_content
+	
 	complete = {
 		OR = {
 			AND = {
@@ -232,6 +238,8 @@ je_sick_man_egypt = {
 je_sick_man_economy = {
 	icon = "gfx/interface/icons/event_icons/event_industry.dds"
 	
+	group = je_group_historical_content
+		
 	is_shown_when_inactive = {
 		country_has_primary_culture = cu:turkish
 		NOT = {
@@ -299,6 +307,8 @@ je_sick_man_economy = {
 # Literacy and Universities
 je_sick_man_education = {
 	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	group = je_group_historical_content
 	
 	is_shown_when_inactive = {
 		country_has_primary_culture = cu:turkish
@@ -322,6 +332,7 @@ je_sick_man_education = {
 		scope:journal_entry = {
 			is_goal_complete = yes
 		}
+		literacy_rate >= 0.2
 	}
 
 	on_complete = {
@@ -358,6 +369,8 @@ je_sick_man_education = {
 # Nationalism
 je_sick_man_separatism = {
 	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+
+	group = je_group_historical_content
 	
 	is_shown_when_inactive = {
 		country_has_primary_culture = cu:turkish
@@ -441,6 +454,8 @@ je_sick_man_separatism = {
 # Army Reform
 je_sick_man_army = {
 	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	group = je_group_historical_content
 	
 	is_shown_when_inactive = {
 		country_has_primary_culture = cu:turkish
@@ -459,15 +474,22 @@ je_sick_man_army = {
 	complete = {
 		army_size >= 150
 		has_technology_researched = napoleonic_warfare
-		NOT = {
+		NOR = {
 			any_scope_building = {
 				is_building_type = building_barracks
 				OR = {
 					building_has_goods_shortage = yes
-					has_active_production_method = pm_irregular_infantry
-					has_active_production_method = pm_no_artillery
-					has_active_production_method = pm_cannon_artillery
+					has_active_production_method = pm_no_organization
 				}
+			}
+			any_military_formation = {
+				filter = {
+					is_army = yes
+				}
+				any_combat_unit = {
+					has_unit_type = unit_type:combat_unit_type_irregular_infantry
+				}
+				percent >= 0.25
 			}
 		}
 	}
@@ -502,6 +524,8 @@ je_sick_man_army = {
 #Navy reform
 je_sick_man_navy = {
 	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	group = je_group_historical_content
 	
 	is_shown_when_inactive = {
 		country_has_primary_culture = cu:turkish
@@ -566,6 +590,8 @@ je_sick_man_navy = {
 # Bureaucractic Reform
 je_sick_man_bureaucracy = {
 	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+	group = je_group_historical_content
 	
 	is_shown_when_inactive = {
 		country_has_primary_culture = cu:turkish
@@ -623,6 +649,8 @@ je_sick_man_bureaucracy = {
 je_sick_man_vilayets = {
 	icon = "gfx/interface/icons/event_icons/event_map.dds"
 	
+	group = je_group_historical_content
+
 	is_shown_when_inactive = {
 		country_has_primary_culture = cu:turkish
 		NOT = {
@@ -684,6 +712,8 @@ je_sick_man_vilayets = {
 
 je_sick_man_kurdistan = {
 	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+	group = je_group_historical_content
 
 	complete = {
 		OR = {

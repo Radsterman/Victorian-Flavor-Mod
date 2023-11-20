@@ -1,6 +1,8 @@
 ﻿je_patagonia = {
 	icon = "gfx/interface/icons/event_icons/event_helmet.dds"
 
+	group = je_group_historical_content
+	
 	is_shown_when_inactive = {
 		exists = c:PAT
 		any_neighbouring_state = {
@@ -11,13 +13,11 @@
 			country_has_primary_culture = cu:platinean
 		}
 	}
+	
+	scripted_button = patagonia_button
 
 	possible = {
-		OR = {
-			has_law = law_type:law_colonial_exploitation
-			has_law = law_type:law_colonial_resettlement
-			has_law = law_type:law_frontier_colonialism
-		}
+		NOT = { has_law = law_type:law_no_colonial_affairs }
 	}
 
 	complete = {
@@ -36,8 +36,9 @@
 
 	on_monthly_pulse = {
 		random_events = {
-			100 = 0
+			85 = 0
 			10 = patagonia.2
+			5 = bp1_patagonia.1
 		}
 	}
 

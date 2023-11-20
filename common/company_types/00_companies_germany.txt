@@ -1,0 +1,278 @@
+﻿# Friedrich Krupp AG
+company_krupp = {
+	texture = "gfx/interface/icons/company_icons/historical_company_icons/german_krupp.dds"
+	
+	flavored_company = yes
+	
+	building_types = {  
+		building_arms_industry
+		building_artillery_foundries
+		building_steel_mills
+	}
+	
+	potential = {
+		has_interest_marker_in_region = region_north_germany
+	}
+	
+	attainable = {
+		hidden_trigger = { # Hide attainable if it's always fulfilled by possible
+			any_scope_state = {
+				state_region = s:STATE_RHINELAND
+			}
+		}
+	}	
+	
+	possible = { 
+		any_scope_state = {
+			state_region = s:STATE_RHINELAND
+			is_incorporated = yes
+			any_scope_building = {
+				OR = {
+					is_building_type = building_steel_mills
+					is_building_type = building_arms_industry
+					is_building_type = building_artillery_foundries
+				}
+				level >= 10
+			}
+		}
+		has_technology_researched = steelworking
+	}
+	
+	prosperity_modifier = {
+		building_railway_throughput_add = 0.1
+		unit_kill_rate_add = 0.1
+	}	
+	
+	ai_weight = {
+		value = 3 # Higher base value for flavored companies
+	}
+}
+
+# Rheinische Metallwaaren- und Maschinenfabrik Aktiengesellschaft
+company_rheinmetall = {
+	texture = "gfx/interface/icons/company_icons/historical_company_icons/german_rheinmetall.dds"
+	
+	flavored_company = yes
+	
+	building_types = {  
+		building_artillery_foundries
+		building_munition_plants
+		building_explosives_factory
+	}
+	
+	potential = {
+		has_interest_marker_in_region = region_north_germany
+	}
+	
+	attainable = {
+		hidden_trigger = { # Hide attainable if it's always fulfilled by possible
+			any_scope_state = {
+				OR = {
+					state_region = s:STATE_RHINELAND
+					state_region = s:STATE_NORTH_RHINE
+				}
+			}
+		}
+	}		
+	
+	possible = {
+		any_scope_state = {
+			OR = {
+				state_region = s:STATE_RHINELAND
+				state_region = s:STATE_NORTH_RHINE
+			}
+			is_incorporated = yes
+			any_scope_building = {
+				OR = {
+					is_building_type = building_arms_industry
+					is_building_type = building_artillery_foundries
+					is_building_type = building_munition_plants
+				}
+				level >= 10
+			}
+		}
+		has_technology_researched = automatic_machine_guns
+	}
+	
+	prosperity_modifier = {
+		unit_combat_unit_type_siege_artillery_offense_mult = 0.1
+		unit_combat_unit_type_shrapnel_artillery_offense_mult = 0.1
+		unit_army_defense_mult = 0.05
+	}
+
+	ai_weight = {
+		value = 3 # Higher base value for flavored companies
+	}	
+}
+
+# F. Schichau, Maschinen- und Lokomotivfabrik, Schiffswerft und Eisengießerei GmbH
+company_schichau = {
+	texture = "gfx/interface/icons/company_icons/historical_company_icons/german_schichau.dds"
+	
+	flavored_company = yes
+	
+	building_types = {  
+		building_motor_industry
+		building_military_shipyards
+		building_shipyards
+	}
+	
+	potential = {
+		has_interest_marker_in_region = region_poland
+	}
+	
+	attainable = {
+		hidden_trigger = { # Hide attainable if it's always fulfilled by possible
+			any_scope_state = {
+				state_region = s:STATE_WEST_PRUSSIA			
+			}
+		}
+	}	
+	
+	possible = { 
+		any_scope_state = {
+			state_region = s:STATE_WEST_PRUSSIA
+			is_incorporated = yes
+			any_scope_building = {
+				is_building_type = building_motor_industry
+				level >= 10
+			}
+		}
+		has_technology_researched = atmospheric_engine
+	}
+	
+	prosperity_modifier = {
+		unit_navy_offense_mult = 0.05
+		unit_combat_unit_type_submarine_offense_mult = 0.1
+	}	
+	
+	ai_weight = {
+		value = 3 # Higher base value for flavored companies
+	}
+}
+
+# Siemens & Halske AG
+company_siemens_and_halske = {
+	texture = "gfx/interface/icons/company_icons/historical_company_icons/german_siemens_halske.dds"
+	
+	flavored_company = yes
+	
+	building_types = {  
+		building_electrics_industry
+	}
+	
+	potential = {
+		has_interest_marker_in_region = region_north_germany
+	}
+	
+	attainable = {
+		hidden_trigger = { # Hide attainable if it's always fulfilled by possible
+			any_scope_state = {
+				state_region = s:STATE_BRANDENBURG		
+			}
+		}
+	}		
+	
+	possible = {
+		any_scope_state = {
+			state_region = s:STATE_BRANDENBURG
+			is_incorporated = yes
+			any_scope_building = {
+				is_building_type = building_electrics_industry
+				level >= 10
+			}
+		}
+		has_technology_researched = electric_telegraph
+	}
+	
+	prosperity_modifier = {
+		building_power_plant_throughput_add = 0.15
+	}	
+	
+	ai_weight = {
+		value = 3 # Higher base value for flavored companies
+	}
+}
+
+# Preußische Staatseisenbahnen
+company_prussian_state_railways = {
+	texture = "gfx/interface/icons/company_icons/historical_company_icons/german_kpev.dds"
+	
+	flavored_company = yes
+	
+	building_types = {  
+		building_railway
+	}
+	
+	potential = {
+		OR = {
+			c:PRU ?= this
+			was_formed_from = PRU
+		}
+	}
+	
+	possible = {
+		any_scope_state = {
+			OR = {
+				region = sr:region_north_germany
+				region = sr:region_south_germany
+			}
+			is_incorporated = yes
+			has_building = building_railway
+			count >= 6
+		}
+	}
+	
+	prosperity_modifier = {
+		unit_mobilization_speed_from_railways_mult = 0.3
+	}	
+	
+	ai_weight = {
+		value = 3 # Higher base value for flavored companies
+	}
+}
+
+
+# BASF
+company_basf = {
+	texture = "gfx/interface/icons/company_icons/historical_company_icons/german_basf.dds"
+	
+	flavored_company = yes
+	
+	building_types = {  
+		building_synthetics_plants
+		building_chemical_plants
+	}
+	
+	potential = {
+		has_interest_marker_in_region = region_south_germany
+	}
+	
+	attainable = {
+		hidden_trigger = { # Hide attainable if it's always fulfilled by possible
+			any_scope_state = {
+				state_region = s:STATE_BADEN		
+			}
+		}
+	}		
+	
+	possible = {
+		any_scope_state = {
+			state_region = s:STATE_BADEN
+			is_incorporated = yes
+			any_scope_building = {
+				is_building_type = building_synthetics_plants
+				level >= 10
+			}
+		}
+	}
+	
+	prosperity_modifier = {
+		country_weekly_innovation_mult = 0.1
+		building_group_bg_oil_extraction_throughput_add = 0.05
+	}	
+	
+	ai_weight = {
+		value = 3 # Higher base value for flavored companies
+	}
+}
