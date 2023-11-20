@@ -1,0 +1,478 @@
+﻿je_hanja_issue = {
+	icon = "gfx/interface/icons/event_icons/event_academia.dds"
+    group = je_group_technology
+	complete = {
+		AND = {
+			any_scope_building = {
+				is_building_type = building_university
+				occupancy > 0.9
+				level >= 5
+			}
+			institution_investment_level = {
+				institution = institution_schools 
+				value >= 1
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = kor.1
+		}
+	}
+}
+
+je_sadae = {
+	icon = "gfx/interface/icons/event_icons/event_diplomacy.dds"
+	group = je_group_internal_affairs
+	immediate = {
+		c:CHI = {
+			save_scope_as = chi_scope
+		}
+	}
+	invalid = {
+		has_global_variable = china_shatters
+		AND = {
+			NOT = {
+				c:CHI = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = tributary
+						is_initiator = yes
+					}
+				}
+			}
+			NOT = { is_subject_of = c:CHI }
+		}	
+	}
+	complete = {
+		NOT = { 
+			top_overlord = {
+				OR = {
+					is_at_war = yes
+					is_diplomatic_play_committed_participant = yes
+				}
+			} 
+		}
+		OR = {
+			top_overlord = {
+				custom_tooltip = {
+					text = kor_chi_relations_tt
+					relations:root >= relations_threshold:friendly
+				}
+				custom_tooltip = {
+					text = kor_chi_obligation_tt
+					owes_obligation_to = root
+				}
+			}
+			custom_tooltip = {
+				text = kor_chi_gdp_tt
+				GDP >= gdp_chi
+			}
+		}
+	}
+
+	fail = {
+		top_overlord = {
+			custom_tooltip = {
+				text = kor_chi_relations_bad_tt
+				relations:root < relations_threshold:neutral
+			}
+			is_at_war = no
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = kor.3
+		}
+	}
+
+	on_fail = {
+		c:CHI = {
+			trigger_event = {
+				id = kor.4
+			}
+		}
+	}
+	should_be_pinned_by_default = yes
+}
+
+je_silhak = {
+	icon = "gfx/interface/icons/event_icons/event_religion.dds"
+	group = je_group_internal_affairs
+	immediate = {
+		ig:ig_intelligentsia = { save_scope_as = ig_intelligentsia }
+	}
+	complete = {
+		has_technology_researched = empiricism
+	}
+	on_weekly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					can_research = academia
+				}
+				add_technology_progress = {
+					progress = 15
+					technology = academia
+				}
+			}
+			if = {
+				limit = {
+					can_research = empiricism
+				}
+				add_technology_progress = {
+					progress = 10
+					technology = empiricism
+				}
+			}
+		}
+	}
+	on_complete = {
+		trigger_event = {
+			id = silhak.1
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = seohak.1
+				days = 3
+			}
+			trigger_event = {
+				id = seohak.2
+			}
+		}
+	}
+}
+
+je_silhak_return = {
+	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
+	group = je_group_internal_affairs
+	immediate = {
+		ig:ig_intelligentsia = { save_scope_as = ig_intelligentsia }
+		set_variable = {
+			name = silhak_var
+			value = 0
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = seohak.1
+			}
+		}
+	}
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+	on_complete = {
+		custom_tooltip = {
+			text = donghak_radical_tt
+			ig:ig_intelligentsia = { #scholars become donghak
+				set_interest_group_name = ig_donghak
+				add_ideology = ideology_donghak
+				remove_ideology = ideology_silhak
+			}
+			remove_modifier = modifier_secular_philosophy
+		}
+		trigger_event = {
+			id = donghak.1
+		}
+	}
+	current_value = {
+		value = var:silhak_var
+	}
+	goal_add_value = {
+		add = 300
+	}
+	progressbar = yes
+
+	on_monthly_pulse = { 
+		effect = {
+			change_variable = {
+				name = silhak_var
+				add = kor_silhak_delta
+			}
+			trigger_event = {
+				id = seohak.4
+			}
+		}
+		random_events = {
+			30 = seohak.2
+			5 = seohak.3
+			20 = kor.17
+			20 = kor.18
+			65 = 0
+		}
+	}
+	should_be_pinned_by_default = yes
+}
+
+je_silhak_reform = {
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+	group = je_group_internal_affairs
+	complete = {
+		OR = {
+			NOT = { has_law = law_type:law_serfdom }
+			NOT = { has_law = law_type:law_autocracy }
+		}
+	}
+	invalid = {
+		NOT = { has_law = law_type:law_monarchy }
+	}
+	fail = {
+		has_variable = kor_silhak_reform_failed
+	}
+
+	timeout = 3650
+
+	immediate = {
+		ig:ig_intelligentsia = { save_scope_as = ig_intelligentsia }
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = kor.8
+		}
+		hidden_effect = {
+			remove_modifier = modifier_kor_reforms_silhak
+		}
+	}
+	on_monthly_pulse = { 
+		effect = {
+			change_variable = {
+				name = silhak_var
+				add = kor_silhak_delta
+			}
+			trigger_event = {
+				id = seohak.4
+			}
+		}
+		random_events = {
+			30 = seohak.2
+			5 = seohak.3
+			20 = kor.17
+			20 = kor.18
+			65 = 0
+		}
+	}
+	on_timeout = {
+		custom_tooltip = {
+			text = donghak_radical_tt
+			ig:ig_intelligentsia = { #scholars become donghak
+				set_interest_group_name = ig_donghak
+				add_ideology = ideology_donghak
+				remove_ideology = ideology_silhak
+			}
+			remove_modifier = modifier_secular_philosophy
+		}
+	}
+	on_fail = {
+		custom_tooltip = {
+			text = donghak_radical_tt
+			ig:ig_intelligentsia = { #scholars become donghak
+				set_interest_group_name = ig_donghak
+				add_ideology = ideology_donghak
+				remove_ideology = ideology_silhak
+			}
+			remove_modifier = modifier_secular_philosophy
+		}
+	}
+	on_invalid = {
+		ig:ig_intelligentsia = { #scholars get republican to fit with no monarchy
+			add_ideology = ideology_donghak
+			remove_ideology = ideology_silhak
+		} 
+	}
+	should_be_pinned_by_default = yes
+}
+
+je_sojunghwa = {
+	icon = "gfx/interface/icons/event_icons/event_chi.dds"
+	group = je_group_internal_affairs
+    immediate = {
+    	c:CHI = {
+      		save_scope_as = chi_scope
+      	}
+        c:CHI = { active_law:lawgroup_governance_principles.type = { save_scope_as = china_governance_principles } }
+        c:CHI = { active_law:lawgroup_distribution_of_power.type = { save_scope_as = china_distribution_of_power } }
+        c:CHI = { active_law:lawgroup_land_reform.type = { save_scope_as = china_land_reform } }
+        c:CHI = { active_law:lawgroup_church_and_state.type = { save_scope_as = china_church_and_state } }
+    }
+    complete = {
+    	OR = {
+	        AND = { 
+	            custom_tooltip = {
+					text = sadae_law_je_tt_1
+					active_law:lawgroup_governance_principles.type != scope:china_governance_principles
+				}
+	            hidden_trigger =  { NOT = { has_variable = kor_chi_gov_principle_broken} }
+	        }
+	        AND = { 
+	            custom_tooltip = {
+					text = sadae_law_je_tt_2
+					active_law:lawgroup_distribution_of_power.type != scope:china_distribution_of_power
+				}
+	            hidden_trigger =  { NOT = { has_variable = kor_chi_distr_of_power_broken} }
+	        }
+	        AND = { 
+	            custom_tooltip = {
+					text = sadae_law_je_tt_3
+					active_law:lawgroup_land_reform.type != scope:china_land_reform
+				}
+	            hidden_trigger =  { NOT = { has_variable = kor_chi_land_reform_broken} }
+	        }
+	        AND = { 
+	            custom_tooltip = {
+					text = sadae_law_je_tt_4
+					active_law:lawgroup_church_and_state.type != scope:china_church_and_state
+				}
+	            hidden_trigger =  { NOT = { has_variable = kor_chi_church_and_state_broken} }
+	        }
+	    }
+    } 
+    invalid = {
+    	hidden_trigger = {
+    		OR = {
+	    		NOT = { is_subject_of = c:CHI }
+				AND = {
+		    		has_variable = kor_chi_gov_principle_broken
+		    		has_variable = kor_chi_distr_of_power_broken
+		    		has_variable = kor_chi_land_reform_broken
+		    		has_variable = kor_chi_church_and_state_broken
+		    	}
+	    	}
+    	}
+	}
+    on_complete = {
+    	trigger_event = { id = kor.5 }
+    	change_relations = {
+	        country = c:CHI
+	        value = -20
+	    }
+    }
+    should_be_pinned_by_default = yes
+}
+
+je_donghak = { #spread of the donghak religion
+    group = je_group_internal_affairs
+	icon = "gfx/interface/icons/religion_icons/cheondoist.dds"
+	on_weekly_pulse = {
+		random_events = {
+			30 = donghak.2
+			5 = donghak.3
+			65 = 0
+		}
+		effect = {
+			trigger_event = {
+				id = donghak.4
+			}
+		}
+	}
+	complete = {
+		NOT = {
+			any_scope_state = {
+				has_modifier = cheondoists
+			}
+		}
+	}
+	fail = { #cheondoists are mad
+		any_scope_state = {
+			has_modifier = cheondoists
+			turmoil >= 0.25
+		}
+	}
+	on_fail = {
+		trigger_event = { id = donghak.5 }
+	}
+}
+
+je_donghak_rebelling = {
+    group = je_group_internal_affairs
+	icon = "gfx/interface/icons/religion_icons/cheondoist.dds"
+	complete = {
+		AND = {
+			is_at_war = no
+			is_diplomatic_play_committed_participant = no
+		}
+	}
+	on_complete = {
+		every_state = {
+			limit = { has_variable = donghak_rebelling }
+			remove_variable = donghak_rebelling
+			set_state_type = incorporated
+		}
+		trigger_event = { id = kor.8 }
+	}
+}
+
+je_jpn_influence_kor = {
+	icon = "gfx/interface/icons/event_icons/event_jpn.dds"
+	 group = je_group_internal_affairs
+	immediate = {
+		set_variable = {
+			name = japanese_influence
+			value = 0
+		}
+	}
+	on_monthly_pulse = {
+		change_variable = {
+			name = japanese_influence
+			add = kor_japanese_influence
+		}
+	}
+	complete = {
+		any_country = {
+			count = 3
+			country_rank = rank_value:great_power
+			relations:root >= relations_threshold:amicable
+		}
+		any_country = {
+			country_rank = rank_value:great_power
+			OR = {
+				owes_obligation_to = root
+				has_diplomatic_pact = { 
+					who = root 
+					type = defensive_pact 
+				}
+			}
+		}
+	}
+	fail = {
+		custom_tooltip = {
+			text = jpn_influence_army_tt
+			has_variable = jpn_in_army
+		}
+		custom_tooltip = {
+			text = jpn_influence_government_tt
+			has_variable = jpn_in_govt
+		}
+		custom_tooltip = {
+			text = jpn_influence_taxes_tt
+			has_variable = jpn_in_econ
+		}
+		custom_tooltip = {
+			text = ganghwa_island_treaty_tt
+			has_variable = ganghwa_island_treaty
+		}
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+	current_value = {
+		value = var:japanese_influence
+	}
+	goal_add_value = {
+		add = 100
+	}
+	on_complete = {
+
+	}
+	on_fail = {
+		trigger_event = {
+			id = kor.15
+		}
+	}
+	progressbar = yes
+	should_be_pinned_by_default = yes
+}

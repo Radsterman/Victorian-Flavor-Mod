@@ -1,0 +1,214 @@
+﻿namespace = journal_flavor_argentina
+
+journal_flavor_argentina.1 = { 
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_argentina.1.t
+	desc = journal_flavor_argentina.1.d
+	flavor = journal_flavor_argentina.1.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_military_parade.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/military_parade"
+
+	icon = "gfx/interface/icons/event_icons/event_centralization.dds"
+
+	duration = 1
+
+	immediate = {
+	}
+
+	option = {
+		name = journal_flavor_argentina.1.a
+		default_option = yes
+
+		if={
+			limit = {
+				NOT = { exists = c:ARG }
+			}
+			change_tag = ARG
+		}
+		if= {
+			limit = {
+				exists = c:GNI
+			}
+			s:STATE_CHACO = {
+				add_claim = ROOT
+			}
+			s:STATE_SANTA_FE = {
+				add_claim = ROOT
+			}
+		}
+		if= {
+			limit = {
+				exists = c:PAT
+			}
+			s:STATE_RIO_NEGRO = {
+				add_claim = ROOT
+			}
+		}
+		s:STATE_SOUTH_ATLANTIC_ISLANDS = {
+			add_claim = ROOT
+		}
+
+		s:STATE_PATAGONIA = {
+			add_claim = ROOT
+		}
+		
+		every_country = {
+			limit = {
+				is_subject_type = subject_type_confederation
+				overlord = ROOT
+				is_player = no
+			}
+			save_scope_as = annex_scope
+			ROOT = {
+				annex = scope:annex_scope
+			}
+		}
+
+	    ai_chance = {
+			base = 1	
+		}
+    }
+}
+
+journal_flavor_argentina.2 = { 
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_argentina.2.t
+	desc = journal_flavor_argentina.2.d
+	flavor = journal_flavor_argentina.2.f
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_election.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/election"
+
+	icon = "gfx/interface/icons/event_icons/event_election.dds"
+
+	duration = 1
+
+	immediate = {
+	}
+
+	option = {
+		name = journal_flavor_argentina.2.a
+		default_option = yes
+
+		random_country = {
+			limit= {
+				has_variable = argentina_leader_var
+			}
+			save_scope_as = argentina_leader
+			s:STATE_BUENOS_AIRES = {
+				add_claim = scope:argentina_leader
+			}
+		}
+
+	    ai_chance = {
+			base = 1	
+		}
+    }
+
+	option = {
+		name = journal_flavor_argentina.2.b
+
+		random_country = {
+			limit= {
+				has_variable = argentina_leader_var
+			}
+			create_diplomatic_pact = {
+				country = ROOT
+				type = confederation
+			}
+		}
+
+	    ai_chance = {
+			base = 0
+		}
+    }
+}
+
+journal_flavor_argentina.3 = { 
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_argentina.3.t
+	desc = journal_flavor_argentina.3.d
+	flavor = journal_flavor_argentina.3.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_native_american.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/native_american"
+
+	icon = "gfx/interface/icons/event_icons/event_colonial.dds"
+
+	duration = 1
+
+	trigger = {
+	    year >= 1860
+		any_scope_state = {
+			has_modifier = malones
+			any_neighbouring_state = {
+				owner = {
+					is_country_type = decentralized
+				}
+			}			
+		}
+		NOT = { has_variable = gran_malon }
+	}	
+
+	immediate = {	
+	    set_variable = gran_malon
+		c:PAT = {
+			save_scope_as = pat_scope	
+		}	
+		c:ARG = {
+			save_scope_as = arg_scope	
+		}
+		s:STATE_BUENOS_AIRES = {
+			add_devastation = 20
+		}
+		s:STATE_SANTA_FE = {
+			add_devastation = 10
+		}
+		s:STATE_LA_PAMPA = {
+			add_devastation = 10
+		}	
+		s:STATE_RIO_NEGRO = {
+			add_devastation = 10
+		}										
+	}
+
+	option = {
+		name = journal_flavor_argentina.3.a
+
+    every_state = {
+        limit = {
+
+            has_modifier = malones 
+
+            any_scope_pop = {
+                state = { save_temporary_scope_as = p_state }
+
+                culture = { 
+                    has_homeland = scope:p_state
+                }
+                culture = cu:patagonian
+            }
+        }
+        remove_modifier = malones
+        }		    
+	} 
+}	

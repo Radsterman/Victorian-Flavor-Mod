@@ -1543,11 +1543,6 @@ coup_pulse_events.1 = {
 		name = coup_pulse_events.1.a
 		default_option = yes
 		
-		hidden_effect = {
-			scope:accused_general = {
-				kill_character = yes
-			}
-		}
 		scope:accused_general_ig = {
 			add_modifier = {
 				name = modifier_persecuted_general
@@ -1557,10 +1552,8 @@ coup_pulse_events.1 = {
 		custom_tooltip = coup_pulse_events.1.a.tt
 		if = {
 			limit = {
-				scope:accused_general = {
-					interest_group = {
-						is_same_interest_group_type = scope:coup_ig	
-					}
+				scope:accused_general_ig = {
+					is_same_interest_group_type = scope:coup_ig
 				}
 			}
 			change_variable = {
@@ -1583,6 +1576,11 @@ coup_pulse_events.1 = {
 				add = 15
 			}
 			custom_tooltip = coup_advance_15_tt
+		}
+		scope:accused_general = {
+			kill_character = {
+				hidden = yes
+			}
 		}
 	}
 	option = { 

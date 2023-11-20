@@ -525,6 +525,7 @@ japanese_imperial_clothes_trigger = {
 				exists = c:JAP
 				home_country = {
 					this = c:JAP
+					NOT = { has_variable = meiji_restoration_complete }
 				}
 			}
 		}
@@ -817,24 +818,39 @@ ethiopian_clothes_trigger = {
 european_clothes_trigger = {
 	exists = scope:character
 	scope:character = {
-		culture = {
-			has_discrimination_trait = european_heritage
-		}
-		NOT = {
-			culture = cu:circassian
-		}
-		NOT = {
-			AND = { # Albanian characters serving either the Ottomans or Egyptians should wear that country's clothing.
-				culture = cu:albanian
-				exists = home_country
-				OR = {
-					home_country = {
-						exists = c:TUR
-						c:TUR = this
-					}
-					home_country = {
-						exists = c:EGY
-						c:EGY = this
+		OR = {
+			AND = {
+				culture = cu:japanese
+				devout_clothes_trigger = no
+				NOT = {
+					has_ideology = ideology:ideology_traditionalist
+					is_ruler = yes
+				}
+				owner = {
+					has_variable = meiji_restoration_complete
+				}
+			}
+			AND = {
+				culture = {
+					has_discrimination_trait = european_heritage
+				}
+				NOT = {
+					culture = cu:circassian
+				}
+				NOT = {
+					AND = { # Albanian characters serving either the Ottomans or Egyptians should wear that country's clothing.
+						culture = cu:albanian
+						exists = home_country
+						OR = {
+							home_country = {
+								exists = c:TUR
+								c:TUR = this
+							}
+							home_country = {
+								exists = c:EGY
+								c:EGY = this
+							}
+						}
 					}
 				}
 			}
@@ -1129,6 +1145,18 @@ native_american_clothes_pop_trigger = {
 	}
 }
 
+bulnes_clothes_trigger = {
+    exists = scope:character
+	scope:character = {
+		exists = home_country
+		home_country = {
+			exists = c:CHL
+			c:CHL = this
+		}
+		has_variable = is_bulnes
+	}
+}  
+
 south_east_asia_clothes_pop_trigger = {
 	exists = scope:pop
 	scope:pop = {
@@ -1197,6 +1225,7 @@ cold_clothes_pop_trigger = {
 			has_pop_culture = inuit
 			has_pop_culture = athabaskan
 			has_pop_culture = siberian
+			has_pop_culture = kawesqar
 		}
 	}
 }

@@ -22,6 +22,21 @@ GLOBAL = {
 		}
 	}
 
+	c:BRZ = {
+		set_variable = {
+			name = pedropoints
+			value = 5
+		}
+		set_variable = {
+			name = brazilian_slavery_progress_var
+			value = 70
+		}
+	}
+
+	c:FRA = {
+		fra_define_leading_dynasty = yes
+	}
+
 ###ACHIEVEMENT VARIABLES###
 	
 	#Serf's Up
@@ -288,6 +303,14 @@ GLOBAL = {
 		set_variable = manifest_mexico_ach_possible
 	}
 
+	#Not Yet Lost
+	every_country = {
+		limit = {
+			c:KRA ?= this
+		}
+		set_variable = not_yet_lost_ach_possible
+	}
+
 	#Event Variables
 	
 	set_global_variable = {
@@ -337,6 +360,18 @@ GLOBAL = {
 			days = 1
 		}
 	}
+
+	c:SPA = {
+		trigger_event = {
+			id = journal_flavor_spain.1
+		}
+	}	
+
+	c:CAR = {
+		trigger_event = {
+			id = journal_flavor_spain.1
+		}
+	}	
 
 	c:BOL = {
 		trigger_event = {
@@ -416,6 +451,65 @@ GLOBAL = {
             value = large_radicals
             culture = cu:azerbaijani
         }
+	}
+	c:ARG = {
+		every_scope_state = {
+			limit = {
+				NOR = {
+					state_region = s:STATE_BUENOS_AIRES
+					state_region = s:STATE_SANTA_FE
+				}
+			}
+			add_radicals_in_state = {
+				value = 3
+				strata = rich
+			}
+			add_radicals_in_state = {
+				value = 1
+				strata = middle
+			}
+			add_radicals_in_state = {
+				value = 0.5
+				strata = poor
+			}
+		}
+		every_scope_state = {
+			limit = {
+				OR = {
+					state_region = s:STATE_BUENOS_AIRES
+					state_region = s:STATE_SANTA_FE
+				}
+			}
+			add_radicals_in_state = {
+				value = 0.25
+			}
+		}
+	}
+	c:URU = {
+		add_radicals = {
+			value = 0.75
+		}
+	}
+	c:BOL = {
+		trigger_event = {
+			id = peru_bolivia_events.2
+			days = 45
+		}
+	}
+	c:NPU = {
+		add_radicals = {
+			value = 0.75
+		}
+	}
+	c:SPU = {
+		add_radicals = {
+			value = 0.50
+		}
+	}
+	c:IQU = {
+		add_radicals = {
+			value = 0.25
+		}
 	}
 	c:CPL = {
 	    add_radicals = {
@@ -625,7 +719,6 @@ GLOBAL = {
 						has_pop_religion = bimoist
 						has_pop_religion = hmongist
 						has_pop_religion = mormon
-						has_pop_religion = camaquen
 					}
 				}
 				change_pop_religion = { target = rel:animist value = 1.0 }
@@ -711,44 +804,6 @@ GLOBAL = {
 		c:AHD = {
 			annex = c:AHK
 			annex = c:AHB
-		}
-		c:BUE = {
-			annex = c:COE
-			annex = c:ENT
-			annex = c:TUC
-			annex = c:MDZ
-			annex = c:SLT
-			annex = c:SDE
-			annex = c:SFE
-			annex = c:CDA
-			annex = c:JUJ
-			annex = c:CMA
-			annex = c:LRJ
-			annex = c:SJN
-			annex = c:SLS
-			annex = c:MSS
-			s:STATE_CHACO = {
-				add_claim = c:BUE
-			}
-			s:STATE_SANTA_FE = {
-				add_claim = c:BUE
-			}
-			s:STATE_RIO_NEGRO = {
-				add_claim = c:BUE
-			}
-			s:STATE_CORRIENTES.region_state:BUE = {
-				set_state_type = incorporated
-			}
-			s:STATE_LA_PAMPA.region_state:BUE = {
-				set_state_type = incorporated
-			}
-			s:STATE_TUCUMAN.region_state:BUE = {
-				set_state_type = incorporated
-			}
-			s:STATE_JUJUY.region_state:BUE = {
-				set_state_type = incorporated
-			}
-			change_tag = ARG
 		}
 		c:BEX = {
 			annex = c:GVA
@@ -1014,6 +1069,7 @@ GLOBAL = {
 		limit = {
 			has_game_rule = no_confederations
 		}
+
 		c:BUE = {
 			annex = c:COE
 			annex = c:ENT
@@ -1038,25 +1094,9 @@ GLOBAL = {
 			s:STATE_RIO_NEGRO = {
 				add_claim = c:BUE
 			}
-			s:STATE_CORRIENTES.region_state:BUE = {
-				set_state_type = incorporated
-			}
-			s:STATE_LA_PAMPA.region_state:BUE = {
-				set_state_type = incorporated
-			}
-			s:STATE_TUCUMAN.region_state:BUE = {
-				set_state_type = incorporated
-			}
-			s:STATE_JUJUY.region_state:BUE = {
-				set_state_type = incorporated
-			}
 			change_tag = ARG
-			set_variable = merged_confederation
-			activate_law = law_type:law_confederated
 		}
-		c:BRZ = {
-			set_relations = { country = c:ARG value = -20 }
-	    }
+		
 		c:BEX = {
 		    annex = c:NTL
 			annex = c:GVA
@@ -1321,4 +1361,22 @@ GLOBAL = {
 		}
 	}
 
+	every_state = {
+		limit = {
+
+			NOT = { has_modifier = malones }
+
+			any_scope_pop = {
+				state = { save_temporary_scope_as = p_state }
+
+				culture = { 
+					has_homeland = scope:p_state
+				}
+				culture = cu:patagonian
+			}
+		}
+		add_modifier = {
+			name = malones
+		}
+	}
 }

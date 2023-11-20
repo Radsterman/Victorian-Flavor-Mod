@@ -6,34 +6,22 @@
 	progressiveness = 0	
 	
 	on_enact = {
-		if = {
-			limit = {
-				any_scope_state = {
-					has_modifier = frontier_colonialism_modifier
-				}
-			}
-			custom_tooltip = {
-				text = frontier_remove_tt
-				every_scope_state = {
-					limit = {
-						has_modifier = frontier_colonialism_modifier
-					}
-					remove_modifier = frontier_colonialism_modifier
-				}
-			}
-		}
 	}
 	
 	pop_support = {
 		value = 0
 	}
 
-	# AI will never fully dismantle institutions
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	} 
+
+
 	ai_will_do = {
-		always = no
+		has_law = law_type:law_council_republic
 	}	
 
-    ai_enact_weight_modifier = { #Petitions
+	ai_enact_weight_modifier = { #Petitions
 		value = 0
 		
 		if = {
@@ -43,6 +31,19 @@
                 scope:law = var:desired_law_var
 			}
 			add = 750
+		}
+
+		if = {
+			limit = {
+				has_law = law_type:law_council_republic
+			}
+			add = 100
+		}
+		if = {
+			limit = {
+				has_strategy = ai_strategy_anti_imperialism
+			}
+			multiply = 2
 		}
 	}
 }
@@ -55,22 +56,6 @@ law_colonial_administration = {
 	progressiveness = 15
 	
 	on_enact = {
-		if = {
-			limit = {
-				any_scope_state = {
-					has_modifier = frontier_colonialism_modifier
-				}
-			}
-			custom_tooltip = {
-				text = frontier_remove_tt
-				every_scope_state = {
-					limit = {
-						has_modifier = frontier_colonialism_modifier
-					}
-					remove_modifier = frontier_colonialism_modifier
-				}
-			}
-		}
 	}
 
 	unlocking_technologies = {
@@ -81,6 +66,10 @@ law_colonial_administration = {
 	}
 	
 	#institution = institution_colonial_affairs 
+
+   can_impose = { 
+		is_subject_of = scope:initiator	
+	}
 
 	pop_support = {
 		value = 0
@@ -103,7 +92,7 @@ law_colonial_administration = {
 		OR = {
 			has_law = law_type:law_colonial_resettlement
 			has_law = law_type:law_colonial_exploitation
-			has_law = law_type:law_frontier_colonialism
+			has_law = law_type:law_frontier_colonization
 		}
 	}
 
@@ -129,22 +118,6 @@ law_colonial_resettlement = {
 	progressiveness = 25
 	
 	on_enact = {
-		if = {
-			limit = {
-				any_scope_state = {
-					has_modifier = frontier_colonialism_modifier
-				}
-			}
-			custom_tooltip = {
-				text = frontier_remove_tt
-				every_scope_state = {
-					limit = {
-						has_modifier = frontier_colonialism_modifier
-					}
-					remove_modifier = frontier_colonialism_modifier
-				}
-			}
-		}
 	}
 
 	unlocking_technologies = {
@@ -174,6 +147,11 @@ law_colonial_resettlement = {
 		}
 	}
 
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	} 
+
+
 	pop_support = {
 		value = 0
 		# Officers like colonialism
@@ -195,7 +173,7 @@ law_colonial_resettlement = {
 		OR = {
 			has_law = law_type:law_colonial_exploitation
 			has_law = law_type:law_colonial_administration
-			has_law = law_type:law_frontier_colonialism
+			has_law = law_type:law_frontier_colonization
 			navy_size >= 50
 		}
 	}
@@ -222,22 +200,6 @@ law_colonial_exploitation = {
 	progressiveness = -25
 	
 	on_enact = {
-		if = {
-			limit = {
-				any_scope_state = {
-					has_modifier = frontier_colonialism_modifier
-				}
-			}
-			custom_tooltip = {
-				text = frontier_remove_tt
-				every_scope_state = {
-					limit = {
-						has_modifier = frontier_colonialism_modifier
-					}
-					remove_modifier = frontier_colonialism_modifier
-				}
-			}
-		}
 	}
 
 	unlocking_technologies = {
@@ -245,9 +207,13 @@ law_colonial_exploitation = {
 	}
 	
 	modifier = {
-		building_unincorporated_throughput_add = 0.1
-		state_unincorporated_starting_wages_mult = -0.15
-		building_unincorporated_subsistence_output_mult = -0.15
+		building_group_bg_manufacturing_unincorporated_throughput_add = -0.1
+		building_group_bg_plantations_unincorporated_throughput_add = 0.15
+		building_group_bg_rubber_unincorporated_throughput_add = 0.15
+		building_group_bg_logging_unincorporated_throughput_add = 0.15
+		building_group_bg_mining_unincorporated_throughput_add = 0.1
+		state_unincorporated_starting_wages_mult = -0.10
+		building_unincorporated_subsistence_output_mult = -0.10
 		country_tension_decay_mult = -0.25
 	}
 	
@@ -267,12 +233,17 @@ law_colonial_exploitation = {
 			}
 		}
 	}
+
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	} 
+
 	
 	ai_will_do = {
 		OR = {
 			has_law = law_type:law_colonial_resettlement
 			has_law = law_type:law_colonial_administration
-			has_law = law_type:law_frontier_colonialism
+			has_law = law_type:law_frontier_colonization
 			navy_size >= 50
 		}
 	}
@@ -291,91 +262,12 @@ law_colonial_exploitation = {
 	}
 }
 
-law_frontier_colonialism = {
+law_frontier_colonization = {
 	group = lawgroup_colonization
-	
-	icon = "gfx/interface/icons/law_icons/colonial_resettlement.dds"
-	
-	progressiveness = 5
-	
-	on_enact = {
-		if = {
-			limit = {
-				any_scope_state = {
-					NOT = {
-						any_neighbouring_state = {
-							OR = {
-								is_incorporated = yes
-								any_neighbouring_state = {
-									is_incorporated = yes
-									owner = scope:colony_founder
-								}
-							}
-							owner = scope:colony_founder
-						}
-						has_modifier = frontier_colonialism_modifier
-					}
-				}
-			}
-			custom_tooltip = {
-				text = frontier_add_tt
-				every_scope_state = {
-					limit = {
-						NOT = {
-							any_neighbouring_state = {
-								OR = {
-									is_incorporated = yes
-									any_neighbouring_state = {
-										is_incorporated = yes
-										owner = ROOT
-									}
-								}
-								owner = ROOT
-							}
-							has_modifier = frontier_colonialism_modifier
-						}
-					}
-					add_modifier = frontier_colonialism_modifier
-				}
-			}
-		}
-	}
 
-	unlocking_technologies = {
-		colonization
-	}
-	
-	modifier = {
-		state_migration_pull_unincorporated_mult = 0.25
-	}
-	
-	institution = institution_colonial_affairs 
-
-	pop_support = {
-		value = 0
-		# Officers like colonialism
-		add = {
-			desc = "POP_OFFICERS"			
-			if = {
-				limit = {
-					owner = { 
-						has_law = law_type:law_no_colonial_affairs 
-					} 
-					is_pop_type = officers
-				}
-				value = 0.25
-			}
-		}
-	}
-	
-	ai_will_do = {
-		AND = {
-			#AI doesn't change to frontier
-			#OR = {
-			#	has_law = law_type:law_colonial_resettlement
-			#	has_law = law_type:law_colonial_exploitation
-			#	has_law = law_type:law_frontier_colonialism
-			#}
+	can_enact = {
+		any_scope_state = {
+			is_homeland_of_country_cultures = ROOT
 			any_neighbouring_state = {
 				owner = {
 					is_country_type = decentralized
@@ -383,17 +275,41 @@ law_frontier_colonialism = {
 			}
 		}
 	}
+	
+	icon = "gfx/interface/icons/law_icons/frontier_colonization.dds"
+	
+	progressiveness = 25
 
-    ai_enact_weight_modifier = { #Petitions
+	unlocking_technologies = {
+		colonization
+	}
+
+	limited_to_frontier_colonization = yes
+	
+	modifier = {
+		state_migration_pull_unincorporated_mult = 0.5
+	}
+	
+	institution = institution_colonial_affairs
+
+	pop_support = {
 		value = 0
-		
-		if = {
-			limit = { 
-				has_journal_entry = je_government_petition
-				has_variable = desired_law_var
-                scope:law = var:desired_law_var
+		# Farmers like frontiers
+		add = {
+			desc = "POP_FARMERS"			
+			if = {
+				limit = {
+					is_pop_type = farmers
+				}
+				value = 0.25
 			}
-			add = 750
+		}
+	}
+	
+	ai_will_do = {
+		NOR = {
+			has_law = law_type:law_colonial_exploitation
+			has_law = law_type:law_colonial_resettlement
 		}
 	}
 }
