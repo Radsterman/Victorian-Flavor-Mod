@@ -1,0 +1,195 @@
+﻿#culture_split_test = {
+#
+#	is_shown = {
+#		is_ai = no
+#	}
+#
+#	possible = {
+#		is_ai = no
+#	}
+#
+#	when_taken = {
+#		c:POL = {
+#			save_scope_as = split_country
+#		}
+#		s:STATE_WEST_PRUSSIA = {
+#			set_owner_of_provinces = {
+#				country = c:POL
+#				provinces = { x611F2F x178C99 xBAF66D x945000 x7A6061 x374AC3 x55FD02 x41A021 }
+#			}
+#			add_to_list = splitting_state_region
+#		}
+#		s:STATE_POSEN = {
+#			set_owner_of_provinces = {
+#				country = c:POL
+#				provinces = { xFCC7B7 x085962 xC02121 x1FA1E1 x2E6001 xC32D8B xF962B2 xE513C0 x999CEE x635336 x2141A0 x41E0A0 }
+#			}
+#			add_to_list = splitting_state_region
+#		}
+#		s:STATE_EAST_PRUSSIA = {
+#			add_to_list = splitting_state_region
+#		}
+#		s:STATE_SILESIA = {
+#			add_to_list = splitting_state_region
+#		}
+#		s:STATE_UPPER_SILESIA = {
+#			add_to_list = splitting_state_region
+#		}
+#		s:STATE_AUGUSTOW = {
+#			add_to_list = splitting_state_region
+#		}
+#		s:STATE_WEST_SLOVAKIA = {
+#			add_to_list = splitting_state_region
+#		}
+#		s:STATE_EAST_SLOVAKIA = {
+#			add_to_list = splitting_state_region
+#		}
+#		s:STATE_VILNA = {
+#			add_to_list = splitting_state_region
+#		}
+#		s:STATE_MINSK = {
+#			add_to_list = splitting_state_region
+#		}
+#		every_in_list = {
+#			list = splitting_state_region
+#			random_scope_state = {
+#				limit = {
+#					owner = ROOT
+#				}
+#				save_scope_as = root_state
+#			}
+#			random_scope_state = {
+#				limit = {
+#					owner = scope:split_country
+#				}
+#				save_scope_as = split_state
+#			}
+#			scope:root_state = {
+#				every_scope_pop = {
+#					limit = { 
+#						OR = {
+#							#pop_has_primary_culture = no
+#							culture = {
+#								is_primary_culture_of = scope:split_country
+#								#NOT = { is_primary_culture_of = scope:ROOT }
+#							}
+#						}
+#					}
+#					culture = {
+#						save_scope_as = root_culture
+#					}
+#					change_pop_culture = { target = cu:dummy_culture value = 0.5 }
+#				}
+#			}
+#			scope:root_state = {
+#				every_scope_pop = {
+#					limit = { 
+#						OR = {
+#							has_pop_culture = cu:dummy_culture
+#						}
+#					}
+#					move_pop = scope:split_state
+#					change_pop_culture = { target = scope:root_culture value 1.0 }
+#				}
+#			}
+#			scope:split_state = {
+#				every_scope_pop = {
+#					limit = {
+#						OR = {
+#							pop_has_primary_culture = no
+#						}
+#					}
+#					culture = {
+#						save_scope_as = split_culture
+#					}
+#					change_pop_culture = { target = cu:dummy_culture value = 0.5 }
+#				}
+#			}
+#			scope:split_state = {
+#				every_scope_pop = {
+#					limit = { 
+#						OR = {
+#							has_pop_culture = cu:dummy_culture
+#						}
+#					}
+#					move_pop = scope:root_state
+#					change_pop_culture = { target = scope:split_culture value 1.0 }
+#				}
+#			}
+#		}
+#	}
+#
+#	ai_chance = {
+#		base = 0
+#	}
+#}
+#
+#culture_sudeten_test = {
+#
+#	is_shown = {
+#		is_ai = no
+#	}
+#
+#	possible = {
+#		is_ai = no
+#	}
+#
+#	when_taken = {
+#		c:BOH = {
+#			save_scope_as = split_country
+#		}
+#		s:STATE_BOHEMIA = {
+#			set_owner_of_provinces = {
+#				country = c:GER
+#				provinces = { x1D6B94 x400226 xEE1941 x716141 xA40163 x9C175D x4B3444 x67FE18 x1D088E xFA371D xF06141 x62F70E xD286DB xEF6080 xF0E041 }
+#			}
+#			add_to_list = splitting_state_region
+#		}
+#		s:STATE_MORAVIA = {
+#			add_to_list = splitting_state_region
+#		}
+#		every_in_list = {
+#			list = splitting_state_region
+#			random_scope_state = {
+#				limit = {
+#					owner = ROOT
+#				}
+#				save_scope_as = root_state
+#			}
+#			random_scope_state = {
+#				limit = {
+#					owner = scope:split_country
+#				}
+#				save_scope_as = split_state
+#			}
+#			scope:root_state = {
+#				every_scope_pop = {
+#					limit = { 
+#						OR = {
+#							#pop_has_primary_culture = no
+#							culture = {
+#								is_primary_culture_of = scope:split_country
+#								#NOT = { is_primary_culture_of = scope:ROOT }
+#							}
+#						}
+#					}
+#					move_pop = scope:split_state
+#				}
+#			}
+#			scope:split_state = {
+#				every_scope_pop = {
+#					limit = {
+#						OR = {
+#							pop_has_primary_culture = no
+#						}
+#					}
+#					move_pop = scope:root_state
+#				}
+#			}
+#		}
+#	}
+#
+#	ai_chance = {
+#		base = 0
+#	}
+#}
