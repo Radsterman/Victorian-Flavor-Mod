@@ -1,32 +1,10 @@
-﻿je_poland_liberation = {
+﻿je_poland_independence = {
 	icon = "gfx/interface/icons/event_icons/event_military.dds"
     group = je_group_historical_content
 	complete = {
         OR = {
-			AND = {
-				exists = c:CPL
-				c:CPL = ROOT
-				c:CPL = {
-					is_subject = no
-				}
-			}
-			AND = {
-				exists = c:POS
-				c:POS = ROOT
-				c:POS = {
-					is_subject = no
-				}
-			}
-			AND = {
-				exists = c:GAL
-				c:GAL = ROOT
-				c:GAL = {
-					is_subject = no
-				}
-			}			
-        }
-        
-       
+			is_subject = no
+		}
 	}
 
 	on_complete = {
@@ -44,13 +22,80 @@
 			limit = { NOT = { country_has_state_religion = rel:catholic } }
 			set_state_religion = rel:catholic
 		}
-
-		ruler = {
-			kill_character = yes
+		
+		hidden_effect = {
+			ruler = {
+				kill_character = yes
+			}
 		}
+	
+		#every_scope_state = {
+		#	limit = { 
+		#		is_homeland = cu:polish
+		#	}
+		#	add_claim = root
+		#}
+		
+		add_journal_entry = { type = je_poland_liberation }
 
 	}
 
     should_be_pinned_by_default = yes
 	weight = 100
 }
+
+je_poland_liberation = {
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	complete = {
+		custom_tooltip = {
+			any_country = {
+				count = 0
+				country_has_primary_culture = cu:polish
+				is_subject = yes
+			}
+			text = je_poland_liberation_complete_trigger_desc
+		}	
+	}
+
+	on_complete = {
+
+		if = {
+			limit = { NOT = { country_has_primary_culture = cu:polish } }
+			random_primary_culture = {
+				save_scope_as = old_primary
+			}
+			add_primary_culture = cu:polish
+			remove_primary_culture = scope:old_primary
+		}
+		
+		if = {
+			limit = { NOT = { country_has_state_religion = rel:catholic } }
+			set_state_religion = rel:catholic
+		}
+		
+		#add_journal_entry = { type = je_poland_restoration }
+
+	}
+
+    should_be_pinned_by_default = yes
+	weight = 100
+}
+
+#je_poland_restoration = { #VFM To-Do, journal for forming Poland
+#	icon = "gfx/interface/icons/event_icons/event_military.dds"
+#
+#	complete = {
+#		custom_tooltip = {
+#			this = c:POL
+#			text = je_poland_restoration_complete_trigger_desc
+#		}	
+#	}
+#
+#	on_complete = {
+#
+#	}
+#
+#    should_be_pinned_by_default = yes
+#	weight = 100
+#}
