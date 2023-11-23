@@ -1,5 +1,7 @@
 ﻿je_canada_can = {
 	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+	
+	scripted_button = je_confederate_canada_can_button
 
 	group = je_group_historical_content
 
@@ -50,6 +52,11 @@ je_canada_gbr = {
 
 	group = je_group_historical_content
 
+	scripted_button = je_unify_two_canadas_gbr_button
+	scripted_button = je_maritime_union_gbr_button
+	scripted_button = je_found_british_columbia_button
+	scripted_button = je_force_hbc_sale_button
+
 	is_shown_when_inactive = {
 		any_subject_or_below = {
 			OR = {
@@ -87,6 +94,19 @@ je_canada_gbr = {
 				owns_entire_state_region = STATE_NUNAVUT
 			}
 		}
+		any_subject_or_below = {
+			filter = {
+				OR = {
+					country_has_primary_culture = cu:anglo_canadian
+					country_has_primary_culture = cu:franco_canadian	
+				}
+				NOT = {
+					is_subject_type = subject_type_chartered_company
+				}
+			}
+			has_technology_researched = nationalism
+			percent > 0.75
+		}
 	}
 
 	on_complete = {
@@ -100,6 +120,9 @@ je_canada_gbr = {
 
 je_australia_aus = {
 	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+	
+	scripted_button = je_australia_aus_claim_new_zealand_button
+	scripted_button = je_australia_aus_claim_eastern_new_guinea_button
 
 	group = je_group_historical_content
 
@@ -146,6 +169,13 @@ je_australia_gbr = {
 
 	group = je_group_historical_content
 
+	scripted_button = je_australia_gbr_found_south_australia_button
+	scripted_button = je_australia_gbr_found_north_australia_button
+	scripted_button = je_australia_gbr_found_victoria_button
+	scripted_button = je_australia_gbr_revoke_south_australia_button
+	scripted_button = je_australia_gbr_revoke_van_diemens_button
+	scripted_button = je_australia_gbr_revoke_new_zealand_button
+
 	is_shown_when_inactive = {
 		any_subject_or_below = {
 			OR = {
@@ -180,6 +210,15 @@ je_australia_gbr = {
 				owns_entire_state_region = STATE_NORTH_ISLAND
 				owns_entire_state_region = STATE_SOUTH_ISLAND
 			}
+		}
+		any_subject_or_below = {
+			filter = {
+				OR = {
+					country_has_primary_culture = cu:australian			
+				}
+			}
+			has_technology_researched = nationalism
+			percent > 0.75
 		}
 	}
 
