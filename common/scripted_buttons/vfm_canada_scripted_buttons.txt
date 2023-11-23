@@ -1,0 +1,250 @@
+﻿je_unify_two_canadas_gbr_button = {
+	name = "je_unify_two_canadas_button"
+	desc = "je_unify_two_canadas_button_desc"
+
+	visible = { 
+		exists = c:ONT
+		exists = c:QUE
+		c:ONT ?= {
+			is_subject_of = root
+			has_revolution = no
+		}
+		c:QUE ?= {
+			is_subject_of = root
+			has_revolution = no
+		}
+	}
+
+	possible = {
+		c:ONT ?= {
+			is_subject_of = root
+			has_technology_researched = nationalism
+			has_revolution = no
+			is_ai = yes
+		}
+		c:QUE ?= {
+			is_subject_of = root
+			has_technology_researched = nationalism
+			has_revolution = no
+			is_ai = yes
+		}
+	}
+
+	effect = {
+		c:ONT = { 
+			annex = c:QUE
+			add_primary_culture = cu:franco_canadian
+			#set_variable = canadas_unified
+			if = {
+				limit = {
+					NOT = { exists = c:CAN }
+				}
+				change_tag = CAN
+			}
+		}
+	}
+	
+	ai_chance = {
+		base = 5
+	}
+}
+
+je_maritime_union_gbr_button = {
+	name = "je_maritime_union_button"
+	desc = "je_maritime_union_button_desc"
+
+	visible = { 
+		exists = c:NBS
+		exists = c:NVS
+		c:NBS ?= {
+			is_subject_of = root
+			has_revolution = no
+		}
+		c:NVS ?= {
+			is_subject_of = root
+			has_revolution = no
+		}
+	}
+
+	possible = {
+		c:NBS ?= {
+			is_subject_of = root
+			has_technology_researched = nationalism
+			has_revolution = no
+			is_ai = yes
+		}
+		c:NVS ?= {
+			is_subject_of = root
+			has_technology_researched = nationalism
+			has_revolution = no
+			is_ai = yes
+		}
+	}
+
+	effect = {
+		c:NVS = { annex = c:NBS }
+	}
+	
+	ai_chance = {
+		base = 1
+	}
+}
+
+je_force_hbc_sale_button = {
+	name = "je_force_hbc_sale_button"
+	desc = "je_force_hbc_sale_button_desc"
+
+	visible = {
+		c:CAN ?= {
+			is_subject_of = root
+			has_revolution = no
+		}
+		c:HBC ?= {
+			is_subject_of = root
+			has_revolution = no
+		}
+	}
+
+	possible = {
+		c:CAN ?= {
+			is_subject_of = root
+			has_revolution = no
+		}
+		c:HBC ?= {
+			is_subject_of = root
+			has_revolution = no
+			is_ai = yes
+		}
+	}
+
+	effect = {
+		if = {
+			limit = {
+				exists = c:NWT
+				c:NWT = {
+					is_ai = yes
+					is_subject_type = subject_type_dependency
+				}
+			}
+			c:HBC = {
+				annex = c:NWT
+			}
+		}
+		if = {
+			limit = {
+				exists = c:COL
+				c:COL = {
+					is_ai = yes
+					is_subject_type = subject_type_dependency
+				}
+			}
+			c:HBC = {
+				annex = c:COL
+			}
+		}
+		c:CAN = {
+			annex = c:HBC
+			activate_law = law_type:law_frontier_colonization
+		}
+		#trigger event selling rupert's land
+	}
+	
+	ai_chance = {
+		base = 5
+	}
+}
+
+je_found_british_columbia_button = {
+	name = "je_found_british_columbia_button"
+	desc = "je_found_british_columbia_button_desc"
+
+	visible = {
+		OR = {
+			AND = {
+				exists = c:COL
+				c:COL = {
+					is_subject_of = root
+					NOT = { is_subject_type = subject_type_dependency }
+				}
+			}
+			has_state_in_state_region = s:STATE_BRITISH_COLOMBIA
+		}
+	}
+
+	possible = {
+		OR = {
+			AND = {
+				exists = c:COL
+				c:COL = {
+					is_subject_of = root
+				}
+			}
+			has_state_in_state_region = s:STATE_BRITISH_COLOMBIA
+		}
+	}
+
+	effect = {
+		if = {
+			limit = {
+				AND = {
+					exists = c:COL
+					c:COL = {
+						is_subject_of = root
+					}
+				}
+			}
+			create_diplomatic_pact = {
+				country = c:COL
+				type = dependency
+			}
+		}
+		if = {
+			limit = {
+				has_state_in_state_region = s:STATE_BRITISH_COLOMBIA
+				NOT = {
+					exists = c:COL
+					c:COL = {
+						is_subject_of = root
+					}
+				}
+			}
+			create_country = {
+				tag = COL
+				origin = root
+				state = s:STATE_BRITISH_COLOMBIA.region_state:root
+			}
+			create_diplomatic_pact = {
+				country = c:COL
+				type = dependency
+			}
+		}
+	}
+	
+	ai_chance = {
+		base = 5
+	}
+}
+
+#je_confederate_canada_can_button = {
+#	name = "je_confederate_canada_can_button"
+#	desc = "je_confederate_canada_can_button_desc"
+#
+#	visible = {
+#		NOT = { exists = c:CAN }
+#	}
+#
+#	possible = {
+#		has_state_in_state_region = s:STATE_ONTARIO
+#		has_state_in_state_region = s:STATE_QUEBEC
+#		has_variable = canadas_unified
+#	}
+#
+#	effect = {
+#		change_tag = CAN
+#		#trigger event confederating canada instead
+#	}
+#	
+#	ai_chance = {
+#		base = 10
+#	}
+#}

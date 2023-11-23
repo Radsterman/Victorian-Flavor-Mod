@@ -1,0 +1,314 @@
+﻿je_australia_aus_claim_new_zealand_button = {
+	name = "je_australia_aus_claim_new_zealand_button"
+	desc = "je_australia_aus_claim_new_zealand_button_desc"
+	
+	visible = {
+		has_state_in_state_region = STATE_NEW_SOUTH_WALES
+		overlord = {
+			OR = {
+				has_state_in_state_region = STATE_PAPUA_NEW_GUINEA
+				any_subject_or_below = {
+					OR = {
+						has_state_in_state_region = STATE_NORTH_ISLAND
+						has_state_in_state_region = STATE_SOUTH_ISLAND
+					}
+				}
+			}
+		}
+	}
+
+	possible = {
+		has_technology_researched = nationalism
+	}
+
+	effect = {
+		overlord = {
+			trigger_event = flavor_new_zealand.1
+		}
+	}
+
+	ai_chance = {
+		base = 0
+	}
+}
+
+je_australia_aus_claim_eastern_new_guinea_button = {
+	name = "je_australia_aus_claim_eastern_new_guinea_button"
+	desc = "je_australia_aus_claim_eastern_new_guinea_button_desc"
+	
+	visible = {
+		has_state_in_state_region = STATE_QUEENSLAND
+		overlord = {
+			OR = {
+				has_state_in_state_region = STATE_EASTERN_NEW_GUINEA
+				any_subject_or_below = {
+					has_state_in_state_region = STATE_EASTERN_NEW_GUINEA
+				}
+			}
+		}
+	}
+
+	possible = {
+		has_technology_researched = nationalism
+	}
+
+	effect = {
+		overlord = {
+			#trigger_event for new guinea claim
+		}
+	}
+
+	ai_chance = {
+		base = 0
+	}
+}
+
+je_australia_gbr_revoke_van_diemens_button = {
+	name = "je_australia_gbr_revoke_van_diemens_button"
+	desc = "je_australia_gbr_revoke_van_diemens_button_desc"
+	
+	visible = {
+		exists = c:NSW
+		exists = c:TAS
+		exists = c:GBR
+		c:GBR = ROOT
+	}
+
+	possible = {
+		c:TAS = {
+			is_ai = yes
+		}
+		NOT = { has_variable = recently_revoked_colony }
+	}
+
+	effect = {
+		c:NSW = {
+			annex = c:TAS
+		}
+		add_variable = {
+			name = recently_revoked_colony
+			months = 24
+		}
+	}
+
+	ai_chance = {
+		base = 0
+	}
+}
+
+je_australia_gbr_revoke_new_zealand_button = {
+	name = "je_australia_gbr_revoke_new_zealand_button"
+	desc = "je_australia_gbr_revoke_new_zealand_button_desc"
+	
+	visible = {
+		exists = c:NSW
+		exists = c:NZL
+		exists = c:GBR
+		c:GBR = ROOT
+	}
+
+	possible = {
+		c:NZL = {
+			is_ai = yes
+		}
+		NOT = { has_variable = recently_revoked_colony }
+	}
+
+	effect = {
+		c:NSW = {
+			annex = c:NZL
+		}
+		add_variable = {
+			name = recently_revoked_colony
+			months = 24
+		}
+	}
+
+	ai_chance = {
+		base = 0
+	}
+}
+
+je_australia_gbr_revoke_south_australia_button = {
+	name = "je_australia_gbr_revoke_south_australia_button"
+	desc = "je_australia_gbr_revoke_south_australia_button_desc"
+	
+	visible = {
+		exists = c:NSW
+		exists = c:SAS
+		exists = c:GBR
+		c:GBR = ROOT
+	}
+
+	possible = {
+		c:SAS = {
+			is_ai = yes
+		}
+		NOT = { has_variable = recently_revoked_colony }
+	}
+
+	effect = {
+		c:NSW = {
+			annex = c:SAS
+		}
+		add_variable = {
+			name = recently_revoked_colony
+			months = 24
+		}
+	}
+
+	ai_chance = {
+		base = 0
+	}
+}
+
+je_australia_gbr_found_south_australia_button = {
+	name = "je_australia_gbr_found_south_australia_button"
+	desc = "je_australia_gbr_found_south_australia_button_desc"
+	
+	visible = {
+		exists = c:NSW
+		exists = c:GBR
+		c:GBR = ROOT
+		NOT = { exists = c:SAS }
+	}
+
+	possible = {
+		has_technology_researched = nationalism
+		c:NSW = {
+			NOT = { is_diplomatic_play_initiator = yes }
+		}
+		NOT = { has_modifier = recently_established_colony }
+	}
+
+	effect = {
+		create_country = {
+			tag = SAS
+			origin = c:NSW
+			state = s:STATE_SOUTH_AUSTRALIA.region_state:NSW
+		}
+		s:STATE_NORTHERN_TERRITORY = { #Comment out when state region borders adjusted to include them
+			set_owner_of_provinces = {
+				country = c:SAS
+				provinces = {
+					xB35C41 xE048D3 x959AF8 x086AD9 x40A620 x030668 x4D6E12 xC93259 x906050 x702E01 xA2BDDD x6C4125 x5412EE x508090
+				}
+			}
+		}
+		s:STATE_SOUTH_AUSTRALIA = {
+			set_owner_of_provinces = {
+				country = c:NSW
+				provinces = {
+					x0204AB xC67EFF xF89C75 xDEFE50 x62C735 x7E80AE x0F120F xCE5663 x767440 x1BE550 x8F794B x552F74 x1202AB x46F3D1 xF5F6E0 x5AD224 x3DF472 x11D74E x62253A x13F69B xE7E1E0 xCCB60A xE53516 x6B189C xB0FA82 xDFDDC7 xCD012B x1544D6 x3E5829 x109D07 xDAC75B xADB94A xC9E461 x170D7B x0F611D xD8FB8A x95B9BE x66EEA6 x0ADA39 x0387DD
+				}
+			}
+		}
+		c:GBR = {
+			create_diplomatic_pact = {
+				country = c:SAS
+				type = dependency
+			}
+		}
+		add_modifier = {
+			name = recently_established_colony
+			months = 6
+		}
+	}
+
+	ai_chance = {
+		base = 0
+	}
+}
+
+je_australia_gbr_found_north_australia_button = {
+	name = "je_australia_gbr_found_north_australia_button"
+	desc = "je_australia_gbr_found_north_australia_button_desc"
+	
+	visible = {
+		exists = c:NSW
+		exists = c:GBR
+		c:GBR = ROOT
+		NOT = { exists = c:NAU }
+	}
+
+	possible = {
+		has_technology_researched = nationalism
+		c:NSW = {
+			NOT = { is_diplomatic_play_initiator = yes }
+		}
+		NOT = { has_modifier = recently_established_colony }
+	}
+
+	effect = {
+		create_country = {
+			tag = NAU
+			origin = c:NSW
+			state = s:STATE_NORTHERN_TERRITORY.region_state:NSW
+		}
+		s:STATE_QUEENSLAND = {
+			set_owner_of_provinces = {
+				country = c:NAU
+				provinces = {
+				xE2B899 x540175 x4B0B2E x8238CA x5AC798 x237A57 xE6D2DA x199615 xEEC767 xD19221 x9DC493 x359233 x620ED9 x1F935D x047B8C x000000 xFFA6E3 xA3594A x6E17D0 x99A48C x4C2001 x1BC96C x599830 x7B8612 x7FA1F5 xAED46D x583AF3 xB819F3 xE8C984 x1ECBB6 x8450E6 x6EB426 xDF11DE x0D99B2 x4873BB x830A18 x2E1935 x5C07F8 x899B12 x735CE8 xEA86E6 xEFE51C x0AC914 xA2D91A x79FDC9 xB73390 x5D218A x173CA7 x5F2014 x49AC45 x827088 x8EB71A x5F7A37 x3295D4 x606069 x8AD942 x95BACF x076BF7 xB9ABB2 x274B60 x612486 x451B40 x2D0A5B x6A41FC xDC539B xF440A0 x6D4E14 xF26535 xBED565 xF36A13 x87087C x548092 x05E8EE x9A0386 xA2CA8B xFEFF41 x6132A9 xC8D2DF xDB7B09 x598BB6 x7D8B91 x98D7CA x7235B5 x223677 xB04905 xFE1FE7 x0B471A xE9761F xD8A26B x06DEFA xE5B9EA x000000 x294808 xF1CC64 x2F6347 x90C010 xA819A3 xC1C94E x7BBC98 xD4ED37 x726C12 x1D6986 xE16635 x7EF4B9 x4064E3 xEBCFD4 x4BDFCB x0B8CF8 x85332D x8888B1 x38D758 xFC6230 x19ADC5 xA2A3FE x172083 xE522DF xDABA4E x8CFC4E xDB0974 x1A44CA x2F51DB x01D6CB x68CF3C xC621A4 x0E58D6 xB4557E x64A565 xE1A3DA x8904F0 x292260 x570979 x3F54E6 x4990C2 x5CDBBF xAA9C80 xD4046E x236C5E x2BD67D x4C2C14 x0B10DD x6BC5A8 x7DBCC0 xB393C6 x273D8C x10277B x0DEB9B xCC88A6 x7CF31A x66AC1F xF1E8D4 xA6A3AB xA0DD82 xF399B4 xC41008 x39336B x03274B x55B443 xFED977 x8F751D x6149D2 xA84E71 xBAC3A2 x3A7017 x852349 xA8EECE x2461DC x8559BF x50DF50 xD33C28 xB59A00 xF5C551 x4D7947 x175BE8 xE6289F x4FD378 xAC4B4D xB0BB1D x4DC956 x37EEF5 xFDD521 x79700B xDD454C xA6F837 xB45D74 x478B69 x98087C x36B47F xD51EBF x00EDB9 x374801 x4FF147 xBFE85C xA73D1A xBA3299 x2C1A95 xD3F9DE x02E0C6 x0B0598 x4431EE x70383D x3A3D7F xB223E8 x71759D x2FC0F4 xDBBEB1 xB4B7AD x2339D5 x599386 xEE919B x20EA47 xAAB401 xDBE68B x517D4A x85A1F5 xC45E8A xEEBF12 xE3519E
+				x2DF912 xB88D8F xB2ABD6 x385E23 xDE2599 x13B15E xAD3D94 x006045 xA86BE7 x286EC0 x237FF4 x0C61A7 xDBBA9A x7756C0 x2B02A4 x43E2BC x7D8762 x2B8106 x73113C xCA2E25 x6D6E60 x20D086 x9C347D xA1185F xB1D29B x53E34D xDE14BD xF16F23 x1237B6 x5DF332 x3D6EEF x57C43E x74802F x513568 x4DB30B x79517E x915750 xA704BC x5FA620 x99166D x637FD0 x83DC85 xE098B0 xDB7DF4 x238B31 x5248FC xD7B893 x8573EA x630920 x143382 x7A7357 x74823F x3B2946 x44ECD1 x96153F x87227F x6ECAF6 x1884FF x6B9290 x7BE420 
+				}
+			}
+		}
+		c:GBR = {
+			create_diplomatic_pact = {
+				country = c:NAU
+				type = dependency
+			}
+		}
+		add_modifier = {
+			name = recently_established_colony
+			months = 6
+		}
+	}
+
+	ai_chance = {
+		base = 0
+	}
+}
+
+je_australia_gbr_found_victoria_button = {
+	name = "je_australia_gbr_found_victoria_button"
+	desc = "je_australia_gbr_found_victoria_button_desc"
+	
+	visible = {
+		exists = c:NSW
+		exists = c:GBR
+		c:GBR = ROOT
+		NOT = { exists = c:VIC }
+	}
+
+	possible = {
+		has_technology_researched = nationalism
+		c:NSW = {
+			NOT = { is_diplomatic_play_initiator = yes }
+		}
+		NOT = { has_modifier = recently_established_colony }
+	}
+
+	effect = {
+		create_country = {
+			tag = VIC
+			origin = c:NSW
+			state = s:STATE_VICTORIA.region_state:NSW
+		}
+		c:GBR = {
+			create_diplomatic_pact = {
+				country = c:VIC
+				type = dependency
+			}
+		}
+		add_modifier = {
+			name = recently_established_colony
+			months = 6
+		}
+	}
+
+	ai_chance = {
+		base = 0
+	}
+}
