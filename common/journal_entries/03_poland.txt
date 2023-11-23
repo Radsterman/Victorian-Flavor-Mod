@@ -1,0 +1,123 @@
+﻿je_christ_of_nations = {
+    icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+	group = je_group_historical_content
+
+    scripted_button = christ_of_nations_button
+
+    is_shown_when_inactive = {
+        OR = {
+            c:POL ?= this
+            c:KRA ?= this
+            c:CPL ?= this
+            c:POS ?= this
+            AND = {
+                c:GAL ?= this
+                ruler = {
+                    culture = cu:polish
+                }
+            }
+        }
+        NOT = {
+            sr:region_poland = {
+                any_scope_state = {
+                    count = all
+                    owner = root
+                }
+            }
+        }
+    }
+
+    possible = {
+        has_technology_researched = nationalism
+    }
+
+    immediate = {
+        cu:polish = {
+            save_scope_as = polish_culture_scope
+        }
+    }
+
+    complete = {
+        sr:region_poland = {
+            any_scope_state = {
+                count = all
+                owner = root
+            }
+        }
+    }
+
+    on_complete = {
+        trigger_event = { id = poland_events.4 days = 0 popup = yes }
+    }
+
+    should_be_pinned_by_default = yes
+}
+
+je_poland_lithuania = {
+    icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+	group = je_group_foreign_affairs
+
+    is_shown_when_inactive = {
+       country_has_primary_culture = cu:polish
+    }
+
+    possible = {
+        has_technology_researched = pan-nationalism
+        custom_tooltip = {
+            text = je_poland_lithuania_tt
+            c:PLC ?= THIS
+        }
+    }
+
+    immediate = {
+        trigger_event = { id = poland_events.6 popup = yes }
+    }
+
+    complete = {
+        owns_entire_state_region = STATE_MINSK
+        owns_entire_state_region = STATE_KIEV
+        sr:region_belarus = {
+			any_scope_state = {
+				owner = ROOT
+				count = all
+			}
+        }
+		any_scope_state = {
+			count >= 3
+			region = sr:region_ukraine
+		}
+		any_scope_state = {
+			count >= 2
+			region = sr:region_baltic
+		}
+    }
+
+    on_complete = {
+        set_variable = greater_commonwealth_var
+        trigger_event = { id = poland_events.7 popup = yes }
+        custom_tooltip = plc_discrimination_tt
+        show_as_tooltip = {
+            add_primary_culture = cu:ukrainian
+            add_primary_culture = cu:byelorussian
+            add_loyalists = {
+                culture = cu:ukrainian
+                value = 0.1
+            }
+            add_loyalists = {
+                culture = cu:byelorussian
+                value = 0.1
+            }
+        }
+        custom_tooltip = plc_discrimination_tt_2
+        show_as_tooltip = {
+            add_loyalists = {
+                culture = cu:polish
+                value = 0.1
+            }
+        }
+    }
+
+    should_be_pinned_by_default = yes
+}
