@@ -23,10 +23,17 @@ journal_flavor_peru.1 = {
 	}
 
 	immediate = {
-
 		c:BOL = {
 			save_scope_as = bol_scope
 		}
+		c:SPU = {
+			save_scope_as = spu_scope
+		}		
+		s:STATE_ICA = {
+			random_scope_state = {
+				save_scope_as = ica_state
+			}
+		}		
 	}
 
 	option = {
@@ -69,6 +76,17 @@ journal_flavor_peru.1 = {
 			name = confederation_war
 			target_country = c:BOL
 			type = dp_independence	
+			
+			add_war_goal = {
+				holder = c:NPU
+				type = conquer_state
+				target_state = scope:ica_state
+			}	
+			add_war_goal = {
+				holder = c:NPU
+				type = dp_liberate_country
+				target_country = scope:spu_scope
+			}						
 		}
 
 		change_relations = {
