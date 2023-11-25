@@ -13,12 +13,13 @@
 @culture_position = 350
 @population_position = 390
 @journal_position = 430
-@outliner_position = 470
+@outliner_position = 530
+@companies_position = 470
 
 @spacing_widget_2_position = 510
 
-@maplist_position = 530
-@vfm_position = 570
+@maplist_position = 600
+@vfm_position = 640
 
 types information_panel_bar_types {
 	type information_panel_bar = widget {
@@ -100,6 +101,7 @@ types information_panel_bar_types {
 			onmousehierarchyleave = "[PdxGuiInterruptThenTriggerAllAnimations('show_sidebar_labels','hide_sidebar_labels')]"
 
 			container = {
+			    name = "ingame_sidebar_buttons_container" # Do not rename otherwise `UiValidityCheck`s will just pretend to work
 				### POLITICS
 				sidebar_label_button = {
 					position = { -100 0 }
@@ -264,7 +266,7 @@ types information_panel_bar_types {
 				sidebar_label_button = {
 					position = { -100 @military_position }
 					blockoverride "onclick" {
-						onclick = "[InformationPanelBar.OpenPanelCycleTabs('military', 'army|garrison|navy')]"
+						onclick = "[InformationPanelBar.OpenPanelCycleTabs('military', 'army|navy')]"
 						input_action = "open_military"
 					}
 				}
@@ -408,6 +410,45 @@ types information_panel_bar_types {
 					position = { 0 @technology_position }
 					tooltip = "BUTTON_TECHNOLOGY"
 					input_action = "open_technology"
+				}
+
+				### COMPANIES
+				sidebar_label_button_small = {
+					enabled = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
+					position = { -100 @companies_position }
+					blockoverride "onclick" {
+						onclick = "[InformationPanelBar.OpenPanelCycleTabs('companies', 'default|potential_companies')]"
+						input_action = "open_companies"
+					}
+				}
+				sidebar_label_text_small = {
+					position = { -100 @companies_position }
+					text = "COMPANIES_OVERVIEW"
+				}
+				widget = {
+					name = "tutorial_highlight_companies"
+					enabled = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
+					position = { 0 @companies_position }
+					using = clickthrough_blocker
+					using = sidebar_button_size_small
+					using = selected_sidepanel_animation_small
+					blockoverride "selected_visibility" {
+						visible = "[InformationPanelBar.IsPanelOpen('companies')]"
+					}
+					sidepanel_button_small = {
+						blockoverride "icon" {
+							texture = "gfx/interface/main_hud/companies_btn.dds"
+						}
+						blockoverride "button_selected" {
+							visible = "[InformationPanelBar.IsPanelOpen('companies')]"
+						}
+						onclick = "[InformationPanelBar.OpenPanel('companies')]"
+					}
+				}
+				sidebar_tooltip_area_small = {
+					position = { 0 @companies_position }
+					tooltip = "BUTTON_COMPANIES_OVERVIEW"
+					input_action = "open_companies"
 				}
 
 				### CULTURE
@@ -633,45 +674,45 @@ types information_panel_bar_types {
 					input_action = map_list
 				}
 
-				### VFM Button
-				sidebar_label_button_small = {
-
-					position = { -100 @vfm_position }
-					blockoverride "onclick" {
-						onclick = "[ExecuteConsoleCommand( Select_CString( GetVariableSystem.Exists('my_window_open'), 'gui.ClearWidgets my_custom_window', 'gui.createwidget gui/custom_windows/vfm_window.gui my_custom_window' ) )]"
-						onclick = "[GetVariableSystem.Toggle('my_window_open')]"
-					}
-				}
-
-				sidebar_label_text_small = {
-					position = { -100 @vfm_position }
-					text = "Victorian Flavor Mod"
-				}
-
-				widget = {
-					position = { 0 @vfm_position }
-					using = clickthrough_blocker
-					using = sidebar_button_size_small
-					using = selected_sidepanel_animation_small
-					blockoverride "selected_visibility" {
-						visible = "[MapListPanelManager.IsVisible]"
-					}
-					sidepanel_button_small = {
-						blockoverride "icon" {
-							texture = "gfx/interface/icons/generic_icons/vfm_smaller.dds"
-						}
-						blockoverride "button_selected" {
-							visible = "[MapListPanelManager.IsVisible]"
-						}
-						onclick = "[ExecuteConsoleCommand( Select_CString( GetVariableSystem.Exists('my_window_open'), 'gui.ClearWidgets my_custom_window', 'gui.createwidget gui/custom_windows/vfm_window.gui my_custom_window' ) )]"
-						onclick = "[GetVariableSystem.Toggle('my_window_open')]"
-					}
-				}
-
-				sidebar_tooltip_area_small = {
-					position = { 0 @vfm_position }
-					tooltip = "VFM_TOOLTIP"
-				}
+				#### VFM Button
+				#sidebar_label_button_small = {
+				#
+				#	position = { -100 @vfm_position }
+				#	blockoverride "onclick" {
+				#		onclick = "[ExecuteConsoleCommand( Select_CString( GetVariableSystem.Exists('my_window_open'), 'gui.ClearWidgets my_custom_window', 'gui.createwidget gui/custom_windows/vfm_window.gui my_custom_window' ) )]"
+				#		onclick = "[GetVariableSystem.Toggle('my_window_open')]"
+				#	}
+				#}
+				#
+				#sidebar_label_text_small = {
+				#	position = { -100 @vfm_position }
+				#	text = "Victorian Flavor Mod"
+				#}
+				#
+				#widget = {
+				#	position = { 0 @vfm_position }
+				#	using = clickthrough_blocker
+				#	using = sidebar_button_size_small
+				#	using = selected_sidepanel_animation_small
+				#	blockoverride "selected_visibility" {
+				#		visible = "[MapListPanelManager.IsVisible]"
+				#	}
+				#	sidepanel_button_small = {
+				#		blockoverride "icon" {
+				#			texture = "gfx/interface/icons/generic_icons/vfm_smaller.dds"
+				#		}
+				#		blockoverride "button_selected" {
+				#			visible = "[MapListPanelManager.IsVisible]"
+				#		}
+				#		onclick = "[ExecuteConsoleCommand( Select_CString( GetVariableSystem.Exists('my_window_open'), 'gui.ClearWidgets my_custom_window', 'gui.createwidget gui/custom_windows/vfm_window.gui my_custom_window' ) )]"
+				#		onclick = "[GetVariableSystem.Toggle('my_window_open')]"
+				#	}
+				#}
+				#
+				#sidebar_tooltip_area_small = {
+				#	position = { 0 @vfm_position }
+				#	tooltip = "VFM_TOOLTIP"
+				#}
 			}
 		}
 	}

@@ -245,15 +245,11 @@ types country_panel_types
 				# 3D flag, we want to render at a high resolution and downscale
 				# This increases the quality of the rendered gui flag
 				# Size can be modified but needs to be 16:9 due to how its rendered (converted 3d object)
-				flag_3d_animated = {
-					position = { 5 10 }
+				flag_3d = {
+					position = { 5 13 }
 					size = { 550 309 }	# Rendersize
-					scale = 0.45			# Downscale
+					scale = 0.45		# Downscale
 				}
-				#large_flag = {
-				#	position = { 58 13 }
-				#	scale = 1.5			# Downscale
-				#}
 			}
 
 			#RULER PORTRAIT
@@ -313,8 +309,9 @@ types country_panel_types
 				blockoverride "show_hat" {}
 				blockoverride "highlight" {}
 				blockoverride "rank_icon" {}
+				blockoverride "commander_order_icon" {}
 			}
-
+			
 			#GOVERNMENT
 			flowcontainer = {
 				position = { 0 400 }
@@ -409,7 +406,7 @@ types country_panel_types
 						datacontext = "[CountryPanel.GetCountry]"
 						visible = "[CountryPanel.GetCountry.IsColonizable]"
 						raw_text = "#variable @battalions![Country.CalcConscriptableBattalions|0]#! "
-						tooltip = PANEL_MILITARY_NATIVE_POTENTIAL_BATTALIONS_TOOLTIP
+						tooltip = "PANEL_MILITARY_NATIVE_POTENTIAL_BATTALIONS_TOOLTIP"
 						using = fontsize_mega
 						minimumsize = { 60 -1 }
 						align = right|nobaseline
@@ -422,7 +419,7 @@ types country_panel_types
 						autoresize = yes
 						visible = "[Not(CountryPanel.GetCountry.IsColonizable)]"
 						raw_text = "@battalions! [Country.GetRegularBattalions|v] + [Country.CalcConscriptableBattalions|v]"
-						tooltip = PANEL_MILITARY_ARMY_OVERVIEW_TOOLTIP
+						tooltip = "PANEL_MILITARY_ARMY_OVERVIEW_TOOLTIP"
 						using = fontsize_mega
 						minimumsize = { 60 -1 }
 						align = right|nobaseline
@@ -435,7 +432,7 @@ types country_panel_types
 						autoresize = yes
 						visible = "[Not(CountryPanel.GetCountry.IsColonizable)]"
 						raw_text = "#variable @flotillas! [Country.GetWarships|0]#!"
-						tooltip = PANEL_MILITARY_NAVY_CURRENT_FLOTILLAS_TOOLTIP
+						tooltip = "PANEL_MILITARY_NAVY_CURRENT_FLOTILLAS_TOOLTIP"
 						using = fontsize_mega
 						minimumsize = { 60 -1 }
 						align = right|nobaseline
@@ -494,7 +491,7 @@ types country_panel_types
 					alpha = "[TransparentIfZero_int32(Country.GetBattalions)]"
 				
 					blockoverride "stats_tooltip" {
-						tooltip = PANEL_MILITARY_ARMY_OVERVIEW_TOOLTIP
+						tooltip = "PANEL_MILITARY_ARMY_OVERVIEW_TOOLTIP"
 					}
 					blockoverride "information_icon" {
 						texture = "gfx/interface/icons/generic_icons/battalions.dds"
@@ -513,7 +510,7 @@ types country_panel_types
 					alpha = "[TransparentIfZero_int32(Country.CalcConscriptableBattalions)]"
 				
 					blockoverride "stats_tooltip" {
-						tooltip = PANEL_MILITARY_NATIVE_POTENTIAL_BATTALIONS_TOOLTIP
+						tooltip = "PANEL_MILITARY_NATIVE_POTENTIAL_BATTALIONS_TOOLTIP"
 					}
 					blockoverride "information_icon" {
 						texture = "gfx/interface/icons/generic_icons/battalions.dds"
@@ -526,11 +523,11 @@ types country_panel_types
 					}
 				}
 
-				#FLOTTILAS
+				#FLOTILLAS
 				country_stats_entry = {
 					alpha = "[TransparentIfZero_int32(Country.GetWarships)]"
 					blockoverride "stats_tooltip" {
-						tooltip = PANEL_MILITARY_NAVY_CURRENT_FLOTILLAS_TOOLTIP
+						tooltip = "PANEL_MILITARY_NAVY_CURRENT_FLOTILLAS_TOOLTIP"
 					}
 					blockoverride "information_icon" {
 						texture = "gfx/interface/icons/generic_icons/flotillas.dds"
@@ -1400,7 +1397,7 @@ types war_panel
 		small_flag = {
 			parentanchor = vcenter
 			using = tooltip_above
-			datacontext = "[ContextualDiplomaticPact.GetOtherCountry]"						
+			datacontext = "[ContextualDiplomaticPact.GetOtherCountry]"
 			blockoverride "flag_tooltip" {
 				tooltip = "[ContextualDiplomaticPact.GetTooltip]"
 			}
@@ -1578,6 +1575,7 @@ types war_panel
 		}
 
 		diplomatic_action_acceptance_icon = {
+			visible = "[Not(DiplomaticAction.GetType.CanSelectAnyState)]"											
 			position = { -10 0 }
 		}
 

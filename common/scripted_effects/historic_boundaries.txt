@@ -151,6 +151,27 @@ second_polish_republic_scripted_boundary = {
 			provinces = { xFCC7B7 x085962 xC02121 x1FA1E1 x2E6001 xC32D8B xF962B2 xE513C0 x999CEE x635336 x2141A0 x41E0A0 }
 		}
 	}
+	s:STATE_POSEN.region_state:PRU = {
+		every_scope_pop = {
+			limit = { 
+				OR = {
+					pop_has_primary_culture = no
+					pop_is_discriminated = yes
+				}
+			}
+			move_pop = s:STATE_POSEN.region_state:POL
+		}
+	}
+	s:STATE_POSEN.region_state:POL = {
+		every_scope_pop = {
+			limit = {
+				OR = {
+					pop_has_primary_culture = no
+				}
+			}
+			move_pop = s:STATE_POSEN.region_state:PRU
+		}
+	}
 	s:STATE_WEST_SLOVAKIA = {
 		set_owner_of_provinces = {
 			country = c:POL
@@ -204,5 +225,14 @@ second_polish_republic_scripted_boundary = {
 			state_region = s:STATE_GRODNO
 		}
 		set_state_owner = c:POL
+	}
+}
+
+sudetenland_scripted_boundary = {
+	s:STATE_BOHEMIA = {
+		set_owner_of_provinces = {
+			country = c:PRU
+			provinces = { x1D6B94 x400226 xEE1941 x716141 xA40163 x9C175D x67FE18 xFA371D }
+		}
 	}
 }

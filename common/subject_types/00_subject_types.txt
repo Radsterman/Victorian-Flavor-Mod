@@ -12,16 +12,17 @@
 	use_for_release_country = yes
 	gives_prestige_to_overlord = yes
 	subservient_to_overlord = yes
+	can_be_used_in_sway_offers = yes
 	convoy_contribution = 0.5
 		
 	diplomatic_action = protectorate
 	
-	country_type_change_alternatives = {
-		subject_type_tributary
+	lower_autonomy_subject_type_alternatives = {
+		subject_type_dominion
 	}
 	
-	can_change_subject_type_from = {
-		subject_type_customs_union
+	same_autonomy_subject_type_alternatives = {
+		subject_type_tributary
 	}
 		
 	valid_overlord_country_types = {
@@ -47,6 +48,13 @@
 		unrecognized_major_power
 		unrecognized_regional_power	
 		unrecognized_power
+	}
+	
+	# Multiplies both subject_value and become_subject_value in AI strategies
+	# Higher value means AI is more interested in having this type of subject but less interested in *being* this type of subject
+	# Cannot return a value lower than MIN_SUBJECT_TYPE_VALUE
+	ai_value = {
+		value = 1
 	}
 }
 
@@ -113,13 +121,12 @@ subject_type_puppet = {
 	
 	diplomatic_action = puppet
 	
-	country_type_change_alternatives = {
-		subject_type_vassal
+	higher_autonomy_subject_type_alternatives = {
+		subject_type_dominion
 	}
 	
-	can_change_subject_type_from = {
-		subject_type_protectorate
-		subject_type_personal_union
+	same_autonomy_subject_type_alternatives = {
+		subject_type_vassal
 	}
 	
 	valid_overlord_country_types = {
@@ -146,6 +153,13 @@ subject_type_puppet = {
 		unrecognized_regional_power	
 		unrecognized_power
 	}
+	
+	# Multiplies both subject_value and become_subject_value in AI strategies
+	# Higher value means AI is more interested in having this type of subject but less interested in *being* this type of subject
+	# Cannot return a value lower than MIN_SUBJECT_TYPE_VALUE
+	ai_value = {
+		value = 1.5
+	}
 }
 
 subject_type_tributary = {
@@ -162,17 +176,17 @@ subject_type_tributary = {
 	use_for_release_country = yes
 	gives_prestige_to_overlord = yes
 	subservient_to_overlord = yes
+	can_be_used_in_sway_offers = yes
 	convoy_contribution = 0.5
 	
 	diplomatic_action = tributary
 	
-	country_type_change_alternatives = {
-		subject_type_protectorate
-		subject_type_dominion
+	lower_autonomy_subject_type_alternatives = {
+		subject_type_vassal
 	}
 	
-	can_change_subject_type_from = {
-		subject_type_customs_union
+	same_autonomy_subject_type_alternatives = {
+		subject_type_protectorate
 	}	
 	
 	valid_overlord_country_types = {
@@ -196,6 +210,13 @@ subject_type_tributary = {
 		unrecognized_regional_power	
 		unrecognized_power
 	}
+	
+	# Multiplies both subject_value and become_subject_value in AI strategies
+	# Higher value means AI is more interested in having this type of subject but less interested in *being* this type of subject
+	# Cannot return a value lower than MIN_SUBJECT_TYPE_VALUE
+	ai_value = {
+		value = 1
+	}	
 }
 
 subject_type_vassal = {
@@ -215,14 +236,14 @@ subject_type_vassal = {
 	convoy_contribution = 0.5
 		
 	diplomatic_action = vassal
-	
-	country_type_change_alternatives = {
-		subject_type_puppet
-	}
-	
-	can_change_subject_type_from = {
+
+	higher_autonomy_subject_type_alternatives = {
 		subject_type_tributary
 	}
+	
+	same_autonomy_subject_type_alternatives = {
+		subject_type_dominion
+	}	
 	
 	valid_overlord_country_types = {
 		unrecognized
@@ -245,6 +266,13 @@ subject_type_vassal = {
 		insignificant_power	
 		unrecognized_regional_power
 		unrecognized_power
+	}
+	
+	# Multiplies both subject_value and become_subject_value in AI strategies
+	# Higher value means AI is more interested in having this type of subject but less interested in *being* this type of subject
+	# Cannot return a value lower than MIN_SUBJECT_TYPE_VALUE
+	ai_value = {
+		value = 1.5
 	}
 }
 
@@ -266,13 +294,17 @@ subject_type_dominion = {
 	
 	diplomatic_action = dominion
 	
-	country_type_change_alternatives = {
-		subject_type_tributary
+	higher_autonomy_subject_type_alternatives = {
+		subject_type_protectorate
 	}
 	
-	can_change_subject_type_from = {
-		subject_type_protectorate
+	lower_autonomy_subject_type_alternatives = {
+		subject_type_puppet
 	}	
+	
+	same_autonomy_subject_type_alternatives = {
+		subject_type_vassal
+	}		
 	
 	valid_overlord_country_types = {
 		recognized
@@ -288,8 +320,7 @@ subject_type_dominion = {
 	valid_overlord_ranks = {
 		great_power
 		major_power
-		minor_power
-		insignificant_power
+		minor_power	
 	}
 	
 	valid_subject_ranks = {
@@ -297,6 +328,13 @@ subject_type_dominion = {
 		insignificant_power
 		unrecognized_regional_power
 		unrecognized_power
+	}
+	
+	# Multiplies both subject_value and become_subject_value in AI strategies
+	# Higher value means AI is more interested in having this type of subject but less interested in *being* this type of subject
+	# Cannot return a value lower than MIN_SUBJECT_TYPE_VALUE
+	ai_value = {
+		value = 1.25
 	}
 }
 
@@ -318,13 +356,17 @@ subject_type_chartered_company = {
 	
 	diplomatic_action = chartered_company
 
-	country_type_change_alternatives = {
-		subject_type_tributary
+	higher_autonomy_subject_type_alternatives = {
+		subject_type_protectorate
 	}
 	
-	can_change_subject_type_from = {
-		subject_type_protectorate
+	lower_autonomy_subject_type_alternatives = {
+		subject_type_puppet
 	}	
+	
+	same_autonomy_subject_type_alternatives = {
+		subject_type_vassal
+	}		
 	
 	valid_overlord_country_types = {
 		recognized
@@ -371,8 +413,23 @@ subject_type_personal_union = {
 	convoy_contribution = 0.5
 	
 	diplomatic_action = personal_union
+
+	higher_autonomy_subject_type_alternatives = {
+		subject_type_protectorate
+		subject_type_tributary
+	}	
 	
-	valid_overlord_country_types = {
+	lower_autonomy_subject_type_alternatives = {
+		subject_type_vassal
+		subject_type_puppet
+	}
+	
+	same_autonomy_subject_type_alternatives = {
+		subject_type_dominion
+		subject_type_tributary # Intentionally set both here and in higher_autonomy_subject_type_alternatives to handle unrecognized overlord changing out of monarchy
+	}	
+
+    valid_overlord_country_types = {
 		recognized
 		colonial
 		unrecognized
@@ -401,6 +458,7 @@ subject_type_personal_union = {
 		unrecognized_power		
 	}
 }
+
 
 subject_type_real_union = {
 	allow_change_country_flag = yes
@@ -443,12 +501,17 @@ subject_type_real_union = {
 	}
 	
 	valid_subject_ranks = {
-		major_power
 		minor_power
 		insignificant_power
-		unrecognized_major_power
 		unrecognized_regional_power
 		unrecognized_power		
+	}
+	
+	# Multiplies both subject_value and become_subject_value in AI strategies
+	# Higher value means AI is more interested in having this type of subject but less interested in *being* this type of subject
+	# Cannot return a value lower than MIN_SUBJECT_TYPE_VALUE
+	ai_value = {
+		value = 1.1
 	}
 }
 
@@ -544,7 +607,7 @@ subject_type_customs_union = {
 		major_power
 		minor_power
 		insignificant_power
-		unrecognized_major_power
+		unrecognized_major_power	
 		unrecognized_regional_power	
 		unrecognized_power
 	}

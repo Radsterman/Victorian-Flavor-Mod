@@ -1,0 +1,190 @@
+﻿namespace = religion_rule_hidden
+
+#Cleanup when religions set to condense for states
+religion_rule_hidden.1 = {
+	type = country_event
+	hidden = yes
+	trigger = {
+		has_global_variable = condensed_religions
+	}
+	immediate = {
+		if = {
+			limit = {
+				OR = {
+					country_has_state_religion = rel:reformed
+					country_has_state_religion = rel:anglican
+					country_has_state_religion = rel:lutheran
+					country_has_state_religion = rel:methodist
+					country_has_state_religion = rel:baptist
+					country_has_state_religion = rel:presbyterian
+					country_has_state_religion = rel:congregationalist
+					country_has_state_religion = rel:anabaptist
+					country_has_state_religion = rel:mormon
+					country_has_state_religion = rel:god_society
+				}
+			}
+			set_state_religion = rel:protestant
+		}
+		if = {
+			limit = {
+				OR = {
+					country_has_state_religion = rel:taoist
+					country_has_state_religion = rel:siberian_shamanist
+					country_has_state_religion = rel:alcheringa
+					country_has_state_religion = rel:generic_african
+					country_has_state_religion = rel:generic_native_american
+					country_has_state_religion = rel:bon
+					country_has_state_religion = rel:bimoist
+					country_has_state_religion = rel:hmongist
+					country_has_state_religion = rel:mormon
+				}
+			}
+			set_state_religion = rel:animist
+		}
+		if = {
+			limit = {
+				OR = {
+					country_has_state_religion = rel:druze
+					country_has_state_religion = rel:ibadi
+				}
+			}
+			set_state_religion = rel:sunni
+		}
+		if = {
+			limit = {
+				OR = {
+					country_has_state_religion = rel:shenist
+					country_has_state_religion = rel:confucian
+					country_has_state_religion = rel:taoist
+				}
+			}
+			set_state_religion = rel:mahayana
+		}
+	}
+}
+
+#Cleanup when religions set to condense for pops
+religion_rule_hidden.2 = {
+	type = country_event
+	hidden = yes
+	trigger = {
+		has_global_variable = condensed_religions
+	}
+	immediate = {
+		every_scope_pop = {
+			limit = {
+				OR = {
+					has_pop_religion = taoist
+					has_pop_religion = siberian_shamanist
+					has_pop_religion = alcheringa
+					has_pop_religion = generic_african
+					has_pop_religion = generic_native_american
+					has_pop_religion = bon
+					has_pop_religion = bimoist
+					has_pop_religion = hmongist
+					has_pop_religion = mormon
+				}
+			}
+			change_pop_religion = { target = rel:animist value = 1.0 }
+		}
+		every_scope_pop = {
+			limit = {
+				OR = {
+					has_pop_religion = reformed
+					has_pop_religion = anglican
+					has_pop_religion = lutheran
+					has_pop_religion = methodist
+					has_pop_religion = baptist
+					has_pop_religion = presbyterian
+					has_pop_religion = congregationalist
+					has_pop_religion = anabaptist
+					has_pop_religion = mormon
+					has_pop_religion = god_society
+				}
+			}
+			change_pop_religion = { target = rel:protestant value = 1.0 }
+		}
+		every_scope_pop = {
+			limit = {
+				OR = {
+					has_pop_religion = druze
+					has_pop_religion = ibadi
+				}
+			}
+			change_pop_religion = { target = rel:sunni value = 1.0 }
+		}
+		every_scope_pop = {
+			limit = {
+				OR = {
+					has_pop_religion = shenist
+					has_pop_religion = confucian
+					has_pop_religion = taoist
+				}
+			}
+			change_pop_religion = { target = rel:mahayana value = 1.0 }
+		}
+	}
+}
+
+##Cleanup when religions set to condense for characters
+#religion_rule_hidden.3 = {
+#	type = country_event
+#	hidden = yes
+#	trigger = {
+#		has_global_variable = condensed_religions
+#	}
+#	immediate = {
+#		every_scope_character = {
+#			limit = {
+#				OR = {
+#					has_religion = rel:taoist
+#					has_religion = rel:siberian_shamanist
+#					has_religion = rel:alcheringa
+#					has_religion = rel:generic_african
+#					has_religion = rel:generic_native_american
+#					has_religion = rel:bon
+#					has_religion = rel:bimoist
+#					has_religion = rel:hmongist
+#					has_religion = rel:mormon
+#				}
+#			}
+#			change_character_religion = rel:animist
+#		}
+#		every_scope_character = {
+#			limit = {
+#				OR = {
+#					has_religion = rel:reformed
+#					has_religion = rel:anglican
+#					has_religion = rel:lutheran
+#					has_religion = rel:methodist
+#					has_religion = rel:baptist
+#					has_religion = rel:presbyterian
+#					has_religion = rel:congregationalist
+#					has_religion = rel:anabaptist
+#					has_religion = rel:mormon
+#					has_religion = rel:god_society
+#				}
+#			}
+#			change_character_religion = rel:protestant
+#		}
+#		every_scope_character = {
+#			limit = {
+#				OR = {
+#					has_religion = rel:druze
+#					has_religion = rel:ibadi
+#				}
+#			}
+#			change_character_religion = rel:sunni
+#		}
+#		every_scope_character = {
+#			limit = {
+#				OR = {
+#					has_religion = rel:shenist
+#					has_religion = rel:confucian
+#					has_religion = rel:taoist
+#				}
+#			}
+#			change_character_religion = rel:mahayana
+#		}
+#	}
+#}

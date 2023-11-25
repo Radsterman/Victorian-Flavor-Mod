@@ -759,3 +759,154 @@ acw_events.8 = {
 		}
 	}
 }
+
+# CSA/Slaver USA Victory Event
+acw_events.9 = {
+	type = country_event
+	placement = root
+	event_image = {
+		video = "europenorthamerica_american_civil_war"
+	}
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+	title = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					c:CSA ?= this
+				}
+				desc = acw_events.9.t_1
+			}
+			triggered_desc = {
+				trigger = {
+					c:USA ?= this
+				}
+				desc = acw_events.9.t_2
+			}
+		}
+	}
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					c:CSA ?= this
+				}
+				desc = acw_events.9.d_1
+			}
+			triggered_desc = {
+				trigger = {
+					c:USA ?= this
+				}
+				desc = acw_events.9.d_2
+			}
+		}
+	}
+	flavor = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					c:CSA ?= this
+				}
+				desc = acw_events.9.f_1
+			}
+			triggered_desc = {
+				trigger = {
+					c:USA ?= this
+				}
+				desc = acw_events.9.f_2
+			}
+		}
+	}
+	duration = 3
+	trigger = {
+		NOT = {
+			has_global_variable = csa_victory_event_var
+		}
+		has_variable = acw_slave_nation_var
+		is_at_war = no
+		is_active_in_diplomatic_play = no
+	}
+	immediate = {
+		set_global_variable = csa_victory_event_var
+		if = {
+			limit = {
+				any_scope_character = {
+					has_role = general
+				}
+			}
+			random_scope_character = {
+				limit = {
+					has_role = general
+				}
+				save_scope_as = acw_victory_general_scope
+			}
+		}
+		else = { # fallback should you somehow have no generals
+			ruler = {
+				save_scope_as = acw_victory_general_scope
+			}
+		}
+		if = {
+			limit = {
+				exists = c:USA
+			}
+			c:USA = {
+				capital = {
+					save_scope_as = acw_victory_capital_scope
+				}
+			}
+		}
+		else = {
+			random_state = {
+				limit = {
+					state_region = s:STATE_DISTRICT_OF_COLUMBIA
+				}
+				save_scope_as = acw_victory_capital_scope
+			}
+		}
+	}
+	option = { # Default victory
+		name = acw_events.9.a
+        default_option = yes
+        add_modifier = {
+        	name = acw_victory_modifier
+        	months = long_modifier_time
+        }
+        ig:ig_landowners = {
+        	add_modifier = {
+        		name = acw_victory_landowners_modifier
+        		months = long_modifier_time
+        	}
+        }
+	}
+	option = { # Restart the slave trade
+		name = acw_events.9.b
+		trigger = {
+			NOT = {
+				has_law = law_type:law_slave_trade
+			}
+		}
+		activate_law = law_type:law_slave_trade
+        add_modifier = {
+        	name = acw_slave_trade_restarted_modifier
+        	months = very_long_modifier_time
+        }
+        ig:ig_rural_folk = {
+        	add_modifier = {
+        		name = acw_slave_trade_rural_folk
+        		months = long_modifier_time
+        	}
+        }
+        every_country = {
+        	limit = {
+        		country_rank = rank_value:great_power
+        		has_law = law_type:law_slavery_banned
+        		has_diplomatic_relevance = root
+        	}
+			change_relations = {
+				country = root
+				value = -30
+			}
+        }
+	}
+}

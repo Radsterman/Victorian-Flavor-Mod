@@ -141,8 +141,8 @@ vfm_events_korea = {
 
 vfm_natural_disaster_yearly = {
 	random_events = {
-	    # TODO: make crops failure and flooding state events?
-		241 = 0
+	    # TODO: make flooding state events?
+		261 = 0
 		3 = vfm_natural_disaster_events.5 # coastal state storm
 		2 = vfm_natural_disaster_events.1 # drought in more arrid regions
 		1 = vfm_natural_disaster_events.6 # storm
@@ -155,7 +155,7 @@ vfm_natural_disaster_yearly = {
 
 vfm_natural_disaster_decade = {
 	random_events = {
-		119 = 0
+		124 = 0
         1 = vfm_natural_disaster_events.4 # BIG drought
 	}
 }
@@ -337,56 +337,6 @@ vfm_sakhalin_colony_created = {
 	}
 }
 
-vfm_frontier_colonialism_colony_created = {
-	effect = {
-		owner = {
-			save_scope_as = colony_founder
-		}
-		if = {
-			limit = {
-				ROOT = {
-					owner = { has_law = law_type:law_frontier_colonialism }
-					NOT = {
-						any_neighbouring_state = {
-							OR = {
-								is_incorporated = yes
-								any_neighbouring_state = {
-									is_incorporated = yes
-									owner = scope:colony_founder
-								}
-							}
-							owner = scope:colony_founder
-						}
-						#has_modifier = frontier_colonialism_modifier
-					}
-				}
-			}
-			add_modifier = frontier_colonialism_modifier
-		}
-	}
-}
-
-vfm_frontier_colonialism_clearance = {
-	effect = {
-		owner = {
-			save_scope_as = owner_scope
-		}
-		if = {
-			limit = {
-				any_neighbouring_state = {
-					has_modifier = frontier_colonialism_modifier
-				}
-			}
-			every_neighbouring_state = {
-				limit = {
-					owner = scope:owner_scope
-				}
-				remove_modifier = frontier_colonialism_modifier
-			}
-		}
-	}
-}
-
 vfm_barracks_colony_created = {
 	effect = {
 		#temporary solution giving barracks to colonies to prevent being overrun by uprisings instantly
@@ -460,7 +410,6 @@ vfm_barracks_colony_created = {
 #						has_pop_religion = bimoist
 #						has_pop_religion = hmongist
 #						has_pop_religion = mormon
-#						has_pop_religion = camaquen
 #					}
 #				}
 #				change_pop_religion = { target = rel:animist value = 1.0 }
@@ -538,7 +487,6 @@ vfm_barracks_colony_created = {
 #					country_has_state_religion = rel:bimoist
 #					country_has_state_religion = rel:hmongist
 #					country_has_state_religion = rel:mormon
-#					country_has_state_religion = rel:camaquen
 #				}
 #			}
 #			set_state_religion = rel:animist

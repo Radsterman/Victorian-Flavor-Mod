@@ -280,6 +280,7 @@ algeria_events.2 = {
 					has_ideology = ideology:ideology_social_democrat
 					has_ideology = ideology:ideology_market_liberal
 					has_ideology = ideology:ideology_humanitarian
+					has_ideology = ideology:ideology_humanitarian_royalist
 				}
 				NOT = { has_trait = bigoted }
 			}
@@ -329,6 +330,7 @@ algeria_events.2 = {
 						has_ideology = ideology:ideology_social_democrat
 						has_ideology = ideology:ideology_market_liberal
 						has_ideology = ideology:ideology_humanitarian
+						has_ideology = ideology:ideology_humanitarian_royalist
 					}
 					NOT = { has_trait = bigoted }
 				}
@@ -692,15 +694,25 @@ algeria_events.5 = {
 					state_region = s:STATE_CONSTANTINE
 					state_region = s:STATE_TLEMCEN
 				}
+				any_neighbouring_state = {
+					OR = {
+						c:CON ?= owner
+						c:AIT ?= owner
+						c:TUG ?= owner
+						c:MAS ?= owner
+					}
+					NOT = { owner = { is_subject_of = c:FRA } }
+					owner = { relations:root <= relations_threshold:neutral }
+				}
 			}
 			save_scope_as = algerian_raided_state_scope
 			random_neighbouring_state = {
 				limit = {
 					OR = {
-						owner = c:CON
-						owner = c:AIT
-						owner = c:TUG
-						owner = c:MAS
+						c:CON ?= owner
+						c:AIT ?= owner
+						c:TUG ?= owner
+						c:MAS ?= owner
 					}
 					NOT = { owner = { is_subject_of = c:FRA } }
 					owner = { relations:root <= relations_threshold:neutral }

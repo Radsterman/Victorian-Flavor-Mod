@@ -1,0 +1,144 @@
+﻿je_holy_alliance = {
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+	
+	group = je_group_historical_content
+	
+	#complete = {
+	#}
+	#
+	#on_complete = {
+	#}
+
+    fail = {
+		OR = {
+			custom_tooltip = {
+				text = je_holy_alliance_monarchies
+				OR = {
+					c:PRU ?= {
+						NOT = { has_law = law_type:law_monarchy }
+					}
+					c:AUS ?= {
+						NOT = { has_law = law_type:law_monarchy }
+					}
+					c:RUS ?= {
+						NOT = { has_law = law_type:law_monarchy }
+					}
+				}
+			}
+			custom_tooltip = {
+				text = je_holy_alliance_religion
+					OR = {
+					c:PRU ?= {
+						has_law = law_type:law_total_separation
+					}
+					c:AUS ?= {
+						has_law = law_type:law_total_separation
+					}
+					c:RUS ?= {
+						has_law = law_type:law_total_separation
+					}
+				}
+			}
+			custom_tooltip = {
+				text = je_holy_alliance_alliances
+				OR = {
+					c:PRU ?= {
+						NOT = { 
+							has_diplomatic_pact = {
+								who = c:RUS
+								type = defensive_pact
+							}
+						}
+						NOT = { 
+							has_diplomatic_pact = {
+								who = c:AUS
+								type = defensive_pact
+							}
+						}
+					}
+					c:AUS ?= {
+						NOT = { 
+							has_diplomatic_pact = {
+								who = c:RUS
+								type = defensive_pact
+							}
+						}
+						NOT = { 
+							has_diplomatic_pact = {
+								who = c:PRU
+								type = defensive_pact
+							}
+						}
+					}
+					c:RUS ?= {
+						NOT = { 
+							has_diplomatic_pact = {
+								who = c:PRU
+								type = defensive_pact
+							}
+						}
+						NOT = { 
+							has_diplomatic_pact = {
+								who = c:AUS
+								type = defensive_pact
+							}
+						}
+					}
+				}
+			}
+			#custom_tooltip = {
+			#	text = je_holy_alliance_diplomatic_play
+			#}
+			custom_tooltip = {
+				text = je_holy_alliance_poland
+				exists = c:POL
+				NOT = {
+					exists = c:POS
+					exists = c:CPL
+					exists = c:KRA
+					exists = c:GAL
+				}
+			}
+		}
+    }
+	
+	on_fail = {
+		custom_tooltip = {
+			text = je_holy_alliance_fail
+			c:RUS = {
+				remove_diplomatic_pact = {
+					country = c:PRU
+					type = defensive_pact
+				}
+				set_mutual_secret_goal = {
+					country = c:PRU
+					secret_goal = none
+				}
+			}
+			c:AUS = {
+				remove_diplomatic_pact = {
+					country = c:PRU
+					type = defensive_pact
+				}
+				set_mutual_secret_goal = {
+					country = c:PRU
+					secret_goal = antagonize
+				}
+				set_relations = { country = c:PRU value = -5 }
+			}
+			c:RUS = {
+				remove_diplomatic_pact = {
+					country = c:AUS
+					type = defensive_pact
+				}
+				set_mutual_secret_goal = {
+					country = c:AUS
+					secret_goal = none
+				}
+			}
+		}
+	}
+
+    should_be_pinned_by_default = yes
+	weight = 100
+}

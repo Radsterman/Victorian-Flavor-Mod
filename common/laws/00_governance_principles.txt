@@ -26,6 +26,10 @@ law_chiefdom = {
 		value = 0
 	}
 
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	}
+
 	ai_enact_weight_modifier = { #Petitions
 		value = 0
 		
@@ -54,7 +58,7 @@ law_monarchy = {
 	modifier = {
 		country_legitimacy_headofstate_add = 15
 		country_legitimacy_ideological_incoherence_mult = 0.1
-		interest_group_ig_landowners_pol_str_mult = 0.25
+		country_aristocrats_pol_str_mult = 0.25
 		country_authority_add = 200
 	}
 	
@@ -76,6 +80,10 @@ law_monarchy = {
 			}
 		}
 	}
+	
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	} 
 	
 	ai_will_do = {
 		exists = ruler
@@ -165,6 +173,20 @@ law_presidential_republic = {
 				add = 1
 			}
 		}
+		if = {
+			limit = {
+				any_interest_group = {
+					has_ideology = ideology:ideology_constitutionalist
+				}
+			}
+			every_interest_group = {
+				limit = {
+					has_ideology = ideology:ideology_constitutionalist
+				}
+				remove_ideology = ideology_constitutionalist
+				add_ideology = ideology_republican
+			}
+		}
 	}
 	
 	possible_political_movements = {
@@ -185,6 +207,10 @@ law_presidential_republic = {
 		}
 	}
 	
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	} 
+	
 	ai_will_do = {
 		exists = ruler
 		ruler = {
@@ -192,9 +218,14 @@ law_presidential_republic = {
 		}
 	}
 
-	ai_enact_weight_modifier = { #Petitions
-		value = 0
-		
+	ai_enact_weight_modifier = {
+		value = 0		
+		if = {
+			limit = {
+				has_journal_entry = je_pedro_republic
+			}
+			add = 100
+		}
 		if = {
 			limit = { 
 				has_journal_entry = je_government_petition
@@ -237,6 +268,20 @@ law_parliamentary_republic = {
 				add = 1
 			}
 		}
+		if = {
+			limit = {
+				any_interest_group = {
+					has_ideology = ideology:ideology_constitutionalist
+				}
+			}
+			every_interest_group = {
+				limit = {
+					has_ideology = ideology:ideology_constitutionalist
+				}
+				remove_ideology = ideology_constitutionalist
+				add_ideology = ideology_republican
+			}
+		}
 	}
 
 	possible_political_movements = {
@@ -256,6 +301,10 @@ law_parliamentary_republic = {
 			}
 		}
 	}
+	
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	} 
 	
 	ai_will_do = {
 		exists = ruler
@@ -317,6 +366,10 @@ law_theocracy = {
 		}
 	}
 	
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	} 
+	
 	ai_will_do = {
 		exists = ruler
 		ruler = {
@@ -348,15 +401,26 @@ law_council_republic = {
 	unlocking_technologies = {
 		socialism
 	}
-
-	disallowing_laws = {
-		law_hereditary_bureaucrats
-	}
 	
 	on_activate = {		
 		custom_tooltip = {
 			text = enact_law_radical_leftist_government_warning_desc
-		}	
+		
+		}
+		if = {
+			limit = {
+				any_interest_group = {
+					has_ideology = ideology:ideology_constitutionalist
+				}
+			}
+			every_interest_group = {
+				limit = {
+					has_ideology = ideology:ideology_constitutionalist
+				}
+				remove_ideology = ideology_constitutionalist
+				add_ideology = ideology_republican
+			}
+		}
 	}		
 
 	modifier = {
@@ -383,6 +447,10 @@ law_council_republic = {
 			}
 		}
 	}
+	
+	can_impose = { 
+		is_subject_of = scope:initiator	
+	} 
 	
 	ai_will_do = {
 		exists = ruler

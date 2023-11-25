@@ -1,6 +1,8 @@
 ﻿je_famine = {
 	icon = "gfx/interface/icons/event_icons/event_skull.dds"
 
+	group = je_group_crises
+
 	is_shown_when_inactive = {
 		NOT = { has_variable = completed_major_famine_var }
 		NOT = { is_country_type = decentralized }
@@ -103,6 +105,18 @@
 		set_variable = {
 			name = completed_major_famine_var
 			months = normal_modifier_time
+		}
+		every_scope_state = {
+			limit = {
+			  has_modifier = great_famine_modifier
+			}
+			remove_modifier = great_famine_modifier
+		}
+		every_scope_state = {
+			limit = {
+			  has_modifier = emergency_famine_modifier
+			}
+			remove_modifier = emergency_famine_modifier
 		}
 		remove_variable = neighbor_country_1_var
 		remove_variable = famine_donations_var

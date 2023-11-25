@@ -43,6 +43,35 @@ base_values = {
 	building_mobilization_cost_mult = 0.6
 	
 	building_economy_of_scale_level_cap_add = 20
+
+   state_market_access_price_impact = 0.8
+	
+	country_company_throughput_bonus_add = 0.1
+	country_company_construction_efficiency_bonus_add = 0.25
+	
+	country_max_weekly_construction_progress_add = 10
+	
+	country_free_trade_routes_add = 3
+	
+	military_formation_organization_gain_add = 0.5 # 200 days to get max organization
+	
+	state_urbanization_per_level_add = 100
+	
+	unit_experience_gain_add = 1.0
+}
+
+# Scales with a country's global prestige rank, so at 20/100 this is multiplied by 0.8x, 50/100 by 0.5x, etc
+# Not applied if the top_prestige_ranking modifier is applied instead
+prestige_ranking = {
+	country_company_throughput_bonus_add = 0.05
+	country_company_construction_efficiency_bonus_add = 0.05
+}
+
+# Scales with a country's prestige rank compared against TOP_PRESTIGE_RANK_BONUS_THRESHOLD
+# Multiplied by 1x if at TOP_PRESTIGE_RANK_BONUS_THRESHOLD, all the way up to TOP_PRESTIGE_RANK_BONUS_SCALE if at rank 1
+top_prestige_ranking = {
+	country_company_throughput_bonus_add = 0.05
+	country_company_construction_efficiency_bonus_add = 0.05
 }
 
 character_base_values = {
@@ -93,8 +122,14 @@ working_conditions = {
 
 malnourishment = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_fire_negative.dds
-	state_birth_rate_mult = -0.02	# per level below equilibrium
+	state_birth_rate_mult = -0.04	# per level below equilibrium
 }
+
+literacy_penalty = {
+	icon = gfx/interface/icons/timed_modifier_icons/modifier_statue_negative.dds
+	state_birth_rate_mult = -0.1 	# scaled by pop literacy
+}
+
 
 commander_battle_end_victory = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_rifle_positive.dds
@@ -108,7 +143,7 @@ commander_battle_end_loss = {
 
 in_default = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_gear_negative.dds
-	building_throughput_mult = -0.5
+	building_throughput_add = -0.5
 	unit_offense_mult = -0.5
 	unit_defense_mult = -0.5
 }
@@ -120,7 +155,7 @@ declared_bankruptcy = {
 	unit_offense_mult = -0.5
 	unit_defense_mult = -0.5
 	state_radicals_from_sol_change_mult = 1.0
-	state_construction_mult = -0.75
+	state_construction_mult = -0.5
 }
 
 incorporated_state = {
@@ -132,6 +167,10 @@ unincorporated_state = {
 	state_conscription_rate_mult = -0.5
 	state_expected_sol_mult = -0.33
 	state_pop_pol_str_mult = -0.50
+	building_group_bg_manufacturing_throughput_add = -0.1
+	building_group_bg_government_throughput_add = -0.1
+	building_group_bg_military_throughput_add = -0.1
+	state_market_access_price_impact = -0.1
 }
 
 market_capital_state = {
@@ -154,7 +193,7 @@ moved_capital_recently = {
 
 moved_market_capital_recently = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_gear_negative.dds
-	building_throughput_mult = -0.1
+	building_throughput_add = -0.1
 }
 
 tax_modifier_very_low = {
@@ -226,7 +265,7 @@ military_wages_very_low = {
 	country_military_wages_mult = -0.3
 	interest_group_ig_armed_forces_approval_add = -2	
 	building_training_rate_mult = -0.75
-	country_army_power_projection_mult = -0.2
+	country_prestige_from_army_power_projection_mult = -0.2
 }
 
 military_wages_low = {
@@ -234,7 +273,7 @@ military_wages_low = {
 	country_military_wages_mult = -0.15
 	interest_group_ig_armed_forces_approval_add = -1
 	building_training_rate_mult = -0.5
-	country_army_power_projection_mult = -0.1
+	country_prestige_from_army_power_projection_mult = -0.1
 }
 
 military_wages_medium = {
@@ -244,7 +283,7 @@ military_wages_high = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_coins_negative.dds
 	country_military_wages_mult = 0.15
 	interest_group_ig_armed_forces_approval_add = 1
-	country_army_power_projection_mult = 0.1
+	country_prestige_from_army_power_projection_mult = 0.1
 	unit_morale_recovery_mult = 0.1
 }
 
@@ -252,7 +291,7 @@ military_wages_very_high = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_coins_negative.dds
 	country_military_wages_mult = 0.3
 	interest_group_ig_armed_forces_approval_add = 2	
-	country_army_power_projection_mult = 0.2
+	country_prestige_from_army_power_projection_mult = 0.2
 	unit_morale_recovery_mult = 0.2
 }
 
@@ -293,12 +332,12 @@ debug_ig_clout = {
 
 economy_of_scale = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_gear_positive.dds
-	building_throughput_mult = 0.01
+	building_throughput_add = 0.01
 }
 
 pm_retooling = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_rifle_negative.dds
-	#building_throughput_mult = -0.5
+	#building_throughput_add = -0.5
 }
 
 pm_offense_defense_readjustment = {
@@ -315,7 +354,7 @@ pm_offense_defense_readjustment_minor = {
 
 insufficient_urbanization = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_gear_negative.dds
-	building_throughput_mult = -0.05
+	building_throughput_add = -0.05
 }
 
 # Excess convoys increases trade competitiveness by +25% at 2x production to usage
@@ -433,6 +472,21 @@ battle_average_provinces_lost = {
 	unit_provinces_lost_mult = 1.0
 }
 
+battle_army_experience = {
+	icon = gfx/interface/icons/timed_modifier_icons/modifier_rifle_positive.dds
+	unit_army_experience_gain_add = 5.0
+}
+
+battle_navy_experience = {
+	icon = gfx/interface/icons/timed_modifier_icons/modifier_rifle_positive.dds
+	unit_navy_experience_gain_add = 5.0
+}
+
+battle_unit_experience = {
+	icon = gfx/interface/icons/timed_modifier_icons/modifier_rifle_positive.dds
+	unit_experience_gain_add = 5.0
+}
+
 # Scales with how much population is under low pop threshold
 # We need to rework how high and low population work in a state, but save it until after 1.2 fixes migration and arable land
 low_pop_state = {
@@ -443,6 +497,12 @@ low_pop_state = {
 high_pop_state = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_flag_negative.dds
 	state_birth_rate_mult = -0.25
+}
+
+# Multiplies unemployment rate in state by this
+unemployment_birth_penalty_state = {
+	icon = gfx/interface/icons/timed_modifier_icons/modifier_flag_negative.dds
+	state_birth_rate_mult = -0.4
 }
 
 # if this bonus changes need code support
@@ -472,8 +532,21 @@ state_region_devastation = {
 	state_infrastructure_mult = -1.0
 	state_mortality_mult = 2.0
 	state_migration_pull_mult = -2.0
-	state_construction_mult = -1.0
-	building_throughput_mult = -1.0
+	building_throughput_add = -1.0
+}
+
+# Scales with pollution impact, reduced by state_pollution_reduction_health_mult
+# Effect = state_region_pollution_health * impact
+state_region_pollution_health = {
+	icon = gfx/interface/icons/timed_modifier_icons/modifier_gear_negative.dds
+	state_mortality_mult = 0.5
+	state_standard_of_living_add = -3
+}
+
+# Effect = state_region_pollution_health * impact
+state_region_pollution_general = {
+	icon = gfx/interface/icons/timed_modifier_icons/modifier_gear_negative.dds
+	state_migration_pull_mult = -0.1
 }
 
 # Scales with deficiency in tax capacity
@@ -486,7 +559,7 @@ insufficient_tax_capacity = {
 state_turmoil = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_coins_negative.dds
 	state_tax_waste_add = 0.25
-	building_throughput_mult = -0.125
+	building_throughput_add = -0.125
 	state_migration_pull_mult = -0.5
 }
 
@@ -494,7 +567,7 @@ state_turmoil = {
 state_turmoil_high = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_coins_negative.dds
 	state_tax_waste_add = 0.5
-	building_throughput_mult = -0.25
+	building_throughput_add = -0.25
 	state_migration_pull_mult = -0.75
 }
 
@@ -502,7 +575,7 @@ state_turmoil_high = {
 state_turmoil_extreme = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_coins_negative.dds
 	state_tax_waste_add = 1.0
-	building_throughput_mult = -0.4
+	building_throughput_add = -0.4
 	state_migration_pull_mult = -1.0
 }
 
@@ -510,7 +583,18 @@ state_turmoil_extreme = {
 # Capped at COUNTRY_GDP_MODIFIER_MAX_MULTIPLIER
 country_gdp = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_coins_positive.dds
-	country_minting_add = 1
+	country_minting_add = 1 # TODO: lower
+}
+
+# Scales with total army power projection of a country
+country_army_power_projection = {
+	icon = gfx/interface/icons/timed_modifier_icons/modifier_rifle_positive.dds
+}
+
+# Scales with total navy power projection of a country
+country_navy_power_projection = {
+	icon = gfx/interface/icons/timed_modifier_icons/modifier_rifle_positive.dds
+	country_max_declared_interests_add = 0.01
 }
 
 # Scales with country literacy rate
@@ -569,15 +653,41 @@ law_enactment_chance = {
 	country_law_enactment_success_add = 1
 }
 
-early_demobilization = {
+# scaled by a formation's lack of organization, down to the minimum value set in defines
+low_organization = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_rifle_negative.dds
-	country_expenses_add = 1
+	unit_offense_mult = -0.25
+	unit_defense_mult = -0.1
+	unit_morale_recovery_mult = -1
+	unit_recovery_rate_add = -0.5
+}
+
+battle_occupation = {
+	unit_occupation_mult = 1.0
+}
+
+# applied whenever a formation has more current units than command limit, unscaled
+low_command_limit = {
+	icon = gfx/interface/icons/timed_modifier_icons/modifier_rifle_negative.dds
+	military_formation_organization_gain_mult = -0.5
 }
 
 repudiated_obligation = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_flag_negative.dds
 	country_prestige_mult = -0.25
 	country_infamy_decay_mult = -0.25
+}
+
+base_army_attrition = {
+	military_formation_attrition_risk_add = 0.2
+}
+
+base_navy_attrition = {
+	military_formation_attrition_risk_add = 0.1
+}
+
+formation_attrition_at_home_hq = {
+	military_formation_attrition_risk_mult = -0.5
 }
 
 supported_law_cancelled = {
@@ -588,7 +698,7 @@ supported_law_cancelled = {
 # Scaled by building_mobilization_cost_mult
 mobilized_battalion_consumption = {
 	icon = gfx/interface/icons/timed_modifier_icons/modifier_coins_negative.dds
-	building_input_mult = 1.0
+	building_goods_input_mult = 1
 }
 
 retired_commander_interest_group_impact = {

@@ -1,0 +1,1029 @@
+﻿namespace = poland_events
+
+# Polish Agitation
+poland_events.1 = {
+	type = country_event
+	placement = root
+	
+	title = poland_events.1.t
+	desc = poland_events.1.d
+	flavor = poland_events.1.f
+
+	duration = 3
+	
+	event_image = {
+		video = "votp_conspiring"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	cooldown = { months = normal_modifier_time }
+	
+
+	trigger = {
+		# triggered by button
+	}
+
+	immediate = {
+		cu:polish = {
+			save_scope_as = polish_culture_scope
+		}
+		random_country = {
+			limit = {
+				NOT = {
+					country_has_primary_culture = cu:polish
+				}
+				any_scope_state = {
+					state_region = {
+						is_homeland = cu:polish
+					}
+				}
+			}
+			set_variable = polish_agitation_target_1_var
+			save_scope_as = polish_agitation_target_1_scope
+		}
+		if = {
+			limit = {
+				any_country = {
+					NOT = {
+						country_has_primary_culture = cu:polish
+						has_variable = polish_agitation_target_1_var
+					}
+					any_scope_state = {
+						state_region = {
+							is_homeland = cu:polish
+						}
+					}		
+				}
+			}
+			random_country = {
+				limit = {
+					NOT = {
+						country_has_primary_culture = cu:polish
+						has_variable = polish_agitation_target_1_var
+					}
+					any_scope_state = {
+						state_region = {
+							is_homeland = cu:polish
+						}
+					}
+				}
+				set_variable = polish_agitation_target_2_var
+				save_scope_as = polish_agitation_target_2_scope
+			}
+		}
+		if = {
+			limit = {
+				any_country = {
+					NOT = {
+						country_has_primary_culture = cu:polish
+						has_variable = polish_agitation_target_1_var
+						has_variable = polish_agitation_target_2_var
+					}
+					any_scope_state = {
+						state_region = {
+							is_homeland = cu:polish
+						}
+					}		
+				}
+			}
+			random_country = {
+				limit = {
+					NOT = {
+						country_has_primary_culture = cu:polish
+						has_variable = polish_agitation_target_1_var
+						has_variable = polish_agitation_target_2_var
+					}
+					any_scope_state = {
+						state_region = {
+							is_homeland = cu:polish
+						}
+					}
+				}
+				set_variable = polish_agitation_target_3_var
+				save_scope_as = polish_agitation_target_3_scope
+			}
+		}
+		if = {
+			limit = {
+				any_country = {
+					NOT = {
+						country_has_primary_culture = cu:polish
+						has_variable = polish_agitation_target_1_var
+						has_variable = polish_agitation_target_2_var
+						has_variable = polish_agitation_target_3_var
+					}
+					any_scope_state = {
+						state_region = {
+							is_homeland = cu:polish
+						}
+					}		
+				}
+			}
+			random_country = {
+				limit = {
+					NOT = {
+						country_has_primary_culture = cu:polish
+						has_variable = polish_agitation_target_1_var
+						has_variable = polish_agitation_target_2_var
+						has_variable = polish_agitation_target_3_var
+					}
+					any_scope_state = {
+						state_region = {
+							is_homeland = cu:polish
+						}
+					}
+				}
+				save_scope_as = polish_agitation_target_4_scope
+			}
+		}
+	}
+
+	option = {
+		name = poland_events.1.a
+		default_option = yes
+		scope:polish_agitation_target_1_scope = {
+			trigger_event = { id = poland_events.2 days = 0 popup = yes }
+			show_as_tooltip = {
+				every_scope_state = {
+					limit = {
+						state_region = {
+							is_homeland = cu:polish
+						}
+					}
+					add_radicals_in_state = {
+						culture = cu:polish
+						value = medium_radicals
+					}
+				}
+				change_relations = { country = root value = -30 }
+			}
+		}
+		custom_tooltip = poland_events.1.tt
+		add_modifier = {
+			name = funding_polish_radicals
+			months = normal_modifier_time
+		}
+	}
+
+	option = {
+		name = poland_events.1.b
+		trigger = {
+			exists = scope:polish_agitation_target_2_scope
+		}
+		scope:polish_agitation_target_2_scope = {
+			trigger_event = { id = poland_events.2 days = 0 popup = yes }
+			show_as_tooltip = {
+				every_scope_state = {
+					limit = {
+						state_region = {
+							is_homeland = cu:polish
+						}
+					}
+					add_radicals_in_state = {
+						culture = cu:polish
+						value = medium_radicals
+					}
+				}
+				change_relations = { country = root value = -30 }
+			}
+		}
+		custom_tooltip = poland_events.1.tt
+		add_modifier = {
+			name = funding_polish_radicals
+			months = normal_modifier_time
+		}
+	}
+
+	option = {
+		name = poland_events.1.c
+		trigger = {
+			exists = scope:polish_agitation_target_3_scope
+		}
+		scope:polish_agitation_target_3_scope = {
+			trigger_event = { id = poland_events.2 days = 0 popup = yes }
+			show_as_tooltip = {
+				every_scope_state = {
+					limit = {
+						state_region = {
+							is_homeland = cu:polish
+						}
+					}
+					add_radicals_in_state = {
+						culture = cu:polish
+						value = medium_radicals
+					}
+				}
+				change_relations = { country = root value = -30 }
+			}
+		}
+		custom_tooltip = poland_events.1.tt
+		add_modifier = {
+			name = funding_polish_radicals
+			months = normal_modifier_time
+		}
+	}
+
+	option = {
+		name = poland_events.1.e
+		trigger = {
+			exists = scope:polish_agitation_target_4_scope
+		}
+		scope:polish_agitation_target_4_scope = {
+			trigger_event = { id = poland_events.2 days = 0 popup = yes }
+			show_as_tooltip = {
+				every_scope_state = {
+					limit = {
+						state_region = {
+							is_homeland = cu:polish
+						}
+					}
+					add_radicals_in_state = {
+						culture = cu:polish
+						value = medium_radicals
+					}
+				}
+				change_relations = { country = root value = -30 }
+			}
+		}
+		custom_tooltip = poland_events.1.tt
+		add_modifier = {
+			name = funding_polish_radicals
+			months = normal_modifier_time
+		}
+	}
+}
+
+# Polish Agitation in Your Country
+poland_events.2 = {
+	type = country_event
+	placement = scope:polish_rebels_state_scope
+	
+	title = poland_events.2.t
+	desc = poland_events.2.d
+	flavor = poland_events.2.f
+
+	duration = 3
+	
+	event_image = {
+		video = "votp_agitator_speaking"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	cooldown = { months = normal_modifier_time }
+	
+
+	trigger = {
+		# triggered by poland_events.1
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_variable = christ_of_nations_cooldown
+			}
+			save_scope_as = sent_polish_agitators_country_scope
+		}
+		cu:polish = {
+			save_scope_as = polish_culture_scope
+		}
+		random_scope_state = {
+			limit = {
+				state_region = {
+					is_homeland = cu:polish
+				}
+			}
+			save_scope_as = polish_rebels_state_scope
+		}
+	}
+
+	option = {
+		name = poland_events.2.a
+		default_option = yes
+		every_scope_state = {
+			limit = {
+				state_region = {
+					is_homeland = cu:polish
+				}
+			}
+			add_radicals_in_state = {
+				culture = cu:polish
+				value = medium_radicals
+			}
+		}
+		custom_tooltip = poland_events.2.tt
+		change_relations = { country = scope:sent_polish_agitators_country_scope value = -20 }
+	}
+
+	option = {
+		name = poland_events.2.b
+		highlighted_option = yes
+		trigger = {
+			has_law = law_type:law_secret_police
+		}
+		random_list = {
+			75 = {
+				every_scope_state = {
+					limit = {
+						state_region = {
+							is_homeland = cu:polish
+						}
+					}
+					add_radicals_in_state = {
+						culture = cu:polish
+						value = small_radicals
+					}
+				}
+			}
+			25 = {
+				every_scope_state = {
+					limit = {
+						state_region = {
+							is_homeland = cu:polish
+						}
+					}
+					add_radicals_in_state = {
+						culture = cu:polish
+						value = medium_radicals
+					}
+				}
+			}
+		}
+		change_relations = { country = scope:sent_polish_agitators_country_scope value = -10 }
+	}
+
+	option = {
+		name = poland_events.2.c
+		highlighted_option = yes
+		trigger = {
+			has_law = law_type:law_national_guard
+		}
+		random_list = {
+			90 = {
+				every_scope_state = {
+					limit = {
+						state_region = {
+							is_homeland = cu:polish
+						}
+					}
+					add_radicals_in_state = {
+						culture = cu:polish
+						value = small_radicals
+					}
+				}
+			}
+			10 = {
+				every_scope_state = {
+					limit = {
+						state_region = {
+							is_homeland = cu:polish
+						}
+					}
+					add_radicals_in_state = {
+						culture = cu:polish
+						value = large_radicals
+					}
+					state_region = {
+						add_devastation = 5
+					}
+				}
+			}
+		}
+		change_relations = { country = scope:sent_polish_agitators_country_scope value = -30 }
+	}
+}
+
+# Polish Unification
+poland_events.3 = {
+	type = country_event
+	placement = root
+	
+	title = poland_events.3.t
+	desc = poland_events.3.d
+	flavor = poland_events.3.f
+
+	duration = 3
+	
+	event_image = {
+		video = "votp_monarch_holding_court"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	cooldown = { months = short_modifier_time }
+	
+
+	trigger = {
+		has_technology_researched = nationalism
+		is_subject = no
+		is_at_war = no
+		OR = {
+			c:POL ?= this
+			c:KRA ?= this
+			AND = {
+				c:GAL ?= this
+				ruler = {
+					culture = cu:polish
+				}
+			}
+		}
+		OR = {
+			AND = {
+				NOT = { has_variable = rejected_polish_union_pol_var }
+				c:POL ?= {
+					is_player = no
+					is_subject = no
+					is_at_war = no
+					relations:root >= relations_threshold:amicable
+					OR = {
+						this.gdp < root.gdp
+						root = { is_player = yes }
+					}
+				}
+			}
+			AND = {
+				NOT = { has_variable = rejected_polish_union_kra_var }
+				c:KRA ?= {
+					is_player = no
+					is_subject = no
+					is_at_war = no
+					relations:root >= relations_threshold:amicable
+					OR = {
+						this.gdp < root.gdp
+						root = { is_player = yes }
+					}
+				}
+			}
+			AND = {
+				NOT = { has_variable = rejected_polish_union_gal_var }
+				c:GAL ?= {
+					is_player = no
+					is_subject = no
+					is_at_war = no
+					relations:root >= relations_threshold:amicable
+					ruler = {
+						culture = cu:polish
+					}
+					OR = {
+						this.gdp < root.gdp
+						root = { is_player = yes }
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		cu:polish = {
+			save_scope_as = polish_culture_scope
+		}
+		if = {
+			limit = {
+				c:POL ?= {
+					is_player = no
+					is_subject = no
+					is_at_war = no
+					relations:root >= relations_threshold:amicable
+					OR = {
+						this.gdp < root.gdp
+						root = { is_player = yes }
+					}
+				}
+			}
+			c:POL = {
+				save_scope_as = polish_union_target_scope
+			}
+		}
+		else_if = {
+			limit = {
+				c:KRA ?= {
+					is_player = no
+					is_subject = no
+					is_at_war = no
+					relations:root >= relations_threshold:amicable
+					OR = {
+						this.gdp < root.gdp
+						root = { is_player = yes }
+					}
+				}
+			}
+			c:KRA = {
+				save_scope_as = polish_union_target_scope
+			}
+		}
+		else_if = {
+			limit = {
+				c:GAL ?= {
+					is_player = no
+					is_subject = no
+					is_at_war = no
+					relations:root >= relations_threshold:amicable
+					ruler = {
+						culture = cu:polish
+					}
+					OR = {
+						this.gdp < root.gdp
+						root = { is_player = yes }
+					}
+				}
+			}
+			c:GAL = {
+				save_scope_as = polish_union_target_scope
+			}
+		}
+	}
+
+	option = {
+		name = poland_events.3.a
+		default_option = yes
+		annex = scope:polish_union_target_scope
+		add_modifier = {
+			name = integrating_polish_modifier
+			months = normal_modifier_time
+		}
+		ai_chance = {
+			base = 90
+		}
+	}
+	option = {
+		name = poland_events.3.b
+		default_option = yes
+		add_radicals = {
+			culture = cu:polish
+			value = large_radicals
+		}
+		if = {
+			limit = {
+				scope:polish_union_target_scope = {
+					c:POL ?= this
+				}
+			}
+			set_variable = rejected_polish_union_pol_var
+		}
+		else_if = {
+			limit = {
+				scope:polish_union_target_scope = {
+					c:KRA ?= this
+				}
+			}
+			set_variable = rejected_polish_union_kra_var
+		}
+		else_if = {
+			limit = {
+				scope:polish_union_target_scope = {
+					c:GAL ?= this
+				}
+			}
+			set_variable = rejected_polish_union_gal_var
+		}
+		ai_chance = {
+			base = 10
+		}
+	}
+}
+
+# Polish Completion Event
+poland_events.4 = {
+	type = country_event
+	placement = root
+	
+	title = poland_events.4.t
+	desc = poland_events.4.d
+	flavor = poland_events.4.f
+
+	duration = 3
+	
+	event_image = {
+		video = "votp_monarch_holding_court"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	cooldown = { months = normal_modifier_time }
+	
+
+	trigger = {
+
+	}
+
+	immediate = {
+
+	}
+
+	option = {
+		name = poland_events.4.a
+		default_option = yes
+		add_loyalists = {
+			culture = cu:polish
+			value = very_large_radicals
+		}
+		add_modifier = {
+			name = piast_poland_modifier
+			months = very_long_modifier_time
+		}
+		every_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_national_supremacy
+					value < neutral
+				}
+			}
+			add_modifier = {
+				name = piast_poland_ig_modifier
+				months = long_modifier_time
+			}
+		}
+	}
+
+	option = {
+		name = poland_events.4.b
+		add_modifier = {
+			name = jagiellonian_poland_modifier
+			months = very_long_modifier_time
+		}
+		add_loyalists = {
+			culture = cu:polish
+			value = medium_radicals
+		}
+		add_loyalists = {
+			culture = cu:lithuanian
+			value = medium_radicals
+		}
+		add_loyalists = {
+			culture = cu:byelorussian
+			value = medium_radicals
+		}
+		add_loyalists = {
+			culture = cu:ukrainian
+			value = small_radicals
+		}
+		add_loyalists = {
+			culture = cu:north_german
+			value = small_radicals
+		}
+		every_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_national_supremacy
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = jagiellonian_poland_ig_modifier
+				months = long_modifier_time
+			}
+		}
+	}
+}
+
+# Polish Revolt Event
+poland_events.5 = {
+	type = country_event
+	placement = root
+	
+	title = poland_events.5.t
+	desc = poland_events.5.d
+	flavor = poland_events.5.f
+
+	duration = 3
+	
+	event_image = {
+		video = "votp_barricade"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	cooldown = { months = normal_modifier_time }
+	
+
+	trigger = {
+		# triggered by on_action
+	}
+
+	immediate = {
+		cu:polish = {
+			save_scope_as = polish_culture_scope
+		}
+		random_country = {
+			limit = {
+				has_variable = polish_rebel_country_var
+			}
+			save_scope_as = polish_rebel_country_scope
+			random_scope_state = {
+				limit = {
+					state_region = {
+						is_homeland = cu:polish
+					}
+				}
+				save_scope_as = polish_rebel_state_scope
+			}
+		}
+		random_country = {
+			limit = {
+				has_variable = polish_rebel_country_enemy_var
+			}
+			save_scope_as = polish_rebel_country_enemy_scope
+		}
+	}
+
+	option = {
+		name = poland_events.5.a
+		default_option = yes
+		add_radicals = {
+			culture = cu:polish
+			value = medium_radicals
+		}
+		change_relations = { country = scope:polish_rebel_country_scope value = -10 }
+		change_relations = { country = scope:polish_rebel_country_enemy_scope value = 10 }
+	}
+
+	option = {
+		name = poland_events.5.b
+		highlighted_option = yes
+		trigger = {
+			is_subject = no
+		}
+		add_loyalists = {
+			culture = cu:polish
+			value = small_radicals
+		}
+		add_modifier = {
+			name = funding_polish_rebels_small_modifier
+			months = short_modifier_time
+		}
+		scope:polish_rebel_country_scope = {
+			add_modifier = {
+				name = polish_rebel_funding_modifier
+				months = short_modifier_time
+			}
+		}
+		change_relations = { country = scope:polish_rebel_country_scope value = 20 }
+		change_relations = { country = scope:polish_rebel_country_enemy_scope value = -20 }
+	}
+
+	option = {
+		name = poland_events.5.c
+		highlighted_option = yes
+		trigger = {
+			is_subject = no
+		}
+		add_loyalists = {
+			culture = cu:polish
+			value = medium_radicals
+		}
+		add_modifier = {
+			name = funding_polish_rebels_large_modifier
+			months = short_modifier_time
+		}
+		scope:polish_rebel_country_scope = {
+			add_modifier = {
+				name = polish_rebel_funding_modifier
+				months = short_modifier_time
+				multiplier = 2
+			}
+		}
+		change_relations = { country = scope:polish_rebel_country_scope value = 40 }
+		change_relations = { country = scope:polish_rebel_country_enemy_scope value = -40 }
+	}
+}
+
+# Poland-Lithuania Formed
+poland_events.6 = {
+	type = country_event
+	placement = root
+	
+	title = poland_events.6.t
+	desc = poland_events.6.d
+	flavor = poland_events.6.f
+
+	duration = 3
+	
+	event_image = {
+		video = "votp_monarch_holding_court"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	cooldown = { months = short_modifier_time }
+	
+
+	trigger = {
+		# triggered by je_poland_lithuania
+	}
+
+	immediate = {
+		cu:polish = {
+			save_scope_as = polish_culture
+		}
+		cu:lithuanian = {
+			save_scope_as = lithuanian_culture
+		}
+		cu:ukrainian = {
+			save_scope_as = ukrainian_culture
+		}
+		cu:byelorussian = {
+			save_scope_as = byelorussian_culture
+		}
+	}
+
+	option = {
+		name = poland_events.6.a
+		default_option = yes
+		add_loyalists = {
+			culture = cu:polish
+			value = 0.1
+		}
+		add_loyalists = {
+			culture = cu:lithuanian
+			value = 0.1
+		}
+	}
+	option = {
+		name = poland_events.6.b
+		s:STATE_WEST_PRUSSIA = {
+			add_claim = ROOT
+		}
+		s:STATE_POSEN = {
+			add_claim = ROOT
+		}
+		s:STATE_WARSAW = {
+			add_claim = ROOT
+		}
+		s:STATE_PLOCK = {
+			add_claim = ROOT
+		}
+		s:STATE_AUGUSTOW = {
+			add_claim = ROOT
+		}
+		s:STATE_LUBLIN = {
+			add_claim = ROOT
+		}
+		s:STATE_RADOM = {
+			add_claim = ROOT
+		}
+		s:STATE_WEST_GALICIA = {
+			add_claim = ROOT
+		}
+		s:STATE_EAST_GALICIA = {
+			add_claim = ROOT
+		}
+		s:STATE_VOLHYNIA = {
+			add_claim = ROOT
+		}
+		s:STATE_MINSK = {
+			add_claim = ROOT
+		}
+		s:STATE_GRODNO = {
+			add_claim = ROOT
+		}
+		s:STATE_VILNA = {
+			add_claim = ROOT
+		}
+		s:STATE_PODOLIA = {
+			add_claim = ROOT
+		}
+		s:STATE_KIEV = {
+			add_claim = ROOT
+		}
+		s:STATE_MOGILEV = {
+			add_claim = ROOT
+		}
+		s:STATE_VITEBSK = {
+			add_claim = ROOT
+		}
+		s:STATE_KAUNAS = {
+			add_claim = ROOT
+		}
+		s:STATE_COURLAND = {
+			add_claim = ROOT
+		}
+		s:STATE_LIVONIA = {
+			add_claim = ROOT
+		}
+	}
+}
+
+# Annexation of Belarus and Ukraine
+poland_events.7 = {
+	type = country_event
+	placement = root
+	
+	title = poland_events.7.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = poland_events.7.d
+				trigger = {
+					NOR = {
+                        has_law = law_type:law_ethnostate
+                        has_law = law_type:law_national_supremacy
+                    }
+				}
+			}
+			triggered_desc = {
+				desc = poland_events.7.d2
+				trigger = {
+					OR = {
+                        has_law = law_type:law_ethnostate
+                        has_law = law_type:law_national_supremacy
+                    }
+				}
+			}
+		}
+	}
+	flavor = {
+		first_valid = {
+			triggered_desc = {
+				desc = poland_events.7.f
+				trigger = {
+					NOR = {
+                        has_law = law_type:law_ethnostate
+                        has_law = law_type:law_national_supremacy
+                    }
+				}
+			}
+			triggered_desc = {
+				desc = poland_events.7.f2
+				trigger = {
+					OR = {
+                        has_law = law_type:law_ethnostate
+                        has_law = law_type:law_national_supremacy
+                    }
+				}
+			}
+		}
+	}
+
+	duration = 3
+	
+	event_image = {
+		video = "votp_monarch_holding_court"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	cooldown = { months = short_modifier_time }
+	
+
+	trigger = {
+		# triggered by je_poland_lithuania
+	}
+
+	immediate = {
+		cu:ukrainian = {
+			save_scope_as = ukrainian_culture
+		}
+		cu:byelorussian = {
+			save_scope_as = byelorussian_culture
+		}
+	}
+
+	option = {
+		name = poland_events.7.a
+		default_option = yes
+		trigger = {
+			NOR = {
+				has_law = law_type:law_ethnostate
+				has_law = law_type:law_national_supremacy
+			}
+		}
+		add_primary_culture = cu:ukrainian
+        add_primary_culture = cu:byelorussian
+		add_loyalists = {
+			culture = cu:ukrainian
+			value = 0.1
+		}
+		add_loyalists = {
+			culture = cu:byelorussian
+			value = 0.1
+		}
+	}
+	option = {
+		name = poland_events.7.b
+		trigger = {
+			OR = {
+				has_law = law_type:law_ethnostate
+				has_law = law_type:law_national_supremacy
+			}
+		}
+		add_loyalists = {
+			culture = cu:polish
+			value = 0.1
+		}
+	}
+}
