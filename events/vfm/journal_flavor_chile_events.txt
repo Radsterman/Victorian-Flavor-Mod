@@ -455,7 +455,7 @@ journal_flavor_chile.7 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/gold_prospectors"
 
-	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+	icon = "gfx/interface/icons/invention_icons/prospecting_tech.dds"
 
 	option = {
 		default_option = yes
@@ -491,7 +491,7 @@ journal_flavor_chile.8 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/unspecific/trains"
 
-	icon = "gfx/interface/icons/event_icons/event_industry.dds"
+	icon = "gfx/interface/icons/invention_icons/railways.dds"
 
 	option = {
 		default_option = yes
@@ -501,6 +501,52 @@ journal_flavor_chile.8 = {
 			name = chl_trains
 			months = long_modifier_time
         }
+	}
+}
+
+journal_flavor_chile.9 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_chile.9.t
+	desc = journal_flavor_chile.9.d
+	flavor = journal_flavor_chile.9.f
+
+	duration = 3
+
+	immediate = {
+		c:CHL = {
+			random_scope_character = {
+				limit = {
+					has_variable = is_bulnes
+				}
+				save_scope_as = bulnes_scope
+		    }
+		}	
+	}
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_military_parade.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/military_parade"
+
+	icon = "gfx/interface/icons/invention_icons/line_infantry.dds"
+
+	option = {
+		default_option = yes
+		name = journal_flavor_chile.9.a
+
+		add_loyalists = {
+			value = 0.3
+			pop_type = officers
+		}
+
+		add_loyalists = {
+			value = 0.15
+			pop_type = soldiers
+		}		        
 	}
 }
 
@@ -745,240 +791,3 @@ journal_flavor_chile.18 = {
 		        }
 		    }
 	    }
-
-journal_flavor_chile.20 = {
-	type = country_event
-	placement = ROOT
-
-	title = journal_flavor_chile.20.t
-	desc = journal_flavor_chile.20.d
-	flavor = journal_flavor_chile.20.f
-
-	duration = 1
-
-	event_image = {
-		video = "gfx/event_pictures/europenorthamerica_native_american.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/native_american"
-
-	icon = "gfx/interface/icons/event_icons/event_helmet.dds"
-
-	immediate = {
-    
-		c:FRA = {
-			save_scope_as = fra_scope
-		}				
-
-		create_country = {
-            tag = APK
-			origin = c:PAT
-			state = s:STATE_LOS_RIOS.region_state:PAT
-		}
-        c:APK = {
-            annex = c:PAT
-	    }
-		c:APK = {
-			set_relations = { country = c:CHL value = -100 }
-			set_relations = { country = c:FRA value = 30 }			
-			create_character = {
-				first_name = orelie_antoine
-				last_name = tounens
-				historical = yes
-				ig_leader = yes
-				interest_group = ig_intelligentsia
-				ruler = yes
-				birth_date = 1825.05.12
-				female = no
-				culture = cu:french
-				dna = dna_orelie_antoine_tounens
-				ideology = ideology_moderate
-				religion = rel:catholic
-				traits = {
-					ambitious
-				}
-			on_created = {
-				set_variable = {
-					name = is_tounens
-				}
-			}							
-		}
-
-				if = {
-					limit = {
-						NOT = {
-							has_law = law_type:law_oligarchy
-						}
-					}
-					activate_law = law_type:law_oligarch
-				}
-				if = {
-					limit = {
-						NOT = {
-							has_law = law_type:law_mass_conscription
-						}
-					}
-					activate_law = law_type:law_mass_conscription
-				}								    		
-	        }
-
-            s:STATE_LOS_RIOS = {
-                region_state:APK={
-                    create_building={
-                        building="building_barracks"
-                        level=1
-                        reserves=1
-                        activate_production_methods={ "pm_irregular_infantry" "pm_no_artillery" "pm_cavalry_scouts" "pm_no_specialists" "pm_wound_dressing"  }
-                    }
-                }
-            }
-
-        c:CHL = {
-            create_diplomatic_play = {
-			    name = araucania_ocupacion
-			    target_state = s:STATE_LOS_RIOS.region_state:APK
-
-			    war = no
-			
-			    type = dp_return_state
-	            }	            
-	        }    	        
-	    }   
-
-	option = {
-		name = journal_flavor_chile.20.a
-		default_option = yes
-
-        hidden_effect = {
-		c:CHL = {
-	        trigger_event = { 
-			    id = journal_flavor_chile.21
-			    months = 2
-		    } 
-        }
-    }    
-        c:APK = {       		    
-            add_modifier = {
-                name = toquis_reunited
-			    years = 20
-		        }
-		    }    		    		    				
-
-        c:CHL = {
-			add_radicals = {
-			    value = 0.05
-			    pop_type = peasants		
-		    }
-            add_journal_entry = {
-			    type = je_araucania_ocupacion
-		        }	        
-		}		    
-	}    	                           
-
-	option = {
-		name = journal_flavor_chile.20.b
-
-        play_as = c:APK
-
-		c:APK = {	    	
-		    add_loyalists = {
-			    value = 0.3		
-		    }
-            add_modifier = {
-                name = toquis_reunited
-			    years = 20
-		        }  
-		    }  		        	    				
-        c:CHL = {
-            add_journal_entry = {
-			    type = je_araucania_ocupacion
-			}    
-		}               
-	}
-}		         
-
-journal_flavor_chile.21 = {
-	type = country_event
-	placement = ROOT
-
-	title = journal_flavor_chile.21.t
-	desc = journal_flavor_chile.21.d
-	flavor = journal_flavor_chile.21.f
-
-	duration = 3
-
-	immediate = {
-		c:APK = {
-			save_scope_as = apk_scope
-		}
-		c:CHL = {
-			save_scope_as = chl_scope
-		}			
-		c:FRA = {
-			save_scope_as = fra_scope
-		}		
-	}	
-
-	event_image = {
-		video = "gfx/event_pictures/middleeast_jungle_expedition.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
-
-	icon = "gfx/interface/icons/event_icons/event_helmet.dds"
-
-	option = {
-		name = journal_flavor_chile.21.a
-
-		c:CHL = {
-		    change_relations = {
-			    country = c:FRA
-			    value = 20
-		    }	    
-	    }
-	    hidden_effect = {
-        c:APK = {
-			random_scope_character = {
-				limit = {
-					has_variable = is_tounens
-				}
-				save_scope_as = tounens_scope
-		    }
-		}		
-    scope:tounens_scope = {
-            kill_character = yes
-        }		
-	}	    
-}
-
-	option = {
-		name = journal_flavor_chile.21.b
-		default_option = yes
-
-		c:CHL = {
-		    change_relations = {
-			    country = c:FRA
-			    value = -20
-		    }
-            add_modifier = {
-                name = tounens_arrested
-			    months = normal_modifier_time
-		        }  		    	    
-	        }
-	    hidden_effect = { 
-        c:APK = {
-			random_scope_character = {
-				limit = {
-					has_variable = is_tounens
-				}
-				save_scope_as = tounens_scope
-		    }
-		}		
-    scope:tounens_scope = {
-            kill_character = yes
-            }		
-	    }	       
-    }
-}    
