@@ -1125,13 +1125,20 @@
         weight = {
             base = 0
             modifier = {
-               add = 10000
-                exists = scope:character
-                scope:character = {
-                    exists = home_country
-                    home_country = {
-                        exists = c:AUS
-                        c:AUS = this
+               add = 10001
+                scope:character ?= {
+                    age > 12
+                    OR = {
+                        AND = {
+                            home_country ?= {
+                                c:AUS ?= this
+                            }
+                        }
+                        AND = {
+                            home_country ?= {
+                                was_formed_from = AUS
+                            }
+                        }
                     }
                     monarchy_clothes_trigger = yes
                 }
@@ -1169,13 +1176,126 @@
         weight = {
             base = 0
             modifier = {
-               add = 1003
-                exists = scope:character
-                scope:character = {
-                    exists = home_country
-                    home_country = {
-                        exists = c:AUS
-                        c:AUS = this
+               add = 10001
+                agitator_character_trigger = no
+                scope:character ?= {
+                    age > 12
+                    NOR = {
+                        has_template = agitator_jules_brunet
+                        has_template = rus_leon_trotsky_character_template
+                        has_template = agitator_nestor_makhno
+                        has_template = fra_georges_boulanger_character_template
+                        has_template = agitator_louise_michel
+                        has_template = agitator_susan_b_anthony
+                        has_template = agitator_emiliano_zapata
+                    }
+                    OR = {
+                        AND = {
+                            home_country ?= {
+                                c:AUS ?= this
+                            }
+                        }
+                        AND = {
+                            home_country ?= {
+                                was_formed_from = AUS
+                            }
+                        }
+                    }
+                    military_clothes_trigger = yes
+                }
+            }
+        }
+    }
+
+    austrian_german_royal_accessories = {
+        dna_modifiers = {
+            accessory = {
+                 mode = add
+                 gene = medals
+                 template = generic_medals
+                 range = { 0 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                 mode = add
+                 gene = epaulettes
+                 template = all_epaulettes
+                 range = { 0 0 } # For the randomness to work correctly
+            }
+            accessory = {
+                 mode = add
+                 gene = belts
+                 template = all_belts
+                 range = { 0 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                 mode = add
+                 gene = sashes
+                 template = austrian_german_sashes
+                 range = { 1 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+               add = 10002
+                scope:character ?= {
+                    age > 12
+                    home_country ?= {
+                        c:GER ?= this
+                        was_formed_from = AUS
+                    }
+                    monarchy_clothes_trigger = yes
+                }
+            }
+        }
+    }
+
+    austrian_german_accessories = {
+        dna_modifiers = {
+            accessory = {
+                 mode = add
+                 gene = medals
+                 template = generic_medals
+                 range = { 0 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                 mode = add
+                 gene = epaulettes
+                 template = all_epaulettes
+                 range = { 0.7 0.7 } # For the randomness to work correctly
+            }
+            accessory = {
+                 mode = add
+                 gene = belts
+                 template = all_belts
+                 range = { 0 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                 mode = add
+                 gene = sashes
+                 template = austrian_german_sashes
+                 range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+               add = 10002
+                agitator_character_trigger = no
+                scope:character ?= {
+                    age > 12
+                    NOR = {
+                        has_template = agitator_jules_brunet
+                        has_template = rus_leon_trotsky_character_template
+                        has_template = agitator_nestor_makhno
+                        has_template = fra_georges_boulanger_character_template
+                        has_template = agitator_louise_michel
+                        has_template = agitator_susan_b_anthony
+                        has_template = agitator_emiliano_zapata
+                    }
+                    home_country ?= {
+                        c:GER ?= this
+                        was_formed_from = AUS
                     }
                     military_clothes_trigger = yes
                 }
@@ -1232,7 +1352,7 @@
                 OR = {
                     military_clothes_trigger = yes
                     monarchy_clothes_trigger = yes
-                }   
+                }
             }
         }
     }

@@ -3632,7 +3632,7 @@ home_country = {
                 range = { 0 1 } # For the randomness to work correctly
             }
 
-            # no aiguillettes because they don't work with double-breasted coats, which is all the Prussians have
+            # no aiguillettes because they don't work with double-breasted coats
             #accessory = {
             #    mode = add
             #    gene = aiguillettes
@@ -3647,20 +3647,97 @@ home_country = {
                 range = { 0 1 } # For the randomness to work correctly
             }
         }
-
         weight = {
             base = 0
             modifier = {
-                add = 5000
-                OR = {
-                austrian_clothes_trigger = yes
-                austrian_clothes_pop_trigger = yes
+                add = 10001
+                scope:character ?= {
+                    OR = {
+                        AND = {
+                            home_country ?= {
+                                c:AUS ?= this
+                            }
+                        }
+                        AND = {
+                            home_country ?= {
+                                was_formed_from = AUS
+                            }
+                        }
+                    }
+                    scope:character ?= {
+                        age > 10
+                    }
+                    OR = {
+                        AND = {
+                            is_ruler = yes
+                            home_country ?= {
+                                has_law = law_type:law_monarchy
+                            }
+                        }
+                        AND = {
+                            has_role = politician
+                            is_interest_group_type = ig_armed_forces
+                        }
+                    }
                 }
-                OR = {
-                officers_clothes_pop_trigger = yes
-                military_clothes_trigger = yes
-                monarchy_clothes_trigger = yes
-                soldier_clothes_pop_trigger = yes
+            }
+        }
+    }
+    
+    austrian_clothes_ww1 = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = coats
+                template = austrian_coats_ww1
+                range = { 0 0 } # For the randomness to work correctly
+            }
+
+            accessory = {
+                mode = add
+                gene = aiguillettes
+                template = all_aiguillettes
+                range = { 0 0 } # For the randomness to work correctly
+            }
+
+            accessory = {
+                mode = add
+                gene = legwear
+                template = austrian_legwear_ww1
+                range = { 0 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = epaulettes
+                template = all_epaulettes
+                range = { 0 0 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 10002
+                ww1_clothes_trigger = yes
+                scope:character ?= {
+                    OR = {
+                        AND = {
+                            home_country ?= {
+                                c:AUS ?= this
+                            }
+                        }
+                        AND = {
+                            home_country ?= {
+                                was_formed_from = AUS
+                            }
+                        }
+                    }
+                    scope:character ?= {
+                        age > 10
+                    }
+                    AND = {
+                        has_role = politician
+                        is_interest_group_type = ig_armed_forces
+                    }
                 }
             }
         }
@@ -5367,7 +5444,160 @@ chinese_upper_clothes = {
            }
         }
     }
-        prussian_soldier_clothes = { 
+    austrian_soldier_clothes = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = coats
+                template = austrian_coats
+                range = { 0 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = legwear
+                template = austrian_legwear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = epaulettes
+                template = all_epaulettes
+                range = { 0.1 0.2 } # For the randomness to work correctly
+            }
+        }
+
+        weight = {
+            base = 0
+            modifier = {
+                add = 10001
+                OR = {
+                    AND = {
+                        scope:pop ?= {
+                            OR = {
+                                home_country ?= {
+                                    c:AUS ?= this
+                                }
+                                home_country ?= {
+                                    was_formed_from = AUS
+                                }
+                            }
+                        }      
+                        OR = {
+                            soldier_clothes_pop_trigger = yes
+                            officers_clothes_pop_trigger = yes
+                        }
+                    }
+                    AND = {
+                        scope:character ?= {
+                            age > 10
+                            OR = {
+                                has_role = general
+                                has_role = admiral
+                            }
+                            OR = {
+                                AND = {
+                                    home_country ?= {
+                                        c:AUS ?= this
+                                    }
+                                }
+                                AND = {
+                                    home_country ?= {
+                                        was_formed_from = AUS
+                                    }
+                                }
+                            }
+                        }       
+                    }
+                }
+            }
+        }
+    }
+
+    austrian_soldier_clothes_ww1 = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = coats
+                template = austrian_coats_ww1
+                range = { 0 1 } # For the randomness to work correctly
+            }
+            #no aiguillettes because they don't work with double-breasted coats, which is all the Prussians have
+            accessory = {
+               mode = add
+               gene = aiguillettes
+               template = all_aiguillettes
+               range = { 1 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = legwear
+                template = austrian_legwear_ww1
+                range = { 0 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = epaulettes
+                template = all_epaulettes
+                range = { 0 0 } # For the randomness to work correctly
+            }
+            accessory = {
+                 mode = add
+                 gene = sashes
+                 template = european_sashes
+                 range = { 0 0 } # For the randomness to work correctly
+            }
+        }
+
+        weight = {
+            base = 0
+            modifier = {
+                add = 10002
+                OR = {
+                    AND = {
+                        ww1_clothes_pop_trigger = yes
+                        scope:pop ?= {
+                            OR = {
+                                home_country ?= {
+                                    c:AUS ?= this
+                                }
+                                home_country ?= {
+                                    was_formed_from = AUS
+                                }
+                            }
+                        }      
+                        OR = {
+                            soldier_clothes_pop_trigger = yes
+                            officers_clothes_pop_trigger = yes
+                        }
+                    }
+                    AND = {
+                        ww1_clothes_trigger = yes
+                        scope:character ?= {
+                            age > 10
+                            OR = {
+                                has_role = general
+                                has_role = admiral
+                            }
+                            OR = {
+                                AND = {
+                                    home_country ?= {
+                                        c:AUS ?= this
+                                    }
+                                }
+                                AND = {
+                                    home_country ?= {
+                                        was_formed_from = AUS
+                                    }
+                                }
+                            }
+                        }       
+                    }
+                }
+            }
+        }
+    }
+    
+    prussian_soldier_clothes = { 
         dna_modifiers = {
             accessory = {
                 mode = add
