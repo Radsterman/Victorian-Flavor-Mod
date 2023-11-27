@@ -1,322 +1,307 @@
-﻿#je_puq_colonization = {
-#	icon = "gfx/interface/icons/event_icons/event_colonial.dds"
-#
-#	is_shown_when_inactive = {
-#		exists = c:CHL
-#		root= c:CHL
-#	}
-#
-#	complete = {
-#		institution_investment_level = {
-#			institution = institution_colonial_affairs
-#			value >= 2
-#		}
-#	}
-#
-#	on_complete = {
-#        trigger_event = { 
-#			id = journal_flavor_chile.3
-#		}
-#	}
-#
-#    should_be_pinned_by_default = yes
-#	weight = 100
-#}
-#
-#je_rapa_nui = {
-#	icon = "gfx/interface/icons/event_icons/event_colonial.dds"
-#
-#	is_shown_when_inactive = {
-#		exists = c:CHL
-#		root= c:CHL
-#	}
-#
-#    possible = {
-#		institution_investment_level = {
-#			institution = institution_colonial_affairs
-#			value >= 2
-#		}
-#	}
-#		
-#	complete = {
-#	    has_interest_marker_in_region = region_oceania
-#		institution_investment_level = {
-#			institution = institution_colonial_affairs
-#			value >= 3
-#		}
-#	}
-#
-#	on_complete = {
-#        trigger_event = { 
-#			id = journal_flavor_chile.4
-#		}
-#	}
-#
-#    should_be_pinned_by_default = yes
-#	weight = 100
-#}
-#
-#je_pacific_war_chl = {
-#	icon = "gfx/interface/icons/event_icons/event_military.dds"
-#
-#	is_shown_when_inactive = {
-#	    exists = c:BOL
-#		exists = c:CHL
-#		root= c:CHL
-#	}
-#
-#	possible = {
-#        market_capital.market = {
-#			mg:sulfur = { 
-#				market_goods_pricier > 0.25 
-#			}
-#		}
-#		OR = {  				    
-#			has_law = law_type:law_free_trade
-#			has_law = law_type:law_protectionism
-#		}
-#        ig:ig_industrialists = {
-#			is_powerful = yes
-#			is_in_government = yes
-#			}		 
-#		}    			        		        				        		        	
-#
-#	complete = {			
-#	    c:BOL = {
-#			relations:root <= -30 		
-#		}
-#        any_scope_state = {
-#			    any_scope_building = {
-#				    is_building_type = building_sulfur_mine
-#				    level >= 2
-#			    }
-#	        }
-#		}
-#
-#	on_complete = {
-#		trigger_event = { id = journal_flavor_chile.5 }
-#        c:PEU = {
-#			change_relations = {
-#				country = c:BOL
-#				value = 100
-#			}
-#		}		
-#	}
-#
-#	fail = {
-#		owns_entire_state_region = STATE_ANTOFAGASTA
-#		}
-#
-#	invalid = {
-#		ig:ig_industrialists = {
-#			is_marginal = yes
-#		}
-#	}
-#
-#	weight = 100
-#	should_be_pinned_by_default = yes
-#}
-#
-#je_1881_treaty = {
-#	icon = "gfx/interface/icons/event_icons/event_diplomacy.dds"
-#
-#	is_shown_when_inactive = {
-#	        exists = c:ARG
-#			c:ARG = this  			
-#	    }
-#
-#	complete = {
-#        c:ARG = {
-#            owns_entire_state_region = STATE_PATAGONIA
-#		}
-#        c:CHL = {
-#            owns_entire_state_region = STATE_ARAUCANIA
-#		}		
-#	}	
-#
-#	on_complete = {
-#	    c:CHL = {
-#            trigger_event = { 
-#		    	id = journal_flavor_chile.13 
-#		    }
-#		}
-#	}
-#
-#	fail = {
-#        c:BUE = {
-#            owns_entire_state_region = STATE_ARAUCANIA
-#		}
-#	}
-#    should_be_pinned_by_default = yes
-#	weight = 100
-#}    
-#
-#je_silver_rush = {
-#	icon = "gfx/interface/icons/event_icons/event_trade.dds"
-#
-#	is_shown_when_inactive = {
-#	        exists = c:CHL
-#			c:CHL = this  		
-#	    }
-#
-#	complete = {
-#	    s:STATE_SANTIAGO = {
-#		    any_scope_state = {
-#		        any_scope_building = {
-#		        is_building_type = building_gold_mine
-#		        level >= 4
-#		        occupancy > 0.9
-#		    	}
-#		    }
-#		}
-#	}			    
-#
-#	on_complete = { 
-#	    trigger_event = { 
-#	        id = journal_flavor_chile.7  
-#	        }
-#        }    
-#
-#    should_be_pinned_by_default = yes
-#	weight = 100   
-#}     
-#
-#je_trains_efe = {
-#	icon = "gfx/interface/icons/event_icons/event_industry.dds"
-#
-#	complete = {
-#	    s:STATE_SANTIAGO = {
-#		     any_scope_state = {
-#		    	any_scope_building = {
-#		    	    is_building_type = building_railway
-#					occupancy > 0.8
-#		    	}
-#		    }
-#		}
-#        s:STATE_SANTIAGO = {
-#		    any_scope_state = {
-#		    	any_scope_building = {
-#			        is_building_type = building_gold_mine
-#			        has_active_production_method = pm_rail_transport_mine
-#					occupancy > 0.8
-#				}
-#		    }
-#		}
-#	}
-#
-#	on_complete = { 
-#	    trigger_event = { 
-#	        id = journal_flavor_chile.8  
-#	    }
-#    }           
-#
-#    should_be_pinned_by_default = yes
-#	weight = 100   
-#}     
-#
-#je_araucania_ocupacion = {
-#	icon = "gfx/interface/icons/event_icons/event_helmet.dds"
-#
-#	complete = {
-#		owns_entire_state_region = STATE_LOS_RIOS
-#			}
-#
-#	on_complete = {
-#		custom_tooltip = {
-#			text = je_araucania_ocupacion_tt
-#		    create_country = {
-#                tag = PAT
-#		    	origin = c:APK
-#		    	state = s:STATE_PATAGONIA.region_state:APK
-#		    }
-#
-#            c:PAT = {
-#                annex = c:APK
-#	        }				
-#        }
-#		add_journal_entry = {
-#			type = je_araucania_pacificacion
-#		}	    
-#    }
-#
-#    fail = {
-#        c:APK = {
-#            owns_entire_state_region = STATE_LOS_RIOS  
-#        }
-#    }      
-#	
-#    should_be_pinned_by_default = yes
-#	weight = 100 
-#}
-#
-#je_araucania_pacificacion = {
-#	icon = "gfx/interface/icons/event_icons/event_helmet.dds"
-#
-#	complete = {
-# 	    s:STATE_LOS_RIOS = {
-#		    any_scope_state = {
-#		        any_scope_building = {
-#		        is_building_type = building_barracks
-#		        level >= 8
-#		    	}
-#		    	any_scope_building = {
-#				is_building_type = building_urban_center
-#				level >= 5			
-#			    }
-#		    }
-#	    }
-#    }
-#
-#	on_complete = {
-#	
-#        every_state = {
-#            limit = {
-#
-#            has_modifier = malones 
-#
-#            any_scope_pop = {
-#                state = { save_temporary_scope_as = S_state }
-#
-#                culture = { 
-#                    has_homeland = scope:S_state
-#                }
-#                culture = cu:south_andean
-#            }
-#        }
-#        remove_modifier = malones
-#        }
-#    }
-#}	
-#
-#je_codigo_civil = {
-#	icon = "gfx/interface/icons/event_icons/event_academia.dds"
-#
-#	is_shown_when_inactive = {
-#		exists = c:CHL
-#		root= c:CHL
-#	}
-#
-#	complete = {
-#		AND = {
-#			any_scope_building = {
-#				is_building_type = building_university
-#				occupancy > 0.9
-#				level >= 2
-#			}
-#			institution_investment_level = {
-#				institution = institution_police 
-#				value >= 2
-#			}
-#		}
-#	}
-#
-#	on_complete = {
-#        trigger_event = { 
-#			id = journal_flavor_chile.2
-#		}
-#		
-#	}
-#
-#    should_be_pinned_by_default = yes
-#	weight = 100
-#}
+﻿je_puq_colonization = {
+	icon = "gfx/interface/icons/event_icons/event_colonial.dds"
+
+	group = je_group_historical_content
+
+	is_shown_when_inactive = {
+		exists = c:CHL
+		root= c:CHL
+	}
+
+	complete = {
+		institution_investment_level = {
+			institution = institution_colonial_affairs
+			value >= 2
+		}
+	}
+
+	on_complete = {
+        trigger_event = { 
+			id = journal_flavor_chile.3
+		}
+	}
+
+    should_be_pinned_by_default = yes
+	weight = 100
+}
+
+je_rapa_nui = {
+	icon = "gfx/interface/icons/event_icons/event_colonial.dds"
+
+	group = je_group_historical_content
+
+	is_shown_when_inactive = {
+		exists = c:CHL
+		root= c:CHL
+	}
+
+    possible = {
+		institution_investment_level = {
+			institution = institution_colonial_affairs
+			value >= 2
+		}
+	}
+		
+	complete = {
+	    has_interest_marker_in_region = region_oceania
+		institution_investment_level = {
+			institution = institution_colonial_affairs
+			value >= 3
+		}
+	}
+
+	on_complete = {
+        trigger_event = { 
+			id = journal_flavor_chile.4
+		}
+	}
+
+    should_be_pinned_by_default = yes
+	weight = 100
+}
+
+je_pacific_war_chl = {
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	group = je_group_historical_content
+
+	is_shown_when_inactive = {
+	    exists = c:BOL
+		exists = c:CHL
+		root= c:CHL
+	}
+
+	possible = {
+        market_capital.market = {
+			mg:sulfur = { 
+				market_goods_pricier > 0.25 
+			}
+		}
+		OR = {  				    
+			has_law = law_type:law_free_trade
+			has_law = law_type:law_protectionism
+		}
+        ig:ig_industrialists = {
+			is_powerful = yes
+			is_in_government = yes
+			}		 
+		}    			        		        				        		        	
+
+	complete = {			
+	    c:BOL = {
+			relations:root <= -30 		
+		}
+        any_scope_state = {
+			    any_scope_building = {
+				    is_building_type = building_sulfur_mine
+				    level >= 2
+			    }
+	        }
+		}
+
+	on_complete = {
+		trigger_event = { id = journal_flavor_chile.5 }
+        c:PEU = {
+			change_relations = {
+				country = c:BOL
+				value = 100
+			}
+		}		
+	}
+
+	fail = {
+		owns_entire_state_region = STATE_ANTOFAGASTA
+		}
+
+	invalid = {
+		ig:ig_industrialists = {
+			is_marginal = yes
+		}
+	}
+
+	weight = 100
+	should_be_pinned_by_default = yes
+}
+
+je_1881_treaty = {
+	icon = "gfx/interface/icons/event_icons/event_diplomacy.dds"
+
+	group = je_group_foreign_affairs
+
+	is_shown_when_inactive = {
+	        exists = c:ARG
+			c:ARG = this  			
+	    }
+
+	complete = {
+        c:ARG = {
+            owns_entire_state_region = STATE_PATAGONIA
+		}
+        c:CHL = {
+            owns_entire_state_region = STATE_ARAUCANIA
+		}		
+	}	
+
+	on_complete = {
+	    c:CHL = {
+            trigger_event = { 
+		    	id = journal_flavor_chile.13 
+		    }
+		}
+	}
+
+	fail = {
+        c:BUE = {
+            owns_entire_state_region = STATE_ARAUCANIA
+		}
+	}
+    should_be_pinned_by_default = yes
+	weight = 100
+}    
+
+je_silver_rush = {
+	icon = "gfx/interface/icons/invention_icons/prospecting_tech.dds"
+
+	group = je_group_technology 
+
+	is_shown_when_inactive = {
+	        exists = c:CHL
+			c:CHL = this  		
+	    }
+
+	complete = {
+	    s:STATE_SANTIAGO = {
+		    any_scope_state = {
+		        any_scope_building = {
+		        is_building_type = building_gold_mine
+		        level >= 4
+		        occupancy > 0.9
+		    	}
+		    }
+		}
+	}			    
+
+	on_complete = { 
+	    trigger_event = { 
+	        id = journal_flavor_chile.7  
+	        }
+        }    
+
+    should_be_pinned_by_default = yes
+	weight = 100   
+}     
+
+je_trains_efe = {
+	icon = "gfx/interface/icons/invention_icons/railways.dds"
+
+	group = je_group_technology 
+
+	complete = {
+	    s:STATE_SANTIAGO = {
+		     any_scope_state = {
+		    	any_scope_building = {
+		    	    is_building_type = building_railway
+					occupancy > 0.8
+		    	}
+		    }
+		}
+        s:STATE_SANTIAGO = {
+		    any_scope_state = {
+		    	any_scope_building = {
+			        is_building_type = building_gold_mine
+			        has_active_production_method = pm_rail_transport_mine
+					occupancy > 0.8
+				}
+		    }
+		}
+	}
+
+	on_complete = { 
+	    trigger_event = { 
+	        id = journal_flavor_chile.8  
+	    }
+    }           
+
+    should_be_pinned_by_default = yes
+	weight = 100   
+}     
+
+je_codigo_civil = {
+	icon = "gfx/interface/icons/event_icons/event_academia.dds"
+
+	is_shown_when_inactive = {
+		exists = c:CHL
+		root= c:CHL
+	}
+
+	complete = {
+		AND = {
+			any_scope_building = {
+				is_building_type = building_university
+				occupancy > 0.9
+				level >= 2
+			}
+			institution_investment_level = {
+				institution = institution_police 
+				value >= 2
+			}
+		}
+	}
+
+	on_complete = {
+        trigger_event = { 
+			id = journal_flavor_chile.2
+		}
+		
+	}
+
+    should_be_pinned_by_default = yes
+	weight = 100
+}
+
+je_granaderos = {
+	icon = "gfx/interface/icons/invention_icons/line_infantry.dds"
+
+	group = je_group_internal_affairs
+
+	is_shown_when_inactive = {
+		exists = c:CHL
+		root= c:CHL
+	}
+
+	complete = {
+		army_size >= 7
+		NOR = {
+			any_scope_building = {
+				is_building_type = building_barracks
+				OR = {
+					building_has_goods_shortage = yes
+					has_active_production_method = pm_no_organization
+				}
+			}
+			any_military_formation = {
+				filter = {
+					is_army = yes
+				}
+				any_combat_unit = {
+					has_unit_type = unit_type:combat_unit_type_lancers
+				}
+				percent >= 0.1
+			}
+		}
+	}
+
+	on_complete = {
+		show_as_tooltip = {
+            add_modifier = {
+			    name = granaderos_president
+            }
+		}	
+        trigger_event = { 
+			id = journal_flavor_chile.9
+		}		
+	}
+
+    should_be_pinned_by_default = yes
+	weight = 100
+}
