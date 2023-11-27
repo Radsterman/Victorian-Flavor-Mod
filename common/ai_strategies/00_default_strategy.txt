@@ -155,6 +155,17 @@ ai_strategy_default = {
 	diplomatic_play_boldness = {
 		value = 50 
 
+		if = { # North Peru should not surrenter against Bolivia
+			limit = {
+				exists = c:NPU
+				THIS = c:NPU
+				scope:diplomatic_play = { 
+					has_play_goal = annex_country
+				}
+			}
+			add = 100
+		}
+
 		if = { # Isolationist Japan should tend to back down against market opening plays
 			limit = {
 				exists = c:JAP
@@ -801,6 +812,26 @@ ai_strategy_default = {
 				}
 				add = 25
 			}
+
+		if = { # North Peru should try to reconquer South Peru always
+			limit = {
+				exists = c:NPU
+				THIS = c:NPU
+				scope:diplomatic_play = { 
+					has_play_goal = annex_country
+				}
+				scope:target_country = {
+					any_scope_state = {
+						OR = {
+							state_region = s:STATE_ICA
+							state_region = s:STATE_AREQUIPA
+							state_region = s:STATE_TARAPACA
+						}
+					}
+				}				
+			}
+			add = 1000
+		}
 
 			if = {
 				limit = {
