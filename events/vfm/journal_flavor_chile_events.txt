@@ -88,6 +88,10 @@ journal_flavor_chile.1 = { Freire expedition
 		default_option = no
 		name = journal_flavor_chile.1.b
 
+		hidden_effect = {
+		    set_variable = { freire_chl }
+	    }		
+
 		add_radicals = {
 			value = 0.1
 			pop_type = aristocrats			
@@ -417,7 +421,15 @@ journal_flavor_chile.6 = {
 	immediate = {
 		c:CHL = {
 			save_scope_as = chl_scope
-		}	
+		}
+		c:CHL = {
+			random_scope_character = {
+				limit = {
+					has_variable = is_ohiggins
+				}
+				save_scope_as = ohiggins_scope
+		    }
+		}				
 	}
 
 	event_image = {
@@ -586,6 +598,153 @@ journal_flavor_chile.10 = {
 	        }
         }
 
+journal_flavor_chile.11 = { War of the Confederation
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_chile.11.t
+	desc = journal_flavor_chile.11.d
+	flavor = journal_flavor_chile.11.f
+
+	duration = 1
+
+	immediate = {
+		c:BOL = {
+			save_scope_as = bol_scope
+		}
+		c:CHL = {
+			save_scope_as = chl_scope
+		}
+		c:PEU = {
+			save_scope_as = peu_scope
+		}			
+	}
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_politicians_arguing.bk2"
+
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/politicians_arguing"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	option = {
+		default_option = yes
+		name = journal_flavor_chile.11.a
+
+        create_diplomatic_play = {
+            name = war_of_the_confederation
+            target_country = c:BOL
+
+            war = no
+
+            type = humiliation					           
+        }
+
+		add_loyalists = {
+			value = 0.15
+		}
+					
+		change_infamy = 5		   
+		}  
+
+		hidden_effect = {			
+			trigger_event = {
+			c:ARG = {
+			    id = journal_flavor_chile.12
+			    days = 7
+			}
+		}	
+			trigger_event = {
+			    id = journal_flavor_chile.14
+			    days = 7
+			}						
+		}		      				
+			            
+	option = {
+		name = journal_flavor_chile.11.b
+
+		add_radicals = {
+			value = 0.075	
+		}
+		add_radicals = {
+			value = 0.2
+			pop_type = officers	
+			}
+		}					
+	}
+
+journal_flavor_chile.12 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_chile.11.t
+	desc = journal_flavor_chile.11.d
+	flavor = journal_flavor_chile.11.f
+
+	duration = 1
+
+	immediate = {
+		c:BOL = {
+			save_scope_as = bol_scope
+		}
+		c:CHL = {
+			save_scope_as = chl_scope
+		}
+		c:PEU = {
+			save_scope_as = peu_scope
+		}			
+	}
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_politicians_arguing.bk2"
+
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/politicians_arguing"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	option = {
+		default_option = yes
+		name = journal_flavor_chile.11.a
+
+        create_diplomatic_play = {
+            name = war_of_the_confederation
+            target_country = c:BOL
+
+            war = no
+
+            type = humiliation					           
+        }
+
+		add_loyalists = {
+			value = 0.15
+		}
+					
+		change_infamy = 5		   
+		}  
+
+		hidden_effect = {					
+		}		      				
+			            
+	option = {
+		name = journal_flavor_chile.11.b
+
+		add_radicals = {
+			value = 0.075	
+		}
+		add_radicals = {
+			value = 0.2
+			pop_type = officers	
+			}
+		}					
+	}	
+}
+
 journal_flavor_chile.13  = {
 	type = country_event
 	placement = ROOT
@@ -620,9 +779,9 @@ journal_flavor_chile.13  = {
 		default_option = yes
 
         c:ARG = {
-				trigger_event = {
-			id = journal_flavor_chile.15
-			days = 1
+			trigger_event = {
+			    id = journal_flavor_chile.15
+			    days = 1
 			}
 		}
 
