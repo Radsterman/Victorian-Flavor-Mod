@@ -155,12 +155,11 @@ ai_strategy_default = {
 	diplomatic_play_boldness = {
 		value = 50 
 
-		if = { # North Peru should not surrenter against Bolivia
+		if = { # Chile should not surrenter against the PBC
 			limit = {
-				exists = c:NPU
-				THIS = c:NPU
+				THIS = c:CHL
 				scope:diplomatic_play = { 
-					has_play_goal = annex_country
+					has_play_goal = dp_war_confederation
 				}
 			}
 			add = 100
@@ -5886,7 +5885,15 @@ ai_strategy_default = {
 					}
 				}
 				add = 50
-			}	
+			}
+
+			if = {
+				limit = {
+					c:CHL = THIS
+					c:SPU = { is_subject_of = c:BOL }
+				}
+				add = 100
+			}				
 
 			if = {
 				limit = {
