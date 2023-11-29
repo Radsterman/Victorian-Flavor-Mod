@@ -615,9 +615,15 @@ journal_flavor_chile.11 = { War of the Confederation
 		c:CHL = {
 			save_scope_as = chl_scope
 		}
-		c:PEU = {
-			save_scope_as = peu_scope
-		}			
+		c:NPU = {
+			save_scope_as = npu_scope
+		}
+		c:SPU = {
+			save_scope_as = spu_scope
+		}
+		c:IQU = {
+			save_scope_as = iqu_scope
+		}							
 	}
 
 	event_image = {
@@ -635,34 +641,36 @@ journal_flavor_chile.11 = { War of the Confederation
 		name = journal_flavor_chile.11.a
 
         create_diplomatic_play = {
-            name = war_of_the_confederation
-            target_country = c:BOL
+            type = dp_war_confederation	        
+            target_country = c:NPU
 
-            war = no
+            war = no		
 
-            type = humiliation					           
+			add_war_goal = {
+				holder = c:CHL
+				type = war_confederation	
+				target_country = c:SPU	
+			}
+
+			add_war_goal = {
+				holder = c:CHL
+				type = liberate_subject
+				target_country = c:IQU
+			}				            			           
         }
+
+        add_modifier = {
+			name = restoration_army
+			years = 3
+        }        
 
 		add_loyalists = {
 			value = 0.15
 		}
 					
-		change_infamy = 5		   
-		}  
+		change_infamy = 5		   											      				
+    }    
 
-		hidden_effect = {			
-			trigger_event = {
-			c:ARG = {
-			    id = journal_flavor_chile.12
-			    days = 7
-			}
-		}	
-			trigger_event = {
-			    id = journal_flavor_chile.14
-			    days = 7
-			}						
-		}		      				
-			            
 	option = {
 		name = journal_flavor_chile.11.b
 
