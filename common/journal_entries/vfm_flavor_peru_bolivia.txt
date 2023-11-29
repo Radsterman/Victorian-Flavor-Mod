@@ -47,84 +47,6 @@ je_peru_bolivia_lai = {
 	should_be_pinned_by_default = yes
 }
 
-je_peru_bolivia_the_feeble_union = { 
-	icon = "gfx/interface/icons/event_icons/event_fire.dds"
-    group = je_group_internal_affairs
-	immediate = {
-		c:NPU = {
-			save_scope_as = npu_scope
-		}
-	}
-
-	on_monthly_pulse = {
-		effect = {
-			if = {
-				limit = {
-					is_at_war = no
-					c:NPU ?= {
-						relations:root < relations_threshold:cordial
-					}
-				}
-				change_variable = {
-					name = peru_the_feeble_union_var
-					add = 1
-				}
-			}
-		}
-	}
-
-	is_shown_when_inactive = {
-        c:BOL ?= THIS
-		c:NPU ?= {
-			is_subject_type = subject_type_confederation
-			is_subject_of = c:BOL
-		}
-	}
-
-	possible = {
-		c:NPU ?= {
-			relations:root < relations_threshold:cordial
-		}
-	}
-
-	complete = {
-		scope:journal_entry = { is_goal_complete = yes }
-		c:NPU = {
-			is_at_war = no
-		}
-	}
-
-	on_complete = {
-		c:NPU = {
-			trigger_event = {
-				id = journal_flavor_peru.1
-		    }
-		}
-	}
-
-	fail = {
-		NOT = {
-			c:NPU = {
-				is_subject_of = c:BOL
-			}
-		}
-	}
-
-	current_value = {
-		value = root.var:peru_the_feeble_union_var
-	}
-
-	goal_add_value = {
-		value = 12
-	}
-
-	progressbar = yes
-
-	weight = 10000
-
-	should_be_pinned_by_default = yes
-}
-
 je_peru_restoration = { 
 	icon = "gfx/interface/icons/event_icons/event_scales.dds"
     group = je_group_internal_affairs
@@ -139,13 +61,14 @@ je_peru_restoration = {
 
 	complete = {
 		is_subject = no 
-		OR = {
-			c:SPU = { is_subject = no }	
+		c:SPU = { is_subject = no }	
+		c:IQU = { is_subject = no }	
 		}
 	}
 
 	on_complete = {
         annex = c:SPU
+        annex = c:IQU
 	}
 
 	fail = {
