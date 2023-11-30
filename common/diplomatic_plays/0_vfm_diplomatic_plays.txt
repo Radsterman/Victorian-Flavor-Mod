@@ -475,3 +475,27 @@ dp_conquer_unrecognized_state = {
 	on_war_end = {}
 }
 
+dp_dissolve_confederation = {
+	war_goal = liberate_subject
+
+	texture = "gfx/interface/icons/war_goals/liberate_country.dds"
+
+	possible = {
+		NOT = { is_country_type = decentralized }
+		aggressive_diplomatic_plays_permitted = yes
+		NOT = { is_subject_of = scope:target_country }
+		scope:target_country = {
+			NOT = { is_country_type = decentralized }
+			is_subject = yes
+			is_subject_type = subject_type_confederation
+			NOT = { is_subject_of = root }
+			is_subject_of = c:BOL
+		}
+	}
+
+	on_weekly_pulse = {}
+
+	on_war_begins = {}
+
+	on_war_end = {}
+}
