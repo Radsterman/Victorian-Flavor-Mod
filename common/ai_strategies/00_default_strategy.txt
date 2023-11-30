@@ -802,39 +802,25 @@ ai_strategy_default = {
 				add = 25
 			}
 
-		if = { # North Peru should try to reconquer South Peru always
-			limit = {
-				exists = c:NPU
-				THIS = c:NPU
-				scope:diplomatic_play = { 
-					has_play_goal = annex_country
-				}
-				scope:target_country = {
-					any_scope_state = {
-						OR = {
-							state_region = s:STATE_ICA
-							state_region = s:STATE_AREQUIPA
-							state_region = s:STATE_TARAPACA
-						}
-					}
-				}				
-			}
-			add = 1000
-		}
-
-		if = { 
-			limit = {
-				exists = c:NPU
-				THIS = c:NPU
-				scope:diplomatic_play = { 
-					has_play_goal = annex_country
-				}
-				scope:target_state = {							
-				    state_region = s:STATE_ACRE
-						}
-					}			
-			add = -5
-		}		
+		    if = { # North Peru should try to reconquer South Peru always
+			    limit = {
+				    exists = c:NPU
+				    THIS = c:NPU
+				    scope:diplomatic_play = { 
+					    has_play_goal = annex_country
+				    }
+				    scope:target_country = {
+					    any_scope_state = {
+						    OR = {
+							    state_region = s:STATE_ICA
+							    state_region = s:STATE_AREQUIPA
+							    state_region = s:STATE_TARAPACA
+						    }
+					    }
+				    }				
+			    }
+			    add = 100
+		    }		
 
 			if = {
 				limit = {
@@ -2266,7 +2252,7 @@ ai_strategy_default = {
 					country_has_primary_culture = cu:ecuadorian
 				}
 			}
-			add = 20
+			add = 5
 		}
 
 		# Even more aggression if you have the War of the Confederation JE 
@@ -2277,7 +2263,7 @@ ai_strategy_default = {
 					has_journal_entry = je_peru_bolivia
 				}    
 			}
-			add = 15
+			add = 5
 		}
 
 		# Extra aggression against Buenos Aires for reunification
@@ -5696,7 +5682,7 @@ ai_strategy_default = {
 
 			if = {
 				limit = {
-					c:CHL = THIS
+					c:NPU = THIS
 					c:SPU = { is_subject_of = c:BOL }
 				}
 				add = -100
