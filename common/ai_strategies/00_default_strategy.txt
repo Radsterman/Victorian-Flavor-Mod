@@ -2887,15 +2887,7 @@ ai_strategy_default = {
 	# How many levels of barracks should the AI have
 	# Using this value in other strategies will function additively
 	wanted_army_size = {
-		value = 0
-
-		# To increase base army size for small countries, capped at 1 million population
-		add = {
-			value = cached_ai_incorporated_population
-			divide = 100000 # 1 level of barracks per 100k incorporated population	
-
-			max = 10
-		}			
+		value = 0		
 
 		add = {
 			value = cached_ai_incorporated_population
@@ -2915,6 +2907,7 @@ ai_strategy_default = {
 		}				
 
 		# More advanced standing armies are expensive and should be smaller relative to population
+		#VFM TODO: change this to actually refer to PMs in use rather than tied to tech, current way makes countries weaker even if they couldn't afford the units of the tech in the first place
 		if = {
 			limit = { has_technology_researched = line_infantry }
 			multiply = 0.9
@@ -2953,11 +2946,44 @@ ai_strategy_default = {
 			}
 			multiply = 1.25
 		}
+
+		if = { #VFM, AI major powers and up want larger militaries if their direct neighbors are trying to unify or expand
+			limit = {
+				any_country = {
+					OR = {
+						has_strategy = ai_strategy_territorial_expansion 
+						has_strategy = ai_strategy_unify_germany
+						has_strategy = ai_strategy_unify_italy
+						has_strategy = ai_strategy_unify_ethiopia
+						has_strategy = ai_strategy_unify_china
+					}
+					has_strategic_land_adjacency = ROOT
+					country_rank >= rank_value:major_power
+				}
+				NOR = {
+					has_strategy = ai_strategy_territorial_expansion 
+					has_strategy = ai_strategy_unify_germany
+					has_strategy = ai_strategy_unify_italy
+					has_strategy = ai_strategy_unify_ethiopia
+					has_strategy = ai_strategy_unify_china
+				}
+			}
+			multiply = 1.1
+		}
 		
 		if = { #VFM, national militias are meant to be small and supported by conscripts
 			limit = { has_law = law_type:law_national_militia }
 			multiply = 0.05
 		}
+
+		#VFM moved to bottom since this should be the base army size and not impacted by all of the multipliers above...
+		# To increase base army size for small countries, capped at 1 million population
+		add = {
+			value = cached_ai_incorporated_population
+			divide = 100000 # 1 level of barracks per 100k incorporated population	
+
+			max = 5 #VFM, dropped to 5
+		}	
 
 		max = 1500 #VFM, from 500
 		min = 1
