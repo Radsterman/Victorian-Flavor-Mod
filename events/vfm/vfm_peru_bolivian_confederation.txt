@@ -161,19 +161,6 @@ peru_bolivia_confederation.2 = { Fin de la Revuelta
 		}
 		add_journal_entry = {
 			type = je_peru_bolivia
-		}
-		every_country = {
-			limit = {
-				country_is_in_south_america = yes
-				has_diplomatic_relevance = root
-				NOT = {
-					has_variable = pbc_member
-				}
-				NOT = {
-					is_country_type = decentralized
-				}
-			}
-			trigger_event = { id = peru_bolivia_events.4 days = 7 popup = yes }
 		}				
 	}
 
@@ -191,11 +178,17 @@ peru_bolivia_confederation.2 = { Fin de la Revuelta
 			}
 			set_global_variable = { name = coup_ended }
 		}
-		hidden_effect = {
-			c:CHL = {
-				trigger_event = peru_bolivia_confederation.13
-			}
-		}
+		hidden_effect = {		
+		    if = {
+		        limit = {
+		        c:CHL = { NOT = { has_variable = freire_chl } } 
+		        }
+			    c:CHL = {
+				    trigger_event = peru_bolivia_confederation.13
+				    days = 14
+			    }
+		    }
+	    }	
 		add_journal_entry = {
 			type = je_peru_bolivia
 		}
@@ -209,8 +202,11 @@ peru_bolivia_confederation.2 = { Fin de la Revuelta
 				NOT = {
 					is_country_type = decentralized
 				}
+				NOT = {
+					this = c:CHL
+				}				
 			}
-			trigger_event = { id = peru_bolivia_events.4 days = 7 popup = yes }
+			trigger_event = { id = peru_bolivia_events.4 days = 14 }
 		}				
 	}	
 }
@@ -250,34 +246,13 @@ peru_bolivia_confederation.3 = { Division of Peru
 		s:STATE_ICA.region_state:PEU = {
 			set_state_owner = c:SPU
 		}
-		s:STATE_LA_PAZ.region_state:PEU = {
-			set_state_owner = c:SPU
-		}
 		s:STATE_TARAPACA = {
 			set_owner_of_provinces = {
 				country = c:SPU
 				provinces = { xB3DA33 x380AE9 xC9DDC4 x8733A4 x79C7F7 x2F3768 x1040D0 xD46425 xCB9DD5 xF391A7 xA00070 x49DD3B x2FB295 }
 			}
 		}
-		s:STATE_ACRE = {
-			set_owner_of_provinces = {
-				country = c:SPU
-				provinces = { xFA73DA x174A88 x9A5667 xAB73D1 x93D464 x2C1E28 xF605CB xFDB1E8 x5720BB xF23C51 x46F090 x41C0D0 }
-			}
-		}
-		s:STATE_AMAZONAS = {
-			set_owner_of_provinces = {
-				country = c:SPU
-				provinces = { x83B1BA x8BD00A x4C2A62 xEC140B xFC221C xB43B72 xE8E12A xF192D6 x4751E8 xCF9E9F x2AF127 x8A5A62 x7CD52C xA88EBF x9AE5DE xBC7468 x6809E1 x5C413B x2404C7 x3FA0FB x6C2ED1 x2F69F7 }
-			}
-		}
-		s:STATE_AMAZONAS = {
-			set_owner_of_provinces = {
-				country = c:SPU
-				provinces = { xB29291 x8F231D }
-			}
-		}
-        create_diplomatic_pact = {
+       create_diplomatic_pact = {
             country = c:SPU
             type = confederation
         }
@@ -336,13 +311,7 @@ peru_bolivia_confederation.3 = { Division of Peru
 			    trigger_event = {
 				  id = peru_bolivia_confederation.4
 				  days = 5
-			    }
-		    c:CHL = {
-			    trigger_event = {
-				    id = journal_flavor_chile.1
-				    months = 2
-			    }			    
-		    } 		    
+			    } 		    
 			    trigger_event = {
 				    id = journal_flavor_chile.20
 				    years = 24
@@ -988,6 +957,7 @@ peru_bolivia_confederation.13 = { Portales Chile
 	}
 
 	option = {
+		default_option = yes	
 		name = peru_bolivia_confederation.13.a
 		
 		create_diplomatic_pact = {
@@ -1005,18 +975,42 @@ peru_bolivia_confederation.13 = { Portales Chile
 			value = 0.05	
 		}
 
-		ai_chance = 25
+		add_journal_entry = {
+			type = je_war_of_the_confederation
+		}
+		add_modifier = {
+			name = modifier_against_the_confederation
+			months = short_modifier_time
+		}
+		if = { #Why? Because goal_add_value causes wonky things if we tie it directly to this variable. TODO revisit when support for a static target value in JEs.
+			limit = {
+				exists = global_var:peru_bolivia_var
+			}
+			set_variable = { name = peru_bolivia_opposition_var value = global_var:peru_bolivia_var }
+		}		
+
+		ai_chance = 75
 	}
 
 	option = {
-		default_option = yes
 		name = peru_bolivia_confederation.13.b
 
 		add_radicals = {
 			strata = rich
 			value = 0.07
 		}
-		ai_chance = 75
+
+		add_journal_entry = {
+			type = je_war_of_the_confederation
+		}
+		if = { #Why? Because goal_add_value causes wonky things if we tie it directly to this variable. TODO revisit when support for a static target value in JEs.
+			limit = {
+				exists = global_var:peru_bolivia_var
+			}
+			set_variable = { name = peru_bolivia_opposition_var value = global_var:peru_bolivia_var }
+		}
+		
+		ai_chance = 25
 	}
 }
 
