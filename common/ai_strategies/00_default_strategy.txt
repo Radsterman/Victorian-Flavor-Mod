@@ -2938,7 +2938,7 @@ ai_strategy_default = {
 		if = {
 			limit = { has_technology_researched = mobile_armor }
 			multiply = 0.9
-		}	
+		}
 
 		# Factor in strategies
 		if = {
@@ -2952,7 +2952,12 @@ ai_strategy_default = {
 				}
 			}
 			multiply = 1.25
-		}		
+		}
+		
+		if = { #VFM, national militias are meant to be small and supported by conscripts
+			limit = { has_law = law_type:law_national_militia }
+			multiply = 0.05
+		}
 
 		max = 1500 #VFM, from 500
 		min = 1
@@ -3143,7 +3148,7 @@ ai_strategy_default = {
 		value = 0
 		if = {
 			limit = { has_law = law_type:law_national_militia }
-			add = 5
+			add = 10 #VFM, bumped up from 5 to compensate for less barracks wanted by AI
 		}
 		else_if = {
 			limit = { has_law = law_type:law_professional_army }
