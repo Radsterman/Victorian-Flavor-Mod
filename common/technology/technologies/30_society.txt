@@ -818,6 +818,32 @@ feminism = {
 	texture = "gfx/interface/icons/invention_icons/feminism.dds"
 	category = society
 	
+	on_researched = {
+		if = {
+			limit = {
+				NOT = { has_variable = feminism_researched }
+			}
+			set_variable = feminism_researched
+			custom_tooltip = {
+				text = liberal_and_egalitarian_amended_tt
+				every_interest_group = {
+					limit = {
+						has_ideology = ideology:ideology_liberal
+					}
+					remove_ideology = ideology_liberal
+					add_ideology = ideology_liberal_modern
+				}
+				every_interest_group = {
+					limit = {
+						has_ideology = ideology:ideology_egalitarian
+					}
+					remove_ideology = ideology_egalitarian
+					add_ideology = ideology_egalitarian_modern
+				}
+			}
+		}
+	}
+
 	unlocking_technologies = {
 		human_rights
 	}

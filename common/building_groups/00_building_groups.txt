@@ -17,7 +17,8 @@
 # urbanization = number					The amount of urbanization buildings in this group provides per level
 # should_auto_expand = trigger			Under which condition buildings in this group should auto-expand if auto-expand is toggled on (trigger on more specific group or building type overrides)
 # 										If this trigger has any contents at all, the game will think the building is potentially auto-expandable, so do not write triggers that can never evaluate to true here
-# hiring_rate = X						How much of the building's max staffing level can be hired in a single week (default NDefines::NEconomy::HIRING_RATE)
+# min_hiring_rate = X					Minimum value for how much of the building's max staffing level can be hired in a single week (default NDefines::NEconomy::DEFAULT_MIN_HIRING_RATE)
+# max_hiring_rate = X					Maximum value for how much of the building's max staffing level can be hired in a single week (default NDefines::NEconomy::DEFAULT_MAX_HIRING_RATE)
 # proportionality_limit = X				How high is the building's tolerance for pop types being out of proportion? default NDefines::NEconomy::EMPLOYMENT_PROPORTIONALITY_LIMIT)
 # hires_unemployed_only = yes			If yes, buildings in this group may only hire from the unemployment pool. Default no.
 
@@ -400,6 +401,8 @@ bg_rubber = {
 	capped_by_resources = yes
 	
 	economy_of_scale = yes
+
+	can_use_slaves = yes
 	
 	discoverable_resource = yes
 	
@@ -550,6 +553,10 @@ bg_power = {
 	economy_of_scale = yes
 	
 	cash_reserves_max = 25000
+
+	should_auto_expand = { 
+		default_auto_expand_rule = yes
+	}
 	
 	economy_of_scale_ai_factor = 1.5
 
@@ -598,7 +605,10 @@ bg_trade = {
 	
 	auto_place_buildings = yes
 	
-	hiring_rate = 1.0
+	min_hiring_rate = 1.0
+	max_hiring_rate = 1.0
+	
+	ignores_productivity_when_hiring = yes
 	
 	proportionality_limit = 1.0
 	

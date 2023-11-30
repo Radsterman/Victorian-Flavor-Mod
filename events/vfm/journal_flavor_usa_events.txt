@@ -310,3 +310,75 @@ journal_flavor_usa.3 = {
 
 	}
 }
+
+# Resettlement of the Seminole's from the Florida territory to Oklahoma, the seminoles refuse
+journal_flavor_usa.4 = {
+	type = country_event
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+	event_image = {
+		video = "europenorthamerica_native_american"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	title = journal_flavor_usa.4.t
+	desc = journal_flavor_usa.4.d
+	flavor = journal_flavor_usa.4.f
+
+	duration = 3
+	
+	trigger = {
+		exists = c:SEM
+	}
+
+	immediate = {
+		cu:muskogean = { 
+			save_scope_as = muskogean_culture 
+		}
+		c:SEQ = {
+			save_scope_as = indian_territory_scope
+		}
+		s:STATE_FLORIDA = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						c:SEM = THIS
+					}
+				}
+				save_scope_as = indian_removal_state
+			}
+		}
+	}
+	
+	option = { # 2nd seminole war
+		name = journal_flavor_usa.4.a
+		default_option = yes
+		create_diplomatic_play = {
+			name = seminole_war
+			target_country = c:SEM
+			war = yes
+			type = dp_annex_war
+		}
+		change_infamy = 1
+		
+		ai_chance = {
+			base = 25
+		}
+		
+		# custom tooltip: will stop raids from journal_flavor_usa.5
+	}
+
+	option = { # Stall the removal
+		name = journal_flavor_usa.4.b
+		ig:ig_landowners = {
+        	add_modifier = {
+        		name = indian_removal_disapproval
+        		months = long_modifier_time
+        	}
+        }
+		
+		ai_chance = {
+			base = 0
+		}
+	}
+}

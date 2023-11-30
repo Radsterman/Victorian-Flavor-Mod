@@ -697,6 +697,9 @@ acw_events.8 = {
 	duration = 3
 
 	trigger = {
+		c:USA ?= {
+			has_journal_entry = je_acw_war
+		}
 		OR = {
 			c:CSA ?= THIS
 			c:USA ?= THIS
@@ -704,12 +707,16 @@ acw_events.8 = {
 		}
 		any_scope_state = {
 			has_building = building_railway
+			NOT = { has_modifier = protected_trains }
 		}
 	}
 
 	immediate = {
 		random_scope_state = {
-			limit = { has_building = building_railway }
+			limit = { 
+				has_building = building_railway 
+				NOT = { has_modifier = protected_trains }
+			}
 			save_scope_as = great_locomotive_chase_state
 		}
 	}
