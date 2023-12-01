@@ -18,7 +18,7 @@ peru_bolivia_confederation.1 = { Historical Context
 					exists = c:PEU
 					c:PEU = THIS
 				}
-		    }
+			}
 		}
 	}
 	desc = peru_bolivia_confederation.1.d
@@ -36,7 +36,7 @@ peru_bolivia_confederation.1 = { Historical Context
 	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
 	trigger = {
-		#triggered at the start
+		triggered at the start
 	}
 
 	immediate = {
@@ -159,9 +159,6 @@ peru_bolivia_confederation.2 = { Fin de la Revuelta
 				days = 5
 			}
 		}
-		add_journal_entry = {
-			type = je_peru_bolivia
-		}				
 	}
 
 	option = { 
@@ -174,44 +171,18 @@ peru_bolivia_confederation.2 = { Fin de la Revuelta
 		c:BOL = {
 			trigger_event = {
 				id = peru_bolivia_confederation.3
-				days = 10
 			}
 			set_global_variable = { name = coup_ended }
 		}
-		hidden_effect = {		
-		    if = {
-		        limit = {
-		        c:CHL = { NOT = { has_variable = freire_chl } } 
-		        }
-			    c:CHL = {
-				    trigger_event = peru_bolivia_confederation.13
-				    days = 14
-			    }
-		    }
-	    }	
-		add_journal_entry = {
-			type = je_peru_bolivia
-		}
-		every_country = {
-			limit = {
-				country_is_in_south_america = yes
-				has_diplomatic_relevance = root
-				NOT = {
-					has_variable = pbc_member
-				}
-				NOT = {
-					is_country_type = decentralized
-				}
-				NOT = {
-					this = c:CHL
-				}				
+		hidden_effect = {
+			c:CHL = {
+				trigger_event = peru_bolivia_confederation.13
 			}
-			trigger_event = { id = peru_bolivia_events.4 days = 14 }
-		}				
-	}	
+		}
+	}
 }
 
-peru_bolivia_confederation.3 = { Division of Peru
+peru_bolivia_confederation.3 = { Division of Peru 		
 	type = country_event
 	placement = ROOT
 	title = peru_bolivia_confederation.3.t
@@ -229,19 +200,17 @@ peru_bolivia_confederation.3 = { Division of Peru
 
 	icon = "gfx/interface/icons/event_icons/event_default.dds"
 
-
 	trigger = {
-		#triggered by JE
+		    #triggered by JE
 	}
 
-	
 	option = { Dividir Perú
 		name = peru_bolivia_confederation.3.a
 		default_option = yes
 
 		custom_tooltip = peru_bolivia_confederation.3.tt
+		hidden_effect = {
 
-        hidden_effect = {
 		create_country = {
             tag = SPU
 			origin = c:PEU
@@ -256,7 +225,7 @@ peru_bolivia_confederation.3 = { Division of Peru
 				provinces = { xB3DA33 x380AE9 xC9DDC4 x8733A4 x79C7F7 x2F3768 x1040D0 xD46425 xCB9DD5 xF391A7 xA00070 x49DD3B x2FB295 }
 			}
 		}
-       create_diplomatic_pact = {
+        create_diplomatic_pact = {
             country = c:SPU
             type = confederation
         }
@@ -299,47 +268,53 @@ peru_bolivia_confederation.3 = { Division of Peru
 				}
 			}
 		}
-		change_relations = {
-			country = c:PEU
-			value = -20
-		}		
 		c:PEU = {
-			change_tag = NPU
+		    if={
+			    limit = {
+				    NOT = { exists = c:NPU }
+			    }
+			    change_tag = NPU
+		    }
 		}
-	}	
+        create_diplomatic_pact = {
+            country = c:NPU
+            type = confederation
+        }		
+		change_relations = {
+			country = c:NPU
+			value = -80
+		}
 		trigger_event = {
 			id = peru_bolivia_confederation.4
 			days = 6
 		}
-		hidden_effect = {
 			c:NPU = {
 			    trigger_event = {
 				  id = peru_bolivia_confederation.4
 				  days = 5
-			    } 		    
+			    }
+		    c:CHL = {
 			    trigger_event = {
-				    id = journal_flavor_chile.20
-				    years = 24
+				    id = journal_flavor_chile.1
+				    months = 2
 			    }			    
-		    }
-		}	
+		    } 		    			    
+		}
+	}		
 		
 		ai_chance = {
 			base = 100
 		}
-	}
+	}	
 
 	option = {  Peru Unido
 		name = peru_bolivia_confederation.3.b
-		ai_chance = {
-			base = 5
-		}
 		trigger_event = {
 			id = peru_bolivia_confederation.6
 			months = 7
+			}
 		}
 	}
-}
 
 peru_bolivia_confederation.4 = { Viva Peru del Sur
 	type = country_event
@@ -357,7 +332,7 @@ peru_bolivia_confederation.4 = { Viva Peru del Sur
 				desc = peru_bolivia_confederation.4.t2
 				trigger = {
 					exists = c:SPU
-					c:SPU = THIS
+					c:NPU = THIS
 				}
 			}
 		}
@@ -379,7 +354,7 @@ peru_bolivia_confederation.4 = { Viva Peru del Sur
 	icon = "gfx/interface/icons/event_icons/event_default.dds"
 
 	trigger = {
-		#triggered by chain
+		    #triggered by chain
 	}
 
 	immediate = {
@@ -661,7 +636,7 @@ peru_bolivia_confederation.8 = { Consolidation
 	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
 	trigger = {
-		 #triggered by JE
+		    #triggered by JE
 	}
 
 	option = { 
@@ -717,7 +692,6 @@ peru_bolivia_confederation.8 = { Consolidation
 				set_state_type = incorporated
 		    }
         }
-
 		change_tag = PBC
 	}
 }
@@ -951,7 +925,7 @@ peru_bolivia_confederation.13 = { Portales Chile
 		c:BOL = {
 			trigger_event = {
 				id = peru_bolivia_confederation.14
-				months = 12
+				months = 10
 			}
 			save_scope_as = bol_scope
 		}
@@ -962,7 +936,6 @@ peru_bolivia_confederation.13 = { Portales Chile
 	}
 
 	option = {
-		default_option = yes	
 		name = peru_bolivia_confederation.13.a
 		
 		create_diplomatic_pact = {
@@ -980,47 +953,23 @@ peru_bolivia_confederation.13 = { Portales Chile
 			value = 0.05	
 		}
 
-		add_journal_entry = {
-			type = je_war_of_the_confederation
-		}
-		add_modifier = {
-			name = modifier_against_the_confederation
-			months = short_modifier_time
-		}
-		if = { #Why? Because goal_add_value causes wonky things if we tie it directly to this variable. TODO revisit when support for a static target value in JEs.
-			limit = {
-				exists = global_var:peru_bolivia_var
-			}
-			set_variable = { name = peru_bolivia_opposition_var value = global_var:peru_bolivia_var }
-		}		
-
-		ai_chance = 75
+		ai_chance = 25
 	}
 
 	option = {
+		default_option = yes
 		name = peru_bolivia_confederation.13.b
 
 		add_radicals = {
 			strata = rich
 			value = 0.07
 		}
-
-		add_journal_entry = {
-			type = je_war_of_the_confederation
-		}
-		if = { #Why? Because goal_add_value causes wonky things if we tie it directly to this variable. TODO revisit when support for a static target value in JEs.
-			limit = {
-				exists = global_var:peru_bolivia_var
-			}
-			set_variable = { name = peru_bolivia_opposition_var value = global_var:peru_bolivia_var }
-		}
-		
-		ai_chance = 25
+		ai_chance = 75
 	}
 }
 
 
-peru_bolivia_confederation.14 = { Kill Portales Plot
+peru_bolivia_confederation.14 = { #Kill Portales Plot
 
 	type = country_event
 	placement = ROOT
@@ -1045,6 +994,7 @@ peru_bolivia_confederation.14 = { Kill Portales Plot
 	}
 
 	option = {
+	    default_option = yes
 		name = peru_bolivia_confederation.14.a
 
         c:CHL = {
@@ -1062,15 +1012,14 @@ peru_bolivia_confederation.14 = { Kill Portales Plot
 			}
 
 			75 = {
-				nothing
+				#nothing
 			}	
 		}
 
-		ai_chance = 75
+		ai_chance = 80
 	}
 
 	option = {
-		default_option = yes
 		name = peru_bolivia_confederation.14.b
 
 		change_relations = {
@@ -1088,16 +1037,16 @@ peru_bolivia_confederation.14 = { Kill Portales Plot
 				}
 
 				50 = {
-					nothing
+					#nothing
 				}	
 			}
 		}
 	
-		ai_chance = 25
+		ai_chance = 20
 	}
 }
 
-peru_bolivia_confederation.15 = { Death of Portales
+peru_bolivia_confederation.15 = { #Death of Portales
 
 	type = country_event
 	placement = ROOT
@@ -1126,6 +1075,12 @@ peru_bolivia_confederation.15 = { Death of Portales
 		scope:portales_scope = {
 			kill_character = yes
 		}
+        c:CHL = {
+			trigger_event = {
+				id = journal_flavor_chile.11
+				months = 1
+			}		
+		}		
 	}
 
 	trigger = {
@@ -1160,7 +1115,7 @@ peru_bolivia_confederation.15 = { Death of Portales
 	}
 }
 
-peru_bolivia_confederation.16 = { Proof of Santa Cruz's involvement in the plot
+peru_bolivia_confederation.16 = { #Proof of Santa Cruz's involvement in the plot
 	
 	type = country_event
 	placement = ROOT

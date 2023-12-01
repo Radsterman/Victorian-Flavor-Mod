@@ -200,9 +200,6 @@ journal_flavor_chile.2 = {
 		default_option = yes
 		name = journal_flavor_chile.2.a
 
-        add_modifier = {
-			name = codigo_civil
-		}
 		add_loyalists = {
 			value = 0.1
 			pop_type = bureaucrats	
@@ -677,6 +674,74 @@ journal_flavor_chile.13  = {
 		}	
         ai_chance = {
 			base = 35
+			}
+		}		
+	}
+
+journal_flavor_chile.14  = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_chile.14.t
+	desc = journal_flavor_chile.14.d
+	flavor = journal_flavor_chile.14.f
+
+	duration = 1
+
+	event_image = {
+		video = "gfx/event_pictures/votp_gunboat_diplomacy.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/DLC/1.3_ip1/Events/unspecific/gunboat_diplomacy"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	immediate = {
+		c:CHL = {
+			save_scope_as = chl_scope
+		}
+		c:BOL = {
+			save_scope_as = bol_scope
+		}		
+	}			
+
+	option = {
+		name = journal_flavor_chile.14.a
+		default_option = yes
+
+    random_diplomatic_play = {
+        limit = {
+            target = c:BOL
+        }
+        save_temporary_scope_as = diplo_play
+    }   
+
+    scope:diplo_play = {
+        add_initiator_backers = {
+            c:CHL
+        }
+		add_war_goal = {
+			holder = c:CHL
+			type = humiliation
+			target_country = scope:bol_scope
+		}        
+    }
+
+        ai_chance = {
+			base = 90
+			}    
+        }
+
+	option = {
+		name = journal_flavor_chile.14.b
+		    
+		change_relations = {
+			country = c:BOL
+			value = 20
+			}
+        ai_chance = {
+			base = 10
 			}
 		}		
 	}
