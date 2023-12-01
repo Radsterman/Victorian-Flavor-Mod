@@ -36,7 +36,7 @@ peru_bolivia_confederation.1 = { Historical Context
 	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
 	trigger = {
-		triggered at the start
+		#triggered at the start
 	}
 
 	immediate = {
@@ -173,6 +173,9 @@ peru_bolivia_confederation.2 = { Fin de la Revuelta
 				id = peru_bolivia_confederation.3
 			}
 			set_global_variable = { name = coup_ended }
+		    add_journal_entry = {
+			    type = je_peru_bolivia
+		    }			
 		}
 		hidden_effect = {
 			c:CHL = {
@@ -936,6 +939,7 @@ peru_bolivia_confederation.13 = { Portales Chile
 	}
 
 	option = {
+		default_option = yes	
 		name = peru_bolivia_confederation.13.a
 		
 		create_diplomatic_pact = {
@@ -953,18 +957,41 @@ peru_bolivia_confederation.13 = { Portales Chile
 			value = 0.05	
 		}
 
-		ai_chance = 25
+		add_journal_entry = {
+			type = je_war_of_the_confederation
+		}
+		add_modifier = {
+			name = modifier_against_the_confederation
+			months = short_modifier_time
+		}
+		if = { #Why? Because goal_add_value causes wonky things if we tie it directly to this variable. TODO revisit when support for a static target value in JEs.
+			limit = {
+				exists = global_var:peru_bolivia_var
+			}
+			set_variable = { name = peru_bolivia_opposition_var value = global_var:peru_bolivia_var }
+		}
+
+		ai_chance = 75
 	}
 
 	option = {
-		default_option = yes
 		name = peru_bolivia_confederation.13.b
+
+		add_journal_entry = {
+			type = je_war_of_the_confederation
+		}
+		if = { #Why? Because goal_add_value causes wonky things if we tie it directly to this variable. TODO revisit when support for a static target value in JEs.
+			limit = {
+				exists = global_var:peru_bolivia_var
+			}
+			set_variable = { name = peru_bolivia_opposition_var value = global_var:peru_bolivia_var }
+		}		
 
 		add_radicals = {
 			strata = rich
 			value = 0.07
 		}
-		ai_chance = 75
+		ai_chance = 25
 	}
 }
 
@@ -1074,12 +1101,6 @@ peru_bolivia_confederation.15 = { #Death of Portales
 		}
 		scope:portales_scope = {
 			kill_character = yes
-		}
-        c:CHL = {
-			trigger_event = {
-				id = journal_flavor_chile.11
-				months = 1
-			}		
 		}		
 	}
 
