@@ -93,8 +93,23 @@ NPolitics = {
 }
 
 NEconomy = {
-    MAX_WAGE_STEP_CHANGE = 0.15
-	BUILDING_WEEKS_BETWEEN_PAY_CHANGES = 8
+	
+	DEFAULT_MIN_HIRING_RATE = 0.03 				# Default weekly min hiring limit applied in a building per profession as a ratio of full employment
+	DEFAULT_MAX_HIRING_RATE = 0.1 				# Default weekly max hiring limit applied in a building per profession as a ratio of full employment
+	HIRING_RANGE_WEEKLY_CHANGE = 0.01 			# Weekly hiring range of a building is decreased or increased by this based on whether it is failing to hire at its current rate or not
+	EMPLOYMENT_PROPORTIONALITY_LIMIT = 0.1		# A building cannot have a difference of ratio of full employment between any two professions greater than this limit
+	MINIMUM_EMPLOYEES = 10						# If a building has fewer employees than this, it will always attempt to hire
+	BUILDING_RAISE_WAGES_MIN_RELEVANT_POP_SIZE = 50 # Pops with less workforce than this are ignored when checking whether a profitable building should raise wages because of radicalizing workers
+	BUILDING_RAISE_WAGES_DISCRIMINATION_FACTOR = 0.66 # Profitable buildings only care to raise wages for discriminated pops if their wealth to expected SoL ratio is less than this
+	BUILDING_LOWER_WAGES_TARGET_WEALTH_MULT = 1.33 # Buildings will consider lowering wages if all significant pops working in them have this * the target wealth to expected SoL ratio
+	BUILDING_MIN_EARNINGS_TO_HIRE_EMPLOYEES = 0.5  # Non-subsidized buildings will not hire if it would result in their annual earnings/employee falling below this threshold
+	BUILDING_PROFIT_TARGET_TO_RAISE_WAGES = 0.25	# Required profit margin to consider raising wages for SoL or employment reasons, with BUILDING_WEEKS_BETWEEN_PAY_CHANGES weeks cooldown
+	BUILDING_PROFIT_TARGET_TO_LOWER_WAGES = 0.1 	# If profit margin is this or below, consider lowering wages for SoL or employment reasons, with BUILDING_WEEKS_BETWEEN_PAY_CHANGES weeks cooldown
+	BUILDING_MAX_EMPLOYMENT_FRACTION_TO_RAISE_WAGES = 0.5 # If the employment fraction of a building is above this, don't raise wages just to try and snipe employees from other buildings
+	BUILDING_WEEKS_BETWEEN_PAY_CHANGES = 8		# Cooldown between changes in pay, so buildings don't overcompensate for a temporary change in circumstances. If the building is unprofitable it uses BUILDING_WEEKS_BETWEEN_PAY_CHANGES_WHEN_UNPROFITABLE instead.
+	BUILDING_WEEKS_BETWEEN_PAY_CHANGES_WHEN_UNPROFITABLE = 3 # Cooldown between changes in pay, so buildings don't overcompensate for a temporary change in circumstances. Only used when unprofitable.
+	
+	STARTING_WAGE_RATE_MULTIPLIER = 2.0
 	
 	TRADE_ROUTE_AUTO_INCREASE_ACCEPTABLE_REVENUE_DIFFERENCE = 1.15 #1.1 Multiply revenue of new trade route level by this for the purpose of considering whether it's OK to auto-increase level (means that trade routes can level up even when slightly decreasing overall revenue)
 	TRADE_ROUTE_AUTO_INCREASE_VERY_LOW_PRODUCTIVITY_THRESHOLD = 2.5 #3 If trade route's productivity is below this, always automatically decrease its level (regardless of total revenue)
