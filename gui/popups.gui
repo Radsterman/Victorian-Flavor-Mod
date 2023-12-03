@@ -2063,6 +2063,65 @@ default_popup =  {
 	}
 }
 
+### PRODUCTION METHOD CONFIRMATION
+default_popup = {
+	name = "production_method_confirmation_popup"
+
+	blockoverride "window_header_name" {
+		text = "PRODUCTION_METHOD_CONFIRMATION_TITLE"
+	}
+
+	blockoverride "scrollarea_content" {
+		textbox = {
+			minimumsize = { 525 -1 }
+			maximumsize = { 525 -1 }
+			multiline = yes
+			text = "PRODUCTION_METHOD_CONFIRMATION_DESC"
+			autoresize = yes
+			resizeparent = yes
+			parentanchor = center
+			align = center
+
+			margin_bottom = 50
+		}
+	}
+
+	blockoverride "fixed_bottom" {
+		container = {
+			button = {
+				using = default_button
+				using = close_button_sound
+				size = { 140 40 }
+				text = "PRODUCTION_METHOD_CONFIRMATION_CANCEL"
+				onclick = "[ProductionMethodConfirmationPopup.Cancel]"
+				shortcut = "close_window"
+			}
+
+			button = {
+				using = default_button
+				using = confirm_button_sound
+				position = { 215 0 }
+				size = { 140 40 }
+				text = "PRODUCTION_METHOD_CONFIRMATION_EXEMPT"
+				tooltip = "PRODUCTION_METHOD_CONFIRMATION_EXEMPT_TOOLTIP"
+				visible = "[ProductionMethodConfirmationPopup.CanExempt]"
+				onclick = "[ProductionMethodConfirmationPopup.Exempt]"
+			}
+
+			button = {
+				using = default_button_primary_action
+				using = confirm_button_sound
+				position = { 450 0 }
+				size = { 140 40 }
+				text = "PRODUCTION_METHOD_CONFIRMATION_CONTINUE"
+				tooltip = "PRODUCTION_METHOD_CONFIRMATION_CONTINUE_TOOLTIP"
+				onclick = "[ProductionMethodConfirmationPopup.Continue]"
+				input_action = "confirm"
+			}
+		}
+	}
+}
+
 default_confirmation_window = {
 	name = "confirmation_window"
 }
