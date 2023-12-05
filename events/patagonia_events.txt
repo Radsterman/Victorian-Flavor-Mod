@@ -1,0 +1,119 @@
+﻿namespace = bp1_patagonia
+
+# Kingdom of Patagonia and Arucania
+bp1_patagonia.1 = {
+	type = country_event
+	placement = ROOT
+	placement = scope:patagonia_country.capital
+	
+	title = bp1_patagonia.1.t
+	desc = bp1_patagonia.1.d
+	flavor = bp1_patagonia.1.f
+	
+	event_image = {
+		video = "europenorthamerica_native_american"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+	
+	duration = 3
+	
+	trigger = {
+		# triggered by je_patagonia
+		NOT = { has_global_variable = patagonia_kingdom_var }
+		any_neighbouring_state = {
+		 	owner = {
+		 		is_country_type = decentralized
+		 		country_has_primary_culture = cu:patagonian
+		 	}
+		}
+	}
+
+	immediate = {
+		set_global_variable = patagonia_kingdom_var
+		random_neighbouring_state = {
+			limit = {
+				owner = {
+			 		is_country_type = decentralized
+			 		country_has_primary_culture = cu:patagonian
+			 	}
+			}
+			owner = {
+				if = {
+					limit = {
+						year >= 1850
+						year <= 1878
+					}
+					create_character = {
+						first_name = "Orelie_Antoine"
+						last_name = "de_Tounens"
+						historical = yes
+						ruler = yes
+						culture = cu:french
+						birth_date = 1825.1.1
+					}
+				}
+				else = {
+					create_character = {
+						ruler = yes
+						culture = cu:french
+					}
+				}
+				save_scope_as = patagonia_country
+				ruler = {
+					save_scope_as = patagonia_ruler
+				}
+			}
+		}
+	}
+
+	option = { # this is ridiculous
+		name = bp1_patagonia.1.a
+		default_option = yes
+		scope:patagonia_country = {
+			change_tension = {
+				country = root
+				value = 50
+			}
+		}
+		ai_chance = { base = 1 }
+		if = {
+		    limit = {
+		    c:CHL = this
+		    has_journal_entry = je_araucania
+		}
+		change_variable = {
+			name = araucania_var
+			add = -20
+		}		    
+	}
+}	
+
+	option = { # fine, offer them protection
+		name = bp1_patagonia.1.b
+		scope:patagonia_country = {
+			set_country_type = unrecognized
+			activate_law = law_type:law_monarchy
+			hidden_effect = {
+				remove_modifier = native_conscription_10
+			}
+		}
+		create_diplomatic_pact = {
+			country = scope:patagonia_country
+			type = dependency
+		}
+		if = {
+		    limit = {
+		    c:CHL = this
+		    has_journal_entry = je_araucania
+		}
+		change_variable = {
+			name = araucania_var
+			add = 10
+		}		    
+	}		
+		ai_chance = { base = 0 }
+	}
+}
