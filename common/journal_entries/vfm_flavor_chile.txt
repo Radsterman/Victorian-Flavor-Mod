@@ -309,3 +309,73 @@ je_granaderos = {
     should_be_pinned_by_default = no
 	weight = 100
 }
+
+je_araucania = {
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+	group = je_group_historical_content	
+
+	is_shown_when_inactive = {
+		owns_entire_state_region = STATE_LOS_RIOS 
+	}
+
+    immediate = {
+	    s:STATE_LOS_RIOS = {
+            random_scope_state = {
+                limit = {
+                    owner = {
+                        c:CHL = THIS
+                    }
+                }
+                save_scope_as = araucania_state
+            }
+        }    
+ 		c:PAT = {
+			save_scope_as = pat_scope	
+		}   
+        set_variable = {
+		    name = araucania_var
+		    value = 0
+        }              
+	}
+
+	scripted_button = araucania_button
+
+	complete = {
+		custom_tooltip = {
+			text = araucania_complete
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}		
+	    }
+	}    
+
+	on_complete = {
+		trigger_event = { id = journal_flavor_chile.16 }
+		scope:araucania_state = {
+		    remove_modifier = Butalmapus	
+		}
+	}		
+
+	timeout = 16425		
+
+	on_timeout = {
+		trigger_event = { id = journal_flavor_chile.17 }
+		scope:araucania_state = {
+		    remove_modifier = Butalmapus	
+		}	
+	}
+
+	current_value = {
+		value = root.var:araucania_var
+	}	
+
+	goal_add_value = {
+		value = 100
+	}
+
+	progressbar = yes
+
+    should_be_pinned_by_default = yes
+	weight = 100
+}

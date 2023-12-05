@@ -782,7 +782,41 @@ journal_flavor_chile.15 = {
 	}
 }		
 
-journal_flavor_chile.17 = {
+journal_flavor_chile.16 = { #annexing araucania pacificamente
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_chile.16.t
+	desc = journal_flavor_chile.16.d
+	flavor = journal_flavor_chile.16.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_aristocrats.bk2"
+	}	
+    
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
+
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+	immediate = {
+		c:CHL = {
+			save_scope_as = chl_scope
+		}
+	}	
+
+	option = {
+		name = journal_flavor_chile.16.a
+
+		add_loyalists = {
+			value = 0.1
+			}    
+	}
+}
+
+journal_flavor_chile.17 = { #araucania rebellion
 	type = country_event
 	placement = ROOT
 
@@ -792,119 +826,41 @@ journal_flavor_chile.17 = {
 
 	duration = 3
 
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_native_american.bk2"
+	}	
+    
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/native_american"
+
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
 	immediate = {
 		c:CHL = {
 			save_scope_as = chl_scope
-		}	
-	}
-
-	event_image = {
-		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
-
-	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+		}
+		s:STATE_LOS_RIOS = {
+			set_owner_of_provinces = {
+				country = c:PAT
+				provinces = { xF68D31 x1A5ED2 x90C0D0 x49F9FC x8848C6 xF2263F x02C052 x3D3ED8 xF0CA34 x142AEF xCFB481 x83D701 }
+			}
+		}		
+	}	
 
 	option = {
 		name = journal_flavor_chile.17.a
-		default_option = yes
 
-    c:BOL = {
-        create_diplomatic_pact = {
-            country = c:CHL
-            type = confederation
-            }
+        create_diplomatic_play = {
+            name = araucania_pacification
+            target_state = s:STATE_LOS_RIOS.region_state:PAT
+
+            war = no
+
+            type = dp_return_state
         }
 
-		add_radicals = {
-			value = 0.15		
-		}
-	}
-
-	option = {
-		name = journal_flavor_chile.17.b
-
-		c:CHL = {
-		    change_relations = {
-			    country = c:BOL
-			    value = -10
-		    }
-
 		add_loyalists = {
-			value = 0.05	
-			}
-
-       create_diplomatic_pact = {
-            country = c:BOL
-            type = defensive_pact
-            }				
-		}
+			value = 0.05
+		}		    
 	}
-}	
-
-journal_flavor_chile.18 = {
-	type = country_event
-	placement = ROOT
-
-	title = journal_flavor_chile.18.t
-	desc = journal_flavor_chile.18.d
-	flavor = journal_flavor_chile.18.f
-
-	duration = 3
-
-	immediate = {
-		c:CHL = {
-			save_scope_as = chl_scope
-		}		
-	}
-
-	event_image = {
-		video = "gfx/event_pictures/middleeast_courtroom_upheaval.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/middleeast/courtroom_upheaval"
-
-	icon = "gfx/interface/icons/event_icons/event_scales.dds"
-
-	option = {
-		name = journal_flavor_chile.18.a
-
-		hidden_effect = {
-            scope:portales_scope = {
-                    kill_character = yes
-                }
-            }    
-
-    add_radicals = {
-		value = 0.1
-	}
-
-    add_modifier = {
-        name = portales_executed
-		 months = normal_modifier_time
-	 }	
-}	
-
-	option = {
-		name = journal_flavor_chile.18.b
-		default_option = yes
-
-		add_radicals = {
-			value = 0.15	
-			}
-
-		hidden_effect = {
-            scope:portales_scope = {
-                    kill_character = yes
-                }
-		    }			
-
-            add_modifier = {
-                name = portales_exiled
-			    months = normal_modifier_time
-		        }
-		    }
-	    }
+}
