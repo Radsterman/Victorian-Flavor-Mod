@@ -1,0 +1,209 @@
+﻿je_progress_siege_button = {
+	name = je_progress_siege_button
+	desc = je_progress_siege_button_desc
+
+	visible = { 
+		always = yes
+	}
+
+	possible = {
+		scope:journal_entry = {
+			not = {
+				custom_tooltip = {
+					text = progress_siege_cooldown_tt
+					has_variable = progress_siege_cooldown_var
+				}
+			}
+		}
+		scope:journal_entry = {
+			not = {
+				custom_tooltip = {
+					text = herat_trenches_established_var_tt
+					has_variable = herat_trenches_var
+				}
+			}
+		}
+	}
+
+	effect = {
+		custom_tooltip = {
+			text = progress_siege_advance_20
+			change_variable = { name = herat_siege_progress_var add = 20 }
+		}
+		scope:journal_entry = {
+			custom_tooltip = cooldown_30_days_tt
+			set_variable = { name = progress_siege_cooldown_var days = 30 }
+			set_variable = { name = herat_trenches_var days = 360 }
+		}
+		c:GBR = {
+			change_relations = {
+				country = ROOT
+				value = -15
+			}
+		}
+		c:RUS = {
+			change_relations = {
+				country = ROOT
+				value = 5
+			}
+		}
+	}
+
+	ai_chance = {
+		base = 100
+	}
+}
+
+je_progress_siege_button_two = {
+	name = je_progress_siege_button_two
+	desc = je_progress_siege_button_two_desc
+
+	visible = { 
+		always = yes
+	}
+
+	possible = {
+		custom_tooltip = {
+			text = herat_siege_progress_at_40_tt
+			var:herat_siege_progress_var >= 40
+		}
+		scope:journal_entry = {
+			not = {
+				custom_tooltip = {
+					text = progress_siege_cooldown_tt
+					has_variable = progress_siege_cooldown_var
+				}
+			}
+		}
+		scope:journal_entry = {
+			custom_tooltip = {
+				text = herat_trenches_var_tt
+				has_variable = herat_trenches_var
+			}
+		}
+		scope:journal_entry = {
+			not = {
+				custom_tooltip = {
+					text = offer_kamran_terms_offered_tt
+					has_variable = offer_kamran_terms_var
+				}
+			}
+		}
+	}
+
+	effect = {
+		custom_tooltip = {
+			text = progress_siege_advance_20
+			change_variable = { name = herat_siege_progress_var add = 20 }
+		}
+		scope:journal_entry = {
+			custom_tooltip = offer_kamran_terms_tt
+			set_variable = { name = offer_kamran_terms_var days = 360 }
+		}
+		custom_tooltip = {
+			text = cooldown_30_days_tt
+			set_variable = { name = progress_siege_cooldown_var days = 30 }
+		}
+		c:GBR = {
+			change_relations = {
+				country = ROOT
+				value = 10
+			}
+		}
+		c:RUS = {
+			change_relations = {
+				country = ROOT
+				value = -5
+			}
+		}
+		hidden_effect = {
+			c:HER = { trigger_event = { id = journal_flavor_iran.4 days = 10 popup = yes } }
+		}
+	}
+
+	ai_chance = {
+		base = 100
+	}
+}
+
+je_progress_siege_button_three = {
+	name = je_progress_siege_button_three
+	desc = je_progress_siege_button_three_desc
+
+	visible = { 
+		always = yes
+	}
+
+	possible = {
+		scope:journal_entry = {
+			not = {
+				custom_tooltip = {
+					text = progress_siege_cooldown_tt
+					has_variable = progress_siege_cooldown_var
+				}
+			}
+		}
+		scope:journal_entry = {
+			custom_tooltip = {
+				text = herat_trenches_var_tt
+				has_variable = herat_trenches_var
+			}
+		}
+	}
+
+	effect = {
+		custom_tooltip = {
+			text = progress_siege_advance_10
+			change_variable = { name = herat_siege_progress_var add = 10 }
+		}
+		scope:journal_entry = {
+			custom_tooltip = cooldown_30_days_tt
+			set_variable = { name = progress_siege_cooldown_var days = 30 }
+		}
+	}
+
+	ai_chance = {
+		base = 0
+	}
+}
+
+je_annex_herat_button = {
+	name = "je_annex_herat_button"
+	desc = "je_annex_herat_button_desc"
+
+	visible = { always = yes }
+	
+	ai_chance = {
+		base = 0
+	}
+
+	possible = {
+		custom_tooltip = {
+			text = herat_siege_progress_at_100_tt
+			var:herat_siege_progress_var >= 100
+		}
+		c:HER = {
+			is_subject_of = c:PER
+		}
+		is_at_war = no
+	}
+
+	effect = {
+		custom_tooltip = {
+			text = storming_the_city_tt
+			set_variable = { name = city_of_herat_taken days = 90 }
+		}
+		c:GBR = {
+			change_relations = {
+				country = ROOT
+				value = -20
+			}
+		}
+		c:RUS = {
+			change_relations = {
+				country = ROOT
+				value = 10
+			}
+		}
+	}
+}

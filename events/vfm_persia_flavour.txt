@@ -1,182 +1,36 @@
-﻿namespace = iran_abolish_autonomy
+﻿namespace = journal_flavor_iran
 
-# Start the process of centralizing
-iran_abolish_autonomy.1 = {
+# The Siege of Herat
+journal_flavor_iran.1 = {
 	type = country_event
 	placement = ROOT
 
-	title = iran_abolish_autonomy.1.t
-	desc = iran_abolish_autonomy.1.d
-	flavor = iran_abolish_autonomy.1.f
+	title = journal_flavor_iran.1.t
+	desc = journal_flavor_iran.1.d
+	flavor = journal_flavor_iran.1.f
 
 	event_image = {
-		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+		video = "gfx/event_pictures/middleeast_battlefield_trenches.bk2"
 	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
-
-	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
-
-	duration = 3
-
-	immediate = {
-		set_variable = centralizing_persia
-	}
-
-	option = {
-		name = iran_abolish_autonomy.1.a
-		default_option = yes
-		ai_chance = {
-			base = 1
-		}
-
-		add_journal_entry = {
-			type = je_persia_integrate_khans
-		}
-		add_journal_entry = {
-			type = je_persia_reclaim_coast
-		}
-		add_journal_entry = {
-			type = je_persia_integrate_qaenat
-		}
-		add_journal_entry = {
-			type = je_persia_integrate_herat
-		}
-	}
-}
-
-# Inherit Khanates and Emirates Event
-iran_abolish_autonomy.2 = {
-	type = country_event
-	placement = ROOT
-
-	title = iran_abolish_autonomy.2.t
-	desc = iran_abolish_autonomy.2.d
-	flavor = iran_abolish_autonomy.2.f
-
-	event_image = {
-		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
-
-	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
-
-	duration = 3
-
-	cooldown = { months = 6 }
 	
-	trigger = {
-		OR = {
-			country_tier = kingdom
-			country_tier = principality
-		}
-		OR = {
-			has_variable = centralizing_persia
-			has_technology_researched = nationalism
-		}
-		any_country = {
-			trigger_if = {
-				OR = {
-					country_has_primary_culture = cu:azeri
-					country_has_primary_culture = cu:turkmen
-					country_has_primary_culture = cu:kurdish
-				}
-			}
-			has_diplomatic_pact = {
-				who = ROOT
-				type = vassal
-			}
-			OR = {
-				is_subject = no
-				is_subject_of = ROOT
-			}
-			country_rank < rank_value:major_power
-			relations:root >= relations_threshold:amicable
-			is_player = no
-		}
-	}
-
 	immediate = {
-		random_country = {
-			limit = {
-				trigger_if = {
-					limit = {
-						ROOT = {
-							has_technology_researched = nationalism
-						}
-					}
-					OR = {
-						country_has_primary_culture = cu:kurdish
-						country_has_primary_culture = cu:azeri
-						country_has_primary_culture = cu:turkmen
-					}
-				}
-				trigger_else_if = {
-					limit = {
-						ROOT = {
-							has_variable = centralizing_persia
-						}
-					}
-					OR = {
-						country_has_primary_culture = cu:kurdish
-						country_has_primary_culture = cu:azeri
-						country_has_primary_culture = cu:turkmen
-					}
-				}
-				has_diplomatic_pact = {
-					who = ROOT
-					type = vassal
-				}
-				OR = {
-					is_subject = no
-					is_subject_of = ROOT
-				}
-				country_rank < rank_value:major_power
-				is_player = no
-			}
-			save_scope_as = persian_annex_country
+		c:HER = {
+			save_scope_as = her_scope
 		}
-	}
-
-	option = {
-		name = iran_abolish_autonomy.2.a
-		default_option = yes
-		annex = scope:persian_annex_country
-		ai_chance = {
-			base = 1
+		c:PER = {
+			save_scope_as = per_scope
 		}
-	}
-}
-
-# Weeeee
-iran_flavour_wip.1 = {
-	type = country_event
-	placement = ROOT
-
-	title = iran_flavour_wip.1.t
-	desc = iran_flavour_wip.1.d
-	flavor = iran_flavour_wip.1.f
-
-	event_image = {
-		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
 
-	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+	icon = "gfx/interface/icons/event_icons/event_herat_map.dds"
 
 	duration = 3
 
-	immediate = {
-		set_variable = centralizing_persia
-	}
-
 	option = {
-		name = iran_flavour_wip.1.a
+		name = journal_flavor_iran.1.a
 		default_option = yes
 		ai_chance = {
 			base = 1
@@ -184,33 +38,609 @@ iran_flavour_wip.1 = {
 	}
 }
 
-# pain
-iran_flavour_wip.2 = {
+# Successful Siege
+journal_flavor_iran.2 = {
 	type = country_event
 	placement = ROOT
 
-	title = iran_flavour_wip.2.t
-	desc = iran_flavour_wip.2.d
-	flavor = iran_flavour_wip.2.f
+	title = journal_flavor_iran.2.t
+	desc = journal_flavor_iran.2.d
+	flavor = journal_flavor_iran.2.f
 
 	event_image = {
-		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+		video = "gfx/event_pictures/middleeast_courtroom_upheaval.bk2"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
 
-	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+	icon = "gfx/interface/icons/event_icons/event_herat_map.dds"
 
 	duration = 3
 
-	immediate = {
-		set_variable = centralizing_persia
+	option = {
+		name = journal_flavor_iran.2.a
+		default_option = yes
+		
+		custom_tooltip = {
+			text = integrate_herat_iran_tt
+			set_variable = integrated_herat_iran
+		}
+		
+		ai_chance = {
+			base = 1
+		}
+	}
+}
+
+# Failed Siege
+journal_flavor_iran.3 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_iran.3.t
+	desc = journal_flavor_iran.3.d
+	flavor = journal_flavor_iran.3.f
+
+	event_image = {
+		video = "gfx/event_pictures/middleeast_battlefield_trenches.bk2"
 	}
 
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_herat_map.dds"
+
+	duration = 3
+
 	option = {
-		name = iran_flavour_wip.2.a
+		name = journal_flavor_iran.3.a
 		default_option = yes
+		
+		
+		ai_chance = {
+			base = 1
+		}
+	}
+	
+	option = {
+		name = journal_flavor_iran.3.b
+		
+		add_modifier = {
+			name = per_revoked_claims
+			years = 20
+		}
+		custom_tooltip = {
+			text = integrate_herat_iran_tt
+			set_variable = integrated_herat_iran
+		}
+		
+		ai_chance = {
+			base = 1
+		}
+	}
+}
+
+# Offer Kamran Terms # Herat Perspective
+journal_flavor_iran.4 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_iran.4.t
+	desc = journal_flavor_iran.4.d
+	flavor = journal_flavor_iran.4.f
+
+	event_image = {
+		video = "gfx/event_pictures/middleeast_battlefield_trenches.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_herat_map.dds"
+
+	duration = 1
+
+	option = { #Decline
+		name = journal_flavor_iran.4.a
+		default_option = yes
+		
+		custom_tooltip = request_british_support_herat_tt
+		
+		hidden_effect = {
+			c:GBR = { trigger_event = { id = journal_flavor_iran.9 days = 7 popup = yes } }
+			c:PER = { trigger_event = { id = journal_flavor_iran.6 days = 10 popup = yes } }
+		}
+		
+		ai_chance = {
+			base = 100
+		}
+	}
+	
+	option = { #Accept
+		name = journal_flavor_iran.4.b
+		
+		custom_tooltip = herat_game_over_tt
+		
+		hidden_effect = {
+			c:PER = { trigger_event = { id = journal_flavor_iran.5 days = 10 popup = yes } }
+		}
+		
+		ai_chance = {
+			base = 20
+		}
+	}
+}
+
+# Offer Kamran Terms # Persia Perspective # He Accepted
+journal_flavor_iran.5 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_iran.5.t
+	desc = journal_flavor_iran.5.d
+	flavor = journal_flavor_iran.5.f
+
+	event_image = {
+		video = "gfx/event_pictures/middleeast_upperclass_party.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_herat_map.dds"
+
+	duration = 3
+
+	option = {
+		name = journal_flavor_iran.5.a
+		default_option = yes
+		
+		custom_tooltip = {
+			text = herat_given_up_tt
+			set_variable = { name = city_of_herat_given_up days = 90 }
+		}
+		add_modifier = {
+			name = per_pension_payments
+			days = 3650
+		}
+		
+		ai_chance = {
+			base = 1
+		}
+	}
+	
+	option = {
+		name = journal_flavor_iran.5.b
+			
+		custom_tooltip = {
+			text = decrease_siege_advance_20
+			change_variable = { name = herat_siege_progress_var add = -20 }
+		}
+		
+		ai_chance = {
+			base = 1
+		}
+	}
+}
+
+# Offer Kamran Terms # Persia Perspective # He Declined
+journal_flavor_iran.6 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_iran.6.t
+	desc = journal_flavor_iran.6.d
+	flavor = journal_flavor_iran.6.f
+
+	event_image = {
+		video = "gfx/event_pictures/middleeast_courtroom_upheaval.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_khorasan.dds"
+
+	duration = 3
+
+	option = {
+		name = journal_flavor_iran.6.a
+		default_option = yes
+		
+		custom_tooltip = {
+			text = decrease_siege_advance_20
+			change_variable = { name = herat_siege_progress_var add = -20 }
+		}
+		
+		ai_chance = {
+			base = 1
+		}
+	}
+}
+
+# Aimaq Raids
+journal_flavor_iran.7 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_iran.7.t
+	desc = journal_flavor_iran.7.d
+	flavor = journal_flavor_iran.7.f
+
+	event_image = {
+		video = "gfx/event_pictures/middleeast_islam.bk2"
+	}
+	
+	immediate = {
+		c:HER = {
+			save_scope_as = her_scope
+		}
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_khorasan.dds"
+
+	duration = 1
+
+	option = {
+		name = journal_flavor_iran.7.a
+		default_option = yes
+		
+		custom_tooltip = {
+			text = decrease_siege_advance_10
+			change_variable = { name = herat_siege_progress_var add = -10 }
+		}
+		
+		ai_chance = {
+			base = 1
+		}
+	}
+}
+
+# Hazara Raids
+journal_flavor_iran.8 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_iran.8.t
+	desc = journal_flavor_iran.8.d
+	flavor = journal_flavor_iran.8.f
+
+	event_image = {
+		video = "gfx/event_pictures/middleeast_islam.bk2"
+	}
+
+	immediate = {
+		c:HER = {
+			save_scope_as = her_scope
+		}
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_khorasan.dds"
+
+	duration = 1
+
+	option = {
+		name = journal_flavor_iran.8.a
+		default_option = yes
+		
+		custom_tooltip = {
+			text = decrease_siege_advance_20
+			change_variable = { name = herat_siege_progress_var add = -20 }
+		}
+		
+		ai_chance = {
+			base = 1
+		}
+	}
+}
+
+# The Persians are besieging Herat
+journal_flavor_iran.9 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_iran.9.t
+	desc = journal_flavor_iran.9.d
+	flavor = journal_flavor_iran.9.f
+
+	event_image = {
+		video = "gfx/event_pictures/middleeast_battlefield_trenches.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_herat_map.dds"
+
+	duration = 1
+
+	option = { #Tell the Persians to stop being so mean to the Durrani
+		name = journal_flavor_iran.9.a
+		default_option = yes
+		
+		custom_tooltip = british_going_to_intervene_one_tt
+		custom_tooltip = british_going_to_intervene_two_tt
+		
+		hidden_effect = {
+			c:PER = { trigger_event = { id = journal_flavor_iran.10 days = 7 popup = yes } }
+		}
+		
+		ai_chance = {
+			base = 100
+		}
+	}
+	
+	option = { #We don't care
+		name = journal_flavor_iran.9.b
+		
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+# The British Demands
+journal_flavor_iran.10 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_iran.10.t
+	desc = journal_flavor_iran.10.d
+	flavor = journal_flavor_iran.10.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_naval_battle.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_helmet.dds"
+
+	immediate = {
+		c:PER = {
+			set_variable = { name = british_intervention_in_iran days = 30 }
+		}
+	}
+
+	duration = 1
+
+	option = { #Accept the demands
+		name = journal_flavor_iran.10.a
+		
+		add_modifier = {
+			name = per_caved_to_foreign_demands
+			days = 3650
+		}
+		if = {
+			limit = { 
+				has_law = law_type:law_slave_trade
+			}
+			activate_law = law_type:law_legacy_slavery
+		}
+		
+		c:PER = { trigger_event = { id = journal_flavor_iran.3 } }
+		
+		set_variable = { name = british_intervention_in_iran days = 30 }
+		
+		ai_chance = {
+			base = 50
+		}
+	}
+	
+	option = { #We don't care
+		name = journal_flavor_iran.10.b
+		default_option = yes
+		
+		custom_tooltip = british_intervention_diplo_play_tt
+		
+		hidden_effect = {
+			c:PER = {
+				create_diplomatic_play = {
+					name = herat_war
+					escalation = 80
+					target_country = c:HER
+					type = dp_annex_war
+					target_state = s:STATE_WESTERN_AFGHANISTAN.region_state:HER
+					
+					add_target_backers = { c:GBR }
+					add_target_backers = { c:BIC }
+
+					add_war_goal = {
+						holder = c:HER
+						type = independence
+						target_country = c:PER
+					}
+					
+					add_war_goal = {
+						holder = c:PER
+						type = war_reparations
+						target_country = c:BIC
+					}
+					
+					add_war_goal = {
+						holder = c:PER
+						type = force_recognition
+						target_country = c:GBR
+					}
+					
+					add_war_goal = {
+						holder = c:GBR
+						type = ban_slavery
+						target_country = c:PER
+					}
+					
+					add_war_goal = {
+						holder = c:BIC
+						type = open_market
+						target_country = c:PER
+					}
+					
+				}
+			}
+		}
+		
+		set_variable = { name = british_intervention_in_iran days = 30 }
+		
+		ai_chance = {
+			base = 50
+		}
+	}
+}
+
+# The Revolt of Hasan Khan Salar
+journal_flavor_iran.11 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_iran.11.t
+	desc = journal_flavor_iran.11.d
+	flavor = journal_flavor_iran.11.f
+
+	event_image = {
+		video = "gfx/event_pictures/middleeast_courtroom_upheaval.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
+
+	duration = 3
+
+	option = {
+		name = journal_flavor_iran.11.a
+		default_option = yes
+		ai_chance = {
+			base = 1
+		}
+	}
+}
+
+# The Revolt of the Luti
+journal_flavor_iran.12 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_iran.12.t
+	desc = journal_flavor_iran.12.d
+	flavor = journal_flavor_iran.12.f
+
+	event_image = {
+		video = "gfx/event_pictures/middleeast_battlefield_trenches.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
+
+	duration = 3
+
+	option = {
+		name = journal_flavor_iran.12.a
+		default_option = yes
+		
+		ai_chance = {
+			base = 1
+		}
+	}
+
+}
+
+# The Persian Constitutional Revolution
+journal_flavor_iran.13 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_iran.13.t
+	desc = journal_flavor_iran.13.d
+	flavor = journal_flavor_iran.13.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_military_parade.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_republican_dawn.dds"
+
+	duration = 3
+
+	option = {
+		name = journal_flavor_iran.13.a
+		default_option = yes
+		
+		set_variable = persian_constitution_has_been_adopted
+		
+		ai_chance = {
+			base = 1
+		}
+	}
+}
+
+# The Fall of the Qajars
+journal_flavor_iran.40 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_iran.40.t
+	desc = journal_flavor_iran.40.d
+	flavor = journal_flavor_iran.40.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_military_parade.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_republican_dawn.dds"
+
+	duration = 1
+
+	option = { 
+		name = journal_flavor_iran.40.a
+		default_option = yes
+		
+		ai_chance = {
+			base = 1
+		}
+	}
+}
+
+# The Fall of the Qajars
+journal_flavor_iran.50 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_iran.50.t
+	desc = journal_flavor_iran.50.d
+	flavor = journal_flavor_iran.50.f
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_art_gallery.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_republican_dawn.dds"
+
+	duration = 1
+
+	option = { 
+		name = journal_flavor_iran.50.a
+		default_option = yes
+		
 		ai_chance = {
 			base = 1
 		}
