@@ -1,10 +1,6 @@
 ﻿je_qajar_situation = {
 	icon = "gfx/interface/icons/event_icons/event_fragile_authority.dds"
-    group = je_group_internal_affairs
-	
-	is_shown_when_inactive = {
-		country_has_primary_culture = cu:persian
-	}
+    group = je_group_historical_content
 
 	immediate = {
 		c:PER = {
@@ -16,7 +12,10 @@
 		c:ZFL = {
 			save_scope_as = zfl_scope
 		}
-		c:JLR = {
+		c:ARD = {
+			save_scope_as = ard_scope
+		}
+		c:JEL = {
 			save_scope_as = jlr_scope
 		}
 		every_state = {
@@ -68,7 +67,13 @@
 						exists = c:ZFL
 					}
 					NOT = {
-						exists = c:JLR
+						exists = c:ARB
+					}
+					NOT = {
+						exists = c:ARD
+					}
+					NOT = {
+						exists = c:JEL
 					}
 				}
 			}
@@ -131,6 +136,7 @@
 		custom_tooltip = {
 			text = trigger_event_fall_of_the_qajars_tt
 			remove_modifier = per_fragile_authority
+			remove_variable = qajar_dynasty
 			add_modifier = {
 				name = per_fragile_authority
 				days = 7000
@@ -151,7 +157,17 @@
 
 je_iran_constitution = {
 	icon = "gfx/interface/icons/event_icons/event_constitutional.dds"
-    group = je_group_internal_affairs
+    group = je_group_historical_content
+
+	is_shown_when_inactive = {
+		exists = c:PER
+		this = c:PER
+	}
+	
+	possible = {
+		has_technology_researched = egalitarianism
+		has_technology_researched = empiricism
+	}
 
 	can_deactivate = yes
 
@@ -290,7 +306,7 @@ je_herat_situation = {
 
 je_the_siege_of_herat = {
 	icon = "gfx/interface/icons/event_icons/event_herat_map.dds"
-    group = je_group_internal_affairs
+    group = je_group_crises
 
 	immediate = {
 		c:HER = {

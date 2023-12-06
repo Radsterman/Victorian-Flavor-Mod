@@ -1,42 +1,45 @@
-﻿je_khorasan_situation = {
+﻿je_khorasan_situation_zfl = {
 	icon = "gfx/interface/icons/event_icons/event_khorasan.dds"
     group = je_group_internal_affairs
-	
-	is_shown_when_inactive = {
 
-	}
-
-	immediate = {
-	
-	}
-	
-	possible = {
-	
+	invalid = {
+		NOT = { exists = c:SDL }
 	}
 
 	can_deactivate = yes
 
 	complete = {
-	}
-
-	invalid = {
-	
-	}
-	
-	fail = {
-
-	}
-	
-	on_weekly_pulse = {
-
+		c:ZFL ?= {
+			c:SDL.relations:ROOT > relations_threshold:cordial
+		}
 	}
 	
 	on_complete = {
+		trigger_event = { id = journal_flavor_iran.21 popup = yes }
+	}
 
+    weight = 10000
+	should_be_pinned_by_default = yes
+}
+
+je_khorasan_situation_sdl = {
+	icon = "gfx/interface/icons/event_icons/event_khorasan.dds"
+    group = je_group_internal_affairs
+
+	invalid = {
+		NOT = { exists = c:ZFL }
+	}
+
+	can_deactivate = yes
+
+	complete = {
+		c:SDL ?= {
+			c:ZFL.relations:ROOT > relations_threshold:cordial
+		}
 	}
 	
-	on_fail = {
-
+	on_complete = {
+		trigger_event = { id = journal_flavor_iran.21 popup = yes }
 	}
 
     weight = 10000
