@@ -134,13 +134,18 @@ je_1881_treaty = {
 	    }
 
 	complete = {
-        c:ARG = {
-            owns_entire_state_region = STATE_PATAGONIA
-		}
-        c:CHL = {
-            owns_entire_state_region = STATE_ARAUCANIA
-		}		
-	}	
+        any_state = {
+            every_state = {
+            limit = {
+                AND = {
+                    state_region = s:STATE_ARAUCANIA
+                    state_region = s:STATE_PATAGONIA
+                    }
+                }
+         NOT = { scope:owner = { is_decentralized = yes } }
+            }
+        }
+    }
 
 	on_complete = {
 	    c:CHL = {
@@ -154,6 +159,7 @@ je_1881_treaty = {
         c:ARG = {
             owns_entire_state_region = STATE_ARAUCANIA
 		}
+		NOT = { exists = c:CHL }
 	}
     should_be_pinned_by_default = no
 	weight = 100
