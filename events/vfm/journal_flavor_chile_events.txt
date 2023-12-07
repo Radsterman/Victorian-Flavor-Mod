@@ -599,6 +599,70 @@ journal_flavor_chile.10 = {
 	        }
         }
 
+journal_flavor_chile.11 = { #joven daniel shiprwreck
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_chile.11.t
+	desc = journal_flavor_chile.11.d
+	flavor = journal_flavor_chile.11.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/state_pictures/ocean.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds" 
+
+	immediate = {
+	    s:STATE_LOS_RIOS = {
+            random_scope_state = {
+                limit = {
+                    owner = {
+                        c:CHL = THIS
+                    }
+                }
+                save_scope_as = concepcion_state
+            }
+        }
+    }    
+
+	trigger = {
+	    any_scope_state = {
+		    any_neighbouring_state = {
+		 	    owner = {
+		 		    is_country_type = decentralized
+		 		    country_has_primary_culture = cu:patagonian
+		 	    }
+		    }
+	    }
+	    exists = c:CHL
+		root= c:CHL
+		NOT = {
+			has_variable = joven_daniel
+		}		
+    }
+
+	option = {
+		default_option = yes
+		name = journal_flavor_chile.11.a	
+
+            scope:concepcion_state = {
+            add_modifier = {
+                name = anti_mapuche
+			    months = normal_modifier_time
+		        }	
+	        }
+	        hidden_effect = {
+	            set_variable = joven_daniel
+	        }    
+        }
+    }    
+
 journal_flavor_chile.13  = {
 	type = country_event
 	placement = ROOT
