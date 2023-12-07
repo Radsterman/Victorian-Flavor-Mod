@@ -1,0 +1,70 @@
+﻿namespace = journal_flavor_patagonia.1 
+
+journal_flavor_patagonia.1 = { #malon!
+	type = state_event
+	placement = scope:patagonia_state
+
+	title = journal_flavor_patagonia.1.t
+	desc = journal_flavor_patagonia.1.d
+	flavor = journal_flavor_patagonia.1.f
+
+	duration = 3
+    cooldown = { months = long_modifier_time }		
+
+	event_image = {
+		video = "europenorthamerica_native_american"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/native_american"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"		
+
+	trigger = {
+	    any_scope_state = {
+		    any_neighbouring_state = {
+		 	    owner = {
+		 		    is_country_type = decentralized
+		 		    country_has_primary_culture = cu:patagonian
+		 	    }
+		    }
+	    }
+    }
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				any_neighbouring_state = {
+					owner = {
+						is_country_type = decentralized
+						country_has_primary_culture = cu:patagonian
+					}
+				}
+			}				
+			save_scope_as = patagonia_state
+			random_neighbouring_state = {
+				limit = {
+					owner = {
+						is_country_type = decentralized
+					}
+				}
+				owner = {
+					save_scope_as = patagonia_country
+				}
+			}
+		}
+	}  	
+
+	option = {
+		default_option = yes
+		name = journal_flavor_patagonia.1.a	
+
+			scope:patagonia_state = {
+			add_devastation = 5  
+            add_modifier = {
+			    name = malon_attack
+			    months = 25
+		        }	       
+			}		        
+	    }
+	}		     
