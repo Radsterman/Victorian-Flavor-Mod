@@ -341,7 +341,7 @@ journal_flavor_iran.8 = {
 	}
 }
 
-# The Persians are besieging Herat
+# The Persians are besieging Herat # British Perspective
 journal_flavor_iran.9 = {
 	type = country_event
 	placement = ROOT
@@ -386,7 +386,7 @@ journal_flavor_iran.9 = {
 	}
 }
 
-# The British Demands
+# The British Demands # Persia Perspective
 journal_flavor_iran.10 = {
 	type = country_event
 	placement = ROOT
@@ -495,7 +495,7 @@ journal_flavor_iran.10 = {
 	}
 }
 
-# The Revolt of Hasan Khan Salar
+# Hasan Khan Salar appointed governor
 journal_flavor_iran.11 = {
 	type = country_event
 	placement = ROOT
@@ -511,15 +511,90 @@ journal_flavor_iran.11 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
 
-	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
+	icon = "gfx/interface/icons/event_icons/event_centralization.dds"
 
+	trigger = {
+		has_journal_entry = je_qajar_situation
+		game_date >= 1845.1.1
+		c:PER = { NOT = { has_variable = hasan_governor_var  } }
+	}
+
+	immediate = {
+		set_variable = hasan_governor_var
+	}
+	
 	duration = 3
 
-	option = {
+	option = { #Send him to Khorasan
 		name = journal_flavor_iran.11.a
 		default_option = yes
+		
+		hidden_effect = {
+			if = {
+				limit = {
+					exists = c:SDL
+				}
+				c:SDL = { trigger_event = { id = journal_flavor_iran.14 days = 365 popup = yes } }
+			}
+		}
+		
+		every_state = {
+			limit = {
+				state_region = s:STATE_KHORASAN
+			}
+		
+			add_modifier = {
+				name = per_hasan_governor_modifier
+				days = 3650
+			}
+		}
+		
 		ai_chance = {
-			base = 1
+			base = 100
+		}
+	}
+	
+	option = { #Send him to Fars
+		name = journal_flavor_iran.11.b
+		trigger = {
+			has_law = law_type:law_federal
+		}
+		
+		every_state = {
+			limit = {
+				state_region = s:STATE_FARS
+			}
+		
+			add_modifier = {
+				name = per_hasan_governor_modifier
+				days = 3650
+			}
+		}
+		
+		ai_chance = {
+			base = 20
+		}
+	}
+	
+	option = { #Send him to Tabriz
+		name = journal_flavor_iran.11.c
+		trigger = {
+			has_law = law_type:law_unitary
+		}
+		
+		every_state = {
+			limit = {
+				state_region = s:STATE_TABRIZ
+			}
+		
+			add_modifier = {
+				name = per_hasan_governor_modifier
+				days = 3650
+			}
+		}
+		
+		ai_chance = {
+			base = 20
 		}
 	}
 }
@@ -542,11 +617,32 @@ journal_flavor_iran.12 = {
 
 	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
 
+	trigger = {
+		has_journal_entry = je_the_siege_of_herat
+		c:PER = { NOT = { has_variable = luti_revolt_var  } }
+		game_date >= 1838.1.1
+	}
+	
+	immediate = {
+		set_variable = luti_revolt_var
+	}
+
 	duration = 3
 
 	option = {
 		name = journal_flavor_iran.12.a
 		default_option = yes
+		
+		every_state = {
+			limit = {
+				state_region = s:STATE_ISFAHAN
+			}
+		
+			add_modifier = {
+				name = per_luti_uprising
+				days = 1800
+			}
+		}
 		
 		ai_chance = {
 			base = 1
@@ -571,7 +667,7 @@ journal_flavor_iran.13 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
 
-	icon = "gfx/interface/icons/event_icons/event_republican_dawn.dds"
+	icon = "gfx/interface/icons/event_icons/event_iran_flag.dds"
 
 	duration = 3
 
@@ -586,6 +682,200 @@ journal_flavor_iran.13 = {
 		}
 	}
 }
+
+# Hasan Offers an Alliance to Revolt against the Qajars # Shadilu Perspective
+journal_flavor_iran.14 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_iran.14.t
+	desc = journal_flavor_iran.14.d
+	flavor = journal_flavor_iran.14.f
+
+	event_image = {
+		video = "gfx/event_pictures/middleeast_battlefield_trenches.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_khorasan.dds"
+
+	duration = 1
+
+	option = { #Boy we cookin'
+		name = journal_flavor_iran.14.a
+		default_option = yes
+		
+		if = {
+			limit = {
+				NOT = { has_modifier = khorasani_raiders }
+			}
+			add_modifier = { name = khorasani_raiders days = 7000 }
+		}
+		
+		custom_tooltip = {
+			text = trigger_hasan_khan_revolt_tt
+			if = {
+				limit = {
+					exists = c:ZFL
+				}
+				c:ZFL = { trigger_event = { id = journal_flavor_iran.15 days = 2 popup = yes } }
+			}
+			c:PER = { trigger_event = { id = journal_flavor_iran.16 days = 14 popup = yes } }
+		}
+		
+		ai_chance = {
+			base = 1
+		}
+	}
+
+}
+
+# Join Hasan and the Shadilu # Zafaranlu Perspective // Ahistorical, the Quchan Emirate lasted till the late 1800's, but I cant be bothered to add that much flavour
+journal_flavor_iran.15 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_iran.15.t
+	desc = journal_flavor_iran.15.d
+	flavor = journal_flavor_iran.15.f
+
+	event_image = {
+		video = "gfx/event_pictures/middleeast_battlefield_trenches.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_khorasan.dds"
+
+	duration = 1
+
+	option = { #Zafaranlu will get itself killed 100% of the time for my sanity's sake
+		name = journal_flavor_iran.15.a
+		default_option = yes
+		
+		if = {
+			limit = {
+				NOT = { has_modifier = khorasani_raiders }
+			}
+			add_modifier = { name = khorasani_raiders days = 7000 }
+		}
+		
+		custom_tooltip = {
+			text = we_wanna_die_zfl_tt
+			set_variable = {
+				name = join_hasan_revolt_var
+				days = 365
+			}
+		}
+		
+		ai_chance = {
+			base = 100
+		}
+	}
+	
+	option = { #Boring option for the player if they wanna do Khorasan gaming
+		name = journal_flavor_iran.15.b
+		
+		ai_chance = {
+			base = 0
+		}
+	}
+
+}
+
+# Revolt of Hasan Khan Salar
+journal_flavor_iran.16 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_iran.16.t
+	desc = journal_flavor_iran.16.d
+	flavor = journal_flavor_iran.16.f
+
+	event_image = {
+		video = "gfx/event_pictures/middleeast_battlefield_trenches.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
+
+	immediate = {
+		c:SDL = {
+			make_independent = yes
+		}
+		if = {
+			limit = {
+				exists = c:ZFL
+				c:ZFL = { has_variable = join_hasan_revolt_var }
+			}
+			c:ZFL = {
+				make_independent = yes
+				remove_variable = join_hasan_revolt_var
+				c:SDL = { 
+					annex = c:ZFL 
+					set_variable = become_khorasan_var
+				}
+			}
+		}
+		if = {
+			limit = {
+				NOT = { exists = c:ZFL }
+			}
+			c:SDL = { 
+				set_variable = become_khorasan_var
+			}
+		}
+		c:PER = {
+			create_diplomatic_play = {
+				name = hasan_khan_salar_revolt
+				escalation = 80
+				target_country = c:SDL
+				type = dp_annex_war
+				target_state = s:STATE_KHORASAN.region_state:SDL
+					
+				add_war_goal = {
+					holder = c:SDL
+					type = conquer_state
+					target_state = s:STATE_KHORASAN.region_state:PER
+					target_country = c:PER
+				}	
+					
+				add_war_goal = {
+					holder = c:SDL
+					type = war_reparations
+					target_country = c:PER
+				}
+			}	
+		}
+		every_state = {
+			limit = {
+				has_modifier = per_hasan_governor_modifier
+			}
+			remove_modifier = per_hasan_governor_modifier
+		}
+	}
+
+	duration = 3
+
+	option = { #That Rat!
+		name = journal_flavor_iran.16.a
+		default_option = yes
+			
+		ai_chance = {
+			base = 1
+		}
+	}
+
+}
+
+### Kurdish Flavour ###
+
+##Kurdish Khorasan Flavour
 
 # Rise of Khorasan
 journal_flavor_iran.21 = {
@@ -693,7 +983,7 @@ journal_flavor_iran.50 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
 
-	icon = "gfx/interface/icons/event_icons/event_republican_dawn.dds"
+	icon = "gfx/interface/icons/event_icons/event_iran_flag.dds"
 
 	duration = 1
 

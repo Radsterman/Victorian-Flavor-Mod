@@ -28,10 +28,6 @@
 			}
 		}
 	}
-	
-	possible = {
-	
-	}
 
 	can_deactivate = yes
 
@@ -57,32 +53,30 @@
 		}
 		custom_tooltip = {
 			text = integrated_khorasan_kurds_iran_tt
-			OR = {
-				has_variable = integrated_khanate_subjects
-				AND = {
-					NOT = {
-						exists = c:SDL
-					}
-					NOT = {
-						exists = c:ZFL
-					}
-					NOT = {
-						exists = c:ARB
-					}
-					NOT = {
-						exists = c:ARD
-					}
-					NOT = {
-						exists = c:JEL
-					}
-				}
+			NOT = {
+				exists = c:SDL
+			}
+			NOT = {
+				exists = c:ZFL
+			}
+			NOT = {
+				exists = c:ARB
+			}
+			NOT = {
+				exists = c:ARD
+			}
+			NOT = {
+				exists = c:JEL
 			}
 		}
 		custom_tooltip = {
 			text = integrated_khozeimeh_iran_tt
-			NOT = {
-				any_state = {
-					has_modifier = per_khozeimeh_amirdom
+			OR = {
+				NOT = { has_state_in_state_region = STATE_KHORASAN }
+				NOT = {
+					any_state = {
+						has_modifier = per_khozeimeh_amirdom
+					}
 				}
 			}
 		}
@@ -105,22 +99,18 @@
 		}
 		country_rank >= rank_value:major_power
 	}
-
-	invalid = {
-	
-	}
 	
 	fail = {
 		NOT = { has_law = law_type:law_monarchy }
 	}
 	
-	on_weekly_pulse = {
-		if = {
-			limit = {
-				NOT = { has_variable = integrated_khorasan_kurds }
-				year > 1847
-			}
-			c:PER = { trigger_event = { id = journal_flavor_iran.11 popup = yes } }
+	on_monthly_pulse = {
+		effect = {
+		
+		}
+		events = {
+			journal_flavor_iran.11
+			journal_flavor_iran.12
 		}
 	}
 	
@@ -128,6 +118,8 @@
 		custom_tooltip = {
 			text = trigger_event_the_qajar_century_tt
 			remove_modifier = per_fragile_authority
+			remove_variable = hasan_governor_var 
+			remove_variable = luti_revolt_var
 			trigger_event = { id = journal_flavor_iran.50 popup = yes }
 		}
 	}
@@ -137,6 +129,8 @@
 			text = trigger_event_fall_of_the_qajars_tt
 			remove_modifier = per_fragile_authority
 			remove_variable = qajar_dynasty
+			remove_variable = hasan_governor_var 
+			remove_variable = luti_revolt_var
 			add_modifier = {
 				name = per_fragile_authority
 				days = 7000
