@@ -137,15 +137,14 @@ je_1881_treaty = {
         any_state = {
             every_state = {
             limit = {
-                AND = {
                     state_region = s:STATE_ARAUCANIA
                     state_region = s:STATE_PATAGONIA
                     }
-                }
-         NOT = { scope:owner = { is_decentralized = yes } }
+                    NOT = { scope:owner = { is_decentralized = yes } }
             }
         }
     }
+}    
 
 	on_complete = {
 	    c:CHL = {
@@ -272,116 +271,72 @@ je_codigo_civil = {
 	weight = 100
 }
 
-je_granaderos = {
-	icon = "gfx/interface/icons/invention_icons/line_infantry.dds"
-
-	group = je_group_internal_affairs
-
-	is_shown_when_inactive = {
-		exists = c:CHL
-		root= c:CHL
-	}
-
-	complete = {
-		army_size >= 7
-		any_scope_building = {
-			is_building_type = building_barracks
-				building_has_goods_shortage = no
-				NOT = { has_active_production_method = pm_no_organization
-			}
-		}	
-		any_military_formation = {
-			filter = {
-				is_army = yes
-			}
-			any_combat_unit = {
-				has_unit_type = unit_type:combat_unit_type_lancers
-			}
-			percent >= 0.1
-		}
-	}
-
-	on_complete = {
-		show_as_tooltip = {
-            add_modifier = {
-			    name = granaderos_president
-            }
-		}	
-        trigger_event = { 
-			id = journal_flavor_chile.9
-		}		
-	}
-
-    should_be_pinned_by_default = no
-	weight = 100
-}
-
-je_araucania = {
-	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
-
-	group = je_group_historical_content	
-
-	is_shown_when_inactive = {
-		owns_entire_state_region = STATE_LOS_RIOS 
-	}
-
-    immediate = {
-	    s:STATE_LOS_RIOS = {
-            random_scope_state = {
-                limit = {
-                    owner = {
-                        c:CHL = THIS
-                    }
-                }
-                save_scope_as = araucania_state
-            }
-        }    
- 		c:PAT = {
-			save_scope_as = pat_scope	
-		}   
-        set_variable = {
-		    name = araucania_var
-		    value = 0
-        }              
-	}
-
-	scripted_button = araucania_button
-
-	complete = {
-		custom_tooltip = {
-			text = araucania_complete
-			scope:journal_entry = {
-				is_goal_complete = yes
-			}		
-	    }
-	}    
-
-	on_complete = {
-		trigger_event = { id = journal_flavor_chile.16 }
-		scope:araucania_state = {
-		    remove_modifier = Butalmapus	
-		}
-	}		
-
-	timeout = 16425		
-
-	on_timeout = {
-		trigger_event = { id = journal_flavor_chile.17 }
-		scope:araucania_state = {
-		    remove_modifier = Butalmapus	
-		}	
-	}
-
-	current_value = {
-		value = root.var:araucania_var
-	}	
-
-	goal_add_value = {
-		value = 100
-	}
-
-	progressbar = yes
-
-    should_be_pinned_by_default = yes
-	weight = 100
-}
+#je_araucania = {
+#	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+#
+#	group = je_group_historical_content	
+#
+#	is_shown_when_inactive = {
+#		owns_entire_state_region = STATE_LOS_RIOS 
+#	}
+#
+#    immediate = {
+#	    s:STATE_LOS_RIOS = {
+#            random_scope_state = {
+#               limit = {
+#                    owner = {
+#                        c:CHL = THIS
+#                    }
+#                }
+#                save_scope_as = araucania_state
+#            }
+#        }    
+# 		c:PAT = {
+#			save_scope_as = pat_scope	
+#		}   
+#        set_variable = {
+#		    name = araucania_var
+#		    value = 0
+#        }              
+#	}
+#
+#	scripted_button = araucania_button
+#
+#	complete = {
+#		custom_tooltip = {
+#			text = araucania_complete
+#			scope:journal_entry = {
+#				is_goal_complete = yes
+#			}		
+#	    }
+#	}    
+#
+#	on_complete = {
+#		trigger_event = { id = journal_flavor_chile.16 }
+#		scope:araucania_state = {
+#		    remove_modifier = Butalmapus	
+#		}
+#	}		
+#
+#	timeout = 16425		
+#
+#	on_timeout = {
+#		trigger_event = { id = journal_flavor_chile.17 }
+#		scope:araucania_state = {
+#		    remove_modifier = Butalmapus	
+#		}	
+#	}
+#
+#	current_value = {
+#		value = root.var:araucania_var
+#	}	
+#
+#	goal_add_value = {
+#		value = 100
+#	}
+#
+#	progressbar = yes
+#
+#    should_be_pinned_by_default = yes
+#	weight = 100
+#}
