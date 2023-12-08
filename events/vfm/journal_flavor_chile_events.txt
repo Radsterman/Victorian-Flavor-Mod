@@ -211,7 +211,7 @@ journal_flavor_chile.2 = {
 	}
 }
 
-journal_flavor_chile.3 = { Colonization of Punta Arenas
+journal_flavor_chile.3 = { #Colonization of Punta Arenas
 	type = country_event
 	placement = root
 
@@ -297,17 +297,13 @@ journal_flavor_chile.4  = { rapanui!!
 		custom_tooltip = journal_flavor_chile.4.a.tt
 
 		c:CHL = {
-			add_treasury = -7500
+			add_treasury = -3000
 		}
 
-		hidden_effect = {
-		    s:STATE_TAHITI = {
-			    set_owner_of_provinces = {
-				    country = c:CHL
-				    provinces = { x9A79DC }
-			    }
-		    }
-	    }
+		create_diplomatic_pact = {
+			country = c:RPN
+			type = protectorate
+		}	
     }	
 }
 
@@ -341,6 +337,31 @@ journal_flavor_chile.5 = { War of the Pacific
 	on_opened_soundeffect = "event:/SFX/Events/middleeast/battlefield_trenches"
 
 	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	trigger = {
+	    exists = c:BOL
+		exists = c:CHL
+		root= c:CHL	    
+	    c:CHL = {
+            market_capital.market = {
+			    mg:sulfur = { 
+				    market_goods_pricier > 0.25 
+			        }
+		        }
+		OR = {  				    
+			has_law = law_type:law_free_trade
+			has_law = law_type:law_protectionism
+		}
+        ig:ig_industrialists = {
+			is_powerful = yes
+			is_in_government = yes
+			}
+		}
+		NOT = { owns_entire_state_region = STATE_ANTOFAGASTA }	
+	    c:BOL = {
+			relations:root <= -30 		
+		}
+	}
 
 	option = {
 		default_option = yes
@@ -409,7 +430,7 @@ journal_flavor_chile.5 = { War of the Pacific
 	}
 }
 
-journal_flavor_chile.6 = {
+journal_flavor_chile.6 = { #ohiggins return
 	type = country_event
 	placement = ROOT
 
@@ -448,7 +469,7 @@ journal_flavor_chile.6 = {
 	}
 }	
 
-journal_flavor_chile.7 = {
+journal_flavor_chile.7 = { #silver rush
 	type = country_event
 	placement = ROOT
 
@@ -484,7 +505,7 @@ journal_flavor_chile.7 = {
 	}
 }
 
-journal_flavor_chile.8 = {
+journal_flavor_chile.8 = { #caldera railway
 	type = country_event
 	placement = ROOT
 
@@ -514,52 +535,6 @@ journal_flavor_chile.8 = {
 			name = chl_trains
 			months = long_modifier_time
         }
-	}
-}
-
-journal_flavor_chile.9 = {
-	type = country_event
-	placement = ROOT
-
-	title = journal_flavor_chile.9.t
-	desc = journal_flavor_chile.9.d
-	flavor = journal_flavor_chile.9.f
-
-	duration = 3
-
-	immediate = {
-		c:CHL = {
-			random_scope_character = {
-				limit = {
-					has_variable = is_bulnes
-				}
-				save_scope_as = bulnes_scope
-		    }
-		}	
-	}
-
-	event_image = {
-		video = "gfx/event_pictures/unspecific_military_parade.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/unspecific/military_parade"
-
-	icon = "gfx/interface/icons/invention_icons/line_infantry.dds"
-
-	option = {
-		default_option = yes
-		name = journal_flavor_chile.9.a
-
-		add_loyalists = {
-			value = 0.3
-			pop_type = officers
-		}
-
-		add_loyalists = {
-			value = 0.15
-			pop_type = soldiers
-		}		        
 	}
 }
 
@@ -661,86 +636,7 @@ journal_flavor_chile.11 = { #joven daniel shiprwreck
 	            set_variable = joven_daniel
 	        }    
         }
-    }    
-
-journal_flavor_chile.13  = {
-	type = country_event
-	placement = ROOT
-
-	title = journal_flavor_chile.13.t
-	desc = journal_flavor_chile.13.d
-	flavor = journal_flavor_chile.13.f
-
-	duration = 3
-
-	event_image = {
-		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
-
-	icon = "gfx/interface/icons/event_icons/event_diplomacy.dds"
-
-	immediate = {
-		c:ARG = {
-			save_scope_as = arg_scope
-		}
-		c:CHL = {
-			save_scope_as = chl_scope
-		}
-	}			
-
-	option = {
-		name = journal_flavor_chile.13.a
-		custom_tooltip = journal_flavor_chile.13.a.tt
-		default_option = yes
-
-        c:ARG = {
-			trigger_event = {
-			    id = journal_flavor_chile.15
-			    days = 1
-			}
-		}
-
-		c:CHL = {
-			change_relations = {
-				country = c:ARG
-				value = 20
-			}
-			hidden_effect = {			
-		    s:STATE_ARAUCANIA = {
-		    	set_owner_of_provinces = {
-		    		country = c:ARG
-		    		provinces = { xB0E4AA xD2DD34 x1BC85D xCC30AA x1205C7 x62F8C0 xAB76FA x350B0F xD88028 x9806EE x977A70 x78955F }
-		    	}
-		    }
-		}
-	}
-			ai_chance = {
-			base = 65
-		}
-    }
-
-	option = {
-		name = journal_flavor_chile.13.b
-		    
-		c:BUE = {
-            s:STATE_ARAUCANIA = {
-		    	add_claim = c:ARG
-		    }
-		}
-		c:CHL = {
-			change_relations = {
-				country = c:ARG
-				value = -30
-			}
-		}	
-        ai_chance = {
-			base = 35
-			}
-		}		
-	}
+    }      
 
 journal_flavor_chile.14  = {
 	type = country_event
@@ -845,86 +741,3 @@ journal_flavor_chile.15 = {
 		}
 	}
 }		
-
-journal_flavor_chile.16 = { #annexing araucania pacificamente
-	type = country_event
-	placement = ROOT
-
-	title = journal_flavor_chile.16.t
-	desc = journal_flavor_chile.16.d
-	flavor = journal_flavor_chile.16.f
-
-	duration = 3
-
-	event_image = {
-		video = "gfx/event_pictures/southamerica_aristocrats.bk2"
-	}	
-    
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
-
-	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
-
-	immediate = {
-		c:CHL = {
-			save_scope_as = chl_scope
-		}
-	}	
-
-	option = {
-		name = journal_flavor_chile.16.a
-
-		add_loyalists = {
-			value = 0.1
-			}    
-	}
-}
-
-journal_flavor_chile.17 = { #araucania rebellion
-	type = country_event
-	placement = ROOT
-
-	title = journal_flavor_chile.17.t
-	desc = journal_flavor_chile.17.d
-	flavor = journal_flavor_chile.17.f
-
-	duration = 3
-
-	event_image = {
-		video = "gfx/event_pictures/europenorthamerica_native_american.bk2"
-	}	
-    
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/native_american"
-
-	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
-
-	immediate = {
-		c:CHL = {
-			save_scope_as = chl_scope
-		}
-		s:STATE_LOS_RIOS = {
-			set_owner_of_provinces = {
-				country = c:PAT
-				provinces = { xF68D31 x1A5ED2 x90C0D0 x49F9FC x8848C6 xF2263F x02C052 x3D3ED8 xF0CA34 x142AEF xCFB481 x83D701 }
-			}
-		}		
-	}	
-
-	option = {
-		name = journal_flavor_chile.17.a
-
-        create_diplomatic_play = {
-            name = araucania_pacification
-            target_state = s:STATE_LOS_RIOS.region_state:PAT
-
-            war = no
-
-            type = dp_return_state
-        }
-
-		add_loyalists = {
-			value = 0.05
-		}		    
-	}
-}

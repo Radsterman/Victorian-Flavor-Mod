@@ -2,7 +2,8 @@
 
 	is_shown = {
 	    exists = c:CHL
-		this = c:CHL    
+		this = c:CHL  
+		year < 1841  
 		NOT = { has_variable = ohiggins_returned }
         }
         
@@ -26,7 +27,7 @@
 		    create_character = {
 			    first_name = "bernardo"
 			    last_name = "ohiggins"
-			    ig_leader = no
+			    ig_leader = yes
 			    historical = yes
 			    culture = cu:south_andean
 			    ruler = no
@@ -56,7 +57,65 @@
 		    }			
 
 	ai_chance = {
-		base = 100
+		base = 70
+		}
 	}
 }
 		
+
+puq_colonization = {
+
+	is_shown = {
+	    exists = c:CHL
+		this = c:CHL    
+		NOT = { has_variable = puq_colonized }
+        }
+        
+	possible = {
+		is_at_war = no
+         institution_investment_level = {
+			institution = institution_colonial_affairs
+			value >= 2
+		}
+	}
+
+	when_taken = {
+	    hidden_effect = { set_variable = puq_colonized }	
+        trigger_event = { 
+			id = journal_flavor_chile.3
+		}			
+
+	ai_chance = {
+		base = 100
+		}
+	}
+}
+		
+rapa_nui = {
+
+	is_shown = {
+	    exists = c:CHL
+		this = c:CHL    
+		NOT = { has_variable = rapa_nui_colonized }
+        }
+
+	possible = {
+		institution_investment_level = {
+			institution = institution_colonial_affairs
+			value >= 3
+		}
+	    has_interest_marker_in_region = region_oceania	
+	    has_technology_researched = civilizing_mission	
+	}
+
+	when_taken = {
+	    hidden_effect = { set_variable = rapa_nui_colonized }	
+        trigger_event = { 
+			id = journal_flavor_chile.4
+		}		
+
+	ai_chance = {
+		base = 100
+		}
+	}
+}
