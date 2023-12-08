@@ -91,6 +91,20 @@ journal_flavor_iran.3 = {
 
 	icon = "gfx/interface/icons/event_icons/event_herat_map.dds"
 
+	trigger = {
+		has_journal_entry = je_qajar_situation
+		c:PER = { has_variable = british_intervention_in_iran }
+		is_at_war = no
+		is_active_in_diplomatic_play = no
+		c:GBR = { 
+			has_truce_with = c:PER 
+		}
+	}
+
+	immediate = {
+		remove_variable = british_intervention_in_iran
+	}
+
 	duration = 3
 
 	option = {
@@ -406,7 +420,10 @@ journal_flavor_iran.10 = {
 
 	immediate = {
 		c:PER = {
-			set_variable = { name = british_intervention_in_iran days = 30 }
+			set_variable = british_intervention_in_iran
+		}
+		c:HER = {
+			make_independent = yes
 		}
 	}
 
@@ -442,22 +459,29 @@ journal_flavor_iran.10 = {
 		custom_tooltip = british_intervention_diplo_play_tt
 		
 		hidden_effect = {
+			c:HER = { 
+				add_modifier = {
+					name = khorasani_raiders
+					days = 700
+					is_decaying = yes
+				}
+			}
+			c:GBR = {
+				create_diplomatic_pact = {
+					country = c:HER
+					type = tributary
+				}
+			}
 			c:PER = {
 				create_diplomatic_play = {
 					name = herat_war
-					escalation = 80
+					escalation = 60
 					target_country = c:HER
 					type = dp_annex_war
 					target_state = s:STATE_WESTERN_AFGHANISTAN.region_state:HER
 					
 					add_target_backers = { c:GBR }
 					add_target_backers = { c:BIC }
-
-					add_war_goal = {
-						holder = c:HER
-						type = independence
-						target_country = c:PER
-					}
 					
 					add_war_goal = {
 						holder = c:PER
@@ -478,8 +502,8 @@ journal_flavor_iran.10 = {
 					}
 					
 					add_war_goal = {
-						holder = c:BIC
-						type = open_market
+						holder = c:HER
+						type = war_reparations
 						target_country = c:PER
 					}
 					
@@ -642,6 +666,17 @@ journal_flavor_iran.12 = {
 				name = per_luti_uprising
 				days = 1800
 			}
+		}
+		
+		ai_chance = {
+			base = 1
+		}
+	}
+	
+	option = {
+		name = journal_flavor_iran.12.b
+		trigger = {
+			has_law = law_type:law_secret_police
 		}
 		
 		ai_chance = {
@@ -873,6 +908,263 @@ journal_flavor_iran.16 = {
 
 }
 
+# The Ascension of Nasir al-Din Shah Qajar
+journal_flavor_iran.17 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_iran.17.t
+	desc = journal_flavor_iran.17.d
+	flavor = journal_flavor_iran.17.f
+
+	event_image = {
+		video = "gfx/event_pictures/middleeast_upperclass_party.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_fragile_authority.dds"
+
+	trigger = {
+		has_journal_entry = je_qajar_situation
+		c:PER = { has_variable = reign_of_mohammad_shah_qajar_var }
+		ruler = {
+			NOT = {
+				has_variable = is_mohammad_shah_qajar
+			}
+			has_variable = is_nasir_al_din_shah_qajar
+		}
+	}
+	
+	immediate = {
+		remove_variable = reign_of_mohammad_shah_qajar_var
+	}
+
+	duration = 2
+
+	option = {
+		name = journal_flavor_iran.17.a
+		default_option = yes
+		
+		add_modifier = {
+			name = per_nasir_al_din_shah_qajar
+			days = 3650
+			is_decaying = yes
+		}
+		
+		ai_chance = {
+			base = 1
+		}
+	}
+
+}
+
+# The Second Herat Siege - Persian Initiative
+journal_flavor_iran.18 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_iran.18.t
+	desc = journal_flavor_iran.18.d
+	flavor = journal_flavor_iran.18.f
+
+	event_image = {
+		video = "gfx/event_pictures/middleeast_battlefield_trenches.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_fragile_authority.dds"
+
+	trigger = {
+		has_journal_entry = je_qajar_situation
+		game_date >= 1856.1.1
+		NOT = { has_variable = integrated_herat_iran }
+		exists = c:HER
+		c:HER = {
+			is_subject_of = c:GBR
+		}
+		is_at_war = no
+		is_active_in_diplomatic_play = no
+		c:GBR = {
+			is_at_war = no
+			is_active_in_diplomatic_play = no
+		}
+		NOT = { has_variable = second_herat_siege }
+		ruler = {
+			NOT = {
+				has_variable = is_mohammad_shah_qajar
+			}
+			has_variable = is_nasir_al_din_shah_qajar
+		}
+	}
+	
+	immediate = {
+		set_variable = second_herat_siege
+	}
+
+	duration = 2
+
+	option = {
+		name = journal_flavor_iran.18.a
+		default_option = yes
+
+		custom_tooltip = british_intervention_diplo_play_tt
+		
+		hidden_effect = {
+			c:AFG = { trigger_event = { id = journal_flavor_iran.19 days = 7 popup = yes } }
+			c:PER = {
+				create_diplomatic_play = {
+					name = anglo_persian_war
+					escalation = 60
+					target_country = c:HER
+					type = dp_annex_war
+					target_state = s:STATE_WESTERN_AFGHANISTAN.region_state:HER
+					
+					add_target_backers = { c:GBR }
+					
+					add_war_goal = {
+						holder = c:PER
+						type = force_recognition
+						target_country = c:GBR
+					}
+					
+					add_war_goal = {
+						holder = c:GBR
+						type = open_market
+						target_country = c:PER
+					}
+					
+					add_war_goal = {
+						holder = c:HER
+						type = war_reparations
+						target_country = c:PER
+					}
+					
+				}
+			}
+		}
+		
+		ai_chance = {
+			base = 80
+		}
+	}
+	
+	option = {
+		name = journal_flavor_iran.18.b
+
+		custom_tooltip = {
+			text = integrate_herat_iran_tt
+			set_variable = integrated_herat_iran
+			remove_variable = second_herat_siege
+		}
+		
+		ai_chance = {
+			base = 20
+		}
+	}
+
+}
+
+#Second Herat Siege - Afghani Option to Support Herat
+journal_flavor_iran.19 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_iran.19.t
+	desc = journal_flavor_iran.19.d
+	flavor = journal_flavor_iran.19.f
+
+	event_image = {
+		video = "gfx/event_pictures/middleeast_battlefield_trenches.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_khorasan.dds"
+
+	duration = 3
+
+	option = { #Support the Herati
+		name = journal_flavor_iran.19.a
+		default_option = yes
+		
+		c:HER = { 
+			add_modifier = {
+				name = khorasani_raiders
+				days = 700
+				is_decaying = yes
+			}
+		}
+		
+		ai_chance = {
+			base = 100
+		}
+	}
+	
+	option = { #We dont care
+		name = journal_flavor_iran.19.b
+		
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+#Second Herat Siege - Herat is now firmly in Afghan Hands
+journal_flavor_iran.20 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_iran.20.t
+	desc = journal_flavor_iran.20.d
+	flavor = journal_flavor_iran.20.f
+
+	event_image = {
+		video = "gfx/event_pictures/middleeast_courtroom_upheaval.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_khorasan.dds"
+
+	trigger = {
+		has_journal_entry = je_qajar_situation
+		NOT = { has_variable = integrated_herat_iran }
+		exists = c:HER
+		c:GBR = { 
+			has_truce_with = c:PER 
+		}
+		has_variable = second_herat_siege
+	}
+	
+	immediate = {
+		remove_variable = second_herat_siege
+		set_variable = integrated_herat_iran
+	}
+
+	duration = 1
+
+	option = { #Support the Herati
+		name = journal_flavor_iran.20.a
+		default_option = yes
+		
+		add_modifier = {
+			name = per_caved_to_foreign_demands
+			days = 1800
+		}
+		
+		ai_chance = {
+			base = 0
+		}
+	}
+
+}
+
 ### Kurdish Flavour ###
 
 ##Kurdish Khorasan Flavour
@@ -953,9 +1245,15 @@ journal_flavor_iran.40 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
 
-	icon = "gfx/interface/icons/event_icons/event_republican_dawn.dds"
+	icon = "gfx/interface/icons/event_icons/event_iran_flag.dds"
 
 	duration = 1
+	
+	immediate = { 
+		remove_variable = reign_of_mohammad_shah_qajar_var
+		remove_variable = qajar_iran_var
+		remove_modifier = per_nasir_al_din_shah_qajar
+	}
 
 	option = { 
 		name = journal_flavor_iran.40.a
@@ -965,9 +1263,10 @@ journal_flavor_iran.40 = {
 			base = 1
 		}
 	}
+	
 }
 
-# The Fall of the Qajars
+# The Qajar Century
 journal_flavor_iran.50 = {
 	type = country_event
 	placement = ROOT
@@ -989,10 +1288,36 @@ journal_flavor_iran.50 = {
 
 	option = { 
 		name = journal_flavor_iran.50.a
-		default_option = yes
 		
 		ai_chance = {
-			base = 1
+			base = 0
+		}
+	}
+	
+	option = { 
+		name = journal_flavor_iran.50.b
+		
+		custom_tooltip = {
+			text = change_name_qajar_empire_tt
+			set_variable = reign_of_mohammad_shah_qajar_var
+		}
+		
+		ai_chance = {
+			base = 25
+		}
+	}
+	
+	option = { 
+		name = journal_flavor_iran.50.c
+		default_option = yes
+		
+		custom_tooltip = {
+			text = change_name_iran_tt
+			set_variable = qajar_iran_var
+		}
+		
+		ai_chance = {
+			base = 75
 		}
 	}
 }

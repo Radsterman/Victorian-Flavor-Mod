@@ -1,16 +1,46 @@
 PER = { 
 	dynamic_country_name = {
 		name = dyn_c_qajar_persia
-		adjective = dyn_c_monarchist_persia_adj
+		adjective = dyn_c_persia_adj
 		
 		is_main_tag_only = yes
-		priority = 0
+		priority = 1000
 		
 		trigger = {
 			exists = c:PER
-			c:PER = {
-				has_variable = qajar_dynasty
-				has_law = law_type:law_monarchy
+			AND = {
+				c:PER = { has_variable = qajar_dynasty }
+				c:PER = { has_variable = reign_of_mohammad_shah_qajar_var }
+			}
+		}
+	}
+	dynamic_country_name = {
+		name = dyn_c_persia
+		adjective = dyn_c_persia_adj
+		
+		is_main_tag_only = yes
+		priority = 5
+		
+		trigger = {
+			exists = c:PER
+			AND = {
+				c:PER = { has_variable = qajar_dynasty }
+				c:PER = { NOT = { has_variable = reign_of_mohammad_shah_qajar_var } }
+			}
+		}
+	}
+	dynamic_country_name = {
+		name = dyn_c_imperial_iran
+		adjective = dyn_c_iran_adj
+		
+		is_main_tag_only = yes
+		priority = 20
+		
+		trigger = {
+			exists = c:PER
+			AND = {
+				c:PER = { has_variable = qajar_dynasty }
+				c:PER = { has_variable = qajar_iran_var }
 			}
 		}
 	}
@@ -19,28 +49,11 @@ PER = {
 		adjective = dyn_c_iran_adj
 		
 		is_main_tag_only = yes
-		priority = 0
+		priority = 20
 		
 		trigger = {
 			exists = c:PER
-			c:PER = {
-				NOT = { has_law = law_type:law_monarchy }
-			}
-		}
-	}
-	dynamic_country_name = {
-		name = dyn_c_iran_persia
-		adjective = dyn_c_iran_persia_adj
-		
-		is_main_tag_only = yes
-		priority = 0
-		
-		trigger = {
-			exists = c:PER
-			c:PER = {
-				NOT = { has_variable = qajar_dynasty }
-				has_law = law_type:law_monarchy
-			}
+			c:PER = { NOT = { has_variable = qajar_dynasty } }
 		}
 	}
 }
