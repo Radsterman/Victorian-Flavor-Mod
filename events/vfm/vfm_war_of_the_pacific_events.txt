@@ -1,10 +1,135 @@
-﻿journal_flavor_chile.22 = { 21 de mayo
+﻿
+
+journal_flavor_chile.3 = { War of the Pacific
 	type = country_event
 	placement = ROOT
 
-	title = journal_flavor_chile.22.t
-	desc = journal_flavor_chile.22.d
-	flavor = journal_flavor_chile.22.f
+	title = journal_flavor_chile.3.t
+	desc = journal_flavor_chile.3.d
+	flavor = journal_flavor_chile.3.f
+
+	duration = 1
+
+	immediate = {
+		c:BOL = {
+			save_scope_as = bol_scope
+		}
+		c:CHL = {
+			save_scope_as = chl_scope
+		}
+		c:PEU = {
+			save_scope_as = peu_scope
+		}			
+	}
+
+	event_image = {
+		video = "gfx/event_pictures/middleeast_battlefield_trenches.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/battlefield_trenches"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	trigger = {
+	    exists = c:BOL
+		exists = c:CHL
+		root= c:CHL	    
+	    c:CHL = {
+            market_capital.market = {
+			    mg:sulfur = { 
+				    market_goods_pricier > 0.25 
+			        }
+		        }
+		OR = {  				    
+			has_law = law_type:law_free_trade
+			has_law = law_type:law_protectionism
+		}
+        ig:ig_industrialists = {
+			is_powerful = yes
+			is_in_government = yes
+			}
+		}
+		NOT = { owns_entire_state_region = STATE_ANTOFAGASTA }	
+	    c:BOL = {
+			relations:root <= -30 		
+		}
+	}
+
+	option = {
+		default_option = yes
+		name = journal_flavor_chile.3.a
+
+        create_diplomatic_play = {
+            name = war_of_the_pacific
+            target_state = s:STATE_ANTOFAGASTA.region_state:BOL
+
+            war = no
+
+            type = dp_return_state
+        }
+
+		add_loyalists = {
+			value = 0.15
+		}
+					
+		change_infamy = 5	
+
+		hidden_effect = {
+		    trigger_event = {
+			    id = journal_flavor_chile.10
+			    months = 1
+		    }
+			create_character = {
+				first_name = arturo
+				last_name = prat
+				historical = yes
+				interest_group = ig_military
+				birth_date = 1848.04.03
+				female = no
+				culture = cu:south_andean
+				dna = dna_arturo_prat
+				ideology = ideology_moderate
+				religion = rel:catholic
+				traits = {
+					ambitious
+				}
+
+                on_created = {
+					set_variable = {
+						name = is_prat
+					}				
+				}				
+			}	   
+		}
+	}        				
+			            
+	option = {
+		name = journal_flavor_chile.3.b
+
+    c:CHL = {
+        add_modifier = {
+			name = pacific_war_rejected
+			months = normal_modifier_time
+			}
+		add_radicals = {
+			value = 0.025	
+		}
+		add_radicals = {
+			value = 0.4
+			pop_type = capitalists	
+			}
+		}					
+	}
+}
+
+journal_flavor_chile.8 = { 21 de mayo
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_chile.8.t
+	desc = journal_flavor_chile.8.d
+	flavor = journal_flavor_chile.8.f
 
 	duration = 1
 
@@ -33,7 +158,7 @@
 
 	option = {
 		default_option = yes
-		name = journal_flavor_chile.22.a
+		name = journal_flavor_chile.8.a
 
         add_modifier = {
 			name = martyr_of_chile
