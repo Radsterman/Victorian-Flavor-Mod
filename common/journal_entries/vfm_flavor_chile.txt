@@ -1,4 +1,4 @@
-﻿#je_silver_rush = {
+#je_silver_rush = {
 #	icon = "gfx/interface/icons/invention_icons/prospecting_tech.dds"
 #
 #	group = je_group_technology 
@@ -104,3 +104,87 @@ je_trains_efe = {
 #    should_be_pinned_by_default = no
 #	weight = 100
 #}
+
+je_equality_society = {
+	"gfx/interface/icons/event_icons/event_protest.dds"
+
+	group = je_group_crises
+
+	immediate = {
+		c:CHL = {
+			random_scope_character = {
+				limit = {
+					has_variable = is_bilbao
+				}
+				save_scope_as = bilbao_scope
+		    }
+		}
+	}	
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					is_at_war = no
+					AND = {
+	                    OR = {	        
+	                        NOT = { has_law = law_type:landed_voting }
+	                        NOT = { has_law = law_type:wealth_voting }
+	                    }
+	                }
+	                ig:ig_intelligentsia = {
+			            is_powerful = no
+			            is_in_government = no
+			            }                
+	                ig:ig_trade_unions = {
+			            is_powerful = no
+			            is_in_government = no
+			            }
+			        } 
+				change_variable = {
+					name = equality_society
+					add = 1
+				}
+			}
+		}
+	}
+
+	complete = {
+		AND = {
+	        OR = {	        
+	            has_law = law_type:law_census_voting
+	            has_law = law_type:law_universal_suffrage
+	            }
+	        AND = { 
+	            OR = {   
+	            ig:ig_intelligentsia = {
+			        is_powerful = yes
+			        is_in_government = yes
+			            }                
+	            ig:ig_trade_unions = {
+			        is_powerful = yes
+			        is_in_government = yes
+			            }
+			        }
+	            } 
+	        }
+	    }                
+
+	on_complete = { 
+	    trigger_event = { 
+	        id = journal_flavor_chile.12  
+	    }
+    }
+
+	on_fail = { 
+	    trigger_event = { 
+	        id = journal_flavor_chile.11  
+	    }
+    }  
+
+    timeout = 3650
+
+	weight = 10000
+
+	should_be_pinned_by_default = yes  
+}  
