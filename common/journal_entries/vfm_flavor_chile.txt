@@ -1,114 +1,11 @@
-#je_silver_rush = {
-#	icon = "gfx/interface/icons/invention_icons/prospecting_tech.dds"
-#
-#	group = je_group_technology 
-#
-#	is_shown_when_inactive = {
-#	        exists = c:CHL
-#			c:CHL = this  		
-#	    }
-#
-#	complete = {
-#	    s:STATE_SANTIAGO = {
-#		    any_scope_state = {
-#		        any_scope_building = {
-#		        is_building_type = building_gold_mine
-#		        level >= 4
-#		        occupancy > 0.9
-#		    	}
-#		    }
-#		}
-#	}			    
-#
-#	on_complete = { 
-#	    trigger_event = { 
-#	        id = journal_flavor_chile.7  
-#	        }
-#        }    
-#
-#    should_be_pinned_by_default = no
-#	weight = 100   
-#}     
-
-je_trains_efe = {
-	icon = "gfx/interface/icons/invention_icons/railways.dds"
-
-	group = je_group_technology 
-
-	complete = {
-	    s:STATE_SANTIAGO = {
-		     any_scope_state = {
-		    	any_scope_building = {
-		    	    is_building_type = building_railway
-					occupancy > 0.8
-		    	}
-		    }
-		}
-        s:STATE_SANTIAGO = {
-		    any_scope_state = {
-		    	any_scope_building = {
-			        is_building_type = building_gold_mine
-			        has_active_production_method = pm_rail_transport_mine
-					occupancy > 0.8
-				}
-		    }
-		}
-	}
-
-	on_complete = { 
-	    trigger_event = { 
-	        id = journal_flavor_chile.8  
-	    }
-    }           
-
-    should_be_pinned_by_default = no
-	weight = 100   
-}     
-
-#je_codigo_civil = {
-#	icon = "gfx/interface/icons/event_icons/event_academia.dds"
-#
-#    group = je_group_internal_affairs
-#
-#	is_shown_when_inactive = {
-#		exists = c:CHL
-#		root= c:CHL
-#	}
-#
-#	complete = {
-#		AND = {
-#			any_scope_building = {
-#				is_building_type = building_university
-#				occupancy > 0.9
-#				level >= 2
-#			}
-#			institution_investment_level = {
-#				institution = institution_police 
-#				value >= 2
-#			}
-#		}
-#	}
-#
-#	on_complete = {
-#		show_as_tooltip = {
-#            add_modifier = {
-#			    name = codigo_civil
-#		    }
-#		}	
-#        trigger_event = { 
-#			id = journal_flavor_chile.2
-#		}
-#		
-#	}
-#
-#    should_be_pinned_by_default = no
-#	weight = 100
-#}
-
 je_equality_society = {
-	"gfx/interface/icons/event_icons/event_protest.dds"
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
 
 	group = je_group_crises
+
+	modifiers_while_active = {
+		fra_republican_unrest
+	}
 
 	immediate = {
 		c:CHL = {
@@ -121,40 +18,14 @@ je_equality_society = {
 		}
 	}	
 
-	on_monthly_pulse = {
-		effect = {
-			if = {
-				limit = {
-					is_at_war = no
-					AND = {
-	                    OR = {	        
-	                        NOT = { has_law = law_type:landed_voting }
-	                        NOT = { has_law = law_type:wealth_voting }
-	                    }
-	                }
-	                ig:ig_intelligentsia = {
-			            is_powerful = no
-			            is_in_government = no
-			            }                
-	                ig:ig_trade_unions = {
-			            is_powerful = no
-			            is_in_government = no
-			            }
-			        } 
-				change_variable = {
-					name = equality_society
-					add = 1
-				}
-			}
-		}
-	}
-
 	complete = {
 		AND = {
-	        OR = {	        
-	            has_law = law_type:law_census_voting
-	            has_law = law_type:law_universal_suffrage
-	            }
+	        custom_tooltip = {
+			    text = voting_franchise_yes_tt
+			    country_has_voting_franchise = yes
+			    }
+			NOT = { has_law = law_type:law_single_party_state }   
+		    }
 	        AND = { 
 	            OR = {   
 	            ig:ig_intelligentsia = {
@@ -164,11 +35,10 @@ je_equality_society = {
 	            ig:ig_trade_unions = {
 			        is_powerful = yes
 			        is_in_government = yes
-			            }
 			        }
-	            } 
-	        }
-	    }                
+			    }
+	        } 
+	    }               
 
 	on_complete = { 
 	    trigger_event = { 
@@ -182,7 +52,44 @@ je_equality_society = {
 	    }
     }  
 
-    timeout = 3650
+    timeout = 1095
+
+	weight = 10000
+
+	should_be_pinned_by_default = yes  
+}  
+
+je_civil_war1 = {
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	group = je_group_crises
+
+	immediate = {
+	    set_variable = { 
+	        name = chl_civilwar_var
+	        value = 0
+	    }
+	}	
+
+	complete = {
+		scope:journal_entry = { is_goal_complete = yes }
+	}              
+
+	on_complete = {
+		trigger_event = {
+			id = journal_flavor_chile.17
+		}
+	}
+
+	current_value = {
+		value = var:chl_civilwar_var
+	}
+
+	goal_add_value = {
+		value = 2
+	}	
+
+	progressbar = yes
 
 	weight = 10000
 
