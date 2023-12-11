@@ -460,7 +460,10 @@ journal_flavor_chile.11  = { #Urriola Mutiny
 		}
 		capital = {
 			save_scope_as = capital_scope
-		}									
+		}
+		ig:ig_armed_forces = {
+			save_scope_as = armed_forces_scope
+		}											
 	}			
 
 	option = {
@@ -471,42 +474,35 @@ journal_flavor_chile.11  = { #Urriola Mutiny
             add_devastation = 5 
             }
 
+		add_radicals = {
+			value = 0.2	    	    	
+        }
+
         add_modifier = {
 			name = urriola_mutiny 
 			months = normal_modifier_time
 		    } 
 
-		add_journal_entry = {
-			type = je_civil_war1
-		}
+        add_modifier = {
+			name = provinces_sublevation 
+			months = normal_modifier_time
+		    }		    
 
+		scope:armed_forces_scope = {
+			add_modifier = {
+				name = modifier_unjustly_blamed_for_rising
+				months = normal_modifier_time
+			}
+		}		    
+
+        hidden_effect = {
 		trigger_event = {
 			id = journal_flavor_chile.13
 			months = 2
-	    }
-
-
-        if = {
-            limit = {
-                owns_the_entire_state_region = STATE_LOS_RIOS
-                }
-		    trigger_event = {
-			    id = journal_flavor_chile.15 #concepcion
-			    months = 6
-	            }
-	        }    
-
-        if = {
-            limit = {
-                owns_the_entire_state_region = STATE_SANTIAGO
-                }
-		    trigger_event = {
-			    id = journal_flavor_chile.16 #laserena
-			    months = 8
-			    }
 	        }	    	
         }
-    }   
+    }
+}       
 
 journal_flavor_chile.13  = { #Cambiaso Mutiny
 	type = country_event
@@ -555,12 +551,14 @@ journal_flavor_chile.13  = { #Cambiaso Mutiny
 			months = normal_modifier_time
 		    }
 
+        hidden_effect = {
 		trigger_event = {
 			id = journal_flavor_chile.14
 			months = 1
 	        }		     	    	    	
         }
-    }   
+    } 
+}      
 
 journal_flavor_chile.14  = { #Cambiaso Death
 	type = country_event
@@ -592,130 +590,7 @@ journal_flavor_chile.14  = { #Cambiaso Death
 		default_option = yes
 
 		add_loyalists = {
-			alue = 0.15	    	    	
+			value = 0.1	    	    	
         }
     }
 }    
-
-journal_flavor_chile.15 = { #The revolution in Concepcion
-	type = country_event
-	placement = scope:concepcion_state
-
-	title = journal_flavor_chile.15.t
-	desc = journal_flavor_chile.15.d
-	flavor = journal_flavor_chile.15.f
-
-	duration = 1
-
-	event_image = {
-		video = "gfx/event_pictures/europenorthamerica_before_the_battle.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/before_the_battle"
-
-	icon = "gfx/interface/icons/event_icons/event_military.dds"
-
-	trigger = {			
-    }
-
-	immediate = {
-	    s:STATE_LOS_RIOS = {
-            random_scope_state = {
-                limit = {
-                    owner = {
-                        c:CHL = THIS
-                    }
-                }
-                save_scope_as = concepcion_state
-            }
-        }
-    }    			
-
-	option = {
-		name = journal_flavor_chile.15.a
-		default_option = yes
-
-        scope:concepcion_state.state_region = {
-            add_devastation = 10 
-            } 
-
-		trigger_event = {
-			id = journal_flavor_chile.16 #laserena
-			months = 2
-			}            
-
-		add_loyalists = {
-			value = 0.15                      
-        }
-    }    
-
-	option = {
-		name = journal_flavor_chile.15.b
-
-        scope:concepcion_state.state_region = {
-            add_devastation = 10 
-            }
-
-		trigger_event = {
-			id = journal_flavor_chile.16 #laserena
-			months = 2
-			}             
-
-        custom_tooltip = journal_flavor_chile.15.tt
-		change_variable = {
-			name = chl_civilwar_var
-			add = 1
-			}                    
-        }        
-    } 
-
-journal_flavor_chile.16 = { #The siege of La Serena
-	type = country_event
-	placement = scope:serena_state
-
-	title = journal_flavor_chile.15.t
-	desc = journal_flavor_chile.15.d
-	flavor = journal_flavor_chile.15.f
-
-	duration = 1
-
-	event_image = {
-		video = "gfx/event_pictures/votp_agitator_speaking.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/DLC/1.3_ip1/Events/unspecific/agitator_speaking"
-
-	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
-
-	trigger = {			
-    }
-
-	immediate = {
-	    s:STATE_SANTIAGO = {
-            random_scope_state = {
-                limit = {
-                    owner = {
-                        c:CHL = THIS
-                    }
-                }
-                save_scope_as = serena_state
-            }
-        }
-    }    			
-
-	option = {
-		name = journal_flavor_chile.15.a
-		default_option = yes
-
-        scope:serena_state.state_region = {
-            add_devastation = 10 
-            } 
-
-        add_journal_entry = {
-			type = je_serena_siege
-		}
-    }            
-}
-
