@@ -381,8 +381,9 @@ journal_flavor_chile.10  = { #Equality Society
 	trigger = {
 		NOT = {
 			has_variable = equality_society
-		}
-		game_date > 1848.1.1			
+			has_law = law_type:law_universal_suffrage
+		}		    
+		has_technology_researched = dialectics			
     }
 
 	immediate = {
@@ -393,7 +394,7 @@ journal_flavor_chile.10  = { #Equality Society
 			first_name = francisco
 			last_name = bilbao
 			historical = yes
-			ig_leader = yes			
+			is_agitator = yes		
 			interest_group = ig_trade_unions
 			birth_date = 1823.01.09
 			female = no
@@ -424,173 +425,12 @@ journal_flavor_chile.10  = { #Equality Society
 		name = journal_flavor_chile.10.a
 		default_option = yes
 
-    add_journal_entry = {
-			type = je_equality_society
-		} 
-	}	
+    add_modifier = {
+		name = equity_society 
+		months = long_modifier_time
+		} 	
 
 	set_variable = equality_society
-    }		
-
-journal_flavor_chile.11  = { #Urriola Mutiny
-	type = country_event
-	placement = scope:capital_scope
-
-	title = journal_flavor_chile.11.t
-	desc = journal_flavor_chile.11.d
-	flavor = journal_flavor_chile.11.f
-
-	duration = 1
-
-	event_image = {
-		video = "gfx/event_pictures/votp_barricade.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/DLC/1.3_ip1/Events/unspecific/barricade"
-
-	icon = "gfx/interface/icons/event_icons/event_military.dds"
-
-	trigger = {			
     }
+}    		
 
-	immediate = {
-		c:CHL = {
-			save_scope_as = chl_scope
-		}
-		capital = {
-			save_scope_as = capital_scope
-		}
-		ig:ig_armed_forces = {
-			save_scope_as = armed_forces_scope
-		}											
-	}			
-
-	option = {
-		name = journal_flavor_chile.11.a
-		default_option = yes
-
-        scope:capital_scope.state_region = {
-            add_devastation = 5 
-            }
-
-		add_radicals = {
-			value = 0.2	    	    	
-        }
-
-        add_modifier = {
-			name = urriola_mutiny 
-			months = normal_modifier_time
-		    } 
-
-        add_modifier = {
-			name = provinces_sublevation 
-			months = normal_modifier_time
-		    }		    
-
-		scope:armed_forces_scope = {
-			add_modifier = {
-				name = modifier_unjustly_blamed_for_rising
-				months = normal_modifier_time
-			}
-		}		    
-
-        hidden_effect = {
-		trigger_event = {
-			id = journal_flavor_chile.13
-			months = 2
-	        }	    	
-        }
-    }
-}       
-
-journal_flavor_chile.13  = { #Cambiaso Mutiny
-	type = country_event
-	placement = scope:mutiny_state
-
-	title = journal_flavor_chile.13.t
-	desc = journal_flavor_chile.13.d
-	flavor = journal_flavor_chile.13.f
-
-	duration = 1
-
-	event_image = {
-		video = "gfx/event_pictures/unspecific_devastation.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
-
-	icon = "gfx/interface/icons/event_icons/event_skull.dds"
-
-	trigger = {			
-    }
-
-	immediate = {
-		c:CHL = {
-			save_scope_as = chl_scope
-		}
-		random_scope_state = {
-		    limit = {
-		        is_incorporated = no
-		        }
-		    save_scope_as = mutiny_state	
-		}    								
-	}			
-
-	option = {
-		name = journal_flavor_chile.13.a
-		default_option = yes
-
-        scope:mutiny_state.state_region = {
-            add_devastation = 10 
-            }
-
-        add_modifier = {
-			name = cambiaso_mutiny 
-			months = normal_modifier_time
-		    }
-
-        hidden_effect = {
-		trigger_event = {
-			id = journal_flavor_chile.14
-			months = 1
-	        }		     	    	    	
-        }
-    } 
-}      
-
-journal_flavor_chile.14  = { #Cambiaso Death
-	type = country_event
-	placement = ROOT
-
-	title = journal_flavor_chile.14.t
-	desc = journal_flavor_chile.14.d
-	flavor = journal_flavor_chile.14.f
-
-	duration = 1
-
-	event_image = {
-		video = "gfx/event_pictures/votp_hostile_court.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/DLC/1.3_ip1/Events/unspecific/barricade"
-
-	icon = "gfx/interface/icons/event_icons/event_scales.dds"
-
-	trigger = {			
-    }
-
-	immediate = {    								
-	}			
-
-	option = {
-		name = journal_flavor_chile.14.a
-		default_option = yes
-
-		add_loyalists = {
-			value = 0.1	    	    	
-        }
-    }
-}    
