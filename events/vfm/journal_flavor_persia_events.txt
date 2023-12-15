@@ -1463,20 +1463,34 @@ journal_flavor_iran.25 = {
 		name = journal_flavor_iran.25.a
 		default_option = yes
 		
+		c:PER = {
+            annex = ROOT
+        }
+		
 		ai_chance = {
-			base = 80
+			base = 10
 		}
 	}
 	
-	option = { #Fight
-		name = journal_flavor_iran.25.a
+	option = { #No/ Sheikh Kazal Rebellion Trigger for Ai
+		name = journal_flavor_iran.25.b
 		default_option = yes
 		trigger = {
-			this = c:ARB
+			OR = {
+				this = c:ARB
+				is_player = yes
+			}
+		}
+		
+		if = {
+			limit = {
+				this = c:ARB
+			}
+			c:PER = { trigger_event = { id = journal_flavor_iran.26 popup = yes days = 14 } }
 		}
 		
 		ai_chance = {
-			base = 20
+			base = 90
 		}
 	}
 	
