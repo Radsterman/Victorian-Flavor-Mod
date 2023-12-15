@@ -207,3 +207,230 @@ je_annex_herat_button = {
 		}
 	}
 }
+
+je_annex_khr_button = {
+	name = "je_annex_khr_button"
+	desc = "je_annex_khr_button_desc"
+
+	visible = { always = yes }
+	
+	ai_chance = {
+		base = 0
+	}
+
+	possible = {
+		OR = {
+			exists = c:SDL
+			exists = c:ZFL
+		}
+		OR = {
+			AND = {
+				NOT = { has_law = law_type:law_local_police }
+				NOT = { has_law = law_type:law_devolved }
+			}
+			has_technology_researched = pan-nationalism
+		}
+	}
+
+	effect = {
+		c:SDL = { trigger_event = { id = journal_flavor_iran.25 popup = yes } }
+		c:ZFL = { trigger_event = { id = journal_flavor_iran.25 popup = yes } }
+	}
+}
+
+je_annex_bandar_abbas_button = {
+	name = "je_annex_bandar_abbas_button"
+	desc = "je_annex_bandar_abbas_button_desc"
+
+	visible = { always = yes }
+	
+	ai_chance = {
+		base = 0
+	}
+
+	possible = {
+		OR = {
+			AND = {
+				custom_tooltip = {
+					text = iran_has_reclaimed_coastal_ports_tt
+					owns_entire_state_region = STATE_FARS
+					has_variable = annexed_bastak_var
+				}
+				has_technology_researched = nationalism
+			}
+			year >= 1868
+		}
+	}
+
+	effect = {
+		c:OMA = { trigger_event = { id = journal_flavor_iran.27 popup = yes } }
+	}
+}
+
+je_annex_ard_button = {
+	name = "je_annex_ard_button"
+	desc = "je_annex_ard_button_desc"
+
+	visible = { always = yes }
+	
+	ai_chance = {
+		base = 0
+	}
+
+	possible = {
+		exists = c:ARD
+		OR = {
+			custom_tooltip = {
+				text = ardalan_relations_tt
+				exists = c:ARD
+				c:PER ?= {
+					c:ARD.relations:ROOT > relations_threshold:cordial
+				}
+			}
+			has_technology_researched = pan-nationalism
+		}
+		has_technology_researched = central_archives
+		has_technology_researched = centralization
+		custom_tooltip = {
+			text = custom_tooltip_not_abolished_kurdistan_iran
+			NOT = { has_variable = annexed_ardalan_var }
+		}
+	}
+
+	effect = {
+		c:ARD = { trigger_event = { id = journal_flavor_iran.25 popup = yes } }
+	}
+}
+
+je_annex_jel_button = {
+	name = "je_annex_jel_button"
+	desc = "je_annex_jel_button_desc"
+
+	visible = { always = yes }
+	
+	ai_chance = {
+		base = 0
+	}
+
+	possible = {
+		exists = c:JEL
+		OR = {
+			custom_tooltip = {
+				text = maku_relations_tt
+				exists = c:JEL
+				c:PER ?= {
+					c:JEL.relations:ROOT > relations_threshold:cordial
+				}
+			}
+			has_technology_researched = nationalism
+		}
+		has_technology_researched = central_archives
+		has_technology_researched = centralization
+		custom_tooltip = {
+			text = custom_tooltip_abolished_kurdistan_iran
+			has_variable = annexed_ardalan_var
+		}
+	}
+
+	effect = {
+		c:JEL = { trigger_event = { id = journal_flavor_iran.25 popup = yes } }
+	}
+}
+
+je_annex_arb_button = {
+	name = "je_annex_arb_button"
+	desc = "je_annex_arb_button_desc"
+
+	visible = { always = yes }
+	
+	ai_chance = {
+		base = 0
+	}
+
+	possible = {
+		exists = c:ARB
+		custom_tooltip = {
+			text = abolished_pompous_court_iran_tt
+			NOT = { has_modifier = per_pompous_court }
+		}
+		custom_tooltip = {
+			text = custom_tooltip_abolished_kurdistan_and_maku_iran
+			has_variable = annexed_ardalan_var
+			has_variable = annexed_maku_var
+		}
+	}
+
+	effect = {
+		c:ARB = { trigger_event = { id = journal_flavor_iran.25 popup = yes } }
+	}
+}
+
+je_annex_btk_button = {
+	name = "je_annex_btk_button"
+	desc = "je_annex_btk_button_desc"
+
+	visible = { always = yes }
+	
+	ai_chance = {
+		base = 0
+	}
+
+	possible = {
+		custom_tooltip = {
+			text = bushehr_owner_relations_tt
+			OR = {
+				AND = {
+					exists = c:ABU
+					c:ABU = { has_state_in_state_region = STATE_LARISTAN }
+					c:ABU = { has_state_in_state_region = STATE_FARS }
+				}
+				AND = {
+					exists = c:GBR
+					c:GBR = { has_state_in_state_region = STATE_LARISTAN }
+					c:GBR = { has_state_in_state_region = STATE_FARS }
+				}
+			}
+		}
+		OR = {
+			custom_tooltip = {
+				text = bushehr_owner_relations_two_tt
+				c:PER ?= {
+					c:ABU.relations:ROOT > relations_threshold:cordial
+				}
+			}
+			AND = {
+				has_technology_researched = nationalism
+				year >= 1850
+			}
+		}
+		custom_tooltip = {
+			text = bushehr_owner_relations_three_tt
+			NOT = { has_variable = requested_coast_var }
+		}
+	}
+
+	effect = {
+		if = {
+			limit = {
+				AND = {
+					exists = c:ABU
+					c:ABU = { has_state_in_state_region = STATE_LARISTAN }
+					c:ABU = { has_state_in_state_region = STATE_FARS }
+				}
+			}
+			c:ABU = { trigger_event = { id = journal_flavor_iran.23 days = 14 popup = yes } }
+			set_variable = requested_coast_var
+		}
+		if = {
+			limit = {
+				AND = {
+					NOT = { exists = c:ABU }
+					c:GBR = { has_state_in_state_region = STATE_LARISTAN }
+					c:GBR = { has_state_in_state_region = STATE_FARS }
+				}
+			}
+			c:GBR = { trigger_event = { id = journal_flavor_iran.23 days = 14 popup = yes } }
+			set_variable = requested_coast_var
+		}
+	}
+}

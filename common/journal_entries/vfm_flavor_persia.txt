@@ -45,6 +45,9 @@
 		s:STATE_KHUZESTAN = {
 			add_claim = c:PER
 		}
+		s:STATE_FARS = {
+			add_claim = c:PER
+		}
 	}
 
 	can_deactivate = yes
@@ -75,49 +78,55 @@
 			}
 		}
 		custom_tooltip = {
-			text = integrated_khorasan_kurds_iran_tt
-			NOT = {
-				exists = c:SDL
-			}
-			NOT = {
-				exists = c:ZFL
-			}
-			NOT = {
-				exists = c:ARB
-			}
-			NOT = {
-				exists = c:ARD
-			}
-			NOT = {
-				exists = c:JEL
-			}
+			text = abolished_pompous_court_iran_tt
+			NOT = { has_modifier = per_pompous_court }
 		}
 		custom_tooltip = {
-			text = integrated_khozeimeh_iran_tt
+			text = integrated_khorasan_kurds_iran_tt
 			OR = {
-				NOT = { has_state_in_state_region = STATE_KHORASAN }
-				NOT = {
-					any_state = {
-						has_modifier = per_khozeimeh_amirdom
+				has_variable = completed_integrate_subjects_je
+				AND = {
+					NOT = {
+						exists = c:SDL
+					}
+					NOT = {
+						exists = c:ZFL
+					}
+					NOT = {
+						exists = c:ARB
+					}
+					NOT = {
+						exists = c:ARD
+					}
+					NOT = {
+						exists = c:JEL
+					}
+					NOT = {
+						exists = c:BTK
+					}
+					OR = {
+						NOT = { has_state_in_state_region = STATE_KHORASAN }
+						NOT = {
+							any_state = {
+								has_modifier = per_khozeimeh_amirdom
+							}
+						}
 					}
 				}
 			}
 		}
-		custom_tooltip = {
-			text = abolished_pompous_court_iran_tt
-			NOT = { has_modifier = per_pompous_court }
-		}
 		OR = {
+			custom_tooltip = {
+				text = reclaimed_caucasus_tt
+				owns_entire_state_region = STATE_AZERBAIJAN
+				owns_entire_state_region = STATE_ARMENIA
+				NOT = { is_country_type = unrecognized }
+			}
 			custom_tooltip = {
 				text = persian_constitution_has_been_adopted_tt
 				has_variable = persian_constitution_has_been_adopted
 				owns_entire_state_region = STATE_SISTAN
 				owns_entire_state_region = STATE_LARISTAN
-			}
-			custom_tooltip = {
-				text = reclaimed_caucasus_tt
-				owns_entire_state_region = STATE_AZERBAIJAN
-				owns_entire_state_region = STATE_ARMENIA
 			}
 		}
 		country_rank >= rank_value:major_power
@@ -156,6 +165,7 @@
 			remove_variable = hasan_governor_var 
 			remove_variable = luti_revolt_var
 			remove_variable = second_herat_siege
+			remove_variable = completed_integrate_subjects_je
 			trigger_event = { id = journal_flavor_iran.50 popup = yes }
 		}
 	}
@@ -169,6 +179,7 @@
 			remove_variable = hasan_governor_var 
 			remove_variable = luti_revolt_var
 			remove_variable = second_herat_siege
+			remove_variable = completed_integrate_subjects_je
 			add_modifier = {
 				name = per_fragile_authority
 				days = 7000
@@ -224,7 +235,7 @@ je_iran_constitution = {
 				limit = {
 					has_law = law_type:law_state_religion
 				}
-				add_modifier = { name = per_constitutional_revolution_clerical days = 3650 }
+				add_modifier = { name = per_constitutional_revolution_clerical }
 			}
 			else = {
 				limit = {
@@ -233,7 +244,7 @@ je_iran_constitution = {
 						has_law = law_type:law_state_atheism
 					}
 				}
-				add_modifier = { name = per_constitutional_revolution_anti_clerical days = 3650 }
+				add_modifier = { name = per_constitutional_revolution_anti_clerical }
 			}
 			set_variable = persian_constitution_has_been_adopted
 		}
@@ -484,6 +495,259 @@ je_the_siege_of_herat = {
 	
 	current_value = {
 		value = root.var:herat_siege_progress_var
+	}
+	
+	should_be_pinned_by_default = yes
+	
+}
+
+je_integrate_khanate_subjects_iran = {
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+    group = je_group_historical_content
+
+	immediate = {
+		c:PER = {
+			save_scope_as = per_scope
+		}
+		c:SDL = {
+			save_scope_as = sdl_scope
+		}
+		c:ZFL = {
+			save_scope_as = zfl_scope
+		}
+		c:ARB = {
+			save_scope_as = arb_scope
+		}
+		c:ARD = {
+			save_scope_as = ard_scope
+		}
+		c:JEL = {
+			save_scope_as = jel_scope
+		}
+		c:OMA = {
+			save_scope_as = oma_scope
+		}
+		c:KAL = {
+			save_scope_as = kal_scope
+		}
+		c:GBR = {
+			save_scope_as = gbr_scope
+		}
+		c:ABU = {
+			save_scope_as = abu_scope
+		}
+		set_variable = {
+			name = iran_annex_subjects_var
+			value = 0
+		}
+	}
+	
+	scripted_button = je_annex_ard_button
+	scripted_button = je_annex_khr_button
+	scripted_button = je_annex_jel_button
+	scripted_button = je_annex_btk_button
+	scripted_button = je_annex_arb_button
+	scripted_button = je_annex_bandar_abbas_button
+	
+	on_weekly_pulse = {
+		effect = {
+			clamp_variable = {
+				name = iran_annex_subjects_var
+				max = 5
+				min = 0
+			}
+			if = {
+				limit = {
+					owns_entire_state_region = STATE_SISTAN
+					NOT = { has_variable = annexed_kohistan_var }
+				}
+				change_variable = { name = iran_annex_subjects_var add = 1 }
+				set_variable = { name = annexed_kohistan_var }
+			}
+			if = {
+				limit = {
+					NOT = { 
+						exists = c:JEL
+						has_variable = annexed_maku_var 
+					}
+				}
+				change_variable = { name = iran_annex_subjects_var add = 1 }
+				set_variable = { name = annexed_maku_var }
+			}
+			if = {
+				limit = {
+					NOT = { 
+						exists = c:ARD
+						has_variable = annexed_ardalan_var
+					}
+				}
+				change_variable = { name = iran_annex_subjects_var add = 1 }
+				set_variable = { name = annexed_ardalan_var }
+			}
+			if = {
+				limit = {
+					AND = {
+						NOT = {	exists = c:ARB }
+						owns_entire_state_region = STATE_LARISTAN
+						owns_entire_state_region = STATE_FARS
+						NOT = { has_variable = annexed_bastak_var }
+					}
+				}
+				change_variable = { name = iran_annex_subjects_var add = 1 }
+				set_variable = { name = annexed_bastak_var }
+			}
+			if = {
+				limit = {
+					AND = {
+						NOT = { exists = c:ZFL }
+						NOT = { exists = c:SDL }
+						OR = {
+							NOT = { has_state_in_state_region = STATE_KHORASAN }
+							NOT = {
+								any_state = {
+									has_modifier = per_khozeimeh_amirdom
+								}
+							}
+						}
+						NOT = { has_variable = annexed_khorasan_var }
+					}
+				}
+				change_variable = { name = iran_annex_subjects_var add = 1 }
+				set_variable = { name = annexed_khorasan_var }
+			}
+		}
+	}
+	
+	possible = {
+	
+	}
+	
+	goal_add_value = {
+		add = 5
+	}
+	
+	progressbar = yes
+
+	can_deactivate = yes
+
+	complete = {
+		exists = var:iran_annex_subjects_var
+		AND = {
+			custom_tooltip = {
+				text = custom_tooltip_annexed_khorasan
+				OR = {
+					has_variable = annexed_khorasan_var
+					AND = {
+						NOT = { exists = c:SDL }
+						NOT = { exists = c:ZFL }
+						OR = {
+							NOT = { has_state_in_state_region = STATE_KHORASAN }
+							NOT = {
+								any_state = {
+									has_modifier = per_khozeimeh_amirdom
+								}
+							}
+						}		
+					}
+				}
+			}
+		}
+		custom_tooltip = {
+			text = custom_tooltip_annexed_kohistan
+			owns_entire_state_region = STATE_SISTAN
+			has_variable = annexed_kohistan_var
+		}
+		custom_tooltip = {
+			text = custom_tooltip_annexed_bastak
+			has_variable = annexed_bastak_var
+			AND = {
+				NOT = { exists = c:ARB }
+				owns_entire_state_region = STATE_LARISTAN
+			}
+		}
+		custom_tooltip = {
+			text = custom_tooltip_annexed_maku
+			has_variable = annexed_maku_var
+			NOT = { exists = c:JEL }
+		}
+		custom_tooltip = {
+			text = custom_tooltip_annexed_ardalan
+			has_variable = annexed_ardalan_var
+			NOT = { exists = c:ARD }
+		}
+	}
+	
+	fail = {
+		custom_tooltip = {
+			text = lost_subjects_iran_tt
+			AND = {
+				exists = c:ARD
+				NOT = {
+					c:ARD = {
+						is_subject_of = c:PER
+					}
+				}
+			}
+			AND = {
+				exists = c:ZFL
+				NOT = {
+					c:ZFL = {
+						is_subject_of = c:PER
+					}
+				}
+			}
+			AND = {
+				exists = c:SDL
+				NOT = {
+					c:SDL = {
+						is_subject_of = c:PER
+					}
+				}
+			}
+			AND = {
+				exists = c:ARB
+				NOT = {
+					c:ARB = {
+						is_subject_of = c:PER
+					}
+				}
+			}
+			AND = {
+				exists = c:JEL
+				NOT = {
+					c:JEL = {
+						is_subject_of = c:PER
+					}
+				}
+			}
+		}
+		custom_tooltip = {
+			text = doesnt_control_kohistan_tt
+			NOT = { owns_entire_state_region = STATE_SISTAN }
+		}
+		custom_tooltip = {
+			text = doesnt_control_khorasan_tt
+			NOT = { has_state_in_state_region = STATE_KHORASAN }
+		}
+	}
+
+	on_complete = {
+		trigger_event = { id = journal_flavor_iran.30 popup = yes }
+		hidden_effect = {
+			set_variable = completed_integrate_subjects_je
+		}
+	}
+	
+	on_fail = {
+		hidden_effect = {
+			set_variable = completed_integrate_subjects_je
+		}
+	}
+
+    weight = 10000
+	
+	current_value = {
+		value = root.var:iran_annex_subjects_var
 	}
 	
 	should_be_pinned_by_default = yes
