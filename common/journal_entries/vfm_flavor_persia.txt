@@ -141,9 +141,10 @@
 		
 		}
 		events = {
-			journal_flavor_iran.11
-			journal_flavor_iran.12
-			journal_flavor_iran.18
+			journal_flavor_iran.11 #Appointment of Hasan Khan Salar
+			journal_flavor_iran.12 #Luti Revolt
+			journal_flavor_iran.18 #Second Siege of Herat Trigger (First Siege is triggered via separate JE)
+			journal_flavor_iran.31 #Babism/Bahai Trigger
 		}
 	}
 	
@@ -152,9 +153,9 @@
 		
 		}
 		events = {
-			journal_flavor_iran.3
-			journal_flavor_iran.17
-			journal_flavor_iran.20
+			journal_flavor_iran.3 #First Siege of Herat Abandoned
+			journal_flavor_iran.17 #Coronation of Nasir al-Din Shah Qajar
+			journal_flavor_iran.20 #Second Siege of Herat Abandoned
 		}
 	}
 	
@@ -166,6 +167,7 @@
 			remove_variable = luti_revolt_var
 			remove_variable = second_herat_siege
 			remove_variable = completed_integrate_subjects_je
+			remove_variable = babism_spawned
 			trigger_event = { id = journal_flavor_iran.50 popup = yes }
 		}
 	}
@@ -180,6 +182,7 @@
 			remove_variable = luti_revolt_var
 			remove_variable = second_herat_siege
 			remove_variable = completed_integrate_subjects_je
+			remove_variable = babism_spawned
 			add_modifier = {
 				name = per_fragile_authority
 				days = 7000
@@ -764,4 +767,44 @@ je_integrate_khanate_subjects_iran = {
 	
 	should_be_pinned_by_default = yes
 	
+}
+
+je_iran_babism = {
+	icon = "gfx/interface/icons/event_icons/event_black_flag.dds"
+    group = je_group_historical_content
+
+	can_deactivate = yes
+
+	scripted_button = je_capture_bab_button
+	scripted_button = je_execute_bab_button
+	
+	complete = {
+		custom_tooltip = {
+			text = babism_event_chain_tt
+			NOT = { has_variable = babism_je_event_chain }
+		}
+	}
+	
+	on_monthly_pulse = {
+		effect = {
+		
+		}
+		events = {
+			journal_flavor_iran.32 #The Spread of Babism
+			journal_flavor_iran.33 #Officials Convert to Babism
+			journal_flavor_iran.34 #The Death of the Bab
+		}
+	}
+	
+	on_complete = {
+		every_state = {
+			limit = {
+				has_modifier = babist_community
+			}
+			remove_modifier = babist_community
+		}
+	}
+
+    weight = 10000
+	should_be_pinned_by_default = yes
 }

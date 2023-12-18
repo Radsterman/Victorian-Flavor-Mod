@@ -1420,7 +1420,7 @@ journal_flavor_iran.24 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
 
-	icon = "gfx/interface/icons/event_icons/event_iran_flag.dds"
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
 	duration = 3
 
@@ -1475,7 +1475,7 @@ journal_flavor_iran.25 = {
 		}
 	}
 	
-	option = { #No/ Sheikh Kazal Rebellion Trigger for Ai
+	option = { #No/ Sheikh Kazal Rebellion Trigger
 		name = journal_flavor_iran.25.b
 		default_option = yes
 		trigger = {
@@ -1623,7 +1623,7 @@ journal_flavor_iran.28 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
 
-	icon = "gfx/interface/icons/event_icons/event_iran_flag.dds"
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
 	duration = 3
 
@@ -1661,7 +1661,7 @@ journal_flavor_iran.29 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
 
-	icon = "gfx/interface/icons/event_icons/event_iran_flag.dds"
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
 	duration = 3
 
@@ -1708,6 +1708,415 @@ journal_flavor_iran.30 = {
 	}
 	
 }
+
+### Bahá'í/Bahai/Baha'i # Babism/Bábism Events ### 
+
+# The Báb starts to preach
+journal_flavor_iran.31 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_iran.31.t
+	desc = journal_flavor_iran.31.d
+	flavor = journal_flavor_iran.31.f
+
+	event_image = {
+		video = "middleeast_islam"
+
+		on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	duration = 3
+
+	trigger = {
+		has_modifier = per_fragile_authority
+		game_date >= 1844.5.5
+		NOT = { has_variable = babism_spawned }
+		any_scope_state = {
+			state_region = { is_homeland = cu:persian }
+			NOT = { has_variable = babism_center }
+		}
+	}
+	
+	immediate = {
+		set_variable = babism_spawned
+		set_variable = babism_influence_in_government
+		set_variable = babism_je_event_chain
+		add_journal_entry = {
+			type = je_iran_babism
+		}
+		random_scope_state = {
+			limit = {
+				NOT = { has_variable = babism_center }
+				any_scope_pop = {
+					has_pop_religion = shiite
+				}
+			}
+			save_scope_as = birthplace_of_babism
+		}
+	}
+	
+	option = { #Find him
+		name = journal_flavor_iran.31.a
+		default_option = yes 
+		scope:birthplace_of_babism = {
+			set_variable = babism_center
+			add_modifier = {
+				name = babist_community
+				days = 3650
+			}
+		}
+		set_variable = per_persecute_babism #The Báb will preach until captured and executed after which Baha'i will spawn naturally
+		
+		ai_chance = {
+			base = 90
+		}
+	}
+	
+	option = { #Whatever
+		name = journal_flavor_iran.31.b
+		scope:birthplace_of_babism = {
+			set_variable = babism_center
+			add_modifier = {
+				name = babist_community
+				days = 3650
+			}
+		}
+		set_variable = per_ignore_babism #The Báb will preach until his death after which Baha'i will spawn naturally
+		
+		ai_chance = {
+			base = 10
+		}
+	}
+	
+}
+
+# Spread of Babism
+journal_flavor_iran.32 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_iran.32.t
+	desc = journal_flavor_iran.32.d
+	flavor = journal_flavor_iran.32.f
+
+	event_image = {
+		video = "middleeast_islam"
+
+		on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	duration = 3
+
+	cooldown = { months = 6 }
+
+	trigger = {
+		has_variable = babism_spawned
+		any_scope_state = {
+			has_variable = babism_center
+			any_neighbouring_state = {
+				owner = ROOT
+				NOT = {
+					has_variable = babism_center
+				}
+			}
+		}
+	}
+	
+	immediate = {
+		set_variable = bab_sighted_var
+		random_scope_state = {
+			limit = {
+				has_variable = babism_center
+				any_neighbouring_state = {
+					owner = ROOT
+					NOT = {
+						has_variable = babism_center
+					}
+				}
+			}
+			save_scope_as = babism_cult_center
+			random_neighbouring_state = {
+				limit = {
+					owner = ROOT
+					NOT = {
+						has_variable = babism_center
+					}
+				}
+				save_scope_as = babism_cult_center
+				set_variable = {
+					name = babism_center
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = journal_flavor_iran.32.a
+		default_option = yes 
+		scope:babism_cult_center = {
+			add_modifier = {
+				name = babist_community
+				days = 1800
+			}
+		}
+		
+		ai_chance = {
+			base = 100
+		}
+	}
+}
+
+#Officials Convert to Babism
+journal_flavor_iran.33 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_iran.33.t
+	desc = journal_flavor_iran.33.d
+	flavor = journal_flavor_iran.33.f
+
+	event_image = {
+		video = "middleeast_islam"
+
+		on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	duration = 3
+	
+	immediate = {
+		remove_variable = babism_influence_in_government
+	}
+	
+	option = { #Execute him
+		name = journal_flavor_iran.33.a
+		default_option = yes 
+		
+		set_variable = per_to_execute_bab_var
+		
+		ai_chance = {
+			base = 100
+		}
+	}
+	
+	option = { #Release him
+		name = journal_flavor_iran.33.b
+		trigger = {
+			has_variable = per_ignore_babism
+		}
+		set_variable = per_accepted_babism
+		
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+#Death of the Báb 
+journal_flavor_iran.34 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_iran.34.t
+	desc = journal_flavor_iran.34.d
+	flavor = journal_flavor_iran.34.f
+
+	event_image = {
+		video = "middleeast_islam"
+
+		on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	duration = 3
+
+	trigger = {
+		has_variable = babism_spawned
+		has_variable = babism_je_event_chain
+		game_date >= 1854.1.1
+		any_scope_state = {
+			has_variable = babism_center
+		}
+	}
+	
+	immediate = { #Spawn Bahai down the road
+		remove_variable = babism_je_event_chain
+		remove_variable = bab_sighted_var
+		remove_variable = captured_bab_button_pressed
+		remove_variable = per_to_execute_bab_var
+		remove_variable = pressed_execution_bab_button
+		trigger_event = { id = journal_flavor_iran.35 days = 3650 } 
+	}
+	
+	option = { 
+		name = journal_flavor_iran.34.a
+		default_option = yes 
+		
+		ai_chance = {
+			base = 100
+		}
+	}
+}
+
+#Birth of Bahá'í/Bahai
+journal_flavor_iran.35 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_iran.35.t
+	desc = journal_flavor_iran.35.d
+	flavor = journal_flavor_iran.35.f
+
+	event_image = {
+		video = "middleeast_islam"
+
+		on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	duration = 3
+	
+	immediate = {
+		
+	}
+	
+	option = { #Persectured Baha'i
+		name = journal_flavor_iran.35.a
+		default_option = yes 
+		trigger = {
+			has_variable = per_persecute_babism
+			NOT = { has_variable = per_accepted_babism }
+		}
+		remove_variable = per_persecute_babism
+
+		hidden_effect = {
+			every_state = {
+				limit = {
+					has_variable = babism_center
+				}
+				remove_variable = babism_center
+				convert_population = {
+					target = rel:bahai value = 0.01
+				}
+			}
+		}
+		
+		ai_chance = {
+			base = 95
+		}
+	}
+	
+	option = { #Ignored Baha'i
+		name = journal_flavor_iran.35.b
+		trigger = {
+			has_variable = per_ignore_babism
+		}
+		remove_variable = per_ignore_babism
+		
+		hidden_effect = {
+			every_state = {
+				limit = {
+					has_variable = babism_center
+				}
+				remove_variable = babism_center
+				convert_population = {
+					target = rel:bahai value = 0.1
+				}
+			}
+		}
+		
+		ai_chance = {
+			base = 5
+		}
+	}
+	
+	#option = { #Accepted Baha'i # Convert Option #Disabled for now since converting would be such a can of worms lmao; requires whole event chain and flavour stuff, but enable at own risk
+	#	name = journal_flavor_iran.35.c
+	#	trigger = {
+	#		has_variable = per_ignore_babism
+	#		has_variable = per_accepted_babism
+	#	}
+	#	remove_variable = per_ignore_babism
+	#	remove_variable = per_accepted_babism
+	#	
+	#	set_state_religion = rel:bahai
+	#	
+	#	hidden_effect = {
+	#		every_state = {
+	#			limit = {
+	#				has_variable = babism_center
+	#			}
+	#			remove_variable = babism_center
+	#			convert_population = {
+	#				target = rel:bahai value = 0.2
+	#			}
+	#		}
+	#	}
+	#	
+	#	ai_chance = {
+	#		base = 0
+	#	}
+	#}
+}
+
+#Death of the Báb # Triggered by Execution
+journal_flavor_iran.36 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_iran.36.t
+	desc = journal_flavor_iran.36.d
+	flavor = journal_flavor_iran.36.f
+
+	event_image = {
+		video = "middleeast_islam"
+
+		on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	duration = 3
+	
+	immediate = { #Spawn Bahai down the road
+		remove_variable = babism_je_event_chain
+		remove_variable = bab_sighted_var
+		remove_variable = captured_bab_button_pressed
+		remove_variable = per_to_execute_bab_var
+		remove_variable = pressed_execution_bab_button
+		trigger_event = { id = journal_flavor_iran.35 days = 3650 } 
+	}
+	
+	option = { 
+		name = journal_flavor_iran.36.a
+		default_option = yes 
+		
+		ai_chance = {
+			base = 100
+		}
+	}
+}
+
 
 ### Iran Major Flavour - Post-Journal-Completion ###
 

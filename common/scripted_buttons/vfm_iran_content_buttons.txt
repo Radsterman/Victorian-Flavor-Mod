@@ -215,7 +215,7 @@ je_annex_khr_button = {
 	visible = { always = yes }
 	
 	ai_chance = {
-		base = 0
+		base = 100
 	}
 
 	possible = {
@@ -252,7 +252,7 @@ je_annex_bandar_abbas_button = {
 	visible = { always = yes }
 	
 	ai_chance = {
-		base = 0
+		base = 100
 	}
 
 	possible = {
@@ -290,7 +290,7 @@ je_annex_ard_button = {
 	visible = { always = yes }
 	
 	ai_chance = {
-		base = 0
+		base = 100
 	}
 
 	possible = {
@@ -332,7 +332,7 @@ je_annex_jel_button = {
 	visible = { always = yes }
 	
 	ai_chance = {
-		base = 0
+		base = 100
 	}
 
 	possible = {
@@ -374,7 +374,7 @@ je_annex_arb_button = {
 	visible = { always = yes }
 	
 	ai_chance = {
-		base = 0
+		base = 100
 	}
 
 	possible = {
@@ -409,7 +409,7 @@ je_annex_btk_button = {
 	visible = { always = yes }
 	
 	ai_chance = {
-		base = 0
+		base = 100
 	}
 
 	possible = {
@@ -469,6 +469,61 @@ je_annex_btk_button = {
 			}
 			c:GBR = { trigger_event = { id = journal_flavor_iran.23 days = 14 popup = yes } }
 			set_variable = { name = integration_action_taken_iran_var days = 150 }
+		}
+	}
+}
+
+je_capture_bab_button = {
+	name = "je_capture_bab_button"
+	desc = "je_capture_bab_button_desc"
+
+	visible = { always = yes }
+	
+	ai_chance = {
+		base = 100
+	}
+
+	possible = {
+		custom_tooltip = {
+			text = bab_sighted_tt
+			has_variable = bab_sighted_var
+			NOT = { has_variable = captured_bab_button_pressed }
+		}
+	}
+
+	effect = {
+		custom_tooltip = {
+			text = captured_bab_tt
+			c:PER = { trigger_event = { id = journal_flavor_iran.33 days = 14 popup = yes } }
+			set_variable = captured_bab_button_pressed
+		}
+	}
+}
+
+je_execute_bab_button = {
+	name = "je_execute_bab_button"
+	desc = "je_execute_bab_button_desc"
+
+	visible = { always = yes }
+	
+	ai_chance = {
+		base = 100
+	}
+
+	possible = {
+		custom_tooltip = {
+			text = plan_execute_bab_tt
+			NOT = { has_variable = pressed_execution_bab_button } 
+			NOT = { has_variable = babism_influence_in_government }
+			has_variable = per_to_execute_bab_var
+		}
+	}
+
+	effect = {
+		custom_tooltip = {
+			text = execute_bab_tt
+			c:PER = { trigger_event = { id = journal_flavor_iran.36 popup = yes } }
+			set_variable = pressed_execution_bab_button
 		}
 	}
 }
