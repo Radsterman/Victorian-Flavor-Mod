@@ -1,0 +1,637 @@
+template editor_text
+{
+	font = "standard_font"
+	fontsize = 15
+	fontcolor = { 1 1 1 1 }
+}
+
+template ConsoleBackground
+{
+	using = clickthrough_blocker
+
+	texture = "gfx/interface/backgrounds/illu_color.dds"
+	spriteType = Corneredtiled
+	spriteborder = { 0 0 }
+	texture_density = 2
+
+	block "fade" {
+		modify_texture = {
+			texture = "gfx/interface/backgrounds/default_bg_shading.dds"
+			spriteType = Corneredstretched
+			spriteborder = { 0 0 }
+			blend_mode = overlay
+			alpha = 0.8
+		}
+	}
+
+	modify_texture = {
+		using = bg_tiling_pattern
+		alpha = 0.065
+	}
+
+}
+
+template console_frame
+{
+	texture = "gfx/interface/backgrounds/simple_frame.dds"
+	spriteType = Corneredstretched
+	spriteborder = { 20 20 }
+	texture_density = 2
+}
+
+template ConsoleEditbg
+{
+	spriteType = Corneredtiled
+	spriteborder = { 5 5 }
+	shaderfile = "gfx/FX/pdxgui_default.shader"
+	texture = "gfx/interface/backgrounds/text_edit_bg.dds"
+	texture_density = 2
+}
+
+@button_sizeX = 125
+@button_sizeY = 36
+types console_widgets {
+
+	type console_button = button
+	{
+		using = default_button
+		font = "standard_font"
+		fontsize = 14
+		parentanchor = hcenter
+		size = { @button_sizeX @button_sizeY }
+	}
+}
+
+
+textbox = {
+	name = "console_output_item"
+	maximumsize = { 390 -1 }
+	align = left|top
+	fontsize = 13
+	multiline = yes
+	autoresize = yes
+}
+
+container = {
+	name = "console_window"
+	position = { 10 0 }
+	alwaystransparent = no
+	parentanchor = vcenter|left
+	scissor = no
+	layer = confirmation
+	using = clickthrough_blocker
+
+	container = {
+		background = {
+			using = ConsoleBackground
+			margin = { 8 8 }
+		}
+
+		icon = {
+			size = { 100% 100% }
+			background = {
+				using = console_frame
+				margin = { 10 10 }
+			}
+		}
+
+		scrollarea = {
+			name = "console_output_scrollarea"
+			size = { 408 510 }
+
+			scrollwidget = {
+				flowcontainer = {
+					name = "console_output"
+					direction = "vertical"
+					ignoreinvisible = no
+				}
+			}
+
+			scrollbar_vertical = {
+				using = vertical_scrollbar
+			}
+
+			scrollbar_horizontal = {
+				using = horizontal_scrollbar
+			}
+		}
+
+		button = {
+			using = default_button
+			position = { 365 0 }
+			size = { 30 30 }
+			onclick = "[ConsoleWindow.ToggleMenu]"
+			raw_text = "M"
+		}
+
+		editbox = {
+			background = {
+				using = ConsoleEditbg
+				margin = { 4 0 }
+			}
+
+			name = "console_edit"
+			position = { 0 520 }
+			size = { 408 40 }
+			alwaystransparent = no
+			focuspolicy = all
+			align = left|nobaseline
+		}
+
+		margin_widget = {
+			name = "toolbars_window"
+			@window_width = 398
+			@panel_width = @[window_width-16]
+			size = { @window_width 505 }
+			parentanchor = hcenter
+			position = { 1 570 }
+
+			margin = { 7 7 }
+
+			background = {
+				using = top_header_bg
+				margin = { 6 3 }
+			}
+			background = {
+				using = entry_bg_unit
+				margin = { 6 3 }
+				color = { .7 .4 .4 1.0 }
+			}
+
+			flowcontainer = {
+				spacing = 8
+				parentanchor = hcenter
+
+				flowcontainer = {
+					direction = vertical
+
+					background = {
+						using = entry_bg_simple_colored
+						margin = { 3 5 }
+					}
+
+					textbox = {
+						size = { 126 35 }
+						align = center|nobaseline
+						raw_text = "UI | 2D"
+					}
+
+					console_button = {
+						raw_text = "#gold Master Menu"
+						onclick = "[ExecuteConsoleCommand('gui.CreateDockable gui/debug_menues.gui ui_master_menu')]"
+					}
+
+					console_button = {
+						raw_text = "GUI Debug"
+						onclick = "[ExecuteConsoleCommand('gui.debug')]"
+					}
+
+					console_button = {
+						raw_text = "GUI Editor"
+						onclick = "[ExecuteConsoleCommand('gui_editor')]"
+					}
+
+					console_button = {
+						raw_text = "UI Library"
+						raw_tooltip = "Open UI Library"
+						onclick = "[ExecuteConsoleCommand('GUI.CreateWidget gui/window_component_library.gui component_library_window')]"
+					}
+
+					console_button = {
+						raw_text = "Data Types"
+						raw_tooltip = "Data Types"
+						onclick = "[ExecuteConsoleCommand('data_types_explorer')]"
+					}
+
+				}
+
+				flowcontainer = {
+					direction = vertical
+					background = {
+						using = entry_bg_simple_colored
+						margin = { 3 5 }
+					}
+					textbox = {
+						size = { 126 35 }
+						align = center|nobaseline
+						raw_text = "Debug | Misc"
+					}
+
+					console_button = {
+						raw_text = "#n Reload Textures"
+						onclick = "[ExecuteConsoleCommand('reload texture')]"
+					}
+
+					console_button = {
+						raw_text = "Script Explorer"
+						raw_tooltip = "Script Explorer"
+						onclick = "[ExecuteConsoleCommand('explorer')]"
+					}
+
+					console_button = {
+						raw_text = "Script Profiler"
+						raw_tooltip = "Script Profiler"
+						onclick = "[ExecuteConsoleCommand('Script.Profiling.Gui')]"
+					}
+
+					console_button = {
+						raw_text = "Audio"
+						onclick = "[ExecuteConsoleCommand('tweak Audio.')]"
+					}
+
+					console_button = {
+						raw_text = "Language"
+						onclick = "[ExecuteConsoleCommand('gui.CreateDockable gui/debug_menues.gui language_window')]"
+					}
+
+					console_button = {
+						raw_text = "Flags"
+						onclick = "[ExecuteConsoleCommand('gui.CreateDockable gui/debug_menues.gui flags_window')]"
+					}
+
+					console_button = {
+						raw_text = "Capture Provinces"
+						onclick = "[ExecuteConsoleCommand('TheaterTool')]"
+					}
+				}
+
+				flowcontainer = {
+					direction = vertical
+					spacing = 10
+					flowcontainer = {
+						direction = vertical
+
+						background = {
+							using = entry_bg_simple_colored
+							margin = { 3 5 }
+						}
+
+						textbox = {
+							size = { 126 35 }
+							align = center|nobaseline
+							raw_text = "Quick Toggle"
+						}
+
+						console_button = {
+							raw_text = "Camera Restrictions"
+							fontsize = 12
+							onclick = "[ExecuteConsoleCommand('Camera.Restrictions')]"
+						}
+
+						console_button = {
+							raw_text = "Disable Map Tooltip"
+							fontsize = 12
+							onclick = "[ExecuteConsoleCommand('Draw.MapTooltip')]"
+						}
+
+						flowcontainer = {
+							direction = horizontal
+
+							button = {
+								using = default_button
+								raw_text = "Particle"
+								size = { 62 35 }
+								fontsize = 13
+								using = fontsize_small
+								onclick = "[ExecuteConsoleCommand('particleeditor')]"
+								raw_tooltip = "Open the particle editor"
+							}
+
+							button = {
+								using = default_button
+								raw_text = "Entities"
+								size = { 62 35 }
+								fontsize = 13
+								using = fontsize_small
+								onclick = "[ExecuteConsoleCommand('clearspawnedentities')]"
+								raw_tooltip = "Removes all manually spawned items"
+							}
+						}
+
+					}
+
+					flowcontainer = {
+						direction = vertical
+
+						background = {
+							using = entry_bg_simple_colored
+							margin = { 3 5 }
+						}
+
+						textbox = {
+							size = { 126 26 }
+							align = center|nobaseline
+							raw_text = "Graphics | Env"
+						}
+
+						console_button = {
+							raw_text = "#gold Master Menu"
+							onclick = "[ExecuteConsoleCommand('gui.CreateDockable gui/debug_menues.gui environment_debug_window')]"
+						}
+
+						console_button = {
+							raw_text = "Settings"
+
+							onclick = "[ExecuteConsoleCommand('settings')]"
+						}
+
+						console_button = {
+							raw_text = "Particle Tools"
+
+							onclick = "[ExecuteConsoleCommand('gui.CreateDockable gui/debug_menues.gui Particle_Tools')]"
+						}
+					}
+				}
+			}
+
+
+			container = {
+				position = { 0 300 }
+				parentanchor = hcenter
+
+				background = {
+					using = entry_bg_simple_colored
+					margin = { 5 5 }
+				}
+
+				@button_num = 4
+				@button_width = @[ panel_width / button_num ]
+				@button_height = 25
+
+				flowcontainer = {
+					direction = vertical
+					spacing = 3
+
+					textbox = {
+						size = { 200 15 }
+						using = fontsize_small
+						raw_text = "Change Constitution"
+					}
+
+					flowcontainer = {
+						button = {
+							using = default_button
+							size = { @button_width @button_height }
+							raw_text = "Theocra"
+							onclick = "[ExecuteConsoleCommand('event debug.1')]"
+							using = fontsize_xsmall
+						}
+						button = {
+							using = default_button
+							size = { @button_width @button_height }
+							raw_text = "Absolute"
+							onclick = "[ExecuteConsoleCommand('event debug.2')]"
+							using = fontsize_xsmall
+						}
+						button = {
+							using = default_button
+							size = { @button_width @button_height }
+							raw_text = "Monarch"
+							onclick = "[ExecuteConsoleCommand('event debug.3')]"
+							using = fontsize_xsmall
+						}
+						button = {
+							using = default_button
+							size = { @button_width @button_height }
+							raw_text = "Dictator"
+							onclick = "[ExecuteConsoleCommand('event debug.4')]"
+							using = fontsize_xsmall
+						}
+					}
+
+					flowcontainer = {
+						button = {
+							using = default_button
+							size = { @button_width @button_height }
+							raw_text = "Oligarchy"
+							onclick = "[ExecuteConsoleCommand('event debug.5')]"
+							using = fontsize_xsmall
+						}
+						button = {
+							using = default_button
+							size = { @button_width @button_height }
+							raw_text = "Republic"
+							onclick = "[ExecuteConsoleCommand('event debug.6')]"
+							using = fontsize_xsmall
+						}
+						button = {
+							using = default_button
+							size = { @button_width @button_height }
+							raw_text = "Commun"
+							onclick = "[ExecuteConsoleCommand('event debug.7')]"
+							using = fontsize_xsmall
+						}
+						button = {
+							using = default_button
+							size = { @button_width @button_height }
+							raw_text = "Anarchy"
+							onclick = "[ExecuteConsoleCommand('event debug.8')]"
+							using = fontsize_xsmall
+						}
+					}
+				}
+			}
+
+			container = {
+				position = { 0 390 }
+				parentanchor = hcenter
+
+				background = {
+					using = entry_bg_simple_colored
+					margin = { 5 5 }
+				}
+
+				@button_num = 4
+				@button_width = @[ panel_width / button_num ]
+				@button_height = 25
+
+				flowcontainer = {
+					direction = vertical
+					spacing = 3
+
+					textbox = {
+						size = { 200 15 }
+						using = fontsize_small
+						raw_text = "Fast Commands"
+					}
+
+					flowcontainer = {
+						button = {
+							using = default_button
+							size = { @button_width @button_height }
+							raw_text = "Research"
+							onclick = "[ExecuteConsoleCommand('fastresearch')]"
+							using = fontsize_xsmall
+						}
+						button = {
+							using = default_button
+							size = { @button_width @button_height }
+							raw_text = "Enact"
+							onclick = "[ExecuteConsoleCommand('fastenact')]"
+							using = fontsize_xsmall
+						}
+						button = {
+							using = default_button
+							size = { @button_width @button_height }
+							raw_text = "Institutions"
+							onclick = "[ExecuteConsoleCommand('fastinstitutions')]"
+							using = fontsize_xsmall
+						}
+						button = {
+							using = default_button
+							size = { @button_width @button_height }
+							raw_text = "Interests"
+							onclick = "[ExecuteConsoleCommand('fastbuild')]"
+							using = fontsize_xsmall
+						}
+					}
+
+					flowcontainer = {
+						button = {
+							using = default_button
+							size = { @button_width @button_height }
+							raw_text = "Revolution"
+							onclick = "[ExecuteConsoleCommand('fastrevolution')]"
+							using = fontsize_xsmall
+						}
+						button = {
+							using = default_button
+							size = { @button_width @button_height }
+							raw_text = "Secession"
+							onclick = "[ExecuteConsoleCommand('fastsecession')]"
+							using = fontsize_xsmall
+						}
+						button = {
+							using = default_button
+							size = { @button_width @button_height }
+							raw_text = "Incorporate"
+							onclick = "[ExecuteConsoleCommand('fastincorporate')]"
+							using = fontsize_xsmall
+						}
+						button = {
+							using = default_button
+							size = { @button_width @button_height }
+							raw_text = "Integrate"
+							onclick = "[ExecuteConsoleCommand('fastintegrate')]"
+							using = fontsize_xsmall
+						}
+					}
+
+					flowcontainer = {
+						button = {
+							using = default_button
+							size = { @button_width @button_height }
+							raw_text = "Hire"
+							onclick = "[ExecuteConsoleCommand('fasthire')]"
+							using = fontsize_xsmall
+						}
+						button = {
+							using = default_button
+							size = { @button_width @button_height }
+							raw_text = "Mobilize"
+							onclick = "[ExecuteConsoleCommand('fastmobilize')]"
+							using = fontsize_xsmall
+						}
+						button = {
+							using = default_button
+							size = { @button_width @button_height }
+							raw_text = "Travel"
+							onclick = "[ExecuteConsoleCommand('fasttravels')]"
+							using = fontsize_xsmall
+						}
+						button = {
+							using = default_button
+							size = { @button_width @button_height }
+							raw_text = "Build"
+							onclick = "[ExecuteConsoleCommand('fastbuild')]"
+							using = fontsize_xsmall
+						}
+					}
+				}
+			}
+		}
+	}
+
+	container = {
+		name = "menu"
+		visible = "[ConsoleWindow.IsMenuShown]"
+
+		scrollarea = {
+			name = "menu_scroll_area"
+			position = { 415 0 }
+			size = { 150 500 }
+			scrollbarpolicy_horizontal = always_off
+
+			background = {
+				using = default_background
+			}
+
+			scrollbar_vertical = {
+				using = vertical_scrollbar
+			}
+
+			scrollwidget = {
+				fixedgridbox = {
+					name = "menu_grid"
+					position = { 0 0 }
+					addcolumn = 100
+					addrow = 24
+
+					item = {
+						container = {
+							icon = {
+								using = ConsoleBackground
+								visible = "[ConsoleMenuItem.IsCurrentGroup]"
+								position = { 0 0 }
+								size = { 106 28 }
+							}
+
+							button = {
+								using = default_button
+								position = { 3 3 }
+								size = { 100 22 }
+								onclick = "[ConsoleMenuItem.Select]"
+								tooltip = "[ConsoleMenuItem.GetHelp]"
+								raw_text = "[ConsoleMenuItem.GetName]"
+							}
+						}
+					}
+				}
+			}
+		}
+
+		scrollarea = {
+			name = "command_scroll_area"
+			position = { 565 0 }
+			size = { 250 500 }
+			scrollbarpolicy_horizontal = always_off
+
+			background = {
+				using = default_background
+			}
+
+			scrollbar_vertical = {
+				using = vertical_scrollbar
+			}
+
+			scrollwidget = {
+				fixedgridbox = {
+					name = "command_grid"
+					addcolumn = 200
+					addrow = 24
+
+					item = {
+						button = {
+							using = default_button
+							size = { 250 24 }
+							onclick = "[ConsoleMenuItem.Select]"
+							tooltip = "[ConsoleMenuItem.GetHelp]"
+							raw_text = "[ConsoleMenuItem.GetName]"
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
