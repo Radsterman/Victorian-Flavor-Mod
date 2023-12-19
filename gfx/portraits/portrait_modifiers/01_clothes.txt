@@ -3669,6 +3669,75 @@ home_country = {
         }
     }
     
+    austrian_monarch = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = coats
+                template = austrian_coats
+                range = { 0.5 0.5 } # For the randomness to work correctly
+            }
+
+            # no aiguillettes because they don't work with double-breasted coats
+            #accessory = {
+            #    mode = add
+            #    gene = aiguillettes
+            #    template = all_aiguillettes
+            #    range = { 0 1 } # For the randomness to work correctly
+            #}
+
+            accessory = {
+                mode = add
+                gene = legwear
+                template = austrian_legwear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = belts
+                template = generic_belts
+                range = { 0 0.49 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 10002
+                scope:character ?= {
+                    OR = {
+                        AND = {
+                            home_country ?= {
+                                c:AUS ?= this
+                            }
+                        }
+                        AND = {
+                            home_country ?= {
+                                was_formed_from = AUS
+                            }
+                        }
+                    }
+                    scope:character ?= {
+                        age > 10
+                    }
+                    OR = {
+                        AND = {
+                            is_ruler = yes
+                            home_country ?= {
+                                has_law = law_type:law_monarchy
+                            }
+                        }
+                        AND = {
+                            is_heir = yes
+                            home_country ?= {
+                                has_law = law_type:law_monarchy
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     austrian_clothes_ww1 = {
         dna_modifiers = {
             accessory = {
