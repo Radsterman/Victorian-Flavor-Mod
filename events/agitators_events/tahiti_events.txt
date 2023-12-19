@@ -101,6 +101,19 @@ tahiti_events.2 = {
 	}
 
 	immediate = {
+	    s:STATE_TAHITI = {
+			random_scope_state = {
+				limit = {
+					owner = {
+					    OR = {
+						ROOT = THIS
+						is_subject_of = ROOT
+						}
+					}
+				}
+				save_scope_as = tahiti_state_scope
+			}
+		}
 	}
 
 	option = { # Focus on partying with the lads
@@ -159,6 +172,9 @@ tahiti_events.2 = {
 		}
 	}
 	option = {  # Focus on appeasement
+	    trigger = {
+		    has_state_in_state_region = STATE_TAHITI # is not just our puppet
+		}
 		name = tahiti_events.2.c
 		ai_chance = {
 			base = 0

@@ -382,3 +382,110 @@ journal_flavor_usa.4 = {
 		}
 	}
 }
+
+# Preparing for Removal
+journal_flavor_usa.5 = {
+	type = country_event
+	placement = scope:indian_removal_state
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+	event_image = {
+		video = "europenorthamerica_native_american"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	title = journal_flavor_usa.5.t
+	desc = journal_flavor_usa.5.d
+	flavor = journal_flavor_usa.5.f
+
+	duration = 3
+	
+	trigger = {
+		NOT = { has_variable = trail_of_tears_stall }
+		has_journal_entry = je_indian_removal
+		game_date > 1838.9.1
+		any_scope_state = {
+			any_scope_pop = {
+				culture = cu:muskogean
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = {
+			name = trail_of_tears_stall
+			months = 12
+		}
+		random_scope_state = {
+			limit = {
+				any_scope_pop = {
+					culture = cu:muskogean
+				}
+			}
+			save_scope_as = indian_removal_state
+		}
+		c:SEQ = {
+			save_scope_as = indian_territory_scope
+			capital = {
+				save_scope_as = oklahoma_state
+			}
+		}
+		cu:muskogean = { 
+			save_scope_as = muskogean_culture 
+		}
+	}
+	
+	option = { # use force
+		name = journal_flavor_usa.5.a
+		default_option = yes
+		scope:indian_removal_state = {
+			kill_population_percent_in_state = {
+				percent = 0.10
+				culture = cu:muskogean
+			}
+			every_scope_pop = {
+				limit = {
+					culture = cu:muskogean
+				}
+				move_pop = scope:oklahoma_state
+			}
+		}
+		custom_tooltip = {
+			text = indian_removal_force_tt
+			set_variable = { # affects severity of trail of tears
+				name = indian_removal_force
+				value = 2
+				months = 36
+			}
+		}
+	}
+	option = { # pay their way
+		name = journal_flavor_usa.5.b
+		scope:indian_removal_state = {
+			kill_population_percent_in_state = {
+				percent = 0.05
+				culture = cu:muskogean
+			}
+			every_scope_pop = {
+				limit = {
+					culture = cu:muskogean
+				}
+				move_pop = scope:oklahoma_state
+			}
+		}
+		add_modifier = {
+			name = USA_paying_removal_costs
+			multiplier = money_amount_multiplier_very_small
+			months = short_modifier_time
+		}
+		custom_tooltip = {
+			text = indian_removal_normal_tt
+			set_variable = { # affects severity of trail of tears
+				name = indian_removal_force
+				value = 1
+				months = 36
+			}
+		}
+	}
+}

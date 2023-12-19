@@ -3217,9 +3217,9 @@ ai_strategy_default = {
 	# Which buildings should the AI subsidize
 	# Using a different value in a strategy will override this value
 	subsidies = {
-		building_power_plant = should_have
-		building_railway = should_have
-		building_trade_center = should_have		
+		building_power_plant = must_have
+		building_railway = must_have
+		building_trade_center = must_have		
 	}
 	
 	# Specifying values here will override subsidy priorities while at war
@@ -6393,24 +6393,6 @@ ai_strategy_default = {
 						scope:target_country.infamy >= infamy_threshold:pariah
 					}
 					add = 25
-				}
-
-				# Relations with target
-				multiply = {
-					value = "scope:target_country.relations:root"
-					multiply = -0.01
-					add = 1
-					min = 0.5
-					max = 2.0				
-				}
-				
-				# Ideological opinion of target
-				multiply = {
-					value = "ai_ideological_opinion(scope:target_country)"
-					multiply = -0.05
-					add = 1
-					min = 0.5
-					max = 2.0
 				}				
 			}
 			
@@ -6440,6 +6422,24 @@ ai_strategy_default = {
 					can_reach_target_country = no
 				}
 				add = 100
+			}
+			
+			# Relations with target
+			multiply = {
+				value = "scope:target_country.relations:root"
+				multiply = -0.01
+				add = 1
+				min = 0.5
+				max = 2.0				
+			}
+			
+			# Ideological opinion of target
+			multiply = {
+				value = "ai_ideological_opinion(scope:target_country)"
+				multiply = -0.05
+				add = 1
+				min = 0.5
+				max = 2.0
 			}
 
 			min = 0
