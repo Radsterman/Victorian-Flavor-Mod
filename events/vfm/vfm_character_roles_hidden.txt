@@ -1,252 +1,247 @@
-﻿namespace = character_roles_hidden
-
-#Give Vice President Variable and Character
-character_roles_hidden.1 = {
-	type = country_event
-	hidden = yes
-	trigger = {
-		has_law = law_type:law_presidential_republic
-		country_has_voting_franchise = yes
-		NOT = { has_variable = vice_president }
-	}
-	immediate = {
-		create_character = {
-			on_created = {
-				set_variable = vice_president_trigger
-				owner = {
-					set_variable = {
-						name = vice_president
-						value = PREV
-					}
-				}
-			}		
-		}
-	}
-}
-
-#Generate New Vice President (Death) #Election in future
-character_roles_hidden.2 = {
-	type = country_event
-	hidden = yes
-	trigger = {
-		has_law = law_type:law_presidential_republic
-		country_has_voting_franchise = yes
-		has_variable = vice_president
-		OR = {
-			NOT = { 
-				any_scope_character = {
-					has_variable = vice_president_trigger
-				}
-			}
-			ruler = {
-				has_variable = vice_president_trigger
-			}
-		}
-	}
-	immediate = {
-	    if = {
-			limit = {
-				ruler = {
-				    has_variable = vice_president_trigger
-			    }
-			}
-			ruler = { remove_variable = vice_president_trigger }
-		}
-		if = {
-			limit = {
-				any_scope_character = {
-					is_ruler = no
-					is_heir = no
-					NOT = {
-					    OR = {
-							has_role = general
-							has_role = admiral
-							has_role = agitator
-						}
-					}
-					interest_group = {
-						is_in_government = yes
-					}
-				}
-			}
-			random_scope_character = {
-				limit = {
-					is_ruler = no
-					is_heir = no
-					NOT = {
-					    OR = {
-							has_role = general
-							has_role = admiral
-							has_role = agitator
-						}
-					}
-					interest_group = {
-						is_in_government = yes
-					}
-				}
-				set_variable = vice_president_trigger
-				save_scope_as = new_vice_president
-				owner = {
-					set_variable = {
-						name = vice_president
-						value = PREV
-					}
-				}
-			}
-		}
-		else = {
-			create_character = {
-				on_created = {
-					set_variable = vice_president_trigger
-					save_scope_as = new_vice_president
-					owner = {
-						set_variable = {
-							name = vice_president
-							value = PREV
-						}
-					}
-				}		
-			}
-		}
-	}
-}
-
-#Remove Vice President Role
-character_roles_hidden.3 = {
-	type = country_event
-	hidden = yes
-	trigger = {
-		NOT = {
-			AND = {
-				country_has_voting_franchise = yes
-				has_law = law_type:law_presidential_republic
-			}
-		}
-		has_variable = vice_president
-	}
-	immediate = {
-		remove_variable = vice_president
-		random_scope_character = {
-			limit = {
-				has_variable = vice_president_trigger
-			}
-			remove_variable = vice_president_trigger
-		}
-	}
-}
-
-#Give Prime Minister Variable and Character
-character_roles_hidden.4 = {
-	type = country_event
-	hidden = yes
-	trigger = {
-		has_law = law_type:law_monarchy
-		country_has_voting_franchise = yes
-		NOT = { has_variable = prime_minister }
-	}
-	immediate = {
-		random_scope_character = {
-			limit = {
-				is_ruler = no
-				is_heir = no
-				NOT = {
-				    OR = {
-						has_role = general
-						has_role = admiral
-						has_role = agitator
-					}
-				}
-				interest_group = {
-					is_in_government = yes
-				}
-			}
-			set_variable = prime_minister_trigger
-			owner = {
-				set_variable = {
-					name = prime_minister
-					value = PREV
-				}
-			}
-		}
-	}
-}
-
-#Generate New Prime Minister (Death) #Election in future
-character_roles_hidden.5 = {
-	type = country_event
-	hidden = yes
-	trigger = {
-		has_law = law_type:law_monarchy
-		country_has_voting_franchise = yes
-		has_variable = prime_minister
-			NOT = { 
-				any_scope_character = {
-					has_variable = prime_minister_trigger
-				}
-			}
-			
-			#any_scope_character = {
-			#	AND = {
-			#		NOT = { ig = is_in_government = yes }
-			#		has_variable = prime_minister_trigger
-			#	}
-			#}
-	}
-	immediate = {
-		random_scope_character = {
-			limit = {
-				is_ruler = no
-				is_heir = no
-				NOT = {
-				    OR = {
-						has_role = general
-						has_role = admiral
-						has_role = agitator
-					}
-				}
-				interest_group = {
-					is_in_government = yes
-				}
-			}
-			set_variable = prime_minister_trigger
-			save_scope_as = new_prime_minister
-			owner = {
-				set_variable = {
-					name = prime_minister
-					value = PREV
-				}
-			}
-		}
-		every_scope_character = {
-			limit = {
-				has_variable = prime_minister_trigger
-				NOT = { THIS = scope:new_prime_minister }
-			}
-			remove_variable = prime_minister_trigger
-		}
-	}
-}
-
-#Remove Prime Minister Role
-character_roles_hidden.6 = {
-	type = country_event
-	hidden = yes
-	trigger = {
-		NOT = {
-			AND = {
-				country_has_voting_franchise = yes
-				has_law = law_type:law_monarchy
-			}
-		}
-		has_variable = prime_minister
-	}
-	immediate = {
-		remove_variable = prime_minister
-		random_scope_character = {
-			limit = {
-				has_variable = prime_minister_trigger
-			}
-			remove_variable = prime_minister_trigger
-		}
-	}
-}
+﻿#namespace = character_roles_hidden
+#
+##Give Vice President Variable and Character
+#character_roles_hidden.1 = {
+#	type = country_event
+#	hidden = yes
+#	trigger = {
+#		has_law = law_type:law_presidential_republic
+#		country_has_voting_franchise = yes
+#		NOT = { has_variable = vice_president }
+#	}
+#	immediate = {
+#		create_character = {
+#			on_created = {
+#				set_variable = vice_president_trigger
+#				owner = {
+#					set_variable = {
+#						name = vice_president
+#						value = PREV
+#					}
+#				}
+#			}		
+#		}
+#	}
+#}
+#
+##Generate New Vice President (Death) #Election in future
+#character_roles_hidden.2 = {
+#	type = country_event
+#	hidden = yes
+#	trigger = {
+#		has_law = law_type:law_presidential_republic
+#		country_has_voting_franchise = yes
+#		has_variable = vice_president
+#		NOT = { 
+#			any_scope_character = {
+#				has_variable = vice_president_trigger
+#			}
+#		}
+#	}
+#	immediate = {
+#	    if = {
+#			limit = {
+#				ruler = {
+#				    has_variable = vice_president_trigger
+#			    }
+#			}
+#			ruler = { remove_variable = vice_president_trigger }
+#		}
+#		if = {
+#			limit = {
+#				any_scope_character = {
+#					is_ruler = no
+#					is_heir = no
+#					NOT = {
+#					    OR = {
+#							has_role = general
+#							has_role = admiral
+#							has_role = agitator
+#						}
+#					}
+#					interest_group = {
+#						is_in_government = yes
+#					}
+#				}
+#			}
+#			random_scope_character = {
+#				limit = {
+#					is_ruler = no
+#					is_heir = no
+#					NOT = {
+#					    OR = {
+#							has_role = general
+#							has_role = admiral
+#							has_role = agitator
+#						}
+#					}
+#					interest_group = {
+#						is_in_government = yes
+#					}
+#				}
+#				set_variable = vice_president_trigger
+#				save_scope_as = new_vice_president
+#				owner = {
+#					set_variable = {
+#						name = vice_president
+#						value = PREV
+#					}
+#				}
+#			}
+#		}
+#		else = {
+#			create_character = {
+#				on_created = {
+#					set_variable = vice_president_trigger
+#					save_scope_as = new_vice_president
+#					owner = {
+#						set_variable = {
+#							name = vice_president
+#							value = PREV
+#						}
+#					}
+#				}		
+#			}
+#		}
+#	}
+#}
+#
+##Remove Vice President Role
+#character_roles_hidden.3 = {
+#	type = country_event
+#	hidden = yes
+#	trigger = {
+#		NOT = {
+#			OR = {
+#				country_has_voting_franchise = yes
+#				has_law = law_type:law_presidential_republic
+#			}
+#		}
+#		has_variable = vice_president
+#	}
+#	immediate = {
+#		remove_variable = vice_president
+#		random_scope_character = {
+#			limit = {
+#				has_variable = vice_president_trigger
+#			}
+#			remove_variable = vice_president_trigger
+#		}
+#	}
+#}
+#
+##Give Prime Minister Variable and Character
+#character_roles_hidden.4 = {
+#	type = country_event
+#	hidden = yes
+#	trigger = {
+#		has_law = law_type:law_monarchy
+#		country_has_voting_franchise = yes
+#		NOT = { has_variable = prime_minister }
+#	}
+#	immediate = {
+#		random_scope_character = {
+#			limit = {
+#				is_ruler = no
+#				is_heir = no
+#				NOT = {
+#				    OR = {
+#						has_role = general
+#						has_role = admiral
+#						has_role = agitator
+#					}
+#				}
+#				interest_group = {
+#					is_in_government = yes
+#				}
+#			}
+#			set_variable = prime_minister_trigger
+#			owner = {
+#				set_variable = {
+#					name = prime_minister
+#					value = PREV
+#				}
+#			}
+#		}
+#	}
+#}
+#
+##Generate New Prime Minister (Death) #Election in future
+#character_roles_hidden.5 = {
+#	type = country_event
+#	hidden = yes
+#	trigger = {
+#		has_law = law_type:law_monarchy
+#		country_has_voting_franchise = yes
+#		has_variable = prime_minister
+#			NOT = { 
+#				any_scope_character = {
+#					has_variable = prime_minister_trigger
+#				}
+#			}
+#			
+#			#any_scope_character = {
+#			#	AND = {
+#			#		NOT = { ig = is_in_government = yes }
+#			#		has_variable = prime_minister_trigger
+#			#	}
+#			#}
+#	}
+#	immediate = {
+#		random_scope_character = {
+#			limit = {
+#				is_ruler = no
+#				is_heir = no
+#				NOT = {
+#				    OR = {
+#						has_role = general
+#						has_role = admiral
+#						has_role = agitator
+#					}
+#				}
+#				interest_group = {
+#					is_in_government = yes
+#				}
+#			}
+#			set_variable = prime_minister_trigger
+#			save_scope_as = new_prime_minister
+#			owner = {
+#				set_variable = {
+#					name = prime_minister
+#					value = PREV
+#				}
+#			}
+#		}
+#		every_scope_character = {
+#			limit = {
+#				has_variable = prime_minister_trigger
+#				NOT = { THIS = scope:new_prime_minister }
+#			}
+#			remove_variable = prime_minister_trigger
+#		}
+#	}
+#}
+#
+##Remove Prime Minister Role
+#character_roles_hidden.6 = {
+#	type = country_event
+#	hidden = yes
+#	trigger = {
+#		NOT = {
+#			AND = {
+#				country_has_voting_franchise = yes
+#				has_law = law_type:law_monarchy
+#			}
+#		}
+#		has_variable = prime_minister
+#	}
+#	immediate = {
+#		remove_variable = prime_minister
+#		random_scope_character = {
+#			limit = {
+#				has_variable = prime_minister_trigger
+#			}
+#			remove_variable = prime_minister_trigger
+#		}
+#	}
+#}
