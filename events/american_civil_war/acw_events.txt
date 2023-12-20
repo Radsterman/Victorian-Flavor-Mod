@@ -256,8 +256,18 @@ acw_events.3 = {
 		NOT = { has_variable = american_civil_war }
 		NOT = { has_variable = USA_wilmot_proviso }
 		exists = c:MEX
-		any_state = {
-			has_claim_by = c:MEX
+		#any_state = {
+		#	has_claim_by = c:MEX
+		#}
+		any_scope_war = {
+			is_war_participant = c:MEX
+			has_war_goal = return_state
+		}
+		c:MEX = {
+			any_scope_state = {
+				has_claim_by = c:USA
+				is_target_of_wargoal = c:USA
+			}
 		}
 		any_interest_group = {
 			is_revolutionary = no
@@ -551,10 +561,14 @@ acw_events.6 = {
 				}
 			}
 			save_scope_as = preston_brooks_ig
-			leader = {
-				save_scope_as = preston_brooks_leader
-			}
 		}
+
+		create_character = {
+			ideology = ideology:ideology_slaver
+			interest_group = scope:preston_brooks_ig
+			save_scope_as = preston_brooks_leader
+		}
+		
 		random_interest_group = {
 			limit = {
 				is_revolutionary = no
@@ -568,9 +582,12 @@ acw_events.6 = {
 				}
 			}
 			save_scope_as = charles_sumner_ig
-			leader = {
-				save_scope_as = charles_sumner_leader
-			}
+		}
+		
+		create_character = {
+			ideology = ideology:ideology_abolitionist
+			interest_group = scope:charles_sumner_ig
+			save_scope_as = charles_sumner_leader
 		}
 	}
 
@@ -593,6 +610,20 @@ acw_events.6 = {
 				kill_character = yes
 			}
 		}
+
+		every_interest_group = {
+			limit = {
+				OR = {
+					has_ideology = ideology:ideology_pro_slavery
+					leader = { has_ideology = ideology:ideology_slaver }
+				}
+				NOT = { has_modifier = caning_supported }
+			}
+			add_modifier = {
+				name = caning_supported
+				months = short_modifier_time
+			}
+		}
 	}
 	option = {
 		name = acw_events.6.b
@@ -606,6 +637,20 @@ acw_events.6 = {
 			}
 			scope:preston_brooks_leader = {
 				kill_character = yes
+			}
+		}
+		
+		every_interest_group = {
+			limit = {
+				OR = {
+					has_ideology = ideology:ideology_anti_slavery
+					leader = { has_ideology = ideology:ideology_abolitionist }
+				}
+				NOT = { has_modifier = caning_decried }
+			}
+			add_modifier = {
+				name = caning_decried
+				months = short_modifier_time
 			}
 		}
 	}
