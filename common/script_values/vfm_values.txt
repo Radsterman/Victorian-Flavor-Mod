@@ -51,8 +51,9 @@ gdp_chi = {
 }
 
 num_free_states = {
-	every_state = {
-		if = { 
+	value = 0
+	every_scope_state = {
+		if = {
 			limit = {
 				is_incorporated = yes
 				is_slave_state = no
@@ -62,16 +63,56 @@ num_free_states = {
 	}
 }
 
-num_slave_states = {
-	every_state = {
-		if = { 
+num_free_territories = {
+	value = 0
+	every_scope_state = {
+		if = {
 			limit = {
-				is_incorporated = yes
-				is_slave_state = yes
+				is_incorporated = no
+				is_slave_state = no
+				is_under_colonization = no
 			}
 			add = 1
 		}
 	}
+}
+
+num_slave_states = {
+	value = 0
+	every_scope_state = {
+		if = {
+			limit = {
+				is_incorporated = yes
+				is_slave_state = yes
+				#Exclude DC
+			}
+			add = 1
+		}
+	}
+}
+
+num_slave_territories = {
+	value = 0
+	every_scope_state = {
+		if = {
+			limit = {
+				is_incorporated = no
+				is_slave_state = yes
+				is_under_colonization = no
+			}
+			add = 1
+		}
+	}
+}
+
+prop_free_states = {
+	value = num_free_states
+	divide = num_incorporated_states
+}
+
+prop_slave_states = {
+	value = num_slave_states
+	divide = num_incorporated_states
 }
 
 kor_silhak_delta = {
