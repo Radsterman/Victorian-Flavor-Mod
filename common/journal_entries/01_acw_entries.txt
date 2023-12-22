@@ -188,13 +188,21 @@ je_acw_reconstruction = {
 		add = 3
 	}
 
-	timeout = 4380
+	fail = {
+		#Compromise of 1877-related conditions
+	}
+	
+	on_fail = {
+		trigger_event = { id = acw_je_events.3 }
+		hidden_effect = { # sanity check just in case something somehow falls through the cracks
+			every_scope_state = {
+				limit = { has_modifier = unreconstructed_state }
+				remove_modifier = unreconstructed_state
+			}
+		}
+	}
 
 	should_be_pinned_by_default = yes
-
-	on_timeout = {
-		trigger_event = { id = acw_je_events.3 }
-	}
 }
 
 je_acw_reincorporate = {
