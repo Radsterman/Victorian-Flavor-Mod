@@ -159,6 +159,12 @@ acw_je_events.1 = {
 			c:CSA = {
 				set_variable = acw_slave_nation_var
 			}
+			every_scope_general = {
+				limit = {
+					has_culture = cu:dixie
+				}
+				transfer_character = c:CSA
+			}
 		}
 		else_if = {
 			limit = { exists = c:FSA }
@@ -167,7 +173,14 @@ acw_je_events.1 = {
 				target = scope:fsa_scope
 			}
 			set_variable = acw_slave_nation_var
+			every_scope_general = {
+				limit = {
+					has_culture = cu:yankee
+				}
+				transfer_character = c:FSA
+			}
 		}
+		
 		set_variable = union_side_acw
 	}
 
@@ -235,6 +248,9 @@ acw_je_events.2 = {
 				add_modifier = {
 					name = unreconstructed_state
 				}
+				#add_modifier = {
+				#	name = federal_occupation
+				#}
 				if = {
 					limit = {
 						owner = { has_variable = emancipation_issued }
@@ -255,11 +271,8 @@ acw_je_events.2 = {
 				add_modifier = {
 					name = unreconstructed_state
 				}
-				#if = {
-				#	limit = {
-				#		owner = { has_variable = emancipation_issued }
-				#	}
-				#	liberate_slaves = yes
+				#add_modifier = {
+				#	name = federal_occupation
 				#}
 			}
 		}
