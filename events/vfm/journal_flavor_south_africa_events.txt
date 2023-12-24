@@ -849,9 +849,9 @@ journal_flavor_south_africa.8 = {
         }
 		change_tag = TRN
 		remove_modifier = adjunct_volksraad
-		add_primary_culture = cu:boer
 	}
-    	option = {
+	
+    option = {
 		name = journal_flavor_south_africa.7.b
                 ai_chance = { base = 0 }
 
@@ -862,7 +862,6 @@ journal_flavor_south_africa.8 = {
 			country = c:TRN
 			value = -50
 		}
-
 	}
 
 }
@@ -1136,47 +1135,11 @@ journal_flavor_south_africa.6 = {
 			save_scope_as = tsw_scope
 		}
 
-		random_state = {
-			limit = {
-				owner = {
-					OR = {
-						is_country_type = unrecognized
-					}
-				}
-				state_region = s:STATE_NORTHERN_CAPE
-			}
-			save_scope_as = ste_spawn
-		}
-
 		create_country = {
 			tag = STE
 			origin = this
-			state =  scope:ste_spawn
+			province = p:x20CAA7
 			on_created = {
-				random_state = {
-					limit = {
-						state_region = s:STATE_NORTHERN_CAPE
-					}
-					create_building={
-						building="building_millet_farm"
-						level=1
-						reserves=1
-						activate_production_methods={ "pm_simple_farming" "pm_no_secondary" "pm_tools_disabled" "pm_privately_owned" }
-					}
-					create_building={
-						building="building_livestock_ranch"
-						level=1
-						reserves=1
-						activate_production_methods={ "pm_privately_owned" "pm_simple_ranch" "pm_standard_fences" "pm_unrefrigerated" "pm_open_air_stockyards" }
-					}
-					#create_building={
-					#	building="building_barracks"
-					#	level=2
-					#	reserves=1
-					#	activate_production_methods={ "pm_no_organization" }
-					#}
-				}
-
 				if = {
 					limit = {
 						NOT = {
@@ -1240,32 +1203,50 @@ journal_flavor_south_africa.6 = {
 					}
 
 				if = {
-						limit = {
-							NOT = {
-								has_law = law_type:law_land_based_taxation
-							}
+					limit = {
+						NOT = {
+							has_law = law_type:law_land_based_taxation
 						}
-						activate_law = law_type:law_land_based_taxation
 					}
+					activate_law = law_type:law_land_based_taxation
+				}
 
-					# date of establishment of the Natalia Republic, as good a date as any in this case
-					set_next_election_date = 1839.10.12
+				# date of establishment of the Natalia Republic, as good a date as any in this case
+				set_next_election_date = 1839.10.12
 
-					effect_starting_technology_tier_3_tech = yes
-
-
-					ig:ig_petty_bourgeoisie = {
-						add_ruling_interest_group = yes
-					}
-
-					ig:ig_devout = {
-						set_interest_group_name = ig_evangelical_church
-					}
+				effect_starting_technology_tier_3_tech = yes
 
 
+				ig:ig_petty_bourgeoisie = {
+					add_ruling_interest_group = yes
+				}
+
+				ig:ig_devout = {
+					set_interest_group_name = ig_evangelical_church
+				}
 			}
-
 		}
+		
+		random_state = {
+			limit = {
+				owner = c:STE
+				state_region = s:STATE_NORTHERN_CAPE
+			}
+			create_building={
+				building="building_millet_farm"
+				level=1
+				reserves=1
+				activate_production_methods={ "pm_simple_farming" "pm_no_secondary" "pm_tools_disabled" "pm_privately_owned" }
+			}
+			create_building={
+				building="building_livestock_ranch"
+				level=1
+				reserves=1
+				activate_production_methods={ "pm_privately_owned" "pm_simple_ranch" "pm_standard_fences" "pm_unrefrigerated" "pm_open_air_stockyards" }
+			}
+			save_scope_as = ste_spawn
+		}
+
 		c:STE = {
 			save_scope_as = ste_scope
 		}
