@@ -1,11 +1,5 @@
 ﻿vfm_events_hidden = {
 	events = {
-		character_roles_hidden.1
-		character_roles_hidden.2
-		character_roles_hidden.3
-		character_roles_hidden.4
-		character_roles_hidden.5
-		character_roles_hidden.6
 		religion_rule_hidden.1
 		religion_rule_hidden.2
 		religion_rule_hidden.3
@@ -14,8 +8,6 @@
 
 vfm_events_low_countries = {
 	events = {
-		low_countries_events.3
-		low_countries_events.4
 	}
 }
 
@@ -68,6 +60,7 @@ vfm_events_colonial_conquest = {
 vfm_events_usa = {
 	events = {
 		flavor_usa_events.1
+		flavor_usa_events.2
 	}
 }
 
@@ -514,3 +507,219 @@ vfm_barracks_colony_created = {
 #		}
 #	}
 #}
+
+
+vfm_vice_presidents = {
+	effect = {
+		if = { #Creates initial vice president if conditions met
+			limit = {
+				has_law = law_type:law_presidential_republic
+				country_has_voting_franchise = yes
+				NOT = { has_variable = vice_president }
+			}
+			create_character = {
+				on_created = {
+					set_variable = vice_president_trigger
+					owner = {
+						set_variable = {
+							name = vice_president
+							value = PREV
+						}
+					}
+				}		
+			}
+		}
+		if = { #Removes vice president if no longer presidential republic
+			limit = {
+				has_law = law_type:law_presidential_republic
+				country_has_voting_franchise = yes
+				has_variable = vice_president
+				NOT = { 
+					any_scope_character = {
+						has_variable = vice_president_trigger
+					}
+				}
+			}
+			#if = {
+			#	limit = {
+			#		ruler = {
+			#			has_variable = vice_president_trigger
+			#		}
+			#	}
+			#	ruler = { remove_variable = vice_president_trigger }
+			#}
+			if = {
+				limit = {
+					any_scope_character = {
+						is_ruler = no
+						is_heir = no
+						NOT = {
+							OR = {
+								has_role = general
+								has_role = admiral
+								has_role = agitator
+							}
+						}
+						interest_group = {
+							is_in_government = yes
+						}
+					}
+				}
+				random_scope_character = {
+					limit = {
+						is_ruler = no
+						is_heir = no
+						NOT = {
+							OR = {
+								has_role = general
+								has_role = admiral
+								has_role = agitator
+							}
+						}
+						interest_group = {
+							is_in_government = yes
+						}
+					}
+					set_variable = vice_president_trigger
+					save_scope_as = new_vice_president
+					owner = {
+						set_variable = {
+							name = vice_president
+							value = PREV
+						}
+					}
+				}
+			}
+			else = {
+				create_character = {
+					on_created = {
+						set_variable = vice_president_trigger
+						save_scope_as = new_vice_president
+						owner = {
+							set_variable = {
+								name = vice_president
+								value = PREV
+							}
+						}
+					}		
+				}
+			}
+		}	
+		if = { #Removes vice president if no longer presidential republic
+			limit = {
+				has_variable = vice_president
+				NOT = { has_law = law_type:law_presidential_republic }
+			}
+			remove_variable = vice_president
+			random_scope_character = {
+				limit = {
+					has_variable = vice_president_trigger
+				}
+				remove_variable = vice_president_trigger
+			}
+		}
+	}
+}
+
+vfm_prime_ministers = {
+	effect = {
+		if = {
+			limit = {
+				has_law = law_type:law_monarchy
+				country_has_voting_franchise = yes
+				NOT = { has_variable = prime_minister }
+			}
+			random_scope_character = {
+				limit = {
+					is_ruler = no
+					is_heir = no
+					NOT = {
+						OR = {
+							has_role = general
+							has_role = admiral
+							has_role = agitator
+						}
+					}
+					interest_group = {
+						is_in_government = yes
+					}
+				}
+				set_variable = prime_minister_trigger
+				owner = {
+					set_variable = {
+						name = prime_minister
+						value = PREV
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_law = law_type:law_monarchy
+				country_has_voting_franchise = yes
+				has_variable = prime_minister
+				NOT = { 
+					any_scope_character = {
+						has_variable = prime_minister_trigger
+					}
+				}
+				
+				#any_scope_character = {
+				#	AND = {
+				#		NOT = { ig = is_in_government = yes }
+				#		has_variable = prime_minister_trigger
+				#	}
+				#}
+			}
+			random_scope_character = {
+				limit = {
+					is_ruler = no
+					is_heir = no
+					NOT = {
+						OR = {
+							has_role = general
+							has_role = admiral
+							has_role = agitator
+						}
+					}
+					interest_group = {
+						is_in_government = yes
+					}
+				}
+				set_variable = prime_minister_trigger
+				save_scope_as = new_prime_minister
+				owner = {
+					set_variable = {
+						name = prime_minister
+						value = PREV
+					}
+				}
+			}
+			every_scope_character = {
+				limit = {
+					has_variable = prime_minister_trigger
+					NOT = { THIS = scope:new_prime_minister }
+				}
+				remove_variable = prime_minister_trigger
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					AND = {
+						country_has_voting_franchise = yes
+						has_law = law_type:law_monarchy
+					}
+				}
+				has_variable = prime_minister
+			}
+			remove_variable = prime_minister
+			random_scope_character = {
+				limit = {
+					has_variable = prime_minister_trigger
+				}
+				remove_variable = prime_minister_trigger
+			}
+		}
+	}
+}
