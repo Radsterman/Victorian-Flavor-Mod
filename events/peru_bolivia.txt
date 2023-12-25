@@ -1,0 +1,837 @@
+﻿namespace = peru_bolivia_events
+
+# Peru-Bolivia success
+peru_bolivia_events.1 = {
+	type = country_event
+	placement = ROOT
+	title = peru_bolivia_confederation.8.t
+	desc = peru_bolivia_confederation.8.d
+	flavor =  peru_bolivia_confederation.8.f
+
+	duration = 3
+
+	event_image = {
+		video = "rp1_brazilian_city"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+	trigger = {
+		# triggered by JE
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				any_state = {
+					state_region = s:STATE_AREQUIPA
+					owner = {
+						has_variable = pbc_member
+					}
+				}
+			}
+			random_state = {
+				limit = {
+					state_region = s:STATE_AREQUIPA
+					owner = {
+						has_variable = pbc_member
+					}
+				}
+				save_scope_as = arequipa_state
+			}
+		}
+		else = {
+			ordered_state = {
+				limit = {
+					owner = {
+						has_variable = pbc_member
+					}
+					state_is_in_south_america = yes
+					is_incorporated = yes
+				}
+				save_scope_as = arequipa_state
+			}
+		}
+	}
+
+	option = { # Annex Peru
+		name = peru_bolivia_confederation.8.a
+		ai_chance = {
+			base = 1
+		}
+		default_option = yes
+		if = {
+			limit = {
+				c:NPU ?= {
+					is_player = no
+					is_subject_of = c:BOL
+				}
+			}
+			annex = c:NPU
+		}
+		if = {
+			limit = {
+				c:SPU ?= {
+					is_player = no
+					is_subject_of = c:BOL
+				}
+			}
+			annex = c:SPU
+		}
+		if = {
+			limit = {
+				c:IQU ?= {
+					is_player = no
+					is_subject_of = c:BOL
+				}
+			}
+			annex = c:IQU
+		}
+		if = {
+			limit = {
+				c:PEU ?= {
+					is_player = no
+					is_subject_of = c:BOL
+				}
+			}
+			annex = c:PEU
+		}
+		change_tag = PBC
+		root = {
+			save_scope_as = pbc_scope
+		}
+		every_country = {
+			limit = {
+				NOT = {
+					THIS = ROOT
+				}
+				has_interest_marker_in_region = region_andes
+			}
+			post_notification = pbc_peru_bolivia_success
+		}
+	}
+}
+
+# Peru-Bolivia Startup
+peru_bolivia_events.2 = {
+	type = country_event
+	placement = ROOT
+	title = peru_bolivia_events.2.t
+	desc = peru_bolivia_events.2.d
+	flavor =  peru_bolivia_events.2.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:salaverry_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	trigger = {
+		c:PEU ?= {
+			is_subject_of = ROOT
+		}
+	}
+
+	immediate = {
+		c:PEU = {
+			save_scope_as = peru_country
+		}
+		# Armed Forces
+		create_character = {
+			# Felipe Salaverry, was in the midst of a coup against Orbegoso
+			template = PEU_Felipe_Salaverry
+			on_created = {
+				place_character_in_void = 6
+			}
+		}
+		random_character_in_void = {
+			limit = {
+				has_template = PEU_Felipe_Salaverry
+			}
+			save_scope_as = salaverry_scope
+		}
+	}
+
+	option = { #Yes
+		name = peru_bolivia_events.2.a
+		default_option = yes
+		post_notification = bol_salaverry_death
+		scope:salaverry_scope = {
+			kill_character = yes
+		}
+		c:NPU = {
+			add_radicals = {
+				value = medium_radicals
+			}
+		}
+		every_country = {
+			limit = {
+				country_is_in_south_america = yes
+				has_diplomatic_relevance = root
+				NOT = {
+					has_variable = pbc_member
+				}
+				NOT = {
+					is_country_type = decentralized
+				}
+			}
+			trigger_event = { id = peru_bolivia_events.4 days = 7 popup = yes }
+		}
+		ai_chance = {
+			base = 25
+		}
+	}
+
+	option = { #No
+		name = peru_bolivia_events.2.b
+		hidden_effect = {
+			scope:salaverry_scope = {
+				remove_character_role = politician
+				add_character_role = general
+				free_character_from_void = yes
+				exile_character_with_martyrdom = yes
+			}
+		}
+		custom_tooltip = {
+			text = salaverry_exile_tt
+		}
+		c:PEU = {
+			add_radicals = {
+				value = small_radicals
+			}
+		}
+		every_country = {
+			limit = {
+				country_is_in_south_america = yes
+				has_diplomatic_relevance = root
+				NOT = {
+					has_variable = pbc_member
+				}
+				NOT = {
+					is_country_type = decentralized
+				}
+			}
+			trigger_event = { id = peru_bolivia_events.4 days = 7 popup = yes }
+		}
+		ai_chance = {
+			base = 5
+		}
+	}
+}
+
+# Peru-Bolivia L
+peru_bolivia_events.3 = {
+	type = country_event
+	placement = ROOT
+	title = peru_bolivia_events.3.t
+	desc = peru_bolivia_events.3.d
+	flavor =  peru_bolivia_events.3.f
+
+	duration = 3
+
+	event_image = {
+		video = "southamerica_aristocrats"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+
+	trigger = {
+
+	}
+
+	immediate = {
+		
+	}
+
+	option = {
+		name = peru_bolivia_events.3.a
+		default_option = yes
+		if = {
+			limit = {
+				c:SPU ?= this
+			}
+			if = {
+				limit = {
+					exists = c:NPU
+				}
+				annex = c:NPU
+			}
+			if = {
+				limit = {
+					exists = c:IQU
+				}
+				annex = c:IQU
+			}
+			change_tag = PEU
+		}
+		if = {
+			limit = {
+				c:NPU ?= this
+			}
+			if = {
+				limit = {
+					exists = c:SPU
+				}
+				annex = c:SPU
+			}
+			if = {
+				limit = {
+					exists = c:IQU
+				}
+				annex = c:IQU
+			}
+			change_tag = PEU
+		}
+		if = {
+			limit = {
+				c:IQU ?= this
+			}
+			if = {
+				limit = {
+					exists = c:NPU
+					exists = c:SPU
+				}
+				c:NPU = {
+					annex = c:SPU
+					change_tag = PEU
+				}
+			}
+		}
+		if = {
+			limit = {
+				c:BOL ?= this
+			}
+			if = {
+				limit = {
+					exists = c:NPU
+					exists = c:SPU
+				}
+				c:NPU = {
+					annex = c:SPU
+				}
+			}
+			if = {
+				limit = {
+					exists = c:IQU
+				}
+				c:NPU = {
+					annex = c:IQU
+				}
+			}
+			c:NPU = {
+				change_tag = PEU
+			}
+		}
+		if = {
+			limit = {
+				c:BOL ?= this
+				c:PEU ?= {
+					is_player = no
+				}
+			}
+			random_list = {
+				80 = {
+					c:PEU ?= {
+						restore_peruvian_constitution = yes
+					}
+				}
+				20 = {
+					
+				}
+			}
+		}
+		every_country = {
+			limit = {
+				NOT = {
+					THIS = ROOT
+				}
+				has_interest_marker_in_region = region_andes
+			}
+			post_notification = pbc_peru_bolivia_collapse
+		}
+	}
+	option = {
+		name = peru_bolivia_events.3.b
+		trigger = {
+			OR = {
+				c:SPU ?= this
+				c:NPU ?= this
+				c:PEU ?= this
+			}
+		}
+		restore_peruvian_constitution = yes
+		if = {
+			limit = {
+				c:SPU ?= this
+			}
+			if = {
+				limit = {
+					exists = c:NPU
+				}
+				annex = c:NPU
+			}
+			if = {
+				limit = {
+					exists = c:IQU
+				}
+				annex = c:IQU
+			}
+			change_tag = PEU
+		}
+		if = {
+			limit = {
+				c:NPU ?= this
+			}
+			if = {
+				limit = {
+					exists = c:SPU
+				}
+				annex = c:SPU
+			}
+			if = {
+				limit = {
+					exists = c:IQU
+				}
+				annex = c:IQU
+			}
+			change_tag = PEU
+		}
+		if = {
+			limit = {
+				c:IQU ?= this
+			}
+			if = {
+				limit = {
+					exists = c:NPU
+					exists = c:SPU
+				}
+				c:NPU = {
+					annex = c:SPU
+					change_tag = PEU
+				}
+			}
+		}
+		if = {
+			limit = {
+				c:BOL ?= this
+			}
+			if = {
+				limit = {
+					exists = c:NPU
+					exists = c:SPU
+				}
+				c:NPU = {
+					annex = c:SPU
+				}
+			}
+			if = {
+				limit = {
+					exists = c:IQU
+				}
+				c:NPU = {
+					annex = c:IQU
+				}
+			}
+			c:NPU = {
+				change_tag = PEU
+			}
+		}
+		every_country = {
+			limit = {
+				NOT = {
+					THIS = ROOT
+				}
+				has_interest_marker_in_region = region_andes
+			}
+			post_notification = pbc_peru_bolivia_collapse
+		}
+	}
+}
+
+# Chile/Argentina war of the confederation startup
+peru_bolivia_events.4 = {
+	type = country_event
+	placement = ROOT
+	title = peru_bolivia_events.4.t
+	desc = peru_bolivia_events.4.d
+	flavor =  peru_bolivia_events.4.f
+
+	duration = 3
+
+	event_image = {
+		video = "southamerica_aristocrats"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+	trigger = {
+
+	}
+
+	immediate = {
+		c:BOL = {
+			ruler = {
+				save_scope_as = santa_cruz_scope
+			}
+		}
+		set_variable = { name = peru_bolivia_opposition_var value = 0 }
+	}
+
+	option = {
+		name = peru_bolivia_events.4.a
+		default_option = yes
+		ai_chance = {
+			base = 25
+			modifier = {
+				trigger = {
+					c:BOL = {
+						is_player = yes
+					}
+				}
+				add = 25
+			}
+		}
+		add_journal_entry = {
+			type = je_war_of_the_confederation
+		}
+		add_modifier = {
+			name = modifier_against_the_confederation
+			months = short_modifier_time
+		}
+		if = { #Why? Because goal_add_value causes wonky things if we tie it directly to this variable. TODO revisit when support for a static target value in JEs.
+			limit = {
+				exists = global_var:peru_bolivia_var
+			}
+			set_variable = { name = peru_bolivia_opposition_var value = global_var:peru_bolivia_var }
+		}
+	}
+
+	option = {
+		name = peru_bolivia_events.4.b
+		ai_chance = {
+			base = 5
+		}
+		add_journal_entry = {
+			type = je_war_of_the_confederation
+		}
+		change_relations = { country = c:BOL value = 15 }
+		if = {
+			limit = {
+				exists = global_var:peru_bolivia_var
+			}
+			set_variable = { name = peru_bolivia_opposition_var value = global_var:peru_bolivia_var }
+		}
+	}
+	
+	option = {
+		name = peru_bolivia_events.4.c
+		trigger = {
+			NOR = {
+				c:CHL ?= this
+				c:ARG ?= this
+			}
+		}
+		ai_chance = {
+			base = 50
+		}
+		custom_tooltip = ignore_peru_bol_tt
+	}
+}
+
+# Chile/Argentina war of the confederation war success
+peru_bolivia_events.5 = {
+	type = country_event
+	placement = ROOT
+	title = peru_bolivia_events.5.t
+	desc = peru_bolivia_events.5.d
+	flavor =  peru_bolivia_events.5.f
+
+	duration = 3
+
+	event_image = {
+		video = "unspecific_military_parade"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	trigger = {
+		# Triggered by JE completion
+	}
+
+	immediate = {
+		capital = {
+			save_scope_as = capital_scope
+		}
+	}
+
+	option = {
+		name = peru_bolivia_events.5.a
+		default_option = yes
+		add_modifier = {
+			name = modifier_confederation_war_success
+			months = normal_modifier_time
+		}
+	}
+}
+
+# Chile/Argentina war of the confederation peace success
+peru_bolivia_events.6 = {
+	type = country_event
+	placement = ROOT
+	title = peru_bolivia_events.6.t
+	desc = peru_bolivia_events.6.d
+	flavor =  peru_bolivia_events.6.f
+
+	duration = 3
+
+	event_image = {
+		video = "rp1_brazilian_city"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	trigger = {
+		# Triggered by JE completion
+	}
+
+	immediate = {
+		
+	}
+
+	option = {
+		name = peru_bolivia_events.6.a
+		default_option = yes
+		add_modifier = {
+			name = modifier_confederation_diplomatic_success
+			months = normal_modifier_time
+		}
+	}
+}
+
+# Chile/Argentina war of the confederation failure
+peru_bolivia_events.7 = {
+	type = country_event
+	placement = ROOT
+	title = peru_bolivia_events.7.t
+	desc = peru_bolivia_events.7.d
+	flavor =  peru_bolivia_events.7.f
+
+	duration = 3
+
+	event_image = {
+		video = "middleeast_battlefield_trenches"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_default.dds"
+
+	trigger = {
+		# Triggered by JE failure
+	}
+
+	immediate = {
+		c:PBC = {
+			save_scope_as = peru_bolivia_scope
+		}
+	}
+
+	option = {
+		name = peru_bolivia_events.7.a
+		default_option = yes
+		add_radicals = {
+			value = small_radicals
+		}
+		add_modifier = {
+			name = modifier_confederation_failure
+			months = normal_modifier_time
+			is_decaying = yes
+		}
+	}
+}
+
+# Peruvian reunification prompt
+peru_bolivia_events.8 = {
+	type = country_event
+	placement = ROOT
+	title = peru_bolivia_events.8.t
+	desc = peru_bolivia_events.8.d
+	flavor =  peru_bolivia_events.8.f
+
+	duration = 3
+
+	event_image = {
+		video = "southamerica_aristocrats"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+	trigger = {
+		OR = {
+			c:NPU ?= this
+			c:SPU ?= this
+		}
+		is_subject = no
+		NOT = {
+			has_variable = peru_has_claims
+		}
+		OR = {
+			AND = { #SPU is either dead or a puppet, will not fire if it is independent.
+				c:NPU ?= this
+				OR = {
+					NOT = {
+						exists = c:SPU
+					}
+					c:SPU ?= { is_subject = yes }
+				}
+			}
+			AND = {
+				c:SPU ?= this
+				OR = {
+					NOT = {
+						exists = c:SPU
+					}
+					c:NPU ?= { is_subject = yes }
+				}
+			}
+		}
+	}
+
+	cooldown = { months = stupidly_long_modifier_time }
+
+	option = {
+		name = peru_bolivia_events.8.a
+		default_option = yes
+		ai_chance = {
+			base = 90
+		}
+		set_variable = peru_has_claims
+		custom_tooltip = {
+			text = peruvian_claims_tt
+			if = {
+				limit = {
+					this = c:NPU
+				}
+				every_state = {
+					limit = {
+						OR = {
+							owner = c:SPU
+							owner = c:IQU
+						}
+						is_incorporated = yes
+					}
+					state_region = {
+						add_claim = ROOT
+					}
+				}
+			}
+			if = {
+				limit = {
+					this = c:SPU
+				}
+				every_state = {
+					limit = {
+						OR = {
+							owner = c:NPU
+							owner = c:IQU
+						}
+						is_incorporated = yes
+					}
+					state_region = {
+						add_claim = ROOT
+					}
+				}
+			}
+		}
+		restore_peruvian_constitution = yes
+		every_country = {
+			limit = {
+				has_journal_entry = je_peru_bolivia
+			}
+			change_relations = { country = root value = -10 }
+		}
+	}
+	option = {
+		name = peru_bolivia_events.8.b
+		default_option = yes
+		ai_chance = {
+			base = 90
+		}
+		set_variable = peru_has_claims
+		custom_tooltip = {
+			text = peruvian_claims_tt
+			if = {
+				limit = {
+					this = c:NPU
+				}
+				every_state = {
+					limit = {
+						OR = {
+							owner = c:SPU
+							owner = c:IQU
+						}
+						is_incorporated = yes
+					}
+					state_region = {
+						add_claim = ROOT
+					}
+				}
+			}
+			if = {
+				limit = {
+					this = c:SPU
+				}
+				every_state = {
+					limit = {
+						OR = {
+							owner = c:NPU
+							owner = c:IQU
+						}
+						is_incorporated = yes
+					}
+					state_region = {
+						add_claim = ROOT
+					}
+				}
+			}
+		}
+		every_country = {
+			limit = {
+				has_journal_entry = je_peru_bolivia
+			}
+			change_relations = { country = root value = -10 }
+		}
+	}
+	option = {
+		name = peru_bolivia_events.8.c
+		set_variable = peru_has_claims
+		ai_chance = {
+			base = 10
+		}
+		add_radicals = {
+			value = medium_radicals
+			strata = middle
+		}
+		add_radicals = {
+			value = medium_radicals
+			strata = rich
+		}
+	}
+}
