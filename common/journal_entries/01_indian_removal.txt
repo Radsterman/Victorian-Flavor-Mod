@@ -1,0 +1,91 @@
+﻿je_indian_removal = {
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	group = je_group_historical_content
+	
+	on_monthly_pulse = {
+		random_events = {
+			10 = 0 
+			1 = native_resettlement.2 # john ross
+			1 = native_resettlement.3 # Preparing for resettlement
+			1 = native_resettlement.4 # Trail of Tears
+			1 = journal_flavor_usa.5 # Preparing for resettlement Moskogen
+		}
+	}
+	
+	immediate = {
+	    trigger_event = {
+			id = journal_flavor_usa.4 # 2nd Seminole War
+			days = 20
+		}
+	}
+
+	complete = {
+		OR = {
+			has_law = law_type:law_no_colonial_affairs
+			cu:cherokee = {
+				NOT = { culture_is_discriminated_in = ROOT }
+			}
+			custom_tooltip = {
+				text = indian_removal_fail_tt
+				NOT = {
+					any_scope_state = {
+						any_scope_pop = {
+							culture = cu:cherokee
+						}
+					}
+				}
+				NOT = {
+					any_scope_state = {
+						any_scope_pop = {
+							culture = cu:muskogean
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	on_complete = {
+		custom_tooltip = {
+			text = indian_removal_end
+			if = {
+				limit = {
+					NOT = {
+						any_scope_pop = {
+							culture = cu:cherokee
+						}
+					}
+					NOT = {
+						any_scope_pop = {
+							culture = cu:muskogean
+						}
+					}
+				}
+				trigger_event = { id = native_resettlement.5 }
+			}
+			else = {
+				trigger_event = { id = native_resettlement.6 }
+			}
+		}
+	}
+	
+	invalid = {
+		OR = {
+			NOT = { owns_entire_state_region = STATE_GEORGIA }
+			NOT = {
+				AND = {
+					exists = c:SEQ
+					exists = c:USA
+					c:SEQ = { is_subject_of = c:USA }
+				}
+			}
+		}
+	}
+	
+	weight = 200
+	
+	should_be_pinned_by_default = yes
+	
+	transferable = no
+}

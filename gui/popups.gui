@@ -771,7 +771,6 @@ default_popup =  {
 		shortcut = "close_window"
 	}
 
-
 	blockoverride "window_header_name" {
 		text = "DIPLOMATIC_ACTION_HEADER"
 		datacontext = "[DiplomaticActionWindow.GetDiplomaticAction]"
@@ -2063,6 +2062,65 @@ default_popup =  {
 	}
 }
 
+### PRODUCTION METHOD CONFIRMATION
+default_popup = {
+	name = "production_method_confirmation_popup"
+
+	blockoverride "window_header_name" {
+		text = "PRODUCTION_METHOD_CONFIRMATION_TITLE"
+	}
+
+	blockoverride "scrollarea_content" {
+		textbox = {
+			minimumsize = { 525 -1 }
+			maximumsize = { 525 -1 }
+			multiline = yes
+			text = "PRODUCTION_METHOD_CONFIRMATION_DESC"
+			autoresize = yes
+			resizeparent = yes
+			parentanchor = center
+			align = center
+
+			margin_bottom = 50
+		}
+	}
+
+	blockoverride "fixed_bottom" {
+		container = {
+			button = {
+				using = default_button
+				using = close_button_sound
+				size = { 140 40 }
+				text = "PRODUCTION_METHOD_CONFIRMATION_CANCEL"
+				onclick = "[ProductionMethodConfirmationPopup.Cancel]"
+				shortcut = "close_window"
+			}
+
+			button = {
+				using = default_button
+				using = confirm_button_sound
+				position = { 215 0 }
+				size = { 140 40 }
+				text = "PRODUCTION_METHOD_CONFIRMATION_EXEMPT"
+				tooltip = "PRODUCTION_METHOD_CONFIRMATION_EXEMPT_TOOLTIP"
+				visible = "[ProductionMethodConfirmationPopup.CanExempt]"
+				onclick = "[ProductionMethodConfirmationPopup.Exempt]"
+			}
+
+			button = {
+				using = default_button_primary_action
+				using = confirm_button_sound
+				position = { 450 0 }
+				size = { 140 40 }
+				text = "PRODUCTION_METHOD_CONFIRMATION_CONTINUE"
+				tooltip = "PRODUCTION_METHOD_CONFIRMATION_CONTINUE_TOOLTIP"
+				onclick = "[ProductionMethodConfirmationPopup.Continue]"
+				input_action = "confirm"
+			}
+		}
+	}
+}
+
 default_confirmation_window = {
 	name = "confirmation_window"
 }
@@ -3247,144 +3305,6 @@ notification_popup = {
 	}
 }
 
-#Mobilize all generals
-default_popup = {
-	name = "mobilize_all_generals_popup"
-	datacontext = "[AccessPlayer]"
-
-	blockoverride "window_header_name" {
-		text = "MOBILIZE_ALL_GENERALS_HEADER"
-	}
-
-	blockoverride "header_close_button" {
-		visible = yes
-		onclick = "[PopupManager.HideMobilizeAllGenerals]"
-	}
-
-	blockoverride "header_close_button_visibility" {
-		visible = yes
-	}
-
-	blockoverride "scrollarea_content"
-	{
-		flowcontainer = {
-			block "datamodel" {}
-			resizeparent = yes
-			direction = vertical
-			
-			# Intended action question
-			textbox = {
-				parentanchor = hcenter
-				maximumsize = { 530 -1 }
-				autoresize = yes
-				multiline = yes
-				text = "MOBILIZE_ALL_GENERALS_QUESTION"
-				align = left|nobaseline
-			}
-
-			widget = {
-				size = { 10 20 }
-			}
-
-			# Generals list
-			scrollarea = {
-				minimumsize = { 530 -1 }
-				maximumsize = { 530 320 }
-				autoresizescrollarea = yes
-				scrollbarpolicy_horizontal = always_off
-				scrollbar_vertical = {
-					using = vertical_scrollbar
-				}
-
-				scrollwidget = {		
-					dynamicgridbox = {
-						parentanchor = hcenter
-						datamodel = "[Country.AccessGenerals]"
-						datamodel_wrap = 6
-						flipdirection = yes
-						item = {
-							commander_button = {
-								visible = "[Not( Character.IsMobilized )]"
-							}
-						}
-					}
-				}
-			}
-
-			widget = {
-				size = { 10 40 }
-			}
-
-			# Mobilized battalions
-			textbox = {
-				maximumsize = { 530 -1 }
-				autoresize = yes
-				multiline = yes
-				text = "MOBILIZE_ALL_GENERALS_BATTALIONS"
-				align = left|nobaseline
-			}
-
-			# Cost text
-			textbox = {
-				maximumsize = { 530 -1 }
-				autoresize = yes
-				multiline = yes
-				text = "MOBILIZE_ALL_GENERALS_ESTIMATED_COST"
-				align = left|nobaseline
-
-				margin_bottom = 20
-			}
-
-			# Mobilized Generals
-			textbox = {
-				maximumsize = { 530 -1 }
-				autoresize = yes
-				multiline = yes
-				text = "MOBILIZE_ALL_GENERALS_MOBILIZED_GENERALS"
-				align = left|nobaseline
-			}
-
-			# Warning
-			textbox = {
-				autoresize = yes
-				multiline = yes
-				text = "MOBILIZE_ALL_GENERALS_CANNOT_UNDONE"
-				align = left|nobaseline
-				margin_top = 20
-				margin_bottom = 10
-			}
-
-			flowcontainer = {
-				direction = horizontal
-				using = default_list_position
-				spacing = 100	
-
-				button = {
-					using = default_button
-					using = close_button_sound
-					size = { 200 40 }
-					text = "CONFIRM_NO"
-					onclick = "[PopupManager.HideMobilizeAllGenerals]"
-					shortcut = "close_window"
-				}
-
-				button = {
-					using = default_button_primary_action
-					using = commander_mobilize_button_sound
-					onclick = "[PopupManager.HideMobilizeAllGenerals]"
-					onclick = "[Execute( Country.MobilizeAllGenerals )]"
-					enabled = "[IsValid( Country.MobilizeAllGenerals )]"
-					tooltip = "[GetDesc( Country.MobilizeAllGenerals )]"
-					size = { 200 40 }
-					text = "CONFIRM_YES"
-					
-					input_action = "confirm"
-				}
-			}
-		}
-	}
-}
-
 ### Welcome Message - VFM
 notification_popup = {
 	name = "welcome_message_popup"
@@ -3507,3 +3427,4 @@ notification_popup = {
 		}
 	}
 }
+

@@ -1,0 +1,437 @@
+﻿namespace = acw_je_events
+
+# ACW startup
+acw_je_events.1 = {
+	type = country_event
+	event_image = {
+		video = "europenorthamerica_capitalists_meeting"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	title = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_variable = csa_will_spawn_var
+				}
+				desc = acw_je_events.1.t1
+			}
+			triggered_desc = {
+				trigger = {
+					always = yes
+				}
+				desc = acw_je_events.1.t2
+			}
+		}
+	}
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_variable = csa_will_spawn_var
+				}
+				desc = acw_je_events.1.d1
+			}
+			triggered_desc = {
+				trigger = {
+					always = yes
+				}
+				desc = acw_je_events.1.d2
+			}
+		}
+	}
+	flavor = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_variable = csa_will_spawn_var
+				}
+				desc = acw_je_events.1.f1
+			}
+			triggered_desc = {
+				trigger = {
+					always = yes
+				}
+				desc = acw_je_events.1.f2
+			}
+		}
+	}
+
+	duration = 3
+
+	trigger = {
+		# triggered by je_acw_countdown completion
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				has_variable = csa_will_spawn_var
+			}
+			random_country = {
+				limit = {	
+					is_revolutionary = yes
+					country_definition = root.country_definition
+				}
+				change_tag = CSA
+				save_scope_as = csa_scope	
+				
+				# Re-enslave pops if the ACW happens after slavery has been abolished
+				if = {
+					limit = {
+						c:USA = {
+							has_variable = slavery_recently_abolished
+						}						
+					}
+					
+					every_scope_state = {
+						enslave_discriminated_farm_workers = yes
+					}					
+				}
+				
+				every_scope_state = {
+					state_region = {
+						add_claim = root
+						set_variable = usa_secession_state
+					}
+				}
+			}
+		}
+		else = {
+			random_country = {
+				limit = {	
+					is_revolutionary = yes
+					country_definition = root.country_definition
+				}
+				change_tag = FSA
+				save_scope_as = fsa_scope
+						
+				every_scope_state = {
+					state_region = {
+						add_claim = root
+						set_variable = usa_secession_state
+					}
+				}				
+				
+				if = {
+					limit = {
+						NOT = { has_law = law_type:law_slavery_banned }
+					}
+					activate_law = law_type:law_slavery_banned
+				}
+			}
+		}
+		set_global_variable = {
+			name = american_civil_war
+			value = yes
+		}
+		random_diplomatic_play = {
+			limit = {
+				any_scope_play_involved = {
+					OR = {
+						this = scope:csa_scope
+						this = scope:fsa_scope
+					}
+				}
+			}
+			remove_war_goal = {
+				who = initiator
+				war_goal = annex_country
+			}
+			add_war_goal = {
+				holder = initiator
+				type = revoke_all_claims
+				target_country = target				
+				primary_demand = yes
+			}			
+		}
+		
+		if = {
+			limit = { exists = c:CSA }
+			add_journal_entry = {
+				type = je_acw_war
+				target = scope:csa_scope
+			}
+			remove_modifier = missouri_compromise
+			c:CSA = {
+				set_variable = acw_slave_nation_var
+			}
+			every_scope_general = {
+				limit = {
+					has_culture = cu:dixie
+				}
+				transfer_character = c:CSA
+			}
+		}
+		else_if = {
+			limit = { exists = c:FSA }
+			add_journal_entry = {
+				type = je_acw_war
+				target = scope:fsa_scope
+			}
+			set_variable = acw_slave_nation_var
+			every_scope_general = {
+				limit = {
+					has_culture = cu:yankee
+				}
+				transfer_character = c:FSA
+			}
+		}
+		
+		set_variable = union_side_acw
+	}
+
+	option = {
+		name = acw_je_events.1.a
+		default_option = yes
+	}
+	option = {
+		name = acw_je_events.1.b
+		trigger = { is_player = yes }
+
+		if = {
+			limit = { exists = c:CSA }
+			play_as = scope:csa_scope
+		}
+		else_if = {
+			limit = { exists = c:FSA }
+			play_as = scope:fsa_scope
+		}
+	}
+}
+
+# ACW end, reconstruction start
+acw_je_events.2 = {
+	type = country_event
+	event_image = {
+		video = "europenorthamerica_capitalists_meeting"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	title = acw_je_events.2.t
+	desc = acw_je_events.2.d
+	flavor = acw_je_events.2.f
+
+	duration = 3
+
+	trigger = {
+		# triggered by je_acw_war completion
+	}
+
+	immediate = {
+		set_variable = {
+			name = reconstruction_var
+			value = 0
+		}
+		set_variable = {
+			name = je_acw_wild_west_var
+			value = 0
+		}
+		if = {
+			limit = {
+				has_variable = csa_will_spawn_var
+			}
+			every_scope_state = {
+				limit = {
+					is_incorporated = yes
+					state_region = {
+						has_variable = usa_secession_state
+					}
+				}
+				set_state_type = unincorporated
+				add_modifier = {
+					name = unreconstructed_state
+				}
+				add_modifier = {
+					name = federal_occupation
+				}
+				if = {
+					limit = {
+						owner = { has_variable = emancipation_issued }
+					}
+					liberate_slaves = yes
+				}
+			}
+		}
+		else = {
+			every_scope_state = {
+				limit = {
+					is_incorporated = yes
+					state_region = {
+						has_variable = usa_secession_state
+					}
+				}
+				set_state_type = unincorporated
+				add_modifier = {
+					name = unreconstructed_state
+				}
+				add_modifier = {
+					name = federal_occupation
+				}
+			}
+		}
+	}
+
+	option = {
+		name = acw_je_events.1.a
+		
+		add_journal_entry = {
+			type = je_acw_reconstruction
+		}
+		
+		add_journal_entry = { type = je_acw_reincorporate }		
+		if = {
+			limit = {
+				OR = {
+					has_law = law_type:law_slavery_banned
+					has_variable = emancipation_issued
+				}	
+			}
+			add_journal_entry = {
+				type = je_acw_equality
+			}
+		}
+		else = {
+			change_variable = {
+				name = reconstruction_var
+				add = 1
+			}
+		}
+		add_journal_entry = {
+			type = je_acw_wild_wild_west
+		}
+	}
+}
+
+# Reconstruction ending event
+acw_je_events.3 = {
+	type = country_event
+	event_image = {
+		video = "europenorthamerica_capitalists_meeting"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	title = acw_je_events.3.t
+	desc = acw_je_events.3.d
+	flavor = acw_je_events.3.f
+
+	duration = 3
+
+	trigger = {
+		# triggered by je_acw_war completion
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = acw_je_events.3.a
+		
+		if = {
+			limit = {
+				has_variable = acw_gain_african_american
+			}
+			add_primary_culture = cu:afro_american
+		}
+		# revise this if we split the JE's
+		if = {
+			limit = {
+				NOT = {
+					has_variable = acw_keep_dixie
+				}
+			}
+			remove_primary_culture = cu:dixie
+		}
+	}
+}
+
+# The Emancipation Proclamation
+acw_je_events.4 = {
+	type = country_event
+	event_image = {
+		video = "europenorthamerica_capitalists_meeting"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	title = acw_je_events.4.t
+	desc = acw_je_events.4.d
+	flavor = acw_je_events.4.f
+
+	duration = 3
+
+	trigger = {
+		# triggered on je_acw_war pulse
+		exists = c:CSA
+		exists = c:USA
+		NOT = { has_law = law_type:law_slavery_banned }
+		any_diplomatic_play = {
+			AND = {
+				any_scope_play_involved = { this = c:CSA }
+				any_scope_play_involved = { this = c:USA }
+			}
+		}
+		NOT = { exists = c:FSA } # fringe sanity check
+		NOT = { 
+			any_interest_group = {
+				has_modifier = delayed_emancipation 
+			}
+		}
+		has_variable = union_side_acw
+		NOT = { has_variable = emancipation_complete }
+	}
+
+	immediate = {
+		law_type:law_slavery_banned = {
+			save_scope_as = abolition_law # use in loc with SCOPE.sLawType etc
+		}
+		set_variable = emancipation_complete
+	}
+
+	option = {
+		name = acw_je_events.4.a # We shall save the Union!
+		default_option = yes
+
+		every_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_slavery_banned
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = enacted_emancipation # +1 opinion
+				months = normal_modifier_time
+			}
+		}
+		set_variable = emancipation_issued
+	}
+
+	option = {
+		name = acw_je_events.4.b # Pass on immediate emancipation 
+
+		every_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_slavery_banned
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = delayed_emancipation # -3 opinion [everybody hated that]
+				months = normal_modifier_time
+			}
+		}
+	}
+}

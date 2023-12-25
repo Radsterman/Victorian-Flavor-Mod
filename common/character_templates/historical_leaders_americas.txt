@@ -15,24 +15,6 @@ brz_pedro_braganca_template = {
 	}
 }
 
-# Chile - CHL
-chl_jose_joaquin_prieto_template = {
-    # Jose Joaquin Prieto
-    first_name = "Jose_Joaquin"
-    last_name = "Prieto"
-    ig_leader = yes
-    historical = yes
-    ruler = yes
-    birth_date = 1786.8.20
-    dna = dna_president_joaquin_prieto
-    interest_group = ig_armed_forces
-    ideology = ideology_market_liberal
-    traits = {
-        persistent
-        expert_political_operator
-    }
-}
-
 # Mexico - MEX
 mex_juarez_character_template = {
     first_name = Benito
@@ -357,4 +339,46 @@ usa_mark_twain_character_template = { #Mark Twain
             set_ideology = ideology:ideology_jingoist
         }
     }
+}
+
+#Abraham Lincoln
+usa_lincoln_character_template = {
+    first_name = Abraham
+    last_name = Lincoln
+    historical = yes
+    culture = cu:yankee
+    female = no
+    religion = protestant
+    ideology = ideology_abolitionist
+    interest_group = ig_petty_bourgeoisie
+    birth_date = 1809.2.12
+    dna = dna_abraham_lincoln
+    traits = {
+        experienced_political_operator
+        inspirational_orator
+        tactful
+    }   
+    interest_group_leader_usage = {
+        country_trigger = {
+            exists = c:USA
+            this = c:USA
+        }
+        interest_group_trigger = {
+            is_marginal = no
+            OR = {
+                is_interest_group_type = ig_petty_bourgeoisie
+                is_interest_group_type = ig_intelligentsia
+            } 
+            NOR = {
+				has_variable = communist_ig_var
+				has_variable = chose_vanguardism
+				has_variable = chose_fascism
+				has_variable = chose_conservatism
+				has_variable = chose_ethno_nationalism
+			}
+        }   
+        earliest_usage_date = 1844.2.12
+        latest_usage_date = 1890.1.1
+        chance = 75
+    }   
 }

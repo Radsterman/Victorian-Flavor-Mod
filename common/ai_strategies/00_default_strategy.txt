@@ -297,18 +297,20 @@ ai_strategy_default = {
                 AND = {
                     has_journal_entry = je_manifest_destiny_mexico
                     scope:enemy_country = {
-                        OR = {
-                            has_state_in_state_region = STATE_CALIFORNIA
-                            has_state_in_state_region = STATE_NEVADA
-                            has_state_in_state_region = STATE_UTAH
-                            has_state_in_state_region = STATE_ARIZONA
-                            has_state_in_state_region = STATE_NEW_MEXICO
-                            has_state_in_state_region = STATE_TEXAS
-                        }
+						any_scope_state = {
+							OR = {
+								state_region = s:STATE_CALIFORNIA
+								state_region = s:STATE_NEVADA
+								state_region = s:STATE_UTAH
+								state_region = s:STATE_ARIZONA
+								state_region = s:STATE_NEW_MEXICO
+								state_region = s:STATE_TEXAS
+							}
+						}
                     }
                 }
             }
-            add = 0.6
+            add = 0.7
         }
 		
 		# France should very aggressively go for Algeria.
@@ -1082,6 +1084,253 @@ ai_strategy_default = {
 		}			
 	}
 	
+	# How much does the AI desire a state owned by another country
+	# Using this value in other strategies will function additively
+	# root = country
+	# scope:target_state = state
+	# scope:target_country = state owner
+	treaty_port_value = {
+		value = 0
+
+		if = {
+			limit = {	
+				scope:target_state = { 
+					is_treaty_port = yes 
+					region = { 
+						any_scope_state = { 
+							OR = {
+								owner = { is_subject_of = ROOT }
+								owner = ROOT
+							}
+						}
+					}
+				}
+			}
+			add = 40
+		}
+
+		if = {
+			limit = {
+				OR = {
+					scope:target_country = {
+						has_diplomatic_pact = {
+							who = root
+							type = embargo
+						}
+					}	
+					AND = {
+						has_strategy = ai_strategy_economic_imperialism
+						"num_mutual_trade_route_levels_with_country(root)" >= 10
+						OR = {
+							has_attitude = {
+								who = scope:target_country
+								attitude = belligerent
+							}
+							has_attitude = {
+								who = scope:target_country
+								attitude = domineering
+							}	
+							has_attitude = {
+								who = scope:target_country
+								attitude = antagonistic
+							}								
+						}							
+					}
+				}				
+			}
+
+			add = {
+				value = 5
+			
+				add = {
+					value = scope:target_state.state_population
+					divide = 200000
+					max = 10
+				}
+				
+				add = {
+					value = scope:target_state.gdp
+					divide = 200000
+					max = 10
+				}
+			
+				if = {
+					limit = {
+						any_scope_building = {
+							is_building_type = building_trade_center
+							level > 0
+						}						
+					}
+					add = 5
+				}
+				
+				if = {
+					limit = {
+						OR = {
+							is_country_type = unrecognized
+							scope:target_country = { NOT = { is_country_type = unrecognized } }
+						}						
+					}
+					multiply = 0.5
+				}
+					
+				if = {
+					limit = {
+						has_strategic_adjacency = scope:target_state		
+					}
+					multiply = 1.25
+				}	
+
+				if = {
+					limit = {
+						scope:target_state = { is_incorporated = no	}
+					}
+					multiply = 0.25
+				}						
+			}										
+		}
+					
+		if = {
+			limit = {
+				has_journal_entry = je_opium_wars
+				scope:target_country = {
+					has_variable = opium_wars_target
+				}
+				scope:target_state = {
+					NOT = { state_region = s:STATE_FORMOSA }
+				}					
+			}
+			add = 100
+		}
+
+		if = { #Carving up China
+			limit = {
+				country_rank >= rank_value:great_power
+				exists = c:CHI
+				OR = {
+					sr:region_north_china = {
+						any_scope_state = {
+							is_treaty_port = yes
+							owner = {
+								NOT = { this = root }
+								country_is_in_europe = yes
+							}
+						}
+					}
+					sr:region_south_china = {
+						any_scope_state = {
+							is_treaty_port = yes
+							owner = {
+								NOT = { this = root }
+								country_is_in_europe = yes
+							}
+						}
+					}
+					sr:region_manchuria = {
+						any_scope_state = {
+							is_treaty_port = yes
+							owner = {
+								NOT = { this = root }
+								country_is_in_europe = yes
+							}
+						}
+					}
+				}
+				scope:target_state = {
+					OR = {
+						region = sr:region_north_china
+						region = sr:region_south_china
+						region = sr:region_manchuria
+					}
+				}
+			}
+			add = 25
+		}
+		else_if = {
+			limit = {
+				country_rank >= rank_value:great_power
+				exists = c:CHI
+				OR = {
+					sr:region_north_china = {
+						any_scope_state = {
+							is_treaty_port = yes
+							owner = {
+								NOT = { THIS = ROOT }
+								country_rank >= rank_value:great_power
+							}
+						}
+					}
+					sr:region_south_china = {
+						any_scope_state = {
+							is_treaty_port = yes
+							owner = {
+								NOT = { THIS = ROOT }
+								country_rank >= rank_value:great_power
+							}
+						}
+					}
+					sr:region_manchuria = {
+						any_scope_state = {
+							is_treaty_port = yes
+							owner = {
+								NOT = { THIS = ROOT }
+								country_rank >= rank_value:great_power
+							}
+						}
+					}
+				}
+			}
+			add = 75
+		}
+		
+		# Not worth doing against very small markets
+		if = {
+			limit = {
+				scope:target_country = {
+					gdp < 2000000 
+				}
+			}
+			multiply = 0
+		}					
+
+		if = {
+			limit = {
+				has_treaty_port_in_country = scope:target_country
+			}
+			multiply = 0
+		}
+		
+		# Don't want treaty ports on countries in our market
+		if = {
+			limit = {
+				market_capital.market = scope:target_country.market_capital.market
+			}
+			multiply = 0
+		}			
+		
+		if = {
+			limit = {
+				scope:target_country = {
+					has_diplomatic_pact = {
+						who = root
+						type = trade_agreement
+					}	
+				}
+			}
+			multiply = 0
+		}
+		
+		if = {
+			limit = {
+				can_reach_target_state = no
+			}
+			multiply = 0
+		}			
+
+		min = 0
+		max = 100		
+	}
+	
 	# How much does the AI desire another country as their subject
 	# Using this value in other strategies will function additively
 	# root is the AI doing the evaluation, scope:target_country is prospective subject
@@ -1617,7 +1866,7 @@ ai_strategy_default = {
 					}
 				}
 			}
-			add = 1
+			add = 2
 		}		
 
 		# Ethiopian Thunderdome
@@ -2571,7 +2820,7 @@ ai_strategy_default = {
 		
 		add = {
 			value = total_population
-			divide = 600000 # 1 construction point per 500k pop				
+			divide = 650000 # 1 construction point per 650k pop				
 		}
 		
 		add = {
@@ -2640,15 +2889,7 @@ ai_strategy_default = {
 	# How many levels of barracks should the AI have
 	# Using this value in other strategies will function additively
 	wanted_army_size = {
-		value = 0
-
-		# To increase base army size for small countries, capped at 1 million population
-		add = {
-			value = cached_ai_incorporated_population
-			divide = 100000 # 1 level of barracks per 100k incorporated population	
-
-			max = 10
-		}			
+		value = 0		
 
 		add = {
 			value = cached_ai_incorporated_population
@@ -2660,7 +2901,7 @@ ai_strategy_default = {
 			divide = 1000000 # 1 level of barracks per 1 million unincorporated population	
 		}
 
-		max = 250 # No more than 250 from population
+		max = 500 # VFM - No more than 500 from population, bumped up from base 250
 
 		add = {
 			value = gdp
@@ -2668,6 +2909,7 @@ ai_strategy_default = {
 		}				
 
 		# More advanced standing armies are expensive and should be smaller relative to population
+		#VFM TODO: change this to actually refer to PMs in use rather than tied to tech, current way makes countries weaker even if they couldn't afford the units of the tech in the first place
 		if = {
 			limit = { has_technology_researched = line_infantry }
 			multiply = 0.9
@@ -2691,7 +2933,7 @@ ai_strategy_default = {
 		if = {
 			limit = { has_technology_researched = mobile_armor }
 			multiply = 0.9
-		}	
+		}
 
 		# Factor in strategies
 		if = {
@@ -2705,9 +2947,47 @@ ai_strategy_default = {
 				}
 			}
 			multiply = 1.25
-		}		
+		}
 
-		max = 500
+		if = { #VFM, AI major powers and up want larger militaries if their direct neighbors are trying to unify or expand
+			limit = {
+				any_country = {
+				    country_rank >= rank_value:major_power
+					OR = {
+						has_strategy = ai_strategy_territorial_expansion 
+						has_strategy = ai_strategy_unify_germany
+						has_strategy = ai_strategy_unify_italy
+						has_strategy = ai_strategy_unify_ethiopia
+						has_strategy = ai_strategy_unify_china
+					}
+					has_strategic_land_adjacency = ROOT
+				}
+				NOR = {
+					has_strategy = ai_strategy_territorial_expansion 
+					has_strategy = ai_strategy_unify_germany
+					has_strategy = ai_strategy_unify_italy
+					has_strategy = ai_strategy_unify_ethiopia
+					has_strategy = ai_strategy_unify_china
+				}
+			}
+			multiply = 1.1
+		}
+		
+		if = { #VFM, national militias are meant to be small and supported by conscripts
+			limit = { has_law = law_type:law_national_militia }
+			multiply = 0.05
+		}
+
+		#VFM moved to bottom since this should be the base army size and not impacted by all of the multipliers above...
+		# To increase base army size for small countries, capped at 1 million population
+		add = {
+			value = cached_ai_incorporated_population
+			divide = 100000 # 1 level of barracks per 100k incorporated population	
+
+			max = 5 #VFM, dropped to 5
+		}	
+
+		max = 1500 #VFM, from 500
 		min = 1
 	}
 
@@ -2797,7 +3077,7 @@ ai_strategy_default = {
 			multiply = 0.25
 		}		
 
-		max = 500
+		max = 1000 #VFM, from 500
 		min = 0		
 	}
 	
@@ -2896,7 +3176,7 @@ ai_strategy_default = {
 		value = 0
 		if = {
 			limit = { has_law = law_type:law_national_militia }
-			add = 5
+			add = 10 #VFM, bumped up from 5 to compensate for less barracks wanted by AI
 		}
 		else_if = {
 			limit = { has_law = law_type:law_professional_army }
@@ -2919,9 +3199,9 @@ ai_strategy_default = {
 	# Which buildings should the AI subsidize
 	# Using a different value in a strategy will override this value
 	subsidies = {
-		building_power_plant = should_have
-		building_railway = should_have
-		building_trade_center = should_have		
+		building_power_plant = must_have
+		building_railway = must_have
+		building_trade_center = must_have		
 	}
 	
 	# Specifying values here will override subsidy priorities while at war
@@ -5429,102 +5709,13 @@ ai_strategy_default = {
 		}	
 		
 		take_treaty_port = {
-			value = 0
+			add = scope:target_state.ai_treaty_port_value:root	
 			
-			if = {
-				limit = {
-					OR = {
-						scope:target_country = {
-							has_diplomatic_pact = {
-								who = root
-								type = embargo
-							}
-						}	
-						AND = {
-							has_strategy = ai_strategy_economic_imperialism
-							"num_mutual_trade_route_levels_with_country(root)" >= 10
-							OR = {
-								has_attitude = {
-									who = scope:target_country
-									attitude = belligerent
-								}
-								has_attitude = {
-									who = scope:target_country
-									attitude = domineering
-								}	
-								has_attitude = {
-									who = scope:target_country
-									attitude = antagonistic
-								}								
-							}							
-						}
-					}				
-				}
-
-				add = {
-					value = 5
-				
-					add = {
-						value = scope:target_state.state_population
-						divide = 200000
-						max = 10						
-					}
-					
-					add = {
-						value = scope:target_state.gdp
-						divide = 200000
-						max = 10						
-					}				
-				
-					if = {
-						limit = {
-							any_scope_building = {
-								is_building_type = building_trade_center
-								level > 0
-							}						
-						}
-						
-						add = 5
-					}
-					
-					if = {
-						limit = {
-							OR = {
-								is_country_type = unrecognized
-								scope:target_country = { NOT = { is_country_type = unrecognized } }
-							}						
-						}
-						multiply = 0.5
-					}
-						
-					if = {
-						limit = {
-							has_strategic_adjacency = scope:target_state		
-						}
-						multiply = 1.25
-					}
-
-                    if = {
-						limit = {
-							scope:target_state = { is_incorporated = no	}
-						}
-						multiply = 0.25
-					}						
-				}										
-			}		
-						
+			# Britain should go for Hong Kong when starting Opium Wars play against Qing
 			if = {
 				limit = {
 					has_journal_entry = je_opium_wars
-					scope:target_country = {
-						has_variable = opium_wars_target
-					}
-				}
-				add = 25
-			}
-			if = {
-				limit = {
-					has_journal_entry = je_opium_wars
+					NOT = { is_diplomatic_play_enemy_of = scope:target_country }
 					scope:target_country = {
 						has_variable = opium_wars_target
 					}
@@ -5533,156 +5724,7 @@ ai_strategy_default = {
 					}					
 				}
 				add = 1000
-			}
-			if = {
-				limit = {
-					has_journal_entry = je_opium_wars
-					scope:target_country = {
-						has_variable = opium_wars_target
-					}
-					scope:target_state = {
-						state_region = s:STATE_FORMOSA
-					}					
-				}
-				add = -100
-			}
-
-			if = { #Carving up China
-				limit = {
-					country_rank >= rank_value:great_power
-					exists = c:CHI
-					OR = {
-						sr:region_north_china = {
-							any_scope_state = {
-								is_treaty_port = yes
-								owner = {
-									NOT = { this = root }
-									country_is_in_europe = yes
-								}
-							}
-						}
-						sr:region_south_china = {
-							any_scope_state = {
-								is_treaty_port = yes
-								owner = {
-									NOT = { this = root }
-									country_is_in_europe = yes
-								}
-							}
-						}
-						sr:region_manchuria = {
-							any_scope_state = {
-								is_treaty_port = yes
-								owner = {
-									NOT = { this = root }
-									country_is_in_europe = yes
-								}
-							}
-						}
-					}
-					scope:target_state = {
-						OR = {
-							region = sr:region_north_china
-							region = sr:region_south_china
-							region = sr:region_manchuria
-						}
-					}
-				}
-				add = 25
-			}
-			else_if = {
-				limit = {
-					country_rank >= rank_value:great_power
-					exists = c:CHI
-					OR = {
-						sr:region_north_china = {
-							any_scope_state = {
-								is_treaty_port = yes
-								owner = {
-									NOT = { THIS = ROOT }
-									country_rank >= rank_value:great_power
-								}
-							}
-						}
-						sr:region_south_china = {
-							any_scope_state = {
-								is_treaty_port = yes
-								owner = {
-									NOT = { THIS = ROOT }
-									country_rank >= rank_value:great_power
-								}
-							}
-						}
-						sr:region_manchuria = {
-							any_scope_state = {
-								is_treaty_port = yes
-								owner = {
-									NOT = { THIS = ROOT }
-									country_rank >= rank_value:great_power
-								}
-							}
-						}
-					}
-				}
-				add = 75
-			}
-			
-			# Not worth doing against very small markets
-			if = {
-				limit = {
-					scope:target_country = {
-						gdp < 2000000 
-					}
-				}
-				multiply = 0
-			}	
-
-			# Don't want treaty ports in weak unrecognized powers, would rather conquer or subjugate
-			if = {
-				limit = {
-					has_treaty_port_in_country = scope:target_country
-					scope:target_country = { country_rank < rank_value:unrecognized_regional_power }
-				}
-				multiply = 0
 			}			
-			
-			# Don't want treaty ports on countries in our market
-			if = {
-				limit = {
-					market_capital.market = scope:target_country.market_capital.market
-				}
-				multiply = 0
-			}	
-
-			# Greatly reduced wanting treaty ports from other recognized countries
-			if = {
-				limit = {
-					scope:target_country = { NOT = { is_country_type = unrecognized } }
-				}
-				multiply = 0.1
-			}
-			
-			if = {
-				limit = {
-					scope:target_country = {
-						has_diplomatic_pact = {
-							who = root
-							type = trade_agreement
-						}	
-					}
-				}
-				multiply = 0
-			}
-			
-			if = {
-				limit = {
-					can_reach_target_state = no
-				}
-				multiply = 0
-			}			
-
-			min = 0
-			max = 100			
 		}
 
 		transfer_subject = {
@@ -6309,24 +6351,6 @@ ai_strategy_default = {
 						scope:target_country.infamy >= infamy_threshold:pariah
 					}
 					add = 25
-				}
-
-				# Relations with target
-				multiply = {
-					value = "scope:target_country.relations:root"
-					multiply = -0.01
-					add = 1
-					min = 0.5
-					max = 2.0				
-				}
-				
-				# Ideological opinion of target
-				multiply = {
-					value = "ai_ideological_opinion(scope:target_country)"
-					multiply = -0.05
-					add = 1
-					min = 0.5
-					max = 2.0
 				}				
 			}
 			
@@ -6356,6 +6380,24 @@ ai_strategy_default = {
 					can_reach_target_country = no
 				}
 				add = 100
+			}
+			
+			# Relations with target
+			multiply = {
+				value = "scope:target_country.relations:root"
+				multiply = -0.01
+				add = 1
+				min = 0.5
+				max = 2.0				
+			}
+			
+			# Ideological opinion of target
+			multiply = {
+				value = "ai_ideological_opinion(scope:target_country)"
+				multiply = -0.05
+				add = 1
+				min = 0.5
+				max = 2.0
 			}
 
 			min = 0

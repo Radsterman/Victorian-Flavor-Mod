@@ -80,6 +80,12 @@ combat_unit_type_line_infantry = {
     upkeep_modifier = {
         goods_input_small_arms_add = 1
     }
+	
+    can_build_conscript = {
+        NOT = {
+            has_law = law_type:law_peasant_levies
+        }
+    }
 
     battle_modifier = {
         unit_offense_add = 20
@@ -133,12 +139,6 @@ combat_unit_type_line_infantry = {
 combat_unit_type_skirmish_infantry = {
     group = combat_unit_group_infantry
 
-    can_build = {
-        NOT = {
-            has_law = law_type:law_peasant_levies
-        }
-    }
-
     can_build_conscript = {
         NOT = {
             has_law = law_type:law_peasant_levies
@@ -146,7 +146,7 @@ combat_unit_type_skirmish_infantry = {
     }
 
     upkeep_modifier = {
-        goods_input_small_arms_add = 1
+        goods_input_small_arms_add = 2
         goods_input_ammunition_add = 1
     }
 
@@ -201,12 +201,6 @@ combat_unit_type_skirmish_infantry = {
 combat_unit_type_trench_infantry = {
     group = combat_unit_group_infantry
 
-    can_build = {
-        NOT = {
-            has_law = law_type:law_peasant_levies
-        }
-    }
-
     can_build_conscript = {
         NOT = {
             has_law = law_type:law_peasant_levies
@@ -214,7 +208,7 @@ combat_unit_type_trench_infantry = {
     }
 
     upkeep_modifier = {
-        goods_input_small_arms_add = 1
+        goods_input_small_arms_add = 3
         goods_input_ammunition_add = 2
     }
     
@@ -268,12 +262,6 @@ combat_unit_type_trench_infantry = {
 combat_unit_type_squad_infantry = {
     group = combat_unit_group_infantry
 
-    can_build = {
-        NOT = {
-            has_law = law_type:law_peasant_levies
-        }
-    }
-
     can_build_conscript = {
         NOT = {
             has_law = law_type:law_peasant_levies
@@ -281,8 +269,8 @@ combat_unit_type_squad_infantry = {
     }
 
     upkeep_modifier = {
-        goods_input_small_arms_add = 1
-        goods_input_ammunition_add = 2
+        goods_input_small_arms_add = 3
+        goods_input_ammunition_add = 3
         goods_input_radios_add = 1
     }
     
@@ -335,12 +323,6 @@ combat_unit_type_squad_infantry = {
 combat_unit_type_mechanized_infantry = {
     group = combat_unit_group_infantry
 
-    can_build = {
-        NOT = {
-            has_law = law_type:law_peasant_levies
-        }
-    }
-
     can_build_conscript = {
         NOT = {
             has_law = law_type:law_peasant_levies
@@ -348,7 +330,7 @@ combat_unit_type_mechanized_infantry = {
     }
 
     upkeep_modifier = {
-        goods_input_small_arms_add = 1
+        goods_input_small_arms_add = 3
         goods_input_ammunition_add = 3
         goods_input_oil_add = 1
         goods_input_radios_add = 1
@@ -359,7 +341,6 @@ combat_unit_type_mechanized_infantry = {
         unit_offense_add = 50
         unit_defense_add = 60
         unit_morale_loss_add = 4
-        unit_defense_mult = 0.1
         unit_devastation_mult = 0.1
     }
 
@@ -405,7 +386,7 @@ combat_unit_type_cannon_artillery = {
     group = combat_unit_group_artillery
 
     upkeep_modifier = {
-        goods_input_artillery_add = 1 #0.5 vfm increase artillery demand
+        goods_input_artillery_add = 1
     }
     
     battle_modifier = {
@@ -414,6 +395,11 @@ combat_unit_type_cannon_artillery = {
         unit_morale_loss_add = 10
         unit_kill_rate_add = 0.1
         unit_devastation_mult = 0.1
+    }
+
+    formation_modifier = {
+        military_formation_mobilization_speed_mult = -0.2
+        military_formation_movement_speed_mult = -0.2
     }
 
 	unlocking_technologies = { artillery }
@@ -462,15 +448,20 @@ combat_unit_type_mobile_artillery = {
     group = combat_unit_group_artillery
 
     upkeep_modifier = {
-        goods_input_artillery_add = 2 #1 vfm increase artillery demand
+        goods_input_artillery_add = 2
     }
     
     battle_modifier = {
-        unit_offense_add = 35
-        unit_defense_add = 20
+        unit_offense_add = 30
+        unit_defense_add = 15
         unit_morale_loss_add = 8
         unit_kill_rate_add = 0.2
         unit_devastation_mult = 0.15
+    }
+
+    formation_modifier = {
+        military_formation_mobilization_speed_mult = -0.2
+        military_formation_movement_speed_mult = -0.2
     }
 
 	unlocking_technologies = { napoleonic_warfare }
@@ -517,12 +508,6 @@ combat_unit_type_mobile_artillery = {
 combat_unit_type_shrapnel_artillery = {
     group = combat_unit_group_artillery
 
-    can_build = {
-        NOT = {
-            has_law = law_type:law_peasant_levies
-        }
-    }
-
     can_build_conscript = {
         NOT = {
             has_law = law_type:law_peasant_levies
@@ -530,8 +515,8 @@ combat_unit_type_shrapnel_artillery = {
     }
     
     upkeep_modifier = {
-        goods_input_artillery_add = 2 #1 vfm increase artillery demand
-        goods_input_ammunition_add = 1
+        goods_input_artillery_add = 3
+        goods_input_ammunition_add = 3
     }
 
     battle_modifier = {
@@ -540,6 +525,11 @@ combat_unit_type_shrapnel_artillery = {
         unit_morale_loss_add = 6
         unit_kill_rate_add = 0.3
         unit_devastation_mult = 0.15
+    }
+
+    formation_modifier = {
+        military_formation_mobilization_speed_mult = -0.2
+        military_formation_movement_speed_mult = -0.2
     }
 
 	unlocking_technologies = { breech_loading_artillery }
@@ -585,12 +575,6 @@ combat_unit_type_shrapnel_artillery = {
 combat_unit_type_siege_artillery = {
     group = combat_unit_group_artillery
 
-    can_build = {
-        NOT = {
-            has_law = law_type:law_peasant_levies
-        }
-    }
-
     can_build_conscript = {
         NOT = {
             has_law = law_type:law_peasant_levies
@@ -598,8 +582,9 @@ combat_unit_type_siege_artillery = {
     }
     
     upkeep_modifier = {
-        goods_input_artillery_add = 2 #1 vfm increase artillery demand
-        goods_input_ammunition_add = 3
+        goods_input_artillery_add = 4
+        goods_input_ammunition_add = 4
+		goods_input_radios_add = 1
     }
 
     battle_modifier = {
@@ -610,7 +595,12 @@ combat_unit_type_siege_artillery = {
         unit_devastation_mult = 0.2
     }
 
-	unlocking_technologies = { wargaming }
+    formation_modifier = {
+        military_formation_mobilization_speed_mult = -0.2
+        military_formation_movement_speed_mult = -0.2
+    }
+
+	unlocking_technologies = { defense_in_depth }
 
     combat_unit_image = {
         trigger = { 
@@ -649,12 +639,6 @@ combat_unit_type_siege_artillery = {
 combat_unit_type_heavy_tank = {
     group = combat_unit_group_artillery
 
-    can_build = {
-        NOT = {
-            has_law = law_type:law_peasant_levies
-        }
-    }
-
     can_build_conscript = {
         NOT = {
             has_law = law_type:law_peasant_levies
@@ -663,10 +647,10 @@ combat_unit_type_heavy_tank = {
     
     upkeep_modifier = {
         goods_input_tanks_add = 3
-        goods_input_artillery_add = 3 #2 vfm increase artillery demand
+        goods_input_artillery_add = 4
+		goods_input_ammunition_add = 4
         goods_input_radios_add = 1
         goods_input_oil_add = 3
-        goods_input_ammunition_add = 3
     }
 
     battle_modifier = {
@@ -676,6 +660,11 @@ combat_unit_type_heavy_tank = {
         unit_kill_rate_add = 0.25
         unit_morale_damage_mult = 0.15
         unit_devastation_mult = 0.2
+    }
+
+    formation_modifier = {
+        military_formation_mobilization_speed_mult = -0.2
+        military_formation_movement_speed_mult = -0.2
     }
 
 	unlocking_technologies = { mobile_armor }
@@ -696,8 +685,13 @@ combat_unit_type_hussars = {
 
     battle_modifier = {
         unit_offense_add = 15
-        unit_defense_add = 15
+        unit_defense_add = 10
         unit_morale_loss_add = 10
+    }
+
+    formation_modifier = {
+        military_formation_mobilization_speed_mult = 0.25
+        military_formation_movement_speed_mult = 0.25
     }
 
 	unlocking_technologies = { standing_army }
@@ -745,12 +739,6 @@ combat_unit_type_hussars = {
 combat_unit_type_dragoons = {
     group = combat_unit_group_cavalry
 
-    can_build = {
-        NOT = {
-            has_law = law_type:law_peasant_levies
-        }
-    }
-
     can_build_conscript = {
         NOT = {
             has_law = law_type:law_peasant_levies
@@ -758,14 +746,14 @@ combat_unit_type_dragoons = {
     }
     
     upkeep_modifier = {
-        goods_input_grain_add = 2
+        goods_input_grain_add = 1
         goods_input_small_arms_add = 2
     }
 
     battle_modifier = {
         unit_offense_add = 20
         unit_defense_add = 25
-        unit_morale_loss_add = 10
+        unit_morale_loss_add = 8
         unit_occupation_mult = 0.3
         #should get modifiers to mobile/surprise battle conditions appearing
     }
@@ -806,7 +794,6 @@ combat_unit_type_dragoons = {
     }
 
     upgrades = {
-
         combat_unit_type_cuirassiers
         combat_unit_type_lancers
     }
@@ -814,13 +801,7 @@ combat_unit_type_dragoons = {
 
 combat_unit_type_cuirassiers = {
     group = combat_unit_group_cavalry
-
-    can_build = {
-        NOT = {
-            has_law = law_type:law_peasant_levies
-        }
-    }
-
+	
     can_build_conscript = {
         NOT = {
             has_law = law_type:law_peasant_levies
@@ -829,14 +810,14 @@ combat_unit_type_cuirassiers = {
     
     upkeep_modifier = {
         goods_input_grain_add = 2
-        goods_input_small_arms_add = 2
+        goods_input_small_arms_add = 1
         goods_input_iron_add = 1
     }
 
     battle_modifier = {
         unit_offense_add = 25
         unit_defense_add = 20
-        unit_morale_loss_add = 6
+        unit_morale_loss_add = 8
         unit_occupation_mult = 0.3
     }
 
@@ -883,13 +864,7 @@ combat_unit_type_cuirassiers = {
 
 combat_unit_type_lancers = {
     group = combat_unit_group_cavalry
-
-    can_build = {
-        NOT = {
-            has_law = law_type:law_peasant_levies
-        }
-    }
-
+	
     can_build_conscript = {
         NOT = {
             has_law = law_type:law_peasant_levies
@@ -899,12 +874,13 @@ combat_unit_type_lancers = {
     upkeep_modifier = {
         goods_input_grain_add = 2
         goods_input_small_arms_add = 2
+		goods_input_iron_add = 2
     }
 
     battle_modifier = {
         unit_offense_add = 30
-        unit_defense_add = 15
-        unit_morale_loss_add = 10
+        unit_defense_add = 20
+        unit_morale_loss_add = 6
         unit_kill_rate_add = 0.05
         unit_morale_loss_mult = 0.05
         unit_occupation_mult = 0.3
@@ -954,12 +930,6 @@ combat_unit_type_lancers = {
 combat_unit_type_light_tanks = {
     group = combat_unit_group_cavalry
 
-    can_build = {
-        NOT = {
-            has_law = law_type:law_peasant_levies
-        }
-    }
-
     can_build_conscript = {
         NOT = {
             has_law = law_type:law_peasant_levies
@@ -968,10 +938,10 @@ combat_unit_type_light_tanks = {
     
     upkeep_modifier = {
         goods_input_tanks_add = 2
-        goods_input_artillery_add = 1.5 #1 vfm increase artillery demand
+        goods_input_artillery_add = 2
         goods_input_oil_add = 2
         goods_input_ammunition_add = 2
-        goods_input_radios_add = 1
+        goods_input_radios_add = 2
     }
 
     battle_modifier = {
@@ -980,6 +950,10 @@ combat_unit_type_light_tanks = {
         unit_morale_loss_add = 4
         unit_devastation_mult = 0.1
         unit_occupation_mult = 0.3
+    }
+
+    formation_modifier = {
+        military_formation_mobilization_speed_mult = 0.2
     }
 
 	unlocking_technologies = { mobile_armor }
@@ -1002,7 +976,7 @@ combat_unit_type_frigate = {
 
     battle_modifier = {
         unit_offense_add = 10
-        unit_defense_add = 10
+        unit_defense_add = 15
         unit_morale_loss_add = 10
     }
 
@@ -1024,13 +998,19 @@ combat_unit_type_monitor = {
 
     upkeep_modifier = {
         goods_input_ironclads_add = 1
+        goods_input_artillery_add = 1
         goods_input_ammunition_add = 2
     }
 
     battle_modifier = {
         unit_offense_add = 20
-        unit_defense_add = 20
-        unit_morale_loss_add = 6
+        unit_defense_add = 30
+        unit_morale_loss_add = 8
+	    unit_convoy_defense_mult = 0.20
+    }
+
+    formation_modifier = {
+        military_formation_movement_speed_mult = 0.2
     }
 
     unlocking_technologies = { monitor_tech }
@@ -1044,15 +1024,20 @@ combat_unit_type_destroyer = {
     group = combat_unit_group_light_ship
 
     upkeep_modifier = {
-        goods_input_ironclads_add = 1
+        goods_input_ironclads_add = 2
+        goods_input_artillery_add = 2
         goods_input_ammunition_add = 3
     }
 
     battle_modifier = {
-        unit_offense_add = 25
+        unit_offense_add = 30
         unit_defense_add = 40
-        unit_morale_loss_add = 8
-        unit_convoy_defense_mult = 0.2
+        unit_morale_loss_add = 6
+        unit_convoy_defense_mult = 0.35
+    }
+
+    formation_modifier = {
+        military_formation_movement_speed_mult = 0.2
     }
 
 	unlocking_technologies = { destroyer }
@@ -1069,15 +1054,19 @@ combat_unit_type_torpedo_boat = {
     group = combat_unit_group_light_ship
 
     upkeep_modifier = {
-        goods_input_ironclads_add = 1
-        goods_input_explosives_add = 3
+        goods_input_ironclads_add = 2
+        goods_input_explosives_add = 4
     }
 
     battle_modifier = {
         unit_offense_add = 40
-        unit_defense_add = 25
+        unit_defense_add = 30
         unit_morale_loss_add = 8
-        unit_convoy_raiding_mult = 0.1
+        unit_convoy_raiding_mult = 0.25
+    }
+
+    formation_modifier = {
+        military_formation_movement_speed_mult = 0.2
     }
 
 	unlocking_technologies = { self_propelled_torpedoes }
@@ -1095,16 +1084,21 @@ combat_unit_type_scout_cruiser = {
     group = combat_unit_group_light_ship
 
     upkeep_modifier = {
-        goods_input_ironclads_add = 2
-        goods_input_ammunition_add = 3
+        goods_input_ironclads_add = 3
+        goods_input_ammunition_add = 5
+        goods_input_artillery_add = 3
         goods_input_radios_add = 1
     }
 
     battle_modifier = {
-        unit_offense_add = 60
-        unit_defense_add = 60
+        unit_offense_add = 50
+        unit_defense_add = 50
         unit_morale_loss_add = 6
-        # should probably get some patrol bonus. Needs code support
+		unit_convoy_defense_mult = 0.5
+    }
+
+    formation_modifier = {
+        military_formation_movement_speed_mult = 0.2
     }
 
 	unlocking_technologies = { sea_lane_strategies }
@@ -1120,12 +1114,12 @@ combat_unit_type_man_o_war = {
     group = combat_unit_group_capital_ship
 
     upkeep_modifier = {
-        goods_input_manowars_add = 2
+        goods_input_manowars_add = 3
     }
 
     battle_modifier = {
-        unit_offense_add = 20
-        unit_defense_add = 20
+        unit_offense_add = 25
+        unit_defense_add = 25
         unit_morale_loss_add = 10
     }
 
@@ -1144,15 +1138,19 @@ combat_unit_type_ironclad = {
     group = combat_unit_group_capital_ship
 
     upkeep_modifier = {
-        goods_input_ironclads_add = 2
-        goods_input_ammunition_add = 1
-		goods_input_artillery_add = 0.5 #0 vfm increase artillery demand
+        goods_input_ironclads_add = 3
+        goods_input_artillery_add = 3
+        goods_input_ammunition_add = 5
     }
 
     battle_modifier = {
-        unit_offense_add = 45
-        unit_defense_add = 45
+        unit_offense_add = 50
+        unit_defense_add = 50
         unit_morale_loss_add = 8
+    }
+
+    formation_modifier = {
+        military_formation_movement_speed_mult = -0.2
     }
 
 	unlocking_technologies = { ironclad_tech }
@@ -1166,16 +1164,20 @@ combat_unit_type_dreadnought = {
     group = combat_unit_group_capital_ship
 
     upkeep_modifier = {
-        goods_input_ironclads_add = 4
-        goods_input_ammunition_add = 4
-        goods_input_radios_add = 1
-        goods_input_artillery_add = 1 #0.5 vfm increase artillery demand
+        goods_input_ironclads_add = 6
+		goods_input_artillery_add = 6
+        goods_input_ammunition_add = 10
+        goods_input_radios_add = 2    
     }
 
     battle_modifier = {
         unit_offense_add = 80
         unit_defense_add = 80
         unit_morale_loss_add = 6
+    }
+
+    formation_modifier = {
+        military_formation_movement_speed_mult = -0.2
     }
 
 	unlocking_technologies = { dreadnought }
@@ -1189,16 +1191,20 @@ combat_unit_type_battleship = {
     group = combat_unit_group_capital_ship
 
     upkeep_modifier = {
-        goods_input_ironclads_add = 5
-        goods_input_ammunition_add = 6
-        goods_input_radios_add = 2
-        goods_input_artillery_add = 2 #1 vfm increase artillery demand
+        goods_input_ironclads_add = 8
+		goods_input_artillery_add = 8
+        goods_input_ammunition_add = 12
+        goods_input_radios_add = 3
     }
 
     battle_modifier = {
         unit_offense_add = 100
         unit_defense_add = 100
         unit_morale_loss_add = 4
+    }
+
+    formation_modifier = {
+        military_formation_movement_speed_mult = -0.2
     }
 
 	unlocking_technologies = { battleship_tech }
@@ -1214,15 +1220,21 @@ combat_unit_type_submarine = {
     group = combat_unit_group_support_ship
 
     upkeep_modifier = {
-        goods_input_ironclads_add = 1
-        goods_input_ammunition_add = 1
+        goods_input_ironclads_add = 2
+        goods_input_artillery_add = 2
+        goods_input_ammunition_add = 3
+		goods_input_radios_add = 1
     }
 
     battle_modifier = {
-        unit_offense_add = 40
+        unit_offense_add = 60
         unit_defense_add = 20
         unit_morale_loss_add = 8
-        unit_convoy_raiding_mult = 0.15
+        unit_convoy_raiding_mult = 1.0
+    }
+
+    formation_modifier = {
+        military_formation_movement_speed_mult = 0.2
     }
 
 	unlocking_technologies = { submarine }
@@ -1236,16 +1248,21 @@ combat_unit_type_carrier = {
     group = combat_unit_group_support_ship
 
     upkeep_modifier = {
-        goods_input_ironclads_add = 2
-        goods_input_ammunition_add = 2
-        goods_input_radios_add = 2
-        goods_input_aeroplanes_add = 2
+        goods_input_ironclads_add = 8
+        goods_input_ammunition_add = 8
+        goods_input_radios_add = 4
+        goods_input_aeroplanes_add = 8
     }
 
     battle_modifier = {
-        unit_offense_add = 65
-        unit_defense_add = 40
-        unit_morale_loss_add = 4
+        unit_offense_add = 120
+        unit_defense_add = 60
+        unit_morale_loss_add = 6
+		unit_convoy_defense_mult = 0.25
+    }
+
+    formation_modifier = {
+        military_formation_movement_speed_mult = -0.2
     }
 
 	unlocking_technologies = { carrier_tech }

@@ -4,62 +4,34 @@
 			type = army
 			hq_region = sr:region_north_germany
 			name = "Garde-Korps"
-			
-			combat_unit = {
-				type = unit_type:combat_unit_type_skirmish_infantry
-				state_region = s:STATE_SILESIA
-				count = 15
-			}
 
 			combat_unit = {
 				type = unit_type:combat_unit_type_skirmish_infantry
 				state_region = s:STATE_BRANDENBURG
-				count = 20
+				count = 8
 			}
 
 			combat_unit = {
 				type = unit_type:combat_unit_type_lancers
 				state_region = s:STATE_BRANDENBURG
-				count = 5
+				count = 2
 			}
 
 			combat_unit = {
 				type = unit_type:combat_unit_type_mobile_artillery
 				state_region = s:STATE_BRANDENBURG
-				count = 5
-			} 
-		}
-
-		create_military_formation = {
-			type = army
-			hq_region = sr:region_north_germany
-			name = "Kavallerie-Korps"
-
-			combat_unit = {
-				type = unit_type:combat_unit_type_lancers
-				state_region = s:STATE_ANHALT
-				count = 15
+				count = 2
 			}
-			save_scope_as = kavalleriekorp
+			save_scope_as = guard_prussia
 		}
 
 		create_character = {
-			is_general = yes
-			first_name = Helmuth
-			last_name = von_Moltke
-			historical = yes
-			hq = region_north_germany
-			age = 36
-			traits = {
-				expert_offensive_planner
-				resupply_commander
-				reserved
-			}
-			save_scope_as = helmuth_gen
+			template = PRU_carl_von_mecklenburg
+			save_scope_as = carl_mecklenburg_gen
 		}
 		
-		scope:helmuth_gen = {
-			transfer_to_formation = scope:kavalleriekorp
+		scope:carl_mecklenburg_gen = {
+			transfer_to_formation = scope:guard_prussia
 		}
 
 		create_military_formation = {
@@ -67,31 +39,182 @@
 			hq_region = sr:region_poland
 			name = "I. Armee-Korps"
 
-
-			#combat_unit = {
-			#	type = unit_type:combat_unit_type_skirmish_infantry
-			#	state_region = s:STATE_POSEN
-			#	count = 10
-			#}
-
 			combat_unit = {
 				type = unit_type:combat_unit_type_skirmish_infantry
 				state_region = s:STATE_EAST_PRUSSIA
-				count = 10
+				count = 8
 			}
 
 			combat_unit = {
 				type = unit_type:combat_unit_type_lancers
-				state_region = s:STATE_WEST_PRUSSIA
-				count = 10
+				state_region = s:STATE_EAST_PRUSSIA
+				count = 2
 			}
 
 			combat_unit = {
 				type = unit_type:combat_unit_type_mobile_artillery
 				state_region = s:STATE_EAST_PRUSSIA
-				count = 5
+				count = 2
 			}
 			save_scope_as = i_armee
+		}
+
+		create_character = {
+			template = PRU_oldwig_von_natzmer
+			save_scope_as = oldwig_gen
+		}
+		
+		scope:oldwig_gen = {
+			transfer_to_formation = scope:i_armee
+		}
+
+		create_military_formation = {
+			type = army
+			hq_region = sr:region_north_germany
+			name = "II. Armee-Korps"
+
+			combat_unit = {
+				type = unit_type:combat_unit_type_skirmish_infantry
+				state_region = s:STATE_POMERANIA
+				count = 6
+			}
+
+			combat_unit = {
+				type = unit_type:combat_unit_type_skirmish_infantry
+				state_region = s:STATE_WEST_PRUSSIA
+				count = 1
+			}
+
+			combat_unit = {
+				type = unit_type:combat_unit_type_skirmish_infantry
+				state_region = s:STATE_WEST_PRUSSIA #Posen, technically
+				count = 1
+			}
+
+			combat_unit = {
+				type = unit_type:combat_unit_type_lancers
+				state_region = s:STATE_POMERANIA
+				count = 2
+			}
+
+			combat_unit = {
+				type = unit_type:combat_unit_type_mobile_artillery
+				state_region = s:STATE_POMERANIA
+				count = 2
+			}
+			save_scope_as = ii_armee
+		}
+
+		ruler = { #Friedrich Wilhelm, comment out if he is no longer a general
+			transfer_to_formation = scope:ii_armee
+		}
+
+		create_military_formation = {
+			type = army
+			hq_region = sr:region_north_germany
+			name = "III. Armee-Korps"
+
+			combat_unit = {
+				type = unit_type:combat_unit_type_skirmish_infantry
+				state_region = s:STATE_BRANDENBURG
+				count = 8
+			}
+
+			combat_unit = {
+				type = unit_type:combat_unit_type_lancers
+				state_region = s:STATE_BRANDENBURG
+				count = 2
+			}
+
+			combat_unit = {
+				type = unit_type:combat_unit_type_mobile_artillery
+				state_region = s:STATE_BRANDENBURG
+				count = 2
+			}
+			save_scope_as = iii_armee
+		}
+
+		create_character = {
+			template = PRU_karl_hohenzollern
+			save_scope_as = karl_h_gen
+		}
+		
+		scope:karl_h_gen = {
+			transfer_to_formation = scope:iii_armee
+		}
+
+		create_military_formation = {
+			type = army
+			hq_region = sr:region_north_germany
+			name = "IV. Armee-Korps"
+
+			combat_unit = {
+				type = unit_type:combat_unit_type_skirmish_infantry
+				state_region = s:STATE_ANHALT
+				count = 8
+			}
+
+			combat_unit = {
+				type = unit_type:combat_unit_type_lancers
+				state_region = s:STATE_ANHALT
+				count = 2
+			}
+
+			combat_unit = {
+				type = unit_type:combat_unit_type_mobile_artillery
+				state_region = s:STATE_ANHALT
+				count = 2
+			}
+		}
+
+		#Should be split to represent Posen's army as well since this was that too
+		create_military_formation = {
+			type = army
+			hq_region = sr:region_north_germany
+			name = "V. Armee-Korps"
+
+			combat_unit = {
+				type = unit_type:combat_unit_type_skirmish_infantry
+				state_region = s:STATE_SILESIA
+				count = 8
+			}
+
+			combat_unit = {
+				type = unit_type:combat_unit_type_lancers
+				state_region = s:STATE_SILESIA
+				count = 2
+			}
+
+			combat_unit = {
+				type = unit_type:combat_unit_type_mobile_artillery
+				state_region = s:STATE_SILESIA
+				count = 2
+			}
+		}
+		
+		create_military_formation = {
+			type = army
+			hq_region = sr:region_north_germany
+			name = "VI. Armee-Korps"
+
+			combat_unit = {
+				type = unit_type:combat_unit_type_skirmish_infantry
+				state_region = s:STATE_SILESIA
+				count = 8
+			}
+
+			combat_unit = {
+				type = unit_type:combat_unit_type_lancers
+				state_region = s:STATE_SILESIA
+				count = 2
+			}
+
+			combat_unit = {
+				type = unit_type:combat_unit_type_mobile_artillery
+				state_region = s:STATE_SILESIA
+				count = 2
+			}
+			save_scope_as = vi_armee
 		}
 
 		create_character = {
@@ -101,7 +224,7 @@
 			historical = yes
 			age = 66
 			hq = region_poland
-			commander_rank = commander_rank_3
+			commander_rank = commander_rank_2
 			traits = {
 				plains_commander
 			}
@@ -109,63 +232,93 @@
 		}
 		
 		scope:hans_ernst_gen = {
-			transfer_to_formation = scope:i_armee
+			transfer_to_formation = scope:vi_armee
 		}
-
+		
 		create_military_formation = {
 			type = army
-			hq_region = sr:region_rhine
-			name = "II. Armee-Korps"
+			hq_region = sr:region_north_germany
+			name = "VII. Armee-Korps"
 
 			combat_unit = {
 				type = unit_type:combat_unit_type_skirmish_infantry
-				state_region = s:STATE_RHINELAND
-				count = 10
-			}
-
-			combat_unit = {
-				type = unit_type:combat_unit_type_skirmish_infantry
-				state_region = s:STATE_NORTH_RHINE
-				count = 10
-			}
-
-			combat_unit = {
-				type = unit_type:combat_unit_type_skirmish_infantry
-				state_region = s:STATE_NORTH_RHINE
-				count = 5
+				state_region = s:STATE_WESTPHALIA
+				count = 8
 			}
 
 			combat_unit = {
 				type = unit_type:combat_unit_type_lancers
 				state_region = s:STATE_WESTPHALIA
-				count = 10
+				count = 2
+			}
+
+			combat_unit = {
+				type = unit_type:combat_unit_type_mobile_artillery
+				state_region = s:STATE_WESTPHALIA
+				count = 2
+			}
+		}
+		
+		create_military_formation = {
+			type = army
+			hq_region = sr:region_rhine
+			name = "VIII. Armee-Korps"
+
+			combat_unit = {
+				type = unit_type:combat_unit_type_skirmish_infantry
+				state_region = s:STATE_RHINELAND
+				count = 4
+			}
+
+			combat_unit = {
+				type = unit_type:combat_unit_type_lancers
+				state_region = s:STATE_RHINELAND
+				count = 1
+			}
+
+			combat_unit = {
+				type = unit_type:combat_unit_type_mobile_artillery
+				state_region = s:STATE_RHINELAND
+				count = 1
+			}
+			
+			combat_unit = {
+				type = unit_type:combat_unit_type_skirmish_infantry
+				state_region = s:STATE_NORTH_RHINE
+				count = 4
+			}
+
+			combat_unit = {
+				type = unit_type:combat_unit_type_lancers
+				state_region = s:STATE_NORTH_RHINE
+				count = 1
 			}
 
 			combat_unit = {
 				type = unit_type:combat_unit_type_mobile_artillery
 				state_region = s:STATE_NORTH_RHINE
-				count = 5
+				count = 1
 			}
-			save_scope_as = ii_korps
 		}
 
-		create_character = {
-			is_general = yes
-			first_name = Wilhelm
-			last_name = von_Krauseneck
-			historical = yes
-			hq = region_rhine
-			commander_rank = commander_rank_3
-			age = 62
-			traits = {
-				reserved
-			}
-			save_scope_as = wilhem_gen
-		}
-		
-		scope:wilhem_gen = {
-			transfer_to_formation = scope:ii_korps
-		}
+		#create_character = {
+		#	is_general = yes
+		#	first_name = Helmuth
+		#	last_name = von_Moltke
+		#	historical = yes
+		#	hq = region_north_germany
+		#	age = 36
+		#	traits = {
+		#		expert_offensive_planner
+		#		resupply_commander
+		#		reserved
+		#	}
+		#	save_scope_as = helmuth_gen
+		#}
+		#
+		#scope:helmuth_gen = {
+		#	transfer_to_formation = scope:kavalleriekorp
+		#}
 
 		create_military_formation = {
 			type = fleet
@@ -219,7 +372,7 @@
 			historical = yes
 			birth_date = 1766.11.2
 			hq = region_south_germany
-			commander_rank = commander_rank_3
+			commander_rank = commander_rank_4
 			traits = {
 				persistent
 				surveyor
@@ -340,7 +493,6 @@
 			historical = yes
 			birth_date = 1788.3.17
 			hq = region_north_italy
-			commander_rank = commander_rank_4
 			traits = {
 				meticulous
 				resupply_commander
@@ -1444,13 +1596,13 @@
 
 			combat_unit = {
 				type = unit_type:combat_unit_type_man_o_war
-				state_region = s:STATE_LIVONIA
+				state_region = s:STATE_KAUNAS
 				count = 11
 			}
 
 			combat_unit = {
-				type = unit_type:combat_unit_type_man_o_war
-				state_region = s:STATE_LIVONIA
+				type = unit_type:combat_unit_type_frigate
+				state_region = s:STATE_KAUNAS
 				count = 2
 			}
 
@@ -1462,7 +1614,7 @@
 
 			combat_unit = {
 				type = unit_type:combat_unit_type_frigate
-				state_region = s:STATE_LIVONIA
+				state_region = s:STATE_KAUNAS
 				count = 7
 			}
 
@@ -2451,6 +2603,32 @@
 				type = unit_type:combat_unit_type_hussars
 				state_region = s:STATE_MOLDAVIA
 				count = 1
+			}
+		}
+	}
+	
+	c:BEX = {
+		create_military_formation = { # Switzerland
+			type = army
+			hq_region = sr:region_switzerland
+			name = "Swiz Armee"
+
+			combat_unit = {
+				type = unit_type:combat_unit_type_line_infantry
+				state_region = s:STATE_WEST_SWITZERLAND
+				count = 6
+			}
+
+			combat_unit = {
+				type = unit_type:combat_unit_type_lancers
+				state_region = s:STATE_WEST_SWITZERLAND
+				count = 1
+			}
+
+			combat_unit = {
+				type = unit_type:combat_unit_type_cannon_artillery
+				state_region = s:STATE_WEST_SWITZERLAND
+				count = 2
 			}
 		}
 	}

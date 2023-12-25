@@ -232,7 +232,7 @@ je_autonomy = {
 				c:RAC ?= ROOT
 			}
 			change_tag = AKA
-		}	
+		}
 		#else_if = {
 		#	limit = {
 		#		c:HBC = ROOT
@@ -280,16 +280,13 @@ je_rac_hbc_deal = {
 	icon = "gfx/interface/icons/event_icons/event_diplomacy.dds"
     group = je_group_internal_affairs
 	is_shown_when_inactive = {
-		exists = c:RAC
-		c:RAC = root
+		c:RAC ?= root
+		exists = c:HBC
 	}
 
     possible = {
-		AND = {
-			exists = c:HBC
-			c:HBC = {
-				relations:root < relations_threshold:cordial
-			} 
+		c:HBC ?= {
+			relations:root < relations_threshold:cordial
 		}
 	}
 
@@ -379,13 +376,13 @@ je_company_bankruptcy = {
 		}
 		if = {
 			limit = {
-				c:RAC = ROOT
+				c:RAC ?= ROOT
 			}
 			change_tag = AKA
 		}	
 		else_if = {
 			limit = {
-				c:BIC = ROOT
+				c:BIC ?= ROOT
 			}
 			top_overlord = {
 				trigger_event = { id = raj.1 }
@@ -393,7 +390,7 @@ je_company_bankruptcy = {
 		}
 		else_if = {
 			limit = {
-				c:HBC = ROOT
+				c:HBC ?= ROOT
 			}
 
 			if = {
@@ -516,21 +513,18 @@ je_company_bankruptcy = {
 je_relocate_bic = {
 	icon = "gfx/interface/icons/event_icons/event_trade.dds"
     group = je_group_internal_affairs
-	is_shown_when_inactive = {
-		exists = c:BIC
+	is_shown_when_inactive = {=
 		NOT = {
-			c:BIC = {
+			c:BIC ?= {
 				is_player = yes
 			}
 		}
 		OR = {
 			AND = {
-				exists = c:BPR
-				c:BPR = root
+				c:BPR ?= root
 			}
 			AND = {
-				exists = c:MPR
-				c:MPR = root
+				c:MPR ?= root
 			}
 		}
 	}

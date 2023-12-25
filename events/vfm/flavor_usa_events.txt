@@ -85,3 +85,147 @@ flavor_usa_events.1 = {
 		set_variable = webster_ashburton_complete
 	}
 }
+
+#Monarchist USA finds rightful heir of Washington
+flavor_usa_events.2 = {
+	type = country_event
+	placement = ROOT
+
+	title = flavor_usa_events.2.t
+	desc = flavor_usa_events.2.d
+	flavor = flavor_usa_events.2.f
+
+	event_image = {
+		video = "unspecific_politicians_arguing"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+	minor_left_icon = scope:washington_scope
+	minor_right_icon = scope:lee_scope
+
+	duration = 1
+
+	trigger = {
+		exists = c:USA
+		THIS = c:USA
+		has_law = law_type:law_monarchy
+		NOT = { has_variable = washington_on_the_throne }
+	}
+	
+	immediate = {
+		if = {
+			limit = {
+				year < 1860
+			}
+			create_character = {
+				template = usa_john_augustine_washington_iii_character_template
+				save_scope_as = washington_scope
+			}
+		}
+		else= {
+			limit = {
+				year >= 1860
+			}
+			create_character = {
+				template = usa_lawrence_washington_character_template
+				save_scope_as = washington_scope
+			}
+		}
+		
+		if = {
+			limit = {			
+				any_scope_character = {
+					has_template = usa_general_lee
+				}
+			}
+			random_scope_character = {
+				limit = {
+					has_template = usa_general_lee
+				}
+				save_scope_as = lee_scope
+			}
+		}
+	}
+
+	option = { 
+		name = flavor_usa_events.2.a
+		default_option = yes
+		scope:washington_scope = {
+			set_as_interest_group_leader = yes
+			set_character_as_ruler = yes
+		}
+		set_variable = washington_on_the_throne
+		#trigger_event = { id = flavor_usa_events.3 weeks = 1 }
+		ai_chance = {
+			base = 100
+		}
+	}
+	option = { 
+		name = flavor_usa_events.2.b
+		trigger = {
+			exists = scope:lee_scope
+		}
+		scope:lee_scope = {
+			set_as_interest_group_leader = yes
+			set_character_as_ruler = yes
+		}
+		set_variable = washington_on_the_throne
+		#trigger_event = { id = flavor_usa_events.3 weeks = 1 }
+		ai_chance = {
+			base = 50
+		}
+	}
+	option = { 
+		name = flavor_usa_events.2.c
+		set_variable = washington_on_the_throne
+		#trigger_event = { id = flavor_usa_events.3 weeks = 1 }
+		ai_chance = {
+			base = 25
+		}
+	}
+}
+
+#The Coronation of First American Monarch, [Ruler]
+#INCOMPLETE, NOT AVAILABLE IN GAME NOW
+flavor_usa_events.3 = {
+	type = country_event
+	placement = ROOT
+
+	title = flavor_usa_events.3.t
+	desc = flavor_usa_events.3.d
+	flavor = flavor_usa_events.3.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = ruler
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	duration = 1
+
+	trigger = {
+		exists = c:USA
+		THIS = c:USA
+		has_law = law_type:law_monarchy
+		NOT = { has_variable = usa_emperor_crowned }
+	}
+	
+	immediate = {
+	}
+
+	option = { 
+		name = flavor_usa_events.3.a
+		default_option = yes
+		set_variable = usa_emperor_crowned
+		ai_chance = {
+			base = 100
+		}
+	}
+}

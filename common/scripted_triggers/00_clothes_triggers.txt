@@ -254,33 +254,30 @@ south_american_admiral_headgear_trigger = {
 }
 
 austrian_clothes_trigger = {
-	exists = scope:character
-	scope:character = {
-		exists = c:AUS
-		exists = home_country
-		home_country = {
+	scope:character ?= {
+		home_country ?= {
 			OR = {
 				AND = {
-					c:AUS = this
+					c:AUS ?= this
 					is_subject = no # preventing uniform conflicts if AUS becomes a subject of another country with puppet uniforms
 				}
-				is_subject_of = c:AUS
+				is_subject_of ?= c:AUS
+				was_formed_from = AUS
 			}		
 		}
 	}
 }
 
 austrian_clothes_pop_trigger = {
-	exists = scope:pop
-	scope:pop = {
-		exists = c:AUS
-		home_country = {
+	scope:pop ?= {
+		home_country ?= {
 			OR = {
 				AND = {
-					c:AUS = this
+					c:AUS ?= this
 					is_subject = no # preventing uniform conflicts if AUS becomes a subject of another country with puppet uniforms
 				}
-				is_subject_of = c:AUS
+				is_subject_of ?= c:AUS
+				was_formed_from = AUS
 			}		
 		}
 	}
@@ -1608,3 +1605,19 @@ should_be_fully_naked_portrait_trigger = {
 #	has_character_flag = single_combat_stripped_to_waist
 #	should_show_nudity = yes
 #}
+
+ww1_clothes_trigger = {
+	scope:character ?= {
+		home_country ?= {
+			has_technology_researched = trench_works
+		}
+	}
+}
+
+ww1_clothes_pop_trigger = {
+	scope:pop ?= {
+		home_country ?= {
+			has_technology_researched = trench_works
+		}
+	}
+}

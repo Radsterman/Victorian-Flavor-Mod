@@ -737,6 +737,21 @@ types state_panel_types
 			}
 		}
 
+		### NAVAL INVASIONS
+		flowcontainer = {
+			visible = "[Not(IsDataModelEmpty(State.GetActiveNavalInvasions))]"
+			spacing = 10
+			direction = vertical
+			parentanchor = hcenter
+			margin = { 0 10 }
+
+			datamodel = "[State.GetActiveNavalInvasions]"
+
+			item = {
+				naval_invasion_list_item = {}
+			}
+		}
+
 
 		flowcontainer = {
 			margin = { 10 10 }
@@ -3373,11 +3388,25 @@ types building_item_types
 
 						### EMPLOYMENT WARNING
 						icon = {
-							visible = "[Building.ShouldShowAsNotHiring]"
+							visible = "[And(Building.ShouldShowAsUnableToHire,Building.HasFailedHires)]"
 							size = { 30 30 }
 							texture = "gfx/interface/icons/generic_icons/employment_not_full.dds"
 							tooltip = "NOT_FULLY_EMPLOYED"
 						}
+						
+						icon = {
+							visible = "[And(Building.ShouldShowAsUnableToHire,Not(Building.HasFailedHires))]"
+							size = { 30 30 }
+							texture = "gfx/interface/icons/generic_icons/employment_not_full.dds"
+							tooltip = "NOT_HIRING"
+						}					
+						
+						icon = {
+							visible = "[Building.ShouldShowAsUnwillingToHire]"
+							size = { 30 30 }
+							texture = "gfx/interface/icons/generic_icons/employment_not_hiring.dds"
+							tooltip = "NOT_FULLY_EMPLOYED"
+						}						
 
 						icon = {
 							visible = "[Building.ShouldShowAsHiring]"
@@ -3563,12 +3592,28 @@ types building_item_types
 
 					### EMPLOYMENT WARNING
 					icon = {
-						visible = "[Building.ShouldShowAsNotHiring]"
+						visible = "[And(Building.ShouldShowAsUnableToHire,Building.HasFailedHires)]"
 						texture = "gfx/interface/icons/generic_icons/employment_not_full.dds"
 						tooltip = "NOT_FULLY_EMPLOYED"
 						size = { 30 30 }
 						parentanchor = vcenter
 					}
+					
+					icon = {
+						visible = "[And(Building.ShouldShowAsUnableToHire,Not(Building.HasFailedHires))]"
+						texture = "gfx/interface/icons/generic_icons/employment_not_full.dds"
+						tooltip = "NOT_HIRING"
+						size = { 30 30 }
+						parentanchor = vcenter
+					}					
+					
+					icon = {
+						visible = "[Building.ShouldShowAsUnwillingToHire]"
+						texture = "gfx/interface/icons/generic_icons/employment_not_hiring.dds"
+						tooltip = "NOT_FULLY_EMPLOYED"
+						size = { 30 30 }
+						parentanchor = vcenter
+					}					
 
 					### INPUT WARNING
 					icon = {
