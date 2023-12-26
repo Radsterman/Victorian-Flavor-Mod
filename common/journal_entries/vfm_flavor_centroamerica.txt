@@ -1,0 +1,229 @@
+﻿je_frca_situation = { 
+	icon = "gfx/interface/icons/event_icons/event_blue_white_flag.dds"
+	
+	group = je_group_historical_content	
+
+	should_be_pinned_by_default = yes
+	
+	scripted_button = je_restore_order_gua_button
+	scripted_button = je_restore_order_els_button
+	scripted_button = je_restore_order_hon_button
+	scripted_button = je_restore_order_nic_button
+	scripted_button = je_restore_order_cos_button
+	
+	immediate = {
+		set_variable = {
+			name = frca_support
+			value = 0
+		}
+	}
+	
+	on_weekly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					has_variable = gua_support_var
+					NOT = { exists = c:GUA }
+					NOT = { has_variable = je_gua_support_var }
+				}
+				change_variable = { name = frca_support add = 1 }
+				set_variable = { name = je_gua_support_var }
+			}
+			if = {
+				limit = {
+					OR = {
+						NOT = { has_variable = gua_support_var }
+						exists = c:GUA
+					}
+					has_variable = je_gua_support_var
+				}
+				change_variable = { name = frca_support subtract = 1 }
+				remove_variable = je_gua_support_var
+			}
+			if = {
+				limit = {
+					has_variable = els_support_var
+					NOT = { exists = c:ELS }
+					NOT = { has_variable = je_els_support_var }
+				}
+				change_variable = { name = frca_support add = 1 }
+				set_variable = { name = je_els_support_var }
+			}
+			if = {
+				limit = {
+					OR = {
+						NOT = { has_variable = els_support_var }
+						exists = c:ELS
+					}
+					has_variable = je_els_support_var
+				}
+				change_variable = { name = frca_support subtract = 1 }
+				remove_variable = je_els_support_var
+			}
+			if = {
+				limit = {
+					has_variable = hon_support_var
+					NOT = { exists = c:HON }
+					NOT = { has_variable = je_hon_support_var }
+				}
+				change_variable = { name = frca_support add = 1 }
+				set_variable = { name = je_hon_support_var }
+			}
+			if = {
+				limit = {
+					OR = {
+						NOT = { has_variable = hon_support_var }
+						exists = c:HON
+					}
+					has_variable = je_hon_support_var
+				}
+				change_variable = { name = frca_support subtract = 1 }
+				remove_variable = je_hon_support_var
+			}
+			if = {
+				limit = {
+					has_variable = nic_support_var
+					NOT = { exists = c:NIC }
+					NOT = { has_variable = je_nic_support_var }
+				}
+				change_variable = { name = frca_support add = 1 }
+				set_variable = { name = je_nic_support_var }
+			}
+			if = {
+				limit = {
+					OR = {
+						NOT = { has_variable = nic_support_var }
+						exists = c:NIC
+					}
+					has_variable = je_nic_support_var
+				}
+				change_variable = { name = frca_support subtract = 1 }
+				remove_variable = je_nic_support_var
+			}
+			if = {
+				limit = {
+					has_variable = cos_support_var
+					NOT = { exists = c:COS }
+					NOT = { has_variable = je_cos_support_var }
+				}
+				change_variable = { name = frca_support add = 1 }
+				set_variable = { name = je_cos_support_var }
+			}
+			if = {
+				limit = {
+					OR = {
+						NOT = { has_variable = cos_support_var }
+						exists = c:COS
+					}
+					has_variable = je_cos_support_var
+				}
+				change_variable = { name = frca_support subtract = 1 }
+				remove_variable = je_cos_support_var
+			}
+			if = {
+				limit = {
+					exists = c:GUA
+					has_variable = gua_support_var
+				}
+				remove_variable = gua_support_var
+			}
+			if = {
+				limit = {
+					exists = c:ELS
+					has_variable = els_support_var
+				}
+				remove_variable = els_support_var
+			}
+			if = {
+				limit = {
+					exists = c:HON
+					has_variable = hon_support_var
+				}
+				remove_variable = hon_support_var
+			}
+			if = {
+				limit = {
+					exists = c:NIC
+					has_variable = nic_support_var
+				}
+				remove_variable = nic_support_var
+			}
+			if = {
+				limit = {
+					exists = c:COS
+					has_variable = cos_support_var
+				}
+				remove_variable = cos_support_var
+			}
+		}
+	}
+
+	complete = {
+		OR = {
+			custom_tooltip = {
+				text = frca_won_war_tt
+				has_variable = frca_won_war
+			}
+			AND = {
+				custom_tooltip = {
+					text = guatemala_support_tt
+					has_variable = gua_support_var
+					NOT = { exists = c:GUA }
+				}
+				custom_tooltip = {
+					text = el_salvador_support_tt
+					has_variable = els_support_var
+					NOT = { exists = c:ELS }
+				}
+				custom_tooltip = {
+					text = honduras_support_tt
+					has_variable = hon_support_var
+					NOT = { exists = c:HON }
+				}
+				custom_tooltip = {
+					text = nicaragua_support_tt
+					has_variable = nic_support_var
+					NOT = { exists = c:NIC }
+				}
+				custom_tooltip = {
+					text = costa_rica_support_tt
+					has_variable = cos_support_var
+					NOT = { exists = c:COS }
+				}
+			}
+		}
+	}
+	
+	fail = {
+		custom_tooltip = {
+			text = frca_lost_war_tt
+			has_variable = frca_lost_war
+		}
+	}
+	
+	on_fail = {
+		
+	}
+
+	on_complete = {
+		
+	}
+	
+	current_value = {
+		value = root.var:frca_support
+	}
+
+	goal_add_value = {
+		add = 5
+	}
+
+	progressbar = yes
+	
+	weight = 100
+	
+	transferable = no
+
+	invalid = {
+		NOT = { exists = c:UCA }
+	}
+}
