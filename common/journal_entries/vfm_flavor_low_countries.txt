@@ -2,12 +2,21 @@
 	icon = "gfx/interface/icons/event_icons/event_scales.dds"
     group = je_group_historical_content
 	complete = {
-		gdp > 7200000
-		c:BEL ?= {
-			c:GBR.relations:ROOT > relations_threshold:cordial
-		}
-		c:BEL ?= {
-			c:FRA.relations:ROOT > relations_threshold:cordial
+		#ROOT.army_size >= c:NET.army_size #Add later? Belgium military at least half the size of NET maybe
+		taking_loans = no
+		OR = {
+			country_rank >= rank_value:major_power
+			AND = {
+				is_subject = yes
+				custom_tooltip = {
+					text = overlord_great_power_tt
+					overlord = { country_rank = rank_value:great_power }
+				}
+			}
+			AND = {
+				c:GBR.relations:ROOT > relations_threshold:amicable
+				c:FRA.relations:ROOT > relations_threshold:cordial
+			}
 		}
 	}
 	on_complete = {
@@ -18,9 +27,6 @@
 	on_timeout = {
 		trigger_event = {
 			id = low_countries_events.1
-		}	
-		custom_tooltip = {
-			text = je_treaty_of_london_fail
 		}
 	}
 	invalid = {
