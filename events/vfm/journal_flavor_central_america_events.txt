@@ -62,36 +62,59 @@ journal_flavor_central_america.2 = {
 	icon = "gfx/interface/icons/event_icons/event_fire.dds"
 
 	trigger = {
-
-	}
-
-	immediate = {
-		add_modifier = {
-			name = uca_cholera
-			days = 365
+		game_date >= 1836.2.2
+		NOT = { has_variable = uca_cholera_pandemic }
+		any_scope_state = {
+			state_region = { is_homeland = cu:central_american }
+			NOT = { has_variable = cholera_affect }
 		}
 	}
-
-	option = { #Quarantine it
-		name = journal_flavor_central_america.2.a
-		default_option = yes
-		
-		every_state = {
+	
+	immediate = {
+		set_variable = uca_cholera_pandemic
+		random_scope_state = {
 			limit = {
-				has_modifier = uca_cholera
+				NOT = { has_variable = cholera_affect }
+			}
+			save_scope_as = cholera_affect_state
+		}
+	}
+	
+	option = { #Quarantine!
+		name = journal_flavor_central_america.2.a
+		default_option = yes 
+		scope:cholera_affect_state = {
+			set_variable = cholera_affect
+			add_modifier = {
+				name = uca_cholera
+				days = 365
 			}
 			add_modifier = {
 				name = uca_quarantine
-				days = 400
+				days = 370
 			}
 		}
+		
+		ai_chance = {
+			base = 10
+		}
+	}
 	
-	}
-
-	option = { #We can't afford it
+	option = { #Let it ravage the country
 		name = journal_flavor_central_america.2.b
-
+		scope:cholera_affect_state = {
+			set_variable = cholera_affect
+			add_modifier = {
+				name = uca_cholera
+				days = 365
+			}
+		}
+		
+		ai_chance = {
+			base = 90
+		}
 	}
+
 }
 
 # Cholera Outbreak Spreads
@@ -112,28 +135,91 @@ journal_flavor_central_america.3 = {
 
 	icon = "gfx/interface/icons/event_icons/event_fire.dds"
 
+	cooldown = { months = 4 }
+
 	trigger = {
-
-	}
-
-	immediate = {
-		add_modifier = {
-			name = uca_cholera
-			days = 365
+		has_variable = uca_cholera_pandemic
+		any_scope_state = {
+			has_modifier = uca_cholera
+			NOT = { has_modifier = uca_quarantine }
+			any_neighbouring_state = {
+				owner = ROOT
+				NOT = {
+					has_variable = cholera_affect
+				}
+			}
 		}
 	}
-
-	option = { #We can't afford it
-		name = journal_flavor_central_america.3.a
-		default_option = yes
-		
 	
+	immediate = {
+		random_scope_state = {
+			limit = {
+				has_variable = cholera_affect
+				any_neighbouring_state = {
+					owner = ROOT
+					NOT = {
+						has_variable = cholera_affect
+					}
+				}
+			}
+			save_scope_as = cholera_state
+			random_neighbouring_state = {
+				limit = {
+					owner = ROOT
+					NOT = {
+						has_variable = cholera_affect
+					}
+				}
+				save_scope_as = cholera_state_spread_to
+				set_variable = {
+					name = cholera_affect
+				}
+			}
+		}
 	}
-
-	option = { #Aid them
+	
+	option = { #Let it spread
+		name = journal_flavor_central_america.3.a
+		default_option = yes 
+		scope:cholera_state_spread_to = {
+			add_modifier = {
+				name = uca_cholera 
+				days = 365
+			}
+		}
+		
+		ai_chance = {
+			base = 50
+		}
+	}
+	
+	option = { #Contain it
 		name = journal_flavor_central_america.3.b
-
-
+		default_option = yes 
+		scope:cholera_state_spread_to = {
+			add_modifier = {
+				name = uca_cholera 
+				days = 365
+			}
+			add_modifier = {
+				name = uca_quarantine
+				days = 370
+			}
+		}
+		every_state = {
+			limit = {
+				has_modifier = uca_cholera 
+				NOT = { has_modifier = uca_quarantine } 
+			}
+			add_modifier = {
+				name = uca_quarantine
+				days = 370
+			}
+		}
+		
+		ai_chance = {
+			base = 50
+		}
 	}
 }
 
@@ -157,6 +243,11 @@ journal_flavor_central_america.4 = {
 
 	trigger = {
 		this = c:UCA
+		is_at_war = no
+		is_active_in_diplomatic_play = no
+		game_date >= 1838.1.1
+		NOT = { exists = c:NIC }
+		NOT = { has_variable = nic_support_var }
 	}
 
 	immediate = {
@@ -187,13 +278,24 @@ journal_flavor_central_america.4 = {
 					basic_diplomat
 				}
 		    }
+			activate_law = law_type:law_freedom_of_conscience
+			activate_law = law_type:law_unitary
+			activate_law = law_type:law_mercantilism
+			activate_law = law_type:law_wealth_voting
+			activate_law = law_type:law_censorship
 		}
+		s:STATE_NICARAGUA = {
+			add_claim = ROOT
+		}
+		remove_variable = cos_support_var
+		remove_variable = je_central_america_setup_cos_var
+		remove_variable = je_central_america_setup_nic_var
 	}
 
 	option = { #Damnit!
 		name = journal_flavor_central_america.4.a
 		default_option = yes
-	
+
 	}
 	
 	option = { #Switch tags
@@ -224,6 +326,10 @@ journal_flavor_central_america.5 = {
 
 	trigger = {
 		this = c:UCA
+		is_at_war = no
+		is_active_in_diplomatic_play = no
+		exists = c:NIC
+		NOT = { exists = c:COS }
 	}
 
 	immediate = {
@@ -254,6 +360,13 @@ journal_flavor_central_america.5 = {
 					basic_diplomat
 				}
 		    }
+			activate_law = law_type:law_freedom_of_conscience
+			activate_law = law_type:law_unitary
+			activate_law = law_type:law_mercantilism
+			activate_law = law_type:law_wealth_voting
+		}
+		s:STATE_COSTA_RICA = {
+			add_claim = ROOT
 		}
 	}
 
@@ -291,6 +404,11 @@ journal_flavor_central_america.6 = {
 
 	trigger = {
 		this = c:UCA
+		is_at_war = no
+		is_active_in_diplomatic_play = no
+		exists = c:NIC
+		NOT = { exists = c:GUA }
+		NOT = { has_variable = gua_support_var }
 	}
 
 	immediate = {
@@ -324,6 +442,15 @@ journal_flavor_central_america.6 = {
 					basic_diplomat
 				}
 		    }
+			activate_law = law_type:law_freedom_of_conscience
+			activate_law = law_type:law_unitary
+			activate_law = law_type:law_landed_voting
+			activate_law = law_type:law_mercantilism
+			activate_law = law_type:law_censorship
+			activate_law = law_type:law_religious_schools
+		}
+		s:STATE_GUATEMALA = {
+			add_claim = ROOT
 		}
 	}
 
@@ -361,6 +488,11 @@ journal_flavor_central_america.7 = {
 
 	trigger = {
 		this = c:UCA
+		is_at_war = no
+		is_active_in_diplomatic_play = no
+		exists = c:NIC
+		NOT = { exists = c:HON }
+		NOT = { has_variable = hon_support_var }
 	}
 
 	immediate = {
@@ -391,6 +523,13 @@ journal_flavor_central_america.7 = {
 					basic_diplomat
 				}
 		    }
+			activate_law = law_type:law_freedom_of_conscience
+			activate_law = law_type:law_unitary
+			activate_law = law_type:law_landed_voting
+			activate_law = law_type:law_mercantilism
+		}
+		s:STATE_HONDURAS = {
+			add_claim = ROOT
 		}
 	}
 
@@ -407,7 +546,7 @@ journal_flavor_central_america.7 = {
 	}
 }
 
-# Second Central American Civil War
+# Second Central American Civil War/ End of the Union?
 journal_flavor_central_america.8 = {
 	type = country_event
 	placement = ROOT
@@ -427,6 +566,12 @@ journal_flavor_central_america.8 = {
 
 	trigger = {
 		this = c:UCA
+		AND = {
+			exists = c:GUA
+			exists = c:HON
+			exists = c:NIC
+			exists = c:COS
+		}
 	}
 
 	immediate = {
@@ -455,6 +600,8 @@ journal_flavor_central_america.8 = {
 	option = { #Fight for the Federation!
 		name = journal_flavor_central_america.8.a
 		default_option = yes
+		
+		set_variable = second_frca_civil_war_var
 		
 		create_diplomatic_play = {
 			name = central_american_civil_war
@@ -525,6 +672,10 @@ journal_flavor_central_america.8 = {
 			remove_claim = ROOT
 		}
 		
+		activate_law = law_type:law_freedom_of_conscience
+		activate_law = law_type:law_unitary
+		activate_law = law_type:law_mercantilism
+		
 	}
 }
 
@@ -548,6 +699,27 @@ journal_flavor_central_america.9 = {
 
 	trigger = {
 		this = c:UCA
+		is_at_war = no
+		is_active_in_diplomatic_play = no
+		OR = {
+			AND = {
+				has_variable = second_frca_civil_war_var
+				OR = {
+					exists = c:GUA
+					exists = c:HON
+					exists = c:NIC
+					exists = c:COS
+				}
+			}
+			AND = {
+				exists = c:NIC
+				c:NIC ?= {
+					NOT = {
+						is_subject_of = ROOT
+					}
+				}
+			}
+		}
 	}
 
 	immediate = {
@@ -571,10 +743,8 @@ journal_flavor_central_america.9 = {
 			origin = c:UCA
 			state = s:STATE_COSTA_RICA.region_state:UCA
 		}
-		create_country = {
-            tag = LOS
-			origin = c:UCA
-			state = s:STATE_CHIAPAS.region_state:UCA
+		s:STATE_CHIAPAS.region_state:UCA = {
+			set_state_owner = c:MEX
 		}
 	}
 
@@ -584,6 +754,10 @@ journal_flavor_central_america.9 = {
 		
 		change_tag = ELS
 		set_variable = frca_lost_war
+		
+		hidden_effect = {
+			activate_law = law_type:law_unitary
+		}
 	}
 
 }
@@ -608,13 +782,14 @@ journal_flavor_central_america.10 = {
 
 	trigger = {
 		this = c:UCA
+		has_variable = second_frca_civil_war_var
 	}
 
 	immediate = {
 
 	}
 
-	option = { #Continue as El Salvador
+	option = { #The Union has prevailed for now
 		name = journal_flavor_central_america.10.a
 		default_option = yes
 		
@@ -626,12 +801,12 @@ journal_flavor_central_america.10 = {
 
 
 # Civil War in Guatemala
-journal_flavor_central_america.10 = {
+journal_flavor_central_america.11 = {
 	type = country_event
 	placement = ROOT
-	title = journal_flavor_central_america.10.t
-	desc = journal_flavor_central_america.10.d
-	flavor =  journal_flavor_central_america.10.f
+	title = journal_flavor_central_america.11.t
+	desc = journal_flavor_central_america.11.d
+	flavor =  journal_flavor_central_america.11.f
 
 	duration = 2
 
@@ -644,21 +819,100 @@ journal_flavor_central_america.10 = {
 	icon = "gfx/interface/icons/event_icons/event_fire.dds"
 
 	trigger = {
-		has_modifier = uca_new_penal_code
+		OR = {
+			has_modifier = uca_new_penal_code
+			any_scope_state = {
+				state_region = { is_homeland = cu:central_american }
+				has_modifier = uca_quarantine
+			}
+			has_law = law_type:law_protectionism
+			has_variable = gua_civil_peace_var	
+		}
 	}
 
 	immediate = {	
+		remove_variable = gua_civil_peace_var	
 		remove_variable = gua_support_var	
+		remove_variable = je_central_america_setup_gua_var
 	}
 
 	option = { #We can't afford it
-		name = journal_flavor_central_america.10.a
+		name = journal_flavor_central_america.11.a
 		default_option = yes
 	
 	}
 
 	option = { #Aid them
-		name = journal_flavor_central_america.10.b
+		name = journal_flavor_central_america.11.b
 
 	}
+}
+
+# Civil War in Nicaragua
+journal_flavor_central_america.12 = {
+	type = country_event
+	placement = ROOT
+	title = journal_flavor_central_america.12.t
+	desc = journal_flavor_central_america.12.d
+	flavor =  journal_flavor_central_america.12.f
+
+	duration = 2
+
+	event_image = {
+		video = "southamerica_war_civilians"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+
+	trigger = {
+
+	}
+
+	immediate = {	
+	
+	}
+
+	option = { #Welp
+		name = journal_flavor_central_america.12.a
+		default_option = yes
+	
+	}
+
+}
+
+# Separatism in Honduras
+journal_flavor_central_america.13 = {
+	type = country_event
+	placement = ROOT
+	title = journal_flavor_central_america.13.t
+	desc = journal_flavor_central_america.13.d
+	flavor =  journal_flavor_central_america.13.f
+
+	duration = 2
+
+	event_image = {
+		video = "southamerica_war_civilians"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+
+	trigger = {
+
+	}
+
+	immediate = {	
+		remove_variable = hon_support_var	
+		remove_variable = je_central_america_setup_hon_var
+	}
+
+	option = { #Welp
+		name = journal_flavor_central_america.13.a
+		default_option = yes
+	
+	}
+
 }

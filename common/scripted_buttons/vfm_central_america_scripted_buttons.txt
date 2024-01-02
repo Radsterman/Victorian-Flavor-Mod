@@ -2,13 +2,17 @@
 	name = restore_order_gua_button
 	desc = restore_order_gua_button_desc
 
-	visible = { always = yes }
+	visible = {
+		NOT = { has_variable = je_central_america_setup_gua_var }
+		NOT = { exists = c:GUA }
+	}
 
 	possible = {
 		NOT = { exists = c:GUA }
 		custom_tooltip = {
 			text = wip_tt
 			this = c:UCA
+			NOT = { has_variable = gua_support_var }
 		}
 	}
 
@@ -28,13 +32,17 @@ je_restore_order_hon_button = {
 	name = restore_order_hon_button
 	desc = restore_order_hon_button_desc
 
-	visible = { always = yes }
+	visible = {
+		NOT = { has_variable = je_central_america_setup_hon_var }
+		NOT = { exists = c:HON }
+	}
 
 	possible = {
 		NOT = { exists = c:HON }
 		custom_tooltip = {
 			text = wip_tt
 			this = c:UCA
+			NOT = { has_variable = hon_support_var }
 		}
 	}
 
@@ -54,13 +62,17 @@ je_restore_order_nic_button = {
 	name = restore_order_nic_button
 	desc = restore_order_nic_button_desc
 
-	visible = { always = yes }
+	visible = {
+		NOT = { has_variable = je_central_america_setup_nic_var }
+		NOT = { exists = c:NIC }
+	}
 
 	possible = {
 		NOT = { exists = c:NIC }
 		custom_tooltip = {
 			text = wip_tt
 			this = c:UCA
+			NOT = { has_variable = nic_support_var }
 		}
 	}
 
@@ -80,13 +92,17 @@ je_restore_order_cos_button = {
 	name = restore_order_cos_button
 	desc = restore_order_cos_button_desc
 
-	visible = { always = yes }
+	visible = { 
+		NOT = { has_variable = je_central_america_setup_cos_var }
+		NOT = { exists = c:COS }
+	}
 
 	possible = {
 		NOT = { exists = c:COS }
 		custom_tooltip = {
 			text = wip_tt
 			this = c:UCA
+			NOT = { has_variable = cos_support_var }
 		}
 	}
 
@@ -99,5 +115,57 @@ je_restore_order_cos_button = {
 
 	ai_chance = {
 		base = 100
+	}
+}
+
+je_nicaragua_intervention_central_america_button = {
+	name = nicaragua_intervention_central_america_button
+	desc = nicaragua_intervention_central_america_button_desc
+
+	visible = { 
+		NOT = { has_variable = je_central_america_setup_nic_var }
+		exists = c:NIC
+		c:NIC ?= {
+			is_subject_of = ROOT
+		}
+	}
+
+	possible = {
+		custom_tooltip = {
+			text = nicaragua_subject_frca_tt
+			c:NIC ?= {
+				is_subject_of = ROOT
+			}
+		}
+		custom_tooltip = {
+			text = invade_nicaragua_frca_stab_tt
+			this = c:UCA
+			exists = c:NIC
+			has_variable = gua_support_var
+			has_variable = hon_support_var
+			has_variable = els_support_var
+		}
+		custom_tooltip = {
+			text = invade_nicaragua_frca_cos_support_tt
+			this = c:UCA
+			exists = c:NIC
+			has_variable = cos_support_var
+		}
+	}
+
+	effect = {
+		custom_tooltip = {
+			text = invade_nicaragua_frca_tt
+			create_diplomatic_play = {
+				name = nicaraguan_intervention
+				type = dp_annex_war
+				escalation = 20
+				target_state = s:STATE_NICARAGUA.region_state:NIC
+			
+			}
+	}
+
+	ai_chance = {
+		base = 0
 	}
 }

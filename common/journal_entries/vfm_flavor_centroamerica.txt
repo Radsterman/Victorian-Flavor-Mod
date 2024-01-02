@@ -9,6 +9,7 @@
 	scripted_button = je_restore_order_hon_button
 	scripted_button = je_restore_order_nic_button
 	scripted_button = je_restore_order_cos_button
+	scripted_button = je_nicaragua_intervention_central_america_button
 	
 	immediate = {
 		set_variable = {
@@ -17,7 +18,29 @@
 		}
 	}
 	
+	on_monthly_pulse = {
+		events = { 
+			journal_flavor_central_america.2 #Cholera Pandemic Hits Central America
+			journal_flavor_central_america.4 #Nicaragua Declares Independence
+			journal_flavor_central_america.5 #Costa Rica Declares Independence
+			journal_flavor_central_america.8 #Union Collapses Into Civil War/ Accept Fate & Become El Salvador
+		}
+		random_events = {
+			100 = 0
+			25 = journal_flavor_central_america.3 #Cholera Spreads In Central America
+			25 = journal_flavor_central_america.6 # Guatemala Declares Independence
+			25 = journal_flavor_central_america.7 # Honduras Declares Independence
+			50 = journal_flavor_central_america.11 # Civil War in Guatemala
+			25 = journal_flavor_central_america.12 # Civil War in Nicaragua
+			10 = journal_flavor_central_america.13 # Separatism in Honduras
+		}
+	}
+	
 	on_weekly_pulse = {
+		events = {
+			journal_flavor_central_america.9 #Civil War Result
+			journal_flavor_central_america.10 #Civil War Result
+		}
 		effect = {
 			if = {
 				limit = {
@@ -159,33 +182,41 @@
 
 	complete = {
 		custom_tooltip = {
-			text = guatemala_support_tt
-			has_variable = gua_support_var
-			NOT = { exists = c:GUA }
-		}
-		custom_tooltip = {
-			text = el_salvador_support_tt
-			has_variable = els_support_var
-			NOT = { exists = c:ELS }
-		}
-		custom_tooltip = {
-			text = honduras_support_tt
-			has_variable = hon_support_var
-			NOT = { exists = c:HON }
-		}
-		custom_tooltip = {
-			text = nicaragua_support_tt
-			has_variable = nic_support_var
-			NOT = { exists = c:NIC }
-		}
-		custom_tooltip = {
-			text = costa_rica_support_tt
-			has_variable = cos_support_var
-			NOT = { exists = c:COS }
-		}
-		custom_tooltip = {
 			text = uca_election_tt
-			has_variable = uca_prevailed_var
+			NOT = { has_modifier = uca_morazan_presidency }
+		}
+		OR = {
+			custom_tooltip = {
+				text = uca_won_war_tt
+				has_variable = frca_won_war
+			}
+			AND = {
+				custom_tooltip = {
+					text = guatemala_support_tt
+					has_variable = gua_support_var
+					NOT = { exists = c:GUA }
+				}
+				custom_tooltip = {
+					text = el_salvador_support_tt
+					has_variable = els_support_var
+					NOT = { exists = c:ELS }
+				}
+				custom_tooltip = {
+					text = honduras_support_tt
+					has_variable = hon_support_var
+					NOT = { exists = c:HON }
+				}
+				custom_tooltip = {
+					text = nicaragua_support_tt
+					has_variable = nic_support_var
+					NOT = { exists = c:NIC }
+				}
+				custom_tooltip = {
+					text = costa_rica_support_tt
+					has_variable = cos_support_var
+					NOT = { exists = c:COS }
+				}
+			}
 		}
 	}
 	
@@ -201,7 +232,7 @@
 	}
 
 	on_complete = {
-		
+		remove_variable = uca_cholera_pandemic
 	}
 	
 	current_value = {
