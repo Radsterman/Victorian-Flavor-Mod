@@ -1,0 +1,31 @@
+﻿je_guano_era = {
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+    group = je_group_internal_affairs
+	is_shown_when_inactive = {
+	        exists = c:PEU
+			c:PEU = this 
+			NOT =  { exists = c:SPU	}	
+	    }
+
+	complete = {
+		has_technology_researched = intensive_agriculture	
+	    s:STATE_LIMA = {
+		    any_scope_state = {
+		        any_scope_building = {
+		        is_building_type = building_sulfur_mine
+		        level >= 3
+		        occupancy > 0.9
+		    	}
+		    }
+		}
+	}			    
+
+	on_complete = { 
+	    trigger_event = { 
+	        id = journal_flavor_peru.3  
+	        }
+        }    
+
+    should_be_pinned_by_default = yes
+	weight = 100   
+}  

@@ -91,11 +91,11 @@ acw_je_events.1 = {
 						enslave_discriminated_farm_workers = yes
 					}					
 				}
-								
 				
 				every_scope_state = {
 					state_region = {
 						add_claim = root
+						set_variable = usa_secession_state
 					}
 				}
 			}
@@ -112,6 +112,7 @@ acw_je_events.1 = {
 				every_scope_state = {
 					state_region = {
 						add_claim = root
+						set_variable = usa_secession_state
 					}
 				}				
 				
@@ -158,6 +159,12 @@ acw_je_events.1 = {
 			c:CSA = {
 				set_variable = acw_slave_nation_var
 			}
+			every_scope_general = {
+				limit = {
+					has_culture = cu:dixie
+				}
+				transfer_character = c:CSA
+			}
 		}
 		else_if = {
 			limit = { exists = c:FSA }
@@ -166,7 +173,14 @@ acw_je_events.1 = {
 				target = scope:fsa_scope
 			}
 			set_variable = acw_slave_nation_var
+			every_scope_general = {
+				limit = {
+					has_culture = cu:yankee
+				}
+				transfer_character = c:FSA
+			}
 		}
+		
 		set_variable = union_side_acw
 	}
 
@@ -227,14 +241,21 @@ acw_je_events.2 = {
 				limit = {
 					is_incorporated = yes
 					state_region = {
-						is_homeland = cu:dixie
-						NOT = { is_homeland = cu:yankee }
+						has_variable = usa_secession_state
 					}
 				}
 				set_state_type = unincorporated
 				add_modifier = {
 					name = unreconstructed_state
-					years = 12
+				}
+				add_modifier = {
+					name = federal_occupation
+				}
+				if = {
+					limit = {
+						owner = { has_variable = emancipation_issued }
+					}
+					liberate_slaves = yes
 				}
 			}
 		}
@@ -243,14 +264,15 @@ acw_je_events.2 = {
 				limit = {
 					is_incorporated = yes
 					state_region = {
-						is_homeland = cu:yankee
-						NOT = { is_homeland = cu:dixie }
+						has_variable = usa_secession_state
 					}
 				}
 				set_state_type = unincorporated
 				add_modifier = {
 					name = unreconstructed_state
-					years = 12
+				}
+				add_modifier = {
+					name = federal_occupation
 				}
 			}
 		}
@@ -266,7 +288,10 @@ acw_je_events.2 = {
 		add_journal_entry = { type = je_acw_reincorporate }		
 		if = {
 			limit = {
-				has_law = law_type:law_slavery_banned
+				OR = {
+					has_law = law_type:law_slavery_banned
+					has_variable = emancipation_issued
+				}	
 			}
 			add_journal_entry = {
 				type = je_acw_equality
@@ -364,18 +389,19 @@ acw_je_events.4 = {
 			}
 		}
 		has_variable = union_side_acw
+		NOT = { has_variable = emancipation_complete }
 	}
 
 	immediate = {
 		law_type:law_slavery_banned = {
 			save_scope_as = abolition_law # use in loc with SCOPE.sLawType etc
 		}
+		set_variable = emancipation_complete
 	}
 
 	option = {
 		name = acw_je_events.4.a # We shall save the Union!
 		default_option = yes
-		activate_law = law_type:law_slavery_banned
 
 		every_interest_group = {
 			limit = {
@@ -389,6 +415,7 @@ acw_je_events.4 = {
 				months = normal_modifier_time
 			}
 		}
+		set_variable = emancipation_issued
 	}
 
 	option = {

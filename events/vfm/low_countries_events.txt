@@ -1,0 +1,263 @@
+﻿namespace = low_countries_events
+
+# First Treaty of London
+low_countries_events.1 = {
+	type = country_event
+	placement = root
+	title = low_countries_events.1.t
+	desc = low_countries_events.1.d
+	flavor = low_countries_events.1.f
+
+	duration = 6
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+	
+	immediate = {
+		create_country = {
+			tag = LBG
+			origin = THIS
+			state = s:STATE_GELRE.region_state:BEL
+		}
+		create_country = {
+			tag = LUX
+			origin = THIS
+			state = s:STATE_LUXEMBOURG.region_state:BEL
+		}
+		c:NET ?= {
+			create_diplomatic_pact = {
+				country = c:LBG
+				type = personal_union
+			}
+			create_diplomatic_pact = {
+				country = c:LUX
+				type = personal_union
+			}
+		}
+	}
+
+
+	option = {
+		name = low_countries_events.1.a
+		default_option = yes
+		change_relations = {
+			country = c:GBR
+			value = 20
+		}
+		change_relations = {
+			country = c:FRA
+			value = 15
+		}
+		change_relations = {
+			country = c:NET
+			value = 10
+		}
+	}
+
+	option = {
+		name = low_countries_events.1.b
+		ai_chance = 0
+		
+		change_infamy = 30
+		s:STATE_GELRE = {
+			add_claim = ROOT
+		}
+		s:STATE_LUXEMBOURG = {
+			add_claim = ROOT
+		}
+		change_relations = {
+			country = c:GBR
+			value = -30
+		}
+		change_relations = {
+			country = c:FRA
+			value = -30
+		}
+		change_relations = {
+			country = c:NET
+			value = -30
+		}
+		#add_modifier = { #Only give after victory
+		#	name = pax_belgica
+		#}
+	}
+	option = {
+		name = low_countries_events.1.c
+		trigger = {
+			exists = c:LUX
+		}
+		play_as = c:LUX
+	}
+	option = {
+		name = low_countries_events.1.e
+		trigger = {
+			exists = c:LIM
+		}
+		play_as = c:LIM
+	}
+}
+
+#Second Treaty of London
+low_countries_events.2 = {
+	type = country_event
+	placement = root
+	title = low_countries_events.2.t
+	desc = low_countries_events.2.d
+	flavor = low_countries_events.2.f
+
+	duration = 1
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+	trigger = {
+		exists = c:LBG
+		c:LBG = {
+			is_player = no
+		}
+	}
+
+	option = {
+		name = low_countries_events.2.a
+		default_option = yes
+		annex = c:LBG
+	}
+}
+
+##creation of Philips
+#low_countries_events.3 = {
+#	type = country_event
+#	placement = root
+#	title = low_countries_events.3.t
+#	desc = low_countries_events.3.d
+#	flavor = low_countries_events.3.f
+#
+#	duration = 6
+#
+#	event_image = {
+#		video = "gfx/event_pictures/unspecific_gears_pistons.bk2"
+#	}
+#
+#	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+#	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+#
+#	icon = "gfx/interface/icons/event_icons/event_map.dds"
+#
+#	trigger = {
+#        exists = c:NET
+#		this = c:NET
+#		NOT = { has_variable = philips_company }
+#		has_technology_researched = electrical_capacitors
+#	}
+#	
+#	immediate = {
+#		set_variable = philips_company
+#	}
+#
+#	option = {
+#		name = low_countries_events.4.a
+#		highlighted_option = yes
+#		default_option = yes
+#		add_modifier = {
+#			name = philips
+#		}
+#	}
+#}
+#
+##founding of shell
+#low_countries_events.4 = {
+#	type = country_event
+#	placement = root
+#	title = low_countries_events.4.t
+#	desc = low_countries_events.4.d
+#	flavor = low_countries_events.4.f
+#
+#	duration = 6
+#
+#	event_image = {
+#		video = "gfx/event_pictures/middleeast_oil_derricks.bk2"
+#	}
+#
+#	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+#	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+#
+#	icon = "gfx/interface/icons/event_icons/event_map.dds"
+#
+#	trigger = {
+#		exists = c:NET
+#		this = c:NET
+#		NOT = { has_variable = dutch_shell }
+#		has_building = building_oil_rig
+#		country_or_subject_owns_entire_state_region = STATE_SOUTH_SUMATRA
+#	}
+#	
+#	immediate = {
+#		set_variable = dutch_shell
+#	}
+#
+#	option = {
+#		name = low_countries_events.4.a
+#		highlighted_option = yes
+#		default_option = yes
+#		add_modifier = {
+#			name = dutch_shell
+#		}
+#	}
+#}
+#
+#low_countries_events.5 = {
+#	type = country_event
+#	placement = root
+#	title = low_countries_events.5.t
+#	desc = low_countries_events.5.d
+#	flavor = low_countries_events.5.f
+#
+#	duration = 6
+#
+#	event_image = {
+#		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+#	}
+#
+#	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+#	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+#
+#	icon = "gfx/interface/icons/event_icons/event_map.dds"
+#
+#	trigger = {
+#		exists = c:LAR
+#	}
+#
+#	option = {
+#		name = low_countries_events.5.a
+#		highlighted_option = yes
+#		default_option = yes
+#		ai_chance = {
+#			base = 100
+#		}
+#		c:DEI ?= {
+#			annex = c:LAR
+#		}
+#		c:NET ?= {
+#			add_treasury = -250000
+#		}
+#		c:POR ?= {
+#			add_treasury = 250000
+#		}
+#	}
+#
+#	option = {
+#		name = low_countries_events.5.b
+#	}
+#}
