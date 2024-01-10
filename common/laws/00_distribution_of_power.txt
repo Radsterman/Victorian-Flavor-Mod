@@ -141,7 +141,31 @@ law_technocracy = {
 				limit = {
 					is_pop_type = academics
 				}
-				value = 0.25
+				value = 0.2
+			}
+		}
+		add = {
+			desc = "POP_OFFICIERS"			
+			if = {
+				limit = {
+				    owner = {
+						NOT = { has_law = law_type:law_autocracy }
+					}
+					is_pop_type = officers
+				}
+				value = 0.1
+			}
+		}
+		add = {
+			desc = "POP_ENGINEERS"			
+			if = {
+				limit = {
+				    owner = {
+						NOT = { has_law = law_type:law_universal_suffrage }
+					}
+					is_pop_type = engineers
+				}
+				value = 0.1
 			}
 		}
 		add = {
@@ -153,7 +177,7 @@ law_technocracy = {
 					}
 					is_pop_type = capitalists
 				}
-				value = 0.25
+				value = 0.2
 			}
 		}
 	}
@@ -394,6 +418,30 @@ law_landed_voting = {
 				}
 			}
 		}
+		add = {
+			desc = "POP_OFFICIERS"			
+			if = {
+				limit = {
+				    owner = {
+						NOT = { has_law = law_type:law_autocracy }
+					}
+					is_pop_type = officers
+				}
+				value = 0.1
+			}
+		}
+		add = {
+			desc = "POP_CLERGYMEN"			
+			if = {
+				limit = {
+				    owner = {
+						NOT = { has_law = law_type:law_universal_suffrage }
+					}
+					is_pop_type = clergymen
+				}
+				value = 0.1
+			}
+		}
 	}
 
 	can_impose = { 
@@ -461,7 +509,7 @@ law_wealth_voting = {
 			
 			if = {
 				limit = { 
-					NOT = { strata = rich }
+					strata = middle
 					owner = { 
 						NOR = {
 							has_law = law_type:law_census_voting
@@ -473,6 +521,22 @@ law_wealth_voting = {
 				add = {
 					value = literacy_rate
 					divide = 2
+				}
+			}
+			if = {
+				limit = { 
+					strata = poor
+					owner = { 
+						NOR = {
+							has_law = law_type:law_census_voting
+							has_law = law_type:law_universal_suffrage
+							has_law = law_type:law_anarchy
+						}	
+					}
+				}
+				add = {
+					value = literacy_rate
+					divide = 1.7
 				}
 			}
 		}
@@ -543,7 +607,7 @@ law_census_voting = {
 			
 			if = {
 				limit = { 
-					wealth < 25
+					strata = middle
 					owner = { 
 						NOR = {
 							has_law = law_type:law_universal_suffrage
@@ -556,6 +620,29 @@ law_census_voting = {
 					divide = 2
 				}
 			}
+			if = {
+				limit = { 
+					strata = poor
+					owner = { 
+						NOR = {
+							has_law = law_type:law_universal_suffrage
+							has_law = law_type:law_anarchy
+						}	
+					}
+				}
+				add = {
+					value = literacy_rate
+					divide = 1.3
+				}
+			}
+		}
+		if = { # VFM - Don't skip laws
+			limit = {
+			    owner = { 
+					has_law = law_type:law_landed_voting
+				}
+			}
+			multiply = 0.75
 		}
 	}
 
@@ -620,31 +707,39 @@ law_universal_suffrage = {
 			
 			if = {
 				limit = { 
+					strata = middle
 					owner = { 
 						NOT = {
 							has_law = law_type:law_anarchy
 						}	
 					}
 				}
-				if = {
-					limit = {
-						wealth < 15
-					}
-					add = {
-						value = literacy_rate
-						divide = 2
+				add = {
+					value = literacy_rate
+					divide = 2
+				}
+			}
+			if = {
+				limit = { 
+					strata = poor
+					owner = { 
+						NOT = {
+							has_law = law_type:law_anarchy
+						}	
 					}
 				}
-				if = {
-					limit = {
-						wealth < 10
-					}
-					add = {
-						value = literacy_rate
-						divide = 2
-					}
+				add = {
+					value = literacy_rate
 				}
 			}			
+		}
+		if = { # VFM - Don't skip laws
+			limit = {
+			    owner = { 
+					has_law = law_type:law_wealth_voting
+				}
+			}
+			multiply = 0.75
 		}
 	}
 
