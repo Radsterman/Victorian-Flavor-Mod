@@ -1,0 +1,134 @@
+﻿je_unite_the_principalities = {
+    icon = "gfx/interface/icons/event_icons/event_rom.dds"
+
+	group = je_group_historical_content
+
+    is_shown_when_inactive = {
+		country_has_primary_culture = cu:romanian
+    }
+    scripted_button = je_unite_the_principalities_button
+    possible = {
+        has_technology_researched = nationalism
+        NOT = {
+            any_overlord_or_above ?= { # Can't unite the principalities if you're already the lesser in a pact with another Romanian state
+                country_has_primary_culture = cu:romanian
+            }
+        }
+    }
+    immediate = {
+    }
+    complete = {
+        custom_tooltip = {
+            text = je_unite_the_principalities_united_two_principalities_tt
+            has_variable = ROM_united_principality
+        }
+        custom_tooltip = {
+            text = je_unite_the_principalities_friend_with_all_great_powers_tt
+            NOT = {
+                any_country = {
+                    country_rank >= rank_value:great_power
+                    NOT = { has_war_with = ROOT }
+                    has_interest_marker_in_region = ROOT.capital.region
+                    relations:root < 0
+                }
+            }
+        }
+    }
+    on_complete = {
+    }
+    fail = { # the JE fails if there are no other Romanian countries, or if ROOT is Romania
+        OR = {
+            custom_tooltip = {
+                text = je_unite_the_principalities_no_other_romanians_tt
+                NOT = {
+                    any_country = {
+                        NOT = { this = ROOT }
+                        country_has_primary_culture = cu:romanian 
+                    }
+                }
+            }
+            custom_tooltip = {
+                text = je_unite_the_principalities_romania_is_real_tt
+                exists = c:ROM
+            }
+        }
+    }
+
+    # timeout = 0 # no timeout. Romania is eternal.
+
+    weight = 1000
+    should_be_pinned_by_default = yes
+}
+
+je_all_for_one = {
+    icon = "gfx/interface/icons/event_icons/event_scales.dds"
+
+	group = je_group_historical_content
+
+    scripted_button = je_south_bessarabian_retrocession
+    scripted_button = je_marea_unire
+
+    on_monthly_pulse = {
+        effect = {
+            change_variable = {
+                name = romanian_union_var
+                add = 1
+            }
+        }
+    }
+
+    complete = {
+        scope:journal_entry = { is_goal_complete = yes }
+    }
+
+    immediate = {
+        random_neighbouring_state = {
+            limit = {
+                owner = {
+                    has_variable = romania_union_partner
+                }
+            }
+            owner = {
+                save_scope_as = romania_lesser_union_partner
+            }
+        }
+    }
+
+    on_complete = {
+        trigger_event = {
+            id = romania.3
+        }
+    }
+
+    fail = {
+        OR = {
+            AND = {
+                exists = c:ROM
+                NOT = { c:ROM ?= this }
+            }
+            NOT = { exists = scope:romania_lesser_union_partner }
+            scope:romania_lesser_union_partner = {
+                NOT = { is_subject_of = ROOT }
+            }
+        }
+    }
+
+    on_fail = {
+        hidden_effect = {
+            remove_variable = ROM_united_principality
+        }
+    }
+
+    current_value = {
+        value = root.var:romanian_union_var
+    }
+
+    goal_add_value = {
+        value = 120
+    }
+
+    progressbar = yes
+
+    weight = 10000
+    should_be_pinned_by_default = yes
+}
