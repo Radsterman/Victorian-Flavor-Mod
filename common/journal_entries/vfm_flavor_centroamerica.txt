@@ -1,5 +1,5 @@
 ﻿je_frca_situation = { 
-	icon = "gfx/interface/icons/event_icons/event_flags/event_uca_flag.dds"
+	icon = "gfx/interface/icons/event_icons/event_blue_white_flag.dds"
 	
 	group = je_group_historical_content	
 
@@ -9,7 +9,6 @@
 	scripted_button = je_restore_order_hon_button
 	scripted_button = je_restore_order_nic_button
 	scripted_button = je_restore_order_cos_button
-	scripted_button = je_establish_los_altos_button
 	scripted_button = je_nicaragua_intervention_central_america_button
 	
 	immediate = {
@@ -17,12 +16,6 @@
 			name = frca_support
 			value = 0
 		}
-		c:UCA = { save_scope_as = uca_scope }
-		s:STATE_GUATEMALA.region_state:UCA = { save_scope_as = guatemala_state }
-		s:STATE_SAN_SALVADOR.region_state:UCA = { save_scope_as = honduras_state }
-		s:STATE_HONDURAS.region_state:UCA = { save_scope_as = honduras_state }
-		s:STATE_NICARAGUA.region_state:UCA = { save_scope_as = nicaragua_state }
-		s:STATE_COSTA_RICA.region_state:UCA = { save_scope_as = costa_rica_state }
 	}
 	
 	on_monthly_pulse = {
@@ -188,9 +181,14 @@
 	}
 
 	complete = {
+		custom_tooltip = {
+			text = uca_election_tt
+			NOT = { has_modifier = uca_morazan_presidency }
+		}
+		OR = {
 			custom_tooltip = {
-				text = uca_election_tt
-				NOT = { has_modifier = uca_morazan_presidency }
+				text = uca_won_war_tt
+				has_variable = frca_won_war
 			}
 			AND = {
 				custom_tooltip = {
@@ -219,136 +217,22 @@
 					NOT = { exists = c:COS }
 				}
 			}
+		}
 	}
 	
 	fail = {
-		OR = {
-			custom_tooltip = {
-					text = uca_won_war_tt
-					has_variable = frca_won_war
-				}
-			custom_tooltip = {
-				text = frca_lost_war_tt
-				has_variable = frca_lost_war
-				NOT = { has_variable = second_frca_civil_war_var }
-				exists = c:GUA
-				c:GUA ?= {
-					NOT = {
-						is_subject_of = ROOT
-					}
-				}
-				exists = c:HON
-				c:HON ?= {
-					NOT = {
-						is_subject_of = ROOT
-					}
-				}
-				exists = c:NIC
-				c:NIC ?= {
-					NOT = {
-						is_subject_of = ROOT
-					}
-				}
-				exists = c:COS
-				c:COS ?= {
-					NOT = {
-						is_subject_of = ROOT
-					}
-				}
-			}
-		}
-	}
-	
-	on_complete = {
 		custom_tooltip = {
-			text = uca_ends_tt
+			text = frca_lost_war_tt
+			has_variable = frca_lost_war
 		}
-		trigger_event = { id = journal_flavor_central_america.18 }
-		remove_variable = uca_cholera_pandemic
-		remove_variable = livingston_var
-		remove_variable = gua_secession_var
-		remove_variable = els_secession_var
-		remove_variable = hon_secession_var
-		remove_variable = nic_secession_var
-		remove_variable = cos_secession_var
 	}
 	
 	on_fail = {
-		custom_tooltip = {
-			text = uca_ends_tt
-		}
-		custom_tooltip = {
-			text = uca_ends_pttwo_tt
-		}
-		remove_variable = uca_cholera_pandemic
-		remove_variable = livingston_var
-		remove_variable = gua_secession_var
-		remove_variable = els_secession_var
-		remove_variable = hon_secession_var
-		remove_variable = nic_secession_var
-		remove_variable = cos_secession_var
-		if = {
-			limit = {
-				has_variable = los_altos_var
-				exists = c:GUA
-			}
-			remove_variable = los_altos var
-			c:GUA = { set_variable = los_altos_var }
-		}
-		hidden_effect = {
-			remove_diplomatic_pact = {
-				country = c:COS
-				type = confederation
-			}
-			remove_diplomatic_pact = {
-				country = c:NIC
-				type = confederation
-			}
-			remove_diplomatic_pact = {
-				country = c:HON
-				type = confederation
-			}
-			remove_diplomatic_pact = {
-				country = c:GUA
-				type = confederation
-			}
-			remove_diplomatic_pact = {
-				country = c:LOS
-				type = confederation
-			}
-		}
+		
 	}
-	
-	on_invalid = {
+
+	on_complete = {
 		remove_variable = uca_cholera_pandemic
-		remove_variable = livingston_var
-		remove_variable = gua_secession_var
-		remove_variable = els_secession_var
-		remove_variable = hon_secession_var
-		remove_variable = nic_secession_var
-		remove_variable = cos_secession_var
-		hidden_effect = {
-			remove_diplomatic_pact = {
-				country = c:COS
-				type = confederation
-			}
-			remove_diplomatic_pact = {
-				country = c:NIC
-				type = confederation
-			}
-			remove_diplomatic_pact = {
-				country = c:HON
-				type = confederation
-			}
-			remove_diplomatic_pact = {
-				country = c:GUA
-				type = confederation
-			}
-			remove_diplomatic_pact = {
-				country = c:LOS
-				type = confederation
-			}
-		}
 	}
 	
 	current_value = {
@@ -366,6 +250,6 @@
 	transferable = no
 
 	invalid = {
-		NOT = { this = c:UCA }
+		NOT = { exists = c:UCA }
 	}
 }

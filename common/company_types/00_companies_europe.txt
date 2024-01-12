@@ -473,6 +473,51 @@ company_gotaverken = {
 	}
 }
 
+# Motala fabriker
+company_motala_fabriker = {
+	icon = "gfx/interface/icons/company_icons/historical_company_icons/ericsson.dds"
+	background = "gfx/interface/icons/company_icons/company_backgrounds/comp_illu_manufacturing_light.dds"
+	
+	flavored_company = yes
+	
+	building_types = {  
+		building_tooling_workshops
+	}
+	
+	potential = {
+		has_interest_marker_in_region = region_scandinavia
+	}
+	
+	attainable = {
+		hidden_trigger = { # Hide attainable if it's always fulfilled by possible
+			any_scope_state = {
+				state_region = s:STATE_SVEALAND		
+			}
+		}
+	}		
+	
+	possible = {
+		any_scope_state = {
+			state_region = s:STATE_SVEALAND
+			is_incorporated = yes
+			any_scope_building = {
+				is_building_type = building_tooling_workshops
+				level >= 2
+			}
+		}
+		has_technology_researched = mechanical_tools
+		has_variable = motala_verkstad_company
+	}
+	
+	prosperity_modifier = {
+		country_weekly_innovation_mult = 0.1
+	}	
+	
+	ai_weight = {
+		value = 3
+	}
+}
+
 # Aker Mek
 company_aker_mek = {
 	icon = "gfx/interface/icons/company_icons/historical_company_icons/aker_mek.dds"

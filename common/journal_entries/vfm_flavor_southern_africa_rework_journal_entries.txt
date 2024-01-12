@@ -118,38 +118,14 @@ je_climax_of_the_great_trek = {
 je_form_griqualand_west = {
 	icon = "gfx/interface/icons/event_icons/event_centralization.dds"
     group = je_group_historical_content
-
-	is_shown_when_inactive = {
-		exists = c:WBL
-		any_neighbouring_state = {
-			owner = c:WBL
-		}
-		OR = {
-			this = c:SAF
-			country_has_primary_culture = cu:boer
-		}
-	}
-	
-	possible = {
-		exists = c:WBL
-		c:SAF ?= {
-			NOT = {
-				has_journal_entry = je_great_trek
+	complete = {
+		AND = {	
+			gdp > 1200000
+			exists = c:WBL
+			root = {
+				c:WBL.relations:ROOT > relations_threshold:amicable
 			}
 		}
-	}
-
-	complete = {
-		c:WBL ?= {
-			is_direct_subject_of = ROOT
-		}
-		#AND = {	
-		#	gdp > 1200000
-		#	exists = c:WBL
-		#	root = {
-		#		c:WBL.relations:ROOT > relations_threshold:amicable
-		#	}
-		#}
 	}
 	
 	on_complete = {
@@ -173,39 +149,15 @@ je_form_griqualand_west = {
 je_anglo_zulu_war = {
 	icon = "gfx/interface/icons/event_icons/event_military.dds"
     group = je_group_historical_content
-
-	is_shown_when_inactive = {
-		exists = c:ZUL
-		THIS = c:SAF
-		c:ZUL ?= {
-			any_neighbouring_state = {
-				owner = {
-					OR = {
-						country_has_primary_culture = cu:boer
-						country_has_primary_culture = cu:english
-					}
-				}
-			}
-		}
-	}
-	
-	possible = {
-		exists = c:ZUL
-		c:ZUL ?= {
-			any_neighbouring_state = {
-				OR = {
-					owner = {
-						is_direct_subject_of = c:SAF
-					}
-					owner = ROOT
-				}
-			}
-		}
-	}
-
 	complete = {
-		root = {
-			c:ZUL.relations:ROOT < relations_threshold:cold
+		OR = {
+			AND = {	
+				gdp > 1200000
+				root = {
+					c:ZUL.relations:ROOT < relations_threshold:cold
+				}
+			}	
+			year > 1879
 		}
 	}
 
@@ -224,19 +176,7 @@ je_anglo_zulu_war = {
 	}
 	
 	invalid = {
-		NOR = {
-			exists = c:ZUL
-			c:ZUL ?= {
-				any_neighbouring_state = {
-					OR = {
-						owner = {
-							is_direct_subject_of = c:SAF
-						}
-						owner = ROOT
-					}
-				}
-			}
-		}
+		NOT = { exists = c:ZUL }
 	}
 }
 
@@ -479,7 +419,7 @@ je_second_boer_war = {
 }
 
 je_form_the_union_of_south_africa = {
-	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+	icon = "gfx/interface/icons/event_icons/event_centralization.dds"
     group = je_group_historical_content
 	complete = {
 		custom_tooltip = {

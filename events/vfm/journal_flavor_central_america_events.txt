@@ -16,44 +16,34 @@ journal_flavor_central_america.1 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_religion.dds"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
 
 	trigger = {
-		NOT = { has_variable = livingston_var }
+
 	}
 
 	immediate = {
-		set_variable = livingston_var
+
 	}
 
 	option = { #Adopt it
 		name = journal_flavor_central_america.1.a
 		default_option = yes
 		
-		s:STATE_GUATEMALA.region_state:UCA = { save_scope_as = guatemala_state }
-		scope:guatemala_state = {
-			add_modifier = {
-				name = uca_new_penal_code
-				years = 10
-				is_decaying = yes
-			}
-		}
-		
-		ai_chance = {
-			base = 50
+		add_modifier = {
+			name = uca_new_penal_code
+			years = 10
+			is_decaying = yes
 		}
 	}
 
 	option = { #Leave it be
 		name = journal_flavor_central_america.1.b
-		
-		ai_chance = {
-			base = 50
-		}
+
 	}
 }
 
-# Cholera Outbreak
+# Cholera Outbreak in Guatemala
 journal_flavor_central_america.2 = {
 	type = country_event
 	placement = ROOT
@@ -69,10 +59,10 @@ journal_flavor_central_america.2 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_colonial.dds"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
 
 	trigger = {
-		game_date >= 1836.9.9
+		game_date >= 1836.2.2
 		NOT = { has_variable = uca_cholera_pandemic }
 		any_scope_state = {
 			state_region = { is_homeland = cu:central_american }
@@ -143,7 +133,7 @@ journal_flavor_central_america.3 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_colonial.dds"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
 
 	cooldown = { months = 4 }
 
@@ -249,25 +239,18 @@ journal_flavor_central_america.4 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
 
 	trigger = {
 		this = c:UCA
 		is_at_war = no
 		is_active_in_diplomatic_play = no
+		game_date >= 1838.1.1
 		NOT = { exists = c:NIC }
 		NOT = { has_variable = nic_support_var }
-		NOT = { has_variable = nic_secession_var }
-		NOT = { has_variable = secession_event_var }
-		NOT = { has_variable = nic_civil_peace_var	}
 	}
 
 	immediate = {
-		set_variable = nic_secession_var
-		set_variable = {
-			name = secession_event_var
-			days = 90
-		}
 		create_country = {
             tag = NIC
 			origin = c:UCA
@@ -339,27 +322,17 @@ journal_flavor_central_america.5 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
 
 	trigger = {
 		this = c:UCA
 		is_at_war = no
 		is_active_in_diplomatic_play = no
-		OR = {
-			exists = c:NIC
-			NOT = { has_variable = cos_support_var }
-		}
+		exists = c:NIC
 		NOT = { exists = c:COS }
-		NOT = { has_variable = cos_secession_var }
-		NOT = { has_variable = secession_event_var }
 	}
 
 	immediate = {
-		set_variable = cos_secession_var
-		set_variable = {
-			name = secession_event_var
-			days = 30
-		}
 		create_country = {
             tag = COS
 			origin = c:UCA
@@ -427,34 +400,18 @@ journal_flavor_central_america.6 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
 
 	trigger = {
 		this = c:UCA
 		is_at_war = no
 		is_active_in_diplomatic_play = no
-		OR = {
-			AND = {
-				exists = c:NIC
-				NOT = { has_variable = gua_support_var }
-				var:frca_support <= 3
-			}
-			AND = {
-				exists = c:NIC
-				exists = c:COS
-			}
-		}
+		exists = c:NIC
 		NOT = { exists = c:GUA }
-		NOT = { has_variable = gua_secession_var }
-		NOT = { has_variable = secession_event_var }
+		NOT = { has_variable = gua_support_var }
 	}
 
 	immediate = {
-		set_variable = gua_secession_var
-		set_variable = {
-			name = secession_event_var
-			days = 30
-		}
 		create_country = {
             tag = GUA
 			origin = c:UCA
@@ -527,28 +484,18 @@ journal_flavor_central_america.7 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_revolt.dds"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
 
 	trigger = {
 		this = c:UCA
 		is_at_war = no
 		is_active_in_diplomatic_play = no
-		OR = {
-			exists = c:NIC
-			var:frca_support <= 3
-		}
+		exists = c:NIC
 		NOT = { exists = c:HON }
 		NOT = { has_variable = hon_support_var }
-		NOT = { has_variable = hon_secession_var }
-		NOT = { has_variable = secession_event_var }
 	}
 
 	immediate = {
-		set_variable = hon_secession_var
-		set_variable = {
-			name = secession_event_var
-			days = 30
-		}
 		create_country = {
             tag = HON
 			origin = c:UCA
@@ -615,81 +562,19 @@ journal_flavor_central_america.8 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_blue_white_flag.dds"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
 
 	trigger = {
 		this = c:UCA
-		is_at_war = no
-		is_active_in_diplomatic_play = no
-		OR = {
-			AND = {
-				OR = {
-					AND = {
-						exists = c:HON
-						exists = c:NIC
-						exists = c:COS
-					}
-					AND = {
-						exists = c:GUA
-						exists = c:NIC
-						exists = c:COS
-					}
-					var:frca_support <= 2
-				}
-			}
-			var:frca_support <= 1
-			any_civil_war = {
-				civil_war_progress > 0.5
-			}
+		AND = {
+			exists = c:GUA
+			exists = c:HON
+			exists = c:NIC
+			exists = c:COS
 		}
-		NOT = { has_variable = els_secession_var }
 	}
 
 	immediate = {
-		set_variable = els_secession_var
-		if = {
-			limit = {
-				NOT = { exists = c:HON }
-			}
-			create_country = {
-				tag = HON
-				origin = c:UCA
-				state = s:STATE_HONDURAS.region_state:UCA
-			}
-		}
-		if = {
-			limit = {
-				NOT = { exists = c:GUA }
-			}
-			create_country = {
-				tag = GUA
-				origin = c:UCA
-				state = s:STATE_GUATEMALA.region_state:UCA
-			}
-		}
-		if = {
-			limit = {
-				NOT = { exists = c:NIC }
-			}
-			create_country = {
-				tag = NIC
-				origin = c:UCA
-				state = s:STATE_NICARAGUA.region_state:UCA
-			}
-		}
-		if = {
-			limit = {
-				NOT = { exists = c:COS }
-			}
-			create_country = {
-				tag = COS
-				origin = c:UCA
-				state = s:STATE_COSTA_RICA.region_state:UCA
-			}
-		}
-		s:STATE_CHIAPAS.region_state:UCA = {
-			set_state_owner = c:MEX
-		}
 		remove_diplomatic_pact = {
 			country = c:COS
 			type = confederation
@@ -719,31 +604,49 @@ journal_flavor_central_america.8 = {
 		set_variable = second_frca_civil_war_var
 		
 		create_diplomatic_play = {
-			name = nicaraguan_central_american_civil_war
+			name = central_american_civil_war
 			type = dp_annex_war
-			escalation = 50
+			escalation = 80
 			target_state = s:STATE_NICARAGUA.region_state:NIC
-		}
-		
-		create_diplomatic_play = {
-			name = guatemala_central_american_civil_war
-			type = dp_annex_war
-			escalation = 90
-			target_state = s:STATE_GUATEMALA.region_state:GUA
-		}
-		
-		create_diplomatic_play = {
-			name = honduran_central_american_civil_war
-			type = dp_annex_war
-			escalation = 70
-			target_state = s:STATE_HONDURAS.region_state:HON
-		}
-		
-		create_diplomatic_play = {
-			name = costa_rican_central_american_civil_war
-			type = dp_annex_war
-			escalation = 30
-			target_state = s:STATE_COSTA_RICA.region_state:COS
+			
+			add_target_backers = c:LOS
+			add_target_backers = c:GUA
+			add_target_backers = c:COS
+			add_target_backers = c:HON
+			
+
+			add_war_goal = {
+				holder = c:GUA
+				type = war_reparations
+			}
+			add_war_goal = {
+				holder = c:GUA
+				type = humiliation
+			}
+			add_war_goal = {
+				holder = c:NIC
+				type = war_reparations
+			}
+			add_war_goal = {
+				holder = c:UCA
+				type = conquer_state
+				target_state = s:STATE_HONDURAS.region_state:HON
+			}
+			add_war_goal = {
+				holder = c:UCA
+				type = conquer_state
+				target_state = s:STATE_COSTA_RICA.region_state:COS
+			}
+			add_war_goal = {
+				holder = c:UCA
+				type = conquer_state
+				target_state = s:STATE_GUATEMALA.region_state:GUA
+			}
+			add_war_goal = {
+				holder = c:UCA
+				type = conquer_state
+				target_state = s:STATE_CHIAPAS.region_state:GUA
+			}
 		}
 	
 	}
@@ -792,7 +695,7 @@ journal_flavor_central_america.9 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_blue_white_flag.dds"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
 
 	trigger = {
 		this = c:UCA
@@ -809,7 +712,6 @@ journal_flavor_central_america.9 = {
 				}
 			}
 			AND = {
-				NOT = { has_variable = second_frca_civil_war_var }
 				exists = c:NIC
 				c:NIC ?= {
 					NOT = {
@@ -821,7 +723,6 @@ journal_flavor_central_america.9 = {
 	}
 
 	immediate = {
-		remove_variable = second_frca_civil_war_var
 		create_country = {
             tag = HON
 			origin = c:UCA
@@ -877,23 +778,15 @@ journal_flavor_central_america.10 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_blue_white_flag.dds"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
 
 	trigger = {
 		this = c:UCA
-		is_at_war = no
-		is_active_in_diplomatic_play = no
 		has_variable = second_frca_civil_war_var
-		NOT = { exists = c:GUA }
-		NOT = { exists = c:HON }
-		NOT = { exists = c:NIC }
-		NOT = { exists = c:COS }
 	}
 
 	immediate = {
-		s:STATE_CHIAPAS = {
-			add_claim = ROOT
-		}
+
 	}
 
 	option = { #The Union has prevailed for now
@@ -901,37 +794,6 @@ journal_flavor_central_america.10 = {
 		default_option = yes
 		
 		set_variable = frca_won_war
-		
-		s:STATE_GUATEMALA.region_state:UCA = { save_scope_as = guatemala_state }
-		s:STATE_SAN_SALVADOR.region_state:UCA = { save_scope_as = el_salvador_state }
-		s:STATE_HONDURAS.region_state:UCA = { save_scope_as = honduras_state }
-		s:STATE_NICARAGUA.region_state:UCA = { save_scope_as = nicaragua_state }
-		s:STATE_COSTA_RICA.region_state:UCA = { save_scope_as = costa_rica_state }
-		scope:guatemala_state = {
-			add_loyalists_in_state = {
-				value = 0.05
-			}
-		}
-		scope:el_salvador_state = {
-			add_loyalists_in_state = {
-				value = 0.1
-			}
-		}
-		scope:honduras_state = {
-			add_loyalists_in_state = {
-				value = 0.05
-			}
-		}
-		scope:nicaragua_state = {
-			add_loyalists_in_state = {
-				value = 0.05
-			}
-		}
-		scope:costa_rica_state = {
-			add_loyalists_in_state = {
-				value = 0.05
-			}
-		}
 	
 	}
 
@@ -954,18 +816,17 @@ journal_flavor_central_america.11 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_centralization.dds"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
 
 	trigger = {
-		this = c:UCA
-		has_variable = gua_civil_peace_var	
-		has_law = law_type:law_protectionism
 		OR = {
 			has_modifier = uca_new_penal_code
 			any_scope_state = {
 				state_region = { is_homeland = cu:central_american }
 				has_modifier = uca_quarantine
 			}
+			has_law = law_type:law_protectionism
+			has_variable = gua_civil_peace_var	
 		}
 	}
 
@@ -973,45 +834,16 @@ journal_flavor_central_america.11 = {
 		remove_variable = gua_civil_peace_var	
 		remove_variable = gua_support_var	
 		remove_variable = je_central_america_setup_gua_var
-		set_variable = {
-			name = secession_event_var
-			days = 60
-		}
 	}
 
-	option = { #Morazan goes in
+	option = { #We can't afford it
 		name = journal_flavor_central_america.11.a
 		default_option = yes
-		
-		scope:guatemala_state = {
-			add_modifier = {
-				name = uca_conservative_opposition
-				days = 700
-				is_decaying = yes
-			}
-		}
-		
-		ai_chance = {
-			base = 50
-		}
 	
 	}
 
-	option = { #Can't afford it
+	option = { #Aid them
 		name = journal_flavor_central_america.11.b
-		
-		scope:guatemala_state = {
-			add_modifier = {
-				name = uca_liberal_opposition
-				days = 700
-				is_decaying = yes
-			}
-		}
-		hidden_effect = { trigger_event = { id = journal_flavor_central_america.16 days = 160 } }
-
-		ai_chance = {
-			base = 50
-		}
 
 	}
 }
@@ -1032,64 +864,21 @@ journal_flavor_central_america.12 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_helmet.dds"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
 
 	trigger = {
-		this = c:UCA
-		has_variable = nic_civil_peace_var
-		OR = {
-			has_modifier = uca_new_penal_code
-			any_scope_state = {
-				state_region = { is_homeland = cu:central_american }
-				has_modifier = uca_quarantine
-			}
-			game_date >= 1839.1.1
-		}
+
 	}
 
 	immediate = {	
-		remove_variable = nic_civil_peace_var
-		set_variable = {
-			name = secession_event_var
-			days = 60
-		}
+	
 	}
 
-	option = { #Liberal Support
+	option = { #Welp
 		name = journal_flavor_central_america.12.a
 		default_option = yes
-		
-		scope:nicaragua_state = {
-			add_modifier = {
-				name = uca_conservative_opposition
-				days = 365
-				is_decaying = yes
-			}
-		}
-		hidden_effect = { trigger_event = { id = journal_flavor_central_america.15 days = 90 } }
-		
-		ai_chance = {
-			base = 90
-		}
-	}
 	
-	option = { #Conservative Support
-		name = journal_flavor_central_america.12.b
-		
-		scope:nicaragua_state = {
-			add_modifier = {
-				name = uca_liberal_opposition
-				days = 365
-				is_decaying = yes
-			}
-		}
-		hidden_effect = { trigger_event = { id = journal_flavor_central_america.14 days = 90 } }
-		
-		ai_chance = {
-			base = 10
-		}
 	}
-
 
 }
 
@@ -1109,18 +898,13 @@ journal_flavor_central_america.13 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
 
 	trigger = {
-		this = c:UCA
-		NOT = { has_variable = gua_civil_peace_var }
-		NOT = { has_variable = nic_civil_peace_var }
-		NOT = { has_variable = secession_event_var }
-		has_variable = hon_civil_peace_var	
+
 	}
 
 	immediate = {	
-		remove_variable = hon_civil_peace_var
 		remove_variable = hon_support_var	
 		remove_variable = je_central_america_setup_hon_var
 	}
@@ -1129,199 +913,6 @@ journal_flavor_central_america.13 = {
 		name = journal_flavor_central_america.13.a
 		default_option = yes
 	
-	}
-
-}
-
-# Order Restored in Nicaragua
-journal_flavor_central_america.14 = {
-	type = country_event
-	placement = ROOT
-	title = journal_flavor_central_america.14.t
-	desc = journal_flavor_central_america.14.d
-	flavor =  journal_flavor_central_america.14.f
-
-	duration = 2
-
-	event_image = {
-		video = "southamerica_war_civilians"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
-
-	immediate = {	
-		set_variable = nic_support_var
-	}
-
-	option = { #Noice
-		name = journal_flavor_central_america.14.a
-		default_option = yes
-		scope:nicaragua_state = {
-			add_loyalists_in_state = {
-				value = 0.15
-			}
-		}
-	}
-
-}
-
-# Conservative Coup in Nicaragua
-journal_flavor_central_america.15 = {
-	type = country_event
-	placement = ROOT
-	title = journal_flavor_central_america.15.t
-	desc = journal_flavor_central_america.15.d
-	flavor =  journal_flavor_central_america.15.f
-
-	duration = 2
-
-	event_image = {
-		video = "southamerica_war_civilians"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_military.dds"
-
-	immediate = {	
-		remove_variable = nic_support_var
-	}
-
-	option = { #Welp
-		name = journal_flavor_central_america.15.a
-		default_option = yes
-		
-		hidden_effect = { trigger_event = { id = journal_flavor_central_america.4 days = 14 } }
-	
-	}
-
-}
-
-# Carrera Killed in Silly Attack /Only way to kill him; he will go into exile otherwise
-journal_flavor_central_america.16 = {
-	type = country_event
-	placement = ROOT
-	title = journal_flavor_central_america.16.t
-	desc = journal_flavor_central_america.16.d
-	flavor =  journal_flavor_central_america.16.f
-
-	duration = 2
-
-	event_image = {
-		video = "southamerica_war_civilians"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_military.dds"
-
-	immediate = {	
-		set_variable = rafael_defeat_var
-	}
-
-	option = { #Noice
-		name = journal_flavor_central_america.16.a
-		default_option = yes
-	
-	}
-
-}
-
-# Carrera in Exile
-journal_flavor_central_america.17 = {
-	type = country_event
-	placement = ROOT
-	title = journal_flavor_central_america.17.t
-	desc = journal_flavor_central_america.17.d
-	flavor =  journal_flavor_central_america.17.f
-
-	duration = 2
-
-	event_image = {
-		video = "southamerica_war_civilians"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
-
-	trigger = {
-		this = c:UCA
-		NOT = { has_variable = rafael_defeat_var }
-		game_date >= 1842.1.1
-	}
-
-	immediate = {	
-		set_variable = rafael_defeat_var
-	}
-
-	option = { #Noice
-		name = journal_flavor_central_america.17.a
-		default_option = yes
-	
-		scope:guatemala_state = {
-			add_loyalists_in_state = {
-				value = 0.05
-			}
-		}
-	}
-
-}
-
-# Union Prevails without war
-journal_flavor_central_america.18 = {
-	type = country_event
-	placement = ROOT
-	title = journal_flavor_central_america.18.t
-	desc = journal_flavor_central_america.18.d
-	flavor =  journal_flavor_central_america.18.f
-
-	duration = 2
-
-	event_image = {
-		video = "southamerica_war_civilians"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_blue_white_flag.dds"
-
-	option = { #Noice
-		name = journal_flavor_central_america.18.a
-		default_option = yes
-		
-		s:STATE_GUATEMALA.region_state:UCA = { save_scope_as = guatemala_state }
-		s:STATE_SAN_SALVADOR.region_state:UCA = { save_scope_as = el_salvador_state }
-		s:STATE_HONDURAS.region_state:UCA = { save_scope_as = honduras_state }
-		s:STATE_NICARAGUA.region_state:UCA = { save_scope_as = nicaragua_state }
-		s:STATE_COSTA_RICA.region_state:UCA = { save_scope_as = costa_rica_state }
-		scope:guatemala_state = {
-			add_loyalists_in_state = {
-				value = 0.1
-			}
-		}
-		scope:el_salvador_state = {
-			add_loyalists_in_state = {
-				value = 0.2
-			}
-		}
-		scope:honduras_state = {
-			add_loyalists_in_state = {
-				value = 0.1
-			}
-		}
-		scope:nicaragua_state = {
-			add_loyalists_in_state = {
-				value = 0.1
-			}
-		}
-		scope:costa_rica_state = {
-			add_loyalists_in_state = {
-				value = 0.1
-			}
-		}
 	}
 
 }

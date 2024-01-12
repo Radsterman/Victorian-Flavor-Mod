@@ -1,0 +1,926 @@
+﻿namespace = central_america
+
+# Dissolution of Central America
+central_america.2 = {
+	type = country_event
+	placement = ROOT
+	title = central_america.2.t
+	desc = central_america.2.d
+	flavor =  central_america.2.f
+
+	duration = 3
+
+	event_image = {
+		video = "southamerica_war_civilians"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+
+	trigger = {
+
+	}
+
+	immediate = {
+		capital = {
+			save_scope_as = capital_scope
+		}
+		
+		# All remaining Central American states secede
+		if = {
+			limit = {
+				exists = s:STATE_GUATEMALA.region_state:UCA
+				s:STATE_GUATEMALA.region_state:UCA = {
+					is_capital = no
+				}
+			}
+			create_country = {
+				tag = GUA
+				origin = this
+				state = s:STATE_GUATEMALA.region_state:UCA
+				on_created = {
+					set_variable = ca_secession_country
+				}
+			}
+			c:GUA = { save_scope_as = scope_GAU }
+			if = {
+				limit = { exists = s:STATE_CHIAPAS.region_state:UCA }
+				s:STATE_CHIAPAS.region_state:UCA = { set_state_owner = c:GUA }
+			}
+		}
+		if = {
+			limit = {
+				exists = s:STATE_HONDURAS.region_state:UCA
+				s:STATE_HONDURAS.region_state:UCA = {
+					is_capital = no
+				}
+			}
+			create_country = {
+				tag = HON
+				origin = this
+				state = s:STATE_HONDURAS.region_state:UCA
+				on_created = {
+					set_variable = ca_secession_country
+				}
+			}
+		}
+		if = {
+			limit = {
+				exists = s:STATE_COSTA_RICA.region_state:UCA
+				s:STATE_COSTA_RICA.region_state:UCA = {
+					is_capital = no
+				}
+			}
+			create_country = {
+				tag = COS
+				origin = this
+				state = s:STATE_COSTA_RICA.region_state:UCA
+				on_created = {
+					set_variable = ca_secession_country
+				}
+			}
+		}
+		if = {
+			limit = {
+				exists = s:STATE_SAN_SALVADOR.region_state:UCA
+				s:STATE_SAN_SALVADOR.region_state:UCA = {
+					is_capital = no
+				}
+			}
+			create_country = {
+				tag = ELS
+				origin = this
+				state = s:STATE_SAN_SALVADOR.region_state:UCA
+				on_created = {
+					set_variable = ca_secession_country
+				}
+			}
+		}
+		if = {
+			limit = {
+				exists = s:STATE_NICARAGUA.region_state:UCA
+				s:STATE_NICARAGUA.region_state:UCA = {
+					is_capital = no
+				}
+			}
+			create_country = {
+				tag = NIC
+				origin = this
+				state = s:STATE_NICARAGUA.region_state:UCA
+				on_created = {
+					set_variable = ca_secession_country
+				}
+			}
+		}
+	}
+
+	option = { #Fine fine
+		name = central_america.2.a
+		default_option = yes
+		# Change tag to whatever is appropriate ro your capital state
+		if = {
+			limit = {
+				NOT = { exists = c:NIC }
+				capital = {
+					state_region = s:STATE_NICARAGUA
+				}
+			}
+			change_tag = NIC
+		}
+		if = {
+			limit = {
+				NOT = { exists = c:ELS }
+				capital = {
+					state_region = s:STATE_SAN_SALVADOR
+				}
+			}
+			change_tag = ELS
+		}
+		if = {
+			limit = {
+				NOT = { exists = c:COS }
+				capital = {
+					state_region = s:STATE_COSTA_RICA
+				}
+			}
+			change_tag = COS
+		}
+		if = {
+			limit = {
+				NOT = { exists = c:HON }
+				capital = {
+					state_region = s:STATE_HONDURAS
+				}
+			}
+			change_tag = HON
+		}
+		if = {
+			limit = {
+				NOT = { exists = c:GUA }
+				capital = {
+					state_region = s:STATE_GUATEMALA
+				}
+			}
+			change_tag = GUA
+		}
+		capital = {
+			add_loyalists_in_state = {
+				value = 0.5
+			}
+		}
+		every_country = {
+			limit = {
+				has_variable = ca_secession_country
+			}
+			change_relations = {
+				country = ROOT
+				value = 20
+			}
+			capital = {
+				state_region = {
+					add_devastation = 15
+				}
+				add_loyalists_in_state = {
+					value = 0.5
+				}
+			}
+		}
+	}
+
+	option = { #We fight to the end
+		name = central_america.2.b
+		capital = { #you also get loyalists
+			add_loyalists_in_state = {
+				value = 0.5
+			}
+		}		
+		# Change tag to whatever is appropriate ro your capital state
+		if = {
+			limit = {
+				NOT = { exists = c:NIC }
+				capital = {
+					state_region = s:STATE_NICARAGUA
+				}
+			}
+			change_tag = NIC
+		}
+		if = {
+			limit = {
+				NOT = { exists = c:ELS }
+				capital = {
+					state_region = s:STATE_SAN_SALVADOR
+				}
+			}
+			change_tag = ELS
+		}
+		if = {
+			limit = {
+				NOT = { exists = c:COS }
+				capital = {
+					state_region = s:STATE_COSTA_RICA
+				}
+			}
+			change_tag = COS
+		}
+		if = {
+			limit = {
+				NOT = { exists = c:HON }
+				capital = {
+					state_region = s:STATE_HONDURAS
+				}
+			}
+			change_tag = HON
+		}
+		if = {
+			limit = {
+				NOT = { exists = c:GUA }
+				capital = {
+					state_region = s:STATE_GUATEMALA
+				}
+			}
+			change_tag = GUA
+		}
+		# add claims on any state you just lost
+		every_country = {
+			limit = {
+				has_variable = ca_secession_country
+			}
+			capital = {
+				state_region = {
+					add_claim = ROOT
+					add_devastation = 25
+				}
+				add_loyalists_in_state = {
+					value = 0.5
+				}
+			}
+			change_relations = {
+				country = ROOT
+				value = -50
+			}
+		}
+	}
+}
+
+# State secedes
+central_america.3 = {
+	type = country_event
+	placement = scope:secession_capital
+	title = central_america.3.t
+	desc = central_america.3.d
+	flavor =  central_america.3.f
+
+	duration = 3
+
+	event_image = {
+		video = "southamerica_aristocrats"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+
+	trigger = {
+		any_scope_state = {
+			is_capital = no
+			OR = {
+				state_region = s:STATE_GUATEMALA
+				state_region = s:STATE_HONDURAS
+				state_region = s:STATE_COSTA_RICA
+				state_region = s:STATE_SAN_SALVADOR
+				state_region = s:STATE_NICARAGUA
+			}
+			has_variable = frca_crisis_var
+			turmoil > 0.2
+		}
+	}
+	
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_capital = no
+				OR = {
+					state_region = s:STATE_GUATEMALA
+					state_region = s:STATE_HONDURAS
+					state_region = s:STATE_COSTA_RICA
+					state_region = s:STATE_SAN_SALVADOR
+					state_region = s:STATE_NICARAGUA
+				}
+				turmoil > 0.2
+			}
+			save_scope_as = secession_state
+		}
+		if = {
+			limit = {
+				scope:secession_state = {
+					state_region = s:STATE_GUATEMALA
+				}
+			}
+			create_country = {
+				tag = GUA
+				origin = this
+				state = scope:secession_state
+			}
+			c:GUA = {
+				save_scope_as = secession_country
+				capital = {
+					save_scope_as = secession_capital
+				}
+			}
+			if = {
+				limit = { exists = s:STATE_CHIAPAS.region_state:UCA }
+				s:STATE_CHIAPAS.region_state:UCA = { set_state_owner = c:GUA }
+			}
+		}
+		if = {
+			limit = {
+				scope:secession_state = {
+					state_region = s:STATE_HONDURAS
+				}
+			}
+			create_country = {
+				tag = HON
+				origin = this
+				state = scope:secession_state
+			}
+			c:HON = {
+				save_scope_as = secession_country
+				capital = {
+					save_scope_as = secession_capital
+				}
+			}
+		}
+		if = {
+			limit = {
+				scope:secession_state = {
+					state_region = s:STATE_COSTA_RICA
+				}
+			}
+			create_country = {
+				tag = COS
+				origin = this
+				state = scope:secession_state
+			}
+			c:COS = {
+				save_scope_as = secession_country
+				capital = {
+					save_scope_as = secession_capital
+				}
+			}
+		}
+		if = {
+			limit = {
+				scope:secession_state = {
+					state_region = s:STATE_SAN_SALVADOR
+				}
+			}
+			create_country = {
+				tag = ELS
+				origin = this
+				state = scope:secession_state
+			}
+			c:ELS = {
+				save_scope_as = secession_country
+				capital = {
+					save_scope_as = secession_capital
+				}
+			}
+		}
+		if = {
+			limit = {
+				scope:secession_state = {
+					state_region = s:STATE_NICARAGUA
+				}
+			}
+			create_country = {
+				tag = NIC
+				origin = this
+				state = scope:secession_state
+			}
+			c:NIC = {
+				save_scope_as = secession_country
+				capital = {
+					save_scope_as = secession_capital
+				}
+			}
+		}
+	}
+
+	# Accept secession
+	option = {
+		name = central_america.3.a
+		default_option = yes
+		add_radicals = {
+			value = large_radicals
+		}
+		scope:secession_country = {
+			change_relations = {
+				country = ROOT
+				value = 20
+			}
+			capital = {
+				state_region = {
+					add_devastation = 15
+				}
+				add_loyalists_in_state = {
+					value = 0.5
+				}
+			}
+		}
+	}
+
+	# Reject Secession
+	option = {
+		name = central_america.3.b
+		scope:secession_capital = {
+			state_region = {
+				add_claim = ROOT
+			}
+		}
+		add_radicals = {
+			value = large_radicals
+		}
+		scope:secession_country = {
+			change_relations = {
+				country = ROOT
+				value = -50
+			}
+			capital = {
+				state_region = {
+					add_devastation = 25
+				}
+				add_loyalists_in_state = {
+					value = 0.5
+				}
+			}
+		}
+		if = {
+			limit = {
+				OR = {
+					c:GUA = { exists = no }
+					c:ELS = { exists = no }
+					c:HON = { exists = no }
+					c:NIC = { exists = no }
+					c:COS = { exists = no }
+				}
+			}
+		}
+	}
+}
+
+# Nicaragua declares independence
+central_america.4 = {
+	type = country_event
+	placement = scope:secession_capital
+	title = central_america.4.t
+	desc = central_america.4.d
+	flavor =  central_america.4.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_aristocrats.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
+
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+
+	trigger = {
+		any_scope_state = {
+			is_capital = no
+			state_region = s:STATE_NICARAGUA
+			turmoil > 0.2
+		}
+	}
+	
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_capital = no
+				state_region = s:STATE_NICARAGUA
+				turmoil > 0.2
+			}
+			save_scope_as = secession_state
+		}
+		create_country = {
+			tag = NIC
+			origin = this
+			state = scope:secession_state
+		}
+		c:NIC = {
+			save_scope_as = secession_country
+			capital = {
+				save_scope_as = secession_capital
+			}
+		}
+		set_variable = frca_crisis_var
+		trigger_event = { 
+			id = central_america.5
+			months = 1
+		}
+	}
+
+	# Accept secession
+	option = {
+		name = central_america.4.a
+		default_option = yes
+		scope:secession_country = {
+			change_relations = {
+				country = ROOT
+				value = 20
+			}
+			capital = {
+				state_region = {
+					add_devastation = 15
+				}
+				add_loyalists_in_state = { ## is this right? only in capital or intended to be in whole country?
+					value = 0.25
+				}
+			}
+		}
+		trigger_event = { 
+			id = central_america.3
+			months = 6
+		}
+	}
+
+	# Reject Secession
+	option = {
+		name = central_america.4.b
+		scope:secession_capital = {
+			state_region = {
+				add_claim = ROOT
+			}
+		}
+		scope:secession_country = {
+			change_relations = {
+				country = ROOT
+				value = -50
+			}
+			capital = {
+				state_region = {
+					add_devastation = 25
+				}
+				add_loyalists_in_state = {
+					value = 0.5
+				}
+			}
+		}
+	}
+}
+
+# Costa Rica declares independence
+central_america.5 = {
+	type = country_event
+	placement = scope:secession_capital
+	title = central_america.5.t
+	desc = central_america.5.d
+	flavor =  central_america.5.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_election.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
+
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+
+	trigger = {
+		any_scope_state = {
+			is_capital = no
+			state_region = s:STATE_COSTA_RICA
+		}
+	}
+	
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_capital = no
+				state_region = s:STATE_COSTA_RICA
+				turmoil > 0.2
+			}
+			save_scope_as = secession_state
+		}
+		create_country = {
+			tag = COS
+			origin = this
+			state = scope:secession_state
+		}
+		c:COS = {
+			save_scope_as = secession_country
+			capital = {
+				save_scope_as = secession_capital
+			}
+		}
+	}
+
+	# Reject secession
+	option = {
+		name = central_america.5.a
+		default_option = yes
+		scope:secession_capital = {
+			state_region = {
+				add_claim = ROOT
+			}
+		}
+		add_radicals = {
+			value = 0.20
+		}
+		scope:secession_country = {
+			change_relations = {
+				country = ROOT
+				value = -50
+			}
+			capital = {
+				add_loyalists_in_state = {
+					value = 0.25
+				}
+			}
+		}
+		trigger_event = { 
+			id = central_america.3
+			months = 3
+		}
+	}
+
+	# Accept Secession
+	option = {
+		name = central_america.5.b
+		scope:secession_country = {
+			change_relations = {
+				country = ROOT
+				value = 20
+			}
+			capital = {
+				add_loyalists_in_state = {
+					value = 0.2
+				}
+			}
+		}
+		set_variable = recognized_costa_rican_independence
+	}
+}
+
+# Guatemala declares independence
+central_america.6 = {
+	type = country_event
+	placement = scope:secession_capital
+	title = central_america.6.t
+	desc = central_america.6.d
+	flavor =  central_america.6.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_aristocrats.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
+
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+
+	trigger = {
+		any_scope_state = {
+			is_capital = no
+			state_region = s:STATE_GUATEMALA
+			turmoil > 0.2
+		}
+	}
+	
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_capital = no
+				state_region = s:STATE_GUATEMALA
+				turmoil > 0.2
+			}
+			save_scope_as = secession_state
+		}
+		if = {
+			limit = {
+				scope:secession_state = {
+					state_region = s:STATE_GUATEMALA
+				}
+			}
+			create_country = {
+				tag = GUA
+				origin = this
+				state = scope:secession_state
+			}
+			if = {
+				limit = { exists = s:STATE_CHIAPAS.region_state:UCA }
+				s:STATE_CHIAPAS.region_state:UCA = { set_state_owner = c:GUA }
+			}
+			c:GUA = {
+				save_scope_as = secession_country
+				capital = {
+					save_scope_as = secession_capital
+				}
+			}
+		}
+		set_variable = frca_crisis_var
+		hidden_effect = {
+			trigger_event = { 
+				id = central_america.3
+				weeks = 1
+			}
+		}
+	}
+
+	# Accept secession
+	option = {
+		name = central_america.6.a
+		default_option = yes
+		scope:secession_country = {
+			change_relations = {
+				country = ROOT
+				value = 20
+			}
+			capital = {
+				state_region = {
+					add_devastation = 15
+				}
+				add_loyalists_in_state = {
+					value = 0.25
+				}
+			}
+		}
+		set_variable = recognized_guatemalan_independence
+	}
+
+	# Reject Secession
+	option = {
+		name = central_america.6.b
+		scope:secession_capital = {
+			state_region = {
+				add_claim = ROOT
+			}
+		}
+		scope:secession_country = {
+			change_relations = {
+				country = ROOT
+				value = -50
+			}
+			capital = {
+				state_region = {
+					add_devastation = 25
+				}
+				add_loyalists_in_state = {
+					value = 0.5
+				}
+			}
+		}
+	}
+}
+
+# The Union lives another day
+central_america.7 = {
+	type = country_event
+	placement = ROOT
+	title = central_america.7.t
+	desc = central_america.7.d
+	flavor =  central_america.7.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_election.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	trigger = {
+	
+	}
+
+	# The Union lives another day
+	option = {
+		name = central_america.7.a
+		default_option = yes
+		add_loyalists = {
+			value = 0.20
+		}
+		hidden_effect = {
+			trigger_event = { 
+				id = central_america.9
+				months = 3
+			}
+		}
+	}
+	
+}
+
+# The fading Union
+central_america.8 = {
+	type = country_event
+	placement = ROOT
+	title = central_america.8.t
+	desc = central_america.8.d
+	flavor =  central_america.8.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_election.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	trigger = {
+	
+	}
+
+	option = {
+		name = central_america.8.a
+		default_option = yes
+		add_journal_entry = {
+			type = je_central_america_falls_apart
+		}
+		add_radicals = {
+			value = 0.015
+		}
+		set_variable = frca_preserved
+		if = {
+			limit = {
+				is_ai = yes
+			}
+			hidden_effect = {
+				trigger_event = { 
+					id = central_america.4
+					years = 2
+				}
+			}
+		}
+	}
+	
+}
+
+# Country rejoins the FRCA
+central_america.9 = {
+	type = country_event
+	placement = ROOT
+	title = central_america.9.t
+	desc = central_america.9.d
+	flavor = central_america.9.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	duration = 3
+
+	cooldown = { months = 3 }
+
+	trigger = {
+
+	}
+
+	immediate = {
+		every_country = {
+			limit = {
+				country_has_primary_culture = cu:central_american
+				NOT = { this = root}
+			}
+			root = {
+				add_to_variable_list = {
+					name = central_american_countries
+					target = prev
+				}
+			}
+		}
+	}
+
+	option = {
+		name = central_america.9.a
+		default_option = yes
+		every_in_list = {
+			variable = central_american_countries
+			root = {
+				annex = prev
+			}
+		}
+
+		clear_variable_list = central_american_countries
+		ai_chance = {
+			base = 1
+		}
+	}
+}
