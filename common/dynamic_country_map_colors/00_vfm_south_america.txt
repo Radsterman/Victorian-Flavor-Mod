@@ -4,19 +4,25 @@ peru_bolivia_2 = {#duplicate name exists in vanilla file
 	color = { 235  20  9 }
 
 	possible = {
-	    exists = c:PEU
-		exists = c:BOL
 		OR = {
 			AND = {
-				c:BOL = {
+				c:BOL ?= {
 					is_subject_of = c:PEU 
 				}
 				THIS = c:PEU
 			}
 			AND = {
-				c:PEU = {
-				    is_subject_of = c:BOL
+				OR = {
+
+					c:PEU ?= {
+				    	is_subject_of = c:BOL
+					}	
+
+					c:NPU ?= {
+				    	is_subject_of = c:BOL
+					}
 				}
+				
 				THIS = c:BOL
 			}
 		}
