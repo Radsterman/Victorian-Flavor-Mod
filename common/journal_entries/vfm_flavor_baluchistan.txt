@@ -1,0 +1,195 @@
+﻿je_kalat_situation = {
+	icon = "gfx/interface/icons/institution_icons/centralization.dds"
+    group = je_group_historical_content
+
+	immediate = {
+		c:PER = {
+			save_scope_as = per_scope
+		}
+		c:KAL = {
+			save_scope_as = kal_scope
+		}
+		c:AFG = {
+			save_scope_as = afg_scope
+		}
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_BALUCHISTAN
+			}
+			save_scope_as = baluchistan_state_scope
+		}
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_SISTAN
+			}
+			save_scope_as = sistan_state_scope
+		}
+		every_state = {
+			limit = {
+				state_region = s:STATE_SISTAN
+			}
+			add_modifier = {
+				name = kal_tribal_autonomy
+				days = 18250
+				is_decaying = yes
+			}
+		}
+		every_state = {
+			limit = {
+				state_region = s:STATE_BALUCHISTAN
+			}
+			add_modifier = {
+				name = kal_tribal_autonomy
+				days = 18250
+				is_decaying = yes
+			}
+		}
+		s:STATE_BALUCHISTAN = {
+			add_claim = c:KAL
+		}
+	}
+
+	can_deactivate = yes
+
+	complete = {
+		NOT = { has_law = law_type:law_devolved }
+		#custom_tooltip = {
+		#	text = kal_abolished_chiefdoms_tt
+		#	NOT = {
+		#		any_state = {
+		#			has_modifier = kal_tribal_autonomy
+		#		}
+		#	}
+		#}
+		custom_tooltip = {
+			text = kal_territory_tt
+				owns_entire_state_region = STATE_BALUCHISTAN
+				has_state_in_state_region = STATE_SISTAN
+		}
+	}
+	
+	fail = {
+		NOT = { has_state_in_state_region = STATE_BALUCHISTAN }
+	}
+	
+	on_monthly_pulse = {
+		effect = {
+		
+		}
+		events = {
+
+		}
+	}
+	
+	on_weekly_pulse = {
+		effect = {
+		
+		}
+		events = {
+
+		}
+	}
+	
+	on_complete = {
+		remove_modifier = kal_weak_khan
+		custom_tooltip = {
+			text = kal_change_name_to_bal_tt
+			set_variable = baluchistan_name_var 
+		}
+		trigger_event = { id = journal_flavor_kalat.2 }
+	}
+	
+	on_timeout = {
+		custom_tooltip = {
+			text = kal_disintegrate_tt
+			remove_modifier = kal_weak_khan
+			if = {
+				limit = {
+					NOT = { exists = c:MAK }
+				}
+				create_country = {
+					tag = MAK
+					origin = this
+					province = p:xC6E602
+					on_created = {
+						s:STATE_BALUCHISTAN = {
+							set_owner_of_provinces = {
+								country = c:MAK
+								provinces = { x951063 x2E7961 xE87BBF x968562 x675BCE x7FE584 x978421 x45F2DD x2FF46D x113E0B x56CF62 xF9577D }
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					NOT = { exists = c:LSB }
+				}
+				create_country = {
+					tag = LSB
+					origin = this
+					province = p:xB0F79E
+					on_created = {
+						s:STATE_BALUCHISTAN = {
+							set_owner_of_provinces = {
+								country = c:LSB
+								provinces = { x4E09C5 x407060 x8ED831 }
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					exists = c:KAL
+					exists = c:OMA
+					p:xB7B2BD = { owner = c:KAL }
+				}
+				s:STATE_BALUCHISTAN = {
+					set_owner_of_provinces = {
+						country = c:OMA
+						provinces = { xB7B2BD }
+					}
+				}
+			}
+			if = { 
+				limit = {	
+					exists = s:STATE_SISTAN.region_state:KAL
+					exists = s:STATE_LARISTAN.region_state:PER
+				}
+				s:STATE_SISTAN.region_state:KAL = {
+					set_state_owner = c:PER
+				}
+				c:PER = { trigger_event = { id = journal_flavor_iran.29 } }
+			}
+			if = { 
+				limit = {	
+					exists = s:STATE_SISTAN.region_state:KAL
+					NOT = { exists = s:STATE_LARISTAN.region_state:PER }
+				}
+				s:STATE_SISTAN.region_state:KAL = {
+					set_state_owner = c:MAK
+				}
+			}
+		}
+		trigger_event = { id = journal_flavor_kalat.1 }
+	}
+	
+	on_fail = {
+		remove_modifier = kal_weak_khan
+		custom_tooltip = {
+			text = kal_disintegrate_alt_tt
+		}
+		custom_tooltip = {
+			text = kal_weird_situation_tt
+			set_variable = kohistan_name_var 
+		}
+	}
+
+	timeout = 10950
+
+    weight = 10000
+	should_be_pinned_by_default = yes
+	can_revolution_inherit = no
+	transferable = no
+}
