@@ -62,3 +62,147 @@ effect_starting_technology_tier_4_asia_tech = {
 		add_technology_researched = academia
 		add_technology_researched = law_enforcement
 }
+
+calculate_acw_countdown_progress = {
+	set_variable = { name = acw_countdown_next value = 0 }
+	if = {
+		limit = {
+			ruler = {
+				has_ideology = ideology:ideology_abolitionist
+			}
+		}
+		change_variable = {
+			name = acw_countdown_next
+			add = 3
+		}
+	}
+	if = {
+		limit = {
+			is_enacting_law = law_type:law_slavery_banned
+		}
+		change_variable = {
+			name = acw_countdown_next
+			add = 5
+		}
+	}
+	if = {
+		limit = {
+			ig:ig_landowners = {
+				is_marginal = yes
+			}
+		}
+		change_variable = {
+			name = acw_countdown_next
+			add = 3
+		}
+	}
+	if = {
+		limit = {
+			ig:ig_landowners = {
+				is_in_government = no
+				is_powerful = yes
+			}
+			government_legitimacy < 50
+		}
+		change_variable = {
+			name = acw_countdown_next
+			add = 3
+		}
+	}
+	if = {
+		limit = {
+			var:proportion_free >= 1.15
+		}
+		change_variable = {
+			name = acw_countdown_next
+			add = 2
+		}
+	}
+	if = {
+		limit = {
+			var:proportion_free >= 1.3
+		}
+		change_variable = {
+			name = acw_countdown_next
+			add = 3
+		}
+	}
+	if = {
+		limit = {
+			var:proportion_free >= 1.5
+		}
+		change_variable = {
+			name = acw_countdown_next
+			add = 5
+		}
+	}
+	if = {
+		limit = {
+			ruler = {
+				has_ideology = ideology:ideology_slaver
+			}
+		}
+		change_variable = {
+			name = acw_countdown_next
+			add = -3
+		}
+	}
+	if = {
+		limit = {
+			is_enacting_law = law_type:law_slave_trade
+		}
+		change_variable = {
+			name = acw_countdown_next
+			add = -5
+		}
+	}
+	if = {
+		limit = {
+			ig:ig_landowners = {
+				is_in_government = yes
+				is_powerful = yes
+			}
+			government_legitimacy < 50
+		}
+		change_variable = {
+			name = acw_countdown_next
+			add = -3
+		}
+	}
+	if = {
+		limit = {
+			var:proportion_free <= 0.85
+		}
+		change_variable = {
+			name = acw_countdown_next
+			add = -2
+		}
+	}
+	if = {
+		limit = {
+			var:proportion_free <= 0.7
+		}
+		change_variable = {
+			name = acw_countdown_next
+			add = -3
+		}
+	}
+	if = {
+		limit = {
+			var:proportion_free <= 0.5
+		}
+		change_variable = {
+			name = acw_countdown_next
+			add = -5
+		}
+	}
+	if = {
+		limit = {
+			var:acw_countdown_divisiveness > 0
+		}
+		change_variable = {
+			name = acw_countdown_next
+			multiply = acw_countdown_divisiveness_multiplier
+		}
+	}
+}
