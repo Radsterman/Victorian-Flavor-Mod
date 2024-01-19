@@ -1,0 +1,1297 @@
+@entry_width = 350
+@entry_height = 30
+@entry_d2_width = 330
+@entry_d3_width = 310
+@entry_d4_width = 290
+
+types pinnable_outliner_items {
+	type character_item = pinnable_expandable_outliner_entry {
+		datacontext = "[OutlinerEntry.AccessScope.AccessCharacter]"
+
+		icon = {
+			visible = "[Character.IsBeingHighlighted]"
+			using = highlighted_square_selection
+		}
+
+		blockoverride "text" {
+			text = "[Character.GetFullNameNoFormatting]"
+		}
+		blockoverride "tooltip" {
+			tooltipwidget = {
+				FancyTooltip_Character = {}
+			}
+		}
+		blockoverride "onclick" {
+			onclick = "[InformationPanelBar.OpenCommanderPanel(Character.AccessSelf)]"
+			onrightclick = "[RightClickMenuManager.ShowForCharacter(Character.AccessSelf)]"
+		}
+
+		blockoverride "onhover" {
+			onmousehierarchyenter = "[AccessHighlightManager.HighlightCharacter( Character.Self )]"
+			onmousehierarchyleave = "[AccessHighlightManager.RemoveHighlight]"
+		}
+
+		blockoverride "icon" {
+			flowcontainer = {
+				character_portrait_mini = {}
+
+				icon = {
+					size = { 30 30 }
+					visible = "[Or(Character.IsAdmiral, Character.IsGeneral)]"
+					texture = "[Character.GetOrderType.GetTexture]"
+					tooltip = "[Character.GetOrderType.GetDesc]"
+				}
+				widget = {
+					size = { 5 5 }
+				}
+			}
+		}
+
+		blockoverride "additional_info" {
+			textbox = {
+				visible = "[Character.IsGeneral]"
+				tooltip = "MILITARY_PANEL_COMMAND_LIMIT_BREAKDOWN_TOOLTIP"
+				raw_text = "@battalions!#variable [Character.GetNumCombatUnits]#!"
+				autoresize = yes
+				minimumsize = { 70 -1 }
+				maximumsize = { 70 -1 }
+				align = right|nobaseline
+				parentanchor = vcenter
+			}
+
+			textbox = {
+				visible = "[Character.IsAdmiral]"
+				tooltip = "MILITARY_PANEL_COMMAND_LIMIT_BREAKDOWN_TOOLTIP"
+				raw_text = "@flotillas!#variable [Character.GetNumCombatUnits]#!"
+				autoresize = yes
+				minimumsize = { 70 -1 }
+				maximumsize = { 70 -1 }
+				align = right|nobaseline
+				parentanchor = vcenter
+			}
+		}
+	}
+
+	type company_outliner_item = pinnable_expandable_outliner_entry {
+		datacontext = "[OutlinerEntry.AccessScope.AccessCompany]"
+
+		blockoverride "text" {
+			text = "[Company.GetName]"
+		}
+		blockoverride "tooltip" {
+			tooltipwidget = {
+				FancyTooltip_Company = {
+					datacontext = "[GetPlayer]"
+				}
+			}
+		}
+		blockoverride "onclick" {
+			onclick = "[InformationPanelBar.OpenPanelDontToggle('companies')]"
+		}
+
+		blockoverride "icon" {
+			flowcontainer = {
+				margin_right = 5
+				icon = {
+					parentanchor = vcenter
+					size = { 24 24 }
+					texture = "[Company.GetCompanyType.GetIcon]"
+				}
+			}
+		}
+
+		blockoverride "additional_info" {
+			widget = {			
+				size = { 70 15 }
+				parentanchor = vcenter
+				tooltip = "COMPANY_PROSPERITY_TOOLTIP"
+				
+				changed_value_increased_progressbar_horizontal = {
+					size = { 100% 100% }
+					visible = "[And(GreaterThan_CFixedPoint(Company.CalcProsperityChange,'(CFixedPoint)0'), LessThan_CFixedPoint(Company.GetProsperity, GetDefine('NEconomy', 'COMPANY_PROSPERITY_MAX')))]"
+					blockoverride "values" {
+						min = 0
+						max = "[GetDefine('NEconomy','COMPANY_PROSPERITY_MAX')]"
+						value = "[Company.GetProsperity]"
+					}
+					blockoverride "animate_negative_change" {
+						animate_negative_changes = no
+					}
+					blockoverride "arrow_texture_density" {
+						texture_density = 4 #use to match height of progressbar
+					}
+				}
+
+				changed_value_decreased_progressbar_horizontal = {
+					size = { 100% 100% }
+					visible = "[And(LessThan_CFixedPoint(Company.CalcProsperityChange,'(CFixedPoint)0'), LessThan_CFixedPoint(Company.GetProsperity, GetDefine('NEconomy', 'COMPANY_PROSPERITY_MAX')))]"
+
+					blockoverride "values" {
+						min = 0
+						max = "[GetDefine('NEconomy','COMPANY_PROSPERITY_MAX')]"
+						value = "[Company.GetProsperity]"
+					}
+					blockoverride "arrow_texture_density" {
+						texture_density = 4 #use to match height of progressbar
+					}
+				}
+
+				default_progressbar_horizontal = {
+					size = { 100% 100% }
+					visible = "[Or(EqualTo_CFixedPoint(Company.CalcProsperityChange,'(CFixedPoint)0'), GreaterThanOrEqualTo_CFixedPoint(Company.GetProsperity, GetDefine('NEconomy', 'COMPANY_PROSPERITY_MAX')))]"
+
+					blockoverride "values" {
+						min = 0
+						max = "[GetDefine('NEconomy','COMPANY_PROSPERITY_MAX')]"
+						value = "[Company.GetProsperity]"
+					}
+				}
+			}
+		}
+	}
+
+	type formation_item = pinnable_expandable_outliner_entry {
+		datacontext = "[OutlinerEntry.AccessScope.AccessMilitaryFormation]"
+
+		icon = {
+			visible = "[MilitaryFormation.IsBeingHighlighted]"
+			using = highlighted_square_selection
+		}
+
+		blockoverride "text" {
+			text = "[MilitaryFormation.GetNameNoFormatting]"
+		}
+		blockoverride "tooltip" {
+			tooltipwidget = {
+				FancyTooltip_MilitaryFormation = {}
+			}
+		}
+		blockoverride "onclick" {
+			onclick = "[InformationPanelBar.OpenMilitaryFormationPanelTab( MilitaryFormation.AccessSelf, 'default' )]"
+			onrightclick = "[RightClickMenuManager.ShowForMilitaryFormation(MilitaryFormation.AccessSelf)]"
+		}
+
+		blockoverride "onhover" {
+			onmousehierarchyenter = "[AccessHighlightManager.HighlightMilitaryFormation(MilitaryFormation.Self)]"
+			onmousehierarchyleave = "[AccessHighlightManager.RemoveHighlight]"
+		}
+
+		blockoverride "icon" {
+			flowcontainer = {
+				icon = {
+					visible = "[MilitaryFormation.IsArmy]"
+					parentanchor = vcenter
+					size = { 30 30 }
+					texture = "[MilitaryFormation.GetFlag]"
+					color = "[MilitaryFormation.GetFlagColor]"
+				}
+
+				icon = {
+					visible = "[MilitaryFormation.IsFleet]"
+					parentanchor = vcenter
+					size = { 30 30 }
+					texture = "[MilitaryFormation.GetFlag]"
+					color = "[MilitaryFormation.GetFlagColor]"
+				}
+			}
+		}
+
+		blockoverride "additional_info" {
+			flowcontainer = {
+				spacing = 5
+				parentanchor = vcenter
+				textbox = {
+					visible = "[MilitaryFormation.IsArmy]"
+					raw_text = "@battalions!#variable [MilitaryFormation.GetNumCombatUnits]#!"
+					autoresize = yes
+					minimumsize = { 70 -1 }
+					maximumsize = { 70 -1 }
+					align = right|nobaseline
+					parentanchor = vcenter
+					using = transparent_if_unmobilized_in_conflict
+					margin_right = 3
+				}
+
+				textbox = {
+					visible = "[MilitaryFormation.IsFleet]"
+					raw_text = "@flotillas!#variable [MilitaryFormation.GetNumCombatUnits]#!"
+					autoresize = yes
+					minimumsize = { 70 -1 }
+					maximumsize = { 70 -1 }
+					align = right|nobaseline
+					parentanchor = vcenter
+					margin_right = 3
+				}
+
+				manpower_bar = {
+					size = { 6 18 }
+					parentanchor = vcenter
+				}
+
+				morale_bar = {
+					size = { 6 18 }
+					parentanchor = vcenter
+					tooltip = "MILITARY_FORMATION_MORALE_TOOLTIP"
+					
+					blockoverride "morale_value" {
+						value = "[FixedPointToFloat( MilitaryFormation.GetMorale )]"
+					}
+					blockoverride "morale_color" {
+						color = "[GetMoraleColorVec( MilitaryFormation.GetMorale )]"
+					}
+				}
+			}
+		}
+
+		blockoverride "additional_widgets_under_text" {
+			# Mobilization progress, also used as lit frame
+			progressbar_properties = {
+				visible = "[MilitaryFormation.IsMobilizing]"
+				size = { 98% 26 }
+				position = { 1 0 }
+				parentanchor = vcenter
+				
+				# Hide glow when bar is full
+				blockoverride "glow_visible" { 
+					visible = "[Not(MilitaryFormation.IsFullyMobilized)]"
+				}
+
+				blockoverride "glow_size" {
+					size = { 310 100% }
+				}
+
+				blockoverride "values" {
+					min = 0
+					max = 1
+					value = "[FixedPointToFloat( MilitaryFormation.GetMobilizationPercentage )]"
+				}
+
+				# Country color
+				blockoverride "color" {
+					color = "[MilitaryFormation.GetCountry.GetMapColor]"
+				}
+
+				# Unit frame with applied country colo
+				blockoverride "progresstexture" {
+					texture = "gfx/interface/backgrounds/entry_bg_unit.dds" 
+					
+					# Lighten color
+					modify_texture = {
+						texture = "gfx/interface/backgrounds/white.dds" 
+						spriteType = Corneredstretched
+						spriteborder = { 0 0 }
+						blend_mode = add
+						alpha = 0.5
+					}
+				}
+
+				# White glow with applied country color
+				blockoverride "glow" {
+					texture = "gfx/interface/progressbar/progressbar_white_glow.dds"
+
+					# Lighten color
+					modify_texture = {
+						texture = "gfx/interface/backgrounds/white.dds" 
+						spriteType = Corneredstretched
+						color = { 2.0 2.0 2.0 1.0 }
+						spriteborder = { 0 0 }
+						blend_mode = add
+					}
+				}	
+				blockoverride "glow_alpha" {
+					alpha = 0.4
+				}
+				blockoverride "glow_line" {
+					texture = "gfx/interface/progressbar/progressbar_white_glow_line.dds"
+					alpha = 1.0
+				}
+
+				# Remove elements
+				blockoverride "frame" {}
+				blockoverride "background" {
+					background = {
+						using = dark_area
+					}
+				}
+				blockoverride "gradient" {}
+			}
+		}
+	}
+
+	type outliner_commanders = pinnable_outliner_group {
+		datacontext = "[Outliner.AccessCategory('commanders')]"
+		
+		blockoverride "entry_size" {
+			size = { @entry_width @entry_height }
+		}
+
+		blockoverride "item" {
+			pinnable_outliner_group = {
+				blockoverride "entry_size" {
+					size = { @entry_d2_width @entry_height }
+				}
+				blockoverride "item" {
+					pinnable_outliner_group = {
+						blockoverride "entry_size" {
+							size = { @entry_d3_width @entry_height }
+						}
+						blockoverride "title" {
+							character_item = {
+								blockoverride "text_size" {
+									minimumsize = { 135 -1 }
+									maximumsize = { 135 -1 }
+								}
+							}
+						}
+						blockoverride "item" {
+							blockoverride "text_size" {
+								minimumsize = { 135 -1 }
+								maximumsize = { 135 -1 }
+							}
+
+							outliner_entry = { }
+						}
+					}
+				}
+			}
+		}
+	}
+
+	type outliner_formations = pinnable_outliner_group {
+		datacontext = "[Outliner.AccessCategory('formations')]"
+		
+		blockoverride "entry_size" {
+			size = { @entry_width @entry_height }
+		}
+
+		blockoverride "item" {
+			pinnable_outliner_group = {
+				blockoverride "entry_size" {
+					size = { @entry_d2_width @entry_height }
+				}
+				blockoverride "item" {
+					pinnable_outliner_group = {
+						blockoverride "entry_size" {
+							size = { @entry_d3_width @entry_height }
+						}
+						blockoverride "title" {
+							formation_item = {
+								blockoverride "text_size" {
+									minimumsize = { 150 -1 }
+									maximumsize = { 150 -1 }
+								}
+							}
+						}
+						blockoverride "item" {
+							blockoverride "text_size" {
+								minimumsize = { 170 -1 }
+								maximumsize = { 170 -1 }
+							}
+
+							outliner_entry = { }
+						}
+					}
+				}
+			}
+		}
+	}
+
+	type politician_item = pinnable_outliner_entry {
+		datacontext = "[OutlinerEntry.AccessScope.AccessCharacter]"
+
+		icon = {
+			visible = "[Character.IsBeingHighlighted]"
+			using = highlighted_square_selection
+		}
+
+		blockoverride "text" {
+			text = "[Character.GetFullNameNoFormatting]"
+		}
+		blockoverride "tooltip" {
+			tooltipwidget = {
+				FancyTooltip_Character = {}
+			}
+		}
+		blockoverride "onclick" {
+			onclick = "[InformationPanelBar.OpenCommanderPanel(Character.AccessSelf)]"
+			onrightclick = "[RightClickMenuManager.ShowForCharacter(Character.AccessSelf)]"
+		}
+
+		blockoverride "onhover" {
+			onmousehierarchyenter = "[AccessHighlightManager.HighlightCharacter( Character.Self )]"
+			onmousehierarchyleave = "[AccessHighlightManager.RemoveHighlight]"
+		}
+
+		blockoverride "icon" {
+			flowcontainer = {
+				character_portrait_mini = {}
+
+				icon = {
+					size = { 30 30 }
+					visible = "[Or(Character.IsAdmiral, Character.IsGeneral)]"
+					texture = "[Character.GetOrderType.GetTexture]"
+					tooltip = "[Character.GetOrderType.GetDesc]"
+				}
+				widget = {
+					size = { 5 5 }
+				}
+			}
+		}
+
+		blockoverride "additional_info" {
+			textbox = {
+				visible = "[Character.IsGeneral]"
+				tooltip = "MILITARY_PANEL_COMMAND_LIMIT_BREAKDOWN_TOOLTIP"
+				raw_text = "@battalions!#variable [Character.GetNumCombatUnits]#!"
+				autoresize = yes
+				minimumsize = { 70 -1 }
+				maximumsize = { 70 -1 }
+				align = right|nobaseline
+				parentanchor = vcenter
+			}
+
+			textbox = {
+				visible = "[Character.IsAdmiral]"
+				tooltip = "MILITARY_PANEL_COMMAND_LIMIT_BREAKDOWN_TOOLTIP"
+				raw_text = "@flotillas!#variable [Character.GetNumCombatUnits]#!"
+				autoresize = yes
+				minimumsize = { 70 -1 }
+				maximumsize = { 70 -1 }
+				align = right|nobaseline
+				parentanchor = vcenter
+			}
+		}
+	}
+
+	type outliner_politicians = pinnable_outliner_group {
+		datacontext = "[Outliner.AccessCategory('politicians')]"
+		
+		blockoverride "entry_size" {
+			size = { @entry_width @entry_height }
+		}
+
+		blockoverride "item" {
+			politician_item = {
+				blockoverride "entry_size" {
+					size = { @entry_d2_width @entry_height }
+				}
+				blockoverride "text_size" {
+					minimumsize = { 135 -1 }
+					maximumsize = { 135 -1 }
+				}
+			}
+		}
+	}
+
+	type interest_group_item = pinnable_outliner_entry {
+		datacontext = "[OutlinerEntry.AccessScope.AccessInterestGroup]"
+
+		tooltipwidget = {
+			FancyTooltip_IG = {}
+		}
+
+		# Override the entire item so we can make it responsive using an hbox
+		blockoverride "widget" {
+			hbox = {
+				margin_left = 15
+				margin_right = 25
+				maximumsize = { 330 -1 }
+				layoutpolicy_horizontal = expanding
+
+				flowcontainer = {
+					spacing = 5
+					margin_right = 5
+					ig_icon = {
+						blockoverride "in_government_icon" {}
+						size = { 25 25 }
+					}
+				}
+				textbox = {
+					block "expand_buttons_margin" {}
+					align = left|nobaseline
+					elide = right
+					text = "[InterestGroup.GetNameNoFormatting]"
+					fontsize_min = 14
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
+				}
+
+				block "in_government" {
+					widget = {
+						size = { 25 25 }
+						visible = "[InterestGroup.IsInGovernment]"
+						
+						icon = {
+							texture = "gfx/interface/icons/generic_icons/in_government_icon.dds"
+							size = { 23 23 }
+							tooltip = IN_GOVERNMENT_DESC
+							parentanchor = center 
+						}
+					}
+				}
+
+				textbox = {
+					autoresize = yes
+					raw_text = "#variable [InterestGroup.GetApprovalValue|+=]#!"
+					minimumsize = { 30 -1 }
+					align = right|nobaseline
+					tooltip = "IG_APPROVAL_BREAKDOWN"
+					margin_right = 3
+					visible = "[Not(InterestGroup.IsMarginal)]"
+					layoutpolicy_horizontal = fixed
+				}
+
+				fixedgridbox = {
+					flipdirection = yes
+					datamodel = "[InterestGroup.AccessTraits]"
+					addcolumn = 19
+					addrow = 23
+					visible = "[Not(InterestGroup.IsMarginal)]"
+
+					item = {
+						widget = {
+							size = { 19 23 }
+							icon = {
+								parentanchor = center
+								texture = "[InterestGroupTrait.GetTexture]"
+								enabled = "[InterestGroupTrait.IsEnabled(InterestGroup.Self)]"
+								using = tooltip_above
+								size = { 17 23 }
+								alpha = "[TransparentIfFalse(InterestGroupTrait.IsEnabled(InterestGroup.Self))]"
+								
+								tooltipwidget = {
+									FancyTooltip_InterestGroupTrait = {
+										blockoverride "icon" {
+											icon = {
+												texture = "[InterestGroupTrait.GetTexture]"
+												enabled = "[InterestGroupTrait.IsEnabled(InterestGroup.Self)]"
+												size = { 33 45 }
+												parentanchor = center
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+
+				textbox = {
+					autoresize = yes
+					text = "[InterestGroup.GetClout|%1v]"
+					minimumsize = { 55 -1 }
+					align = right|nobaseline
+					using = clout_tooltip_with_graph
+				}
+			}
+		}
+
+		blockoverride "onclick" {
+			onclick = "[InformationPanelBar.OpenInterestGroupPanel( InterestGroup.AccessSelf )]"
+			onrightclick = "[RightClickMenuManager.ShowForIG(InterestGroup.AccessSelf)]"
+		}
+	}
+
+	type outliner_interest_groups = pinnable_outliner_group {
+		datacontext = "[Outliner.AccessCategory('interest_groups')]"
+		
+		blockoverride "entry_size" {
+			size = { @entry_width @entry_height }
+		}
+
+		blockoverride "item" {
+			blockoverride "entry_size" {
+				size = { @entry_d2_width @entry_height }
+			}
+			container = {
+				block "visibility" {
+					visible = yes
+				}
+				
+				container = {
+					visible = "[Not(OutlinerEntry.IsCategory)]"
+					interest_group_item = {
+						blockoverride "text_size" {
+							minimumsize = { 95 -1 }
+							maximumsize = { 95 -1 }
+						}
+					}
+				}
+				pinnable_outliner_group = {
+					visible = "[And(OutlinerEntry.IsCategory, OutlinerEntry.IsShown)]"
+					blockoverride "entry_size" {
+						size = { @entry_d2_width @entry_height }
+					}
+					blockoverride "item" {
+						blockoverride "entry_size" {
+							size = { @entry_d3_width @entry_height }
+						}
+						
+						interest_group_item = {
+
+							blockoverride "text_size" {
+								minimumsize = { 187 -1 }
+								maximumsize = { 187 -1 }
+								margin_left = 5
+							}
+
+							blockoverride "in_government" {}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	type outliner_agitators = pinnable_outliner_group {
+		datacontext = "[Outliner.AccessCategory('agitators')]"
+
+		blockoverride "entry_size" {
+			size = { 350 30 }
+		}
+
+		blockoverride "item" {
+			character_item = {
+				blockoverride "entry_size" {
+					size = { 330 30 }
+				}
+				blockoverride "text_size" {
+					minimumsize = { 175 -1 }
+					maximumsize = { 175 -1 }
+				}
+			}
+		}
+	}
+
+	type outliner_companies = pinnable_outliner_group {
+		datacontext = "[Outliner.AccessCategory('companies')]"
+
+		blockoverride "entry_size" {
+			size = { 350 30 }
+		}
+
+		blockoverride "item" {
+			company_outliner_item = {
+				blockoverride "entry_size" {
+					size = { 330 30 }
+				}
+				blockoverride "text_size" {
+					minimumsize = { 190 -1 }
+					maximumsize = { 190 -1 }
+				}
+			}
+		}
+	}
+
+	type market_item = pinnable_outliner_entry {
+		datacontext = "[OutlinerEntry.AccessScope.AccessMarket]"
+
+		blockoverride "text" {
+			text = "[Market.GetNameNoFormatting]"
+		}
+		blockoverride "tooltip" {
+			tooltipwidget = {
+				FancyTooltip_Market = {}
+			}
+		}
+
+		blockoverride  "onrightclick" {
+			onrightclick = "[RightClickMenuManager.ShowForMarket(Market.AccessSelf)]"
+		}
+
+		blockoverride "additional_info" {
+			flowcontainer = {
+				spacing = 10
+
+				flowcontainer = {
+					maximumsize = { 69 -1 }
+					scissor = yes
+					righttoleft = yes
+					datamodel = "[Market.AccessGoodsSortedByBalance]"
+
+					item = {
+						button = {
+							size = { 23 23 }
+							texture = "[Goods.GetTexture]"
+							onclick = "[InformationPanelBar.OpenGoodsPanel( Market.Self, Goods.Self )]"
+							onrightclick = "[RightClickMenuManager.ShowForGoods( Goods.AccessSelf )]"
+							tooltipwidget = {
+								FancyTooltip_Goods = {}
+							}
+						}
+					}
+				}
+
+				vertical_divider = {}
+
+				flowcontainer = {
+					maximumsize = { 69 -1 }
+					scissor = yes
+					datamodel = "[Market.AccessGoodsSortedByBalance]"
+
+					item = {
+						button = {
+							size = { 23 23 }
+							texture = "[Goods.GetTexture]"
+							onclick = "[InformationPanelBar.OpenGoodsPanel( Market.Self, Goods.Self )]"
+							onrightclick = "[RightClickMenuManager.ShowForGoods( Goods.AccessSelf )]"
+							tooltipwidget = {
+								FancyTooltip_Goods = {}
+							}
+						}
+					}
+				}
+			}
+		}
+		blockoverride "onclick" {
+			onclick = "[InformationPanelBar.OpenMarketPanel( Market.AccessSelf )]"
+		}
+		blockoverride "onhover" {
+			onmousehierarchyenter = "[AccessHighlightManager.HighlightMarket(Market.Self)]"
+			onmousehierarchyleave = "[AccessHighlightManager.RemoveHighlight]"
+		}
+	}
+
+	type outliner_markets = pinnable_outliner_group {
+		datacontext = "[Outliner.AccessCategory('markets')]"
+
+		blockoverride "entry_size" {
+			size = { @entry_width @entry_height }
+		}
+
+		blockoverride "item" {
+			container = {
+				block "visibility" {
+					visible = yes
+				}
+				blockoverride "entry_size" {
+					size = { @entry_d2_width @entry_height }
+				}
+
+				container = {
+					visible = "[Not(OutlinerEntry.IsCategory)]"
+					market_item = {
+						blockoverride "text_size" {
+							minimumsize = { 135 -1 }
+							maximumsize = { 135 -1 }
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	type goods_item = pinnable_outliner_entry {
+		datacontext = "[OutlinerEntry.AccessScope.AccessMarketGoods.GetGoods]"
+
+		blockoverride "entry_size" {
+			size = { @entry_d4_width @entry_height }
+		}
+
+		blockoverride "text" {
+			text = "[Goods.GetTextIcon] [Goods.GetNameNoFormatting]"
+		}
+		blockoverride "tooltip" {
+			tooltipwidget = {
+				FancyTooltip_Goods = {}
+			}
+		}
+
+		blockoverride "text_size" {
+			minimumsize = { 125 -1 }
+			maximumsize = { 125 -1 }
+		}
+
+		blockoverride "additional_info" {
+			flowcontainer = {
+				spacing = 5
+
+				textbox = {
+					autoresize = yes
+					minimumsize = { 70 -1 }
+					maximumsize = { 70 -1 }
+					raw_text = "@money![Goods.GetMarketPrice|0v] [Goods.GetCompareIconAgainstBasePriceNoFormatting( Goods.GetMarketPrice )]"
+					align = right|nobaseline
+				}
+
+				textbox = {
+					visible = "[GreaterThanOrEqualTo_CFixedPoint(Goods.GetPercentageDeltaAgainstBasePrice(Goods.GetMarketPrice), '(CFixedPoint)0.01')]"
+					text = "MARKET_PANEL_GOODS_PRICE_GOLD"
+					autoresize = yes
+					minimumsize = { 50 -1 }
+					maximumsize = { 50 -1 }
+					align = right|nobaseline
+				}
+
+				textbox = {
+					visible = "[And( Not(LessThanOrEqualTo_CFixedPoint(Goods.GetPercentageDeltaAgainstBasePrice(Goods.GetMarketPrice), '(CFixedPoint)-0.01')), Not(GreaterThanOrEqualTo_CFixedPoint(Goods.GetPercentageDeltaAgainstBasePrice(Goods.GetMarketPrice), '(CFixedPoint)0.01')))]"
+					text = "MARKET_PANEL_GOODS_PRICE"
+					autoresize = yes
+					minimumsize = { 50 -1 }
+					maximumsize = { 50 -1 }
+					align = right|nobaseline
+				}
+
+				textbox = {
+					visible = "[LessThanOrEqualTo_CFixedPoint(Goods.GetPercentageDeltaAgainstBasePrice(Goods.GetMarketPrice), '(CFixedPoint)-0.01')]"
+					text = "MARKET_PANEL_GOODS_PRICE_BLUE"
+					autoresize = yes
+					minimumsize = { 50 -1 }
+					maximumsize = { 50 -1 }
+					align = right|nobaseline
+				}
+
+			}
+		}
+
+		blockoverride  "onrightclick" {
+			onrightclick = "[RightClickMenuManager.ShowForGoods( Goods.AccessSelf )]"
+		}
+
+		blockoverride "onclick" {
+			onclick = "[InformationPanelBar.OpenGoodsPanel( Goods.GetMarket, Goods.Self  )]"
+		}
+
+		blockoverride "onhover" {
+			onmousehierarchyenter = "[AccessHighlightManager.HighlightMarket( Goods.GetMarket )]"
+			onmousehierarchyleave = "[AccessHighlightManager.RemoveHighlight]"
+		}
+	}
+
+	type outliner_goods = pinnable_outliner_group {
+		datacontext = "[Outliner.AccessCategory('goods')]"
+
+		blockoverride "entry_size" {
+			size = { @entry_width @entry_height }
+		}
+
+		blockoverride "item" {
+			# Market group
+			pinnable_outliner_group = {
+				blockoverride "entry_size" {
+					size = { @entry_d2_width @entry_height }
+				}
+				
+				blockoverride "item" {
+					# Goods group (staple / military etc)
+					pinnable_outliner_group = {
+						blockoverride "entry_size" {
+							size = { @entry_d3_width @entry_height }
+						}
+						blockoverride "item" {
+							goods_item = {}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	type state_item = pinnable_outliner_entry {
+		datacontext = "[OutlinerEntry.AccessScope.AccessState]"
+
+		blockoverride "text" {
+			text = "[State.GetNameNoFormatting]"
+		}
+		blockoverride "tooltip" {
+			tooltipwidget = {
+				FancyTooltip_State = {}
+			}
+		}
+
+		blockoverride "onrightclick" {
+			onrightclick = "[RightClickMenuManager.ShowForState(State.AccessSelf)]"
+		}
+
+		blockoverride "onhover" {
+			onmousehierarchyenter = "[AccessHighlightManager.HighlightState(State.Self)]"
+			onmousehierarchyleave = "[AccessHighlightManager.RemoveHighlight]"
+		}
+
+		blockoverride "additional_info" {
+			textbox = {
+				size = { 70 25 }
+				align = right|nobaseline
+				text = "MAP_LIST_STATE_AVAILABLE_LABOR"
+				parentanchor = vcenter
+				elide = right
+				tooltip = "STATE_AVAILABLE_LABOR_TOOLTIP"
+			}
+
+			textbox = {
+				align = right|nobaseline
+				autoresize = yes
+				minimumsize = { 70 -1 }
+				text = "[State.GetPopulationSize|*1v]"
+				tooltip = "TOOLTIP_STATE_POPULATION"
+			}
+		}
+		blockoverride "onclick" {
+			onclick = "[InformationPanelBar.OpenStatePanel( State.AccessSelf )]"
+		}
+	}
+
+	type outliner_colonies = pinnable_outliner_group {
+		datacontext = "[Outliner.AccessCategory('colonies')]"
+
+		blockoverride "entry_size" {
+			size = { @entry_width @entry_height }
+		}
+
+		blockoverride "item" {
+			state_item = {
+				blockoverride "entry_size" {
+					size = { @entry_d2_width @entry_height }
+				}
+				blockoverride "text_size" {
+					minimumsize = { 150 -1 }
+					maximumsize = { 150 -1 }
+				}
+			}
+		}
+	}
+
+	type outliner_states = pinnable_outliner_group {
+		datacontext = "[Outliner.AccessCategory('states')]"
+
+		blockoverride "entry_size" {
+			size = { @entry_width @entry_height }
+		}
+
+		blockoverride "item" {
+			container = {
+				block "visibility" {
+					visible = yes
+				}
+				
+				blockoverride "entry_size" {
+					size = { @entry_d2_width @entry_height }
+				}
+
+				container = {
+					visible = "[Not(OutlinerEntry.IsCategory)]"
+					state_item = {
+						blockoverride "text_size" {
+							minimumsize = { 150 -1 }
+							maximumsize = { 150 -1 }
+						}
+					}
+				}
+				pinnable_outliner_group = {
+					visible = "[And(OutlinerEntry.IsCategory, OutlinerEntry.IsShown)]"
+					blockoverride "entry_size" {
+						size = { @entry_d2_width @entry_height }
+					}
+					blockoverride "item" {
+						state_item = {
+							blockoverride "entry_size" {
+								size = { @entry_d3_width @entry_height }
+							}
+							blockoverride "text_size" {
+								minimumsize = { 130 -1 }
+								maximumsize = { 130 -1 }
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	type player_item = flowcontainer {
+		flowcontainer = {
+			visible = "[Or(Player.IsObserver, Not(Player.HasPlayable))]"
+			spacing = 10
+
+			icon = {
+				texture = "gfx/interface/icons/generic_icons/observer_mode_icon.dds"
+				size = { 42 42 }
+				widgetanchor = left|vcenter
+				parentanchor = left|vcenter
+			}
+
+			flowcontainer = {
+				direction = vertical
+				widgetanchor = left|vcenter
+				parentanchor = left|vcenter
+				
+				textbox = {
+					text = "[Player.GetName]"
+					align = left|nobaseline
+					maximumsize = { 250 -1 }
+					autoresize = yes
+					fontsize_min = 14
+					elide = right
+				}
+				textbox = {
+					visible = "[Player.HasPlayable]"
+					text = "[Player.GetPlayedOrObservedCountry.GetNameNoFlag]"
+					align = left|nobaseline
+					autoresize = yes
+				}
+			}
+		}
+
+		flowcontainer = {
+			spacing = 10
+			visible = "[And(Not(Player.IsObserver), Player.HasPlayable)]"
+			datacontext = "[Player.GetPlayedOrObservedCountry]"
+			
+			small_flag = {
+				widgetanchor = left|vcenter
+				parentanchor = left|vcenter
+			}
+			flowcontainer = {
+				direction = vertical
+				widgetanchor = left|vcenter
+				parentanchor = left|vcenter
+				textbox = {
+					text = "[Country.GetNameNoFlag]"
+					align = left|nobaseline
+					autoresize = yes
+				}
+				textbox = {
+					text = "[Country.GetPlayedByDesc]"
+					align = left|nobaseline
+					maximumsize = { 250 -1 }
+					autoresize = yes
+					fontsize_min = 14
+					elide = right
+				}
+			}
+		}
+	}
+
+	type outliner_players = pinnable_outliner_group {
+		datacontext = "[Outliner.AccessCategory('players')]"
+
+		blockoverride "entry_size" {
+			size = { @entry_width @entry_height }
+		}
+
+		blockoverride "expand_buttons_visibility" {
+			# force show expand buttons
+			visible = yes
+		}
+
+		blockoverride "list_properties" {
+			datamodel = "[Outliner.AccessPlayers]"
+
+			item = {
+				player_item = {}
+			}
+		}
+	}
+	
+	type building_in_state_item = pinnable_expandable_outliner_entry {
+		blockoverride "text_size" {
+			minimumsize = { 120 -1 }
+			maximumsize = { 120 -1 }
+		}
+	
+		datacontext = "[OutlinerEntry.AccessScope.AccessBuilding]"
+
+		blockoverride "text" {
+			text = "[Building.GetState.GetNameNoFormatting]"
+		}
+		blockoverride "tooltip" {
+			tooltipwidget = {
+				FancyTooltip_Building = {}
+			}
+		}
+
+		blockoverride "onrightclick" {
+			onrightclick = "[RightClickMenuManager.ShowForBuilding(Building.AccessSelf)]"
+		}
+		
+		blockoverride "onhover" {
+			onmousehierarchyenter = "[AccessHighlightManager.HighlightState(Building.GetState.Self)]"
+			onmousehierarchyleave = "[AccessHighlightManager.RemoveHighlight]"
+		}
+
+		blockoverride "additional_info" {
+			spacing = 4
+			
+			widget = {
+				size = { 25 25 }
+				parentanchor = vcenter
+				
+				icon = {
+					visible = "[Building.HasAnyInputShortage]"
+					size = { 25 25 }
+					parentanchor = vcenter
+					texture = "gfx/interface/icons/generic_icons/goods_shortage.dds"
+					tooltip = "GOODS_OUTPUT_PENALTY_TOOLTIP"
+					position = { -25 0 }
+				}
+
+				icon = {
+					visible = "[Building.ShouldShowAsUnableToHire]"
+					size = { 25 25 }
+					texture = "gfx/interface/icons/generic_icons/employment_not_full.dds"
+					parentanchor = center
+				}
+
+				icon = {
+					visible = "[Building.ShouldShowAsUnwillingToHire]"
+					size = { 25 25 }
+					texture = "gfx/interface/icons/generic_icons/employment_not_hiring.dds"
+					parentanchor = center
+				}
+
+				icon = {
+					visible = "[Building.ShouldShowAsHiring]"
+					size = { 25 25 }
+					parentanchor = center
+					texture = "gfx/interface/icons/generic_icons/employment_not_full_hiring.dds"
+				}
+			}
+			widget = {
+				size = { 1 1 }
+			}
+			
+			flowcontainer = {
+				direction = vertical
+				parentanchor = vcenter
+				spacing = 4
+				
+				
+				widget = {
+					size = { 30 7 }
+					
+					default_progressbar_horizontal = {
+						size = { 100% 100% }
+						parentanchor = vcenter
+
+						blockoverride "values" {
+							value = "[FixedPointToFloat(Building.GetEmploymentPercentage)]"
+							min = 0
+							max = 1
+						}
+					}
+				}
+				
+				widget = {	
+					size = { 30 7 }
+					alpha = "[TransparentIfFalse(Building.IsActive)]"
+					visible = "[And(GreaterThan_CFixedPoint(Building.GetMaxCashReserves, '(CFixedPoint)0'), Building.IsActive)]"
+
+					gold_progressbar_horizontal = {
+						size = { 100% 100% }
+						alpha = "[TransparentIfFalse(Building.IsActive)]"
+						visible = "[And(GreaterThan_CFixedPoint(Building.GetMaxCashReserves, '(CFixedPoint)0'), Building.IsActive)]"
+
+						blockoverride "glow_size" {
+							size = { 30 100% }
+						}
+
+						blockoverride "values" {
+							min = 0
+							max = "[FixedPointToFloat(Building.GetMaxCashReserves)]"
+							value = "[FixedPointToFloat(Building.GetCurrentCashReserves)]"
+						}
+					}
+
+					changed_value_decreased_progressbar_horizontal = {
+						size = { 100% 100% }
+						visible = "[GreaterThan_CFixedPoint(GetPrevTrendValue(Building.GetCashReservesTrend), GetTrendValue(Building.GetCashReservesTrend))]"
+
+						blockoverride "second_progressbar" {}
+
+						blockoverride "values" {
+							min = 0
+							max = "[FixedPointToFloat(Building.GetMaxCashReserves)]"
+							value = "[FixedPointToFloat(Building.GetCurrentCashReserves)]"
+						}
+						blockoverride "glow_size" {
+							size = { 30 100% }
+						}
+						blockoverride "arrow_texture_density" {
+							texture_density = 13 #use to match height of progressbar
+						}
+					}
+
+					changed_value_increased_progressbar_horizontal = {
+						size = { 100% 100% }
+						visible = "[GreaterThan_CFixedPoint(GetTrendValue(Building.GetCashReservesTrend), GetPrevTrendValue(Building.GetCashReservesTrend))]"
+
+						blockoverride "second_progressbar" {}
+
+						blockoverride "values" {
+							min = 0
+							max = "[FixedPointToFloat(Building.GetMaxCashReserves)]"
+							value = "[FixedPointToFloat(Building.GetCurrentCashReserves)]"
+						}
+						blockoverride "glow_size" {
+							size = { 30 100% }
+						}
+						blockoverride "arrow_texture_density" {
+							texture_density = 13 #use to match height of progressbar
+						}
+					}
+				}
+			}
+			
+			widget = {
+				size = { 3 3 }
+			}
+			
+			textbox = {
+				size = { 18 25 }
+				raw_text = "#v [Building.GetExpansionLevel]#!"
+				align = left|nobaseline
+				fontsize_min = 14
+			}
+			
+			textbox = {
+				visible = "[And(Not(Building.IsGovernmentFunded), Not(Building.IsSubsistenceBuilding))]"
+				size = { 40 25 }
+				raw_text = "@money![Building.GetAverageAnnualEarningsPerEmployeeFormatted|+]"
+				align = left|nobaseline
+				fontsize_min = 14
+			}
+		}
+		blockoverride "onclick" {
+			onclick = "[InformationPanelBar.OpenBuildingDetailsPanel( Building.AccessSelf )]"
+		}
+	}
+	
+	type outliner_buildingtypes = pinnable_outliner_group {
+		datacontext = "[Outliner.AccessCategory('buildings')]"
+		
+		blockoverride "entry_size" {
+			size = { @entry_width @entry_height }
+		}
+
+		blockoverride "item" {
+			pinnable_outliner_group = {
+				blockoverride "entry_size" {
+					size = { @entry_d2_width @entry_height }
+				}
+				blockoverride "item" {
+					pinnable_outliner_group = {
+						blockoverride "entry_size" {
+							size = { @entry_d3_width @entry_height }
+						}
+						blockoverride "title" {
+							building_in_state_item = {
+								blockoverride "text_size" {
+									minimumsize = { 135 -1 }
+									maximumsize = { 135 -1 }
+								}
+							}
+						}
+						blockoverride "item" {
+							blockoverride "text_size" {
+								minimumsize = { 135 -1 }
+								maximumsize = { 135 -1 }
+							}
+
+							outliner_entry = { }
+						}
+					}
+				}
+			}
+		}
+	}
+}

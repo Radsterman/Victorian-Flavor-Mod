@@ -1,0 +1,1843 @@
+types TooltipTypes
+{
+	type FancyTooltip_DecreeType = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "[DecreeType.GetTooltip(GetPlayer)]"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[DecreeType.GetTexture]"
+		}
+
+		blockoverride "name" {
+			text = "[DecreeType.GetNameNoFormatting]"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_DECREE_TYPE"
+		}
+	}
+	
+	type FancyTooltip_Law = FancyTooltipWidgetType {
+		blockoverride "icon_texture" {
+			texture = "[Law.GetTexture]"
+		}
+	
+		blockoverride "name" {
+			raw_text = "[Law.GetNameNoFormatting] ([Law.GetGroup.GetName])"
+		}
+	
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_CONSTITUTION_LAW"
+		}
+		
+		blockoverride "text" {
+			text = "DATA_LAW_NAME_TOOLTIP"
+		}
+
+		blockoverride "go_to_button_visibility" {
+			visible = yes
+		}
+
+		blockoverride "go_to_button_properties" {
+			onclick = "[InformationPanelBar.OpenChangeLaw(Law.AccessSelf)]"
+		}
+	}
+
+	type FancyTooltip_LawType = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_LAW_TYPE_NAME_TOOLTIP"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[LawType.GetTexture]"
+		}
+
+		blockoverride "name" {
+			raw_text = "[LawType.GetNameNoFormatting] ([LawType.GetGroup.GetName])"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_LAW_TYPE"
+		}
+
+		blockoverride "go_to_button_visibility" {
+			visible = yes
+		}
+
+		blockoverride "go_to_button_properties" {
+			datacontext = "[LawType.GetGroup.GetCurrentlyActive]"
+			onclick = "[InformationPanelBar.OpenChangeLaw(Law.AccessSelf)]"
+		}
+	}
+
+	type FancyTooltip_Market = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_MARKET_NAME_TOOLTIP"
+		}
+
+		blockoverride "name" {
+			text = "[Market.GetNameNoFormatting]"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_MARKET"
+		}
+
+		blockoverride "color" {
+			color = "[Market.GetOwner.GetMapColor]"
+		}
+
+		blockoverride "replace_icon" {
+			small_flag = {
+				parentanchor = center
+				datacontext = "[Market.GetOwner]"
+			}
+		}
+
+		blockoverride "icon_background_texture" {}
+
+		blockoverride "icon_frame" {}
+
+		blockoverride "go_to_button_visibility" {
+			visible = yes
+		}
+
+		blockoverride "go_to_button_properties" {
+			onclick = "[InformationPanelBar.OpenMarketPanel(Market.AccessSelf)]"
+		}
+	}
+	
+	type FancyTooltip_Institution = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_INSTITUTION_NAME_TOOLTIP"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[Institution.GetIcon]"
+		}
+		
+		blockoverride "name" {
+			text = "DATA_INSTITUTION_TITLE_TOOLTIP"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_INSTITUTION"
+		}
+
+		blockoverride "go_to_button_visibility" {
+			visible = yes
+		}
+
+		blockoverride "go_to_button_properties" {
+			onclick = "[InformationPanelBar.OpenPanelTab('politics', 'institutions')]"
+		}
+	}
+	
+	type FancyTooltip_InstitutionType = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_INSTITUTION_TYPE_NAME_TOOLTIP"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[InstitutionType.GetIcon]"
+		}
+		
+		blockoverride "name" {
+			text = "[InstitutionType.GetNameNoFormatting]"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_INSTITUTION_TYPE"
+		}
+
+		blockoverride "go_to_button_visibility" {
+			visible = yes
+		}
+
+		blockoverride "go_to_button_properties" {
+			onclick = "[InformationPanelBar.OpenPanelTab('politics', 'institutions')]"
+		}
+	}
+	
+	# This type pretends to be a Game Concept so we can reference it directly from GUI in cases where an IG is Invalid / Politically Unaligned
+	type FancyTooltip_PoliticallyUnaligned = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "[concept_politically_unaligned_aligned_desc]"
+		}
+
+		blockoverride "name" {
+			text = "concept_politically_unaligned"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_GAME_CONCEPT_TYPE"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "gfx/interface/icons/ig_icons/politically_unaligned.dds"
+		}
+	}
+	
+	type FancyTooltip_IG = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_INTEREST_GROUP_NAME_TOOLTIP"
+		}
+
+		blockoverride "replace_icon" {
+			ig_icon = {
+				parentanchor = center
+				size = { 52 52 }
+				blockoverride "tooltip" {}
+				blockoverride "in_government_icon" {}
+			}
+		}
+
+		blockoverride "name" {
+			text = "INTEREST_GROUP_TOOLTIP_NAME"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_INTEREST_GROUP"
+		}
+
+		blockoverride "color" {
+			color = "[InterestGroup.GetColor]"
+		}
+
+		blockoverride "go_to_button_visibility" {
+			visible = yes
+		}
+
+		blockoverride "go_to_button_properties" {
+			onclick = "[InformationPanelBar.OpenInterestGroupPanel(InterestGroup.AccessSelf)]"
+		}
+	}
+
+	type FancyTooltip_Party = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_PARTY_NAME_TOOLTIP"
+		}
+
+		blockoverride "replace_icon" {
+			party_icon = {
+				parentanchor = center
+				size = { 52 52 }
+				blockoverride "tooltip" {}
+			}
+		}
+
+		blockoverride "name" {
+			text = "[Party.GetName]"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_PARTY"
+		}
+
+		blockoverride "color" {
+			color = "[Party.GetColor]"
+		}
+
+		blockoverride "go_to_button_visibility" {
+			visible = no # toggle back on when doing PRCAL-15542
+		}
+
+		blockoverride "go_to_button_properties" {
+			onclick = "[InformationPanelBar.OpenPartyPanel(Party.AccessSelf)]"
+		}
+	}
+
+	type FancyTooltip_Ideology = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_IDEOLOGY_NAME_TOOLTIP"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[Ideology.GetTexture]"
+		}
+
+		blockoverride "name" {
+			text = "[Ideology.GetNameNoFormatting]"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_IDEOLOGY"
+		}
+	}
+	
+	type FancyTooltip_GameConceptType = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_GAME_CONCEPT_TYPE_NAME_TOOLTIP"
+		}
+
+		blockoverride "name" {
+			text = "[GameConceptType.GetTitle]"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_GAME_CONCEPT_TYPE"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[GameConceptType.GetTexture]"
+		}
+			
+		blockoverride "buttons" {
+			flowcontainer = {
+				margin_top = 10
+				parentanchor = hcenter
+				
+				button = {
+					using = default_button
+					size = { 460 60 }
+					text = "GUIDE_ME"
+					tooltip = "[GameConceptType.CanStartTutorialLessonDesc]"
+					visible = "[GameConceptType.HasTutorialLesson]"
+					enabled = "[GameConceptType.CanStartTutorialLesson]"
+					onclick = "[GameConceptType.StartTutorialLesson]"
+				}
+			}
+		}
+	}
+
+	type FancyTooltip_LawGroup = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_LAW_GROUP_NAME_TOOLTIP"
+		}
+
+		blockoverride "name" {
+			text = "[LawGroup.GetNameNoFormatting]"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_LAW_GROUP"
+		}
+
+		blockoverride "go_to_button_visibility" {
+			visible = yes
+		}
+
+		blockoverride "go_to_button_properties" {
+			datacontext = "[LawGroup.GetCurrentlyActive]"
+			onclick = "[InformationPanelBar.OpenChangeLaw(Law.AccessSelf)]"
+		}
+	}
+
+	type FancyTooltip_Goods = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_GOODS_NAME_TOOLTIP"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[Goods.GetTexture]"
+		}
+
+		blockoverride "name" {
+			text = "[Goods.GetNameNoFormatting]"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_GOODS"
+		}
+
+		blockoverride "color" {
+			color = "[Goods.GetCategoryColor]"
+		}
+
+		blockoverride "go_to_button" {
+			button_icon_goto = {
+				visible = "[Or(Goods.HasStateContext,Goods.IsLocal)]"
+				size = { 30 30 }
+				input_action = "go_to_details"
+				using = tooltip_above
+				tooltip = "GO_TO_DETAILS"
+				onclick = "[InformationPanelBar.OpenGoodsStatePanel(Goods.GetState, Goods.Self)]"
+			}
+
+			button_icon_goto = {
+				visible = "[And(Goods.HasMarketContext, Not(Or(Goods.HasStateContext,Goods.IsLocal)))]"
+				size = { 30 30 }
+				input_action = "go_to_details"
+				using = tooltip_above
+				tooltip = "GO_TO_DETAILS"
+				onclick = "[InformationPanelBar.OpenGoodsPanel(Goods.GetMarket, Goods.Self)]"
+			}
+
+			button_icon_goto = {
+				visible = "[Not(Or(Goods.HasMarketContext,Goods.HasStateContext))]"
+				size = { 30 30 }
+				input_action = "go_to_details"
+				using = tooltip_above
+				tooltip = "GO_TO_DETAILS"
+				onclick = "[InformationPanelBar.OpenGoodsUsagePanel(Goods.Self)]"
+			}
+		}
+
+		blockoverride "tooltip_content_after" {
+			v3_plotline = {
+				visible = "[And(Goods.HasPriceTrend,Not(Goods.IsLocal))]"
+				using = default_list_position
+
+				blockoverride "size" {
+					size = { 260 100 }
+				}
+				blockoverride "header" {
+					text = "PRICE"
+				}
+				blockoverride "line_color" {
+					color = { .9 .9 .9 1.0 }
+				}
+				blockoverride "line_plotpoints" {
+					visible = "[Not(IsEmpty(Goods.GetPriceTrend))]"
+					plotpoints = "[GetTrendPlotPointsNormalized( Goods.GetPriceTrend, Goods.GetMinPrice, Goods.GetMaxPrice )]"
+				}
+				blockoverride "maxvalue" {
+					raw_text = "@money![Goods.GetMaxPrice]"
+				}
+				blockoverride "minvalue" {
+					raw_text = "@money![Goods.GetMinPrice]"
+				}
+				blockoverride "startdate" {
+					text = "[GetOldestDate(Goods.GetPriceTrend)]"
+				}
+				blockoverride "enddate" {
+					text = "[GetLatestDate(Goods.GetPriceTrend)]"
+				}
+				blockoverride "multiitem" {}
+				
+				blockoverride "extra_plotlines" {
+					### Base Price line
+					plotline = {
+						size = { 100% 100% }
+						using = plot_line
+						width = 1
+						color = { 0 0 0 0.5 }
+						plotpoints = "[Goods.GetBasePricePlotPoints]"
+					}
+				}
+				blockoverride "empty_state_visibility" {
+					visible = "[IsEmpty(Goods.GetPriceTrend)]"
+				}
+				blockoverride "empty_state_text" {
+					text = "GRAPH_NOT_INITIALIZED"
+				}
+			}
+		}
+	}
+
+	type FancyTooltip_Goods_Pop_Consumption = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_GOODS_POP_CONSUMPTION_NAME_TOOLTIP"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[PopConsumptionGoods.GetGoods.GetTexture]"
+		}
+
+		blockoverride "name" {
+			text = "POP_GOODS_CONSUMPTION_TOOLTIP_HEADER"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_GOODS"
+		}
+
+		blockoverride "color" {
+			color = "[PopConsumptionGoods.GetGoods.GetCategoryColor]"
+		}
+
+		blockoverride "go_to_button_visibility" {
+			visible = yes
+		}
+
+		blockoverride "go_to_button_properties" {
+			onclick = "[InformationPanelBar.OpenGoodsUsagePanel(PopConsumptionGoods.GetGoods.Self)]"
+		}
+
+		blockoverride "tooltip_content_after" {}
+	}
+
+	type FancyTooltip_PopType = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_POP_TYPE_NAME_TOOLTIP"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[PopType.GetTexture]"
+		}
+
+		blockoverride "name" {
+			text = "[PopType.GetNameNoIcon]"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_PROFESSION"
+		}
+
+		blockoverride "color" {
+			color = "[PopType.GetColor]"
+		}
+	}
+
+	type FancyTooltip_PopTypeBuilding = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_POP_TYPE_NAME_IN_BUILDING_TOOLTIP"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[PopType.GetTexture]"
+		}
+
+		blockoverride "name" {
+			text = "POP_TYPE_IN_BUILDING_HEADER"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_PROFESSION"
+		}
+
+		blockoverride "color" {
+			color = "[PopType.GetColor]"
+		}
+
+		blockoverride "icon_background_texture" {}
+
+		blockoverride "icon_frame" {}
+	}
+
+	type FancyTooltip_PopTypeState = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_POP_TYPE_NAME_IN_STATE_TOOLTIP"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[PopType.GetTexture]"
+		}
+
+		blockoverride "name" {
+			text = "POP_TYPE_IN_STATE_HEADER"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_PROFESSION"
+		}
+
+		blockoverride "color" {
+			color = "[PopType.GetColor]"
+		}
+	}
+
+	type FancyTooltip_PopTypeCulture = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_POP_TYPE_NAME_IN_CULTURE_TOOLTIP"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[PopType.GetTexture]"
+		}
+
+		blockoverride "name" {
+			text = "POP_TYPE_IN_CULTURE_HEADER"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_PROFESSION"
+		}
+
+		blockoverride "color" {
+			color = "[PopType.GetColor]"
+		}
+	}
+
+	type FancyTooltip_PopTypeReligion = FancyTooltipWidgetType {
+		
+		blockoverride "text" {
+			text = "DATA_POP_TYPE_NAME_IN_RELIGION_TOOLTIP"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[PopType.GetTexture]"
+		}
+
+		blockoverride "name" {
+			text = "POP_TYPE_IN_RELIGION_HEADER"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_PROFESSION"
+		}
+
+		blockoverride "color" {
+			color = "[PopType.GetColor]"
+		}
+	}
+
+	type FancyTooltip_PopTypeInterestGroup = FancyTooltipWidgetType {
+		
+		blockoverride "text" {
+			text = "DATA_POP_TYPE_NAME_IN_IG_TOOLTIP"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[PopType.GetTexture]"
+		}
+
+		blockoverride "name" {
+			text = "POP_TYPE_IN_IG_HEADER"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_PROFESSION"
+		}
+
+		blockoverride "color" {
+			color = "[PopType.GetColor]"
+		}
+	}
+
+	type FancyTooltip_Pop = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_POP_NAME_TOOLTIP"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[Pop.GetPopType.GetTexture]"
+		}
+
+		blockoverride "name" {
+			text = "[Pop.GetNameNoIcon]"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_POP"
+		}
+
+		blockoverride "color" {
+			color = "[Pop.GetPopType.GetColor]"
+		}
+
+		blockoverride "go_to_button_visibility" {
+			visible = yes
+		}
+
+		blockoverride "go_to_button_properties" {
+			onclick = "[InformationPanelBar.OpenPopDetailsPanel(Pop.AccessSelf)]"
+		}
+	}
+
+	type FancyTooltip_PopSupporters = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_POP_SUPPORTERS_NAME_TOOLTIP"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[Pop.GetPopType.GetTexture]"
+		}
+
+		blockoverride "name" {
+			text = "[Pop.GetName]"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_POP"
+		}
+
+		blockoverride "color" {
+			color = "[Pop.GetPopType.GetColor]"
+		}
+
+		blockoverride "go_to_button_visibility" {
+			visible = yes
+		}
+
+		blockoverride "go_to_button_properties" {
+			onclick = "[InformationPanelBar.OpenPopDetailsPanel(Pop.AccessSelf)]"
+		}
+	}
+
+	type FancyTooltip_Country = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_COUNTRY_NAME_TOOLTIP"
+		}
+
+		blockoverride "name" {
+			text = "DATA_COUNTRY_NAME"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_COUNTRY"
+		}
+
+		blockoverride "color" {
+			color = "[Country.GetMapColor]"
+		}
+
+		blockoverride "icon_background_texture" {}
+
+		blockoverride "icon_frame" {}
+
+		blockoverride "replace_icon" {
+			small_flag = {
+				visible = "[And(IsInGame, Country.IsValid)]"
+				parentanchor = center
+
+				blockoverride "flag_tooltip" {}
+			}
+			small_flag = {
+				# Disable clicking invalid flags
+				visible = "[And(IsInGame, Not(Country.IsValid))]"
+				parentanchor = center
+
+				blockoverride "flag_tooltip" {}
+				blockoverride "flag_click" {}
+			}
+			small_flag = {
+				visible = "[Not( IsInGame )]"
+				parentanchor = center
+
+				blockoverride "flag_tooltip" {}
+				blockoverride "flag_click" {}
+			}
+		}
+
+		blockoverride "go_to_button_visibility" {
+			visible = "[Country.IsValid]"
+		}
+
+		blockoverride "go_to_button_properties" {
+			onclick = "[InformationPanelBar.OpenCountryPanel(Country.Self)]"
+		}
+	}
+
+	type FancyTooltip_Culture = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_CULTURE_NAME_TOOLTIP"
+		}
+
+		blockoverride "name" {
+			text = "[Culture.GetNameNoFormatting]"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_CULTURE"
+		}
+
+		blockoverride "go_to_button_visibility" {
+			visible = yes
+		}
+
+		blockoverride "go_to_button_properties" {
+			onclick = "[InformationPanelBar.OpenCultureInfoPanel(Culture.AccessSelf)]"
+		}
+	}
+
+	type FancyTooltip_Religion = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_RELIGION_NAME_TOOLTIP"
+		}
+
+		blockoverride "name" {
+			text = "[Religion.GetNameNoFormatting]"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_RELIGION"
+		}
+
+		blockoverride "go_to_button_visibility" {
+			visible = yes
+		}
+
+		blockoverride "go_to_button_properties" {
+			onclick = "[InformationPanelBar.OpenReligionInfoPanel(Religion.AccessSelf)]"
+		}
+	}
+
+	type FancyTooltip_DiscriminationTrait = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_DISCRIMINATION_TRAIT_NAME_TOOLTIP"
+		}
+
+		blockoverride "name" {
+			text = "[DiscriminationTrait.GetName]"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_CULTURAL_TRAIT"
+		}
+	}
+	
+	type FancyTooltip_Front = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_FRONT_NAME_TOOLTIP"
+		}
+
+		blockoverride "name" {
+			text = "[Front.GetNameNoFormatting]"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_FRONT"
+		}
+
+		blockoverride "go_to_button_visibility" {
+			visible = yes
+		}
+
+		blockoverride "go_to_button_tooltip" {
+			tooltip = "BUTTON_DETAILS_FRONT"
+		}
+
+		blockoverride "go_to_button_properties" {
+			onclick = "[InformationPanelBar.OpenFrontPanel(Front.AccessSelf)]"
+		}
+	}
+
+	type FancyTooltip_State = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_STATE_NAME_TOOLTIP"
+		}
+
+		blockoverride "name" {
+			text = "[State.GetNameNoFormatting]"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_STATE"
+		}
+
+		blockoverride "color" {
+			color = "[State.GetOwner.GetMapColor]"
+		}
+
+		blockoverride "replace_icon" {
+			small_flag = {
+				parentanchor = center
+				datacontext = "[State.GetOwner]"
+			}
+		}
+
+		blockoverride "icon_background_texture" {}
+
+		blockoverride "icon_frame" {}
+
+		blockoverride "go_to_button_visibility" {
+			visible = yes
+		}
+
+		blockoverride "go_to_button_properties" {
+			onclick = "[InformationPanelBar.OpenStatePanel(State.AccessSelf)]"
+		}
+	}
+
+	type FancyTooltip_StateRegion = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_STATE_REGION_NAME_TOOLTIP"
+		}
+
+		blockoverride "name" {
+			text = "[StateRegion.GetNameNoFormatting]"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_STATE_REGION"
+		}
+	}
+
+	type FancyTooltip_Building = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_BUILDING_NAME_TOOLTIP"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[Building.GetTexture]"
+		}
+
+		blockoverride "name" {
+			text = "TOOLTIP_BUILDING_HEADER"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_BUILDING"
+		}
+
+		blockoverride "go_to_button_visibility" {
+			visible = "[Building.IsValid]"
+		}
+
+		blockoverride "go_to_button_properties" {
+			onclick = "[InformationPanelBar.OpenBuildingDetailsPanel(Building.AccessSelf)]"
+		}
+
+		blockoverride "icon_background_texture" {}
+
+		blockoverride "icon_frame" {}
+	}
+
+	type FancyTooltip_BuildingType = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_BUILDING_TYPE_NAME_TOOLTIP"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[BuildingType.GetTexture]"
+		}
+
+		blockoverride "name" {
+			text = "[BuildingType.GetNameNoFormatting]"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_BUILDING_TYPE"
+		}
+
+		blockoverride "icon_background_texture" {}
+
+		blockoverride "icon_frame" {}
+	}
+
+	type FancyTooltip_Character = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_CHARACTER_NAME_TOOLTIP"
+		}
+
+		blockoverride "name" {
+			text = "CHARACTER_TOOLTIP_HEADER_NAME"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_CHARACTER"
+		}
+
+		blockoverride "replace_icon" {
+			character_portrait_small2 = {
+				blockoverride "tooltip" {}
+				blockoverride "portrait_frame" {}
+				blockoverride "rank_icon" {
+					rank_icon = {
+						visible = "[Character.IsCommander]"
+						parentanchor = bottom|right
+						blockoverride "icon_size" {
+							size = { 26 26 }
+						}
+					}
+				}
+				parentanchor = center
+			}
+		}
+
+		blockoverride "go_to_button_visibility" {
+			visible = yes
+		}
+
+		blockoverride "go_to_button_tooltip" {
+			tooltip = "GO_TO_BUTTON_CHARACTER"
+		}
+
+		blockoverride "go_to_button_properties" {
+			onclick = "[InformationPanelBar.OpenCommanderPanel(Character.AccessSelf)]"
+		}
+		
+		blockoverride "go_to_button_properties" {
+			onclick = "[InformationPanelBar.OpenCommanderPanel(Character.AccessSelf)]"
+		}
+		
+		blockoverride "tooltip_content_after" {
+			DefaultTooltipTextBox = {
+				visible = "[InDebugMode]"
+				text = "[Character.GetDebugDesc]"
+				margin_bottom = 0
+				autoresize = yes
+				multiline = yes
+				maximumsize = { 550 -1 }
+				fonttintcolor = "[TooltipInfo.GetTintColor]"
+			}
+		}
+	}
+
+	type FancyTooltip_CharacterTrait = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_CHARACTER_TRAIT_NAME_TOOLTIP"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[CharacterTrait.GetTexture]"
+		}
+
+		blockoverride "icon_size" {
+			size = { 30 42 }
+		}
+		
+		blockoverride "name" {
+			text = "[CharacterTrait.GetNameNoFormatting]"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_CHARACTER_TRAIT"
+		}
+
+		blockoverride "tooltip_content_after" {
+
+			widget = {
+				visible = "[Not(IsDataModelEmpty(CharacterTrait.AccessUnlockedOrders))]"
+				size = { 15 15 }
+			}
+
+			DefaultTooltipTextBox = {
+				visible = "[Not(IsDataModelEmpty(CharacterTrait.AccessUnlockedOrders))]"
+				text = "TRAIT_UNLOCKABLE_ORDERS_TITLE"
+				margin_bottom = 5
+				autoresize = yes
+				multiline = yes
+				maximumsize = { 550 -1 }
+				fonttintcolor = "[TooltipInfo.GetTintColor]"
+			}
+
+			dynamicgridbox = {
+				visible = "[Not(IsDataModelEmpty(CharacterTrait.AccessUnlockedOrders))]"
+				datamodel = "[CharacterTrait.AccessUnlockedOrders]"
+
+				item = {
+					flowcontainer = {
+						spacing = 5
+						tooltipwidget = {
+							FancyTooltip_CommanderOrderType = {
+								blockoverride "text_before" {
+									visible = "[Or(Or(ObjectsEqual(Character.GetOrderType.Self, CommanderOrderType.Self), ObjectsEqual(Character.GetNextOrderType.Self, CommanderOrderType.Self)), Not(StringIsEmpty(GetDesc( Character.SelectOrder( CommanderOrderType.Self )))))]"
+									text =  "NEXT_OR_CURRENT_ORDER"
+									margin_bottom = 15
+								}
+							}
+						}
+
+						icon = {
+							parentanchor = vcenter
+							size = { 40 40 }
+							texture = "[CommanderOrderType.GetTexture]"
+						}
+
+						DefaultTooltipTextBox = {
+							parentanchor = vcenter
+							text = "[CommanderOrderType.GetName]"
+							align = nobaseline
+							autoresize = yes
+							multiline = yes
+							maximumsize = { 500 -1 }
+							fonttintcolor = "[TooltipInfo.GetTintColor]"
+							default_format = "#tooltippable_name"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	type FancyTooltip_CommanderRank = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_CHARACTER_RANK_NAME_FORMAT_TOOLTIP"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[CommanderRank.GetTexture]"
+		}
+		
+		blockoverride "name" {
+			text = "[Character.GetRankTitleFor(CommanderRank.Self)]"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_COMMANDER_RANK"
+		}
+	}
+
+	type FancyTooltip_ProductionMethod = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_PRODUCTION_METHOD_NAME_TOOLTIP"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[ProductionMethod.GetTexture]"
+		}
+		
+		blockoverride "name" {
+			text = "[ProductionMethod.GetNameNoFormatting]"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_PRODUCTION_METHOD"
+		}
+	}
+
+	type FancyTooltip_Technology = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_TECHNOLOGY_NAME_TOOLTIP"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[Technology.GetTexture]"
+			
+			widget = {
+				size = { 34 34 }
+				position = { -6 30 }
+			
+				icon = {
+					size = { 60% 60% }
+					texture = "gfx/interface/backgrounds/round_button_bg.dds"
+				}
+				
+				textbox = {
+					text = "TECHNOLOGY_TYPE_DESCRIPTION"
+					align = center|nobaseline
+					position = { -7 -7 }
+					using = fontsize_small
+					size = { 20% 20% }
+					parentanchor = center
+				}
+			}
+			
+		}
+		
+		blockoverride "name" {
+			text = "[Technology.GetNameNoFormatting]"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_TECHNOLOGY"
+		}
+
+		blockoverride "go_to_button_visibility" {
+			visible = yes
+		}
+
+		blockoverride "go_to_button_properties" {
+			onclick = "[InformationPanelBar.OpenPanelCycleTabs('tech_tree', 'production|military|society')]"
+		}
+
+		blockoverride "buttons" {
+			flowcontainer = {
+				margin_top = 14
+				using = default_list_position
+
+				button = {
+					using = default_button
+					text = "START_RESEARCHING"
+					size = { 300 40 }
+					enabled = "[IsValid(Technology.Research(GetPlayer.Self))]"
+					tooltip = "START_RESEARCH_COMMANDS"
+
+					click_modifiers = {
+						ondefault = "[Execute(Technology.ResearchWithUnlocks(GetPlayer.Self))]"
+						onshift = "[Execute(Technology.AddToQueueWithUnlocks(GetPlayer.Self))]"
+					}
+				}
+			}
+		}
+	}
+
+	type FancyTooltip_Technology_Tech_Tree = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_TECHNOLOGY_TECH_TREE_TOOLTIP"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[Technology.GetTexture]"
+			
+			widget = {
+				size = { 34 34 }
+				position = { -6 30 }
+			
+				icon = {
+					size = { 60% 60% }
+					texture = "gfx/interface/backgrounds/round_button_bg.dds"
+				}
+				
+				textbox = {
+					text = "TECHNOLOGY_TYPE_DESCRIPTION"
+					align = center|nobaseline
+					position = { -7 -7 }
+					using = fontsize_small
+					size = { 20% 20% }
+					parentanchor = center
+				}
+			}
+			
+		}
+		
+		blockoverride "name" {
+			text = "[Technology.GetNameNoFormatting]"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_TECHNOLOGY"
+		}
+	}
+
+	type FancyTooltip_InterestGroupTrait = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_INTEREST_GROUP_TRAIT_NAME_TOOLTIP"
+		}
+
+		blockoverride "icon_texture" {
+			enabled = "[InterestGroupTrait.IsEnabled(InterestGroup.Self)]"
+			texture = "[InterestGroupTrait.GetTexture]"
+		}
+
+		blockoverride "icon_size" {
+			size = { 33 45 }
+		}
+		
+		blockoverride "name" {
+			text = "[InterestGroupTrait.GetNameNoFormatting] [InterestGroupTrait.GetInactiveString(InterestGroup.Self)]"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_INTEREST_GROUP_TRAIT"
+		}
+	}
+
+	type FancyTooltip_PoliticalMovement = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_POLITICAL_MOVEMENT_NAME_TOOLTIP"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[PoliticalMovement.GetTexture]"
+		}
+		
+		blockoverride "name" {
+			text = "POLITICAL_MOVEMENT_TOOLTIP_HEADER"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_POLITICAL_MOVEMENT"
+		}
+
+		blockoverride "go_to_button_visibility" {
+			visible = yes
+		}
+
+		blockoverride "go_to_button_properties" {
+			onclick = "[InformationPanelBar.OpenPoliticalMovementPanel(PoliticalMovement.AccessSelf)]"
+		}
+
+		blockoverride "tooltip_content_after" {
+
+			DefaultTooltipTextBox = {
+				text = "POLITICAL_MOVEMENT_SUPPORTING_INTEREST_GROUPS_HEADER"
+				margin_bottom = 0
+				autoresize = yes
+				multiline = yes
+				maximumsize = { 550 -1 }
+				fonttintcolor = "[TooltipInfo.GetTintColor]"
+			}
+
+			dynamicgridbox = {
+				visible = "[Not(IsDataModelEmpty(PoliticalMovement.GetSupportingInterestGroups))]"
+				datamodel = "[PoliticalMovement.GetSupportingInterestGroups]"
+
+				item = {
+					flowcontainer = {
+						spacing = 5
+
+						ig_button = {
+
+							blockoverride = "button_size" {
+								size = { 40 40 }
+							}
+
+							blockoverride "onclick" {
+								onclick = "[InformationPanelBar.OpenInterestGroupPanel(InterestGroup.AccessSelf)]"
+							}
+						}
+
+						DefaultTooltipTextBox = {
+							parentanchor = vcenter
+							text = "INTEREST_GROUP_NAME_WITH_CLOUT_VALUE"
+							align = nobaseline
+							autoresize = yes
+							multiline = yes
+							maximumsize = { 500 -1 }
+							fonttintcolor = "[TooltipInfo.GetTintColor]"
+						}
+
+						button_icon_goto = {
+							parentanchor = vcenter
+							size = { 30 30 }
+
+							blockoverride "icon_size" {
+								size = { 100% 100% }
+							}
+
+ 							onclick = "[InformationPanelBar.OpenInterestGroupPanel(InterestGroup.AccessSelf)]"
+							tooltip = "GO_TO_BUTTON_INTEREST_GROUP"
+ 						}
+					}
+				}
+			}
+
+			DefaultTooltipTextBox = {
+				text = "POLITICAL_MOVEMENT_SUPPORTING_AGITATORS_HEADER"
+				margin_bottom = 0
+				autoresize = yes
+				multiline = yes
+				maximumsize = { 550 -1 }
+				fonttintcolor = "[TooltipInfo.GetTintColor]"
+			}
+
+			dynamicgridbox = {
+				visible = "[Not(IsDataModelEmpty(PoliticalMovement.GetSupportingCharacters))]"
+				datamodel = "[PoliticalMovement.GetSupportingCharacters]"
+
+				item = {
+					flowcontainer = {
+						spacing = 5
+
+						character_portrait_small = {
+							blockoverride "portrait_button_onrightclick" {}
+
+							character_ig_icon = {
+								parentanchor = bottom|right
+								size = { 15 15 }
+
+								blockoverride "tooltip" {
+									tooltipwidget = {
+										FancyTooltip_IG = {
+											datacontext = "[Character.AccessInterestGroup]"
+										}
+									}
+								}
+							}
+						}
+
+						DefaultTooltipTextBox = {
+							parentanchor = vcenter
+							text = "CHARACTER_NAME_WITH_POPULARITY"
+							align = nobaseline
+							autoresize = yes
+							multiline = yes
+							maximumsize = { 500 -1 }
+							fonttintcolor = "[TooltipInfo.GetTintColor]"
+						}
+
+						button_icon_goto = {
+							parentanchor = vcenter
+							size = { 30 30 }
+
+							blockoverride "icon_size" {
+								size = { 100% 100% }
+							}
+
+ 							onclick = "[InformationPanelBar.OpenCommanderPanel(Character.AccessSelf)]"
+							tooltip = "GO_TO_BUTTON_CHARACTER"
+ 						}
+					}
+				}
+			}
+
+			DefaultTooltipTextBox = {
+				visible = "[PoliticalMovement.IsRevolutionary]"
+				text = "DATA_POLITICAL_MOVEMENT_STATES_SECEDED"
+				margin_bottom = 0
+				autoresize = yes
+				multiline = yes
+				maximumsize = { 550 -1 }
+				fonttintcolor = "[TooltipInfo.GetTintColor]"
+			}
+		}
+	}
+
+	type FancyTooltip_StrategicRegion = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_STRATEGIC_REGION_NAME_TOOLTIP"
+		}
+		
+		blockoverride "name" {
+			text = "[StrategicRegion.GetName]"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_STRATEGIC_REGION"
+		}
+
+		blockoverride "tooltip_content_after" {
+			overlappingitembox = {
+					size = { 540 25 }
+					datamodel = "[StrategicRegion.GetInterests]"
+
+					item = {
+						container = {
+							tooltip = "INTEREST_MARKER_TOOLTIP"
+							using = tooltip_above
+
+							widget = {
+								size = { 35 33 }
+
+								tiny_flag = {
+									position = { 0 -2 }
+									visible = "[Not(Interest.IsActive)]"
+									datacontext = "[Interest.GetOwner]"
+									blockoverride "tooltip" {}
+									parentanchor = center
+									alpha = 0.3
+								}
+								tiny_flag = {
+									position = { 0 -2 }
+									visible = "[Interest.IsActive]"
+									datacontext = "[Interest.GetOwner]"
+									blockoverride "tooltip" {}
+									parentanchor = center
+								}
+
+								widget = {
+									size = { 25 4 }
+									position = { 0 12 }
+									visible = "[Interest.ShouldShowProgressBar]"
+									parentanchor = center
+
+									bad_progressbar_horizontal = {
+										visible = "[Interest.IsActive]"
+										size = { 100% 100% }
+										blockoverride "values" {
+											min = 0
+											max = 1
+											value = "[Interest.GetProgress]"
+										}
+									}
+
+									default_progressbar_horizontal = {
+										visible = "[Not(Interest.IsActive)]"
+										size = { 100% 100% }
+										blockoverride "values" {
+											min = 0
+											max = 1
+											value = "[Interest.GetProgress]"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+		}
+	}
+
+	type FancyTooltip_CanalType = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_CANAL_TYPE_NAME_FORMAT_TOOLTIP"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[CanalType.GetTexture]"
+		}
+		
+		blockoverride "name" {
+			text = "[CanalType.GetName]"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_CANAL_TYPE"
+		}
+	}
+
+	type FancyTooltip_Company = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_COMPANY_NAME_FORMAT_TOOLTIP"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[Company.GetCompanyType.GetIcon]"
+		}
+		
+		blockoverride "name" {
+			text = "[Company.GetName]"
+		}
+
+		blockoverride "type" {
+			text = "[concept_company]"
+		}
+	}
+
+	type FancyTooltip_CompanyType = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_COMPANY_TYPE_NAME_FORMAT_TOOLTIP"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[CompanyType.GetIcon]"
+		}
+		
+		blockoverride "name" {
+			text = "[CompanyType.GetName]"
+		}
+
+		blockoverride "type" {
+			text = "[concept_company]"
+		}
+	}
+
+	type FancyTooltip_War = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_WAR_NAME_TOOLTIP"
+		}
+
+		blockoverride "replace_icon" {
+			icon = {
+				texture = "[War.GetDiplomaticPlay.GetDiplomaticPlayType.GetWarGoalType.GetTexture]"
+				size = { 45 45 }
+				parentanchor = center
+			}
+		}
+
+		blockoverride "name" {
+			text = "[War.GetNameNoFormatting]"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_WAR"
+		}
+
+		blockoverride "go_to_button_visibility" {
+			visible = yes
+		}
+
+		blockoverride "go_to_button_properties" {
+			onclick = "[WarManager.ToggleWarPanel(War.AccessSelf)]"
+		}
+	}
+
+	type FancyTooltip_ObjectiveType = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_OBJECTIVE_TYPE_TOOLTIP"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[ObjectiveType.GetIcon]"
+		}
+		
+		blockoverride "name" {
+			text = "[ObjectiveType.GetNameNoFormatting]"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_OBJECTIVE_TYPE"
+		}
+	}
+
+	type FancyTooltip_Objective = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_OBJECTIVE_TOOLTIP"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[Objective.GetIcon]"
+		}
+		
+		blockoverride "name" {
+			text = "[Objective.GetNameNoFormatting]"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_OBJECTIVE"
+		}
+	}
+
+	type FancyTooltip_LegitimacyLevel = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_LEGITIMACY_LEVEL_TOOLTIP"
+		}
+
+		blockoverride "name" {
+			text = "[LegitimacyLevel.GetNameNoFormatting]"
+		}
+
+		blockoverride "type" {
+			text = "TOOLTIP_TYPE_LEGITIMACY_LEVEL"
+		}
+	}
+
+	type FancyTooltip_BattleCondition = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "BATTLE_CONDITION_TOOLTIP"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[BattleCondition.GetTexture]"
+		}
+
+		blockoverride "name" {
+			text = "[BattleCondition.GetNameNoFormatting]"
+		}
+
+		blockoverride "type" {
+			text = "[concept_battle_condition]"
+		}
+	}
+
+	type FancyTooltip_JournalEntry = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "JOURNAL_ENTRY_TOOLTIP"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[JournalEntry.GetIcon]"
+		}
+
+		blockoverride "name" {
+			text = "[JournalEntry.GetName]"
+		}
+
+		blockoverride "type" {
+			text = "JOURNAL_ENTRY_WITH_GROUP"
+		}
+	}
+	
+	type FancyTooltip_MobilizationOption = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "[MobilizationOption.GetTooltip]"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[MobilizationOption.GetTexture]"
+		}
+
+		blockoverride "name" {
+			text = "[MobilizationOption.GetNameNoFormatting]"
+		}
+
+		blockoverride "type" {
+			text = "[concept_mobilization_option]"
+		}
+	}
+
+	type FancyTooltip_MobilizationOptionGroup = FancyTooltipWidgetType {
+        blockoverride "text" {
+            text = "[MobilizationOptionGroup.GetTooltip]"
+        }
+
+        blockoverride "icon_texture" {
+            texture = "[MobilizationOptionGroup.GetIcon]"
+        }
+
+        blockoverride "name" {
+            text = "[MobilizationOptionGroup.GetNameNoFormatting]"
+        }
+
+        blockoverride "type" {
+            text = "[concept_mobilization_option]"
+        }
+    }
+
+	type FancyTooltip_MilitaryFormation = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_MILITARY_FORMATION"
+		}
+
+		blockoverride "icon_texture" {
+			texture = "[MilitaryFormation.GetFlag]"
+			color = "[MilitaryFormation.GetFlagColor]"
+		}
+
+		blockoverride "name" {
+			text = "[MilitaryFormation.GetNameNoFormatting]"
+		}
+
+		blockoverride "type" {
+			text = "DATA_MILITARY_FORMATION_TYPE"
+		}
+
+		blockoverride "go_to_button_visibility" {
+			visible = yes
+		}
+
+		blockoverride "go_to_button_tooltip" {
+			tooltip = "GO_TO_BUTTON_MILITARY_FORMATION"
+		}
+
+		blockoverride "go_to_button_properties" {
+			onclick = "[InformationPanelBar.OpenMilitaryFormationPanel(MilitaryFormation.AccessSelf)]"
+		}
+
+		blockoverride "tooltip_content_after" {
+
+			widget = {
+				size = { 15 15 }
+			}
+
+			DefaultTooltipTextBox = {
+				visible = "[IsDataModelEmpty(MilitaryFormation.GetCommanders)]"
+				text = "NO_COMMANDERS_IN_MILITARY_FORMATION"
+				align = nobaseline
+				autoresize = yes
+				multiline = yes
+				maximumsize = { 500 -1 }
+				fonttintcolor = "[TooltipInfo.GetTintColor]"
+			}
+
+			DefaultTooltipTextBox = {
+				visible = "[Not(IsDataModelEmpty(MilitaryFormation.GetCommanders))]"
+				text = "MILITARY_FORMATION_COMMANDERS_TOOLTIP_TITLE"
+				margin_bottom = 5
+				autoresize = yes
+				multiline = yes
+				maximumsize = { 550 -1 }
+				fonttintcolor = "[TooltipInfo.GetTintColor]"
+			}
+
+			dynamicgridbox = {
+				visible = "[Not(IsDataModelEmpty(MilitaryFormation.GetCommanders))]"
+				datamodel = "[MilitaryFormation.GetCommanders]"
+
+				item = {
+					flowcontainer = {
+						spacing = 5
+
+						icon = {
+							datacontext = "[Character.GetOrderType]"
+							parentanchor = vcenter
+							size = { 40 40 }
+							texture = "[CommanderOrderType.GetTexture]"
+							tooltipwidget = {
+								FancyTooltip_CommanderOrderType = {
+									blockoverride "text_before" {
+										visible = "[Or(Or(ObjectsEqual(Character.GetOrderType.Self, CommanderOrderType.Self), ObjectsEqual(Character.GetNextOrderType.Self, CommanderOrderType.Self)), Not(StringIsEmpty(GetDesc( Character.SelectOrder( CommanderOrderType.Self )))))]"
+										text =  "NEXT_OR_CURRENT_ORDER"
+										margin_bottom = 15
+									}
+								}
+							}
+						}
+
+						icon = {
+							visible = "[Character.GetNextOrderType.IsValid]"
+							parentanchor = vcenter
+							size = { 25 25 }
+							texture = "gfx/interface/icons/generic_icons/turns_into.dds"
+						}
+
+						icon = {
+							visible = "[Character.GetNextOrderType.IsValid]"
+							datacontext = "[Character.GetNextOrderType]"
+							parentanchor = vcenter
+							size = { 40 40 }
+							texture = "[CommanderOrderType.GetTexture]"
+							tooltipwidget = {
+								FancyTooltip_CommanderOrderType = {
+									blockoverride "text_before" {
+										visible = "[Or(Or(ObjectsEqual(Character.GetOrderType.Self, CommanderOrderType.Self), ObjectsEqual(Character.GetNextOrderType.Self, CommanderOrderType.Self)), Not(StringIsEmpty(GetDesc( Character.SelectOrder( CommanderOrderType.Self )))))]"
+										text =  "NEXT_OR_CURRENT_ORDER"
+										margin_bottom = 15
+									}
+								}
+							}
+						}
+
+						character_portrait_small = {
+							blockoverride "portrait_button_onrightclick" {}
+
+							blockoverride "commander_order_icon" {}
+						}
+
+						DefaultTooltipTextBox = {
+							parentanchor = vcenter
+							text = "[Character.GetFullName]"
+							align = nobaseline
+							autoresize = yes
+							multiline = yes
+							maximumsize = { 500 -1 }
+							fonttintcolor = "[TooltipInfo.GetTintColor]"
+						}
+
+						button_icon_goto = {
+							parentanchor = vcenter
+							size = { 30 30 }
+
+							blockoverride "icon_size" {
+								size = { 100% 100% }
+							}
+
+ 							onclick = "[InformationPanelBar.OpenCommanderPanel(Character.AccessSelf)]"
+							tooltip = "GO_TO_BUTTON_CHARACTER"
+ 						}
+					}
+				}
+			}
+
+			widget = {
+				size = { 15 15 }
+			}
+
+			military_formation_mobilize_button = {
+				parentanchor = hcenter
+				visible = "[MilitaryFormation.IsArmy]"
+
+				blockoverride "size" {
+					size = { 350 50 }
+				}
+
+				blockoverride "button_size" {
+					size = { 335 75% }
+				}
+
+				blockoverride "fontsize" {}
+
+				blockoverride "mobilization_icon_size" {
+					size = { 50 50 }
+				}
+			}
+		}
+	}
+
+	type FancyTooltip_CombatUnitType = FancyTooltipWidgetType {
+        blockoverride "text" {
+            text = "DATA_COMBAT_UNIT_TYPE_NAME_TOOLTIP"
+        }
+
+		blockoverride "icon_texture" {
+			modify_texture = {
+				using = simple_frame_mask
+			}
+
+			icon = {
+				using = simple_frame
+				size = { 102% 102% }
+				position = { -1% -1% }
+			}
+			
+			datacontext = "[CombatUnitType.GetGroup]"
+			texture = "[CombatUnitType.GetTextureForCulture( MilitaryFormation.GetPrimaryCultureForGroup( CombatUnitGroup.Self ).Self )]"
+		}
+
+		blockoverride "icon_size" {
+			size = { 48 48 }
+		}
+
+        blockoverride "name" {
+            text = "[CombatUnitType.GetNameNoFormatting]"
+        }
+
+        blockoverride "type" {
+            text = "[concept_combat_unit_type]"
+        }
+
+        blockoverride "icon_frame" {}
+    }
+
+	type FancyTooltip_CommanderOrderType = FancyTooltipWidgetType {
+		blockoverride "text" {
+			text = "DATA_COMMANDER_ORDER_TYPE_NAME_TOOLTIP"
+		}
+		
+		blockoverride "icon_texture" {
+            texture = "[CommanderOrderType.GetTexture]"
+        }
+
+        blockoverride "name" {
+            text = "[CommanderOrderType.GetNameNoFormatting]"
+        }
+
+        blockoverride "type" {
+            text = "[concept_order]"
+        }
+	}
+}
