@@ -3859,8 +3859,13 @@ home_country = {
                     OR = {
                         AND = {
                             is_ruler = yes
-                            exists = home_country
-                            home_country = {
+                            home_country ?= {
+                                has_law = law_type:law_monarchy
+                            }
+                        }
+                        AND = {
+                            is_heir = yes
+                            home_country ?= {
                                 has_law = law_type:law_monarchy
                             }
                         }
@@ -3870,6 +3875,59 @@ home_country = {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    danish_clothes = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = coats
+                template = danish_coats
+                range = { 0.5 1 } # For the randomness to work correctly
+            }
+
+            accessory = {
+                mode = add
+                gene = legwear
+                template = european_legwear_colors
+                range = { 0.4 0.4 } # For the randomness to work correctly
+            }
+        }
+
+        weight = {
+            base = 0
+            modifier = {
+                add = 5000
+                #german_clothes_trigger = yes
+                exists = scope:character
+                scope:character = {
+					exists = home_country
+					OR = {
+                        AND = {
+                            exists = home_country
+                            home_country = {
+                                exists = c:DEN
+                                c:DEN = this
+                            }
+                        }
+                        AND = {
+                            exists = home_country
+                            home_country = {
+                                exists = c:SCH
+                                c:NGF = this
+                            }
+                        }
+					}
+                    scope:character ?= {
+                        age > 10
+                    }
+                }
+				OR = {
+					military_clothes_trigger = yes
+					monarchy_clothes_trigger = yes
+				}
             }
         }
     }
