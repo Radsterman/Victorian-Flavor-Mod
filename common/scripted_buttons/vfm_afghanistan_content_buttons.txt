@@ -1,0 +1,146 @@
+﻿je_submit_to_iran_button = {
+	name = je_submit_to_iran_button
+	desc = je_submit_to_iran_button_desc
+
+	visible = { 
+		always = yes
+	}
+
+	possible = {
+		custom_tooltip = {
+			text = herat_rebellious_vassal_tt
+			has_variable = herat_rebellious_vassal_var
+		}
+	}
+
+	effect = {
+		custom_tooltip = {
+			text = herat_rebellious_vassal_remove_tt
+			remove_variable = herat_rebellious_vassal_var
+		}
+	}
+
+	ai_chance = {
+		base = 0
+	}
+}
+
+je_decrease_siege_button = {
+	name = je_decrease_siege_button
+	desc = je_decrease_siege_button_desc
+
+	visible = { 
+		always = yes
+	}
+
+	possible = {
+		scope:journal_entry = {
+			not = {
+				custom_tooltip = {
+					text = progress_siege_cooldown_large_tt
+					has_variable = progress_siege_cooldown_var
+				}
+			}
+		}
+		custom_tooltip = {
+			text = herat_siege_progress_at_30_tt
+			var:durrani_herat_siege_progress_var >= 30
+		}
+	}
+
+	effect = {
+		custom_tooltip = {
+			text = decrease_siege_herat_10
+			change_variable = { name = durrani_herat_siege_progress_var add = -10 }
+		}
+		scope:journal_entry = {
+			custom_tooltip = cooldown_90_days_tt
+			set_variable = { name = progress_siege_cooldown_var days = 90 }
+			c:PER = { trigger_event = { id = journal_flavor_iran.7 } }
+		}
+	}
+
+	ai_chance = {
+		base = 10
+	}
+}
+
+je_decrease_siege_button_two = {
+	name = je_decrease_siege_button_two
+	desc = je_decrease_siege_button_two_desc
+
+	visible = { 
+		always = yes
+	}
+
+	possible = {
+		scope:journal_entry = {
+			not = {
+				custom_tooltip = {
+					text = progress_siege_cooldown_large_tt
+					has_variable = progress_siege_cooldown_var
+				}
+			}
+		}
+		custom_tooltip = {
+			text = herat_siege_progress_at_60_tt
+			var:durrani_herat_siege_progress_var >= 60
+		}
+		custom_tooltip = {
+			text = herat_major_decrease_tt
+			NOT = { has_variable = herat_major_decrease }
+		}
+	}
+
+	effect = {
+		custom_tooltip = {
+			text = decrease_siege_herat_20
+			change_variable = { name = durrani_herat_siege_progress_var add = -20 }
+		}
+		scope:journal_entry = {
+			custom_tooltip = cooldown_90_days_tt
+			set_variable = { name = progress_siege_cooldown_var days = 90 }
+			set_variable = { name = herat_major_decrease days = 400 }
+			c:PER = { trigger_event = { id = journal_flavor_iran.8 } }
+		}
+	}
+
+	ai_chance = {
+		base = 10
+	}
+}
+
+je_decrease_siege_button_three = {
+	name = je_decrease_siege_button_three
+	desc = je_decrease_siege_button_three_desc
+
+	visible = { 
+		always = yes
+	}
+
+	possible = {
+		OR = {
+			custom_tooltip = {
+				text = herat_siege_progress_at_80_tt
+				var:durrani_herat_siege_progress_var >= 80
+			}
+			custom_tooltip = {
+				text = herat_requesting_british_aid_tt
+				has_variable = herat_requests_british_support_var
+			}
+		}
+	}
+
+	effect = {
+		c:GBR = { trigger_event = { id = journal_flavor_iran.9 days = 7 popup = yes } }
+		remove_variable = herat_requests_british_support_var
+		scope:journal_entry = {
+			custom_tooltip = cooldown_90_days_tt
+			set_variable = { name = progress_siege_cooldown_var days = 90 }
+		}
+	}
+
+	ai_chance = {
+		base = 100
+	}
+}

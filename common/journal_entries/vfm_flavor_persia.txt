@@ -48,6 +48,8 @@
 		s:STATE_FARS = {
 			add_claim = c:PER
 		}
+		set_relations = { country = c:HER value = -80 }
+		c:HER = { set_relations = { country = c:PER value = -80 } }
 	}
 
 	can_deactivate = yes
@@ -145,6 +147,7 @@
 			journal_flavor_iran.12 #Luti Revolt
 			journal_flavor_iran.18 #Second Siege of Herat Trigger (First Siege is triggered via separate JE)
 			journal_flavor_iran.31 #Babism/Bahai Trigger
+			journal_flavor_iran.37 #Persian Gendarmerie
 		}
 	}
 	
@@ -177,6 +180,7 @@
 			text = trigger_event_fall_of_the_qajars_tt
 			remove_modifier = per_fragile_authority
 			remove_modifier = per_pompous_court
+			remove_modifier = per_lack_of_policing
 			remove_variable = qajar_dynasty
 			remove_variable = hasan_governor_var 
 			remove_variable = luti_revolt_var
@@ -190,6 +194,11 @@
 			}
 			add_modifier = {
 				name = per_royalist_resentment
+				days = 1000
+				is_decaying = yes
+			}
+			add_modifier = {
+				name = per_inexperienced_policing
 				days = 1000
 				is_decaying = yes
 			}
@@ -345,6 +354,11 @@ je_herat_situation = {
 			add_journal_entry = {
 				type = je_the_siege_of_herat
 			}
+			c:HER = {
+				add_journal_entry = {
+					type = je_durrani_the_siege_of_herat
+				}
+			}
 		}
 	}
 
@@ -382,17 +396,6 @@ je_the_siege_of_herat = {
 				max = 100
 				min = 0
 			}
-		}
-	}
-	
-	on_monthly_pulse = {
-		effect = {
-			
-		}
-		random_events = {
-			70 = 0
-			15 = journal_flavor_iran.7
-			10 = journal_flavor_iran.8
 		}
 	}
 	

@@ -161,9 +161,10 @@ journal_flavor_iran.4 = {
 		
 		custom_tooltip = request_british_support_herat_tt
 		
-		hidden_effect = {
-			c:GBR = { trigger_event = { id = journal_flavor_iran.9 days = 7 popup = yes } }
-			c:PER = { trigger_event = { id = journal_flavor_iran.6 days = 10 popup = yes } }
+		c:PER = { trigger_event = { id = journal_flavor_iran.6 days = 10 popup = yes } }
+		custom_tooltip = {
+			text = herat_decrease_siege_progress_20_tt
+			set_variable = herat_requests_british_support_var
 		}
 		
 		ai_chance = {
@@ -230,6 +231,7 @@ journal_flavor_iran.5 = {
 		custom_tooltip = {
 			text = decrease_siege_advance_20
 			change_variable = { name = herat_siege_progress_var add = -20 }
+			c:HER = { trigger_event = { id = journal_flavor_afghanistan.3 } }
 		}
 		
 		ai_chance = {
@@ -257,6 +259,11 @@ journal_flavor_iran.6 = {
 	icon = "gfx/interface/icons/event_icons/event_khorasan.dds"
 
 	duration = 3
+	
+	immediate = {
+		change_variable = { name = herat_siege_progress_var add = -20 }
+		c:HER = { trigger_event = { id = journal_flavor_afghanistan.3 } }
+	}
 
 	option = {
 		name = journal_flavor_iran.6.a
@@ -264,7 +271,6 @@ journal_flavor_iran.6 = {
 		
 		custom_tooltip = {
 			text = decrease_siege_advance_20
-			change_variable = { name = herat_siege_progress_var add = -20 }
 		}
 		
 		ai_chance = {
@@ -290,6 +296,7 @@ journal_flavor_iran.7 = {
 		c:HER = {
 			save_scope_as = her_scope
 		}
+		change_variable = { name = herat_siege_progress_var add = -10 }
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -305,7 +312,6 @@ journal_flavor_iran.7 = {
 		
 		custom_tooltip = {
 			text = decrease_siege_advance_10
-			change_variable = { name = herat_siege_progress_var add = -10 }
 		}
 		
 		ai_chance = {
@@ -331,6 +337,7 @@ journal_flavor_iran.8 = {
 		c:HER = {
 			save_scope_as = her_scope
 		}
+		change_variable = { name = herat_siege_progress_var add = -20 }
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -346,7 +353,6 @@ journal_flavor_iran.8 = {
 		
 		custom_tooltip = {
 			text = decrease_siege_advance_20
-			change_variable = { name = herat_siege_progress_var add = -20 }
 		}
 		
 		ai_chance = {
@@ -384,6 +390,7 @@ journal_flavor_iran.9 = {
 		
 		hidden_effect = {
 			c:PER = { trigger_event = { id = journal_flavor_iran.10 days = 7 popup = yes } }
+			c:HER = { trigger_event = { id = journal_flavor_afghanistan.5 popup = yes } } #British Send Aid Notif
 		}
 		
 		ai_chance = {
@@ -2117,6 +2124,156 @@ journal_flavor_iran.36 = {
 	}
 }
 
+#Persian Gendarmerie
+journal_flavor_iran.37 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_iran.37.t
+	desc = journal_flavor_iran.37.d
+	flavor = journal_flavor_iran.37.f
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_military_parade.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_iran_flag.dds"
+
+	duration = 3
+	
+	trigger = {
+		NOT = { has_law = law_type:law_no_police }
+		NOT = { has_law = law_type:law_local_police }
+		c:PER = { has_modifier = per_lack_of_policing }
+	}
+	
+	immediate = { 
+		remove_modifier = per_lack_of_policing
+	}
+	
+	option = { #Russian Police
+		name = journal_flavor_iran.37.a
+		
+		c:RUS = {
+			change_relations = {
+				country = ROOT
+				value = 15
+			}
+		}
+		c:GBR = {
+			change_relations = {
+				country = ROOT
+				value = -10
+			}
+		}
+		
+		add_modifier = { 
+			name = per_russian_policing
+			days = 1825
+		}
+		
+		ai_chance = {
+			base = 20
+		}
+	}
+	
+	option = { #British Police
+		name = journal_flavor_iran.37.b 
+		
+		c:RUS = {
+			change_relations = {
+				country = ROOT
+				value = -10
+			}
+		}
+		c:GBR = {
+			change_relations = {
+				country = ROOT
+				value = 15
+			}
+		}
+		
+		add_modifier = { 
+			name = per_british_policing
+			days = 1825
+		}
+		
+		ai_chance = {
+			base = 20
+		}
+	}
+	
+	option = { #Prussian Police
+		name = journal_flavor_iran.37.c
+		
+		c:RUS = {
+			change_relations = {
+				country = ROOT
+				value = -5
+			}
+		}
+		c:GBR = {
+			change_relations = {
+				country = ROOT
+				value = -5
+			}
+		}
+		c:PRU = {
+			change_relations = {
+				country = ROOT
+				value = 5
+			}
+		}
+		
+		add_modifier = { 
+			name = per_prussian_policing
+			days = 1825
+		}
+		
+		ai_chance = {
+			base = 20
+		}
+	}
+	
+	option = { #Swedish Police
+		name = journal_flavor_iran.37.e
+		default_option = yes 
+		
+		add_modifier = { 
+			name = per_swedish_policing
+			days = 1825
+		}
+		
+		c:SWE = {
+			change_relations = {
+				country = ROOT
+				value = 5
+			}
+		}
+		
+		ai_chance = {
+			base = 20
+		}
+	}
+	
+	option = { #Persian Police
+		name = journal_flavor_iran.37.g
+		
+		add_modifier = { 
+			name = per_inexperienced_policing
+			days = 1825
+			is_decaying = yes
+		}
+		
+		ai_chance = {
+			base = 20
+		}
+	}
+}
+
 
 ### Iran Major Flavour - Post-Journal-Completion ###
 
@@ -2138,7 +2295,7 @@ journal_flavor_iran.40 = {
 
 	icon = "gfx/interface/icons/event_icons/event_iran_flag.dds"
 
-	duration = 1
+	duration = 3
 	
 	immediate = { 
 		remove_variable = reign_of_mohammad_shah_qajar_var
@@ -2175,7 +2332,7 @@ journal_flavor_iran.50 = {
 
 	icon = "gfx/interface/icons/event_icons/event_iran_flag.dds"
 
-	duration = 1
+	duration = 3
 
 	option = { 
 		name = journal_flavor_iran.50.a

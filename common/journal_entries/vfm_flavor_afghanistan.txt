@@ -1,44 +1,177 @@
-﻿#je_durrani_situation = {
-#	icon = "gfx/interface/icons/event_icons/event_flags/event_afg_flag.dds"
-#   group = je_group_internal_affairs
-#	
-#	is_shown_when_inactive = {
-#		country_has_primary_culture = cu:tajik
-#	}
-#
-#	immediate = {
-#	
-#	}
-#	
-#	possible = {
-#	
-#	}
-#
-#	can_deactivate = yes
-#
-#	complete = {
-#	}
-#
-#	invalid = {
-#	
-#	}
-#	
-#	fail = {
-#
-#	}
-#	
-#	on_weekly_pulse = {
-#
-#	}
-#	
-#	on_complete = {
-#
-#	}
-#	
-#	on_fail = {
-#
-#	}
-#
-#   weight = 10000
-#	should_be_pinned_by_default = yes
-#}
+﻿je_durrani_situation = {
+	icon = "gfx/interface/icons/event_icons/event_flags/event_afg_flag.dds"
+    group = je_group_internal_affairs
+
+	scripted_button = je_submit_to_iran_button
+
+	immediate = {
+		c:HER = {
+			save_scope_as = her_scope
+		}
+		c:PER = {
+			save_scope_as = her_scope
+		}
+		c:GBR = {
+			save_scope_as = gbr_scope
+		}
+		set_relations = { country = c:PER value = -80 }
+		c:PER = { set_relations = { country = c:HER value = -80 } }
+	}
+	
+	possible = {
+	
+	}
+
+	can_deactivate = yes
+
+	complete = {
+		custom_tooltip = {
+			text = herat_independent_herat_tt
+			NOT = { has_variable = herat_rebellious_vassal_var }
+		}
+	}
+
+	invalid = {
+		exists = c:HER
+		NOT = {
+			c:HER = {
+				is_subject_of = c:PER
+			}
+		}
+	}
+	
+	fail = {
+
+	}
+	
+	on_weekly_pulse = {
+
+	}
+	
+	on_complete = {
+		c:PER = {
+            annex = ROOT
+        }
+	}
+	
+	on_invalid = {
+		remove_variable = herat_rebellious_vassal_var
+	}
+	
+	timeout = 696
+
+	on_timeout = {
+		custom_tooltip = {
+			text = herat_siege_herat_tt
+			remove_variable = herat_rebellious_vassal_var
+		}
+	}
+
+    weight = 10000
+	should_be_pinned_by_default = yes
+}
+
+je_durrani_the_siege_of_herat = {
+	icon = "gfx/interface/icons/event_icons/event_herat_map.dds"
+    group = je_group_crises
+
+	immediate = {
+		c:HER = {
+			save_scope_as = her_scope
+		}
+		c:PER = {
+			save_scope_as = per_scope
+		}
+		set_variable = {
+			name = durrani_herat_siege_progress_var
+			value = 0
+		}
+	}
+	
+	scripted_button = je_decrease_siege_button
+	scripted_button = je_decrease_siege_button_two
+	scripted_button = je_decrease_siege_button_three
+	
+	on_weekly_pulse = {
+		effect = {
+			clamp_variable = {
+				name = durrani_herat_siege_progress_var
+				max = 100
+				min = 0
+			}
+		}
+	}
+	
+	possible = {
+		exists = c:HER
+		c:HER = {
+			is_subject_of = c:PER
+		}
+	}
+	
+	goal_add_value = {
+		add = 100
+	}
+	
+	progressbar = yes
+
+	can_deactivate = yes
+
+	complete = {
+		exists = var:herat_siege_progress_var
+		OR = {
+			custom_tooltip = {
+				text = herat_independent_siege_tt
+				NOT = {
+					c:HER = {
+						is_subject_of = c:PER
+					}
+				}
+			}
+		}
+	}
+	
+	fail = {
+		NOT = {
+			exists = c:HER
+		}
+	}
+
+	on_complete = {
+		trigger_event = { id = journal_flavor_afghanistan.2 popup = yes }
+		c:HER = {
+			make_independent = yes
+		}
+	}
+	
+	on_fail = {
+		c:PER = {
+            annex = ROOT
+        }
+	}
+	
+	on_invalid = {
+		hidden_effect = {
+			c:HER = {
+				make_independent = yes
+			}
+		}
+	}
+
+	timeout = 365
+
+	on_timeout = {
+		c:HER = {
+			make_independent = yes
+		}
+	}
+
+    weight = 10000
+	
+	current_value = {
+		value = root.var:durrani_herat_siege_progress_var
+	}
+	
+	should_be_pinned_by_default = yes
+	
+}
