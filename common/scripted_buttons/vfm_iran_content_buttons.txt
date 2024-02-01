@@ -428,13 +428,17 @@ je_annex_btk_button = {
 			OR = {
 				AND = {
 					exists = c:ABU
-					c:ABU = { has_state_in_state_region = STATE_LARISTAN }
-					c:ABU = { has_state_in_state_region = STATE_FARS }
+					OR = {
+						c:ABU = { has_state_in_state_region = STATE_LARISTAN }
+						c:ABU = { has_state_in_state_region = STATE_FARS }
+					}
 				}
 				AND = {
 					exists = c:GBR
-					c:GBR = { has_state_in_state_region = STATE_LARISTAN }
-					c:GBR = { has_state_in_state_region = STATE_FARS }
+					OR = {
+						c:GBR = { has_state_in_state_region = STATE_LARISTAN }
+						c:GBR = { has_state_in_state_region = STATE_FARS }
+					}
 				}
 			}
 		}
@@ -459,12 +463,15 @@ je_annex_btk_button = {
 
 	effect = {
 		set_variable = requested_coast_iran_var
+		set_variable = { name = integration_action_taken_iran_var days = 150 }
 		if = {
 			limit = {
 				AND = {
 					exists = c:ABU
-					c:ABU = { has_state_in_state_region = STATE_LARISTAN }
-					c:ABU = { has_state_in_state_region = STATE_FARS }
+					OR = {
+						c:ABU = { has_state_in_state_region = STATE_LARISTAN }
+						c:ABU = { has_state_in_state_region = STATE_FARS }
+					}
 				}
 			}
 			c:ABU = { trigger_event = { id = journal_flavor_iran.23 days = 14 popup = yes } }
@@ -472,13 +479,29 @@ je_annex_btk_button = {
 		if = {
 			limit = {
 				AND = {
-					NOT = { exists = c:ABU }
-					c:GBR = { has_state_in_state_region = STATE_LARISTAN }
-					c:GBR = { has_state_in_state_region = STATE_FARS }
+					OR = {
+						NOT = { exists = c:ABU }
+						AND = {	
+							exists = c:ABU
+							OR = {
+								c:ABU = { has_state_in_state_region = STATE_LARISTAN }
+								c:ABU = { has_state_in_state_region = STATE_FARS }
+							}
+							OR = {
+								c:GBR = { has_state_in_state_region = STATE_LARISTAN }
+								c:GBR = { has_state_in_state_region = STATE_FARS }
+							}
+						}
+					}
 				}
 			}
 			c:GBR = { trigger_event = { id = journal_flavor_iran.23 days = 14 popup = yes } }
-			set_variable = { name = integration_action_taken_iran_var days = 150 }
+		}
+		if = {
+			limit = {
+				exists = c:MZK
+			}
+			c:MZK = { trigger_event = { id = journal_flavor_iran.25 popup = yes } }
 		}
 	}
 }
