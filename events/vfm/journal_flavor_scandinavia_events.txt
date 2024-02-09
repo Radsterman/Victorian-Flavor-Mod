@@ -573,6 +573,7 @@ journal_flavor_scandinavia.9 = { #glasriket
 				save_scope_as = gota_state
 			}
 		}
+		set_variable = glasriket_company
 	}
 
 	option = {
@@ -634,16 +635,22 @@ journal_flavor_scandinavia.10 = { #Götavarven
 	}
 
 	immediate = {
+	    S:STATE_GOTALAND = {
 	    random_scope_state = {
 			limit = {
 				any_scope_building = {
-					is_building_type = building_shipyards
+					OR = {
+						is_building_type = building_shipyards
+						is_building_type = building_military_shipyards
+					}
 					occupancy > 0.9
 					level >= 4
 				}
 			}
 			save_scope_as = shipyard_state
 		}
+		}
+		set_variable = gotavarven_company
 	}
 
 	option = {
