@@ -1126,7 +1126,7 @@ italy_1848.11 = {
 		}
 	   	create_diplomatic_play = {
 			target_state = s:STATE_LOMBARDY.region_state:AUS
-			war = yes
+			escalation = 45
 			type = dp_first_italian_war
 
 			add_war_goal = {
@@ -1139,6 +1139,7 @@ italy_1848.11 = {
 				type = return_state
 				target_state = scope:venetia_scope
 			}
+			add_initiator_backers = { c:SMR }
 	    }
 	    add_modifier = {
 			name = italian_vol # Remove at war's end
@@ -1165,6 +1166,20 @@ italy_1848.11 = {
 			add_journal_entry = {
 				type = je_italian_uprisings
 			}
+		}
+		c:SMR = {
+		    add_modifier = {
+				name = italian_vol # Remove at war's end
+				months = normal_modifier_time
+	        }
+			set_secret_goal = {
+			country = root
+			secret_goal = befriend
+		    }
+			set_secret_goal = {
+			country = c:AUS
+			secret_goal = antagonize
+		    }
 		}
 
 	    ai_chance = {
@@ -1558,6 +1573,14 @@ italy_1848.18 = {
 		}
 		remove_variable = first_italian_war_var
 		remove_modifier = italian_vol
+		if = {
+			limit = {
+				exists = c:SMR
+			}
+			c:SMR = {
+				remove_modifier = italian_vol
+			}
+		}
 	}
 
 	option = {
