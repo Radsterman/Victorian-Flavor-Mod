@@ -2372,38 +2372,61 @@ journal_flavor_iran.50 = {
 
 	duration = 3
 
-	option = { 
+	option = { #Stay Persia Rename
 		name = journal_flavor_iran.50.a
+		trigger = {
+			NOT = { has_variable = reign_of_mohammad_shah_qajar_var }
+		}
 		
 		ai_chance = {
-			base = 0
+			base = 10
 		}
 	}
 	
-	option = { 
+	option = { #Qajar Empire Rename
 		name = journal_flavor_iran.50.b
+		trigger = {
+			NOT = { has_variable = reign_of_mohammad_shah_qajar_var }
+		}
 		
 		custom_tooltip = {
 			text = change_name_qajar_empire_tt
-			set_variable = reign_of_mohammad_shah_qajar_var
+			set_variable = qajar_rename_qajar_var
 		}
 		
 		ai_chance = {
-			base = 25
+			base = 10
 		}
 	}
 	
-	option = { 
+	option = { #Imperial Iran Rename
 		name = journal_flavor_iran.50.c
 		default_option = yes
 		
 		custom_tooltip = {
 			text = change_name_iran_tt
+			remove_variable = reign_of_mohammad_shah_qajar_var
 			set_variable = qajar_iran_var
 		}
 		
 		ai_chance = {
-			base = 75
+			base = 80
+		}
+	}
+	
+	option = { #Become Persia Rename //If you complete the journal before mohammed dies, you can still become Persia
+		name = journal_flavor_iran.50.e
+		trigger = {
+			has_variable = reign_of_mohammad_shah_qajar_var
+		}
+		
+		custom_tooltip = {
+			text = change_name_qajar_empire_persia_tt
+			remove_variable = reign_of_mohammad_shah_qajar_var
+		}
+		
+		ai_chance = {
+			base = 0
 		}
 	}
 }

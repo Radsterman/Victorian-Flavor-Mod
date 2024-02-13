@@ -10,7 +10,10 @@ PER = {
 			exists = c:PER
 			AND = {
 				c:PER = { has_variable = qajar_dynasty }
-				c:PER = { has_variable = reign_of_mohammad_shah_qajar_var }
+				OR = {
+					c:PER = { has_variable = reign_of_mohammad_shah_qajar_var }
+					c:PER = { has_variable = qajar_rename_qajar_var }
+				}
 			}
 		}
 	}
@@ -26,6 +29,7 @@ PER = {
 			AND = {
 				c:PER = { has_variable = qajar_dynasty }
 				c:PER = { NOT = { has_variable = reign_of_mohammad_shah_qajar_var } }
+				c:PER = { NOT = { has_variable = qajar_rename_qajar_var } }
 			}
 		}
 	}
@@ -104,6 +108,37 @@ ARB = {
 			exists = c:ARB
 			c:ARB = {
 				has_variable = become_arabistan_var
+			}
+		}
+	}
+}
+
+KAL = { 
+	dynamic_country_name = {
+		name = dyn_c_baluchistan
+		adjective = dyn_c_baluchistan_adj
+		
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = c:KAL
+			c:KAL = {
+				has_variable = baluchistan_name_var 
+			}
+		}
+	}
+	dynamic_country_name = {
+		name = dyn_c_kohistan
+		adjective = dyn_c_kohistan_adj
+		
+		is_main_tag_only = yes
+		priority = 0
+		
+		trigger = {
+			exists = c:KAL
+			c:KAL = {
+				has_variable = kohistan_name_var 
 			}
 		}
 	}
