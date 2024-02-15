@@ -2056,33 +2056,36 @@ journal_flavor_iran.35 = {
 		}
 	}
 	
-	#option = { #Accepted Baha'i # Convert Option #Disabled for now since converting would be such a can of worms lmao; requires whole event chain and flavour stuff, but enable at own risk
-	#	name = journal_flavor_iran.35.c
-	#	trigger = {
-	#		has_variable = per_ignore_babism
-	#		has_variable = per_accepted_babism
-	#	}
-	#	remove_variable = per_ignore_babism
-	#	remove_variable = per_accepted_babism
-	#	
-	#	set_state_religion = rel:bahai
-	#	
-	#	hidden_effect = {
-	#		every_state = {
-	#			limit = {
-	#				has_variable = babism_center
-	#			}
-	#			remove_variable = babism_center
-	#			convert_population = {
-	#				target = rel:bahai value = 0.15
-	#			}
-	#		}
-	#	}
-	#	
-	#	ai_chance = {
-	#		base = 0
-	#	}
-	#}
+	option = { #Accepted Baha'i # Convert Option #Will need a lot more flavor in the future
+		name = journal_flavor_iran.35.c
+		#trigger = {
+		#	has_variable = per_ignore_babism
+		#	has_variable = per_accepted_babism
+		#}
+		remove_variable = per_ignore_babism
+		remove_variable = per_accepted_babism
+		
+		set_state_religion = rel:bahai
+		
+		custom_tooltip = {
+			text = persia_bahai_path_tt
+
+			activate_law = law_type:law_freedom_of_conscience
+			every_state = {
+				limit = {
+					has_variable = babism_center
+				}
+				remove_variable = babism_center
+				convert_population = {
+					target = rel:bahai value = 0.15
+				}
+			}
+		}
+		
+		ai_chance = {
+			base = 0
+		}
+	}
 }
 
 #Death of the Báb # Triggered by Execution
@@ -2294,20 +2297,33 @@ journal_flavor_iran.38 = {
 	icon = "gfx/interface/icons/event_icons/event_iran_flag.dds"
 
 	duration = 1
-
-	immediate = { 
-		remove_modifier = per_lack_of_policing
-	}
 	
 	option = { #Rip Bushehr
 		name = journal_flavor_iran.38.a
 		
 		c:GBR = {
-            annex = ROOT
+            annex = c:MZK
         }
 
 		ai_chance = {
-			base = 20
+			base = 100
+		}
+	}
+	
+	option = { #Rip Bushehr - Switch to Iran if Ai controlled (I am putting too much thought into this)
+		name = journal_flavor_iran.38.b
+		trigger = {
+			c:PER = { is_ai = yes }
+		}
+		
+		play_as = c:PER
+		
+		c:GBR = {
+            annex = c:MZK
+        }
+
+		ai_chance = {
+			base = 0
 		}
 	}
 }
