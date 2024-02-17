@@ -2480,3 +2480,89 @@ FRA = {
 		}
 	}
 }
+
+HRE = {
+	dynamic_country_name = {
+		name = dyn_c_hre_monarchy
+		adjective = dyn_c_hre_monarchy_adj
+
+		is_main_tag_only = yes
+		priority = 10
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				OR = {
+					has_law = law_type:law_monarchy
+					has_law = law_type:law_theocracy
+				}
+			}
+		}
+	}
+	dynamic_country_name = {
+		name = dyn_c_hre_republic
+		adjective = dyn_c_hre_republic_adj
+
+		is_main_tag_only = yes
+		priority = 10
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				OR = {
+					has_law = law_type:law_parliamentary_republic
+					has_law = law_type:law_presidential_republic
+				}
+			}
+		}
+	}
+	dynamic_country_name = {
+		name = dyn_c_hre_communist
+		adjective = dyn_c_hre_communist_adj
+
+		is_main_tag_only = yes
+		priority = 10
+		
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				has_law = law_type:law_council_republic
+			}
+		}
+	}
+	
+	dynamic_country_name = {
+		name = dyn_c_hre_technate
+		adjective = dyn_c_hre_technate_adj
+		
+		is_main_tag_only = yes
+		priority = 20
+		
+		trigger = {
+			scope:actor = {
+				OR = {
+					has_law = law_type:law_parliamentary_republic
+					has_law = law_type:law_presidential_republic
+				}
+				has_law = law_type:law_technocracy
+			}
+		}
+	}
+	
+	dynamic_country_name = {
+		name = dyn_c_hre_fascist
+		adjective = dyn_c_hre_fascist_adj
+		
+		is_main_tag_only = yes
+		priority = 30
+		
+		trigger = {
+			scope:actor = {
+				coa_fascist_trigger = yes
+				NOT = {
+					has_law = law_type:law_council_republic
+				}
+			}
+		}
+	}
+}
