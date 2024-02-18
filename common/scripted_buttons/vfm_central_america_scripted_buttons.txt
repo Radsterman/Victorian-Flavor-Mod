@@ -10,7 +10,7 @@
 	possible = {
 		NOT = { exists = c:GUA }
 		custom_tooltip = {
-			text = wip_tt
+			text = controls_gua_tt
 			this = c:UCA
 			NOT = { has_variable = gua_support_var }
 		}
@@ -40,7 +40,7 @@ je_restore_order_hon_button = {
 	possible = {
 		NOT = { exists = c:HON }
 		custom_tooltip = {
-			text = wip_tt
+			text = controls_hon_tt
 			this = c:UCA
 			NOT = { has_variable = hon_support_var }
 		}
@@ -63,14 +63,17 @@ je_restore_order_nic_button = {
 	desc = restore_order_nic_button_desc
 
 	visible = {
-		NOT = { has_variable = je_central_america_setup_nic_var }
+		OR = {
+			NOT = { has_variable = je_central_america_setup_nic_var }
+			NOT = { has_modifier = uca_morazan_presidency }
+		}
 		NOT = { exists = c:NIC }
 	}
 
 	possible = {
 		NOT = { exists = c:NIC }
 		custom_tooltip = {
-			text = wip_tt
+			text = controls_nic_tt
 			this = c:UCA
 			NOT = { has_variable = nic_support_var }
 		}
@@ -100,7 +103,7 @@ je_restore_order_cos_button = {
 	possible = {
 		NOT = { exists = c:COS }
 		custom_tooltip = {
-			text = wip_tt
+			text = controls_cos_tt
 			this = c:UCA
 			NOT = { has_variable = cos_support_var }
 		}
@@ -131,6 +134,8 @@ je_nicaragua_intervention_central_america_button = {
 	}
 
 	possible = {
+		is_at_war = no
+		is_active_in_diplomatic_play = no
 		custom_tooltip = {
 			text = nicaragua_subject_frca_tt
 			c:NIC ?= {

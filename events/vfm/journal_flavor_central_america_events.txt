@@ -11,19 +11,30 @@ journal_flavor_central_america.1 = {
 	duration = 2
 
 	event_image = {
-		video = "southamerica_war_civilians"
+		video = "europenorthamerica_capitalists_meeting"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	icon = "gfx/interface/icons/event_icons/event_scales.dds"
 
 	trigger = {
-
+		this = c:UCA
 	}
-
+	
 	immediate = {
-
+		set_variable = {
+			name = frca_guatemala_peace_var
+			days = 50
+		}
+		set_variable = {
+			name = frca_nicaragua_peace_var
+			days = 90
+		}
+		set_variable = {
+			name = frca_honduras_peace_var
+			days = 130
+		}
 	}
 
 	option = { #Adopt it
@@ -35,11 +46,18 @@ journal_flavor_central_america.1 = {
 			years = 10
 			is_decaying = yes
 		}
+		
+		ai_chance = {
+			base = 50
+		}
 	}
 
 	option = { #Leave it be
 		name = journal_flavor_central_america.1.b
-
+		
+		ai_chance = {
+			base = 50
+		}
 	}
 }
 
@@ -59,7 +77,7 @@ journal_flavor_central_america.2 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
 
 	trigger = {
 		game_date >= 1836.2.2
@@ -133,7 +151,7 @@ journal_flavor_central_america.3 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
 
 	cooldown = { months = 4 }
 
@@ -234,7 +252,7 @@ journal_flavor_central_america.4 = {
 	duration = 2
 
 	event_image = {
-		video = "southamerica_war_civilians"
+		video = "southamerica_aristocrats"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -247,10 +265,20 @@ journal_flavor_central_america.4 = {
 		is_active_in_diplomatic_play = no
 		game_date >= 1838.1.1
 		NOT = { exists = c:NIC }
-		NOT = { has_variable = nic_support_var }
+		OR = {
+			NOT = { has_variable = nic_support_var }
+			exists = c:HON
+			exists = c:COS
+			exists = c:GUA
+		}
+		NOT = { has_variable = frca_recent_independence_event_var }
 	}
 
 	immediate = {
+		set_variable = {
+			name = frca_recent_independence_event_var
+			days = 40
+		}
 		create_country = {
             tag = NIC
 			origin = c:UCA
@@ -295,13 +323,20 @@ journal_flavor_central_america.4 = {
 	option = { #Damnit!
 		name = journal_flavor_central_america.4.a
 		default_option = yes
-
+		
+		ai_chance = {
+			base = 100
+		}
 	}
 	
 	option = { #Switch tags
 		name = journal_flavor_central_america.4.b
 		
 		play_as = c:NIC
+		
+		ai_chance = {
+			base = 0
+		}
 	}
 
 }
@@ -317,7 +352,7 @@ journal_flavor_central_america.5 = {
 	duration = 2
 
 	event_image = {
-		video = "southamerica_war_civilians"
+		video = "unspecific_signed_contract"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -328,11 +363,22 @@ journal_flavor_central_america.5 = {
 		this = c:UCA
 		is_at_war = no
 		is_active_in_diplomatic_play = no
-		exists = c:NIC
+		game_date >= 1838.1.1
 		NOT = { exists = c:COS }
+		OR = {
+			NOT = { has_variable = cos_support_var }
+			exists = c:HON
+			exists = c:NIC
+			exists = c:GUA
+		}
+		NOT = { has_variable = frca_recent_independence_event_var }
 	}
 
 	immediate = {
+		set_variable = {
+			name = frca_recent_independence_event_var
+			days = 40
+		}
 		create_country = {
             tag = COS
 			origin = c:UCA
@@ -373,13 +419,20 @@ journal_flavor_central_america.5 = {
 	option = { #Damnit!
 		name = journal_flavor_central_america.5.a
 		default_option = yes
-	
+		
+		ai_chance = {
+			base = 100
+		}
 	}
 	
 	option = { #Switch tags
 		name = journal_flavor_central_america.5.b
 		
 		play_as = c:COS
+		
+		ai_chance = {
+			base = 0
+		}
 	}
 
 }
@@ -395,7 +448,7 @@ journal_flavor_central_america.6 = {
 	duration = 2
 
 	event_image = {
-		video = "southamerica_war_civilians"
+		video = "unspecific_politicians_arguing"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -406,12 +459,22 @@ journal_flavor_central_america.6 = {
 		this = c:UCA
 		is_at_war = no
 		is_active_in_diplomatic_play = no
-		exists = c:NIC
+		game_date >= 1838.6.6
 		NOT = { exists = c:GUA }
-		NOT = { has_variable = gua_support_var }
+		OR = {
+			NOT = { has_variable = gua_support_var }
+			exists = c:HON
+			exists = c:NIC
+			exists = c:COS
+		}
+		NOT = { has_variable = frca_recent_independence_event_var }
 	}
 
 	immediate = {
+		set_variable = {
+			name = frca_recent_independence_event_var
+			days = 40
+		}
 		create_country = {
             tag = GUA
 			origin = c:UCA
@@ -457,13 +520,20 @@ journal_flavor_central_america.6 = {
 	option = { #Damnit!
 		name = journal_flavor_central_america.6.a
 		default_option = yes
-	
+		
+		ai_chance = {
+			base = 100
+		}
 	}
 	
 	option = { #Switch tags
 		name = journal_flavor_central_america.6.b
 		
 		play_as = c:GUA
+		
+		ai_chance = {
+			base = 0
+		}
 	}
 
 }
@@ -490,12 +560,22 @@ journal_flavor_central_america.7 = {
 		this = c:UCA
 		is_at_war = no
 		is_active_in_diplomatic_play = no
-		exists = c:NIC
+		game_date >= 1838.6.6
 		NOT = { exists = c:HON }
-		NOT = { has_variable = hon_support_var }
+		OR = {
+			NOT = { has_variable = hon_support_var }
+			exists = c:GUA
+			exists = c:NIC
+			exists = c:COS
+		}
+		NOT = { has_variable = frca_recent_independence_event_var }
 	}
 
 	immediate = {
+		set_variable = {
+			name = frca_recent_independence_event_var
+			days = 40
+		}
 		create_country = {
             tag = HON
 			origin = c:UCA
@@ -536,13 +616,20 @@ journal_flavor_central_america.7 = {
 	option = { #Damnit!
 		name = journal_flavor_central_america.7.a
 		default_option = yes
-	
+		
+		ai_chance = {
+			base = 100
+		}
 	}
 	
 	option = { #Switch tags
 		name = journal_flavor_central_america.7.b
 		
 		play_as = c:HON
+		
+		ai_chance = {
+			base = 0
+		}
 	}
 }
 
@@ -557,7 +644,7 @@ journal_flavor_central_america.8 = {
 	duration = 2
 
 	event_image = {
-		video = "southamerica_war_civilians"
+		video = "europenorthamerica_before_the_battle"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -594,6 +681,26 @@ journal_flavor_central_america.8 = {
 		remove_diplomatic_pact = {
 			country = c:LOS
 			type = confederation
+		}
+		remove_diplomatic_pact = {
+			country = c:COS
+			type = puppet
+		}
+		remove_diplomatic_pact = {
+			country = c:NIC
+			type = puppet
+		}
+		remove_diplomatic_pact = {
+			country = c:HON
+			type = puppet
+		}
+		remove_diplomatic_pact = {
+			country = c:GUA
+			type = puppet
+		}
+		remove_diplomatic_pact = {
+			country = c:LOS
+			type = puppet
 		}
 	}
 
@@ -649,10 +756,32 @@ journal_flavor_central_america.8 = {
 			}
 		}
 	
+		ai_chance = {
+			base = 0
+		}
 	}
 	
 	option = { #Continue as El Salvador
 		name = journal_flavor_central_america.8.b
+		
+		hidden_effect = { 
+			if = {
+				limit = { 
+					this = c:UCA 
+				}
+				s:STATE_CHIAPAS.region_state:UCA = {
+					set_state_owner = c:GUA
+				}
+			}
+			if = {
+				limit = { 
+					this = c:ELS
+				}
+				s:STATE_CHIAPAS.region_state:ELS = {
+					set_state_owner = c:GUA
+				}
+			}
+		}
 		
 		change_tag = ELS
 		
@@ -676,6 +805,9 @@ journal_flavor_central_america.8 = {
 		activate_law = law_type:law_unitary
 		activate_law = law_type:law_mercantilism
 		
+		ai_chance = {
+			base = 100
+		}
 	}
 }
 
@@ -690,12 +822,12 @@ journal_flavor_central_america.9 = {
 	duration = 2
 
 	event_image = {
-		video = "southamerica_war_civilians"
+		video = "unspecific_devastation"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	icon = "gfx/interface/icons/event_icons/bicorne_hat.dds"
 
 	trigger = {
 		this = c:UCA
@@ -719,10 +851,14 @@ journal_flavor_central_america.9 = {
 					}
 				}
 			}
+			any_civil_war = {
+				civil_war_progress > 0.5
+			}
 		}
 	}
 
 	immediate = {
+		set_variable = frca_lost_war
 		create_country = {
             tag = HON
 			origin = c:UCA
@@ -744,7 +880,7 @@ journal_flavor_central_america.9 = {
 			state = s:STATE_COSTA_RICA.region_state:UCA
 		}
 		s:STATE_CHIAPAS.region_state:UCA = {
-			set_state_owner = c:MEX
+			set_state_owner = c:GUA
 		}
 	}
 
@@ -753,10 +889,13 @@ journal_flavor_central_america.9 = {
 		default_option = yes
 		
 		change_tag = ELS
-		set_variable = frca_lost_war
 		
 		hidden_effect = {
 			activate_law = law_type:law_unitary
+		}
+		
+		ai_chance = {
+			base = 100
 		}
 	}
 
@@ -773,16 +912,24 @@ journal_flavor_central_america.10 = {
 	duration = 2
 
 	event_image = {
-		video = "southamerica_war_civilians"
+		video = "unspecific_military_parade"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	icon = "gfx/interface/icons/event_icons/bicorne_hat.dds"
 
 	trigger = {
 		this = c:UCA
 		has_variable = second_frca_civil_war_var
+		is_at_war = no
+		is_active_in_diplomatic_play = no
+		AND = {
+			NOT = { exists = c:GUA }
+			NOT = { exists = c:HON }
+			NOT = { exists = c:NIC }
+			NOT = { exists = c:COS }
+		}
 	}
 
 	immediate = {
@@ -795,6 +942,9 @@ journal_flavor_central_america.10 = {
 		
 		set_variable = frca_won_war
 	
+		ai_chance = {
+			base = 100
+		}
 	}
 
 }
@@ -811,22 +961,23 @@ journal_flavor_central_america.11 = {
 	duration = 2
 
 	event_image = {
-		video = "southamerica_war_civilians"
+		video = "europenorthamerica_before_the_battle"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
 	trigger = {
+		NOT = { exists = c:GUA }
+		has_variable = gua_civil_peace_var	
+		NOT = { has_variable = frca_guatemala_peace_var }
 		OR = {
 			has_modifier = uca_new_penal_code
 			any_scope_state = {
 				state_region = { is_homeland = cu:central_american }
 				has_modifier = uca_quarantine
 			}
-			has_law = law_type:law_protectionism
-			has_variable = gua_civil_peace_var	
 		}
 	}
 
@@ -840,11 +991,17 @@ journal_flavor_central_america.11 = {
 		name = journal_flavor_central_america.11.a
 		default_option = yes
 	
+		ai_chance = {
+			base = 50
+		}
 	}
 
 	option = { #Aid them
 		name = journal_flavor_central_america.11.b
-
+		
+		ai_chance = {
+			base = 50
+		}
 	}
 }
 
@@ -859,25 +1016,43 @@ journal_flavor_central_america.12 = {
 	duration = 2
 
 	event_image = {
-		video = "southamerica_war_civilians"
+		video = "europenorthamerica_political_extremism"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
 
 	trigger = {
-
+		NOT = { exists = c:NIC }
+		has_variable = nic_civil_peace_var	
+		NOT = { has_variable = frca_nicaragua_peace_var }
+		NOT = { has_variable = gua_civil_peace_var }
 	}
 
 	immediate = {	
-	
+		remove_variable = nic_civil_peace_var
 	}
 
-	option = { #Welp
+	option = { #Intervene
 		name = journal_flavor_central_america.12.a
-		default_option = yes
+		
+		hidden_effect = { trigger_event = { id = journal_flavor_central_america.15 days = 60 } }
+		
+		ai_chance = {
+			base = 50
+		}
+	}
 	
+	option = { #Let them be
+		name = journal_flavor_central_america.12.b
+		default_option = yes
+		
+		hidden_effect = { trigger_event = { id = journal_flavor_central_america.16 days = 30 } }
+		
+		ai_chance = {
+			base = 50
+		}
 	}
 
 }
@@ -893,26 +1068,255 @@ journal_flavor_central_america.13 = {
 	duration = 2
 
 	event_image = {
-		video = "southamerica_war_civilians"
+		video = "unspecific_politicians_arguing"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
 
 	trigger = {
-
+		NOT = { exists = c:HON }
+		has_variable = hon_civil_peace_var
+		NOT = { has_variable = frca_honduras_peace_var }
+		NOT = { has_variable = nic_civil_peace_var }		
 	}
 
 	immediate = {	
 		remove_variable = hon_support_var	
 		remove_variable = je_central_america_setup_hon_var
+		remove_variable = hon_civil_peace_var		
 	}
 
 	option = { #Welp
 		name = journal_flavor_central_america.13.a
 		default_option = yes
+		
+		ai_chance = {
+			base = 100
+		}
+	}
+
+}
+
+# Dissolution of Central America
+journal_flavor_central_america.14 = {
+	type = country_event
+	placement = ROOT
+	title = journal_flavor_central_america.14.t
+	desc = journal_flavor_central_america.14.d
+	flavor =  journal_flavor_central_america.14.f
+
+	duration = 2
+
+	event_image = {
+		video = "europenorthamerica_capitalists_meeting"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	trigger = {
+		any_interest_group = {
+			is_in_government = yes
+			OR = {
+				has_ideology = ideology:ideology_elitist
+				has_ideology = ideology:ideology_pious
+			}
+		}		
+	}
+
+	immediate = {	
+		set_variable = frca_lost_war
+		create_country = {
+            tag = HON
+			origin = c:UCA
+			state = s:STATE_HONDURAS.region_state:UCA
+		}
+		create_country = {
+            tag = GUA
+			origin = c:UCA
+			state = s:STATE_GUATEMALA.region_state:UCA
+		}
+		create_country = {
+            tag = NIC
+			origin = c:UCA
+			state = s:STATE_NICARAGUA.region_state:UCA
+		}
+		create_country = {
+            tag = COS
+			origin = c:UCA
+			state = s:STATE_COSTA_RICA.region_state:UCA
+		}
+		s:STATE_CHIAPAS.region_state:UCA = {
+			set_state_owner = c:GUA
+		}
+	}
+
+	option = { #Welp
+		name = journal_flavor_central_america.14.a
+		default_option = yes
+		
+		change_tag = ELS
+		
+		hidden_effect = {
+			activate_law = law_type:law_unitary
+		}
+		
+		ai_chance = {
+			base = 100
+		}
+	}
+
+}
+
+# Nicaragua appreciates intervention
+journal_flavor_central_america.15 = {
+	type = country_event
+	placement = ROOT
+	title = journal_flavor_central_america.15.t
+	desc = journal_flavor_central_america.15.d
+	flavor =  journal_flavor_central_america.15.f
+
+	duration = 2
+
+	event_image = {
+		video = "unspecific_military_parade"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	immediate = {	
+		set_variable = nic_support_var
+	}
+
+	option = { #Hurray
+		name = journal_flavor_central_america.15.a
+		default_option = yes
+		
+		ai_chance = {
+			base = 100
+		}
+	}
+
+}
+
+# Nicaragua falls to secessionists
+journal_flavor_central_america.16 = {
+	type = country_event
+	placement = ROOT
+	title = journal_flavor_central_america.16.t
+	desc = journal_flavor_central_america.16.d
+	flavor =  journal_flavor_central_america.16.f
+
+	duration = 2
+
+	event_image = {
+		video = "southamerica_aristocrats"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	immediate = {	
+		remove_variable = nic_support_var
+	}
+
+	option = { #Hurray
+		name = journal_flavor_central_america.16.a
+		default_option = yes
+		
+		ai_chance = {
+			base = 100
+		}
+	}
+
+}
+
+# Morazan's term has ended
+journal_flavor_central_america.17 = {
+	type = country_event
+    hidden = yes
+
+	trigger = {
+		this = c:UCA
+		NOT = { has_variable = morazan_is_gone }
+		NOT = { has_modifier = uca_morazan_presidency }
+	}
+
+	immediate = {	
+		set_variable = morazan_is_gone
+	}
+
+	option = { #Hurray
+		name = journal_flavor_central_america.17.a
+		default_option = yes
+		
+		hidden_effect = {
+			ruler = {
+                kill_character = yes
+            }
+			trigger_event = { id = journal_flavor_central_america.18 days = 3060 }
+		}
+		
+		ai_chance = {
+			base = 100
+		}
+	}
+
+}
+
+# The Father of the Nation
+journal_flavor_central_america.18 = {
+	type = country_event
+	placement = ROOT
+	title = journal_flavor_central_america.18.t
+	desc = journal_flavor_central_america.18.d
+	flavor =  journal_flavor_central_america.18.f
+
+	duration = 2
+
+	trigger = {
+		this = c:UCA
+	}
 	
+	event_image = {
+		video = "europenorthamerica_art_gallery"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	option = { #Hurray
+		name = journal_flavor_central_america.18.a
+		default_option = yes
+		
+		add_modifier = {
+			name = unification_prestige
+			months = very_long_modifier_time
+		}
+		
+		add_loyalists = {
+			value = medium_radicals
+			strata = rich
+		}
+		add_loyalists = {
+			value = medium_radicals
+			strata = middle
+		}
+		add_loyalists = {
+			value = medium_radicals
+			strata = poor
+		}
+		
+		ai_chance = {
+			base = 100
+		}
 	}
 
 }
