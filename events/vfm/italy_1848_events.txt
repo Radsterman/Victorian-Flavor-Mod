@@ -587,7 +587,22 @@ italy_1848.7 = {
 					}
 				}
 			}
+			AND = {
+			any_scope_state = { 
+				AND = {	
+	    			state_region = { 
+						is_homeland = cu:north_italian 
+					}
+					OR = {
+						turmoil >= 0.08
+						radical_fraction = {
+							value >= 0.15
+						}
+					}
+				}
+			}
 			has_journal_entry = je_springtime_of_the_peoples
+			}
 		}
 		
 		OR = {
@@ -610,7 +625,7 @@ italy_1848.7 = {
 			}
 		}
 		create_country = { #Republic of San Marco
-			tag = SMR
+			tag = RSM
 			origin = this
 			state = scope:venetia_scope
 			on_created = {
@@ -651,7 +666,7 @@ italy_1848.7 = {
 		}
 		trigger_event = {
 			id = italy_1848.8
-			days = 1 #This is needed or the loc won't show the SMR flag
+			days = 1 #This is needed or the loc won't show the RSM flag
 			popup = yes
 		}
 	}
@@ -679,13 +694,13 @@ italy_1848.8 = {
 	duration = 1
 
 	trigger = {
-		c:SMR = {
+		c:RSM = {
 			has_variable = san_marco_var
 		}
 	}
 
 	immediate = {
-		c:SMR = {
+		c:RSM = {
 			save_scope_as = smr_scope
 			remove_variable = san_marco_var
 		}
@@ -701,7 +716,7 @@ italy_1848.8 = {
 		default_option = yes
 
 		change_relations = {
-			country = c:SMR
+			country = c:RSM
 			value = -100
 	    }
 		trigger_event = {
@@ -716,9 +731,9 @@ italy_1848.8 = {
 	option = {
 		name = italy_1848.8.c
 
-     	play_as = c:SMR
+     	play_as = c:RSM
 		change_relations = {
-			country = c:SMR
+			country = c:RSM
 			value = -100
 	    }
 		trigger_event = {
@@ -752,7 +767,7 @@ italy_1848.9 = {
 	duration = 1
 
 	immediate = {
-		c:SMR = {
+		c:RSM = {
 			save_scope_as = smr_scope
 		}
 		s:STATE_VENETIA = {
@@ -777,11 +792,15 @@ italy_1848.9 = {
 		}
 		add_radicals = {
 			strata = poor
-			value = 0.1
+			value = 0.05
 		}
 		add_radicals = {
 			strata = middle
 			value = 0.1
+		}
+		add_radicals = {
+			strata = rich
+			value = 0.2
 		}
 		if = {
 			limit = {
@@ -856,7 +875,7 @@ italy_1848.10 = {
 					is_player = no
 					is_subject = no
 					NOT = {
-						this = c:SMR
+						this = c:RSM
 					}
 					OR = {
 						country_has_primary_culture = cu:north_italian
@@ -868,7 +887,7 @@ italy_1848.10 = {
 							owner = c:AUS
 						}
 						any_neighbouring_state = {
-							owner = c:SMR
+							owner = c:RSM
 						}
 						any_neighbouring_state = {
 							owner = c:MLN
@@ -891,7 +910,7 @@ italy_1848.10 = {
 						owner = c:AUS
 					}
 					any_neighbouring_state = {
-						owner = c:SMR
+						owner = c:RSM
 					}
 					any_neighbouring_state = {
 						owner = c:MLN
@@ -1002,7 +1021,7 @@ italy_1848.10 = {
 				months = 60
 			}
 			create_truce = {
-				country = c:SMR
+				country = c:RSM
 				months = 60
 			}
 		}
@@ -1083,7 +1102,7 @@ italy_1848.11 = {
 		c:MLN = {
 			save_scope_as = sar_scope # what? milano as sardinia?
 		}
-		c:SMR = {
+		c:RSM = {
 			save_scope_as = smr_scope
 		}
 		c:AUS = {
@@ -1121,7 +1140,7 @@ italy_1848.11 = {
 		}
 		annex = c:MLN
 		create_diplomatic_pact = {
-			country = c:SMR
+			country = c:RSM
 			type = alliance
 		}
 	   	create_diplomatic_play = {
@@ -1139,7 +1158,7 @@ italy_1848.11 = {
 				type = return_state
 				target_state = scope:venetia_scope
 			}
-			add_initiator_backers = { c:SMR }
+			add_initiator_backers = { c:RSM }
 	    }
 	    add_modifier = {
 			name = italian_vol # Remove at war's end
@@ -1159,7 +1178,7 @@ italy_1848.11 = {
 			value = -75
 	    }
 		change_relations = { 
-			country = c:SMR
+			country = c:RSM
 			value = 50
 	    }
 		c:AUS = {
@@ -1167,7 +1186,7 @@ italy_1848.11 = {
 				type = je_italian_uprisings
 			}
 		}
-		c:SMR = {
+		c:RSM = {
 		    add_modifier = {
 				name = italian_vol # Remove at war's end
 				months = normal_modifier_time
@@ -1196,7 +1215,7 @@ italy_1848.11 = {
 				type = dp_annex_war
 	    	}
 	    	create_diplomatic_play = {
-				target_country = c:SMR
+				target_country = c:RSM
 				war = yes
 				type = dp_annex_war
 	    	}
@@ -1212,7 +1231,7 @@ italy_1848.11 = {
 			value = large_radicals
 		}
 		change_relations = { 
-			country = c:SMR
+			country = c:RSM
 			value = -25
 	    }
 		change_relations = { 
@@ -1247,7 +1266,7 @@ italy_1848.12 = {
 	duration = 1
 
 	immediate = {
-		c:SMR = {
+		c:RSM = {
 			save_scope_as = smr_scope
 		}
 		c:MLN = {
@@ -1275,7 +1294,7 @@ italy_1848.12 = {
 				id = italy_1848.13
 			}
 		}
-		c:SMR = {
+		c:RSM = {
 			trigger_event = {
 				id = italy_1848.15
 			}
@@ -1333,7 +1352,7 @@ italy_1848.13 = {
 	}
 }
 
-#SMR Plebiscite for annexation
+#RSM Plebiscite for annexation
 italy_1848.15 = {
 	type = country_event
 	placement = root
@@ -1360,7 +1379,7 @@ italy_1848.15 = {
 			}
 			save_scope_as = ita_scope
 		}
-		c:SMR = {
+		c:RSM = {
 			save_scope_as = smr_scope
 		}
 	}
@@ -1418,7 +1437,7 @@ italy_1848.16 = {
 	duration = 1
 
 	immediate = {
-		c:SMR = {
+		c:RSM = {
 			save_scope_as = smr_scope
 		}
 		s:STATE_LOMBARDY = {
@@ -1444,7 +1463,7 @@ italy_1848.16 = {
 			}
 			annex = c:MLN
 		}
-		annex = c:SMR
+		annex = c:RSM
 		add_modifier = {
 			name = northern_italy_united
 			months = long_modifier_time
@@ -1477,7 +1496,7 @@ italy_1848.17 = {
 	duration = 1
 
 	immediate = {
-		c:SMR = {
+		c:RSM = {
 			save_scope_as = smr_scope
 		}
 		s:STATE_LOMBARDY = {
@@ -1504,7 +1523,7 @@ italy_1848.17 = {
 			annex = c:MLN
 		}
     	create_diplomatic_play = {
-			target_country = c:SMR
+			target_country = c:RSM
 			war = yes
 			type = dp_annex_war
     	}
@@ -1524,7 +1543,7 @@ italy_1848.17 = {
 			annex = c:MLN
 		}
 		remove_diplomatic_pact = {
-			country = c:SMR
+			country = c:RSM
 			type = alliance
 		}
 
@@ -1575,9 +1594,9 @@ italy_1848.18 = {
 		remove_modifier = italian_vol
 		if = {
 			limit = {
-				exists = c:SMR
+				exists = c:RSM
 			}
-			c:SMR = {
+			c:RSM = {
 				remove_modifier = italian_vol
 			}
 		}
@@ -1600,11 +1619,11 @@ italy_1848.18 = {
 		}
 		if = {
 			limit = {
-				c:SMR ?= {
+				c:RSM ?= {
 					is_at_war = no
 				}
 			}
-			c:SMR = {
+			c:RSM = {
 				trigger_event = {
 					id = italy_1848.15
 				}
