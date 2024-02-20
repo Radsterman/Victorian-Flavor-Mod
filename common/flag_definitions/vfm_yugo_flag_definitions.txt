@@ -5,9 +5,33 @@
 		subject_canton = YUG_theocracy
 		priority = 20
 		trigger = { 
-			coa_def_theocracy_flag_trigger = yes
+			exists = scope:actor
+			scope:actor = {
+				has_law = law_type:law_theocracy
+				OR = {
+					was_formed_from = SLO
+					was_formed_from = DLM
+					was_formed_from = CRO
+					was_formed_from = SER
+					was_formed_from = BUL
+					was_formed_from = MON
+				}
+			}
 		}
 	}	
+	
+	flag_definition = {
+		coa = YUG_theocracy_bosnia
+		subject_canton = YUG_theocracy
+		priority = 20
+		trigger = { 
+			exists = scope:actor
+			scope:actor = {
+				has_law = law_type:law_theocracy
+				was_formed_from = BOS
+			}
+		}
+	}
 	
 	flag_definition = {
 		coa = YUG_republic
@@ -36,6 +60,21 @@
 		}
 	}
 
+	flag_definition = {
+		coa = YUG_greater_yugoslavia_dictatorship
+		subject_canton = YUG_greater_yugoslavia_dictatorship
+		priority = 30
+		trigger = {
+			exists = scope:actor
+			coa_def_dictatorship_flag_trigger = yes
+			scope:actor = {
+				has_state_in_state_region = STATE_WEST_BULGARIA
+				has_state_in_state_region = STATE_BULGARIA
+				has_state_in_state_region = STATE_NORTHERN_THRACE
+			}
+		}
+	}
+
 	### Different monarchist flags Minor Yugoslavia ###
 	
 	#Illyrian Yugoslavia ( Slovenia & Dalmatia )
@@ -55,7 +94,7 @@
 		}
 	}
 	
-	#Croatian Yugoslavia
+	#Croat Yugoslavia
 	flag_definition = {
 		coa = YUG_croatia
 		subject_canton = YUG_croatia
@@ -65,6 +104,20 @@
 			scope:actor = {
 				has_law = law_type:law_monarchy
 				was_formed_from = CRO
+			}
+		}
+	}
+	
+	#Bosnian Yugoslavia
+	flag_definition = {
+		coa = YUG_bosnia
+		subject_canton = YUG_bosnia
+		priority = 15
+		trigger = {
+			exists = scope:actor
+			scope:actor = {
+				has_law = law_type:law_monarchy
+				was_formed_from = BOS
 			}
 		}
 	}
@@ -98,26 +151,6 @@
 	}
 	
 	### Different monarchist flags Greater Yugoslavia ###
-	
-	#Illyrian Greater Yugoslavia ( Slovenia & Dalmatia )
-	flag_definition = {
-		coa = YUG_illyrian_greater_yugoslavia
-		subject_canton = YUG_illyrian_greater_yugoslavia
-		priority = 16
-		trigger = {
-			exists = scope:actor
-			scope:actor = {
-				has_law = law_type:law_monarchy
-				OR = {
-					was_formed_from = SLO
-					was_formed_from = DLM
-				}
-				has_state_in_state_region = STATE_WEST_BULGARIA
-				has_state_in_state_region = STATE_BULGARIA
-				has_state_in_state_region = STATE_NORTHERN_THRACE
-			}
-		}
-	}
 	
 	#Croat Greater Yugoslavia
 	flag_definition = {
