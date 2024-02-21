@@ -148,6 +148,45 @@ ai_strategy_default = {
 				}
 				subtract = 25
 			}
+		# Don't involve BIC in opium wars
+	    if = {
+			limit = {
+				c:BIC ?= this
+				exists = c:CHI
+				top_overlord ?= {
+					has_journal_entry = je_opium_wars
+					is_diplomatic_play_enemy_of = c:CHI
+				}
+			}
+			add = 100
+		}
+		# unite against non-muslim invaders
+		if = {
+			limit = {
+			    OR = {
+				    country_has_state_religion = rel:sunni
+					country_has_state_religion = rel:shiite
+				}
+				any_diplomatic_play = {
+				    any_scope_play_involved = {
+						is_diplomatic_play_target = yes
+						OR = {
+				            country_has_state_religion = rel:sunni
+				    	    country_has_state_religion = rel:shiite
+				        }
+						has_strategic_land_adjacency = ROOT
+					}
+					any_scope_play_involved = {
+						is_diplomatic_play_initiator = yes
+						NOR = {
+				            country_has_state_religion = rel:sunni
+				    	    country_has_state_religion = rel:shiite
+				        }
+					}
+				}
+			}
+			subtract = 30
+		}
 	}
 	
 	# Added to base boldness in diplomatic plays	
@@ -1944,6 +1983,27 @@ ai_strategy_default = {
 			}
 			add = 0.5
 		}	
+		
+		# France should very aggressively go for Algeria.
+		if = {
+			limit = {
+				has_journal_entry = je_conquest_of_algeria
+				scope:target_country = {
+					any_scope_state = {
+						OR = {
+							state_region = s:STATE_TLEMCEN
+							state_region = s:STATE_ALGIERS
+							state_region = s:STATE_CONSTANTINE
+							state_region = s:STATE_TOUGGOURT
+							state_region = s:STATE_GHARDAIA
+							state_region = s:STATE_SAHARA
+							state_region = s:STATE_EAST_SAHARA
+						}
+					}
+				}
+			}
+			add = 5
+		}
 
 		#Taiping
 		if = { 
@@ -3026,8 +3086,12 @@ ai_strategy_default = {
 
         # Need to favor industrial buildup early game
 		if = {
-			limit = { game_date < 1842.1.1 }
-			multiply = 0.85
+			limit = { game_date < 1855.1.1 }
+			multiply = 0.9
+		}
+		if = {
+			limit = { game_date < 1843.1.1 }
+			multiply = 0.9
 		}		
 
 		# More advanced navies are expensive and should be smaller relative to population
@@ -3077,7 +3141,7 @@ ai_strategy_default = {
 			multiply = 0.25
 		}		
 
-		max = 1000 #VFM, from 500
+		max = 800 #VFM, from 500
 		min = 0		
 	}
 	
@@ -3221,6 +3285,7 @@ ai_strategy_default = {
 			stance = wants_high_supply
 			trigger = {
 				has_technology_researched = artillery
+				total_population >= 1000000
 			}
 		}
 		ammunition = {
