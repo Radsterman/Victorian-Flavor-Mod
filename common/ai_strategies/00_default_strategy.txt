@@ -632,14 +632,26 @@ ai_strategy_default = {
 					add = {
 						value = scope:target_state.state_population
 						divide = 100000
-						max = 20						
+						max = 15						
+					}
+					
+					add = {
+						value = scope:target_state.state_population
+						divide = 500000
+						max = 10						
 					}
 					
 					add = {
 						value = scope:target_state.gdp
 						divide = 100000
-						max = 20
-					}						
+						max = 15
+					}	
+
+                    add = {
+						value = scope:target_state.gdp
+						divide = 600000
+						max = 10
+					}					
 				}	
 
 				if = {
@@ -738,6 +750,13 @@ ai_strategy_default = {
 					}
 					multiply = 2.0
 				}
+				
+				if = {
+					limit = { 
+						has_strategic_land_adjacency = scope:target_state
+					}
+					multiply = 2.0
+				}
 
 				if = {
 					limit = { 
@@ -793,6 +812,35 @@ ai_strategy_default = {
 					scope:target_state.state_region = { is_homeland = cu:greek }
 				}
 				add = 50
+			}
+			
+			if = {
+				limit = {
+					has_journal_entry = je_sick_man_egypt
+					scope:target_state = {
+					    OR = {
+						state_region = s:STATE_PALESTINE
+						state_region = s:STATE_TRANSJORDAN
+						state_region = s:STATE_LEBANON
+						}
+					}
+				}
+				add = 15
+			}
+			
+			if = {
+				limit = {
+					country_has_primary_culture = cu:south_german
+					scope:target_state = {
+					    OR = {
+							region = sr:region_north_italy
+							region = sr:region_west_balkans
+							region = sr:region_south_germany
+							region = sr:region_hungary
+						}
+					}
+				}
+				add = 10
 			}
 
 			if = {
@@ -1425,7 +1473,36 @@ ai_strategy_default = {
 					limit = {
 						NOT = { has_strategic_adjacency = scope:target_country }
 					}
-					multiply = 0.5
+					multiply = 0.65
+				}
+				
+				if = {
+					limit = {
+						NOT = { has_strategic_land_adjacency = scope:target_country }
+					}
+					multiply = 0.65
+				}
+				
+				if = {
+					limit = {
+					    scope:target_country.capital.region = {
+							any_scope_state = {
+								owner = root
+							}
+						}
+					}
+					multiply = 1.3
+				}
+				
+				if = {
+					limit = {
+						scope:target_country = {
+							any_scope_state = {
+								is_homeland_of_country_cultures = root
+							}
+						}
+					}
+					multiply = 2.0
 				}
 			}
 			
@@ -2150,7 +2227,7 @@ ai_strategy_default = {
 					is_oppressor_of_schleswig_holstein = yes
 				}
 			}
-			add = 10
+			add = 30
 		}		
 
 		if = { #Carving up China
@@ -5234,6 +5311,7 @@ ai_strategy_default = {
 			}
 			if = {
 				limit = {
+                    exists = c:SPA
 					this = c:SPA
 					scope:target_country = {
 						any_scope_state = {
