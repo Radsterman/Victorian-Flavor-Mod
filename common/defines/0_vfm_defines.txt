@@ -31,9 +31,9 @@ NAI = {
 	PRODUCTION_BUILDING_RANDOM_FACTOR = 5
 	VIOLATE_SOVEREIGNTY_RANDOM_FACTOR = 1.5
 	
-	CONSTRUCTION_RESERVES_NEW_CONSTRUCTIONS = 0.05 #0.2 If gold reserves are less than this after adding the cost of a new construction, don't queue it	
-	CONSTRUCTION_DEBT_RESUME_CRITICAL_CONSTRUCTION = 0.5 #0.75 If critical constructions are paused, resume once debt is this low relative to ceiling
-	CONSTRUCTION_DEBT_PAUSE_CRITICAL_CONSTRUCTION = 0.8 #0.9 If in this much relative debt to debt ceiling, pause all critical constructions 
+	CONSTRUCTION_RESERVES_NEW_CONSTRUCTIONS = 0.02 #0.2 If gold reserves are less than this after adding the cost of a new construction, don't queue it	
+	CONSTRUCTION_DEBT_RESUME_CRITICAL_CONSTRUCTION = 0.45 #0.75 If critical constructions are paused, resume once debt is this low relative to ceiling
+	CONSTRUCTION_DEBT_PAUSE_CRITICAL_CONSTRUCTION = 0.65 #0.9 If in this much relative debt to debt ceiling, pause all critical constructions 
 	
 	MONEY_SPENDING_SUPPLY_NETWORK_DESIRED_THRESHOLD = 1.15 # If supply network is worse than this, AI wants to improve it
 
@@ -43,7 +43,7 @@ NAI = {
 	MONEY_SPENDING_BUREAUCRACY_CRITICAL_THRESHOLD = 0.95 # If bureaucracy income to expenses is worse than this, AI considers it critical to improve it
 	MONEY_SPENDING_BUREAUCRACY_DESIRED_THRESHOLD = 1.08 # If bureaucracy income to expenses is worse than this, AI wants to improve it
 	MONEY_SPENDING_BUREAUCRACY_EXCESSIVE_THRESHOLD = 1.16 # If bureaucracy income to expenses is better than this, AI will not improve it
-	MONEY_SPENDING_INFRASTRUCTURE_CRITICAL_THRESHOLD = 0.92 # If infra production to usage is worse than this, AI considers it critical to improve it
+	MONEY_SPENDING_INFRASTRUCTURE_CRITICAL_THRESHOLD = 0.93 # If infra production to usage is worse than this, AI considers it critical to improve it
 	MONEY_SPENDING_INFRASTRUCTURE_DESIRED_THRESHOLD = 1.15 # If infra production to usage is worse than this, AI wants to improve it
 	
 	PRODUCTION_BUILDING_FREE_INFRASTRUCTURE_TARGET_WHEN_LACKING_WORKFORCE = 2 # When lacking workforce, the AI will stop building in the state once available infrastructure is this or less
@@ -55,6 +55,21 @@ NAI = {
 	PRODUCTION_METHOD_INCREASE_OUTPUT_PENALTY_FACTOR = 0.2 #0.01 # Multiply method score by this if we're increasing the building's output penalties
 	
 	PRODUCTION_BUILDING_INCREASE_SHORTAGE_MULT = 0.2 #0.01 Multiply score by this if we're increasing the state region's shortages
+	
+	# Below data is used to calculate how much weight the AI places on promoting an IG
+    PROMOTION_BASE_VALUE = 40 # 50
+    
+    # Below data is used to calculate how much weight the AI places on suppressing an IG
+    SUPPRESSION_BASE_VALUE = 60 # 75
+	
+	# Below data is used to calculate how much weight the AI places on consumption taxes 
+    CONSUMPTION_TAX_INCOME_VALUE = 10 # Per percent of state expenses in taxable value (this is then multiplied by relative authority cost of the good)
+    CONSUMPTION_TAX_STAPLE_MULT = 0.7 #0.5 Multiply desire to tax staple goods by this
+    CONSUMPTION_TAX_LUXURY_MULT = 1.75 #2.0 Multiply desire to tax luxury goods by this
+    CONSUMPTION_TAX_LOW_INCOME_THRESHOLD = 1.75 #1.25 Income-to-expenses threshold below which consumption taxes are a must-have
+    CONSUMPTION_TAX_HIGH_INCOME_THRESHOLD = 2.75 #1.5 Income-to-expenses threshold at which consumption taxes should be removed (if removal would not put us below this)
+    CONSUMPTION_TAX_MAX_NUM_TAXED_GOODS_BASE = 2 #0 Base max number of goods AI wants to tax
+    CONSUMPTION_TAX_MAX_NUM_TAXED_GOODS_PER_MISSING_TAX_TYPE = 0 #2 Added to max number of goods AI wants to tax for each other type of tax it does not collect
 	
 	AI_PEACE_AGREEMENT_WHITE_PEACE_BASE = 15 # If no wargoals are being enforced on either side
 	AI_PEACE_AGREEMENT_WHITE_PEACE_WAR_DURATION = 2 # For each month the war goes on add this to the acceptance for a white peace
@@ -193,6 +208,100 @@ NPops = {
 	
 	INDIVIDUALS_TAXED_PER_TAX_CAPACITY = 15000			# How many pops can be taxed efficiently for each tax capacity
 }
+
+### Pop Growth Constants
+## Base Values per month
+@min_birthrate = 0.00055			# Minimum base birthrate per month (at POP_GROWTH_STABLE_SOL)
+@max_birthrate = 0.00500			#0.00450 Maximum base birthrate per month (at SOL = 0 if not modified by malnourishment)
+@min_mortality = 0.00045			# Minimum base mortality per month (at POP_GROWTH_STABLE_SOL)
+@max_mortality = 0.00680			#0.00600 Maximum base mortality per month (at SOL = 0 if not modified by malnourishment)
+
+## SoL Thresholds
+@pop_growth_equilibrium_sol = 5		# Equilibrium is pops stop starving and where growth first becomes positive
+@pop_growth_transition_sol = 10     # Transition determines how long birthrate "lags" behind mortality before starting to drop. Setting to same as equilibrium leads to no "lag" (only matters for birthrate)
+@pop_growth_max_sol = 11 #20			# Growth Max is where net growth generally is at it's highest (only matters for mortality)
+@pop_growth_stable_sol = 17 #20 #30			# Stable is where birthrate and mortality stop changing and hit their minimum values
+
+## Others
+@transition_birthrate_mult = 1 		# If you want the birthrate "lag" to go to a higher or lower value than max_birthrate. (you can also just change it directly below)
+@max_growth_mortality_mult = 0.35	# What proportion of birthrate_at_growth_max mortality should be at. Higher means lower growth
+
+### Pop Growth Derived values
+# Generally, for each one of these derived values below we're really just doing one of three operations (or combination of them):
+# - Calculate a Point: sol * slope + start_value   					(x_at_y)
+# - Calculate a Slope: (start_value - end_value) / number_of_steps	(x_slope)
+# - Calculate an Intercept: -slope*sol + end_value					(x_intercept)
+# Intercepts are only needed for line segments that don't start at 0 SoL
+
+@birthrate_at_transition = @[max_birthrate*transition_birthrate_mult]
+@rate_at_equilibrium = @[pop_growth_equilibrium_sol*((birthrate_at_transition-max_birthrate)/pop_growth_transition_sol)+max_birthrate] # determines both mortality and birthrate
+
+## Mortality from 0 to pop_growth_equilibrium_sol
+@mortality_starving_slope = @[(rate_at_equilibrium-max_mortality)/pop_growth_equilibrium_sol]
+
+## Birthrate from 0 to pop_growth_transition_sol
+@birthrate_pretransition_slope = @[(birthrate_at_transition-rate_at_equilibrium)/pop_growth_transition_sol]
+
+## Mortality from pop_growth_equilibrium_sol to pop_growth_max_sol
+@birthrate_at_growth_max = @[(pop_growth_max_sol-pop_growth_transition_sol)*((min_birthrate-birthrate_at_transition)/(pop_growth_stable_sol-pop_growth_transition_sol))+birthrate_at_transition]
+@mortality_at_growth_max = @[birthrate_at_growth_max*max_growth_mortality_mult]
+@mortality_equilibrium_to_growth_max_slope = @[(mortality_at_growth_max-rate_at_equilibrium)/(pop_growth_max_sol-pop_growth_equilibrium_sol)]
+@mortality_equilibrium_to_growth_max_intercept = @[-mortality_equilibrium_to_growth_max_slope*pop_growth_equilibrium_sol+rate_at_equilibrium]
+
+## Birthrate from pop_growth_transition_sol to pop_growth_stable_sol
+@birthrate_transition_slope = @[(min_birthrate-birthrate_at_transition)/(pop_growth_stable_sol-pop_growth_transition_sol)]
+@birthrate_transition_intercept = @[-birthrate_transition_slope*pop_growth_stable_sol+min_birthrate]
+
+## Mortality from pop_growth_max_sol to pop_growth_stable_sol
+@mortality_growth_max_to_stable_slope = @[(min_mortality-mortality_at_growth_max)/(pop_growth_stable_sol-pop_growth_max_sol)]
+@mortality_growth_max_to_stable_intercept = @[-mortality_growth_max_to_stable_slope*pop_growth_stable_sol+min_mortality]
+
+### Pseudo algorithm to determine base Mortality / Birthrate
+## Mortality
+# if (sol < POP_GROWTH_EQUILIBRIUM_SOL)
+# { mortality = sol * POP_GROWTH_MORTALITY_STARVING_SLOPE + POP_GROWTH_MAX_MORTALITY }
+# else if (sol < POP_GROWTH_MAX_SOL)
+# { mortality = sol * POP_GROWTH_MORTALITY_EQUILIBRIUM_TO_GROWTH_MAX_SLOPE + POP_GROWTH_MORTALITY_EQUILIBRIUM_TO_GROWTH_MAX_INTERCEPT }
+# else if (sol < POP_GROWTH_STABLE_SOL)
+# { mortality = sol * POP_GROWTH_MORTALITY_GROWTH_MAX_TO_STABLE_SLOPE + POP_GROWTH_MORTALITY_GROWTH_MAX_TO_STABLE_INTERCEPT }
+# else { mortality = POP_GROWTH_MIN_MORTALITY }
+
+## Birthrate
+# if (sol < POP_GROWTH_EQUILIBRIUM_SOL)
+# { birthrate = (sol * POP_GROWTH_BIRTHRATE_PRETRANSITION_SLOPE + POP_GROWTH_MAX_BIRTHRATE) * (1 - malnourishment * (POP_GROWTH_EQUILIBRIUM_SOL - sol)) }
+# else if (sol < POP_GROWTH_TRANSITION_SOL)
+# { birthrate = sol * POP_GROWTH_BIRTHRATE_PRETRANSITION_SLOPE + POP_GROWTH_MAX_BIRTHRATE }
+# else if (sol < POP_GROWTH_STABLE_SOL)
+# { birthrate = sol * POP_GROWTH_BIRTHRATE_TRANSITION_SLOPE + POP_GROWTH_BIRTHRATE_TRANSITION_INTERCEPT }
+# else { birthrate = POP_GROWTH_MIN_BIRTHRATE } 
+
+NPops = {
+	## Birthrate
+	POP_GROWTH_BIRTHRATE_PRETRANSITION_SLOPE = @birthrate_pretransition_slope
+	POP_GROWTH_BIRTHRATE_TRANSITION_SLOPE = @birthrate_transition_slope
+	POP_GROWTH_BIRTHRATE_TRANSITION_INTERCEPT = @birthrate_transition_intercept
+
+	## Mortality
+	POP_GROWTH_MORTALITY_STARVING_SLOPE = @mortality_starving_slope
+	POP_GROWTH_MORTALITY_EQUILIBRIUM_TO_GROWTH_MAX_SLOPE = @mortality_equilibrium_to_growth_max_slope
+	POP_GROWTH_MORTALITY_EQUILIBRIUM_TO_GROWTH_MAX_INTERCEPT = @mortality_equilibrium_to_growth_max_intercept
+	POP_GROWTH_MORTALITY_GROWTH_MAX_TO_STABLE_SLOPE = @mortality_growth_max_to_stable_slope
+	POP_GROWTH_MORTALITY_GROWTH_MAX_TO_STABLE_INTERCEPT = @mortality_growth_max_to_stable_intercept
+
+	## Base Values
+	POP_GROWTH_MIN_BIRTHRATE = @min_birthrate					# Minimum base birthrate per month (at POP_GROWTH_STABLE_SOL)
+	POP_GROWTH_MAX_BIRTHRATE = @max_birthrate					# Maximum base birthrate per month (at SOL = 0 if not modified by malnourishment)
+	POP_GROWTH_MIN_MORTALITY = @min_mortality					# Minimum base mortality per month (at POP_GROWTH_STABLE_SOL)
+	POP_GROWTH_MAX_MORTALITY = @max_mortality					# Maximum base mortality per month (at SOL = 0 if not modified by malnourishment)
+
+	## SoL Thresholds
+	POP_GROWTH_EQUILIBRIUM_SOL = @pop_growth_equilibrium_sol	# Equilibrium is pops stop starving and where growth first becomes positive
+	POP_GROWTH_TRANSITION_SOL = @pop_growth_transition_sol		# Transition determines how long birthrate "lags" behind mortality before starting to drop. Setting to same as equilibrium leads to no "lag" (only matters for birthrate)
+	POP_GROWTH_MAX_SOL = @pop_growth_max_sol					# Growth Max is where net growth generally is at it's highest (only matters for mortality)
+	POP_GROWTH_STABLE_SOL = @pop_growth_stable_sol				# Stable is where birthrate and mortality stop changing and hit their minimum values
+}
+### End Pop Growth Constant defines
+
 
 NPops = {
 }
