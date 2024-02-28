@@ -711,49 +711,31 @@ journal_flavor_central_america.8 = {
 		set_variable = second_frca_civil_war_var
 		
 		create_diplomatic_play = {
-			name = central_american_civil_war
+			name = guatemala_intervention
 			type = dp_annex_war
 			escalation = 80
-			target_state = s:STATE_NICARAGUA.region_state:NIC
-			
-			add_target_backers = c:LOS
-			add_target_backers = c:GUA
-			add_target_backers = c:COS
-			add_target_backers = c:HON
-			
-
-			add_war_goal = {
-				holder = c:GUA
-				type = war_reparations
-			}
-			add_war_goal = {
-				holder = c:GUA
-				type = humiliation
-			}
-			add_war_goal = {
-				holder = c:NIC
-				type = war_reparations
-			}
-			add_war_goal = {
-				holder = c:UCA
-				type = conquer_state
-				target_state = s:STATE_HONDURAS.region_state:HON
-			}
-			add_war_goal = {
-				holder = c:UCA
-				type = conquer_state
-				target_state = s:STATE_COSTA_RICA.region_state:COS
-			}
-			add_war_goal = {
-				holder = c:UCA
-				type = conquer_state
-				target_state = s:STATE_GUATEMALA.region_state:GUA
-			}
-			add_war_goal = {
-				holder = c:UCA
-				type = conquer_state
-				target_state = s:STATE_CHIAPAS.region_state:GUA
-			}
+			target_state = s:STATE_GUATEMALA.region_state:GUA
+		}
+		
+		create_diplomatic_play = {
+			name = honduras_intervention
+			type = dp_annex_war
+			escalation = 60
+			target_state = s:STATE_HONDURAS.region_state:HON
+		}
+		
+		create_diplomatic_play = {
+			name = nicaraguan_intervention
+			type = dp_annex_war
+			escalation = 40
+			target_state = s:STATE_NICARAGUA.region_state:NIC	
+		}
+		
+		create_diplomatic_play = {
+			name = costa_rica_intervention
+			type = dp_annex_war
+			escalation = 20
+			target_state = s:STATE_COSTA_RICA.region_state:COS
 		}
 	
 		ai_chance = {
@@ -987,20 +969,32 @@ journal_flavor_central_america.11 = {
 		remove_variable = je_central_america_setup_gua_var
 	}
 
-	option = { #We can't afford it
+	option = { #Morazan invades
 		name = journal_flavor_central_america.11.a
 		default_option = yes
+		
+		custom_tooltip = {
+			text = uca_pos_gua_civil_war_tt
+			
+			trigger_event = { id = journal_flavor_central_america.19 days = 120 } #Establishment of Los Altos
+		}
 	
 		ai_chance = {
-			base = 50
+			base = 90
 		}
 	}
 
-	option = { #Aid them
+	option = { #Galvez is left on his own
 		name = journal_flavor_central_america.11.b
 		
+		custom_tooltip = {
+			text = uca_neg_gua_civil_war_tt
+			
+			trigger_event = { id = journal_flavor_central_america.20 days = 365 } #Carrera gets himself killed
+		}
+		
 		ai_chance = {
-			base = 50
+			base = 10
 		}
 	}
 }
@@ -1037,7 +1031,13 @@ journal_flavor_central_america.12 = {
 	option = { #Intervene
 		name = journal_flavor_central_america.12.a
 		
-		hidden_effect = { trigger_event = { id = journal_flavor_central_america.15 days = 60 } }
+		custom_tooltip = {
+			text = uca_pos_nic_civil_war_tt
+			
+			trigger_event = { id = journal_flavor_central_america.15 days = 60 } #Conservatives rejoin the Federalist cause
+		}
+		
+		#hidden_effect = { trigger_event = { id = journal_flavor_central_america.15 days = 60 } }
 		
 		ai_chance = {
 			base = 50
@@ -1048,7 +1048,13 @@ journal_flavor_central_america.12 = {
 		name = journal_flavor_central_america.12.b
 		default_option = yes
 		
-		hidden_effect = { trigger_event = { id = journal_flavor_central_america.16 days = 30 } }
+		custom_tooltip = {
+			text = uca_neg_nic_civil_war_tt
+			
+			trigger_event = { id = journal_flavor_central_america.16 days = 30 } #Conservatives take over Nicaragua
+		}
+		
+		#hidden_effect = { trigger_event = { id = journal_flavor_central_america.16 days = 30 } }
 		
 		ai_chance = {
 			base = 50
@@ -1319,4 +1325,117 @@ journal_flavor_central_america.18 = {
 		}
 	}
 
+}
+
+journal_flavor_central_america.19 = { #Establishment of Los Altos
+	type = country_event
+	placement = ROOT
+	title = journal_flavor_central_america.19.t
+	desc = journal_flavor_central_america.19.d
+	flavor =  journal_flavor_central_america.19.f
+
+	duration = 2
+
+	event_image = {
+		video = "europenorthamerica_before_the_battle"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	option = { #Establish Los Altos
+		name = journal_flavor_central_america.19.a
+		default_option = yes
+		
+		custom_tooltip = {
+			text = uca_pos_alt_civil_war_tt
+			
+			set_variable = uca_morazan_invades_gua_var
+		}
+	
+		ai_chance = {
+			base = 80
+		}
+	}
+
+	option = { #Leave Guatemala whole
+		name = journal_flavor_central_america.19.b
+		
+		custom_tooltip = {
+			text = uca_neg_alt_civil_war_tt
+			
+			trigger_event = { id = journal_flavor_central_america.21 days = 365 } #Carrera leaves for Mexico
+		}
+		
+		ai_chance = {
+			base = 20
+		}
+	}
+}
+
+journal_flavor_central_america.20 = { #Carrera dies in Guatemala
+	type = country_event
+	placement = ROOT
+	title = journal_flavor_central_america.20.t
+	desc = journal_flavor_central_america.20.d
+	flavor =  journal_flavor_central_america.20.f
+
+	duration = 2
+
+	event_image = {
+		video = "europenorthamerica_before_the_battle"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	option = {
+		name = journal_flavor_central_america.19.a
+		default_option = yes
+		
+		custom_tooltip = {
+			text = uca_gua_civil_war_resolved_tt
+			
+			set_variable = gua_support_var
+		}
+	
+		ai_chance = {
+			base = 100
+		}
+	}
+}
+
+journal_flavor_central_america.21 = { #Carrera flees to Mexico
+	type = country_event
+	placement = ROOT
+	title = journal_flavor_central_america.21.t
+	desc = journal_flavor_central_america.21.d
+	flavor =  journal_flavor_central_america.21.f
+
+	duration = 2
+
+	event_image = {
+		video = "europenorthamerica_before_the_battle"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_military.dds"
+
+	option = {
+		name = journal_flavor_central_america.21.a
+		default_option = yes
+		
+		custom_tooltip = {
+			text = uca_gua_civil_war_resolved_tt
+			
+			set_variable = gua_support_var
+		}
+	
+		ai_chance = {
+			base = 100
+		}
+	}
 }
