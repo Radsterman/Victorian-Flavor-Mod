@@ -15,6 +15,7 @@
 			NOR = { 
 				is_country_type = decentralized 
 				has_law = law_type:law_isolationism
+				country_rank >= rank_value:major_power
 			}
 		}
 	}
@@ -33,6 +34,7 @@
 			scope:target_country.relations:root >= relations_threshold:cordial
 		}
 		is_revolutionary = no
+        country_rank > scope:target_country.country_rank
 		scope:target_country = {
 			is_revolutionary = no
 		}
@@ -102,7 +104,9 @@
 				scope:target_country = { is_subject_of = root }
 				is_junior_in_customs_union = yes
 				scope:target_country = { has_law = law_type:law_isolationism }
-				has_law = law_type:law_isolationism		
+				has_law = law_type:law_isolationism	
+                country_rank < scope:target_country.country_rank	
+                scope:target_country.country_rank >= rank_value:major_power				
 			}
 		}
 
@@ -179,7 +183,21 @@
 					desc = "DIPLOMATIC_ACCEPTANCE_NOT_ADJACENT_MARKETS"
 					value = -20
 				}
-			}			
+			}
+			
+			if = {
+				limit = {
+					NOT = { 
+					    scope:actor = {
+						    has_strategic_land_adjacency = root
+						}
+					}
+				}
+				add = {
+					desc = "DIPLOMATIC_ACCEPTANCE_NOT_NEIGHBORS"
+					value = -10
+				}
+			}
 
 			if = {
 				limit = { 
@@ -190,6 +208,16 @@
 					add = 50
 				}
 			}	
+			
+			if = {
+				limit = { 
+					has_strategy = ai_strategy_armed_isolationism
+				}
+				subtract = {
+					desc = "DIPLOMATIC_ACCEPTANCE_ISOLATIONIST"
+					add = -10
+				}
+			}
 
 			add = {
 				desc = "DIPLOMATIC_ACCEPTANCE_SENIOR_PART"
@@ -365,25 +393,54 @@
 					value = -20
 				}
 			}
+			
+			if = {
+				limit = {
+					NOT = { 
+					    scope:actor = {
+						    has_strategic_land_adjacency = root
+						}
+					}
+				}
+				add = {
+					desc = "DIPLOMATIC_ACCEPTANCE_NOT_NEIGHBORSS"
+					value = -10
+				}
+			}
+			
+			if = {
+				limit = {
+					NOT = { 
+					    scope:actor.market = {
+							any_scope_country = {
+						        has_strategic_land_adjacency = root
+							}
+						}
+					}
+				}
+				add = {
+					desc = "DIPLOMATIC_ACCEPTANCE_MARKET_NOT_NEIGHBORS"
+					value = -20
+				}
+			}
 
 			add = {
 				desc = "DIPLOMATIC_ACCEPTANCE_GDP"
 				value = "scope:actor.ai_gdp_comparison(root)"
-				multiply = 2
-				min = -20
-				max = 20
+				multiply = 3
+				min = -40
+				max = 40
 			}
 					
 			if = {
 				limit = {
-					gdp >= 2000000
+					gdp >= 1000000 # VFM - lower from 2 000 000
 				}
 				
 				subtract = {
-					desc = "DIPLOMATIC_ACCEPTANCE_HIGH_GDP"
+					desc = "DIPLOMATIC_ACCEPTANCE_MEDIUM_GDP"
 					value = gdp
-					subtract = 1000000
-					divide = 1000000
+					divide = 500000 # VFM - lower from 1 000 000
 					min = 1
 					max = 100
 				}
@@ -404,7 +461,7 @@
 					desc = "DIPLOMATIC_ACCEPTANCE_IDEOLOGICAL_OPINION"
 					value = "scope:actor.ai_ideological_opinion(root)"
 					multiply = 0.5
-					max = 20
+					max = 25
 				}					
 			}
 			else_if = {
@@ -415,7 +472,7 @@
 					desc = "DIPLOMATIC_ACCEPTANCE_IDEOLOGICAL_OPINION_NEGATIVE"
 					value = "scope:actor.ai_ideological_opinion(root)"
 					multiply = 0.5
-					min = -20
+					min = -25
 				}					
 			}		
 
@@ -536,6 +593,11 @@
 			add = {
 				desc = "DIPLOMATIC_ACCEPTANCE_RANK"
 
+                if = {
+					limit = { country_rank <= rank_value:insignificant_power }
+					value = 20
+				}
+
 				if = {
 					limit = { scope:actor = { country_rank = root.country_rank } }
 					value = -20
@@ -579,6 +641,65 @@
 				add = {
 					desc = "DIPLOMATIC_ACCEPTANCE_IS_CHINA"
 					value = -1000
+				}
+			}
+			
+			if = {
+				limit = {
+					country_has_primary_culture = cu:han
+					scope:target_country = {
+						country_has_primary_culture = cu:han
+					}
+				}
+				add = {
+					desc = "DIPLOMATIC_ACCEPTANCE_IS_CHINA"
+					value = 20
+				}
+			}
+			
+			if = {
+				limit = {
+				    OR = { 
+						AND = {
+							country_has_primary_culture = cu:north_german
+							scope:target_country = {
+								country_has_primary_culture = cu:north_german
+							}
+						}
+						AND = {
+							country_has_primary_culture = cu:south_german
+							scope:target_country = {
+								country_has_primary_culture = cu:south_german
+							}
+						}
+					}
+				}
+				add = {
+					desc = "DIPLOMATIC_ACCEPTANCE_IS_GERMANY"
+					value = 20
+				}
+			}
+			
+			if = {
+				limit = {
+				    OR = { 
+						AND = {
+							country_has_primary_culture = cu:north_italian
+							scope:target_country = {
+								country_has_primary_culture = cu:north_italian
+							}
+						}
+						AND = {
+							country_has_primary_culture = cu:south_italian
+							scope:target_country = {
+								country_has_primary_culture = cu:south_italian
+							}
+						}
+					}
+				}
+				add = {
+					desc = "DIPLOMATIC_ACCEPTANCE_IS_ITALY"
+					value = 20
 				}
 			}
 		}
@@ -641,6 +762,7 @@ join_customs_union = {
 		scope:target_country = {
 			NOT = { is_country_type = decentralized }
 		}
+		country_rank < rank_value:great_power
 	}
 
 	possible = {
@@ -664,6 +786,7 @@ join_customs_union = {
 		}
 
 		is_revolutionary = no
+		country_rank < scope:target_country.country_rank
 
 		scope:target_country = {
 			is_revolutionary = no
@@ -683,7 +806,7 @@ join_customs_union = {
 					}
 				}
 			}
-		}		
+		}	
 	}
 
 	reverse_pact = customs_union
