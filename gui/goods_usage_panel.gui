@@ -1,0 +1,306 @@
+# COPY-PASTED FOR NOW
+@panel_width_minus_10 = 530			# used to be 450
+@panel_width = 540  				# used to be 460
+@panel_width_half = 270				# used to be 230
+@panel_width_plus_10 = 550  		# used to be 470
+@panel_width_plus_14 = 554			# used to be 474
+@panel_width_plus_14_half = 277		# used to be 237
+@panel_width_plus_20 = 560			# used to be 480
+@panel_width_plus_30 = 570			# used to be 490
+@panel_width_plus_70 = 610			# used to be 530
+
+types goods_usage_panel_tyes
+{
+	type goods_usage_panel = default_block_window_two_lines {
+		name = "goods_usage_panel"
+		
+		blockoverride "window_header_name"
+		{
+			raw_text = "#BOLD [GoodsUsagePanel.GetGoods.GetName]#!"
+		}
+
+		blockoverride "window_header_name_line_two"
+		{
+			text = "GOODS_USAGE_PANEL_LINE_TWO"
+		}
+		
+		blockoverride "fixed_top"
+		{
+			tab_buttons = {
+				
+				# OBS! these 4 tabs are copied to goods_panel.gui / goods_usage_panel.gui / goods_state_panel.gui / goods_local_prices_panel.gui
+				# consider merging these panels into the same panel
+				
+				# market
+				blockoverride "first_button" {
+					text = "[GoodsUsagePanel.GetGoods.GetMarket.GetNameNoFormatting]"
+				}
+				blockoverride "first_button_tooltip" {
+					tooltip = "[GoodsUsagePanel.GetGoods.GetMarket.GetNameNoFormatting]"
+				} 
+				blockoverride "first_button_visibility_checked" {
+					visible = "[And(GoodsUsagePanel.GetGoods.HasMarketContext,Not(GoodsUsagePanel.GetGoods.IsLocal))]"
+				}
+				blockoverride "first_button_click" {
+					onclick = "[InformationPanelBar.OpenGoodsPanel( GoodsUsagePanel.GetGoods.GetMarket, GoodsUsagePanel.GetGoods )]"
+				}
+				
+				# selected state
+				blockoverride "second_button" {
+					text = "[GoodsUsagePanel.GetGoods.GetState.GetNameNoFormatting]"
+				}
+				blockoverride "second_button_tooltip" {
+					tooltip = "[GoodsUsagePanel.GetGoods.GetState.GetNameNoFormatting]"
+				} 
+				blockoverride "second_button_visibility_checked" {
+					visible = "[GoodsUsagePanel.GetGoods.HasStateContext]"
+				}
+				blockoverride "second_button_click" {
+					onclick = "[InformationPanelBar.OpenGoodsStatePanel( GoodsUsagePanel.GetGoods.GetState, GoodsUsagePanel.GetGoods )]"
+				}			
+				
+				# states in market
+				blockoverride "third_button" {
+					text = "LOCAL_PRICES"
+				}
+				blockoverride "third_button_tooltip" {
+					tooltip = "LOCAL_PRICES"
+				} 					
+				blockoverride "third_button_visibility_checked" {
+					visible = yes
+				}			
+				blockoverride "third_button_click" {
+					onclick = "[InformationPanelBar.OpenGoodsLocalPricesPanel(GoodsUsagePanel.GetGoods)]"
+				}					
+				
+				# usage / application (SELECTED)
+				blockoverride "fourth_button_selected" {
+					text = USAGE
+				}
+				blockoverride "fourth_button_visibility" {
+					visible = yes
+				}
+				blockoverride "fourth_button_tooltip" {}				
+			}
+		}
+
+		blockoverride "scrollarea_content"
+		{
+			container = {
+				parentanchor = hcenter
+				
+				flowcontainer = {
+					margin_top = 10
+					minimumsize = { @panel_width_plus_20 -1 }
+					using = default_list_position
+					direction = vertical
+					datacontext = "[GoodsUsagePanel.AccessGoods]"
+
+					flowcontainer = {
+						using = default_list_position
+						maximumsize = { @panel_width -1 }
+						minimumsize = { @panel_width -1 }
+						direction = vertical
+						
+						default_header = {
+							parentanchor = hcenter
+							blockoverride "text"
+							{
+								text = "GOOD_CAN_BE_PRODUCED_BY"
+							}
+						}
+
+						flowcontainer = {
+							margin = { 0 5 }
+							
+							dynamicgridbox = {
+								datamodel = "[Goods.AccessBuildingsProducingThis]"
+								flipdirection = yes
+								datamodel_wrap = 5
+
+								item = {
+									container = {
+										producing_building_button = {}
+									}
+								}
+							}
+						}
+
+						section_header_button = {
+							visible = "[Not(IsDataModelEmpty( Goods.AccessProductionMethodsProducingThis ))]"
+							
+							blockoverride "left_text" {
+								text = "ACTIVE_PRODUCTION_METHODS_PRODUCING"
+							}
+							
+							blockoverride "onclick" {
+								onclick = "[GetVariableSystem.Toggle('produced_by_pms')]"
+							}
+							
+							blockoverride "onclick_showmore" {
+								visible = "[Not(GetVariableSystem.Exists('produced_by_pms'))]"
+							}
+
+							blockoverride "onclick_showless" {
+								visible = "[GetVariableSystem.Exists('produced_by_pms')]"
+							}
+						}
+						
+						flowcontainer = {
+							margin = { 0 5 }
+							visible = "[GetVariableSystem.Exists('produced_by_pms')]"
+							direction = vertical
+							
+							dynamicgridbox = {
+								datamodel = "[Goods.AccessProductionMethodsProducingThis]"
+
+								item = {
+									production_method_item = {
+										visible = "[GreaterThan_int32(ProductionMethod.GetNumOfBuildingsUsingThis(GetPlayer.Self), '(int32)0')]"
+									}
+								}
+							}
+
+							section_header_button = {
+								visible = "[Not(IsDataModelEmpty( Goods.AccessProductionMethodsProducingThis ))]"
+								
+								blockoverride "left_text" {
+									text = "INACTIVE_PRODUCTION_METHODS"
+								}
+								
+								blockoverride "onclick" {
+									onclick = "[GetVariableSystem.Toggle('produced_by_pms_unused')]"
+								}
+								
+								blockoverride "onclick_showmore" {
+									visible = "[Not(GetVariableSystem.Exists('produced_by_pms_unused'))]"
+								}
+
+								blockoverride "onclick_showless" {
+									visible = "[GetVariableSystem.Exists('produced_by_pms_unused')]"
+								}
+							}
+
+							dynamicgridbox = {
+								datamodel = "[Goods.AccessProductionMethodsProducingThis]"
+								visible = "[GetVariableSystem.Exists('produced_by_pms_unused')]"
+
+								item = {
+									production_method_item = {
+										visible = "[Not(GreaterThan_int32(ProductionMethod.GetNumOfBuildingsUsingThis(GetPlayer.Self), '(int32)0'))]"
+									}
+								}
+							}
+						}
+						
+						widget = { size = { 10 20 }}
+						
+						default_header = {
+							parentanchor = hcenter
+							blockoverride "text"
+							{
+								text = "GOOD_CAN_BE_USED_BY"
+							}
+						}
+
+						flowcontainer = {
+							margin = { 0 5 }
+							
+							dynamicgridbox = {
+								datamodel = "[Goods.AccessBuildingsUsingThis]"
+								flipdirection = yes
+								datamodel_wrap = 5
+
+								item = {
+									container = {
+										producing_building_button = {}
+									}
+								}
+							}
+						}
+
+						section_header_button = {
+							visible = "[Not(IsDataModelEmpty( Goods.AccessProductionMethodsUsingThis ))]"
+							
+							blockoverride "left_text" {
+								text = "ACTIVE_PRODUCTION_METHODS_CONSUMING"
+							}
+							
+							blockoverride "onclick" {
+								onclick = "[GetVariableSystem.Toggle('used_by_pms')]"
+							}
+							
+							blockoverride "onclick_showmore" {
+								visible = "[Not(GetVariableSystem.Exists('used_by_pms'))]"
+							}
+
+							blockoverride "onclick_showless" {
+								visible = "[GetVariableSystem.Exists('used_by_pms')]"
+							}
+						}
+
+						flowcontainer = {
+							margin = { 0 5 }
+							visible = "[GetVariableSystem.Exists('used_by_pms')]"
+							direction = vertical
+							
+							dynamicgridbox = {
+								datamodel = "[Goods.AccessProductionMethodsUsingThis]"
+
+								item = {
+									production_method_item = {
+										visible = "[GreaterThan_int32(ProductionMethod.GetNumOfBuildingsUsingThis(GetPlayer.Self), '(int32)0')]"
+									}
+								}
+							}
+
+							section_header_button = {
+								visible = "[Not(IsDataModelEmpty( Goods.AccessProductionMethodsUsingThis ))]"
+								
+								blockoverride "left_text" {
+									text = "INACTIVE_PRODUCTION_METHODS"
+								}
+								
+								blockoverride "onclick" {
+									onclick = "[GetVariableSystem.Toggle('used_by_pms_unused')]"
+								}
+								
+								blockoverride "onclick_showmore" {
+									visible = "[Not(GetVariableSystem.Exists('used_by_pms_unused'))]"
+								}
+
+								blockoverride "onclick_showless" {
+									visible = "[GetVariableSystem.Exists('used_by_pms_unused')]"
+								}
+							}
+
+							dynamicgridbox = {
+								datamodel = "[Goods.AccessProductionMethodsUsingThis]"
+								visible = "[GetVariableSystem.Exists('used_by_pms_unused')]"
+
+								item = {
+									production_method_item = {
+										visible = "[Not(GreaterThan_int32(ProductionMethod.GetNumOfBuildingsUsingThis(GetPlayer.Self), '(int32)0'))]"
+									}
+								}
+							}
+						}
+
+						textbox = {
+							margin = { 10 10 }
+							parentanchor = hcenter
+							text = "[Goods.GetNeedLevelsContainingThisDesc]"
+							maximumsize = { @panel_width -1 }
+							minimumsize = { @panel_width -1 }
+							autoresize = yes
+							multiline = yes
+							align = left|nobaseline
+						}
+					}
+				}
+			}
+		}
+
+		blockoverride "fixed_bottom" {}
+	}
+}

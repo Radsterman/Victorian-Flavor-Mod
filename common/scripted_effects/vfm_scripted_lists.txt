@@ -1,0 +1,44 @@
+﻿vfm_scripted_lists_effect = { #Run in global history file and monthly pulse on action, add what would be scripted lists here to iterate through smaller groups of objects - please do this to improve performance of the mod
+
+	#Great Powers List
+	clear_global_variable_list = great_powers_list
+	every_country = {
+		limit = {
+			country_rank = rank_value:great_power
+		}
+		add_to_global_variable_list = { name = great_powers_list target = THIS }
+	}
+	
+	#Scandinavian Countries List
+	clear_global_variable_list = scandinavian_countries_list
+	if = {
+		limit = {
+			any_country = { has_journal_entry = je_scandinavian_monetary_union }
+		}
+		every_country = {
+			limit = {
+				any_primary_culture = {
+					has_discrimination_trait = scandinavian_culture_group
+				}			
+			}
+			add_to_global_variable_list = { name = scandinavian_countries_list target = THIS }
+		}
+	}
+	
+	#USA Slave-state Plantations List
+	clear_global_variable_list = usa_slave_plantations_list
+	if = {
+		limit = {
+			c:USA = { has_journal_entry = je_acw_countdown }
+		}
+		c:USA = {
+			every_scope_building = {
+				limit = {
+					is_building_group = bg_plantations
+					state = { is_slave_state = yes }
+				}
+				add_to_global_variable_list = { name = usa_slave_plantations_list target = THIS }
+			}
+		}
+	}
+}

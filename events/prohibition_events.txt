@@ -1,0 +1,808 @@
+﻿namespace = prohibition
+
+prohibition.1 = { #start the JE
+	type = country_event
+	placement = ROOT
+
+	title = prohibition.1.t
+	desc = prohibition.1.d
+	flavor = prohibition.1.f
+
+	duration = 3
+
+	event_image = {
+		video = "unspecific_temperance_movement"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+	
+	trigger = {
+		#triggered by JE
+		is_junior_in_customs_union = no
+		any_scope_state = {
+			is_incorporated = yes
+			has_distillery = yes
+		}
+		NOR = {
+			ig:ig_devout = {
+				has_modifier = rejected_prohibition_modifier
+			}
+			ig:ig_intelligentsia = {
+				has_modifier = rejected_prohibition_modifier
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				has_distillery = yes
+			}
+			save_scope_as = temperance_state
+		}
+		ig:ig_devout = {
+			save_scope_as = devout_ig
+		}
+		ig:ig_intelligentsia = {
+			save_scope_as = intelligentsia_ig
+		}
+	}
+
+	option = { #start the JE
+		name = prohibition.1.a
+		ai_chance = {
+			base = 75
+		}
+		scope:temperance_state = {
+			add_modifier = {
+				name = started_temperance_modifier
+				months = normal_modifier_time
+			}
+		}
+	}
+
+	option = { #no
+		name = prohibition.1.b
+		default_option = yes
+		ai_chance = {
+			base = 50
+			modifier = {
+				trigger = {
+					ig:ig_devout = {
+						ig_approval < -5
+					}
+				}
+				add = -25
+			}
+			modifier = {
+				trigger = {
+					ig:ig_intelligentsia = {
+						ig_approval < -5
+					}
+				}
+				add = -25
+			}
+		}
+		custom_tooltip = rejected_prohibition_tt
+		ig:ig_devout = {
+			add_modifier = {
+				name = rejected_prohibition_modifier
+				months = normal_modifier_time
+			}
+		}
+		ig:ig_intelligentsia = {
+			add_modifier = {
+				name = rejected_prohibition_modifier
+				months = normal_modifier_time
+			}
+		}
+	}
+}
+
+prohibition.2 = { #government IG illegal distillery
+	type = country_event
+	placement = scope:temperance_state
+
+	title = prohibition.2.t
+	desc = prohibition.2.d
+	flavor = prohibition.2.f
+
+	duration = 3
+
+	event_image = {
+		video = "unspecific_temperance_movement"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	cooldown = { months = normal_modifier_time }
+	
+	trigger = {
+		any_interest_group = {
+			is_in_government = yes 
+			leader = {
+				OR = {
+					has_trait = alcoholic
+					has_trait = bigoted
+					has_trait = reckless
+					has_trait = ambitious
+					has_trait = imperious
+					has_trait = hedonist
+					has_trait = bandit
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+			}
+			save_scope_as = temperance_state
+		}
+		random_interest_group = {
+			limit = {
+				is_in_government = yes 
+				leader = {
+					OR = {
+						has_trait = alcoholic
+						has_trait = bigoted
+						has_trait = reckless
+						has_trait = ambitious
+						has_trait = imperious
+						has_trait = hedonist
+						has_trait = bandit
+					}
+				}
+			}
+			save_scope_as = alcoholic_ig
+			leader = {
+				save_scope_as = alcoholic_leader
+			}
+		}
+	}
+
+	option = { #raid the bday party
+		name = prohibition.2.a
+		highlighted_option = yes
+		custom_tooltip = prohibition_laws_weak_pm.tt
+		trigger = {
+			OR = {
+				institution_investment_level = {
+					institution = institution_police
+					value >= 2
+				}
+				institution_investment_level = {
+					institution = institution_home_affairs
+					value >= 2
+				}
+			}
+		}
+		scope:alcoholic_ig = {
+			add_modifier = {
+				name = birthday_raid_modifier #approval and pop attraction
+				months = normal_modifier_time
+			}
+		}
+		scope:alcoholic_leader = {
+			add_modifier = {
+				name = birthday_raid_leader_modifier #popularity
+				months = normal_modifier_time
+			}
+		}
+		change_variable = {
+			name = prohibition_laws_var
+			add = 2
+		}
+	}
+
+	option = { #we'll talk about this like gentlemen
+		name = prohibition.2.b
+		default_option = yes
+		scope:alcoholic_ig = {
+			add_modifier = {
+				name = birthday_raid_gentlemen_modifier #approval and pol strenght but less
+				months = normal_modifier_time
+			}
+		}
+	}
+	
+	option = { #we saw nothing
+		name = prohibition.2.c 
+		custom_tooltip = prohibition_laws_bad_pm.tt
+		change_variable = {
+			name = prohibition_laws_var
+			add = -3
+		}
+	}
+}
+
+prohibition.3 = { #Industrialists dont like losing money
+	type = country_event
+	placement = scope:temperance_state
+
+	title = prohibition.3.t
+	desc = prohibition.3.d
+	flavor = prohibition.3.f
+
+	duration = 3
+
+	event_image = {
+		video = "unspecific_temperance_movement"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	cooldown = { months = normal_modifier_time }
+	
+	trigger = {
+		ig:ig_industrialists = {
+			OR = {
+				is_powerful = yes
+				is_in_government = yes 
+			}
+		}
+		any_scope_state = {
+			filter = {
+				is_incorporated = yes
+			}
+			has_distillery = no
+			percent > 0.7
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				has_distillery = no
+			}
+			save_scope_as = temperance_state
+		}
+		ig:ig_industrialists = {
+			save_scope_as = industrialists_ig
+			leader = {
+				save_scope_as = industrialist_leader
+			}
+		}
+	}
+
+	option = { #it is what it is my dudes
+		name = prohibition.3.a
+		default_option = yes
+		custom_tooltip = prohibition_laws_weak_pm.tt
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = industrialists_rejected_modifier #approval
+				months = normal_modifier_time
+			}
+		}
+		change_variable = {
+			name = prohibition_laws_var
+			add = 1
+		}
+	}
+
+	option = { #I guess they can have wine instead
+		name = prohibition.3.b
+		custom_tooltip = prohibition_laws_bad_pm.tt
+		trigger = {
+			scope:temperance_state = {
+				any_scope_building = {
+					is_building_type = building_vineyard_plantation
+				}
+			}
+		}
+		scope:temperance_state = {
+			add_modifier = {
+				name = wine_allowed_modifier #wine bonus 
+				months = normal_modifier_time
+			}
+		}
+		change_variable = {
+			name = prohibition_laws_var
+			add = -2
+		}
+	}
+}
+
+prohibition.4 = { #raid on a pet shop
+	type = country_event
+	placement = scope:temperance_state
+
+	title = prohibition.4.t
+	desc = prohibition.4.d
+	flavor = prohibition.4.f
+
+	duration = 3
+
+	event_image = {
+		video = "unspecific_temperance_movement"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	cooldown = { months = normal_modifier_time }
+	
+	trigger = {
+		#triggered by JE
+		NOT = { has_variable = pet_shop_var }
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				any_scope_state = {
+					is_incorporated = yes
+					has_distillery = yes
+				}
+			}
+			random_scope_state = {
+				limit = {
+					is_incorporated = yes
+					has_distillery = yes
+				}
+				save_scope_as = temperance_state
+			}
+		}
+		else = {
+			random_scope_state = {
+				limit = {
+					is_incorporated = yes
+				}
+				save_scope_as = temperance_state
+			}
+		}
+		set_variable = pet_shop_var
+	}
+
+	option = { #it's just a pet shop
+		name = prohibition.4.a
+		custom_tooltip = prohibition_laws_bad_pm.tt
+		change_variable = {
+			name = prohibition_laws_var
+			add = -2
+		}
+	}
+	
+	option = { #(sigh) sir, hand me the papers
+		name = prohibition.4.b
+		default_option = yes
+		custom_tooltip = prohibition_laws_weak_pm.tt
+		scope:temperance_state = {
+			add_radicals_in_state = {
+				value = medium_radicals
+			}
+		}
+		change_variable = {
+			name = prohibition_laws_var
+			add = 2
+		}
+	}
+
+	option = { #send the police
+		name = prohibition.4.c
+		highlighted_option = yes
+		custom_tooltip = prohibition_laws_pm.tt
+		trigger = {
+			OR = {
+				institution_investment_level = {
+					institution = institution_police
+					value >= 2
+				}
+				institution_investment_level = {
+					institution = institution_home_affairs
+					value >= 2
+				}
+			}
+		}
+		change_variable = {
+			name = prohibition_laws_var
+			add = 4
+		}
+		scope:temperance_state = {
+			add_radicals_in_state = {
+				value = medium_radicals
+			}
+			if = {
+				limit = {
+					any_neighbouring_state = {
+						is_incorporated = yes
+						owner = ROOT
+					}
+				}
+				random_neighbouring_state = {
+					limit = {
+						is_incorporated = yes
+						owner = ROOT
+					}
+					add_radicals_in_state = {
+						value = medium_radicals
+					}
+				}
+			}
+		}
+	}
+}
+
+prohibition.5 = { #people are using subsistence farms to make liquor
+	type = country_event
+	placement = scope:temperance_state
+
+	title = prohibition.5.t
+	desc = prohibition.5.d
+	flavor = prohibition.5.f
+
+	duration = 3
+
+	event_image = {
+		video = "europenorthamerica_russian_serfs"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	cooldown = { months = normal_modifier_time }
+	
+	trigger = {
+		any_scope_state = {
+			is_incorporated = yes
+			any_scope_building = {
+				occupancy > 0.9
+				OR = { #these PMs produce a small amount of liquor
+					has_active_production_method = pm_home_workshops_building_subsistence_pastures
+					has_active_production_method = pm_home_workshops_building_subsistence_orchards
+					has_active_production_method = pm_home_workshops_building_subsistence_farms
+					has_active_production_method = pm_potatoes
+				}
+			}
+			NOR = {
+				has_modifier = subsistence_liquor_bad_modifier
+				has_modifier = subsistence_liquor_modifier
+				has_modifier = started_temperance_modifier
+			}
+		}
+		OR = {
+			ig:ig_industrialists = {
+				OR = {
+					is_powerful = yes
+					is_in_government = yes
+				}
+			}
+			ig:ig_landowners = {
+				OR = {
+					is_powerful = yes
+					is_in_government = yes
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				any_scope_building = {
+					occupancy > 0.9
+					OR = {
+						has_active_production_method = pm_home_workshops_building_subsistence_pastures
+						has_active_production_method = pm_home_workshops_building_subsistence_orchards
+						has_active_production_method = pm_home_workshops_building_subsistence_farms
+						has_active_production_method = pm_potatoes
+					}
+				}
+				NOR = {
+					has_modifier = subsistence_liquor_bad_modifier
+					has_modifier = subsistence_liquor_modifier
+					has_modifier = started_temperance_modifier
+				}
+			}
+			save_scope_as = temperance_state
+			random_scope_building = {
+				limit = {
+					occupancy > 0.9
+					OR = {
+						has_active_production_method = pm_home_workshops_building_subsistence_pastures
+						has_active_production_method = pm_home_workshops_building_subsistence_orchards
+						has_active_production_method = pm_home_workshops_building_subsistence_farms
+						has_active_production_method = pm_potatoes
+					}
+				}
+				save_scope_as = temperance_building
+			}
+		}
+		random_interest_group = {
+			limit = {
+				OR = {
+					is_powerful = yes
+					is_in_government = yes
+				}
+				OR = {
+					is_interest_group_type = ig_industrialists
+					is_interest_group_type = ig_landowners
+				}
+			}
+			save_scope_as = alcoholic_ig
+		}
+	}
+
+	option = { #no way!
+		name = prohibition.5.a
+		default_option = yes
+		custom_tooltip = prohibition_laws_weak_pm.tt
+		scope:alcoholic_ig = {
+			add_modifier = {
+				name = banned_subsistence_liquor #approval
+				months = normal_modifier_time
+			}
+		}
+		scope:temperance_state = {
+			add_modifier = {
+				name = subsistence_liquor_bad_modifier #liquor bonus
+				months = normal_modifier_time
+			}
+		}
+		change_variable = {
+			name = prohibition_laws_var
+			add = 2
+		}
+	}
+
+	option = { #it's their farms they can do what they want with them
+		name = prohibition.5.b
+		custom_tooltip =  prohibition_laws_bad_pm.tt
+		scope:temperance_state = {
+			add_modifier = {
+				name = subsistence_liquor_modifier #liquor bonus
+				months = normal_modifier_time
+			}
+		}
+		change_variable = {
+			name = prohibition_laws_var
+			add = -3
+		}
+	}
+}
+
+prohibition.6 = { #Teetotalism
+	type = country_event
+	placement = scope:temperance_state
+
+	title = prohibition.6.t
+	desc = prohibition.6.d
+	flavor = prohibition.6.f
+
+	duration = 3
+
+	event_image = {
+		video = "unspecific_temperance_movement"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	cooldown = { months = normal_modifier_time }
+	
+	trigger = {
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_vineyard_plantation
+			}
+			NOT = { has_modifier = teetoliarism_modifier }
+		}
+		ig:ig_devout = {
+			OR = {
+				is_powerful = yes
+				is_in_government = yes
+			}
+			NOT = { has_modifier = no_teetoliarism_modifier }
+		}
+		any_scope_pop = {
+			religion = rel:catholic
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_vineyard_plantation
+				}
+				NOT = { has_modifier = teetoliarism_modifier }
+			}
+			save_scope_as = temperance_state
+			random_scope_building = {
+				limit = {
+					is_building_type = building_vineyard_plantation
+				}
+				save_scope_as = wine_building
+			}
+		}
+		ig:ig_devout = {
+			save_scope_as = devout_ig
+		}
+		random_scope_pop = {
+			limit = {
+				religion = rel:catholic
+			}
+			save_scope_as = temperance_pop
+		}
+	}
+
+	option = { #teetoliarism accepted
+		name = prohibition.6.a
+		default_option = yes
+		custom_tooltip = prohibition_laws_weak_pm.tt
+		scope:temperance_state = {
+			add_modifier = {
+				name = teetoliarism_modifier #wine bonus
+				months = normal_modifier_time
+			}
+			add_loyalists = {
+				value = 0.2
+				religion = scope:temperance_pop.religion
+			}
+		}
+		change_variable = {
+			name = prohibition_laws_var
+			add = 1
+		}
+	}
+
+	option = { #ignore them
+		name = prohibition.6.b
+		ig:ig_devout = {
+			add_modifier = {
+				name = no_teetoliarism_modifier #approval
+				months = normal_modifier_time
+			}
+		}
+		scope:temperance_state = {
+			add_radicals_in_state = {
+				value = very_large_radicals
+				religion = scope:temperance_pop.religion
+			}
+		}
+	}
+}
+
+prohibition.7 = { #al capone event (crime_events.2 follow up)
+	type = country_event
+	placement = scope:temperance_state
+
+	title = prohibition.7.t
+	desc = prohibition.7.d
+	flavor = prohibition.7.f
+
+	duration = 3
+
+	event_image = {
+		video = "southamerica_public_figure_assassination"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	cooldown = { months = normal_modifier_time }
+	
+	trigger = {
+		has_variable = temperance_organised_crime_var #set in crime_events.2
+		any_scope_state = {
+			is_incorporated = yes
+			any_scope_building = {
+				is_building_type = building_urban_center
+				level >= 10 #so it happens in a proper city
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				any_scope_building = {
+					is_building_type = building_urban_center
+					level >= 10
+				}
+			}
+			save_scope_as = temperance_state
+		}
+	}
+
+	option = { #take him to court
+		name = prohibition.7.a
+		custom_tooltip = prohibition_laws_weak_pm.tt
+		default_option = yes
+		add_modifier = {
+			name = gangsters_modifier #bureaucracy
+			months = short_modifier_time
+		}
+		change_variable = {
+			name = prohibition_laws_var
+			add = 2
+		}
+	}
+
+	option = { #we can make a deal
+		name = prohibition.7.b
+		add_modifier = {
+			name = deal_with_gangster_modifier
+			months = short_modifier_time
+			multiplier = money_amount_multiplier_small
+		}
+	}
+	
+	option = { #we'll teach him and his gang a lesson
+		name = prohibition.7.c
+		custom_tooltip = prohibition_laws_weak_pm.tt
+		trigger = {
+			OR = {
+				institution_investment_level = {
+					institution = institution_police
+					value >= 5
+				}
+				institution_investment_level = {
+					institution = institution_home_affairs
+					value >= 5
+				}
+			}
+		}
+		change_variable = {
+			name = prohibition_laws_var
+			add = 2
+		}
+		scope:temperance_state = {
+			add_radicals_in_state = {
+				value = medium_radicals
+				strata = poor
+			}
+		}
+	}
+}
+
+prohibition.8 = { #reward event
+	type = country_event
+	placement = ROOT
+
+	title = prohibition.8.t
+	desc = prohibition.8.d
+	flavor = prohibition.8.f
+
+	duration = 3
+
+	event_image = {
+		video = "unspecific_temperance_movement"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+	
+	trigger = {
+		#triggered from JE
+	}
+
+	option = {
+		name = prohibition.8.a
+		default_option = yes
+		every_primary_culture = {
+			limit = {
+				has_cultural_obsession = liquor
+			}
+			remove_cultural_obsession = liquor
+		}
+	}
+}

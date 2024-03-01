@@ -523,6 +523,29 @@ italian_unification.7 = {
 			capital = {
 				save_scope_as = rsm_capital_scope
 			}
+			ig:ig_intelligentsia = {
+					add_ruling_interest_group = yes
+					add_modifier = {
+						name = san_marco_ig_str
+						months = long_modifier_time
+					}
+				}
+				create_character = {
+					# Daniele Manin
+					is_general = no
+					first_name = "Daniele"
+					last_name = "Manin"
+					historical = yes
+					ruler = no
+					birth_date = 1804.05.13
+					ig_leader = yes
+					interest_group = ig_intelligentsia
+					ideology = ideology_liberal
+					traits = {
+						brave
+						meticulous
+					}
+				}
 		}
 		random_diplomatic_play = {
 			limit = {
@@ -592,9 +615,11 @@ italian_unification.8 = {
 
 	trigger = {
 		#Triggered as part of event chain
+		NOT = { has_global_variable = san_marco_created }
 	}
 
 	immediate = {
+	    set_global_variable = san_marco_created
 		random_diplomatic_play = {
 			limit = {
 				target = {

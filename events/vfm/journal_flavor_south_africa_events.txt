@@ -25,6 +25,7 @@ journal_flavor_south_africa.1 = {
 	duration = 1
 
 	trigger = {
+	    NOT = { has_global_variable = trek_nal }
 	}
 	
 	immediate = {
@@ -42,23 +43,21 @@ journal_flavor_south_africa.1 = {
 			save_scope_as = zul_scope
 		}
 
-		random_state = {
-			limit = {
-				state_region = s:STATE_NATAL
-				owner = {
-					OR = {
-						is_country_type = decentralized
-						is_country_type = unrecognized
+		s:STATE_NATAL = {
+			random_state = {
+				limit = {
+					owner = {
+						c:ZUL = THIS
 					}
 				}
+				save_scope_as = nal_spawn
 			}
-			save_scope_as = nal_spawn
 		}
 
 		create_country = {
 			tag = NAL
 			origin = this
-			state =  scope:nal_spawn
+			state = s:STATE_NATAL.region_state:ZUL
 			on_created = {
 				random_state = {
 					limit = {
@@ -306,6 +305,7 @@ journal_flavor_south_africa.3 = {
 	duration = 1
 
 	trigger = {
+	    NOT = { has_global_variable = trek_ora }
 	}
 	
 	immediate = {
@@ -319,18 +319,11 @@ journal_flavor_south_africa.3 = {
 		c:BST ?= {
 			save_scope_as = bst_scope
 		}
-
-		random_state = {
-			limit = {
-				state_region = s:STATE_VRYSTAAT
-				owner = {
-					OR = {
-						is_country_type = decentralized
-						is_country_type = unrecognized
-					}
-				}
+		
+		s:STATE_VRYSTAAT = {
+			random_scope_state = {
+				save_scope_as = ora_spawn
 			}
-			save_scope_as = ora_spawn
 		}
 
 		create_country = {
@@ -539,7 +532,7 @@ journal_flavor_south_africa.4 = {
 	duration = 1
 
 	trigger = {
-
+	    NOT = { has_global_variable = trek_trn }
 	}
 	immediate = {
 
@@ -891,7 +884,7 @@ journal_flavor_south_africa.5 = {
 	duration = 1
 
 	trigger = {
-
+	    NOT = { has_global_variable = trek_kle }
 	}
 
 	immediate = {
@@ -1121,7 +1114,7 @@ journal_flavor_south_africa.6 = {
 	duration = 1
 
 	trigger = {
-
+	    NOT = { has_global_variable = trek_ste }
 	}
 	immediate = {
 

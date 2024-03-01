@@ -27,29 +27,24 @@
 		has_technology_researched = international_exchange_standards
 		custom_tooltip = {
 			text = scandinavian_monetary_union_relations_tt
-			any_country = {
-				is_subject = no
-				any_primary_culture = {
-					has_discrimination_trait = scandinavian_culture_group
-				}				
+			any_in_global_list = {
+				variable = scandinavian_countries_list
+				is_subject = no	
 				NOT = { relations:root < relations_threshold:amicable }
 			}
 		}
-
 	}
 
 	on_complete = {
 		set_global_variable = scandinavian_monetary_union_var
 		every_country = {
 			limit = { 
-				any_primary_culture = {
-					has_discrimination_trait = scandinavian_culture_group
-				}
+				is_target_in_global_variable_list = { name = scandinavian_countries_list target = THIS }
 				OR = {
 					is_subject = no	
 					top_overlord = {
 						any_primary_culture = {
-							has_discrimination_trait = scandinavian_culture_group
+							is_target_in_global_variable_list = { name = scandinavian_countries_list target = PREV }
 						}
 					}
 				}
@@ -59,14 +54,6 @@
 			trigger_event = { id = journal_flavor_scandinavia.1 }
 		}
 		
-	}
-
-	status_desc = {
-		first_valid = {
-			triggered_desc = {
-				desc = je_scandinavian_monetary_union_status
-			}
-		}
 	}
     should_be_pinned_by_default = yes
 	weight = 100
@@ -110,13 +97,6 @@ je_swedish_guilds = {
 		trigger_event = { id = journal_flavor_scandinavia.2 }
 	}
 
-	status_desc = {
-		first_valid = {
-			triggered_desc = {
-				desc = je_swedish_guilds_status
-			}
-		}
-	}
     should_be_pinned_by_default = yes
 	weight = 100
 }
@@ -188,14 +168,6 @@ je_matter_of_norway = {
 			1 = journal_flavor_scandinavia.5
 		}
 	}
-
-	status_desc = {
-		first_valid = {
-			triggered_desc = {
-				desc = je_matter_of_norway_status
-			}
-		}
-	}
     should_be_pinned_by_default = yes
 	weight = 100
 }
@@ -204,6 +176,15 @@ je_matter_of_norway = {
 je_swe_motala_fabriker = {
 	icon = "gfx/interface/icons/event_icons/event_industry.dds"
     group = je_group_internal_affairs
+	is_shown_when_inactive = {
+		OR = {
+			country_has_primary_culture = cu:swedish
+			country_has_primary_culture = cu:danish
+			country_has_primary_culture = cu:norwegian
+		}
+		owns_entire_state_region = STATE_SVEALAND
+	}
+	
 	complete = {
 	    has_technology_researched = mechanical_tools
 	    s:STATE_SVEALAND = {
@@ -231,7 +212,12 @@ je_swe_glasriket = {
 	icon = "gfx/interface/icons/event_icons/event_industry.dds"
 	group = je_group_internal_affairs
 	is_shown_when_inactive = {
-		country_has_primary_culture = cu:swedish
+		OR = {
+			country_has_primary_culture = cu:swedish
+			country_has_primary_culture = cu:danish
+			country_has_primary_culture = cu:norwegian
+		}
+		owns_entire_state_region = STATE_GOTALAND
 	}
 	
 	possible = {
@@ -264,8 +250,13 @@ je_swe_gotavarven = {
 	icon = "gfx/interface/icons/event_icons/event_industry.dds"
 	group = je_group_internal_affairs
 	is_shown_when_inactive = {
-		country_has_primary_culture = cu:swedish
+	    OR = {
+			country_has_primary_culture = cu:swedish
+			country_has_primary_culture = cu:danish
+			country_has_primary_culture = cu:norwegian
+		}
 		game_date > 1842.1.1
+		owns_entire_state_region = STATE_GOTALAND
 	}
 	
 	possible = {
@@ -274,10 +265,17 @@ je_swe_gotavarven = {
 	}
 
 	complete = {
+	    s:STATE_GOTALAND = {
+		    any_scope_state = {
 		any_scope_building = {
-			is_building_type = building_shipyards
+			OR = {
+				is_building_type = building_shipyards
+				is_building_type = building_military_shipyards
+			}
 			level >= 4
 			occupancy > 0.9
+		}
+		}
 		}
 	}
 	

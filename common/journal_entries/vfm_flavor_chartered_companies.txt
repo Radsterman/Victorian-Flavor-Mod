@@ -265,13 +265,6 @@ je_autonomy = {
 		}
 	}
 
-	status_desc = {
-		first_valid = {
-			triggered_desc = {
-				desc = je_autonomy_status
-			}
-		}
-	}
     should_be_pinned_by_default = yes
 	weight = 1000
 }
@@ -498,13 +491,6 @@ je_company_bankruptcy = {
 
 	}
 
-	status_desc = {
-		first_valid = {
-			triggered_desc = {
-				desc = je_bankruptcy_status
-			}
-		}
-	}
     should_be_pinned_by_default = yes
 	weight = 1000
 }
@@ -513,7 +499,7 @@ je_company_bankruptcy = {
 je_relocate_bic = {
 	icon = "gfx/interface/icons/event_icons/event_trade.dds"
     group = je_group_internal_affairs
-	is_shown_when_inactive = {=
+	is_shown_when_inactive = {
 		NOT = {
 			c:BIC ?= {
 				is_player = yes
@@ -537,9 +523,10 @@ je_relocate_bic = {
 		}
 	}
 
-	complete = {
+	complete = { # possible colission here, what if BIC drops to a gdp lower than both?
 		overlord = {
 			root.gdp >this.gdp 
+			is_revolutionary = no
 		}
 	}
 
@@ -560,6 +547,26 @@ je_relocate_bic = {
 	}
 
 	on_complete = {
+	    c:GBR = {
+		    if = {
+			    limit = {
+			    	has_diplomatic_pact = {
+			    		who = c:BIC
+			    		type = chartered_company
+			    	}
+			    }
+			    hidden_effect = {
+			    	remove_diplomatic_pact = {
+			    		country = c:BIC
+			    		type = chartered_company
+			    	}
+			    }
+		    }
+			create_diplomatic_pact = {
+				country = ROOT
+				type = chartered_company
+			}
+		}
 		annex = c:BIC
 		change_tag = BIC
 

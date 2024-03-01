@@ -4,56 +4,181 @@
 	group = je_group_historical_content
 
 	immediate = {
-		set_variable = {
-			name = acw_progress_var
-			value = 0
+		set_variable = { name = free_states value = num_free_states }
+		set_variable = { name = slave_states value = num_slave_states }
+		set_variable = { name = free_territories value = num_free_territories }
+		set_variable = { name = slave_territories value = num_slave_territories }
+		set_variable = { name = proportion_free  value = prop_free_slave }
+		
+        set_variable = { name = acw_countdown_next value = 0 }
+		
+		set_variable = { name = acw_countdown_divisiveness value = 0 }
+		set_variable = { name = divisiveness_multiplier value = acw_countdown_divisiveness_multiplier }
+	}
+	
+	on_weekly_pulse = {
+		effect = {
+			set_variable = { name = free_states value = num_free_states }
+			set_variable = { name = slave_states value = num_slave_states }
+			set_variable = { name = free_territories value = num_free_territories }
+			set_variable = { name = slave_territories value = num_slave_territories }
+			set_variable = { name = proportion_free  value = prop_free_slave }
+
+			calculate_acw_countdown_progress = yes
+			
+			set_variable = { name = divisiveness_multiplier value = acw_countdown_divisiveness_multiplier }
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			change_variable = { name = acw_progress_var add = var:acw_countdown_next }
+		}
+		random_events = {
+			# American Civil War buildup
+			200 = 0
+			10 = acw_events.1 # The Abolitionist's Martyrdom
+			10 = acw_events.3 # The Wilmot Proviso
+		}
+	}
+
+	on_yearly_pulse = {
+		random_events = {
+			40 = 0
+			20 = acw_events.2 # The Fugitive Slave
+			20 = acw_events.5 # Bleeding Kansas
+			20 = acw_events.6 # The Caning of Charles Sumner
 		}
 	}
 
 	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
+		calc_true_if = {
+			amount >= 3
+			custom_tooltip = {
+				text = "je_acw_countdown_complete_2"
+				NOT = {
+					any_in_global_list = {
+						variable = usa_slave_plantations_list
+						NAND = {
+							has_active_production_method = pm_steam_rail_transport
+							custom_tooltip = {
+								text = "je_acw_countdown_complete_2_2"
+								OR = {
+									has_active_production_method = automatic_irrigation_building_coffee_plantation
+									has_active_production_method = automatic_irrigation_building_cotton_plantation
+									has_active_production_method = automatic_irrigation_building_dye_plantation
+									has_active_production_method = automatic_irrigation_building_opium_plantation
+									has_active_production_method = automatic_irrigation_building_sugar_plantation
+									has_active_production_method = automatic_irrigation_building_tea_plantation
+									has_active_production_method = automatic_irrigation_building_tobacco_plantation
+									has_active_production_method = automatic_irrigation_building_banana_plantation
+									has_active_production_method = automatic_irrigation_building_silk_plantation
+									has_active_production_method = automatic_irrigation_building_vineyard_plantation
+								}
+							}
+						}
+					}
+				}
+			}
+			custom_tooltip = {
+				text = "je_acw_countdown_complete_3"
+				OR = {
+					calc_true_if = {
+						amount >= 3
+						market.mg:tobacco.market_goods_imports > market.mg:tobacco.market_goods_exports
+						market.mg:sugar.market_goods_imports > market.mg:sugar.market_goods_exports
+						market.mg:fabric.market_goods_imports > market.mg:fabric.market_goods_exports
+					}
+					calc_true_if = {
+						amount >= 3
+						market.mg:tobacco.market_goods_imports > market.mg:tobacco.market_goods_production
+						market.mg:sugar.market_goods_imports > market.mg:sugar.market_goods_production
+						market.mg:fabric.market_goods_imports > market.mg:fabric.market_goods_production
+					}
+				}
+			}
+			custom_tooltip = {
+				text = "je_acw_countdown_complete_4"
+				NOT = {
+					any_in_global_list = {
+						variable = great_powers_list
+						any_trade_route = {
+							NOT = { actor_market.owner = root }
+							exporter = root.market
+							NAND = {
+								goods = g:tobacco
+								goods = g:sugar
+								goods = g:fabric
+							}
+						}
+					}
+				}
+			}
+			ig:ig_landowners = {
+				is_marginal = yes
+			}
+			#custom_tooltip = {
+			#	text = "je_acw_countdown_complete_1"
+			#	always = no
+			#}
 		}
-		has_law = law_type:law_slavery_banned
 	}
-
+	
 	on_complete = {
+		custom_tooltip = {
+			text = "je_acw_countdown_complete_general"
+		}
 		set_variable = je_acw_countdown_complete
-		remove_modifier = missouri_compromise
+		#remove_modifier = missouri_compromise
 		trigger_event = { id = slavery_law_events.7 days = 0 popup = yes }
 	}
 
 	fail = {
 		OR = {
-			has_revolution_over_law_type = law_type:law_slavery_banned
-			has_revolution_over_law_type = law_type:law_slave_trade
-			has_revolution_over_law_type = law_type:law_legacy_slavery
-			has_revolution_over_law_type = law_type:law_debt_slavery
-		}		
-	
-		OR = {
-			# CSA
 			custom_tooltip = {
-				text = acw_landowner_revolt
-				any_country = {
-					is_revolutionary = yes
-					country_definition = root.country_definition
-					ig:ig_landowners = {
-						is_in_government = yes
-					}					
-				}
+				text = je_acw_countdown_fail_1
+				var:acw_progress_var <= 0
 			}
-			# FSA
 			custom_tooltip = {
-				text = acw_antislaver_revolt
-				ig:ig_landowners = {
-					is_in_government = yes
-				}
-				NOT = { has_law = law_type:law_slavery_banned }
-				NOT = { is_enacting_law = law_type:law_slavery_banned }
-				any_country = {
-					is_revolutionary = yes
-					country_definition = root.country_definition
+				text = je_acw_countdown_fail_2
+				var:acw_progress_var >= 200
+			}
+			custom_tooltip = {
+				text = je_acw_countdown_fail_3
+				AND = {
+					OR = {
+						has_revolution_over_law_type = law_type:law_slavery_banned
+						has_revolution_over_law_type = law_type:law_slave_trade
+						has_revolution_over_law_type = law_type:law_legacy_slavery
+						has_revolution_over_law_type = law_type:law_debt_slavery
+					}		
+				
+					OR = {
+						# CSA
+						custom_tooltip = {
+							text = acw_landowner_revolt
+							any_country = {
+								is_revolutionary = yes
+								country_definition = root.country_definition
+								ig:ig_landowners = {
+									is_in_government = yes
+								}
+							}
+						}
+						# FSA
+						custom_tooltip = {
+							text = acw_antislaver_revolt
+							ig:ig_landowners = {
+								is_in_government = yes
+							}
+							NOT = { has_law = law_type:law_slavery_banned }
+							NOT = { is_enacting_law = law_type:law_slavery_banned }
+							any_country = {
+								is_revolutionary = yes
+								country_definition = root.country_definition
+							}
+						}
+					}
 				}
 			}
 		}
@@ -78,40 +203,12 @@
 		}
 	}
 
-	on_monthly_pulse = {
-		effect = {
-			if = {
-				limit = {
-					has_law = law_type:law_slavery_banned
-				}
-				change_variable = {
-					name = acw_progress_var
-					add = 1
-				}
-			}
-		}
-		random_events = {
-			# American Civil War buildup
-			200 = 0
-			10 = acw_events.1 # The Abolitionist's Martyrdom
-			10 = acw_events.3 # The Wilmot Proviso
-		}
-	}
-	on_yearly_pulse = {
-		random_events = {
-			40 = 0
-			20 = acw_events.2 # The Fugitive Slave
-			20 = acw_events.5 # Bleeding Kansas
-			20 = acw_events.6 # The Caning of Charles Sumner
-		}
-	}
-
 	current_value = {
 		value = root.var:acw_progress_var
 	}
 
 	goal_add_value = {
-		value = 120
+		value = 200
 	}
 
 	progressbar = yes

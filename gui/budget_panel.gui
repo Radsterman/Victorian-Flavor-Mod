@@ -1,0 +1,1661 @@
+# COPY-PASTED FOR NOW
+@panel_width_minus_10 = 530			# used to be 450
+@panel_width = 540  				# used to be 460
+@panel_width_half = 270				# used to be 230
+@panel_width_plus_10 = 550  		# used to be 470
+@panel_width_plus_14 = 554			# used to be 474
+@panel_width_plus_14_half = 277		# used to be 237
+@panel_width_plus_20 = 560			# used to be 480
+@panel_width_plus_30 = 570			# used to be 490
+@panel_width_plus_70 = 610			# used to be 530
+
+types budget
+{	
+	type budget_panel = default_block_window {
+		name = "budget_panel"
+		
+		blockoverride "animation_state_block" {
+			state = {
+				name = _show
+				start_sound = {
+					soundeffect = "event:/SFX/UI/SideBar/budget"
+				}
+			}
+
+			state = {
+				name = _hide
+				start_sound = {
+					soundeffect = "event:/SFX/UI/SideBar/budget_stop"
+				}
+			}
+		}
+
+		blockoverride "window_header_name" {
+			text = "BUDGET_PANEL_TITLE"
+		}
+		
+		#TOP
+		blockoverride "fixed_top"
+		{
+			### TOP PART
+			top_illu = {
+				blockoverride "illu" {
+					texture = "gfx/interface/illustrations/top_illus/top_illu_budget.dds"
+				}
+				textbox = {
+					name = "tutorial_highlight_weekly_balance_budget"
+					parentanchor = center
+					using = fontsize_mega
+					raw_text = "@money![AccessPlayer.PredictWeeklyBalanceWithEconomyHealthHint]"
+					autoresize = yes
+					align = center|nobaseline
+					using = money_tooltip_with_graph
+				}
+			}
+
+			#TABS
+			tab_buttons = {
+				blockoverride "first_button"
+				{
+					text = "BUDGET_TAB_OVERVIEW"
+				}
+				blockoverride "first_button_tooltip" {
+					tooltip = "BUDGET_TAB_OVERVIEW"
+				}
+				blockoverride "first_button_click"
+				{
+					onclick = "[InformationPanel.SelectTab('default')]"
+				}
+				blockoverride "first_button_visibility"
+				{
+					visible = "[InformationPanel.IsTabSelected('default')]"
+				}
+				blockoverride "first_button_visibility_checked"
+				{
+					visible = "[Not( InformationPanel.IsTabSelected('default') )]"
+				}
+				blockoverride "first_button_selected"
+				{
+					text = "BUDGET_TAB_OVERVIEW"
+				}
+				blockoverride "first_button_name" {
+					name = "tutorial_highlight_overview"
+				}
+
+				blockoverride "second_button"
+				{
+					text = "STATES"
+				}
+				blockoverride "second_button_tooltip" {
+					tooltip = "STATES"
+				}
+				blockoverride "second_button_click"
+				{
+					onclick = "[InformationPanel.SelectTab('states')]"
+				}
+				blockoverride "second_button_visibility"
+				{
+					visible = "[InformationPanel.IsTabSelected('states')]"
+				}
+				blockoverride "second_button_visibility_checked"
+				{
+					visible = "[Not( InformationPanel.IsTabSelected('states') )]"
+				}
+				blockoverride "second_button_selected"
+				{
+					text = "STATES"
+				}
+				blockoverride "second_button_name" {
+					name = "tutorial_highlight_states"
+				}
+
+				blockoverride "third_button"
+				{
+					text = "BUDGET_TAB_ASSETS"
+				}
+				blockoverride "third_button_tooltip" {
+					tooltip = "BUDGET_TAB_ASSETS"
+				}
+				blockoverride "third_button_click"
+				{
+					onclick = "[InformationPanel.SelectTab('assets')]"
+				}
+				blockoverride "third_button_visibility"
+				{
+					visible = "[InformationPanel.IsTabSelected('assets')]"
+				}
+				blockoverride "third_button_visibility_checked"
+				{
+					visible = "[Not( InformationPanel.IsTabSelected('assets') )]"
+				}
+				blockoverride "third_button_selected"
+				{
+					text = "BUDGET_TAB_ASSETS"
+				}
+				blockoverride "third_button_name" {
+					name = "tutorial_highlight_assets"
+				}
+			}
+			
+			widget = { size = { 1 10 }}
+		}
+
+		blockoverride "scrollarea_content"
+		{
+			### overview
+			flowcontainer = {
+				visible = "[InformationPanel.IsTabSelected('default')]"
+				using = default_content_fade
+				using = default_list_position
+				direction = vertical
+				spacing = 5
+				margin_bottom = 15
+
+				#NATIONAL REVENUE
+				flowcontainer = {
+					direction = vertical
+					parentanchor = hcenter
+
+					default_header_2texts = {
+						blockoverride "text1" {
+							text = "NATIONAL_REVENUE"
+						}
+						blockoverride "text2" {
+							raw_text = "#variable @money![GetPlayer.PredictWeeklyIncome|D+=]#!"
+							using = total_income_tooltip_with_graph
+						}
+					}					
+
+					flowcontainer = {
+						direction = vertical
+						parentanchor = hcenter
+						margin_bottom = 10			
+
+						tax_exp_frame_coin = {
+
+							blockoverride "tutorial_highilight_name" {
+								name = "tutorial_highlight_tax_level"
+							}
+
+							blockoverride "text_upper" {
+								text = "BUDGET_TAXATION_LEVEL"
+							}
+
+							blockoverride "text_lower" {
+								datacontext = "[AccessPlayer.AccessActiveLawFromGroup('lawgroup_taxation')]"
+								text = "[Law.GetNameNoFormatting]"
+								tooltipwidget = {
+									FancyTooltip_Law = {
+
+									}
+								}
+							}
+
+							blockoverride "text_money" {
+							}
+
+							blockoverride "setvisible_very_low" {
+								visible = "[Not(IsValid(GetPlayer.SetTaxLevelVeryLow))]"
+							}
+							blockoverride "setvisible_very_low_2" {
+								visible = "[IsValid(GetPlayer.SetTaxLevelVeryLow)]"
+							}
+
+							blockoverride "setvisible_low" {
+								visible = "[Not(IsValid(GetPlayer.SetTaxLevelLow))]"
+							}
+							blockoverride "setvisible_low_2" {
+								visible = "[IsValid(GetPlayer.SetTaxLevelLow)]"
+							}
+
+							blockoverride "setvisible_medium" {
+								visible = "[Not(IsValid(GetPlayer.SetTaxLevelMedium))]"
+							}
+							blockoverride "setvisible_medium_2" {
+								visible = "[IsValid(GetPlayer.SetTaxLevelMedium)]"
+							}
+
+							blockoverride "setvisible_high" {
+								visible = "[Not(IsValid(GetPlayer.SetTaxLevelHigh))]"
+							}
+							blockoverride "setvisible_high_2" {
+								visible = "[IsValid(GetPlayer.SetTaxLevelHigh)]"
+							}
+							
+							blockoverride "setvisible_very_high" {
+								visible = "[Not(IsValid(GetPlayer.SetTaxLevelVeryHigh))]"
+							}
+							blockoverride "setvisible_very_high_2" {
+								visible = "[IsValid(GetPlayer.SetTaxLevelVeryHigh)]"
+							}									
+						}
+
+						tax_exp_frame = {
+
+							blockoverride "text" {
+								text = "BUDGET_INCOME_TAXES"
+							}
+
+							blockoverride "text_2" {
+								raw_text = "@money![GetPlayer.GetIncomeTaxIncome|D+=]"
+								using = tax_income_tooltip_with_graph
+								alpha = "[TransparentIfZero(GetPlayer.GetIncomeTaxIncome)]"
+							}
+						}
+						
+						tax_exp_frame = {
+
+							blockoverride "text" {
+								text = "BUDGET_POLL_TAXES"
+							}
+
+							blockoverride "text_2" {
+								raw_text = "@money![GetPlayer.GetPollTaxIncome|D+=]"
+								using = tax_poll_tooltip_with_graph
+								alpha = "[TransparentIfZero(GetPlayer.GetPollTaxIncome)]"
+							}
+						}							
+
+						
+						tax_exp_frame = {
+
+							blockoverride "text" {
+								text = "BUDGET_CONSUMPTION_TAXES"
+							}
+
+							blockoverride "text_2" {
+								raw_text = "@money![GetPlayer.PredictConsumptionTaxes|D+=]"
+								using = consumption_tax_tooltip_with_graph
+								alpha = "[TransparentIfZero(GetPlayer.PredictConsumptionTaxes)]"
+							}
+						}	
+		
+						flowcontainer = {
+							dynamicgridbox = {
+								flipdirection = yes
+								datamodel_wrap = 5
+								datamodel = "[BudgetPanel.AccessTaxedGoods]"
+								item = {		
+									button_icon_round = {
+										size = { 35 35 }
+										onclick = "[InformationPanelBar.OpenGoodsPanel(AccessPlayer.AccessFirstMarket.Self, Goods.Self)]"
+										onrightclick = "[RightClickMenuManager.ShowForGoods(Goods.AccessSelf)]"
+										tooltip = "BUDGET_CONSUMPTION_TAX_TOOLTIP"													
+
+										blockoverride "icon" {
+											texture = "[Goods.GetTexture]"
+										}
+										blockoverride "icon_size" {
+											size = { 75% 75% }
+										}												
+									}
+								}
+							}										
+						
+							button_icon_plus = {
+								name = "tutorial_highlight_add_consumption_tax"
+								size = { 35 35 }
+								onclick = "[BudgetPanel.ToggleAddConsumptionTaxMenu(PdxGuiWidget.AccessSelf)]"
+								enabled = "[BudgetPanel.CanTaxGoods]"
+								tooltip = "[SelectLocalization( BudgetPanel.CanTaxGoods, 'TAX_GOODS', 'NO_GOODS_TO_TAX' )]"
+							}
+						}
+						
+						tax_exp_frame = {
+
+							blockoverride "text" {
+								text = "BUDGET_DIVIDENDS_TAXES"
+							}
+
+							blockoverride "text_2" {
+								raw_text = "@money![GetPlayer.PredictDividendsTaxes|D+=]"
+								using = dividends_tax_tooltip_with_graph
+								alpha = "[TransparentIfZero(GetPlayer.PredictDividendsTaxes)]"
+							}
+						}
+						
+						tax_exp_frame = {
+
+							blockoverride "text" {
+								text = "BUDGET_TARIFFS"
+							}
+
+							blockoverride "text_2" {
+								raw_text = "@money![GetPlayer.PredictTariffs|D+=]"
+								using = tariffs_tooltip_with_graph
+								alpha = "[TransparentIfZero(GetPlayer.PredictTariffs)]"
+							}
+						}						
+						
+						tax_exp_frame = {
+
+							blockoverride "text" {
+								text = "BUDGET_MINTING"
+							}
+
+							blockoverride "text_2" {
+								raw_text = "@money![GetPlayer.PredictMinting|D+=]"
+								using = minting_tooltip_with_graph
+								alpha = "[TransparentIfZero(GetPlayer.PredictMinting)]"
+							}
+						}
+						
+						tax_exp_frame = {
+
+							blockoverride "text" {
+								text = "DIVIDENDS_FROM_GOVERNMENT_SHARES"
+							}
+
+							blockoverride "text_2" {
+								raw_text = "@money![GetPlayer.PredictGovernmentShareDividends|D+=]"
+								using = government_share_dividends_tooltip_with_graph
+								alpha = "[TransparentIfZero(GetPlayer.PredictGovernmentShareDividends)]"
+							}
+						}						
+
+						tax_exp_frame = {
+
+							blockoverride "text" {
+								text = "BUDGET_INVESTMENT_INCOME"
+							}
+
+							blockoverride "text_2" {
+								raw_text = "@money![GetPlayer.GetInvestmentIncome|D+=]"
+								using = investment_income_tooltip_with_graph
+								alpha = "[TransparentIfZero(GetPlayer.GetInvestmentIncome)]"
+							}
+						}
+
+						tax_exp_frame = {
+
+							blockoverride "text" {
+								text = "BUDGET_DIPLOMATIC_PACTS"
+							}
+
+							blockoverride "text_2" {
+								raw_text = "#variable @money![GetPlayer.PredictDiplomaticPactsIncome|D+=]#!"
+								using = diplomatic_pacts_income_tooltip_with_graph
+								alpha = "[TransparentIfZero(GetPlayer.PredictDiplomaticPactsIncome)]"
+							}
+						}
+						
+						tax_exp_frame = {
+
+							blockoverride "text" {
+								text = "BUDGET_ADDITIONAL_INCOME"
+							}
+
+							blockoverride "text_2" {
+								raw_text = "@money![GetPlayer.GetModifier.GetValueFor('country_tax_income_add')|D+=]"
+								using = additional_income_tooltip_with_graph
+								alpha = "[TransparentIfZero(GetPlayer.GetModifier.GetValueFor('country_tax_income_add'))]"
+							}
+						}								
+					}
+				}
+
+				#NATIONAL EXPENSES
+				flowcontainer = {
+					name = "tutorial_highilight_national_expenses"
+					direction = vertical
+
+					default_header_2texts = {
+						blockoverride "text1" {
+							text = "NATIONAL_EXPENSES"
+						}
+						blockoverride "text2" {
+							raw_text = "#bold #N @money!-[GetPlayer.GetWeeklyExpenses|D-]#!"
+							using = total_expenses_tooltip_with_graph
+						}
+					}
+
+					flowcontainer = {
+						direction = vertical
+						parentanchor = hcenter
+						margin_bottom = 10
+						
+						tax_exp_frame_coin = {
+						
+							blockoverride "text_upper" {
+								text = "BUDGET_CONSTRUCTION_GOODS"
+							}
+
+							blockoverride "text_money" {
+								alpha = "[TransparentIfZero(GetPlayer.GetConstructionGoodsExpenses)]"
+								raw_text = "#N @money!-[GetPlayer.GetConstructionGoodsExpenses|D-]"
+								using = construction_goods_expense_tooltip_with_graph
+							}
+
+							blockoverride "revenue_controls" {
+							}
+							
+							blockoverride "divider" {
+							}
+
+							blockoverride "second_line" {
+								flowcontainer = {
+									margin_top = 5
+									margin_bottom = 10
+									flowcontainer = {
+										direction = horizontal
+										spacing = 10
+										
+										flowcontainer = {
+											direction = vertical
+											parentanchor = vcenter
+											
+											button = {
+												name = "tutorial_highlight_pause_all_construction"
+
+												using = default_button_action
+												size = { 190 35 }
+												text = "PAUSE_ALL_CONSTRUCTION_BUTTON"
+												onclick = "[Execute(PauseAllConstruction)]"
+												enabled = "[IsValid(PauseAllConstruction)]"
+												tooltip = "[PauseAllConstructionTooltip]"
+												visible = "[IsValid(PauseAllConstruction)]"
+												using = tooltip_above
+												using = budget_pause_all_button_sound
+											}
+
+											button = {
+												using = default_button_action
+												size = { 190 35 }
+												text = "RESUME_ALL_CONSTRUCTION_BUTTON"
+												onclick = "[Execute(ResumeAllConstruction)]"
+												enabled = "[IsValid(ResumeAllConstruction)]"
+												tooltip = "[ResumeAllConstructionTooltip]"
+												visible = "[IsValid(ResumeAllConstruction)]"
+												using = tooltip_above
+												using = budget_resume_all_button_sound
+											}
+										}
+										
+										flowcontainer = {
+											direction = horizontal
+											spacing = 5
+											parentanchor = vcenter
+											datamodel = "[AccessConstructionSpeeds]"
+											
+											item = {
+												widget = {
+													size = { 45 52 }
+													tooltip = "[ChangeAllConstructionSpeedTooltip(ProductionMethod.Self)]"
+													using = tooltip_above
+													
+													button_icon_round_action = {
+														visible = "[Not(IsCurrentProductionMethod(ProductionMethod.Self))]"
+														size = { 45 45 }
+														onclick = "[Execute(ChangeAllConstructionSpeed(ProductionMethod.Self))]"
+														using = confirm_button_sound
+														enabled = "[IsValid(ChangeAllConstructionSpeed(ProductionMethod.Self))]"
+														
+														blockoverride "icon" {
+															texture = "[ProductionMethod.GetTexture]"
+														}
+														blockoverride "icon_size" {
+															size = { 53% 53% }
+														}
+													}
+													
+													#selected PM
+													widget = {
+														size = { 45 45 }
+														visible = "[IsCurrentProductionMethod(ProductionMethod.Self)]"
+														using = default_fade_in_out
+
+														icon = {
+															size = { 100% 100% }
+															using = circle_bg_simple_dark
+														}
+														icon = {
+															texture = "[ProductionMethod.GetTexture]"
+															size = { 53% 53% }
+															position = { 12 12 }
+														}
+														icon = {
+															using = highlighted_circle_selection_small
+														}
+													}
+													### ARROW BOTTOM
+													icon = {
+														texture = "gfx/interface/budget/set_level_bar_arrow.dds"
+														size = { 21 12 }
+														scale = 1.2
+														parentanchor = bottom|hcenter
+														mirror = vertical
+														visible = "[IsCurrentProductionMethod(ProductionMethod.Self)]"
+														
+														state = {
+															name = _show
+															next = show_2
+															position = { 0 0 }
+															duration = 0
+															alpha = 1
+														}
+														state = {
+															name = show_2
+															next = show_3
+															position = { 0 3 }
+															duration = 0
+															alpha = 1
+														}
+														state = {
+															name = show_3
+															next = show_4
+															position = { 0 -2 }
+															duration = 0.2
+															alpha = 1
+														}
+														state = {
+															name = show_4
+															position = { 0 0 }
+															duration = 0.1
+															alpha = 1
+														}
+														
+														state = {
+															name = _hide
+															position = { 0 0 }
+															duration = 0
+															alpha = 0
+														}
+													}
+												}
+											}
+										}	
+									}
+								}
+							}
+						}
+
+						tax_exp_frame_coin = {
+
+							blockoverride "tutorial_highilight_name" {
+								name = "tutorial_highlight_government_wages"
+							}
+
+							blockoverride "text_upper" {
+								text = "BUDGET_GOVERNMENT_WAGES"
+							}
+
+							blockoverride "second_line" {}
+
+							blockoverride "text_money" {
+								raw_text = "#N @money!-[GetPlayer.PredictGovernmentWagesExpenses|D-]"
+								using = government_wages_expense_tooltip_with_graph
+							}
+
+							blockoverride "button_1_click" {
+								onclick = "[Execute(GetPlayer.SetGovernmentWageLevelVeryLow)]"
+								enabled = "[GetPlayer.HasGovernmentWages]"
+							}
+							
+							blockoverride "button_2_click" {
+								onclick = "[Execute(GetPlayer.SetGovernmentWageLevelLow)]"
+								enabled = "[GetPlayer.HasGovernmentWages]"
+							}									
+
+							blockoverride "button_3_click" {
+								onclick = "[Execute(GetPlayer.SetGovernmentWageLevelMedium)]"
+								enabled = "[GetPlayer.HasGovernmentWages]"
+							}
+
+							blockoverride "button_4_click" {
+								onclick = "[Execute(GetPlayer.SetGovernmentWageLevelHigh)]"
+								enabled = "[GetPlayer.HasGovernmentWages]"
+							}
+							
+							blockoverride "button_5_click" {
+								onclick = "[Execute(GetPlayer.SetGovernmentWageLevelVeryHigh)]"
+								enabled = "[GetPlayer.HasGovernmentWages]"
+							}
+
+							blockoverride "tooltip_1" {
+								tooltip = "[GetPlayer.GetGovernmentWageLevelDescVeryLow]"
+							}
+							blockoverride "tooltip_2" {
+								tooltip = "[GetPlayer.GetGovernmentWageLevelDescLow]"
+							}
+							blockoverride "tooltip_3" {
+								tooltip = "[GetPlayer.GetGovernmentWageLevelDescMedium]"
+							}
+							blockoverride "tooltip_4" {
+								tooltip = "[GetPlayer.GetGovernmentWageLevelDescHigh]"
+							}
+							blockoverride "tooltip_5" {
+								tooltip = "[GetPlayer.GetGovernmentWageLevelDescVeryHigh]"
+							}									
+
+							blockoverride "setvisible_very_low" {
+								visible = "[Not(IsValid(GetPlayer.SetGovernmentWageLevelVeryLow))]"
+							}
+							blockoverride "setvisible_very_low_2" {
+								visible = "[IsValid(GetPlayer.SetGovernmentWageLevelVeryLow)]"
+							}
+
+							blockoverride "setvisible_low" {
+								visible = "[Not(IsValid(GetPlayer.SetGovernmentWageLevelLow))]"
+							}
+							blockoverride "setvisible_low_2" {
+								visible = "[IsValid(GetPlayer.SetGovernmentWageLevelLow)]"
+							}
+
+							blockoverride "setvisible_medium" {
+								visible = "[Not(IsValid(GetPlayer.SetGovernmentWageLevelMedium))]"
+							}
+							blockoverride "setvisible_medium_2" {
+								visible = "[IsValid(GetPlayer.SetGovernmentWageLevelMedium)]"
+							}
+
+							blockoverride "setvisible_high" {
+								visible = "[Not(IsValid(GetPlayer.SetGovernmentWageLevelHigh))]"
+							}
+							blockoverride "setvisible_high_2" {
+								visible = "[IsValid(GetPlayer.SetGovernmentWageLevelHigh)]"
+							}
+
+							blockoverride "setvisible_very_high" {
+								visible = "[Not(IsValid(GetPlayer.SetGovernmentWageLevelVeryHigh))]"
+							}
+							blockoverride "setvisible_very_high_2" {
+								visible = "[IsValid(GetPlayer.SetGovernmentWageLevelVeryHigh)]"
+							}
+						}
+
+
+						tax_exp_frame = {
+
+							blockoverride "text" {
+								text = "BUDGET_GOODS_FOR_GOVERNMENT_BUILDINGS"
+							}
+
+							blockoverride "text_2" {
+								raw_text = "#N @money!-[GetPlayer.GetGovernmentGoodsExpenses|D-]"
+								using = government_goods_expense_tooltip_with_graph
+							}
+
+							blockoverride "divider" {}
+						}
+
+						tax_exp_frame = {
+							visible = "[GreaterThan_CFixedPoint(GetPlayer.GetGovernmentSlavesExpenses, '(CFixedPoint)0')]"
+
+							blockoverride "text" {
+								text = "BUDGET_GOVERNMENT_SLAVES"
+							}
+
+							blockoverride "text_2" {
+								raw_text = "#N @money!-[GetPlayer.GetGovernmentSlavesExpenses|D-]"
+								using = government_slaves_expense_tooltip_with_graph
+								alpha = "[TransparentIfZero(GetPlayer.GetGovernmentSlavesExpenses)]"
+							}
+
+							blockoverride "divider" {}
+						}	
+						
+						tax_exp_frame_coin = {
+
+							blockoverride "tutorial_highilight_name" {
+								name = "tutorial_highlight_military_wages"
+							}
+
+							blockoverride "text_upper" {
+								text = "BUDGET_MILITARY_WAGES"
+							}
+
+							blockoverride "second_line" {}
+
+							blockoverride "text_money" {
+								raw_text = "#N @money!-[GetPlayer.PredictMilitaryWagesExpenses|D-]"
+								using = military_wages_expense_tooltip_with_graph
+							}
+
+							blockoverride "button_1_click" {
+								onclick = "[Execute(GetPlayer.SetMilitaryWageLevelVeryLow)]"
+								enabled = "[GetPlayer.HasMilitaryWages]"
+							}
+							
+							blockoverride "button_2_click" {
+								onclick = "[Execute(GetPlayer.SetMilitaryWageLevelLow)]"
+								enabled = "[GetPlayer.HasMilitaryWages]"
+							}									
+
+							blockoverride "button_3_click" {
+								onclick = "[Execute(GetPlayer.SetMilitaryWageLevelMedium)]"
+								enabled = "[GetPlayer.HasMilitaryWages]"
+							}
+
+							blockoverride "button_4_click" {
+								onclick = "[Execute(GetPlayer.SetMilitaryWageLevelHigh)]"
+								enabled = "[GetPlayer.HasMilitaryWages]"
+							}
+							
+							blockoverride "button_5_click" {
+								onclick = "[Execute(GetPlayer.SetMilitaryWageLevelVeryHigh)]"
+								enabled = "[GetPlayer.HasMilitaryWages]"
+							}
+
+							blockoverride "tooltip_1" {
+								tooltip = "[GetPlayer.GetMilitaryWageLevelDescVeryLow]"
+							}
+							blockoverride "tooltip_2" {
+								tooltip = "[GetPlayer.GetMilitaryWageLevelDescLow]"
+							}
+							blockoverride "tooltip_3" {
+								tooltip = "[GetPlayer.GetMilitaryWageLevelDescMedium]"
+							}
+							blockoverride "tooltip_4" {
+								tooltip = "[GetPlayer.GetMilitaryWageLevelDescHigh]"
+							}
+							blockoverride "tooltip_5" {
+								tooltip = "[GetPlayer.GetMilitaryWageLevelDescVeryHigh]"
+							}
+
+							blockoverride "setvisible_very_low" {
+								visible = "[Not(IsValid(GetPlayer.SetMilitaryWageLevelVeryLow))]"
+							}
+							blockoverride "setvisible_very_low_2" {
+								visible = "[IsValid(GetPlayer.SetMilitaryWageLevelVeryLow)]"
+							}
+
+							blockoverride "setvisible_low" {
+								visible = "[Not(IsValid(GetPlayer.SetMilitaryWageLevelLow))]"
+							}
+							blockoverride "setvisible_low_2" {
+								visible = "[IsValid(GetPlayer.SetMilitaryWageLevelLow)]"
+							}
+
+							blockoverride "setvisible_medium" {
+								visible = "[Not(IsValid(GetPlayer.SetMilitaryWageLevelMedium))]"
+							}
+							blockoverride "setvisible_medium_2" {
+								visible = "[IsValid(GetPlayer.SetMilitaryWageLevelMedium)]"
+							}
+
+							blockoverride "setvisible_high" {
+								visible = "[Not(IsValid(GetPlayer.SetMilitaryWageLevelHigh))]"
+							}
+							blockoverride "setvisible_high_2" {
+								visible = "[IsValid(GetPlayer.SetMilitaryWageLevelHigh)]"
+							}
+
+							blockoverride "setvisible_very_high" {
+								visible = "[Not(IsValid(GetPlayer.SetMilitaryWageLevelVeryHigh))]"
+							}
+							blockoverride "setvisible_very_high_2" {
+								visible = "[IsValid(GetPlayer.SetMilitaryWageLevelVeryHigh)]"
+							}
+						}
+
+						tax_exp_frame = {
+
+							blockoverride "text" {
+								text = "BUDGET_GOODS_FOR_MILITARY_BUILDINGS"
+							}
+
+							blockoverride "text_2" {
+								raw_text = "#N @money!-[GetPlayer.GetMilitaryGoodsExpenses|D-]"
+								using = military_goods_expense_tooltip_with_graph
+								alpha = "[TransparentIfZero(GetPlayer.GetMilitaryGoodsExpenses)]"
+							}
+
+							blockoverride "divider" {}
+						}
+
+						tax_exp_frame = {
+							visible = "[GreaterThan_CFixedPoint(GetPlayer.GetMilitarySlavesExpenses, '(CFixedPoint)0')]"
+
+							blockoverride "text" {
+								text = "BUDGET_MILITARY_SLAVES"
+							}
+
+							blockoverride "text_2" {
+								raw_text = "#N @money!-[GetPlayer.GetMilitarySlavesExpenses|D-]"
+								using = military_slaves_expense_tooltip_with_graph
+								alpha = "[TransparentIfZero(GetPlayer.GetMilitarySlavesExpenses)]"
+							}
+
+							blockoverride "divider" {}
+						}			
+
+						tax_exp_frame = {
+
+							blockoverride "text" {
+								text = "BUDGET_WELFARE_PAYMENTS"
+							}
+
+							blockoverride "text_2" {
+								raw_text = "#N @money!-[GetPlayer.GetWelfarePaymentsExpenses|D-]"
+								using = welfare_payments_expense_tooltip_with_graph
+								alpha = "[TransparentIfZero(GetPlayer.GetWelfarePaymentsExpenses)]"
+							}
+						}					
+
+						tax_exp_frame = {
+
+							blockoverride "text" {
+								text = "BUDGET_SUBSIDIES"
+							}
+
+							blockoverride "text_2" {
+								raw_text = "#N @money!-[GetPlayer.GetSubsidiesExpenses|D-]"
+								using = subsidies_expense_tooltip_with_graph
+								alpha = "[TransparentIfZero(GetPlayer.GetSubsidiesExpenses)]"
+							}
+						}
+						
+						tax_exp_frame = {
+
+							blockoverride "text" {
+								text = "LOSSES_FROM_GOVERNMENT_SHARES"
+							}
+
+							blockoverride "text_2" {
+								raw_text = "@money![GetPlayer.PredictGovernmentShareLosses|D-]"
+								using = government_share_losses_tooltip_with_graph
+								alpha = "[TransparentIfZero(GetPlayer.PredictGovernmentShareLosses)]"
+							}
+						}						
+
+						tax_exp_frame = {
+
+							blockoverride "text" {
+								text = "BUDGET_DIPLOMATIC_PACTS"
+							}
+
+							blockoverride "text_2" {
+								raw_text = "#N @money!-[GetPlayer.PredictDiplomaticPactsExpenses|D-]"
+								using = diplomatic_pacts_expense_tooltip_with_graph
+								alpha = "[TransparentIfZero(GetPlayer.PredictDiplomaticPactsExpenses)]"
+							}
+						}
+
+						tax_exp_frame = {
+
+							blockoverride "text" {
+								text = "BUDGET_INTEREST"
+							}
+
+							blockoverride "text_2" {
+								raw_text = "#N @money!-[GetPlayer.GetInterestPayment|D-]"
+								using = interest_expense_tooltip_with_graph
+								alpha = "[TransparentIfZero(GetPlayer.GetInterestPayment)]"
+							}
+						}
+						
+						tax_exp_frame = {
+
+							blockoverride "text" {
+								text = "BUDGET_ADDITIONAL_EXPENSES"
+							}
+
+							blockoverride "text_2" {
+								raw_text = "#N @money!-[GetPlayer.GetModifier.GetValueFor('country_expenses_add')|D-]#!"
+								using = additional_expenses_tooltip_with_graph
+								alpha = "[TransparentIfZero(GetPlayer.GetModifier.GetValueFor('country_expenses_add'))]"
+							}
+						}								
+					}
+				}
+
+				flowcontainer = {
+					direction = vertical
+					visible = "[GreaterThan_CFixedPoint(GetPlayer.GetUnrealizedTaxes, '(CFixedPoint)0')]"
+
+					default_header_2texts = {
+						blockoverride "text1" {
+							text = "[concept_unrealized_taxes]"
+						}
+						blockoverride "text2" {
+							raw_text = "@money![GetPlayer.GetUnrealizedTaxes|D-]"
+							tooltip = UNREALIZED_TAXES_BREAKDOWN
+						}
+					}
+					textbox = {
+						autoresize = yes
+						margin = { 10 0 }
+						margin_bottom = 10
+						text = "[GetPlayer.GetAverageStateTaxCollectionMultBreakdown]"
+					}				
+				}
+			}
+
+			#STATES
+			container = {
+				using = default_list_position
+				visible = "[InformationPanel.IsTabSelected('states')]"
+				using = default_content_fade
+				
+				flowcontainer = {
+					using = default_list_position
+					direction = vertical
+					spacing = 10
+
+					### sort buttons
+					widget = {
+						size = { @panel_width 30 }
+						
+						hbox = {
+
+							sort_button = {
+								layoutstretchfactor_horizontal = 2.5
+								layoutpolicy_horizontal = expanding
+								size = { 0 30 }
+								onclick = "[AccessPlayer.SortStates('name')]"
+								
+								text = "STATE_TITLE"
+								align = left|nobaseline
+								
+								tooltip = STATE_EXPLAINER
+							}
+
+							sort_button = {
+								layoutstretchfactor_horizontal = 1
+								layoutpolicy_horizontal = expanding
+								size = { 0 30 }
+								onclick = "[AccessPlayer.SortStates('averagepopwage')]"
+								
+								text = "WAGES"
+								align = right|nobaseline
+								
+								tooltip = AVERAGE_POP_WAGE_EXPLAINER
+							}
+
+							sort_button = {
+								layoutstretchfactor_horizontal = 1
+								layoutpolicy_horizontal = expanding
+								size = { 0 30 }
+								onclick = "[AccessPlayer.SortStates('governmentexpenses')]"
+								
+								text = "EXPENSES"
+								align = right|nobaseline
+								
+								tooltip = EXPENSES_EXPLAINER
+							}
+
+							sort_button = {
+								layoutstretchfactor_horizontal = 1
+								layoutpolicy_horizontal = expanding
+								size = { 0 30 }
+								onclick = "[AccessPlayer.SortStates('taxrevenue')]"
+								
+								align = right|nobaseline
+								text = "TAXES"
+								
+								tooltip = STATE_INCOME_TAX_REVENUE_EXPLAINER
+							}
+						}
+					}
+
+					flowcontainer = {
+						direction = vertical
+						datamodel = "[AccessPlayer.AccessStates]"
+
+						item = {
+							button = {
+								using = default_button
+								size = { @panel_width 50 }
+								onmousehierarchyenter = "[AccessHighlightManager.HighlightState(State.Self)]"
+								onmousehierarchyleave = "[AccessHighlightManager.RemoveHighlight]"
+								onclick = "[InformationPanelBar.OpenStatePanel( State.AccessSelf )]"
+								onrightclick = "[RightClickMenuManager.ShowForState(State.AccessSelf)]"
+								alwaystransparent = no
+
+								hbox = {
+									margin = { 8 0 }
+									
+									textbox = {
+										layoutstretchfactor_horizontal = 2.5
+										layoutpolicy_horizontal = expanding
+										size = { 0 50 }
+										margin_left = 3
+										
+										align = left|nobaseline
+										raw_text = "#bold [State.GetNameNoFormatting]#!"
+										
+										multiline = yes
+
+										tooltipwidget = {
+											FancyTooltip_State = {}
+										}
+									}
+									textbox = {
+										layoutstretchfactor_horizontal = 1
+										layoutpolicy_horizontal = expanding
+										size = { 0 40 }
+										
+										align = right|nobaseline
+										raw_text = "@money![State.GetAverageAnnualWage|vD]"
+										tooltip = "[State.GetAverageAnnualWageDesc]"
+									}
+
+									textbox = {
+										layoutstretchfactor_horizontal = 1
+										layoutpolicy_horizontal = expanding
+										size = { 0 40 }
+										
+										align = right|nobaseline
+										raw_text = "#variable @money![State.GetGovernmentExpenses|+d]#!"
+										tooltip = "[State.GetGovernmentExpensesTooltip]"
+										alpha = "[TransparentIfZero(State.GetGovernmentExpenses)]"
+									}
+
+									textbox = {
+										layoutstretchfactor_horizontal = 1
+										layoutpolicy_horizontal = expanding
+										size = { 0 40 }
+										
+										align = right|nobaseline
+										raw_text = "#variable @money![State.GetTaxationRevenue|=+D]#!"
+										tooltip = "[State.GetTaxationRevenueTooltip]"
+										alpha = "[TransparentIfZero(State.GetTaxationRevenue)]"
+									}
+								}
+							}
+						}
+					}
+				}
+				
+				not_yet_initialized = {
+					visible = "[EqualTo_CFixedPoint(GetPlayer.GetWeeklyExpenses, '(CFixedPoint)0')]"
+				}
+			}
+
+			### ASSETS
+			flowcontainer = {
+				visible = "[InformationPanel.IsTabSelected('assets')]"			
+				using = default_content_fade
+				direction = vertical
+				using = default_list_position
+				spacing = 10
+
+				default_header = {
+					blockoverride "text" {
+						text = "[concept_gold_reserves]"
+					}
+				}
+
+				flowcontainer = {
+					spacing = 10
+					direction = vertical
+					using = default_list_position
+					
+					widget = {
+						size = { @panel_width_minus_10 45 }
+						parentanchor = hcenter
+						tooltip = "[AccessPlayer.GetGoldProgressDesc]"
+					
+						gold_progressbar_horizontal = {
+							parentanchor = vcenter
+							name = "gold_progressbar"
+							size = { 100% 100% }
+							blockoverride "values" {
+								value = "[FixedPointToFloat(GetPlayer.GetGoldReserveRatio )]"
+								min = 0  
+								max = 1
+							}
+						}
+						
+						textbox = {
+							text = "RESERVES"
+							autoresize = yes
+							align = nobaseline
+							parentanchor = vcenter
+							margin_left = 20
+							using = fontsize_large
+						}
+
+						textbox = {
+							visible = "[GreaterThan_CFixedPoint( GetPlayer.GetGoldReserveRatio, '(CFixedPoint)0' )]"
+							using = fontsize_large
+							autoresize = yes
+							raw_text = " #variable @money![GetPlayer.GetGoldReserves|K]#! ([AccessPlayer.PredictWeeklyBalanceWithEconomyHealthHint])"
+							parentanchor = right|vcenter
+							align = right|nobaseline
+							margin_right = 20
+						}
+						
+						textbox = {
+							visible = "[Not(GreaterThan_CFixedPoint( GetPlayer.GetGoldReserveRatio, '(CFixedPoint)0' ))]"
+							using = fontsize_large
+							autoresize = yes
+							raw_text = " #variable @money![GetPlayer.GetGoldReserves|K]#!"
+							parentanchor = right|vcenter
+							align = right|nobaseline
+							margin_right = 20
+						}						
+					}
+				}
+				
+				default_header = {
+					blockoverride "text" {
+						text = "[concept_investment_pool]"
+					}
+				}					
+				
+				widget = {
+					size = { @panel_width 60 }
+					parentanchor = hcenter
+					
+					background = {
+						using = entry_bg
+					}
+
+					textbox = {
+						using = fontsize_large
+						autoresize = yes
+						raw_text = "[concept_investment_pool]:"
+						align = left|nobaseline
+						parentanchor = vcenter
+						margin_left = 20
+					}
+					textbox = {
+						using = fontsize_large
+						autoresize = yes
+						raw_text = "#v @money![GetPlayer.GetInvestmentPool|D+]#! ([GetPlayer.GetInvestmentPoolChange|=+D])"
+						parentanchor = right|vcenter
+						align = right|nobaseline
+						margin_right = 20
+						using = investment_pool_tooltip_with_graph
+					}
+				}
+				
+				default_header = {
+					blockoverride "text" {
+						text = "DOMESTIC_LOANS"
+					}
+				}
+				
+				button = {
+					datacontext = "[GetPlayer]"
+					using = default_button_action
+					size = { 250 75 }
+					text = "DECLARE_BANKRUPTCY"
+					onclick = "[Execute(Country.DeclareBankruptcy)]"
+					enabled = "[IsValid(Country.DeclareBankruptcy)]"
+					tooltip = "DECLARE_BANKRUPTCY_TOOLTIP"
+					using = tooltip_below
+					parentanchor = hcenter
+				}								
+				
+				flowcontainer = {
+					direction = horizontal
+					spacing = 20
+					parentanchor = hcenter
+
+					textbox = {
+						autoresize = yes
+						text = "INTEREST_RATE"
+						tooltip = "[GetPlayer.GetInterestRateTooltip]"
+						align = nobaseline
+						parentanchor = vcenter
+					}
+
+					textbox = {
+						name = "tutorial_highlight_credit_limit"
+						autoresize = yes
+						text = "CREDIT_LIMIT"
+						tooltip = "[GetPlayer.GetCreditTooltip]"
+						align = nobaseline
+						parentanchor = vcenter
+					}
+				}
+				
+				widget = {
+					name = "tutorial_highilight_principal_bar"
+					size = { @panel_width_minus_10 45 }
+					parentanchor = hcenter
+					tooltip = "CREDIT_PROGRESS"
+					visible = "[GreaterThanOrEqualTo_CFixedPoint( GetPlayer.GetCreditRatio, '(CFixedPoint)0' )]"
+
+					bad_progressbar_horizontal = {
+						parentanchor = vcenter
+						name = "credit_progressbar"
+						size = { 100% 100% }
+						blockoverride "values" {
+							value = "[FixedPointToFloat(GetPlayer.GetCreditRatio)]"
+							min = 0  
+							max = 1
+						}
+					}
+					textbox = {
+						text = "PRINCIPAL"
+						autoresize = yes
+						align = nobaseline
+						parentanchor = vcenter
+						margin_left = 20
+						using = fontsize_large
+					}
+
+					textbox = {
+						using = fontsize_large
+						autoresize = yes
+						raw_text = "#variable @money![GetPlayer.GetPrincipal|K]#!"
+						parentanchor = right|vcenter
+						align = right|nobaseline
+						margin_right = 20
+					}
+				}				
+
+				widget = {
+					name = "tutorial_highlight_credit_limit_bar"
+					size = { @panel_width 60 }
+					parentanchor = hcenter
+					tooltip = "[GetPlayer.GetCreditTooltip]"
+					
+					background = {
+						using = entry_bg
+					}
+
+					textbox = {
+						using = fontsize_large
+						autoresize = yes
+						text = "REMAINING_CREDIT"
+						tooltip = "[GetPlayer.GetCreditTooltip]"
+						align = left|nobaseline
+						parentanchor = vcenter
+						margin_left = 20
+					}
+					textbox = {
+						using = fontsize_large
+						autoresize = yes
+						raw_text = "@money!#variable [GetPlayer.GetRemainingCredit|2*]#! / [GetPlayer.GetMaxCredit|2*]"
+						parentanchor = right|vcenter
+						align = right|nobaseline
+						margin_right = 20
+					}
+				}
+			}
+		}
+	}
+
+	type tax_exp_frame_coin = container {
+		minimumsize = { @panel_width_minus_10 50 }
+
+		flowcontainer = {
+
+			parentanchor = vcenter
+			direction = vertical
+			margin_top = 3
+			margin_bottom = 3
+
+			textbox = {
+				autoresize = yes
+				fontsize_min = 12
+				max_width = 230
+				multiline = yes
+				block "text_upper" {
+					raw_text = "Upper text" 
+				}
+				parentanchor = left
+				elide = right
+				align = left|nobaseline
+			}
+
+			block "second_line" {
+				textbox = {
+					autoresize = yes
+					block "text_lower" {
+						raw_text = "Lower Text"
+					}
+					using = fontsize_small
+					margin_bottom = 6
+					parentanchor = left
+					elide = right
+					align = left|nobaseline
+				}
+			}
+		}
+
+		block "revenue_controls" {
+			set_level_bar = {
+				position = { 230 0 }
+				parentanchor = vcenter
+			}
+		}
+		
+		textbox = {
+			autoresize = yes
+			block "text_money" {
+				raw_text = "@money! 0"
+			}
+			parentanchor = right|vcenter
+			margin_bottom = 6
+		}
+		
+		block "divider" {
+			divider_clean = {}
+		}
+	}
+
+	type tax_exp_frame = widget {
+		size = { @panel_width_minus_10 40 }
+
+		textbox = {
+			size = { 340 30 }
+			block "text" {
+				raw_text = "INSERT TYPE TEXT"
+			}
+			parentanchor = left|vcenter
+			elide = right
+			margin_bottom = 6
+		}
+		
+		textbox = {
+			autoresize = yes
+			block "text_2" {
+				raw_text = "@money! 0"
+			}
+			parentanchor = right|vcenter
+			margin_bottom = 6
+		}
+		
+		block "divider" {
+			divider_clean = {}
+		}
+	}
+	
+	### SET LEVEL BAR ITEM
+	type set_level_bar_item = widget {
+
+		block "size" {
+			size = { 40 48 }
+		}
+
+		using = tooltip_above
+		
+		### BUTTON
+		button = {
+			using = default_button_action
+
+			block "button_size" {
+				size = { 35 32 }
+			}
+
+			parentanchor = center
+			block "click" {}
+			
+			button = {
+				block "setvisible_2" {}
+				block "button_texture" {}
+				alwaystransparent = yes
+
+				block "texture_size" {
+					size = { 24 24 }
+				}
+
+				parentanchor = center
+			}
+		}
+
+		### SELECTED FRAME
+		widget = {
+			block "selected_frame_size" {
+				size = { 37 35 }
+			}
+			parentanchor = center
+			block "setvisible" {}
+			
+			state = {
+				name = _show
+				duration = 0.35
+				alpha = 1
+			}
+			state = {
+				name = _hide
+				duration = 0
+				alpha = 0
+			}
+			
+			background = {
+				using = dark_area
+				alpha = 0.8
+			}
+			icon = {
+				using = highlighted_square_selection
+			}
+		}
+		
+		### SELECTED (icon)
+		icon = {
+			block "button_texture" {}
+
+			block "selected_texture_size" {
+				size = { 28 28 }
+			}
+
+			parentanchor = center
+			block "setvisible" {}
+		}
+		
+		### ARROW BOTTOM
+		icon = {
+			texture = "gfx/interface/budget/set_level_bar_arrow.dds"
+
+			block "selected_arrow_size" {	
+				size = { 21 12 }
+			}
+
+			scale = 1.2
+			parentanchor = bottom|hcenter
+			mirror = vertical
+			block "setvisible" {}
+			
+			state = {
+				name = _show
+				next = show_2
+				position = { 0 0 }
+				duration = 0
+				alpha = 1
+			}
+			state = {
+				name = show_2
+				next = show_3
+				position = { 0 3 }
+				duration = 0
+				alpha = 1
+			}
+			state = {
+				name = show_3
+				next = show_4
+				position = { 0 -2 }
+				duration = 0.2
+				alpha = 1
+			}
+			state = {
+				name = show_4
+				position = { 0 0 }
+				duration = 0.1
+				alpha = 1
+			}
+			
+			state = {
+				name = _hide
+				position = { 0 0 }
+				duration = 0
+				alpha = 0
+			}
+		}
+	}
+	
+	### SET LEVEL BAR (market tariffs)
+	type set_level_bar_market_tariffs = flowcontainer {
+		
+		### prio import
+		set_level_bar_item = {
+			tooltip = "[SelectLocalization(Goods.GetMarket.IsSame(GetPlayer.GetCapital.GetMarket), GetPlayer.GetGoodsTariffDescImportPriority(Goods.Self), 'NOT_PLAYER_MARKET_PRIORITY')]"
+			
+			blockoverride "button_texture" {
+				texture = "gfx/interface/icons/trade_icons/import_focused.dds"
+			}
+			blockoverride "click" {
+				enabled = "[And(IsValid( GetPlayer.SetGoodsTariffImportPriority(Goods.Self) ), Goods.GetMarket.IsSame(GetPlayer.GetCapital.GetMarket))]"
+				onclick = "[Execute( GetPlayer.SetGoodsTariffImportPriority(Goods.Self) )]"
+			}
+			blockoverride "setvisible" {
+				visible = "[Not(IsValid( GetPlayer.SetGoodsTariffImportPriority(Goods.Self) ))]"
+			}
+			blockoverride "setvisible_2" {
+				visible = "[IsValid( GetPlayer.SetGoodsTariffImportPriority(Goods.Self) )]"
+			}
+		}
+		
+		### no prio
+		set_level_bar_item = {
+			tooltip = "[SelectLocalization(Goods.GetMarket.IsSame(GetPlayer.GetCapital.GetMarket), GetPlayer.GetGoodsTariffDescNoPriority(Goods.Self), 'NOT_PLAYER_MARKET_PRIORITY')]"
+			
+			blockoverride "button_texture" {
+				texture = "gfx/interface/icons/trade_icons/unfocused.dds"
+			}
+			blockoverride "click" {
+				enabled = "[And(IsValid( GetPlayer.SetGoodsTariffNoPriority(Goods.Self) ), Goods.GetMarket.IsSame(GetPlayer.GetCapital.GetMarket))]"
+				onclick = "[Execute( GetPlayer.SetGoodsTariffNoPriority(Goods.Self) )]"
+			}
+			blockoverride "setvisible" {
+				visible = "[Not(IsValid( GetPlayer.SetGoodsTariffNoPriority(Goods.Self) ))]"
+			}
+			blockoverride "setvisible_2" {
+				visible = "[IsValid( GetPlayer.SetGoodsTariffNoPriority(Goods.Self) )]"
+			}
+		}
+		
+		### prio export
+		set_level_bar_item = {
+			tooltip = "[SelectLocalization(Goods.GetMarket.IsSame(GetPlayer.GetCapital.GetMarket), GetPlayer.GetGoodsTariffDescExportPriority(Goods.Self), 'NOT_PLAYER_MARKET_PRIORITY')]"
+			
+			blockoverride "button_texture" {
+				texture = "gfx/interface/icons/trade_icons/export_focused.dds"
+			}
+			blockoverride "click" {
+				enabled = "[And(IsValid( GetPlayer.SetGoodsTariffExportPriority(Goods.Self) ), Goods.GetMarket.IsSame(GetPlayer.GetCapital.GetMarket))]"
+				onclick = "[Execute( GetPlayer.SetGoodsTariffExportPriority(Goods.Self) )]"
+			}
+			blockoverride "setvisible" {
+				visible = "[Not(IsValid( GetPlayer.SetGoodsTariffExportPriority(Goods.Self) ))]"
+			}
+			blockoverride "setvisible_2" {
+				visible = "[IsValid( GetPlayer.SetGoodsTariffExportPriority(Goods.Self) )]"
+			}
+		}
+	}
+		
+	### SET LEVEL BAR (budget tax)
+	type set_level_bar = flowcontainer {
+
+		block "tutorial_highilight_name" {
+			name = "tutorial_highlight_name"
+		}
+			
+		### VERY LOW
+		set_level_bar_item = {
+			block "tooltip_1" {
+				tooltip = "[GetPlayer.GetTaxLevelDescVeryLow]"
+			}
+			blockoverride "button_texture" {
+				texture = "gfx/interface/budget/budget_set_very_low.dds"
+			}
+			blockoverride "click" {
+				using = budget_coins_lvl_1_button_sound
+				block "button_1_click" {
+					onclick = "[Execute(GetPlayer.SetTaxLevelVeryLow)]"
+					enabled = "[GetPlayer.HasAnyTaxes]"
+				}
+			}
+			blockoverride "setvisible" {
+				block "setvisible_very_low" {}
+			}
+			blockoverride "setvisible_2" {
+				block "setvisible_very_low_2" {}
+			}
+		}
+		### LOW
+		set_level_bar_item = {
+			block "tooltip_2" {
+				tooltip = "[GetPlayer.GetTaxLevelDescLow]"
+			}
+			blockoverride "button_texture" {
+				texture = "gfx/interface/budget/budget_set_low.dds"
+			}
+			blockoverride "click" {
+				using = budget_coins_lvl_2_button_sound
+				block "button_2_click" {
+					onclick = "[Execute(GetPlayer.SetTaxLevelLow)]"
+					enabled = "[GetPlayer.HasAnyTaxes]"
+				}
+			}
+			blockoverride "setvisible" {
+				block "setvisible_low" {}
+			}
+			blockoverride "setvisible_2" {
+				block "setvisible_low_2" {}
+			}
+		}
+		### MEDIUM
+		set_level_bar_item = {
+			block "tooltip_3" {
+				tooltip = "[GetPlayer.GetTaxLevelDescMedium]"
+			}
+			blockoverride "button_texture" {
+				texture = "gfx/interface/budget/budget_set_medium.dds"
+			}
+			blockoverride "click" {
+				using = budget_coins_lvl_3_button_sound
+				block "button_3_click" {
+					onclick = "[Execute(GetPlayer.SetTaxLevelMedium)]"
+					enabled = "[GetPlayer.HasAnyTaxes]"
+				}
+			}
+			blockoverride "setvisible" {
+				block "setvisible_medium" {}
+			}
+			blockoverride "setvisible_2" {
+				block "setvisible_medium_2" {}
+			}
+		}
+		### HIGH
+		set_level_bar_item = {
+			block "tooltip_4" {
+				tooltip = "[GetPlayer.GetTaxLevelDescHigh]"
+			}
+			blockoverride "button_texture" {
+				texture = "gfx/interface/budget/budget_set_high.dds"
+			}
+			blockoverride "click" {
+				using = budget_coins_lvl_4_button_sound
+				block "button_4_click" {
+					onclick = "[Execute(GetPlayer.SetTaxLevelHigh)]"
+					enabled = "[GetPlayer.HasAnyTaxes]"
+				}
+			}
+			blockoverride "setvisible" {
+				block "setvisible_high" {}
+			}
+			blockoverride "setvisible_2" {
+				block "setvisible_high_2" {}
+			}
+		}
+		### VERY HIGH
+		set_level_bar_item = {
+			block "tooltip_5" {
+				tooltip = "[GetPlayer.GetTaxLevelDescVeryHigh]"
+			}
+			blockoverride "button_texture" {
+				texture = "gfx/interface/budget/budget_set_very_high.dds"
+			}
+			blockoverride "click" {
+				using = budget_coins_lvl_5_button_sound
+				block "button_5_click" {
+					onclick = "[Execute(GetPlayer.SetTaxLevelVeryHigh)]"
+					enabled = "[GetPlayer.HasAnyTaxes]"
+				}
+			}
+			blockoverride "setvisible" {
+				block "setvisible_very_high" {}
+			}
+			blockoverride "setvisible_2" {
+				block "setvisible_very_high_2" {}
+			}
+		}
+	}
+}

@@ -1,0 +1,495 @@
+# COPY-PASTED FOR NOW
+@panel_width_minus_20 = 520			# used to be 440
+@panel_width_minus_20_half = 260	# used to be 220
+@panel_width_minus_10 = 530			# used to be 450
+@panel_width = 540  				# used to be 460
+@panel_width_half = 270				# used to be 230
+@panel_width_plus_10 = 550  		# used to be 470
+@panel_width_plus_14 = 554			# used to be 474
+@panel_width_plus_14_half = 277		# used to be 237
+@panel_width_plus_20 = 560			# used to be 480
+@panel_width_plus_30 = 570			# used to be 490
+@panel_width_plus_70 = 610			# used to be 530
+
+types goods_local_prices_panel_types
+{
+	type goods_local_prices_panel = default_block_window_two_lines {
+		name = "goods_local_prices_panel"
+		
+		blockoverride "window_header_name"
+		{
+			raw_text = "#BOLD [GoodsLocalPricesPanel.GetGoods.GetName]#!"
+		}
+
+		blockoverride "window_header_name_line_two"
+		{
+			text = "LOCAL_PRICES_PANEL_LINE_TWO"
+		}
+		blockoverride "goto_button" {
+			button_icon_goto = {
+				datacontext = "[GoodsLocalPricesPanel.AccessGoods.AccessMarket]"
+				size = { 30 30 }
+				onclick = "[InformationPanelBar.OpenMarketPanel(GoodsLocalPricesPanel.AccessGoods.AccessMarket)]"
+				tooltip = "GO_TO_BUTTON_MARKET"
+			}
+		}
+		
+		blockoverride "fixed_top"
+		{
+			tab_buttons = {
+				
+				# OBS! these 4 tabs are copied to goods_panel.gui / goods_usage_panel.gui / goods_state_panel.gui / goods_local_prices_panel.gui
+				# consider merging these panels into the same panel
+
+				# market
+				blockoverride "first_button" {
+					text = "[GoodsLocalPricesPanel.GetGoods.GetMarket.GetNameNoFormatting]"
+				}
+				blockoverride "first_button_tooltip" {
+					tooltip = "[GoodsLocalPricesPanel.GetGoods.GetMarket.GetNameNoFormatting]"
+				}
+				blockoverride "first_button_click" {
+					onclick = "[InformationPanelBar.OpenGoodsPanel(GoodsLocalPricesPanel.GetGoods.GetMarket, GoodsLocalPricesPanel.GetGoods.Self)]"
+				}
+				blockoverride "first_button_visibility_checked" {
+					visible = "[And(GoodsLocalPricesPanel.GetGoods.HasMarketContext,Not(GoodsLocalPricesPanel.GetGoods.IsLocal))]"
+				}			
+				
+				# selected state
+				blockoverride "second_button" {
+					text = "[GoodsLocalPricesPanel.GetGoods.GetState.GetNameNoFormatting]"
+				}
+				blockoverride "second_button_tooltip" {
+					tooltip = "[GoodsLocalPricesPanel.GetGoods.GetState.GetNameNoFormatting]"
+				} 
+				blockoverride "second_button_visibility_checked" {
+					visible = "[GoodsLocalPricesPanel.GetGoods.HasStateContext]"
+				}
+				blockoverride "second_button_click" {
+					onclick = "[InformationPanelBar.OpenGoodsStatePanel( GoodsLocalPricesPanel.GetGoods.GetState, GoodsLocalPricesPanel.GetGoods )]"
+				}				
+				
+				# states in market
+				blockoverride "third_button_selected" {
+					text = "LOCAL_PRICES"
+				}
+				blockoverride "third_button_selected_tooltip" {}
+				blockoverride "third_button_visibility" {
+					visible = yes
+				}				
+				blockoverride "third_button_click" {
+				}	
+
+				# usage / application
+				blockoverride "fourth_button" {
+					text = USAGE
+				}
+				blockoverride "fourth_button_tooltip" {
+					tooltip = "USAGE"
+				}
+				blockoverride "fourth_button_click" {
+					onclick = "[InformationPanelBar.OpenGoodsUsagePanel(GoodsLocalPricesPanel.GetGoods)]"
+				}
+				blockoverride "fourth_button_visibility_checked" {
+					visible = yes
+				}
+			}
+		}
+
+		blockoverride "scrollarea_content"
+		{
+			container = {
+				parentanchor = hcenter
+				
+				flowcontainer = {
+					minimumsize = { @panel_width -1 }
+					using = default_list_position
+					direction = vertical
+
+					datacontext = "[GoodsLocalPricesPanel.AccessGoods]"
+
+					textbox = {
+						using = market_price_tooltip_with_graph
+						raw_text = "[concept_market_price]: @money![Goods.GetMarketPrice|1v] [Goods.GetCompareIconAgainstBasePriceNoFormatting( Goods.GetMarketPrice )]"
+						align = right|nobaseline
+						autoresize = yes
+						using = fontsize_xxl
+						parentanchor = hcenter
+						margin_top = 20
+						margin_bottom = 20
+						visible = "[Not(Goods.IsLocal)]"
+					}
+
+					flowcontainer = {
+						#using = default_list_position
+						margin = { 0 5 }
+
+						sort_button = {
+							align = hcenter|nobaseline
+							text = "STATE"
+							size = { 90 20 }
+
+							onclick = "[GoodsLocalPricesPanel.Sort('state')]"
+						}
+
+						sort_button = {
+							align = hcenter|nobaseline
+							text = "concept_good_production"
+							size = { 50 20 }
+							margin_right = 7
+
+							onclick = "[GoodsLocalPricesPanel.Sort('production')]"
+						}
+
+						sort_button = {
+							align = hcenter|nobaseline
+							text = "concept_good_consumption"
+							size = { 50 20 }
+							margin_right = 7
+
+							onclick = "[GoodsLocalPricesPanel.Sort('consumption')]"
+						}
+
+						sort_button = {
+							align = hcenter|nobaseline
+							text = "BALANCE"
+							size = { 90 20 }
+							margin_right = 7
+
+							onclick = "[GoodsLocalPricesPanel.Sort('balance')]"
+						}
+						
+						sort_button = {
+							align = hcenter|nobaseline
+							text = "concept_local_price"
+							size = { 190 20 }
+
+							onclick = "[GoodsLocalPricesPanel.Sort('price')]"
+						}
+
+						sort_button = {
+							align = hcenter|nobaseline
+							text = "concept_building"
+							size = { 70 20 }
+
+							onclick = "[GoodsLocalPricesPanel.Sort('owner')]"
+						}
+					}
+
+					fixedgridbox = {
+						datamodel = "[GoodsLocalPricesPanel.AccessLocalPrices]"
+						using = default_list_position
+
+						addrow = 52
+						addcolumn = 540
+
+						item = {
+							widget = {
+								size = { 540 52 }
+								onmousehierarchyenter = "[AccessHighlightManager.HighlightState(Goods.GetState)]"
+								onmousehierarchyleave = "[AccessHighlightManager.RemoveHighlight]"
+								datacontext = "[Goods.GetState]"
+
+								background = {
+									using = entry_bg_simple
+								}
+
+								tooltipwidget = {
+									FancyTooltip_Goods = {}
+								}
+
+								flowcontainer = {
+									direction = vertical
+
+									flowcontainer = {
+										button = {
+											size = { 90 52 }
+											parentanchor = vcenter
+											using = clean_button
+											onclick = "[InformationPanelBar.OpenGoodsStatePanel(Goods.GetState.Self, Goods.Self)]"
+								
+											textbox = {
+												text = "[State.GetNameNoFormatting]"
+												autoresize = yes
+												align = nobaseline
+												margin_left = 7
+												margin_right = 7
+												minimumsize = { 90 45 }
+												maximumsize = { 90 45 }
+												multiline = yes
+												elide = right
+												fontsize_min = 12
+												parentanchor = vcenter
+											}
+
+											using = tooltip_above
+											tooltipwidget = {
+												FancyTooltip_State = {}
+											}						
+										}
+
+										textbox = {
+											align = right|nobaseline
+											text = "[Goods.GetStateProductionWithTooltip|Dv]"
+											size = { 50 40 }
+											margin_right = 5
+											fontsize_min = 12
+											parentanchor = vcenter
+											alpha = "[TransparentIfZero(Goods.GetStateProduction)]"
+										}
+
+										vertical_divider = {}
+										
+										textbox = {
+											align = right|nobaseline
+											text = "[Goods.GetStateConsumptionWithTooltip|Dv]"
+											size = { 50 40 }
+											fontsize_min = 12
+											margin_right = 5
+											parentanchor = vcenter
+											alpha = "[TransparentIfZero(Goods.GetStateConsumption)]"
+										}
+
+										vertical_divider = {}
+										
+										flowcontainer = {
+											direction = vertical
+											minimumsize = { 90 52 }
+											margin_top = 10
+											spacing = 5
+											tooltip = "STATE_GOODS_BALANCE_TOOLTIP"
+
+											textbox = {
+												visible = "[GreaterThan_int32(FixedPointToInt(Goods.GetStateProductionConsumptionDiff), '(int32)0')]"
+												align = right|nobaseline
+												text = "GOODS_LOCAL_PRICE_PANEL_BALANCE_GOLD"
+												autoresize = yes
+												margin_right = 15
+												parentanchor = right
+											}
+
+											textbox = {
+												visible = "[EqualTo_int32(FixedPointToInt(Goods.GetStateProductionConsumptionDiff), '(int32)0')]"
+												align = hcenter|nobaseline
+												text = "GOODS_LOCAL_PRICE_PANEL_BALANCE"
+												autoresize = yes
+												parentanchor = hcenter
+											}
+
+											textbox = {
+												visible = "[LessThan_int32(FixedPointToInt(Goods.GetStateProductionConsumptionDiff), '(int32)0')]"
+												align = left|nobaseline
+												text = "GOODS_LOCAL_PRICE_PANEL_BALANCE_BLUE"
+												autoresize = yes
+												margin_left = 15
+												parentanchor = left
+											}
+
+											double_direction_progressbar_gold = {
+												size = { 60 6 }
+												parentanchor = hcenter
+											
+												blockoverride "negative_min_max_values" {
+													min = "[Negate_float(FixedPointToFloat(Goods.GetMaxImbalance))]"
+													max = 0
+												}
+											
+												blockoverride "positive_min_max_values" {
+													min = 0
+													max = "[FixedPointToFloat(Goods.GetMaxImbalance)]"
+												}
+												
+												blockoverride "value_left" {
+													value = "[FixedPointToInt(Goods.GetStateProductionConsumptionDiff)]"
+												}
+												blockoverride "value_right" {
+													value = "[FixedPointToInt(Goods.GetStateProductionConsumptionDiff)]"
+												}
+											}	
+										}
+
+										vertical_divider = {}
+
+										textbox = {
+											text = "GOODS_LOCAL_PRICE_INFO"
+											align = right|nobaseline
+											size = { 110 40 }
+											margin_right = 5
+											parentanchor = vcenter
+											fontsize_min = 12
+
+											icon = {
+												size = { 25 25 }
+												visible = "[Goods.HasGoodsShortage]"
+												texture = "gfx/interface/icons/generic_icons/goods_shortage.dds"
+												tooltip = "GOODS_SHORTAGE_TOOLTIP"
+												parentanchor = vcenter
+												position = { 5 0 }
+											}
+										}
+
+										flowcontainer = {
+											direction = vertical
+											minimumsize = { 80 52 }
+											spacing = 5
+											margin_top = 10
+
+											textbox = {
+												visible = "[GreaterThanOrEqualTo_CFixedPoint(Goods.GetPercentageDeltaAgainstBasePrice(Goods.GetStatePrice), '(CFixedPoint)0.01')]"
+												align = right|nobaseline
+												text = "GOODS_LOCAL_PRICE_GOLD"
+												autoresize = yes
+												margin_right = 10
+												parentanchor = right
+											}
+
+											textbox = {
+												visible = "[And( Not(LessThanOrEqualTo_CFixedPoint(Goods.GetPercentageDeltaAgainstBasePrice(Goods.GetStatePrice), '(CFixedPoint)-0.01')), Not(GreaterThanOrEqualTo_CFixedPoint(Goods.GetPercentageDeltaAgainstBasePrice(Goods.GetStatePrice), '(CFixedPoint)0.01')))]"
+												align = hcenter|nobaseline
+												text = "GOODS_LOCAL_PRICE"
+												autoresize = yes
+												parentanchor = hcenter
+											}
+
+											textbox = {
+												visible = "[LessThanOrEqualTo_CFixedPoint(Goods.GetPercentageDeltaAgainstBasePrice(Goods.GetStatePrice), '(CFixedPoint)-0.01')]"
+												align = left|nobaseline
+												text = "GOODS_LOCAL_PRICE_BLUE"
+												autoresize = yes
+												margin_left = 10
+												parentanchor = left
+											}
+
+											double_direction_progressbar_gold = {
+												size = { 60 6 }
+												parentanchor = hcenter
+
+												blockoverride "negative_min_max_values" {
+													min = -0.75
+													max = 0
+												}
+
+												blockoverride "positive_min_max_values" {
+													min = 0
+													max = 0.75
+												}
+												
+												blockoverride "value_left" {
+													value = "[FixedPointToFloat(Goods.GetPercentageDeltaAgainstBasePrice(Goods.GetStatePrice))]"
+												}
+												blockoverride "value_right" {
+													value = "[FixedPointToFloat(Goods.GetPercentageDeltaAgainstBasePrice(Goods.GetStatePrice))]"
+												}
+											}
+										}
+
+										vertical_divider = {}
+
+										flowcontainer = {
+											datamodel = "[Goods.AccessBuildingsProducingThis]"
+											direction = vertical
+											maximumsize = { 70 48 }
+											scissor = yes
+											
+											item = {
+												widget = {
+													size = { 70 48 }
+													datacontext = "[Goods.GetState]"
+													datacontext = "[Goods.GetState.GetBuilding(BuildingType.GetKey)]"
+													visible = "[IsValid( Building.QueueConstruction )]"
+
+													tooltipwidget = {
+														FancyTooltip_Building = {}
+													}
+
+													flowcontainer = {
+														direction = vertical
+													
+														textbox = {
+															autoresize = yes
+															visible = "[Building.IsActive]"
+															text = "[Building.GetExpansionLevelDesc]"
+															using = tooltip_above
+															fontsize_min = 10
+															elide = right
+															align = hcenter|nobaseline
+															parentanchor = hcenter
+															minimumsize = { 70 -1 }
+															maximumsize = { 70 -1 }
+															margin_left = 5
+															margin_right = 5
+														}
+
+														textbox = {
+															autoresize = yes
+															visible = "[Not(Building.IsActive)]"
+															alpha = 0.5
+															text = "[Building.GetExpansionLevelDesc]"
+															using = tooltip_above
+															fontsize_min = 10
+															elide = right
+															align = hcenter|nobaseline
+															parentanchor = hcenter
+															minimumsize = { 70 -1 }
+															maximumsize = { 70 -1 }
+															margin_left = 5
+															margin_right = 5
+														}
+
+														flowcontainer = {
+															spacing = 3
+															### CANCEL CONSTRUCTION
+															parentanchor = hcenter
+															button_icon_minus_action = {
+																size = { 24 24 }
+																tooltip = "[Building.GetCancelConstructionTooltip]"
+																enabled = "[And(IsValid( Building.CancelConstruction ), Not(Building.IsMilitaryBuilding))]"
+																onclick = "[Execute( Building.CancelConstruction )]"
+																using = tooltip_below
+															}
+
+															### EXPAND BUTTON
+															button_icon_plus_action = {
+																visible = "[And(Or( And( Not( Building.IsValid ), IsValid( Building.QueueConstruction ) ), Not(Building.HasReachedLevelCap) ), Not(Building.IsMilitaryBuilding))]"
+																tooltip = "[Building.GetQueueConstructionTooltip]"
+																size = { 24 24 }
+																onclick = "[Execute( Building.QueueConstruction )]"
+																enabled = "[IsValid( Building.QueueConstruction )]"
+															}
+														}
+													}
+												}
+											}
+										}
+
+										widget = {
+											size = { 70 48 }
+											parentanchor = vcenter
+											datacontext = "[Goods.GetState]"
+											datacontext = "[State.GetOwner]"
+											visible = "[Not(ObjectsEqual(GetPlayer.Self, State.GetOwner))]"
+
+											tooltipwidget = {
+												FancyTooltip_Country = {}
+											}
+
+											tiny_flag = {
+												parentanchor = center
+												tooltip = STATE_CONTROLLED_BY
+												blockoverride "tooltip" {}
+											}
+										}	
+									}
+								}
+							}
+						}
+					}
+				}
+				
+				not_yet_initialized = {
+					visible = "[IsDataModelEmpty(GoodsLocalPricesPanel.AccessLocalPrices)]"
+				}
+			}
+		}
+	}
+}

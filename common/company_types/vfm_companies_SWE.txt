@@ -1,7 +1,7 @@
 ﻿# Motala fabriker
 company_motala_fabriker = {
-	icon = "gfx/interface/icons/company_icons/historical_company_icons/ericsson.dds"
-	background = "gfx/interface/icons/company_icons/company_backgrounds/comp_illu_manufacturing_light.dds"
+	icon = "gfx/interface/icons/company_icons/basic_metalworks.dds"
+	background = "gfx/interface/icons/company_icons/company_backgrounds/comp_illu_manufacturing_heavy.dds"
 	
 	flavored_company = yes
 	
@@ -10,7 +10,12 @@ company_motala_fabriker = {
 	}
 	
 	potential = {
-		has_interest_marker_in_region = region_scandinavia
+		OR = {
+			country_has_primary_culture = cu:swedish
+			country_has_primary_culture = cu:danish
+			country_has_primary_culture = cu:norwegian
+		}
+		owns_entire_state_region = STATE_SVEALAND	
 	}
 	
 	attainable = {
@@ -36,6 +41,57 @@ company_motala_fabriker = {
 	
 	prosperity_modifier = {
 		country_weekly_innovation_mult = 0.1
+	}	
+	
+	ai_weight = {
+		value = 3
+	}
+}
+
+# Glasriket
+company_glasriket = {
+	icon = "gfx/interface/icons/company_icons/basic_home_goods.dds"
+	background = "gfx/interface/icons/company_icons/company_backgrounds/comp_illu_manufacturing_light.dds"
+	
+	flavored_company = yes
+	
+	building_types = {  
+		building_glassworks
+	}
+	
+	potential = {
+		OR = {
+			country_has_primary_culture = cu:swedish
+			country_has_primary_culture = cu:danish
+			country_has_primary_culture = cu:norwegian
+		}
+		owns_entire_state_region = STATE_GOTALAND
+	}
+	
+	attainable = {
+		hidden_trigger = { # Hide attainable if it's always fulfilled by possible
+			any_scope_state = {
+				state_region = s:STATE_GOTALAND	
+			}
+		}
+	}		
+	
+	possible = {
+		s:STATE_GOTALAND = {
+		    any_scope_state = {
+				any_scope_building = {
+					is_building_type = building_glassworks
+					level >= 2
+					occupancy > 0.75
+				}
+			}
+		}
+		has_technology_researched = crystal_glass
+		has_variable = glasriket_company
+	}
+	
+	prosperity_modifier = {
+		#TODO
 	}	
 	
 	ai_weight = {

@@ -1,0 +1,1520 @@
+# COPY-PASTED FOR NOW
+@panel_width_minus_10 = 530			# used to be 450
+@panel_width = 540  				# used to be 460
+@panel_width_half = 270				# used to be 230
+@panel_width_plus_10 = 550  		# used to be 470
+@panel_width_plus_14 = 554			# used to be 474
+@panel_width_plus_14_half = 277		# used to be 237
+@panel_width_plus_20 = 560			# used to be 480
+@panel_width_plus_30 = 570			# used to be 490
+@panel_width_plus_70 = 610			# used to be 530
+
+types goods_panel_types
+{
+	type goods_panel = default_block_window_two_lines {
+		name = "goods_panel"
+		
+		blockoverride "window_header_name"
+		{
+			text = "[GoodsPanel.GetGoods.GetName]"
+		}
+
+		blockoverride "window_header_name_line_two"
+		{
+			text = "GOODS_PANEL_LINE_TWO"
+		}
+		blockoverride "goto_button" {
+			button_icon_goto = {
+				datacontext = "[GoodsPanel.AccessGoods.AccessMarket]"
+				size = { 30 30 }
+				onclick = "[InformationPanelBar.OpenMarketPanel(GoodsPanel.AccessGoods.AccessMarket)]"
+				tooltip = "GO_TO_BUTTON_MARKET"
+			}
+		}
+
+		blockoverride "pin_visibility" {
+			visible = "[And(GoodsPanel.AccessGoods.HasMarketContext, GoodsPanel.AccessGoods.GetMarket.GetOwner.IsLocalPlayer)]"
+		}
+
+		blockoverride "pin_properties" {
+			visible = "[GoodsPanel.AccessGoods.IsPinnedInOutliner]"
+			onclick = "[GoodsPanel.AccessGoods.TogglePinInOutliner]"
+			datacontext = "[GoodsPanel.AccessGoods]"
+			tooltip = "GOODS_RIGHT_CLICK_MENU_PIN_IN_OUTLINER"
+		}
+
+		blockoverride "unpin_properties" {
+			visible = "[Not(GoodsPanel.AccessGoods.IsPinnedInOutliner)]"
+			onclick = "[GoodsPanel.AccessGoods.TogglePinInOutliner]"
+			datacontext = "[GoodsPanel.AccessGoods]"
+			tooltip = "GOODS_RIGHT_CLICK_MENU_PIN_IN_OUTLINER"
+		}
+		
+		blockoverride "fixed_top"{
+
+			tab_buttons = {
+				
+				# OBS! these 4 tabs are copied to goods_panel.gui / goods_usage_panel.gui / goods_state_panel.gui / goods_local_prices_panel.gui
+				# consider merging these panels into the same panel
+
+				# market (SELECTED)
+				blockoverride "first_button_selected" {
+					text = "[GoodsPanel.GetGoods.GetMarket.GetNameNoFormatting]"
+				}
+				blockoverride "first_button_visibility" {
+					visible = yes
+				}
+				
+				# selected state
+				blockoverride "second_button" {
+					text = "[GoodsPanel.GetGoods.GetState.GetNameNoFormatting]"
+				}
+				blockoverride "second_button_tooltip" {
+					tooltip = "[GoodsPanel.GetGoods.GetState.GetNameNoFormatting]"
+				} 
+				blockoverride "second_button_visibility_checked" {
+					visible = "[GoodsPanel.GetGoods.HasStateContext]"
+				}
+				blockoverride "second_button_click" {
+					onclick = "[InformationPanelBar.OpenGoodsStatePanel( GoodsPanel.GetGoods.GetState, GoodsPanel.GetGoods )]"
+				}
+
+				# states in market
+				blockoverride "third_button" {
+					text = "LOCAL_PRICES"
+				}
+				blockoverride "third_button_tooltip" {
+					tooltip = "LOCAL_PRICES"
+				} 					
+				blockoverride "third_button_visibility_checked" {
+					visible = yes
+				}			
+				blockoverride "third_button_click" {
+					onclick = "[InformationPanelBar.OpenGoodsLocalPricesPanel(GoodsPanel.GetGoods)]"
+				}	
+				
+				# usage / application
+				blockoverride "fourth_button" {
+					text = USAGE
+				}
+				blockoverride "fourth_button_click" {
+					onclick = "[InformationPanelBar.OpenGoodsUsagePanel(GoodsPanel.GetGoods)]"
+				}
+				blockoverride "fourth_button_visibility_checked" {
+					visible = yes
+				}
+			}
+		}
+
+		blockoverride "fixed_bottom"{
+			fixed_bottom_spacer = {}
+			flowcontainer = {
+				direction = horizontal
+				spacing = 10
+				datacontext = "[GoodsPanel.AccessGoods]"
+				button = {
+					visible = "[And(Goods.IsTradeable, And(Goods.HasMarketContext, Goods.HasImportExportControl))]"
+				
+					using = default_button_map_interaction
+					size = { 260 70 }
+					
+					icon = {
+						texture = "gfx/interface/icons/lens_toolbar_icons/trade_route_import_lens_option.dds"
+						size = { 40 40 }
+						position = { 0 3 }
+						parentanchor = hcenter
+					}
+					textbox = {
+						text = "NEW_IMPORT_ROUTE"
+						size = { 100% 30 }
+						position = { 0 -3 }
+						parentanchor = bottom
+						margin = { 10 0 }
+						elide = right
+						align = center|nobaseline
+					}
+					
+					using = shimmer
+					blockoverride "shimmer_visibility" {
+						visible = "[Goods.CanEstablishImportTradeRoute]"
+					}
+					enabled = "[Goods.CanEstablishImportTradeRoute]"
+					onclick = "[Goods.EstablishImportTradeRoute]"
+					tooltip = "ESTABLISH_IMPORT_ROUTE_TOOLTIP"
+				}
+				button = {
+					visible = "[And(Goods.IsTradeable, And(Goods.HasMarketContext, Goods.HasImportExportControl))]"
+				
+					using = default_button_map_interaction
+					size = { 260 70 }
+					
+					icon = {
+						texture = "gfx/interface/icons/lens_toolbar_icons/trade_route_export_lens_option.dds"
+						size = { 40 40 }
+						position = { 0 3 }
+						parentanchor = hcenter
+					}
+					textbox = {
+						text = "NEW_EXPORT_ROUTE"
+						size = { 100% 30 }
+						position = { 0 -3 }
+						parentanchor = bottom
+						margin = { 10 0 }
+						elide = right
+						align = center|nobaseline
+					}
+					
+					using = shimmer
+					blockoverride "shimmer_visibility" {
+						visible = "[Goods.CanEstablishExportTradeRoute]"
+					}
+					enabled = "[Goods.CanEstablishExportTradeRoute]"
+					onclick = "[Goods.EstablishExportTradeRoute]"
+					tooltip = "ESTABLISH_EXPORT_ROUTE_TOOLTIP"
+				}
+
+				button = {
+					visible = "[And(Goods.IsTradeable, And(Goods.HasMarketContext, Not(Goods.HasImportExportControl)))]"
+					
+					using = default_button_map_interaction
+					size = { 260 70 }
+					
+					icon = {
+						texture = "gfx/interface/icons/lens_toolbar_icons/trade_route_import_lens_option.dds"
+						size = { 40 40 }
+						position = { 0 3 }
+						parentanchor = hcenter
+					}
+					textbox = {
+						text = "NEW_IMPORT_ROUTE_TO_PLAYER"
+						size = { 100% 30 }
+						position = { 0 -3 }
+						parentanchor = bottom
+						margin = { 10 0 }
+						elide = right
+						align = center|nobaseline
+					}
+					
+					enabled = "[IsValid(Goods.EstablishTradeRouteWithPlayerMarket('(bool)yes'))]"
+					onclick = "[Execute(Goods.EstablishTradeRouteWithPlayerMarket('(bool)yes'))]"
+					tooltip = "ESTABLISH_IMPORT_ROUTE_TO_PLAYER_MARKET_TOOLTIP"
+				}
+				button = {
+					visible = "[And(Goods.IsTradeable, And(Goods.HasMarketContext, Not(Goods.HasImportExportControl)))]"
+					
+					using = default_button_map_interaction
+					size = { 260 70 }
+					
+					icon = {
+						texture = "gfx/interface/icons/lens_toolbar_icons/trade_route_export_lens_option.dds"
+						size = { 40 40 }
+						position = { 0 3 }
+						parentanchor = hcenter
+					}
+					textbox = {
+						text = "NEW_EXPORT_ROUTE_FROM_PLAYER"
+						size = { 100% 30 }
+						position = { 0 -3 }
+						parentanchor = bottom
+						margin = { 10 0 }
+						elide = right
+						align = center|nobaseline
+					}
+					
+					enabled = "[IsValid(Goods.EstablishTradeRouteWithPlayerMarket('(bool)no'))]"
+					onclick = "[Execute(Goods.EstablishTradeRouteWithPlayerMarket('(bool)no'))]"
+					tooltip = "ESTABLISH_EXPORT_ROUTE_FROM_PLAYER_MARKET_TOOLTIP"
+				}
+			}
+		}
+
+		blockoverride "scrollarea_content"
+		{
+			container = {
+				parentanchor = hcenter
+				
+				flowcontainer = {
+					margin_top = 10
+					minimumsize = { @panel_width -1 }
+					using = default_list_position
+					direction = vertical
+					datacontext = "[GoodsPanel.AccessGoods]"
+
+					container = {
+						parentanchor = hcenter
+						minimumsize = { @panel_width -1 }
+						maximumsize = { @panel_width -1 }
+						
+						good_icon_and_prize = {}
+
+						map_modes_minimized = {
+							parentanchor = right
+
+							blockoverride "first_button_click" {
+								onclick = "[GoodsPanel.ShowGoodsLocalPrices]"
+							}
+							blockoverride "first_button_selected" {
+								visible = "[GoodsPanel.IsShowingGoodsLocalPrices]"
+							}
+							blockoverride "first_button_not_selected" {
+								visible = "[Not(GoodsPanel.IsShowingGoodsLocalPrices)]"
+							}
+							blockoverride "first_button_icon" {
+								texture = "gfx/interface/icons/generic_icons/money.dds"
+							}
+							blockoverride "first_button_text" {
+								text = "MAP_MODE_LOCAL_PRICES"
+							}
+							
+							blockoverride "second_button_click" {
+								onclick = "[GoodsPanel.ShowGoodsPotentials]"
+							}
+							blockoverride "second_button_selected" {
+								visible = "[GoodsPanel.IsShowingGoodsPotentials]"
+							}
+							blockoverride "second_button_not_selected" {
+								visible = "[Not(GoodsPanel.IsShowingGoodsPotentials)]"
+							}
+							blockoverride "second_button_icon" {
+								texture = "gfx/interface/icons/map_mode_icons/potentials.dds"
+							}
+							blockoverride "second_button_text" {
+								text = "MAP_MODE_POTENTIALS"
+							}
+
+							blockoverride "third_button_click" {
+								onclick = "[GoodsPanel.ShowGoodsProduction]"
+							}
+							blockoverride "third_button_selected" {
+								visible = "[GoodsPanel.IsShowingGoodsProduction]"
+							}
+							blockoverride "third_button_not_selected" {
+								visible = "[Not(GoodsPanel.IsShowingGoodsProduction)]"
+							}
+							blockoverride "third_button_icon" {
+								texture = "gfx/interface/icons/map_mode_icons/production.dds"
+							}
+							blockoverride "third_button_text" {
+								text = "MAP_MODE_PRODUCTION"
+							}
+
+							blockoverride "fourth_button_click" {
+								onclick = "[GoodsPanel.ShowGoodsConsumption]"
+							}
+							blockoverride "fourth_button_selected" {
+								visible = "[GoodsPanel.IsShowingGoodsConsumption]"
+							}
+							blockoverride "fourth_button_not_selected" {
+								visible = "[Not(GoodsPanel.IsShowingGoodsConsumption)]"
+							}
+							blockoverride "fourth_button_icon" {
+								texture = "gfx/interface/icons/map_mode_icons/consumption.dds"
+							}
+							blockoverride "fourth_button_text" {
+								text = "MAP_MODE_CONSUMPTION"
+							}
+						}
+					}
+					
+					widget = { size = { 10 10 }}
+					
+					widget = {
+						size = { @panel_width 60 }
+						parentanchor = hcenter
+						
+						background = {
+							using = entry_bg_simple
+						}
+
+						hbox = {
+							layoutpolicy_horizontal = expanding
+							spacing = 10
+							margin = { 10 0 }
+							
+							textbox = {
+								autoresize = yes
+								align = nobaseline
+								text = "BUDGET_TARIFFS"
+							}
+							
+							container = {
+								name = "tutorial_highlight_market_goods_policy"
+								set_level_bar_market_tariffs = {}
+							}
+							
+							textbox = {
+								layoutpolicy_horizontal = expanding
+								align = right|nobaseline
+								text = "BUDGET_CONSUMPTION_TAXES"
+							}
+							
+							consumption_tax_button_toggle = {
+								visible = "[Not(ObjectsEqual(GetMetaPlayer.GetPlayedOrObservedCountry.GetCapital.GetMarket, Goods.GetMarket))]"
+								enabled = "[Not(IsValid( Goods.ToggleTaxation(GetMetaPlayer.GetPlayedOrObservedCountry)))]"
+								tooltip = "NOT_PLAYER_MARKET_CONSUMPTION_TAXES"
+							}
+							consumption_tax_button_toggle = {
+								visible = "[ObjectsEqual(GetMetaPlayer.GetPlayedOrObservedCountry.GetCapital.GetMarket, Goods.GetMarket)]"
+								enabled = "[IsValid( Goods.ToggleTaxation(GetMetaPlayer.GetPlayedOrObservedCountry) )]"
+								tooltip = "[Goods.GetTaxDesc(GetMetaPlayer.GetPlayedOrObservedCountry)]"
+							}
+						}
+					}
+						
+					### GRAPH LINE
+					v3_plotline = {
+						using = default_list_position
+
+						blockoverride "size" {
+							size = { 360 100 }
+						}
+						blockoverride "header" {
+							text = "PRICE"
+						}
+						blockoverride "line_color" {
+							color = { .9 .9 .9 1.0 }
+						}
+						blockoverride "line_plotpoints" {
+							visible = "[Not(IsEmpty(Goods.GetPriceTrend))]"
+							plotpoints = "[GetTrendPlotPointsNormalized( Goods.GetPriceTrend, Goods.GetMinPrice, Goods.GetMaxPrice )]"
+						}
+						blockoverride "maxvalue" {
+							raw_text = "@money![Goods.GetMaxPrice]"
+						}
+						blockoverride "minvalue" {
+							raw_text = "@money![Goods.GetMinPrice]"
+						}
+						blockoverride "startdate" {
+							text = "[GetOldestDate(Goods.GetPriceTrend)]"
+						}
+						blockoverride "enddate" {
+							text = "[GetLatestDate(Goods.GetPriceTrend)]"
+						}
+						blockoverride "multiitem" {}
+						
+						blockoverride "extra_plotlines" {
+							### Base Price line
+							plotline = {
+								size = { 100% 100% }
+								using = plot_line
+								width = 1
+								color = { 0.2 0.2 0.9 1.0 }
+								plotpoints = "[Goods.GetBasePricePlotPoints]"
+							}
+						}
+						blockoverride "empty_state_visibility" {
+							visible = "[IsEmpty(Goods.GetPriceTrend)]"
+						}
+						blockoverride "empty_state_text" {
+							text = "GRAPH_NOT_INITIALIZED"
+						}
+					}
+
+					### BOUGHT BY / SOLD BY
+					flowcontainer = {
+						margin_top = 10
+						using = default_list_position
+						
+						### SOLD BY LIST
+						market_orders_list = {}
+						
+						vertical_divider_full = {}
+						
+						### BOUGHT BY LIST
+						market_orders_list = {
+							blockoverride "header_text" {
+								text = "BOUGHT_BY"
+							}
+							blockoverride "alpha_summary_orders" {
+								alpha = "[TransparentIfZero(GoodsPanel.AccessOutputValuesTotal)]"
+							}
+							blockoverride "label_summary_orders" {
+								text = "BUY_ORDERS"
+							}
+							blockoverride "label_tooltip_orders" {
+								tooltip = "GOODS_MARKET_BUY_ORDERS_BREAKDOWN"
+							}							
+							blockoverride "value_summary_orders" {
+								text = "[GoodsPanel.AccessOutputValuesTotal|D]"
+							}
+							blockoverride "datamodel_orders" {
+								datamodel = "[GoodsPanel.AccessOutputValues]"
+							}
+						}
+					}
+
+					flowcontainer = {
+						datacontext = "[GoodsPanel.GetMarketGoods]"
+						visible = "[Goods.IsTradeable]"
+						direction = vertical
+						parentanchor = hcenter
+						
+						widget = {
+							size = { 1 20 }
+						}
+
+						default_header = {
+							parentanchor = hcenter
+							blockoverride "text"
+							{
+								text = "TRADE_ROUTES"
+							}
+						}
+
+
+						empty_state = {
+							blockoverride "visible" {
+								visible = "[And(IsDataModelEmpty(MarketGoods.AccessPlayerTradeRoutes), IsDataModelEmpty(MarketGoods.AccessOthersTradeRoutes))]"
+							}
+							blockoverride "text" {
+								text = "NO_TRADE_ROUTES"
+							}
+						}
+
+						flowcontainer = {
+							direction = vertical
+							parentanchor = hcenter
+							margin_bottom = 5
+							margin_top = 10
+							max_width = 540
+							min_width = 540
+							visible = "[Not(IsDataModelEmpty(MarketGoods.AccessPlayerTradeRoutes))]"
+
+							background = {
+								using = dropdown_background
+
+								modify_texture = {
+									texture = "gfx/interface/masks/fade_vertical_top.dds"
+									blend_mode = alphamultiply
+									alpha = 1
+								}
+							}
+
+							textbox = {
+								text = "TRADE_ROUTE_PLAYER"
+								autoresize = yes
+								align = left|nobaseline
+								margin_left = 15
+								margin_bottom = 5
+							}
+
+							datamodel = "[MarketGoods.AccessPlayerTradeRoutes]"
+
+							item = {
+								trade_route_list_item = {
+									datacontext = "[MarketGoods.GetMarket]"
+
+									blockoverride "first_flag_or_icon" {
+										icon = {
+											datacontext = "[TradeRoute.GetGoods]"
+											texture = "gfx/interface/market_view/trade_good_icon_bg.dds"
+											size = { 55 55 }
+											color = "[Goods.GetCategoryColor]"
+
+											tooltipwidget = {
+												FancyTooltip_Goods = {}
+											}
+											
+											icon = {
+												texture = "[Goods.GetTexture]"
+												size = { 40 40 }
+												parentanchor = center
+											}
+											icon = {
+												size = { 25 25 }
+												visible = "[Goods.HasGoodsShortage]"
+												texture = "gfx/interface/icons/generic_icons/goods_shortage.dds"
+												tooltip = "GOODS_SHORTAGE_TOOLTIP"
+												parentanchor = bottom
+											}
+										}
+									}
+								}
+							}
+						}
+
+						divider_decorative = {
+							visible = "[And(Not(IsDataModelEmpty(MarketGoods.AccessPlayerTradeRoutes)), Not(IsDataModelEmpty(MarketGoods.AccessOthersTradeRoutes)))]"
+						}
+
+						flowcontainer = {
+							direction = vertical
+							parentanchor = hcenter
+							margin_bottom = 5
+							margin_top = 10
+							max_width = 540
+							min_width = 540
+							visible = "[Not(IsDataModelEmpty(MarketGoods.AccessOthersTradeRoutes))]"
+
+							background = {
+								using = dropdown_background
+
+								modify_texture = {
+									texture = "gfx/interface/masks/fade_vertical_top.dds"
+									blend_mode = alphamultiply
+									alpha = 1
+								}
+							}
+
+							textbox = {
+								text = "OTHER_COUNTRIES_TRADE_ROUTES"
+								autoresize = yes
+								align = left|nobaseline
+								margin_left = 15
+								margin_bottom = 5
+							}
+
+							datamodel = "[MarketGoods.AccessOthersTradeRoutes]"
+							item = {
+							   trade_route_list_item = {
+									datacontext = "[MarketGoods.GetMarket]"
+
+									blockoverride "first_flag_or_icon" {
+										icon = {
+											datacontext = "[TradeRoute.GetGoods]"
+											texture = "gfx/interface/market_view/trade_good_icon_bg.dds"
+											size = { 55 55 }
+											color = "[Goods.GetCategoryColor]"
+
+											tooltipwidget = {
+												FancyTooltip_Goods = {}
+											}
+											
+											icon = {
+												texture = "[Goods.GetTexture]"
+												size = { 40 40 }
+												parentanchor = center
+											}
+											icon = {
+												size = { 25 25 }
+												visible = "[Goods.HasGoodsShortage]"
+												texture = "gfx/interface/icons/generic_icons/goods_shortage.dds"
+												tooltip = "GOODS_SHORTAGE_TOOLTIP"
+												parentanchor = bottom
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				
+				not_yet_initialized = {
+					visible = "[EqualTo_CFixedPoint(GoodsPanel.GetGoods.GetMarketPrice, '(CFixedPoint)0')]"
+				}
+			}
+		}
+	}
+}
+
+types "production_method_items" {
+	
+	### ICON + PRICE
+	type good_icon_and_prize = container {
+		minimumsize = { 480 180 }
+		maximumsize = { 480 -1 }
+
+		button = {
+			texture = "gfx/interface/market_view/trade_good_icon_bg.dds"
+			size = { 140 140 }
+			color = "[Goods.GetCategoryColor]"
+			onrightclick = "[RightClickMenuManager.ShowForGoods(Goods.AccessSelf)]"
+			parentanchor = vcenter
+			position = { 5 0 }
+			
+			tooltipwidget = {
+				FancyTooltip_Goods = {}
+			}
+
+			icon = {
+				size = { 110 110 }
+				texture = "[Goods.GetTexture]"
+				parentanchor = center
+				
+			}
+			icon = {
+				size = { 40 40 }
+				visible = "[Goods.HasGoodsShortage]"
+				texture = "gfx/interface/icons/generic_icons/goods_shortage.dds"
+				tooltip = "GOODS_SHORTAGE_TOOLTIP"
+				parentanchor = bottom
+				position = { -3 3 }
+			}			
+		}		
+		
+		flowcontainer = {
+			position = { 170 0 }
+			direction = vertical
+			spacing = 5
+			parentanchor = vcenter
+
+			textbox = {
+				block "prize" {
+					text = GOODS_PANEL_PRICE_RIGHT_NOW
+				}
+				autoresize = yes
+				multiline = yes
+				maximumsize = { 320 -1 }
+				minimumsize = { 320 -1 }
+				align = nobaseline
+				using = fontsize_mega
+				margin_left = -7
+			}
+			textbox = {
+				block "compare" {
+					text = GOODS_PANEL_PRICE_COMPARE
+				}
+				autoresize = yes
+				multiline = yes
+				maximumsize = { 320 -1 }
+				minimumsize = { 320 -1 }
+				align = nobaseline
+				margin_bottom = 15
+
+				tooltipwidget = {
+					FancyTooltip_Goods = {}
+				}
+			}
+			textbox = {
+				block "producer_rank" {
+					text = GOODS_LEADERBOARD_STATUS
+				}
+				autoresize = yes
+				multiline = yes
+				maximumsize = { 320 -1 }
+				minimumsize = { 320 -1 }
+				align = nobaseline
+			}
+		}
+	}
+	
+	### map modes minimized
+	type map_modes_minimized = map_modes {
+		onmousehierarchyenter = "[PdxGuiInterruptThenTriggerAllAnimations('hide_map_mode_list','show_map_mode_list')]"
+		onmousehierarchyleave = "[PdxGuiInterruptThenTriggerAllAnimations('show_map_mode_list','hide_map_mode_list')]"
+		
+		blockoverride "flowcontainer_size" {}
+		
+		blockoverride "map_mode_button_size" {
+			size = { 45 45 }
+			
+			state = {
+				name = show_map_mode_list
+				size = { 350 45 }
+				duration = 0.2
+				using = Animation_Curve_Default
+			}
+			state = {
+				name = hide_map_mode_list
+				size = { 45 45 }
+				duration = 0.2
+				using = Animation_Curve_Default
+			}
+		}
+		
+		blockoverride "show_map_mode_list_details" {
+			alpha = 0
+			
+			state = {
+				name = show_map_mode_list
+				using = default_show_properties
+			}
+			state = {
+				name = hide_map_mode_list
+				using = default_hide_properties
+			}
+		}
+	}
+	
+	### map modes
+	type map_modes = flowcontainer {
+		direction = vertical
+		block "flowcontainer_size" {
+			minimumsize = { @panel_width -1 }
+		}
+		
+		# first button
+		button = {
+			using = default_button_action
+			block "first_button_click" {}
+			block "map_mode_button_size" {
+				size = { 100% 45 }
+			}
+
+			textbox = {
+				block "first_button_text" {}
+				size = { 100% 45 }
+				elide = right
+				fontsize_min = 12
+				margin = { 45 0 }
+				align = nobaseline
+				block "show_map_mode_list_details" {}
+			}
+
+			icon = {
+				name = "selected_bg"
+				size = { 100% 100% }
+				using = highlighted_square_selection
+				block "first_button_selected" {}
+				
+				using = shimmer_fade_in
+				blockoverride "trigger" {
+					name = selected
+				}
+			}
+
+			button_radio = {
+				frame = 1
+				size = { 25 25 }
+				parentanchor = vcenter
+				position = { 10 0 }
+				alwaystransparent = yes
+				block "show_map_mode_list_details" {}
+			}
+
+			button_radio = {
+				frame = 2
+				size = { 25 25 }
+				parentanchor = vcenter
+				position = { 10 0 }
+				block "first_button_selected" {}
+				alwaystransparent = yes
+				block "show_map_mode_list_details" {}
+			}
+
+			block "right_icon" {
+				widget = {
+					size = { 35 35 }
+					parentanchor = right|vcenter
+					position = { -5 0 }
+					
+					icon = {
+						size = { 100 100 }
+						parentanchor = center
+						using = rotate_glow_animation_02
+						block "first_button_selected" {}
+						
+						state = {
+							name = _show
+							alpha = 1
+							size = { 100 100 }
+							duration = 0.2
+							using = Animation_Curve_Default
+						}
+
+						state = {
+							name = _hide
+							alpha = 0.7
+							size = { 30 30 }
+							duration = 0.2
+							using = Animation_Curve_Default
+						}
+					}
+							
+					icon = {
+						size = { 35 35 }
+								parentanchor = center
+						block "first_button_icon" {}
+						block "first_button_selected" {}
+
+						state = {
+							name = _show
+							alpha = 1
+							size = { 35 35 }
+							duration = 0.2
+							using = Animation_Curve_Default
+						}
+
+						state = {
+							name = _hide
+							alpha = 0.7
+							size = { 30 30 }
+							duration = 0.2
+							using = Animation_Curve_Default
+						}
+					}
+
+					icon = {
+						size = { 30 30 }
+						alpha = 0.7
+						parentanchor = center
+						block "first_button_icon" {}
+						block "first_button_not_selected" {}
+
+						state = {
+							name = _show
+							alpha = 0.7
+							size = { 30 30 }
+							duration = 0.2
+							using = Animation_Curve_Default
+						}
+
+						state = {
+							name = _hide
+							alpha = 1
+							size = { 35 35 }
+							duration = 0.2
+							using = Animation_Curve_Default
+						}
+					}
+				}
+			}
+		}
+
+		# second button
+		button = {
+			using = default_button_action
+			block "second_button_click" {}
+			block "map_mode_button_size" {
+				size = { 100% 45 }
+			}
+
+			textbox = {
+				block "second_button_text" {}
+				size = { 100% 45 }
+				elide = right
+				fontsize_min = 12
+				margin = { 45 0 }
+				align = nobaseline
+				block "show_map_mode_list_details" {}
+			}
+
+			icon = {
+				name = "selected_bg"
+				size = { 100% 100% }
+				using = highlighted_square_selection
+				block "second_button_selected" {}
+				
+				using = shimmer_fade_in
+				blockoverride "trigger" {
+					name = selected
+				}
+			}
+
+			button_radio = {
+				frame = 1
+				size = { 25 25 }
+				parentanchor = vcenter
+				position = { 10 0 }
+				alwaystransparent = yes
+				block "show_map_mode_list_details" {}
+			}
+
+			button_radio = {
+				frame = 2
+				size = { 25 25 }
+				parentanchor = vcenter
+				position = { 10 0 }
+				block "second_button_selected" {}
+				alwaystransparent = yes
+				block "show_map_mode_list_details" {}
+			}
+
+			block "right_icon" {
+				widget = {
+					size = { 35 35 }
+					parentanchor = right|vcenter
+					position = { -5 0 }
+					
+					icon = {
+						size = { 100 100 }
+						parentanchor = center
+						using = rotate_glow_animation_02
+						block "second_button_selected" {}
+						
+						state = {
+							name = _show
+							alpha = 1
+							size = { 100 100 }
+							duration = 0.2
+							using = Animation_Curve_Default
+						}
+
+						state = {
+							name = _hide
+							alpha = 0.7
+							size = { 30 30 }
+							duration = 0.2
+							using = Animation_Curve_Default
+						}
+					}
+					
+					icon = {
+						size = { 35 35 }
+								parentanchor = center
+						block "second_button_icon" {}
+						block "second_button_selected" {}
+
+						state = {
+							name = _show
+							alpha = 1
+							size = { 35 35 }
+							duration = 0.2
+							using = Animation_Curve_Default
+						}
+
+						state = {
+							name = _hide
+							alpha = 0.7
+							size = { 30 30 }
+							duration = 0.2
+							using = Animation_Curve_Default
+						}
+					}
+
+					icon = {
+						size = { 30 30 }
+						alpha = 0.7
+								parentanchor = center
+						block "second_button_icon" {}
+						block "second_button_not_selected" {}
+
+						state = {
+							name = _show
+							alpha = 0.7
+							size = { 30 30 }
+							duration = 0.2
+							using = Animation_Curve_Default
+						}
+
+						state = {
+							name = _hide
+							alpha = 1
+							size = { 35 35 }
+							duration = 0.2
+							using = Animation_Curve_Default
+						}
+					}
+				}
+			}
+		}
+
+		# third button
+		block "third_button" {
+			button = {
+				using = default_button_action
+				block "third_button_click" {}
+				block "map_mode_button_size" {
+					size = { 100% 45 }
+				}
+
+				textbox = {
+					block "third_button_text" {}
+					size = { 100% 45 }
+					elide = right
+					fontsize_min = 12
+					margin = { 45 0 }
+					align = nobaseline
+					block "show_map_mode_list_details" {}
+				}
+
+				icon = {
+					name = "selected_bg"
+					size = { 100% 100% }
+					using = highlighted_square_selection
+					block "third_button_selected" {}
+					
+					using = shimmer_fade_in
+					blockoverride "trigger" {
+						name = selected
+					}
+				}
+
+				button_radio = {
+					frame = 1
+					size = { 25 25 }
+					parentanchor = vcenter
+					position = { 10 0 }
+					alwaystransparent = yes
+					block "show_map_mode_list_details" {}
+				}
+
+				button_radio = {
+					frame = 2
+					size = { 25 25 }
+					parentanchor = vcenter
+					position = { 10 0 }
+					block "third_button_selected" {}
+					alwaystransparent = yes
+					block "show_map_mode_list_details" {}
+				}
+
+				block "right_icon" {
+					widget = {
+						size = { 35 35 }
+						parentanchor = right|vcenter
+						position = { -5 0 }
+						
+						icon = {
+							size = { 100 100 }
+							parentanchor = center
+							using = rotate_glow_animation_02
+							block "third_button_selected" {}
+							
+							state = {
+								name = _show
+								alpha = 1
+								size = { 100 100 }
+								duration = 0.2
+								using = Animation_Curve_Default
+							}
+
+							state = {
+								name = _hide
+								alpha = 0.7
+								size = { 30 30 }
+								duration = 0.2
+								using = Animation_Curve_Default
+							}
+						}
+						
+						icon = {
+							size = { 35 35 }
+									parentanchor = center
+							block "third_button_icon" {}
+							block "third_button_selected" {}
+
+							state = {
+								name = _show
+								alpha = 1
+								size = { 35 35 }
+								duration = 0.2
+								using = Animation_Curve_Default
+							}
+
+							state = {
+								name = _hide
+								alpha = 0.7
+								size = { 30 30 }
+								duration = 0.2
+								using = Animation_Curve_Default
+							}
+						}
+
+						icon = {
+							size = { 30 30 }
+							alpha = 0.7
+									parentanchor = center
+							block "third_button_icon" {}
+							block "third_button_not_selected" {}
+
+							state = {
+								name = _show
+								alpha = 0.7
+								size = { 30 30 }
+								duration = 0.2
+								using = Animation_Curve_Default
+							}
+
+							state = {
+								name = _hide
+								alpha = 1
+								size = { 35 35 }
+								duration = 0.2
+								using = Animation_Curve_Default
+							}
+						}
+					}
+				}
+			}
+		}
+
+		# fourth button
+		block "fourth_button" {
+			button = {
+				using = default_button_action
+				block "fourth_button_click" {}
+				block "map_mode_button_size" {
+					size = { 100% 45 }
+				}
+
+				textbox = {
+					block "fourth_button_text" {}
+					size = { 100% 45 }
+					elide = right
+					fontsize_min = 12
+					margin = { 45 0 }
+					align = nobaseline
+					block "show_map_mode_list_details" {}
+				}
+
+				icon = {
+					name = "selected_bg"
+					size = { 100% 100% }
+					using = highlighted_square_selection
+					block "fourth_button_selected" {}
+					
+					using = shimmer_fade_in
+					blockoverride "trigger" {
+						name = selected
+					}
+				}
+
+				button_radio = {
+					frame = 1
+					size = { 25 25 }
+					parentanchor = vcenter
+					position = { 10 0 }
+					alwaystransparent = yes
+					block "show_map_mode_list_details" {}
+				}
+
+				button_radio = {
+					frame = 2
+					size = { 25 25 }
+					parentanchor = vcenter
+					position = { 10 0 }
+					block "fourth_button_selected" {}
+					alwaystransparent = yes
+					block "show_map_mode_list_details" {}
+				}
+
+				block "right_icon" {
+					widget = {
+						size = { 35 35 }
+						parentanchor = right|vcenter
+						position = { -5 0 }
+						
+						icon = {
+							size = { 100 100 }
+							parentanchor = center
+							using = rotate_glow_animation_02
+							block "fourth_button_selected" {}
+							
+							state = {
+								name = _show
+								alpha = 1
+								size = { 100 100 }
+								duration = 0.2
+								using = Animation_Curve_Default
+							}
+
+							state = {
+								name = _hide
+								alpha = 0.7
+								size = { 30 30 }
+								duration = 0.2
+								using = Animation_Curve_Default
+							}
+						}
+						
+						icon = {
+							size = { 35 35 }
+									parentanchor = center
+							block "fourth_button_icon" {}
+							block "fourth_button_selected" {}
+
+							state = {
+								name = _show
+								alpha = 1
+								size = { 35 35 }
+								duration = 0.2
+								using = Animation_Curve_Default
+							}
+
+							state = {
+								name = _hide
+								alpha = 0.7
+								size = { 30 30 }
+								duration = 0.2
+								using = Animation_Curve_Default
+							}
+						}
+
+						icon = {
+							size = { 30 30 }
+							alpha = 0.7
+									parentanchor = center
+							block "fourth_button_icon" {}
+							block "fourth_button_not_selected" {}
+
+							state = {
+								name = _show
+								alpha = 0.7
+								size = { 30 30 }
+								duration = 0.2
+								using = Animation_Curve_Default
+							}
+
+							state = {
+								name = _hide
+								alpha = 1
+								size = { 35 35 }
+								duration = 0.2
+								using = Animation_Curve_Default
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	### production method item
+	type production_method_item = flowcontainer {
+		minimumsize = { @panel_width -1 }
+		background = {
+			using = entry_bg_simple	
+		}
+		margin = { 5 5 }
+		icon = {
+			size = { 40 40 }
+			texture = "[ProductionMethod.GetTexture]"
+			parentanchor = left|vcenter
+		}
+		textbox = {
+			margin_left = 10
+			margin_right = 6
+			visible = "[GreaterThan_int32( ProductionMethod.GetNumOfBuildingsUsingThis( GetPlayer.Self ), '(int32)0' )]"
+			text = "[ProductionMethod.GetNumOfBuildingsUsingThis(GetPlayer.Self)|v]"
+			tooltip = "NUM_BUILDINGS_WITH_PROD_METHOD_ACTIVE"
+			autoresize = yes
+			align = nobaseline
+			parentanchor = vcenter
+		}
+
+		textbox = {
+			autoresize = yes
+			align = left|nobaseline
+			parentanchor = left|vcenter
+			text = "PRODUCTION_METHOD_ITEM"
+		}
+	}
+
+	### building button
+	type producing_building_button = container {
+		minimumsize = { 108 110 }
+		alpha = "[TransparentIfFalse(BuildingType.IsBuildableInAnyState(GetPlayer.Self))]"
+		enabled = "[BuildingType.IsBuildableInAnyState(GetPlayer.Self)]"
+
+		tooltipwidget = {
+			FancyTooltip_BuildingType = {}
+		}
+		
+		button = {
+			using = default_button
+			parentanchor = center
+			size = { 100 105 }
+			visible = "[BuildingType.IsBuildable]"
+			onclick = "[BuildingType.ActivateExpansionLens]"
+		}
+		
+		icon = {
+			using = entry_bg_simple
+			parentanchor = center
+			size = { 100 105 }
+			visible = "[Not(BuildingType.IsBuildable)]"
+		}
+		
+		icon = {
+			position = { 0 8 }
+			size = { 60 60 }
+			texture = "[BuildingType.GetTexture]"
+			parentanchor = hcenter
+		}
+
+		textbox = {
+			raw_text = "#BOLD [BuildingType.GetNameNoFormatting]#!"
+			align = hcenter|vcenter
+			position = { 0 -6 }
+			size = { 100% 40 }
+			parentanchor = hcenter|bottom
+			using = fontsize_small
+			elide = right
+			multiline = yes
+			margin_left = 10
+			margin_right = 10
+		}
+
+		textbox = {
+			visible = "[GreaterThan_int32(BuildingType.GetLevelCountInCountry(GetPlayer.Self), '(int32)0')]"
+			datacontext = "[BuildingType]"
+			text = "BUILDING_TYPE_COUNT"
+			size = { 50 25 }
+			align = left|nobaseline
+			using = fontsize_large
+			position = { 10 2 }
+			background = {
+				using = blurry_dark_background
+				margin = { 5 5 }
+			}
+		}
+
+		textbox = {
+			datacontext = "[BuildingType]"
+			visible = "[And(BuildingType.IsBuildable, BuildingType.HasRequiredTechnologiesInCountry(GetPlayer.Self))]"
+			tooltip = "BUILDING_ACTION_NUMBER"
+			raw_text = "#BOLD [BuildingType.GetNumAvailableStatesForBuilding|+]#!"
+			align = right|nobaseline
+			parentanchor = right
+			using = fontsize_large
+			autoresize = yes
+			position = { -10 2 }
+			
+			background = {
+				using = blurry_dark_background
+				margin = { 5 5 }
+			}
+		}
+	}
+	
+	type market_orders_list = flowcontainer {
+		direction = vertical
+		minimumsize = { @panel_width_half 1 }
+		spacing = 5
+		
+		#header
+		default_header = {
+			blockoverride "size"
+			{
+				size = { @panel_width_plus_14_half 38 }
+			}
+			blockoverride "text"
+			{
+				block "header_text" {
+					text = "SOLD_BY"
+				}
+			}
+		}
+		
+		#summary orders
+		widget = {
+			parentanchor = hcenter			
+			datacontext = "[GoodsPanel.AccessGoods]"
+			size = { @panel_width_half 40 }
+			block "alpha_summary_orders" {
+				alpha = "[TransparentIfZero(GoodsPanel.AccessInputValuesTotal)]"
+			}
+			
+			block "label_tooltip_orders" {
+				tooltip = "GOODS_MARKET_SELL_ORDERS_BREAKDOWN"
+			}
+			
+			background = {
+				using = entry_bg_simple
+			}
+			
+			hbox = {
+				margin = { 10 0 }
+			
+				textbox = {
+					layoutstretchfactor_horizontal = 2
+					layoutpolicy_horizontal = expanding
+					size = { 0 35 }
+					block "label_summary_orders" {
+						text = "SELL_ORDERS"
+					}
+					align = left|nobaseline
+					default_format = "#title"
+					using = fontsize_large
+					elide = right
+					
+				}
+				textbox = {
+					layoutstretchfactor_horizontal = 1
+					layoutpolicy_horizontal = preferred
+					size = { 0 35 }
+					block "value_summary_orders" {
+						text = "[GoodsPanel.AccessInputValuesTotal|D]"
+					}
+					align = right|nobaseline
+					using = fontsize_large
+					default_format = "#variable"
+				}
+			}
+		}
+
+		#orders
+		flowcontainer = {
+			parentanchor = hcenter
+			direction = vertical
+			minimumsize = { @panel_width_half 1 }
+			block "datamodel_orders" {
+				datamodel = "[GoodsPanel.AccessInputValues]"
+			}
+			
+			item = {
+				widget = {
+					size = { @panel_width_half 50 }
+
+					tooltip = "[GoodsPanelValue.GetTooltip]"
+
+					textbox = {
+						position = { 10 5 }
+						raw_text = "#bold [GoodsPanelValue.GetName]#!"
+						autoresize = yes
+						align = left|vcenter
+						maximumsize = { 200 -1 }
+						elide = right
+					}
+
+					textbox = {
+						text = "[GoodsPanelValue.GetValue|D]"
+						autoresize = yes
+						align = left|nobaseline
+						maximumsize = { 200 -1 }
+						elide = right
+						parentanchor = right|vcenter
+						margin_right = 10
+						margin_bottom = 5
+					}
+
+					### Reduce / increase trade route level
+					container = {
+						visible = "[GoodsPanelValue.HasTradeRouteInfo]"
+						parentanchor = bottom|left
+						position = { 10 -5 }
+
+						widget = {
+							size = { 85 25 }
+
+							visible = "[GoodsPanelValue.GetTradeRoute.GetOwner.IsPlayer]"
+
+							block "interactable_background" {
+								background = {
+									using = entry_bg_simple
+								}
+							}
+
+							### Current trade route level
+							textbox = {
+								parentanchor = center
+								autoresize = yes
+								text = "[GoodsPanelValue.GetTradeRoute.GetLevel|v]"
+								align = hcenter|nobaseline
+								using = fontsize_large
+							}
+						}
+					}
+
+					divider_clean = {
+						parentanchor = bottom|hcenter
+					}
+				}
+			}
+		}						
+	}
+	
+	type consumption_tax_button_toggle = button_icon_round_toggle_action {
+		size = { 44 44 }
+
+		blockoverride "on_click" {
+			onclick = "[Execute( Goods.ToggleTaxation(GetPlayer) )]"
+		}
+
+		blockoverride "view_1" {
+			visible = "[Not(GreaterThan_CFixedPoint(Goods.CalcConsumptionTaxAmount(GetPlayer), '(CFixedPoint)0'))]"
+		}
+		blockoverride "view_2" {
+			visible = "[GreaterThan_CFixedPoint(Goods.CalcConsumptionTaxAmount(GetPlayer), '(CFixedPoint)0')]"
+		}
+		blockoverride "icon_1" {
+			texture = "gfx/interface/icons/trade_icons/consumption_tax_not.dds"
+		}
+
+		blockoverride "icon_2" {
+			texture = "gfx/interface/icons/trade_icons/consumption_tax.dds"
+		}	
+	}
+}

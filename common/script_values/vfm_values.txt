@@ -57,6 +57,11 @@ num_free_states = {
 			limit = {
 				is_incorporated = yes
 				is_slave_state = no
+				state_region = {
+					NOT = {
+						has_variable = usa_state_flag_block
+					}
+				}
 			}
 			add = 1
 		}
@@ -71,6 +76,11 @@ num_free_territories = {
 				is_incorporated = no
 				is_slave_state = no
 				is_under_colonization = no
+				state_region = {
+					NOT = {
+						has_variable = usa_state_flag_block
+					}
+				}
 			}
 			add = 1
 		}
@@ -84,7 +94,11 @@ num_slave_states = {
 			limit = {
 				is_incorporated = yes
 				is_slave_state = yes
-				#Exclude DC
+				state_region = {
+					NOT = {
+						has_variable = usa_state_flag_block
+					}
+				}
 			}
 			add = 1
 		}
@@ -99,6 +113,11 @@ num_slave_territories = {
 				is_incorporated = no
 				is_slave_state = yes
 				is_under_colonization = no
+				state_region = {
+					NOT = {
+						has_variable = usa_state_flag_block
+					}
+				}
 			}
 			add = 1
 		}
@@ -113,6 +132,17 @@ prop_free_states = {
 prop_slave_states = {
 	value = num_slave_states
 	divide = num_incorporated_states
+}
+
+prop_free_slave = {
+	value = num_free_states
+	divide = num_slave_states
+}
+
+acw_countdown_divisiveness_multiplier = {
+	value = var:acw_countdown_divisiveness 
+	divide = 100
+	add = 1
 }
 
 kor_silhak_delta = {
