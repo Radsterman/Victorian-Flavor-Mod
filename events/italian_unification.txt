@@ -26,12 +26,13 @@ italian_unification.1 = {
 		ruler.interest_group = {
 			save_scope_as = ruler_ig_scope
 		}
-	}
+	}		
 
 	option = {
 		name = italian_unification.1.a
 		default_option = yes
 		give_claims_on_italy = yes
+		
 		# prestige
 		add_modifier = {
 			name = italian_unifier_prestige
@@ -41,6 +42,7 @@ italian_unification.1 = {
 	option = {
 		name = italian_unification.1.b
 		give_claims_on_italy = yes
+		
 		# ruler IG attraction
 		scope:ruler_ig_scope = {
 			add_modifier = {
@@ -127,7 +129,7 @@ italian_unification.2 = {
 		default_option = yes
 		create_incident = {
 			country = scope:italian_annex_country
-			value = 6
+			value = 10
 		}
 		annex_with_incorporation = scope:italian_annex_country
 		ai_chance = {
@@ -444,7 +446,15 @@ italian_unification.6 = {
 	}
 
 	immediate = {
-		
+		if = {
+			limit = {
+				is_ai = yes
+			}
+			set_secret_goal = {
+			country = c:AUS
+			secret_goal = conquer
+			}
+		}
 	}
 
 	option = {
@@ -796,7 +806,14 @@ italian_unification.10 = {
 	option = {
 		name = italian_unification.10.a
 		ai_chance = {
-			base = 50
+			base = 10
+
+			modifier = {
+				trigger = {
+					c:SAR ?= this
+				}
+				add = 500
+			}
 		}
 		default_option = yes
 		custom_tooltip = {
@@ -868,6 +885,15 @@ italian_unification.10 = {
 			}
 			set_strategy = ai_strategy_unify_italy
 		}
+		if = {
+			limit = {
+				is_ai = yes
+			}
+			set_secret_goal = {
+			country = c:AUS
+			secret_goal = conquer
+			}
+		}
 	}
 	option = {
 		name = italian_unification.10.b
@@ -877,13 +903,13 @@ italian_unification.10 = {
 				trigger = {
 					has_law = law_type:law_theocracy
 				}
-				add = 50
+				add = 300
 			}
 			modifier = {
 				trigger = {
 					has_law = law_type:law_traditionalism
 				}
-				add = 50
+				add = 300
 			}
 			modifier = {
 				trigger = {
@@ -891,7 +917,16 @@ italian_unification.10 = {
 						is_in_government = yes
 					}
 				}
-				add = -25
+				add = -50
+			}
+			modifier = {
+				trigger = {
+					NOT = {
+						c:SAR ?= this
+					}
+					has_law = law_type:law_autocracy
+				}
+				add = 500
 			}
 		}
 		every_interest_group = {
