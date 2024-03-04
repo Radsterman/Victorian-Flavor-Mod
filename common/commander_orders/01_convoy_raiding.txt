@@ -1,0 +1,72 @@
+﻿raid_convoys = {
+    texture = "gfx/interface/icons/commander_order_icons/raid_convoys.dds"
+
+	military_type = navy
+	ai_usage = raid_convoys
+	is_basic_order_type = yes
+
+    possible = {
+        error_check = {
+			severity = invalid
+			has_role = admiral
+		}
+    }
+
+	modifier = {
+		character_convoy_raiding_mult = 0.3
+	}
+
+	clicksound = "event:/SFX/UI/Military/order_admiral_convoy_raiding"
+	experience = 0.1								# This much extra experience per week while executing Order
+	naval_entity = "naval_order_raiding_entity"		# Node indicator entity
+	indicator_position_angle = 245					# Player's or ally's order position on the indicator in degrees
+	indicator_position_angle_for_enemy = 295		# Enemy order position on indicator in degrees
+	
+	ai_weight = {
+		value = 1
+	}
+}
+
+raid_unrestricted_sub = {
+    texture = "gfx/interface/icons/commander_order_icons/raid_convoys.dds"
+	
+	military_type = navy
+	ai_usage = raid_convoys
+
+    possible = {
+        error_check = {
+			severity = invalid
+			has_role = admiral
+		}
+        NOT = { has_trait = honorable }
+		trigger_if = {
+			limit = {
+				has_role = admiral
+			}
+			commander_military_formation = {
+				formation_navy_unit_type_fraction = {
+					#target = unit_type:combat_unit_type_destroyer
+					target = unit_type:combat_unit_type_submarine
+					value >= 0.3
+				}
+			}
+		}
+    }
+
+	modifier = {
+		character_convoy_raiding_mult = 0.4
+		character_battle_condition_death_from_below_mult = 1.5
+		battle_casualties_mult = 0.15
+	}
+
+	clicksound = "event:/SFX/UI/Military/order_admiral_convoy_raiding"
+	experience = 0.1 # This much extra experience per week while executing Order
+	naval_entity = "naval_order_raiding_entity"		# Node indicator entity
+	indicator_position_angle = 245					# Player's or ally's order position on the indicator in degrees
+	indicator_position_angle_for_enemy = 295		# Enemy order position on indicator in degrees
+	
+	ai_weight = {
+		value = 2
+	}
+}
+
