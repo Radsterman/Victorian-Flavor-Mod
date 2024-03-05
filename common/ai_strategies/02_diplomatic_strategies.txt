@@ -970,6 +970,22 @@ ai_strategy_unify_germany = {
 
 	recklessness = {
 		value = 0.5
+		if = {
+			limit = {
+				has_technology_researched = pan-nationalism
+			}
+			add = 0.25
+		}
+		
+		if = {
+			limit = { 
+				wants_to_solve_schleswig_holstein = yes
+				scope:target_country = { 
+					is_oppressor_of_schleswig_holstein = yes
+				}
+			}
+			add = 1
+		}	
 	}
 	
 	aggression = {
@@ -977,6 +993,7 @@ ai_strategy_unify_germany = {
 		
 		if = {
 			limit = { 
+			    NOT = { has_journal_entry = je_schleswig_holstein_question }
 				scope:target_country = {			
 					OR = {
 						country_has_primary_culture = cu:north_german
@@ -985,6 +1002,16 @@ ai_strategy_unify_germany = {
 				}
 			}
 			add = 2.75
+		}
+		
+		if = {
+			limit = {
+				has_journal_entry = je_schleswig_holstein_question
+				scope:target_country = {
+					is_oppressor_of_schleswig_holstein = yes
+				}													
+			}
+			add = 10
 		}
 
 		# Less aggressive against countries we're just antagonistic against, rather than belligerent/domineering

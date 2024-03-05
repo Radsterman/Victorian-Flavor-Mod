@@ -1412,7 +1412,23 @@ ai_strategy_default = {
 				can_reach_target_state = no
 			}
 			multiply = 0
-		}			
+		}	
+
+        if = { # to stop the most blatant bordergore
+			limit = {
+			    scope:target_state = {
+					OR = {
+						region = sr:region_baltic
+						region = sr:region_scandinavia
+						region = sr:region_north_germany
+						region = sr:region_south_germany
+						region = sr:region_north_italy
+						region = sr:region_south_italy
+					}
+				}
+			}
+			multiply = 0
+		}		
 
 		min = 0
 		max = 100		
@@ -2348,7 +2364,7 @@ ai_strategy_default = {
 		if = {
 			limit = {
 				scope:target_country = {
-					has_journal_entry = je_peru_bolivia_lai
+					has_journal_entry = je_peru_bolivia
 				}
 				OR = {
 					country_has_primary_culture = cu:south_andean
@@ -2368,7 +2384,7 @@ ai_strategy_default = {
 			limit = {
 				has_journal_entry = je_war_of_the_confederation
 				scope:target_country = {
-					has_journal_entry = je_peru_bolivia_lai
+					has_journal_entry = je_peru_bolivia
 				}
 			}
 			add = 75
@@ -2421,7 +2437,7 @@ ai_strategy_default = {
 					}
 				}
 			}
-			add = 5
+			add = 3
 		}
 
 		if = { #Russian Caucasus
@@ -2437,7 +2453,7 @@ ai_strategy_default = {
 					}
 				}
 			}
-			add = 10
+			add = 8
 		}
 		
 		# Spains wants to get rest of philipines
@@ -2455,7 +2471,7 @@ ai_strategy_default = {
 					}
 				}
 			}
-			add = 50
+			add = 30
 		}
 		
 		if = {
@@ -2467,7 +2483,7 @@ ai_strategy_default = {
 					}
 				}
 			}
-			add = 500
+			add = 50
 		}
 		
 		if = {
@@ -4427,7 +4443,7 @@ ai_strategy_default = {
 			if = {
 				limit = {
 					scope:target_country = {
-						has_journal_entry = je_peru_bolivia_lai
+						has_journal_entry = je_peru_bolivia
 					}
 					OR = {
 						country_has_primary_culture = cu:south_andean
@@ -4763,8 +4779,17 @@ ai_strategy_default = {
 				}
 				add = 100			
 			}
-
+			
 			if = {
+				limit = { 
+					wants_to_solve_schleswig_holstein = yes
+					scope:target_country = { 
+						is_oppressor_of_schleswig_holstein = yes
+					}
+				}
+				add = 1000
+			}
+
 				limit = {
 					scope:target_country = {
 						is_revolutionary = yes
@@ -5189,6 +5214,15 @@ ai_strategy_default = {
 				add = 500
 			}
 			if = {
+				limit = { 
+					wants_to_solve_schleswig_holstein = yes
+					scope:target_country = { 
+						is_subject_of = c:DEN
+					}
+				}
+				add = 300
+			}
+			if = {
 				limit = {
 					has_journal_entry = je_conquest_of_algeria
 					game_date < 1839.6.1
@@ -5332,7 +5366,7 @@ ai_strategy_default = {
 			if = {
 				limit = {
 					scope:target_country = {
-						has_journal_entry = je_peru_bolivia_lai
+						has_journal_entry = je_peru_bolivia
 					}
 					OR = {
 						country_has_primary_culture = cu:south_andean
@@ -5889,26 +5923,8 @@ ai_strategy_default = {
 			if = {
 				limit = { 
 					wants_to_solve_schleswig_holstein = yes
-					OR = {
-					    AND = {	
-							exists = c:HOL
-							scope:target_country = {
-								this = c:HOL
-							}
-						}
-						AND = {	
-							exists = c:SCH
-							scope:target_country = {
-								this = c:SCH
-							}
-						}
-						AND = {	
-							exists = c:LAU
-							scope:target_country = {
-								this = c:LAU
-							}
-						}
-					}
+                    exists = c:HOL
+					scope:target_country = { this = c:HOL }
 					can_reach_target_country = yes
 				}
 				add = 100
@@ -5940,9 +5956,15 @@ ai_strategy_default = {
 		make_protectorate = {
 			if = {
 				limit = {
-					has_secret_goal = {
-						who = scope:target_country
-						secret_goal = dominate
+					OR = {
+						has_secret_goal = {
+							who = scope:target_country
+							secret_goal = protect
+						}
+						has_secret_goal = {
+							who = scope:target_country
+							secret_goal = dominate
+						}
 					}
 				}
 			
@@ -5956,9 +5978,15 @@ ai_strategy_default = {
 		make_tributary = {
 			if = {
 				limit = {
-					has_secret_goal = {
-						who = scope:target_country
-						secret_goal = dominate
+					OR = {
+						has_secret_goal = {
+							who = scope:target_country
+							secret_goal = protect
+						}
+						has_secret_goal = {
+							who = scope:target_country
+							secret_goal = dominate
+						}
 					}	
 				}
 			
@@ -6322,6 +6350,17 @@ ai_strategy_default = {
 				}
 				add = 75
 			}
+			
+			if = {
+				limit = {
+					c:DEN ?= this
+					has_technology_researched = nationalism
+					scope:target_country = {
+							c:SCH ?= this
+						}
+					}
+				add = 20
+			}
 
 			min = 0
 			max = 200			
@@ -6504,26 +6543,8 @@ ai_strategy_default = {
 			if = {
 				limit = { 
 					wants_to_solve_schleswig_holstein = yes
-					OR = {
-					    AND = {	
-							exists = c:HOL
-							scope:target_country = {
-								this = c:HOL
-							}
-						}
-						AND = {	
-							exists = c:SCH
-							scope:target_country = {
-								this = c:SCH
-							}
-						}
-						AND = {	
-							exists = c:LAU
-							scope:target_country = {
-								this = c:LAU
-							}
-						}
-					}
+                    exists = c:HOL
+					scope:target_country = { this = c:HOL }
 					can_reach_target_country = no
 				}
 				add = 100
