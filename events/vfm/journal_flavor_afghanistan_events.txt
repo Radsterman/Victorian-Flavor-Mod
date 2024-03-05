@@ -104,3 +104,69 @@ journal_flavor_afghanistan.5 = {
 	}
 	
 }
+
+#Qandahar Invasion of Sistan (The area was ruled by a Herati Vassal Prince until 1838, after which local tribes were in charge until 1845 when the Qandahari invaded and took over; however, for gameplay reasons, this happens immediately in 1838)
+journal_flavor_afghanistan.6 = {
+	type = country_event
+	placement = ROOT
+
+	title = journal_flavor_afghanistan.6.t
+	desc = journal_flavor_afghanistan.6.d
+	flavor = journal_flavor_afghanistan.6.f
+
+	event_image = {
+		video = "gfx/event_pictures/middleeast_battlefield_trenches.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+	icon = "gfx/interface/icons/event_icons/event_herat_map.dds"
+
+	duration = 3
+
+	option = { 
+		name = journal_flavor_afghanistan.6.a
+		default_option = yes
+			
+		ai_chance = {
+			base = 0
+		}
+	}
+	
+	option = { 
+		name = journal_flavor_afghanistan.6.b #To make sure the ai actually takes over the area
+		trigger = {
+			#is_ai = yes
+		}
+		create_diplomatic_play = {
+			name = herat_war
+			escalation = 80
+			target_country = c:SIS
+			type = dp_annex_war
+			
+			add_war_goal = {
+				holder = c:SIS
+				type = conquer_state
+				target_state = s:STATE_WESTERN_AFGHANISTAN.region_state:QDH
+				target_country = c:QDH
+			}
+			add_war_goal = {
+				holder = c:SIS
+				type = conquer_state
+				target_state = s:STATE_BALUCHISTAN.region_state:QDH
+				target_country = c:QDH
+			}
+			add_war_goal = {
+				holder = c:SIS
+				type = conquer_state
+				target_state = s:STATE_EASTERN_AFGHANISTAN.region_state:QDH
+				target_country = c:QDH
+			}
+		}
+		ai_chance = {
+			base = 100
+		}
+	}
+	
+}
