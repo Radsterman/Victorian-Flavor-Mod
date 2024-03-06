@@ -7,37 +7,21 @@
 	}
 
 	potential = {
-		NOR = {
-			is_country_type = decentralized 
-			has_law = law_type:law_isolationism
-		}
+		is_country_type = decentralized 
 		scope:target_country = {
 			NOR = { 
 				is_country_type = decentralized 
-				has_law = law_type:law_isolationism
 				country_rank >= rank_value:major_power
 			}
+		}
+		is_revolutionary = no
+		scope:target_country = {
+			is_revolutionary = no
 		}
 	}
 
 	possible = {
-		NOT = { has_war_with = scope:target_country }
-		NOT = { is_subject_of = scope:target_country }
-		is_junior_in_customs_union = no
-		has_diplomatic_relevance = scope:target_country
-		NOR = {
-			scope:target_country = { has_law = law_type:law_isolationism }
-			has_law = law_type:law_isolationism					
-		}		
-		custom_tooltip = {
-			text = DIPLO_ACTION_RELATIONS_CORDIAL_OR_GREATER
-			scope:target_country.relations:root >= relations_threshold:cordial
-		}
-		is_revolutionary = no
-        country_rank > scope:target_country.country_rank
-		scope:target_country = {
-			is_revolutionary = no
-		}
+		country_rank > scope:target_country.country_rank
 		custom_tooltip = {
 			text = DIPLO_ACTION_MARKET_CONNECTION_REQUIRED
 			OR = {	
@@ -82,35 +66,78 @@
 		
 		subject_type = subject_type_customs_union # A customs union is technically a type of subject, though it isn't presented this way in-game
 
-		is_about_to_auto_break = {
-		    scope:target_country.relations:root < 23 # this is: cordial + 3
-		}
+		requirement_to_maintain = {
+			trigger = {
+				has_diplomatic_relevance = scope:target_country
+			}
+		}	
+		
+		requirement_to_maintain = {
+			trigger = {
+				custom_tooltip = {
+					text = "DIPLOMATIC_PACT_REQUIREMENT_NOT_DECENTRALIZED"
+					NOT = { is_country_type = decentralized }
+					scope:target_country = {
+						NOT = { is_country_type = decentralized }
+					}				
+				}
+			}
+		}		
 
-		should_auto_break = {
-			custom_tooltip = {
-				text = DIPLO_ACTION_RELATIONS_CORDIAL_OR_GREATER_NOT
-
-				# make sure to update is_about_to_auto_break when changing this:
-				scope:target_country.relations:root < relations_threshold:cordial
+		requirement_to_maintain = {
+			trigger = {
+				is_subject = no
 			}
 		}
 
-		should_invalidate = {
-			OR = {
-				has_war_with = scope:target_country
-				is_country_type = decentralized
-				scope:target_country = { is_country_type = decentralized }
-				is_subject_of = scope:target_country
-				scope:target_country = { is_subject_of = root }
-				is_junior_in_customs_union = yes
-				scope:target_country = { has_law = law_type:law_isolationism }
-				has_law = law_type:law_isolationism	
-                country_rank < scope:target_country.country_rank	
-                scope:target_country.country_rank >= rank_value:major_power				
+		requirement_to_maintain = {
+			trigger = {
+				scope:target_country = { is_subject = no }
 			}
-		}
+		}			
+		
+	 	requirement_to_maintain = {
+			trigger = {
+				custom_tooltip = {			
+					text = DIPLO_ACTION_RELATIONS_CORDIAL_OR_GREATER
+					scope:target_country.relations:root >= relations_threshold:cordial
+				}
+			}
+			
+			show_about_to_break_warning = {
+				scope:target_country.relations:root <= 23 # this is: cordial + 3
+				scope:target_country.relations_change_rate:root < 0
+			}					
+		}	
 
-		break_effect = {
+		requirement_to_maintain = {
+			trigger = {
+				custom_tooltip = {
+					text = "DIPLOMATIC_PACT_REQUIREMENT_AT_PEACE"
+					NOT = { has_war_with = scope:target_country }
+				}			
+			}
+		}				
+
+		requirement_to_maintain = {
+			trigger = {
+				NOT = { has_law = law_type:law_isolationism }
+			}
+		}	
+
+		requirement_to_maintain = {
+			trigger = {
+				NOT = { scope:target_country = { has_law = law_type:law_isolationism } }
+			}
+		}	
+
+		requirement_to_maintain = {
+			trigger = {
+				is_junior_in_customs_union = no
+			}
+		}	
+
+		manual_break_effect = {
 			change_relations = { country = scope:target_country value = -30 }
 			
 			# AI may not take leaving their customs union well...
@@ -151,6 +178,8 @@
 				}					
 			}
 		}
+		
+		auto_break_effect = {}
 	}
 
 	ai = {

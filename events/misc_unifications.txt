@@ -1080,6 +1080,10 @@ formation.17 = {
 			c:RHN ?= THIS
 			c:ITA ?= THIS
 			c:GER ?= THIS
+			c:PLT ?= THIS
+			c:GCO ?= THIS
+			c:PBC ?= THIS
+			c:FND ?= THIS
 		}
 	}
 
@@ -1379,13 +1383,102 @@ formation.20 = {
 			limit = {
 				has_diplomatic_relevance = ROOT
 			}
-			post_notification = unification_notification_one_culture
+			post_notification = unification_notification_generic
 		}
 	}
 
 	option = {
 		name = formation.20.a
 		default_option = yes
+		add_modifier = {
+			name = unification_prestige
+			months = very_long_modifier_time
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+}
+
+# Carolina
+formation.21 = {
+	type = country_event
+	placement = ROOT
+
+	title = formation.21.t
+	desc = formation.21.d
+	flavor = formation.21.f
+
+	event_image = {
+		video = "unspecific_signed_contract"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+	duration = 3
+
+	trigger = {
+		c:CLI ?= THIS
+		NOT = { has_global_variable = has_formed_cli }
+	}
+
+	immediate = {
+		set_global_variable = has_formed_cli
+		save_scope_as = formation_country
+		capital = {
+			region = {
+				save_scope_as = capital_region_scope
+			}
+		}
+		ruler = { save_scope_as = ruler_scope }
+		every_country = {
+			limit = {
+				has_diplomatic_relevance = ROOT
+			}
+			post_notification = unification_notification_generic
+		}
+	}
+
+	option = {
+		name = formation.21.a
+		default_option = yes
+		add_modifier = {
+			name = unification_prestige
+			months = very_long_modifier_time
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+	
+	option = {
+		name = formation.21.b
+		default_option = yes
+		trigger = {
+			NOT = {
+				any_scope_state = {
+					state_region = s:STATE_TENNESSEE
+				}
+			}
+		}
+		s:STATE_TENNESSEE = {
+			add_claim = ROOT
+		}
+		every_country = {
+			limit = {
+				any_scope_state = {
+					state_region = s:STATE_TENNESSEE
+				}
+			}
+			ROOT = {
+				create_incident = {
+					country = PREV
+					value = 5
+				}
+			}
+		}
 		add_modifier = {
 			name = unification_prestige
 			months = very_long_modifier_time

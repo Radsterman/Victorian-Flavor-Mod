@@ -111,9 +111,15 @@
 	complete = {
 		custom_tooltip = {
 			text = sa_migration_completion_tt
-			var:south_america_incorporated_population >= var:south_america_migration_goal
-			var:south_america_incorporated_population > 0
-			var:south_america_migration_goal > 0
+			trigger_if = {
+				limit = { exists = var:south_america_incorporated_population }
+				var:south_america_incorporated_population >= var:south_america_migration_goal 
+				var:south_america_incorporated_population > 0
+				var:south_america_migration_goal > 0
+			}
+			trigger_else = {
+				always = no
+			}
 		}
 	}
 
