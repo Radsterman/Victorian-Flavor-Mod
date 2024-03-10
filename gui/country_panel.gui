@@ -1,6 +1,7 @@
 # COPY-PASTED FOR NOW
 @panel_width_minus_10 = 530			# used to be 530
 @panel_width = 540  				# used to be 460
+@panel_width_half = 270				# used to be 230
 @panel_width_plus_10 = 550  		# used to be 470
 @panel_width_plus_14 = 554			# used to be 474
 @panel_width_plus_14_half = 277		# used to be 237
@@ -11,8 +12,13 @@
 template information_tab_visibility {
 	visible = "[Or( And( Country.IsLocalPlayer, Not(Or(InformationPanel.IsTabSelected('diplomacy'), InformationPanel.IsTabSelected('modifiers')))), And( Country.IsAIOrOtherPlayer, Not(Or(Or(InformationPanel.IsTabSelected('politics'), InformationPanel.IsTabSelected('diplomacy')), InformationPanel.IsTabSelected('interactions')))))]"
 }
+
 template information_tab_visibility_not {
 	visible = "[Not( Or( And( Country.IsLocalPlayer, Not(Or(InformationPanel.IsTabSelected('diplomacy'), InformationPanel.IsTabSelected('modifiers')))), And( Country.IsAIOrOtherPlayer, Not(Or(Or(InformationPanel.IsTabSelected('politics'), InformationPanel.IsTabSelected('diplomacy')), InformationPanel.IsTabSelected('interactions'))))))]"
+}
+
+template is_not_player_and_not_colonizable_country {
+	visible = "[And(Not(Country.IsPlayer),Not(Country.IsColonizable))]"
 }
 
 types country_panel_types
@@ -29,14 +35,31 @@ types country_panel_types
 		{
 			text = "COUNTRY_IN_MARKET_SUBTITLE"
 		}
-		
+
 		blockoverride "goto_button" {
 			button_icon_goto = {
 				datacontext = "[CountryPanel.AccessCountry.AccessFirstMarket]"
 				size = { 30 30 }
 				onclick = "[InformationPanelBar.OpenMarketPanel(Market.AccessSelf)]"
 				tooltip = "GO_TO_BUTTON_MARKET"
+				input_action = "go_to_details"
 			}
+		}
+
+		blockoverride "pin_visibility" {
+			visible = "[Not(Country.IsLocalPlayer)]"
+		}
+
+		blockoverride "pin_properties" {
+			visible = "[Country.IsPinnedInOutliner]"
+			onclick = "[Country.TogglePinInOutliner]"
+			tooltip = "UNPIN_COUNTRY"
+		}
+
+		blockoverride "unpin_properties" {
+			visible = "[Not(Country.IsPinnedInOutliner)]"
+			onclick = "[Country.TogglePinInOutliner]"
+			tooltip = "PIN_COUNTRY"
 		}
 
 		blockoverride "fixed_top"
@@ -61,7 +84,7 @@ types country_panel_types
 				blockoverride "first_button_selected" {
 					text = "COUNTRY_PANEL_INFORMATION_TAB_SELECTED"
 				}
-							
+
 				# Politics
 				blockoverride "second_button" {
 					text = "COUNTRY_PANEL_POLITICS_TAB"
@@ -83,7 +106,7 @@ types country_panel_types
 				}
 				blockoverride "second_button_name" {
 					name = "tutorial_highlight_country_politics_tab"
-				}								
+				}
 
 				# Diplomacy
 				blockoverride "third_button" {
@@ -146,10 +169,10 @@ types country_panel_types
 				}
 				blockoverride "fifth_button_name" {
 					name = "tutorial_highlight_country_interactions_tab"
-				}					
+				}
 			}
 		}
-		
+
 		blockoverride "scrollarea_content"
 		{
 			container = {
@@ -170,16 +193,16 @@ types country_panel_types
 					visible = "[InformationPanel.IsTabSelected('diplomacy')]"
 					using = default_content_fade
 				}
-				
+
 				country_panel_politics_content = {
 					visible = "[And(Country.IsAIOrOtherPlayer,InformationPanel.IsTabSelected('politics'))]"
 					using = default_content_fade
-				}	
+				}
 
 				country_panel_interactions_content = {
 					visible = "[And(Country.IsAIOrOtherPlayer,InformationPanel.IsTabSelected('interactions'))]"
 					using = default_content_fade
-				}					
+				}
 			}
 		}
 
@@ -199,18 +222,18 @@ types country_panel_types
 		minimumsize = { @panel_width_plus_14 -1 }
 		using = default_list_position
 		direction = vertical
-		
+
 		### TOP INFO
 		container = {
 			parentanchor = hcenter
 			minimumsize = { @panel_width_minus_10 -1 }
 			maximumsize = { @panel_width_minus_10 -1 }
-			
+
 			# FLAG
 			widget = {
 				position = { 5 0 }
 				size = { 340 542 }
-				
+
 				icon = {
 					size = { 340 542 }
 					position = { 3 0 }
@@ -220,98 +243,94 @@ types country_panel_types
 				block "clickable" {
 					button = {
 						using = flag_button_glow
-						size = { 230 170 }
-						position = { -12 -8 }
+						size = { 270 200 }
+						position = { -12 -2 }
 						using = tooltip_below
-						alpha = 0.2
+						alpha = 0.3
 
 						tooltipwidget = {
 							FancyTooltip_Country = {}
 						}
-						
+
 						onclick = "[Country.AccessCapital.ZoomToCapital]"
 						onrightclick = "[RightClickMenuManager.ShowForCountry(Country.AccessSelf)]"
 						block "onhover" {
 							onmousehierarchyenter = "[AccessHighlightManager.HighlightCountry(Country.Self)]"
 							onmousehierarchyleave = "[AccessHighlightManager.RemoveHighlight]"
 						}
-					
+
 						block "sound" {
 							using = flag_button_sound
 						}
 					}
 				}
-			
+
 				# 3D flag, we want to render at a high resolution and downscale
 				# This increases the quality of the rendered gui flag
 				# Size can be modified but needs to be 16:9 due to how its rendered (converted 3d object)
-				flag_3d = {
+				flag_3d_faded_animated = {
 					position = { 5 13 }
 					size = { 550 309 }	# Rendersize
-					scale = 0.45		# Downscale
+					scale = 0.57		# Downscale
 				}
 			}
 
 			#RULER PORTRAIT
 			character_portrait_large_torso = {
 				datacontext = "[Country.AccessRuler]"
-				position = { 25 125 }
+				position = { 50 135 }
 				blockoverride "show_hat" {}
 				blockoverride "highlight" {}
-				blockoverride "rank_icon" {}
-			}
-
-			#VICE PRESIDENT PORTRAIT
-			character_portrait_medium = {
-				visible = "[Country.MakeScope.Var('vice_president').IsSet]"
-				datacontext = "[Country.MakeScope.Var('vice_president').GetCharacter]"
-				position = { 25 300 }
-				blockoverride "show_hat" {}
-				blockoverride "highlight" {}
-				blockoverride "rank_icon" {}
-			}
-
-			#PRIME MINISTER PORTRAIT
-			character_portrait_medium = {
-				visible = "[Country.MakeScope.Var('prime_minister').IsSet]"
-				datacontext = "[Country.MakeScope.Var('prime_minister').GetCharacter]"
-				position = { 162 300 }
-				blockoverride "show_hat" {}
-				blockoverride "highlight" {}
-				blockoverride "rank_icon" {}
-			}
-
-			#HEIR PORTRAIT
-			character_portrait_medium = {
-				visible = "[Country.HasHeir]"
-				datacontext = "[Country.GetHeir]"
-				position = { 25 300 }
-				blockoverride "show_hat" {}
-				blockoverride "highlight" {}
-				blockoverride "rank_icon" {}
-			}
-
-			#OVERLORD'S RULER PORTRAIT
-			character_portrait_small2 = {
-				visible = "[Country.IsSubject]"
-				datacontext = "[Country.GetOverlord.GetRuler]"
-				position = { 25 170 }
-				blockoverride "show_hat" {}
-				blockoverride "highlight" {}
-				blockoverride "rank_icon" {}
-			}
-
-			#OVERLORD'S OVERLORD'S RULER PORTRAIT
-			character_portrait_small2 = {
-				visible = "[Country.GetOverlord.IsSubject]"
-				datacontext = "[Country.GetOverlord.GetOverlord.GetRuler]"
-				position = { 25 170 }
-				blockoverride "show_hat" {}
-				blockoverride "highlight" {}
-				blockoverride "rank_icon" {}
 				blockoverride "commander_order_icon" {}
 			}
 			
+            #VICE PRESIDENT PORTRAIT
+            character_portrait_medium = {
+                    visible = "[Country.MakeScope.Var('vice_president').IsSet]"
+                    datacontext = "[Country.MakeScope.Var('vice_president').GetCharacter]"
+                    position = { 50 310 }
+                    blockoverride "show_hat" {}
+                    blockoverride "highlight" {}
+                    blockoverride "rank_icon" {}
+            }
+            #PRIME MINISTER PORTRAIT
+            character_portrait_medium = {
+                    visible = "[Country.MakeScope.Var('prime_minister').IsSet]"
+                    datacontext = "[Country.MakeScope.Var('prime_minister').GetCharacter]"
+                    position = { 187 310 }
+                    blockoverride "show_hat" {}
+                    blockoverride "highlight" {}
+                    blockoverride "rank_icon" {}
+            }
+            #HEIR PORTRAIT
+            character_portrait_medium = {
+                    visible = "[Country.HasHeir]"
+                    datacontext = "[Country.GetHeir]"
+                    position = { 50 310 }
+                    blockoverride "show_hat" {}
+                    blockoverride "highlight" {}
+                    blockoverride "rank_icon" {}
+            }
+            #OVERLORD'S RULER PORTRAIT
+            character_portrait_small2 = {
+                    visible = "[Country.IsSubject]"
+                    datacontext = "[Country.GetOverlord.GetRuler]"
+                    position = { 50 180 }
+                    blockoverride "show_hat" {}
+                    blockoverride "highlight" {}
+                    blockoverride "rank_icon" {}
+            }
+            #OVERLORD'S OVERLORD'S RULER PORTRAIT
+            character_portrait_small2 = {
+                    visible = "[Country.GetOverlord.IsSubject]"
+                    datacontext = "[Country.GetOverlord.GetOverlord.GetRuler]"
+                    position = { 50 180 }
+                    blockoverride "show_hat" {}
+                    blockoverride "highlight" {}
+                    blockoverride "rank_icon" {}
+                    blockoverride "commander_order_icon" {}
+            }
+
 			#GOVERNMENT
 			flowcontainer = {
 				position = { 0 400 }
@@ -320,13 +339,13 @@ types country_panel_types
 				margin_top = 10
 				spacing = 10
 				margin_bottom = 5
-				
+
 				using = main_bg
 
 				flowcontainer = {
 					margin_left = 10
 					spacing = 10
-					
+
 					icon = {
 						parentanchor = vcenter
 						texture = "gfx/interface/icons/generic_icons/in_government_icon.dds"
@@ -348,21 +367,21 @@ types country_panel_types
 					datamodel = "[CountryPanel.AccessCountry.AccessInterestGroupsInGovernment]"
 					datamodel_wrap = 4
 					flipdirection = yes
-					
+
 					item = {
 						widget = {
 							size = { 61 65 }
-							
+
 							flowcontainer = {
 								parentanchor = hcenter
 								direction = vertical
 								tooltip = "CLOUT_PIECHART"
 								spacing = 2
-								
+
 								widget = {
 									size = { 33 33 }
 									parentanchor = hcenter
-									
+
 									ig_button = {
 										visible = "[Country.IsPlayer]"
 										size = { 100% 100% }
@@ -385,13 +404,13 @@ types country_panel_types
 					}
 				}
 			}
-			
+
 			#MILITARY
 			flowcontainer = {
 				parentanchor = right
 				position = { 0 30 }
 				direction = horizontal
-				
+
 				mobilization_icon = {
 					size = { 60 60 }
 					parentanchor = vcenter
@@ -400,7 +419,7 @@ types country_panel_types
 				flowcontainer = {
 					direction = vertical
 					visible = no
-					
+
 					textbox = {
 						autoresize = yes
 						datacontext = "[CountryPanel.GetCountry]"
@@ -413,8 +432,8 @@ types country_panel_types
 						parentanchor = right
 						margin_left = 10
 						margin_right = 5
-					}			
-					
+					}
+
 					textbox = {
 						autoresize = yes
 						visible = "[Not(CountryPanel.GetCountry.IsColonizable)]"
@@ -450,7 +469,7 @@ types country_panel_types
 				parentanchor = right
 				position = { 0 11 }
 
-				country_stats_entry = {	
+				country_stats_entry = {
 					blockoverride "stats_tooltip" {
 						tooltip = "[Country.GetRankTooltip]"
 					}
@@ -458,7 +477,7 @@ types country_panel_types
 						rank_badge = {
 							size = { 50 50 }
 							parentanchor = right|vcenter
-							
+
 							blockoverride "datacontext " {}
 
 							blockoverride "rank_text" {
@@ -481,15 +500,17 @@ types country_panel_types
 					}
 
 					blockoverride "textsize" {
-						size = { 300 20 }
+						size = { 160 20 }
+						elide = right
+						fontsize_min = 15
 					}
 				}
 
 				#BATTALIONS
-				country_stats_entry = {	
+				country_stats_entry = {
 					visible = "[Not(CountryPanel.GetCountry.IsColonizable)]"
 					alpha = "[TransparentIfZero_int32(Country.GetBattalions)]"
-				
+
 					blockoverride "stats_tooltip" {
 						tooltip = "PANEL_MILITARY_ARMY_OVERVIEW_TOOLTIP"
 					}
@@ -502,13 +523,17 @@ types country_panel_types
 					blockoverride "stats_value" {
 						text = "[Country.GetRegularBattalions|v] + [Country.CalcConscriptableBattalions|v]"
 					}
+
+					blockoverride "stats_rank" {
+						text = "[Country.GetBattalionsRanking]"
+					}
 				}
 
 				#BATTALIONS (COLONIZABLE)
-				country_stats_entry = {	
+				country_stats_entry = {
 					visible = "[CountryPanel.GetCountry.IsColonizable]"
 					alpha = "[TransparentIfZero_int32(Country.CalcConscriptableBattalions)]"
-				
+
 					blockoverride "stats_tooltip" {
 						tooltip = "PANEL_MILITARY_NATIVE_POTENTIAL_BATTALIONS_TOOLTIP"
 					}
@@ -520,6 +545,10 @@ types country_panel_types
 					}
 					blockoverride "stats_value" {
 						raw_text = "#variable [Country.CalcConscriptableBattalions]#!"
+					}
+
+					blockoverride "stats_rank" {
+						text = "[Country.GetBattalionsRanking]"
 					}
 				}
 
@@ -538,14 +567,18 @@ types country_panel_types
 					blockoverride "stats_value" {
 						raw_text = "#variable [Country.GetWarships|0]#!"
 					}
+
+					blockoverride "stats_rank" {
+						text = "[Country.GetFlotillasRanking]"
+					}
 				}
 
 				#GDP
-				country_stats_entry = {	
-					onmousehierarchyenter = "[SelectMapModeByKey('mm_gdp')]"
-					onmousehierarchyleave = "[UnforceMapMode]"
+				country_stats_entry = {
+					onmousehierarchyenter = "[SetTempMapModeByKey('mm_gdp')]"
+					onmousehierarchyleave = "[RemoveTempMapMode]"
 					alwaystransparent = no
-					
+
 					blockoverride "stats_tooltip" {
 						using = GDP_tooltip_with_graph
 					}
@@ -558,12 +591,16 @@ types country_panel_types
 					blockoverride "stats_value" {
 						raw_text = "#v @money![Country.GetGDP|D]#!"
 					}
+
+					blockoverride "stats_rank" {
+						text = "[Country.GetGDPRanking]"
+					}
 				}
 
 				##POPULATION
 				country_stats_entry = {
-					onmousehierarchyenter = "[SelectMapModeByKey('mm_population')]"
-					onmousehierarchyleave = "[UnforceMapMode]"
+					onmousehierarchyenter = "[SetTempMapModeByKey('mm_population')]"
+					onmousehierarchyleave = "[RemoveTempMapMode]"
 					alwaystransparent = no
 
 					blockoverride "stats_tooltip" {
@@ -578,12 +615,15 @@ types country_panel_types
 					blockoverride "stats_value" {
 						raw_text = "#v [Country.GetTotalPopulation|D]#!"
 					}
-				}				
+					blockoverride "stats_rank" {
+						text = "[Country.GetPopulationRanking]"
+					}
+				}
 
 				##LITERACY
 				country_stats_entry = {
-					onmousehierarchyenter = "[SelectMapModeByKey('mm_literacy')]"
-					onmousehierarchyleave = "[UnforceMapMode]"
+					onmousehierarchyenter = "[SetTempMapModeByKey('mm_literacy')]"
+					onmousehierarchyleave = "[RemoveTempMapMode]"
 					alwaystransparent = no
 
 					blockoverride "stats_tooltip" {
@@ -598,12 +638,15 @@ types country_panel_types
 					blockoverride "stats_value" {
 						raw_text = "#v [Country.GetIncorporatedLiteracyRate|%1]#!"
 					}
+					blockoverride "stats_rank" {
+						text = "[Country.GetIncorporatedLiteracyRanking]"
+					}
 				}
 
 				##STANDARD OF LIVING
 				country_stats_entry = {
-					onmousehierarchyenter = "[SelectMapModeByKey('mm_standard_of_living')]"
-					onmousehierarchyleave = "[UnforceMapMode]"
+					onmousehierarchyenter = "[SetTempMapModeByKey('mm_standard_of_living')]"
+					onmousehierarchyleave = "[RemoveTempMapMode]"
 					alwaystransparent = no
 
 					blockoverride "stats_tooltip" {
@@ -613,26 +656,31 @@ types country_panel_types
 					blockoverride "stats_label" {
 						text = "COUNTRY_SOL_ONE_LINE"
 					}
-					
+
+					blockoverride "stats_rank" {
+						text = "[Country.GetStandardOfLivingRanking]"
+					}
+
 					blockoverride "no_icon" {}
-					
-					#icon hack
-					widget = {
-						position = { -10 0 }
-						parentanchor = right|vcenter
-						size = { 35 30 }
-						scissor = yes
-						
-						textbox = {
-							size = { 100 30 }
-							elide = right
-							align = nobaseline
-							position = { 0 0 }
-							fontsize = 29
-							raw_text = "[LabelingHelper.GetIconForStandardOfLivingCFixedPoint(Country.GetAverageSoLByPopulation)|v] ([Country.GetAverageSoLByPopulation|v])"
+
+					blockoverride "icon_hack" {
+						widget = {
+							position = { -10 0 }
+							parentanchor = right|vcenter
+							size = { 35 30 }
+							scissor = yes
+
+							textbox = {
+								size = { 100 30 }
+								elide = right
+								align = nobaseline
+								position = { 0 0 }
+								fontsize = 29
+								raw_text = "[LabelingHelper.GetIconForStandardOfLivingCFixedPoint(Country.GetAverageSoLByPopulation)|v] ([Country.GetAverageSoLByPopulation|v])"
+							}
 						}
 					}
-					
+
 					blockoverride "stats_value" {
 						raw_text = "[LabelingHelper.GetLabelForStandardOfLivingNoIconCFixedPoint(Country.GetAverageSoLByPopulation)|v] ([Country.GetAverageSoLByPopulation|v1])"
 					}
@@ -652,7 +700,7 @@ types country_panel_types
 						raw_text = "#v [Country.GetStateReligion.GetName]#!"
 					}
 				}
-				
+
 				##CULTURE
 				country_stats_entry = {
 					blockoverride "stats_tooltip" {}
@@ -667,100 +715,351 @@ types country_panel_types
 						raw_text = "#v [Country.GetPrimaryCulturesDesc]#!"
 					}
 				}
-				}
-			}
-		
-		widget = {
-			visible = "[IsDataModelEmpty(Country.GetTimedModifiers)]"
-			size = { 10 10 }
-		}
-
-		### TIMED MODIFIERS
-		flowcontainer = {
-			margin_top = 10
-			margin_right = 14
-			margin_left = 14
-			margin_bottom = 5
-			datamodel = "[Country.GetTimedModifiers]"
-			spacing = 5
-			visible = "[Not(IsDataModelEmpty(Country.GetTimedModifiers))]"
-			maximumsize = { @panel_width_minus_10 45 }
-			parentanchor = right
-			datamodel_wrap = 2
-
-			item = {
-				icon = {
-					tooltip = "[TimedModifier.GetTooltip]"
-					texture = "[TimedModifier.GetIcon]"
-					size = { 25 25 }
-				}
-			}
-		}
-
-		widget = {
-			size = { 10 10 }
-		}
-		
-		#ATTITUDE / INFAMY
-		attitude_info = {}		
-
-		#AI STRATEGIES
-		flowcontainer = {
-			minimumsize = { @panel_width -1 }
-			visible = "[And(Not(CountryPanel.GetCountry.IsPlayer),Not(CountryPanel.GetCountry.IsColonizable))]"
-			direction = vertical
-			margin = { 0 10 }
-			
-			default_header = {
-				blockoverride "text" {
-					text = "AI_STRATEGIES"
-				}
 			}
 
-			widget = {
-				size = { @panel_width 140 }
-				parentanchor = hcenter
-				
-				hbox = {
-					datamodel = "[CountryPanel.AccessCountry.AccessStrategies]"
-					
-					#GRIDITEM
-					item = {
-						widget = {
-							tooltip = "[AIStrategy.GetTooltip(CountryPanel.GetCountry)]"
-							size = { 140 140 }
 
-							container = {
-								parentanchor = hcenter
-								
+			# DIPLOMATIC PACTS
+			flowcontainer = {
+				datamodel = "[Country.AccessActiveDiplomaticPactTypes]"
+				position = { -3 -150 }
+				parentanchor =  bottom
+				direction = vertical
+
+				item = {
+					flowcontainer = {
+						datamodel = "[ContextualDiplomaticActionType.AccessCountry.AccessActiveDiplomaticPacts( ContextualDiplomaticActionType.Self )]"
+						item = {
+							flowcontainer = {
+								visible = "[ObjectsEqual(GetPlayer.Self, ContextualDiplomaticPact.GetOtherCountry)]"
+	
 								icon = {
-									size = { 105 105 }
-									texture = "gfx/interface/backgrounds/round_frame_dec.dds"
-								}
-								icon = {
-									size = { 65 65 }
-									texture = "[AIStrategy.GetTexture]"
-									parentanchor = center
-									position = { 0 -3 }
-								}
-							}
+									size =  { 45 45 }
+									texture = "gfx/interface/backgrounds/round_button_bg.dds"
 
-							textbox = {
-								parentanchor = bottom|hcenter
-								autoresize = yes
-								minimumsize = { 145 50 }
-								maximumsize = { 145 75 }
-								text = "[AIStrategy.GetName|v]"
-								multiline = yes
-								align = center|nobaseline
-								margin = { 5 2 }
-								elide = right
-								
-								background = {
-									using = entry_bg_simple
+									icon = {
+										parentanchor = center
+										size = { 75% 75% }
+										texture = "[ContextualDiplomaticActionType.GetDiplomaticActionType.GetTexture]"
+										tooltip = "[ContextualDiplomaticPact.GetTooltip]"
+									}
 								}
 							}
 						}
+					}
+				}
+			}
+		}
+
+		widget = {
+			size = { 10 10 }
+		}
+
+		attitude_info = {
+			visible = "[Country.IsColonizable]"
+		}
+
+		widget = {
+			size = { 10 10 }
+			visible = "[Country.IsColonizable]"
+		}
+
+		# BEHAVIOR
+		flowcontainer = {
+			using = is_not_player_and_not_colonizable_country
+			direction = vertical
+			parentanchor = hcenter
+
+			default_header = {
+				blockoverride "text" {
+					text = "BEHAVIOR"
+				}
+			}
+
+			flowcontainer = {
+				parentanchor = hcenter
+				margin_top = 10
+				margin_bottom = 10
+
+				# ATTITUDE / INFAMY
+				flowcontainer = {
+					direction = vertical
+					minimumsize = { @panel_width_half -1 }
+					spacing = 10
+
+					# ATTITUDE
+					flowcontainer = {
+						spacing = 10
+						visible = "[And(Not(Country.IsColonizable),Not(Country.IsLocalPlayer))]"
+						margin_left = 8
+
+						textbox = {
+							text = "ATTITUDE"
+							autoresize = yes
+							align = nobaseline
+							parentanchor = vcenter
+							minimumsize = { 70 -1 }
+						}
+
+						widget = {
+							size = { 45 45 }
+
+							block "context" {
+								datacontext = "[CountryPanel.GetCountry]"
+							}
+
+							icon = {
+								size = { 100% 100% }
+								texture = "gfx/interface/icons/ai_attitude_icons/human.dds"
+								visible = "[Country.IsPlayer]"
+								tooltip = "ai_attitude_human_tooltip"
+							}
+
+							icon = {
+								size = { 100% 100% }
+								texture = "[Country.GetAttitudeTowards(GetPlayer).GetTexture]"
+								visible = "[Not(Country.IsPlayer)]"
+								tooltip = "[Country.GetAttitudeTowards(GetPlayer).GetTooltip]"
+							}
+						}
+
+						textbox = {
+							align = hcenter|nobaseline
+							autoresize = yes
+							text = "ai_attitude_human"
+							tooltip = "ai_attitude_human_tooltip"
+							visible = "[Country.IsPlayer]"
+							parentanchor = vcenter
+						}
+
+						textbox = {
+							align = hcenter|nobaseline
+							autoresize = yes
+							text = "[Country.GetAttitudeTowards(GetPlayer).GetName]"
+							tooltip = "[Country.GetAttitudeTowards(GetPlayer).GetTooltip]"
+							visible = "[Not(Country.IsPlayer)]"
+							parentanchor = vcenter
+						}
+					}
+
+					divider_clean = {
+						blockoverride "size" {
+							size =  { 250 2 }
+						}
+					}
+
+					# TENSION
+					flowcontainer = {
+						spacing = 10
+						tooltip = "[GetPlayer.GetTensionTooltip( Country.Self )]"
+						visible = "[Country.IsColonizable]"
+
+						textbox = {
+							text = "TENSION"
+							autoresize = yes
+							align = nobaseline
+							default_format = "#title"
+							parentanchor = vcenter
+
+							minimumsize = { 70 -1 }
+						}
+
+						icon = {
+							size = { 45 45 }
+							texture = "[GetPlayer.GetTensionIconTexture( Country.Self )]"
+						}
+
+						textbox = {
+							raw_text = "#BOLD [Country.GetTensionWithDesc( GetPlayer )]#!"
+							autoresize = yes
+							align = nobaseline
+							parentanchor = vcenter
+						}
+					}
+
+					# RELATIONS
+					flowcontainer = {
+						spacing = 10
+						margin_left = 8
+						name = "tutorial_highlight_country_diplomacy_tab_relations"
+						tooltip = "COUNTRY_RELATIONS_TOOLTIP"
+						visible = "[And(Not(Country.IsColonizable),Not(Country.IsLocalPlayer))]"
+
+						textbox = {
+							text = "RELATIONS"
+							autoresize = yes
+							align = nobaseline
+							default_format = "#title"
+							parentanchor = vcenter
+
+							minimumsize = { 70 -1 }
+						}
+
+						icon = {
+							size = { 45 45 }
+							texture = "[GetPlayer.GetRelationsIconTexture( Country.Self )]"
+						}
+
+						textbox = {
+							raw_text = "#BOLD [Country.GetRelationsWithDesc( GetPlayer )]#!"
+							autoresize = yes
+							align = nobaseline
+							parentanchor = vcenter
+						}
+					}
+
+					divider_clean = {
+						blockoverride "size" {
+							size =  { 250 2 }
+						}
+					}
+
+					# INFAMY
+					flowcontainer = {
+						spacing = 10
+						margin_left = 8
+						tooltip = "[Country.GetInfamyDesc]"
+						visible = "[Not(Country.IsColonizable)]"
+						onmousehierarchyenter = "[SetTempMapModeByKey('mm_infamy')]"
+						onmousehierarchyleave = "[RemoveTempMapMode]"
+						alwaystransparent = no
+
+						textbox = {
+							text = "INFAMY"
+							autoresize = yes
+							align = nobaseline
+							default_format = "#title"
+							parentanchor = vcenter
+
+							minimumsize = { 70 -1 }
+						}
+
+						icon = {
+							size = { 45 45 }
+							texture = "[Country.GetInfamyIconTexture]"
+						}
+
+						textbox = {
+							raw_text = "#BOLD [Country.GetInfamyLabel|-]#!"
+							autoresize = yes
+							align = nobaseline
+							parentanchor = vcenter
+						}
+					}
+
+					divider_clean = {
+						blockoverride "size" {
+							size =  { 250 2 }
+						}
+					}
+				}
+
+				vertical_divider = {
+					parentanchor = vcenter
+					using = is_not_player_and_not_colonizable_country
+
+					blockoverride "size" {
+						size = { 2 120% }
+					}
+				}
+
+				# AI STRATEGIES
+				flowcontainer = {
+					using = is_not_player_and_not_colonizable_country
+					datamodel = "[Country.AccessStrategies]"
+					direction = vertical
+					margin_left = 10
+					spacing = 10
+
+					item = {
+						flowcontainer = {
+							direction = vertical
+							minimumsize = { @panel_width_half -1 }
+							spacing = 10
+
+							flowcontainer = {
+								tooltip = "[AIStrategy.GetTooltip(Country.Self)]"
+								spacing = 10
+								
+								widget = {
+									parentanchor = vcenter
+									size = { 45 45 }
+									
+									icon = {
+										size = { 100% 100% }
+										texture = "gfx/interface/backgrounds/round_frame_dec.dds"
+									}
+									icon = {
+										size = { 75% 75% }
+										texture = "[AIStrategy.GetTexture]"
+										parentanchor = center
+									}
+								}
+
+								textbox = {
+									parentanchor = vcenter
+									autoresize = yes
+									text = "[AIStrategy.GetName]"
+									align = nobaseline
+									maximumsize = { 200 -1 }
+									elide = right
+									fontsize_min = 12
+								}
+							}
+
+							divider_clean = {
+								blockoverride "size" {
+									size =  { 250 2 }
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		### TIMED MODIFIERS
+		default_header = {
+			visible = "[Not(IsDataModelEmpty(Country.GetTimedModifiers))]"
+			blockoverride "text" {
+				text = "MODIFIERS"
+			}
+		}
+
+		flowcontainer = {
+			visible = "[Not(IsDataModelEmpty(Country.GetTimedModifiers))]"
+			datamodel = "[Country.GetTimedModifiers]"
+			margin_top = 10
+			spacing = 5
+			minimumsize = { @panel_width -1 }
+			parentanchor = hcenter
+			direction = vertical
+
+			item = {
+				container = {
+					minimumsize = { @panel_width -1 }
+					tooltip = "[TimedModifier.GetTooltip]"
+
+					flowcontainer = {
+						spacing = 10
+
+						icon = {
+							texture = "[TimedModifier.GetIcon]"
+							size = { 25 25 }
+						}
+
+						textbox = {
+							text = "[TimedModifier.GetName]"
+							autoresize = yes
+							align = nobaseline
+							parentanchor = vcenter
+						}
+					}
+
+					textbox = {
+						text = "[TimedModifier.GetRemainingDuration]"
+						autoresize = yes
+						align = nobaseline
+						parentanchor = right|vcenter
 					}
 				}
 			}
@@ -773,11 +1072,11 @@ types diplomatic
 	type attitude_info = widget {
 		parentanchor = hcenter
 		size = { @panel_width_minus_10 105 }
-		
+
 		background = {
 			using = entry_bg_simple
 		}
-		
+
 		hbox = {
 			# ATTITUDE
 			vbox = {
@@ -788,7 +1087,7 @@ types diplomatic
 				textbox = {
 					text = "ATTITUDE"
 					autoresize = yes
-					align = center|nobaseline
+					align = hcenter|nobaseline
 				}
 
 				widget = {
@@ -814,7 +1113,7 @@ types diplomatic
 				}
 
 				textbox = {
-					align = center|nobaseline
+					align = hcenter|nobaseline
 					autoresize = yes
 					text = "ai_attitude_human"
 					tooltip = "ai_attitude_human_tooltip"
@@ -822,20 +1121,20 @@ types diplomatic
 				}
 
 				textbox = {
-					align = center|nobaseline
+					align = hcenter|nobaseline
 					autoresize = yes
 					text = "[Country.GetAttitudeTowards(GetPlayer).GetName]"
 					tooltip = "[Country.GetAttitudeTowards(GetPlayer).GetTooltip]"
 					visible = "[Not(Country.IsPlayer)]"
 				}
 			}
-			
+
 			# TENSION
 			vbox = {
 				tooltip = "[GetPlayer.GetTensionTooltip( Country.Self )]"
 				visible = "[Country.IsColonizable]"
 				minimumsize = { 100 80 }
-				
+
 				textbox = {
 					text = "TENSION"
 					autoresize = yes
@@ -854,14 +1153,14 @@ types diplomatic
 					align = nobaseline
 				}
 			}
-	
+
 			# RELATIONS
 			vbox = {
 				name = "tutorial_highlight_country_diplomacy_tab_relations"
 				tooltip = "COUNTRY_RELATIONS_TOOLTIP"
 				visible = "[And(Not(Country.IsColonizable),Not(Country.IsLocalPlayer))]"
 				minimumsize = { 100 80 }
-				
+
 				textbox = {
 					text = "RELATIONS"
 					autoresize = yes
@@ -886,8 +1185,8 @@ types diplomatic
 				tooltip = "[Country.GetInfamyDesc]"
 				visible = "[Not(Country.IsColonizable)]"
 				minimumsize = { 100 80 }
-				onmousehierarchyenter = "[SelectMapModeByKey('mm_infamy')]"
-				onmousehierarchyleave = "[UnforceMapMode]"
+				onmousehierarchyenter = "[SetTempMapModeByKey('mm_infamy')]"
+				onmousehierarchyleave = "[RemoveTempMapMode]"
 				alwaystransparent = no
 
 				textbox = {
@@ -988,13 +1287,16 @@ types diplomatic
 				parentanchor = hcenter
 				datamodel = "[Country.AccessActiveDiplomaticPlays]"
 				direction = vertical
+				spacing = 5
 
 				item = {
-					diplomatic_play_item = {}
+					diplomatic_play_item = {
+						visible = yes
+					}
 				}
 			}
 		}
-		
+
 
 		### DIPLOMATIC STATUS
 		flowcontainer = {
@@ -1043,7 +1345,7 @@ types war_panel
 		block "onclick" {
 			onClick = "[WarManager.ToggleWarPanel( War.AccessSelf )]"
 		}
-	
+
 
 		### ICON
 		button = {
@@ -1054,7 +1356,7 @@ types war_panel
 			alwaystransparent = yes
 		}
 
-		
+
 
 		flowcontainer = {
 			direction = vertical
@@ -1080,7 +1382,7 @@ types war_panel
 					datacontext = "[War.AccessLeftSideLeaderParticipant.GetCountry]"
 					datamodel = "[War.AccessAttackers]"
 					spacing = 10
-					parentanchor = left|vcenter
+					parentanchor = vcenter
 					position = { 0 -4 }
 
 					small_flag = {
@@ -1091,7 +1393,7 @@ types war_panel
 						autoresize = yes
 						text = "WAR_SUPPORT_LEFT_SIDE"
 						tooltip = "WAR_LEFT_LEADER_TOOLTIP"
-						align = left|nobaseline
+						align = nobaseline
 						parentanchor = vcenter
 						using = fontsize_large
 					}
@@ -1132,7 +1434,7 @@ types war_panel
 			parentanchor = bottom|hcenter
 			position = { 0 0 }
 		}
-		
+
 		block "no_icon" {
 			icon = {
 				block "information_icon" {
@@ -1142,6 +1444,21 @@ types war_panel
 				position = { -5 0 }
 				parentanchor = right|vcenter
 			}
+		}
+
+		block "icon_hack" {}
+
+		textbox = {
+			block "stats_rank" {
+				#raw_text = "#123"
+				visible = no
+			}
+			parentanchor = bottom|right
+			position = { 0 -5 }
+			autoresize = yes
+			align = right|nobaseline
+			using = fontsize_small
+			default_format = "#"
 		}
 
 		textbox = {
@@ -1180,7 +1497,7 @@ types war_panel
 					texture = "gfx/interface/icons/generic_icons/gdp.dds"
 				}
 				size = { 35 35 }
-				parentanchor = left|vcenter
+				parentanchor = vcenter
 			}
 		}
 
@@ -1209,7 +1526,7 @@ types war_panel
 	type truce_container = container {
 		visible = "[Not(IsDataModelEmpty(Country.AccessTruces))]"
 		parentanchor = hcenter
-		
+
 		divider_clean = {
 			block "divider_size" {
 				size = { @panel_width 2 }
@@ -1251,49 +1568,49 @@ types war_panel
 				item = {
 					widget = {
 						size = { 60 42 }
-						
+
 						small_flag = {
 							parentanchor = vcenter
-							using = tooltip_above	
+							using = tooltip_above
 							datacontext = "[Truce.GetFirstCountry]"
 							blockoverride "flag_tooltip" {
 								tooltip = "[Truce.GetTruceExpirationDesc]"
 							}
-						}			
+						}
 					}
 				}
-			}			
+			}
 		}
 	}
 
 	### FAVOUR ITEM
-	type diplomatic_obligation_item_from = widget { 
+	type diplomatic_obligation_item_from = widget {
 		size = { 60 42 }
-		
+
 		small_flag = {
 			parentanchor = vcenter
-			using = tooltip_above	
+			using = tooltip_above
 			#Here we want to show the country which owes us an obligation
 			datacontext = "[DiplomaticRelations.GetCountryWhichOwesObligation]"
 			blockoverride "flag_tooltip" {
 				tooltip = "[Country.GetObligationFromExpirationDesc(DiplomaticRelations.GetCountryWhichNotOwesObligation)]"
 			}
-		}		
+		}
 	}
 	type diplomatic_obligation_item_to = widget {
 		size = { 60 42 }
-		
+
 		small_flag = {
 			parentanchor = vcenter
 			using = tooltip_above
-			#Here we want to show the country which we owe an obligation to	
+			#Here we want to show the country which we owe an obligation to
 			datacontext = "[DiplomaticRelations.GetCountryWhichNotOwesObligation]"
 			blockoverride "flag_tooltip" {
 				tooltip = "[Country.GetObligationToExpirationDesc(DiplomaticRelations.GetCountryWhichOwesObligation)]"
 			}
-		}		
+		}
 	}
-	
+
 	type obligations_owed_from_container = container {
 		parentanchor = hcenter
 		visible = "[Not(IsDataModelEmpty(Country.GetObligationsOwedFrom))]"
@@ -1326,7 +1643,7 @@ types war_panel
 				autoresize = yes
 				text = "OBLIGATIONS_OWED_FROM"
 			}
-			
+
 			dynamicgridbox = {
 				flipdirection = yes
 				block "datamodel_wrap" {
@@ -1338,7 +1655,7 @@ types war_panel
 				item = {
 					diplomatic_obligation_item_from = {}
 				}
-			}			
+			}
 		}
 	}
 
@@ -1374,7 +1691,7 @@ types war_panel
 				autoresize = yes
 				text = "OBLIGATIONS_OWED_TO"
 			}
-			
+
 			dynamicgridbox = {
 				flipdirection = yes
 				block "datamodel_wrap" {
@@ -1386,14 +1703,14 @@ types war_panel
 				item = {
 					diplomatic_obligation_item_to = {}
 				}
-			}			
+			}
 		}
-	}		
-	
+	}
+
 	### DIPLO STATUS ITEM
 	type diplomatic_pact_item = widget {
 		size = { 60 42 }
-		
+
 		small_flag = {
 			parentanchor = vcenter
 			using = tooltip_above
@@ -1402,32 +1719,32 @@ types war_panel
 				tooltip = "[ContextualDiplomaticPact.GetTooltip]"
 			}
 		}
-		
+
 		container = {
 			visible = "[ContextualDiplomaticPact.GetDiplomaticActionType.IsOngoingDiplomaticAction]"
 			parentanchor = right
 			position = { -5 0 }
-			
+
 			icon = {
 				visible = "[And(ContextualDiplomaticPact.IsOngoingForContextCountry,ContextualDiplomaticPact.IsOngoingForOtherCountry)]"
-				texture = "gfx/interface/icons/generic_icons/ongoing_action_both.dds"			
+				texture = "gfx/interface/icons/generic_icons/ongoing_action_both.dds"
 				size = { 20 20 }
 			}
 
 			icon = {
 				visible = "[And(ContextualDiplomaticPact.IsOngoingForContextCountry,Not(ContextualDiplomaticPact.IsOngoingForOtherCountry))]"
-				texture = "gfx/interface/icons/generic_icons/ongoing_action_first.dds"			
+				texture = "gfx/interface/icons/generic_icons/ongoing_action_first.dds"
 				size = { 20 20 }
-			}	
+			}
 
 			icon = {
 				visible = "[And(Not(ContextualDiplomaticPact.IsOngoingForContextCountry),ContextualDiplomaticPact.IsOngoingForOtherCountry)]"
-				texture = "gfx/interface/icons/generic_icons/ongoing_action_second.dds"			
+				texture = "gfx/interface/icons/generic_icons/ongoing_action_second.dds"
 				size = { 20 20 }
-			}				
+			}
 		}
-	}	
-	
+	}
+
 	type diplomatic_pact_type_item = container {
 		divider_clean = {
 			block "divider_size" {
@@ -1435,7 +1752,7 @@ types war_panel
 			}
 			parentanchor = hcenter|bottom
 		}
-		
+
 		flowcontainer = {
 			margin = { 5 5 }
 			spacing = 10
@@ -1457,7 +1774,7 @@ types war_panel
 				autoresize = yes
 				text = "[ContextualDiplomaticActionType.GetDiplomaticActionType.GetName]"
 			}
-		
+
 			dynamicgridbox = {
 				flipdirection = yes
 				block "datamodel_wrap" {
@@ -1470,26 +1787,26 @@ types war_panel
 			}
 		}
 	}
-	
+
 	type diplomatic_pact_container = dynamicgridbox {
 		visible = "[Not(IsDataModelEmpty(Country.AccessActiveDiplomaticPactTypes))]"
 		parentanchor = hcenter
-	
+
 		datamodel = "[Country.AccessActiveDiplomaticPactTypes]"
-	
+
 		item = {
 			diplomatic_pact_type_item = {}
-		}	
+		}
 	}
 
 	type diplomatic_action_acceptance_icon = container {
 		block "parentanchor" {
 			parentanchor = right|vcenter
 		}
-		
+
 		container = {
 			visible = "[And(DiplomaticAction.RequiresApproval,Not(DiplomaticAction.GetSecondCountry.IsPlayer))]"
-			
+
 			icon = {
 				visible = "[DiplomaticAction.WillAIAccept]"
 				tooltip = "AI_WILL_ACCEPT_DESC"
@@ -1505,7 +1822,7 @@ types war_panel
 				icon = {
 					visible = "[And( DiplomaticAction.CanCallInObligation, DiplomaticAction.WillAIAcceptWithCallInObligation)]"
 					tooltip = "AI_WILL_ACCEPT_WITH_CALL_IN_OBLIGATION_DESC"
-					
+
 					block "icon_size" {
 						size = { 30 30 }
 					}
@@ -1516,7 +1833,7 @@ types war_panel
 					visible = "[DiplomaticAction.WillAIAcceptWithOweObligation]"
 					tooltip = "AI_WILL_ACCEPT_WITH_OWE_OBLIGATION_DESC"
 					alpha = 0.5
-					
+
 					block "icon_size" {
 						size = { 30 30 }
 					}
@@ -1533,18 +1850,18 @@ types war_panel
 				}
 			}
 		}
-		
+
 		container = {
 			visible = "[And(DiplomaticAction.RequiresApproval,DiplomaticAction.GetSecondCountry.IsPlayer)]"
-			
+
 			icon = {
 				tooltip = "PLAYER_MIGHT_ACCEPT_DESC"
 				block "icon_size" {
 					size = { 30 30 }
 				}
 				texture = "gfx/interface/icons/generic_icons/undecided_icon.dds"
-			}			
-		}		
+			}
+		}
 	}
 
 	type diplomatic_action_button = button {
@@ -1568,14 +1885,14 @@ types war_panel
 			size = { 410 50 }
 			position = { 55 0 }
 			text = "DIPLOMATIC_ACTION_NAME"
-			align = left|nobaseline
-			parentanchor = left|vcenter
+			align = nobaseline
+			parentanchor = vcenter
 			widgetanchor = left|vcenter
 			using = fontsize_large
 		}
 
 		diplomatic_action_acceptance_icon = {
-			visible = "[Not(DiplomaticAction.GetType.CanSelectAnyState)]"											
+			visible = "[Not(DiplomaticAction.GetType.CanSelectAnyState)]"
 			position = { -10 0 }
 		}
 
@@ -1608,8 +1925,8 @@ types war_panel
 			size = { 410 50 }
 			position = { 55 0 }
 			text = "[DiplomaticPlayType.GetName]"
-			align = left|nobaseline
-			parentanchor = left|vcenter
+			align = nobaseline
+			parentanchor = vcenter
 			widgetanchor = left|vcenter
 			using = fontsize_large
 		}
@@ -1642,8 +1959,8 @@ types war_panel
 				raw_text = "[DiplomaticPlayType.GetName] ([State.GetName])"
 			}
 			
-			align = left|nobaseline
-			parentanchor = left|vcenter
+			align = nobaseline
+			parentanchor = vcenter
 			widgetanchor = left|vcenter
 			using = fontsize_large
 		}
@@ -1657,7 +1974,7 @@ types country_info
 
 		flowcontainer = {
 			parentanchor = hcenter
-			
+
 			textbox = {
 				autoresize = yes
 				datacontext = "[CountryPanel.GetCountry]"
@@ -1666,11 +1983,11 @@ types country_info
 				tooltip = PANEL_MILITARY_NATIVE_POTENTIAL_BATTALIONS_TOOLTIP
 				using = fontsize_mega
 				minimumsize = { 60 -1 }
-				align = center|nobaseline
+				align = hcenter|nobaseline
 				margin_left = 10
 				margin_right = 10
-			}			
-			
+			}
+
 			textbox = {
 				autoresize = yes
 				visible = "[Not(CountryPanel.GetCountry.IsColonizable)]"
@@ -1678,7 +1995,7 @@ types country_info
 				tooltip = PANEL_MILITARY_ARMY_OVERVIEW_TOOLTIP
 				using = fontsize_mega
 				minimumsize = { 60 -1 }
-				align = center|nobaseline
+				align = hcenter|nobaseline
 				margin_left = 10
 				margin_right = 10
 			}
@@ -1690,7 +2007,7 @@ types country_info
 				tooltip = PANEL_MILITARY_NAVY_CURRENT_FLOTILLAS_TOOLTIP
 				using = fontsize_mega
 				minimumsize = { 60 -1 }
-				align = center|nobaseline
+				align = hcenter|nobaseline
 				margin_left = 10
 				margin_right = 10
 			}
@@ -1785,10 +2102,10 @@ types country_info
 			textbox = {
 				text = "ATTITUDE"
 				autoresize = yes
-				parentanchor = left|vcenter
-				align = left|nobaseline
+				parentanchor = vcenter
+				align = nobaseline
 				minimumsize = { 100 -1 }
-			}			
+			}
 		}
 		widget = {
 			size = { 35 35 }
@@ -1813,17 +2130,17 @@ types country_info
 		}
 
 		textbox = {
-			align = left|nobaseline
-			parentanchor = left|vcenter
+			align = nobaseline
+			parentanchor = vcenter
 			autoresize = yes
 			text = "ai_attitude_human"
 			tooltip = "ai_attitude_human_tooltip"
 			visible = "[Country.IsPlayer]"
-		}		
+		}
 
 		textbox = {
-			align = left|nobaseline
-			parentanchor = left|vcenter
+			align = nobaseline
+			parentanchor = vcenter
 			autoresize = yes
 			text = "[Country.GetAttitudeTowards(GetPlayer).GetName]"
 			tooltip = "[Country.GetAttitudeTowards(GetPlayer).GetTooltip]"
@@ -1831,3 +2148,5 @@ types country_info
 		}
 	}
 }
+
+

@@ -887,13 +887,13 @@ default_popup =  {
 				}
 				
 				flowcontainer = {				
-					visible = "[Or(DiplomaticActionWindow.GetDiplomaticAction.GetType.CanSelectFirstState,DiplomaticActionWindow.GetDiplomaticAction.GetType.CanSelectSecondState)]"
+					visible = "[Or(DiplomaticActionWindow.CanSelectFirstState,DiplomaticActionWindow.CanSelectSecondState)]"
 					minimumsize = { 600 150 }
 					direction = horizontal
 					spacing = 10
 						
 					flowcontainer = {
-						visible = "[DiplomaticActionWindow.GetDiplomaticAction.GetType.CanSelectFirstState]"
+						visible = "[DiplomaticActionWindow.CanSelectFirstState]"
 						minimumsize = { 300 150 }
 						maximumsize = { 300 150 }
 						direction = vertical
@@ -973,7 +973,7 @@ default_popup =  {
 					}
 
 					flowcontainer = {
-						visible = "[DiplomaticActionWindow.GetDiplomaticAction.GetType.CanSelectSecondState]"
+						visible = "[DiplomaticActionWindow.CanSelectSecondState]"
 						minimumsize = { 300 150 }
 						maximumsize = { 300 150 }
 						direction = vertical
@@ -1448,7 +1448,7 @@ default_popup = {
 			resizeparent = yes
 			direction = vertical
 			margin_top = 10
-			datacontext = "[Proposal.GetDiplomaticPlay.GetIncomingSway(Proposal.GetActor.Self, Proposal.GetRecipient.Self)]"
+			datacontext = "[Proposal.GetDiplomaticPlay.GetIncomingSwayByTargetAndSwayer(Proposal.GetActor.Self, Proposal.GetRecipient.Self)]"
 	
 			textbox = {
 				autoresize = yes
@@ -1879,18 +1879,13 @@ default_popup =  {
 					text = "[DiplomaticPlayConfirmation.GetDescription]"
 				}
 				
-				widget = { 
-					visible = "[DiplomaticPlayConfirmation.GetType.GetWarGoalType.TargetsCountryCreation]"
-					size = { 10 10 } 
-				}
-				
 				flowcontainer = {
 					visible = "[DiplomaticPlayConfirmation.GetType.GetWarGoalType.TargetsCountryCreation]"
 					minimumsize = { 600 100 }
 					direction = vertical
 					parentanchor = hcenter
 					spacing = 10
-					margin = { 20 20 }
+					margin = { 10 10 }
 
 					background = {
 						using = entry_bg_simple
@@ -1945,6 +1940,81 @@ default_popup =  {
 						text = "CHANGE_TARGET"
 						onclick = "[DiplomaticPlayConfirmation.ToggleSelectCountryCreation]"
 					}
+				}				
+
+				start_diplo_play_table = {
+					blockoverride "table_datamodel" {
+						datamodel = "[DiplomaticPlayConfirmation.AccessInitiatorCountries]"
+					}
+
+					blockoverride "table_header_1" {
+						text = "OUR_SIDE"
+					}
+
+					blockoverride "vertical_dividers" {}
+				}
+
+				start_diplo_play_table = {
+					blockoverride "table_datamodel" {
+						datamodel = "[DiplomaticPlayConfirmation.AccessTargetCountries]"
+					}
+
+					blockoverride "table_header_1" {
+						text = "ENEMY_SIDE"
+					}
+
+					blockoverride "vertical_dividers" {}
+				}
+
+				start_diplo_play_table = {
+					visible = "[Not(IsDataModelEmpty(DiplomaticPlayConfirmation.AccessUndecidedCountries))]"
+
+					blockoverride "table_datamodel" {
+						datamodel = "[DiplomaticPlayConfirmation.AccessUndecidedCountries]"
+					}
+
+					blockoverride "item_visibility" {
+						visible = "[And(Not(ObjectsEqual(Country.Self, DiplomaticPlayConfirmation.GetInitiatorCountry.Self)), Not(ObjectsEqual(Country.Self, DiplomaticPlayConfirmation.GetTargetCountry.Self)))]"
+					}
+
+					blockoverride "table_header_1" {
+						text = "DIPLO_PLAY_STANCE_UNDECIDED"
+					}
+
+					blockoverride "table_header_4" {
+						text = "DIPLO_PLAY_SUPPORT_INITIATOR"
+					}
+
+					blockoverride "table_header_5" {
+						text = "DIPLO_PLAY_SUPPORT_TARGET"
+					}
+
+					blockoverride "table_header_6" {
+						text = "PREFERENCE_PREDICTION"
+					}
+
+					blockoverride "table_value_4" {
+						raw_text = "DIPLO_PLAY_SUPPORT_INITIATOR_LABEL"
+						tooltip = "[DiplomaticPlayConfirmation.PredictCannotJoinOrPreferenceForInitiatorDesc(Country.Self)]"					
+					}
+
+					blockoverride "table_value_5" {
+						raw_text = "DIPLO_PLAY_SUPPORT_TARGET_LABEL"
+						tooltip = "[DiplomaticPlayConfirmation.PredictCannotJoinOrPreferenceForTargetDesc(Country.Self)]"		
+					}
+
+					blockoverride "table_value_6" {
+						raw_text = "PREFERENCE_LABEL"	
+					}
+
+					blockoverride "table_value_6_alignment" {
+						align = hcenter|nobaseline
+					}
+				}
+
+				widget = {
+					visible = "[Not(IsDataModelEmpty(DiplomaticPlayConfirmation.AccessUndecidedCountries))]" 
+					size = { 5 5 }
 				}
 			}			
 		}	
@@ -3302,6 +3372,191 @@ notification_popup = {
 			tooltip = "CONFIRM"
 			input_action = "confirm"
 		}
+	}
+}
+
+types start_diplo_play {
+	type start_diplo_play_table = flowcontainer {
+		direction = vertical
+		margin_top = 10
+
+		flowcontainer = {
+			textbox = {
+				using = start_diplo_play_table_header
+				block "table_header_1" {
+					raw_text = "namn"
+					visible = no
+				}
+				size = { 180 30 }
+				align = left|nobaseline
+				default_format = "#b"
+				margin_left = 5
+			}
+
+			textbox = {
+				using = start_diplo_play_table_header
+				raw_text = "UNIT_LABEL_ARMY"
+				size = { 100 30 }
+				align = left|nobaseline
+			}
+
+			textbox = {
+				using = start_diplo_play_table_header
+				raw_text = "UNIT_LABEL_CONSCRIPTS"
+				size = { 100 30 }
+				align = left|nobaseline
+			}
+
+			textbox = {
+				using = start_diplo_play_table_header
+				raw_text = "UNIT_LABEL_NAVY"
+				size = { 100 30 }
+				align = left|nobaseline
+			}
+
+			block "vertical_dividers" {
+				vertical_divider_full = {}
+			}
+
+			textbox = {
+				using = start_diplo_play_table_header
+				block "table_header_4" {
+					raw_text = "initiator"
+					visible = no
+				}
+				size = { 80 30 }
+				align = hcenter|nobaseline
+			}
+
+			textbox = {
+				using = start_diplo_play_table_header
+				block "table_header_5" {
+					raw_text = "target"
+					visible = no
+				}
+				size = { 80 30 }
+				align = hcenter|nobaseline
+			}
+
+			block "vertical_dividers" {
+				vertical_divider_full = {}
+			}
+
+			textbox = {
+				using = start_diplo_play_table_header
+				block "table_header_6" {
+					raw_text = "prediction"
+					visible = no
+				}
+				size = { 120 30 }
+				align = hcenter|nobaseline
+			}
+		}
+
+		flowcontainer = {
+			direction = vertical
+
+			block "table_datamodel" {
+
+			}
+
+			item = {
+				flowcontainer = {
+					block "item_visibility" {
+
+					}
+
+					background = {
+						visible = "[IsOdd_int32(PdxGuiWidget.GetIndexInDataModel)]"
+						using = dark_area
+						alpha = 0.15
+					}
+
+					textbox = {
+						text = "[Country.GetName]"
+						size = { 180 30 }
+						align = nobaseline
+						elide = right
+						margin_right = 5
+						margin_left = 5
+					}
+
+					textbox = {
+						raw_text = "@battalions![Country.GetRegularBattalions|v]"
+						tooltip = "PANEL_MILITARY_ARMY_OVERVIEW_TOOLTIP"
+						alpha = "[TransparentIfZero_int32(Country.GetRegularBattalions )]"
+						size = { 100 30 }
+						elide = right
+						align = left|nobaseline
+						fontsize_min = 12
+					}
+
+					textbox = {
+						raw_text = "@conscripts![Country.CalcConscriptableBattalions|v]"
+						tooltip = "PANEL_MILITARY_ARMY_OVERVIEW_TOOLTIP"
+						alpha = "[TransparentIfZero_int32( Country.CalcConscriptableBattalions )]"
+						size = { 100 30 }
+						elide = right
+						align = left|nobaseline
+						fontsize_min = 12
+					}
+
+					textbox = {
+						raw_text = "@flotillas! [Country.GetWarships|0v]"
+						tooltip = "PANEL_MILITARY_NAVY_CURRENT_FLOTILLAS_TOOLTIP"
+						alpha = "[TransparentIfZero_int32(Country.GetWarships)]"
+						size = { 100 30 }
+						elide = right
+						align = left|nobaseline
+						fontsize_min = 12
+					}
+
+					block "vertical_dividers" {
+						vertical_divider_full = {}
+					}
+
+					textbox = {
+						block "table_value_4" {
+							#raw_text = "initiator"
+							visible = no
+						}
+						size = { 80 30 }
+						align = hcenter|nobaseline
+					}
+
+					textbox = {
+						block "table_value_5" {
+							#raw_text = "target"
+							visible = no
+						}
+						size = { 80 30 }
+						align = hcenter|nobaseline
+					}
+
+					block "vertical_dividers" {
+						vertical_divider_full = {}
+					}
+
+					textbox = {
+						block "table_value_6" {
+							#raw_text = "prediction"
+							visible = no
+						}
+						size = { 120 30 }
+						align = hcenter|nobaseline
+					}
+				}
+			}
+		}
+	}
+}
+
+template start_diplo_play_table_header {
+	margin_bottom = 3
+	align = right|nobaseline
+	
+	divider_clean = {
+		parentanchor = bottom|hcenter
 	}
 }
 

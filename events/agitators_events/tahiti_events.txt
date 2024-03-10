@@ -20,13 +20,13 @@ tahiti_events.1 = {
 
 	trigger = {
 	    country_rank >= rank_value:major_power
+		NOT = { has_variable = tahiti_conquest_triggered }
 		NOT = { has_journal_entry = je_conquest_of_tahiti }
-        c:PLY ?= { NOT = { is_subject_of = ROOT } }
-		game_date > 1839.3.1
+        c:PLY ?= { is_subject = no }
 		OR = { 
 		    AND = {
 				c:FRA = this
-		   	 	game_date > 1839.3.1
+		   	 	game_date > 1838.1.1
 			}
 			AND = {
 				has_interest_marker_in_region = region_polynesia
@@ -61,6 +61,7 @@ tahiti_events.1 = {
 		add_journal_entry = {
 			type = je_conquest_of_tahiti
 		}
+		set_variable = tahiti_conquest_triggered
 	}
 	
 	option = {
@@ -75,6 +76,7 @@ tahiti_events.1 = {
 				months = normal_modifier_time
 			}
 		}
+		set_variable = tahiti_conquest_triggered
 	}
 }
 

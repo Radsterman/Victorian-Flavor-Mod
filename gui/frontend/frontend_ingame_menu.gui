@@ -225,12 +225,26 @@ window = {
 								using = default_button
 								using = fontsize_large
 								size = { 360 50 }
+								name = "load_ingame_button_disabled"
+								text = "LOAD_GAME"
+								default_format = "#weak"
+								using = select_button_sound
+
+								visible = "[And(Not( GameHasMultiplePlayers ), Not( PauseMenu.CanLoadIngame ))]"
+								enabled = no
+								tooltip = "[PauseMenu.LoadIngameTooltip]"
+							}
+							
+							button = {
+								using = default_button
+								using = fontsize_large
+								size = { 360 50 }
 								name = "load_ingame_button"
 								text = "LOAD_GAME"
 								using = select_button_sound
 
-								visible = "[Not( GameHasMultiplePlayers )]"
-								enabled = "[PauseMenu.CanLoadIngame]"
+								visible = "[And(Not( GameHasMultiplePlayers ), PauseMenu.CanLoadIngame)]"
+								enabled = yes
 								onclick = "[PauseMenu.LoadIngame]"
 								tooltip = "[PauseMenu.LoadIngameTooltip]"
 							}

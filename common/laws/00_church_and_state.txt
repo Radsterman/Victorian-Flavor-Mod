@@ -528,20 +528,10 @@ law_total_separation = {
 		}
 		
 		add = {
-			desc = "POP_ACADEMICS"
-			# Academics generally against religious perseecution
-			if = {
-				limit = {
-					is_pop_type = academics
-				}
-				value = 0.25	
-			}
-		}
-		add = {
 			desc = "POP_DISCRIMINATED"		
 			if = {
 				limit = { 
-					is_pop_type = academics
+					religion_accepted = no
 				}
 				add = 0.5		
 
@@ -601,7 +591,6 @@ law_state_atheism = {
 	}
 	
 	on_enact = {
-		recalculate_pop_ig_support = yes
 		set_state_religion = rel:atheist
 		add_modifier = {
 			name = antireligious_policies
@@ -615,10 +604,11 @@ law_state_atheism = {
 				}
 				convert_population = {
 					target = rel:atheist
-					value = 0.15
+					value = 0.25
 				}
 			}
 		}
+		recalculate_pop_ig_support = yes
 	}
 	
 	religious_acceptance_rule = {

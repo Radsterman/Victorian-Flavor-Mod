@@ -1,0 +1,303 @@
+﻿# Standard Oil
+company_standard_oil = {
+	icon = "gfx/interface/icons/company_icons/historical_company_icons/american_standard_oil.dds"
+	background = "gfx/interface/icons/company_icons/company_backgrounds/comp_illu_oil_drills.dds"
+	
+	flavored_company = yes
+	
+	building_types = {  
+		building_oil_rig
+		building_railway
+	}
+	
+	potential = {
+		has_interest_marker_in_region = region_the_midwest
+	}
+	
+	attainable = {
+		hidden_trigger = { # Hide attainable if it's always fulfilled by possible
+			any_scope_state = {
+				region = sr:region_the_midwest
+			}
+		}
+	}		
+	
+	possible = { 
+		any_scope_state = {
+			region = sr:region_the_midwest
+			is_incorporated = yes
+			any_scope_building = {
+				is_building_type = building_oil_rig
+				level >= 5
+			}
+		}
+		has_technology_researched = pumpjacks
+	}
+	
+	prosperity_modifier = {
+		building_railway_throughput_add = 0.2
+	}
+	
+	ai_weight = {
+		value = 3 # Higher base value for flavored companies
+	}
+}
+
+# United Fruit Company
+company_united_fruit = {
+	icon = "gfx/interface/icons/company_icons/historical_company_icons/american_united_fruit_co.dds"
+	background = "gfx/interface/icons/company_icons/company_backgrounds/comp_illu_plantation.dds"
+	
+	flavored_company = yes
+	
+	building_types = {  
+		building_banana_plantation
+		building_sugar_plantation
+	}	
+	
+	potential = {
+		OR = {
+			country_has_primary_culture = cu:yankee
+			country_has_primary_culture = cu:dixie
+		}
+	}
+	
+	possible = {
+		OR = {
+			any_scope_state = {
+				OR = {
+					state_is_in_south_america = yes
+					state_is_in_central_america = yes
+				}
+				any_scope_building = {
+					is_building_type = building_banana_plantation
+					level >= 5
+				}
+			}
+		}
+		any_subject_or_below = {
+			OR = {
+				country_is_in_south_america = yes
+				country_is_in_central_america = yes
+			}
+			any_scope_state = {
+				any_scope_building = {
+					is_building_type = building_banana_plantation
+					level >= 5
+				}
+			}
+		}
+	}
+	
+	prosperity_modifier = {
+		building_group_bg_plantations_throughput_add = 0.2
+		country_infamy_decay_mult = -0.25
+	}	
+	
+	ai_weight = {
+		value = 3 # Higher base value for flavored companies
+	}
+}
+
+# Carnegie Steel Co.
+company_us_steel = {
+	icon = "gfx/interface/icons/company_icons/historical_company_icons/american_carnegie_steel.dds"
+	background = "gfx/interface/icons/company_icons/company_backgrounds/comp_illu_manufacturing_heavy.dds"
+	
+	flavored_company = yes
+	
+	building_types = {  
+		building_steel_mills
+		building_iron_mine
+		building_coal_mine
+	}
+	
+	potential = {
+		has_interest_marker_in_region = region_new_england
+	}
+	
+	attainable = {
+		hidden_trigger = { # Hide attainable if it's always fulfilled by possible
+			any_scope_state = {
+				state_region = s:STATE_PENNSYLVANIA
+			}
+		}
+	}		
+	
+	possible = {
+		any_scope_state = {
+			state_region = s:STATE_PENNSYLVANIA
+			is_incorporated = yes
+			any_scope_building = {
+				is_building_type = building_steel_mills
+				level >= 5
+			}
+		}
+		has_technology_researched = open_hearth_process
+	}
+	
+	prosperity_modifier = {
+		building_railway_throughput_add = 0.1
+		building_shipyards_throughput_add = 0.1
+	}	
+	
+	ai_weight = {
+		value = 3 # Higher base value for flavored companies
+	}
+}
+
+# General Electric
+company_general_electric = {
+	icon = "gfx/interface/icons/company_icons/historical_company_icons/american_general_electric.dds"
+	background = "gfx/interface/icons/company_icons/company_backgrounds/comp_illu_manufacturing_heavy.dds"
+	
+	flavored_company = yes
+	
+	building_types = {  
+		building_electrics_industry
+		building_power_plant
+	}
+	
+	potential = {
+		has_interest_marker_in_region = region_new_england
+	}
+	
+	attainable = {
+		hidden_trigger = { # Hide attainable if it's always fulfilled by possible
+			any_scope_state = {
+				OR = {
+					state_region = s:STATE_MASSACHUSETTS
+					state_region = s:STATE_NEW_YORK
+				}
+			}
+		}
+	}		
+	
+	possible = {
+		any_scope_state = {
+			OR = {
+				state_region = s:STATE_MASSACHUSETTS
+				state_region = s:STATE_NEW_YORK
+			}
+			is_incorporated = yes
+			any_scope_building = {
+				is_building_type = building_electrics_industry
+				level >= 7
+			}
+		}
+		has_technology_researched = electrical_generation
+	}
+	
+	prosperity_modifier = {
+		building_motor_industry_throughput_add = 0.1
+		country_weekly_innovation_mult = 0.05
+	}
+	
+	ai_weight = {
+		value = 3 # Higher base value for flavored companies
+	}
+}
+
+# William Cramp & Sons
+company_william_cramp = {
+	icon = "gfx/interface/icons/company_icons/historical_company_icons/american_william_and_sons.dds"
+	background = "gfx/interface/icons/company_icons/company_backgrounds/comp_illu_harbor_shipbuilding.dds"
+	
+	flavored_company = yes
+	
+	building_types = {  
+		building_military_shipyards
+		building_shipyards
+		building_motor_industry
+	}
+	
+	potential = {
+		has_interest_marker_in_region = region_new_england
+	}
+	
+	attainable = {
+		hidden_trigger = { # Hide attainable if it's always fulfilled by possible
+			any_scope_state = {
+				OR = {
+					state_region = s:STATE_NEW_JERSEY # This Should be Philly, but due to map issues that won't work
+					state_region = s:STATE_DELAWARE
+					state_region = s:STATE_MARYLAND
+				}
+			}
+		}
+	}		
+	
+	possible = {
+		any_scope_state = {
+			OR = {
+				state_region = s:STATE_NEW_JERSEY # This Should be Philly, but due to map issues that won't work
+				state_region = s:STATE_DELAWARE
+				state_region = s:STATE_MARYLAND
+			}
+			is_incorporated = yes
+			any_scope_building = {
+				OR = {
+					is_building_type = building_military_shipyards
+					is_building_type = building_shipyards
+				}
+				level >= 5
+			}
+		}
+		has_technology_researched = gantry_cranes
+	}
+	
+	prosperity_modifier = {
+		unit_navy_offense_mult = 0.05
+		unit_navy_defense_mult = 0.05
+	}	
+	
+	ai_weight = {
+		value = 3 # Higher base value for flavored companies
+	}
+}
+
+# Ford Motor Company
+company_ford_motor = {
+	icon = "gfx/interface/icons/company_icons/historical_company_icons/american_ford.dds"
+	background = "gfx/interface/icons/company_icons/company_backgrounds/comp_illu_manufacturing_heavy.dds"
+	
+	flavored_company = yes
+	
+	building_types = {  
+		building_motor_industry
+		building_war_machine_industry
+	}
+	
+	potential = {
+		has_interest_marker_in_region = region_the_midwest
+	}
+	
+	attainable = {
+		hidden_trigger = { # Hide attainable if it's always fulfilled by possible
+			any_scope_state = {
+				state_region = s:STATE_MICHIGAN
+			}
+		}
+	}	
+	
+	possible = {
+		any_scope_state = {
+			state_region = s:STATE_MICHIGAN
+			is_incorporated = yes
+			any_scope_building = {
+				is_building_type = building_motor_industry
+				level >= 5
+			}
+		}
+		has_technology_researched = combustion_engine
+	}
+	
+	prosperity_modifier = {
+		building_motor_industry_throughput_add = 0.15
+		building_war_machine_industry_throughput_add = 0.05
+	}	
+	
+	ai_weight = {
+		value = 3 # Higher base value for flavored companies
+	}
+}

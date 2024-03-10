@@ -29,6 +29,7 @@ types goods_panel_types
 				size = { 30 30 }
 				onclick = "[InformationPanelBar.OpenMarketPanel(GoodsPanel.AccessGoods.AccessMarket)]"
 				tooltip = "GO_TO_BUTTON_MARKET"
+				input_action = "go_to_details"
 			}
 		}
 
@@ -350,13 +351,18 @@ types goods_panel_types
 							
 							consumption_tax_button_toggle = {
 								visible = "[Not(ObjectsEqual(GetMetaPlayer.GetPlayedOrObservedCountry.GetCapital.GetMarket, Goods.GetMarket))]"
-								enabled = "[Not(IsValid( Goods.ToggleTaxation(GetMetaPlayer.GetPlayedOrObservedCountry)))]"
-								tooltip = "NOT_PLAYER_MARKET_CONSUMPTION_TAXES"
+								
+								blockoverride "tooltip" {
+									tooltip = "NOT_PLAYER_MARKET_CONSUMPTION_TAXES"
+								}
+
+								blockoverride "enabled" {
+									enabled = no
+								}
 							}
+
 							consumption_tax_button_toggle = {
 								visible = "[ObjectsEqual(GetMetaPlayer.GetPlayedOrObservedCountry.GetCapital.GetMarket, Goods.GetMarket)]"
-								enabled = "[IsValid( Goods.ToggleTaxation(GetMetaPlayer.GetPlayedOrObservedCountry) )]"
-								tooltip = "[Goods.GetTaxDesc(GetMetaPlayer.GetPlayedOrObservedCountry)]"
 							}
 						}
 					}
@@ -1498,6 +1504,14 @@ types "production_method_items" {
 	
 	type consumption_tax_button_toggle = button_icon_round_toggle_action {
 		size = { 44 44 }
+		
+		block "tooltip" {
+			tooltip = "[Goods.GetTaxDesc(GetMetaPlayer.GetPlayedOrObservedCountry)]"
+		}
+
+		block "enabled" {
+			enabled = "[IsValid( Goods.ToggleTaxation(GetMetaPlayer.GetPlayedOrObservedCountry) )]"
+		}
 
 		blockoverride "on_click" {
 			onclick = "[Execute( Goods.ToggleTaxation(GetPlayer) )]"

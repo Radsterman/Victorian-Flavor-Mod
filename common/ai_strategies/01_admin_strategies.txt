@@ -65,6 +65,14 @@
 			add = 20
 		}
 		
+		if = {
+			limit = { 
+				exists = c:DEN
+				c:DEN = this
+			}
+			add = 20
+		}
+		
 		if = { 
 			limit = { literacy_rate < 0.25 }
 			multiply = 1.5
@@ -84,6 +92,14 @@
 			limit = { 
 				exists = ig:ig_landowners
 				ig:ig_landowners = { is_powerful = yes } 
+			}
+			multiply = 1.5
+		}
+		
+		if = {
+			limit = { 
+				exists = ig:ig_rural_folk
+				ig:ig_rural_folk = { is_powerful = yes } 
 			}
 			multiply = 1.5
 		}
@@ -110,6 +126,8 @@
 
 ai_strategy_plantation_economy = {
 	icon = "gfx/interface/icons/ai_strategy_icons/agricultural_expansion.dds"
+	
+	desired_tax_level = high
 	
 	type = administrative
 
@@ -186,18 +204,20 @@ ai_strategy_plantation_economy = {
 ai_strategy_resource_expansion = {
 	icon = "gfx/interface/icons/ai_strategy_icons/resource_expansion.dds"
 	
+	desired_tax_level = high
+	
 	type = administrative	
 
 	building_group_weights = {
 		bg_rubber = 1.5
 		bg_oil_extraction = 1.5
-		bg_coal_mining = 2.5
-		bg_iron_mining = 2.25
+		bg_coal_mining = 2.75
+		bg_iron_mining = 2.5
 		bg_sulfur_mining = 1.75
 		bg_lead_mining = 1.75
 		bg_gold_fields = 1.75
 		bg_gold_mining = 1.75
-		bg_logging = 1.6
+		bg_logging = 2.25
 	}
 	
 	subsidies = {
@@ -299,13 +319,13 @@ ai_strategy_mining_exporter = {
 	type = administrative	
 
 	building_group_weights = {
-		bg_coal_mining = 7.5
-		bg_iron_mining = 5
-		bg_sulfur_mining = 1.5
-		bg_lead_mining = 1.5
+		bg_coal_mining = 8
+		bg_iron_mining = 6
+		bg_sulfur_mining = 1.75
+		bg_lead_mining = 1.75
 		bg_gold_fields = 1.5
 		bg_gold_mining = 1.5
-		bg_logging = 1.5
+		bg_logging = 1.75
 	}
 	
 	subsidies = {
@@ -353,7 +373,7 @@ ai_strategy_mining_exporter = {
 					country_is_in_north_america = yes
 				}
 			}
-			add = 10
+			add = 7.5
 		}
 		
 		if = {
@@ -371,7 +391,7 @@ ai_strategy_mining_exporter = {
 
 		if = {
 			limit = {
-				has_technology_researched = railways
+				has_technology_researched = atmospheric_engine
 			}
 			multiply = 2.0
 		}
@@ -411,6 +431,8 @@ ai_strategy_mining_exporter = {
 
 ai_strategy_industrial_expansion = {
 	icon = "gfx/interface/icons/ai_strategy_icons/industrial_expansion.dds"
+	
+	desired_tax_level = high
 	
 	type = administrative
 	
@@ -454,7 +476,7 @@ ai_strategy_industrial_expansion = {
 	}
 	
 	building_group_weights = {
-		bg_manufacturing = 1.25
+		bg_manufacturing = 1.5
 		bg_rubber = 1.25
 		bg_oil_extraction = 1.25
 		bg_mining = 1.25
@@ -575,6 +597,7 @@ ai_strategy_placate_population = {
 		bg_oil_extraction = 0.5
 		bg_mining = 0.5		
 		bg_construction = 0.5
+		bg_arts = 0.25
 		bg_manufacturing = 0.25		
 	}
 	
@@ -585,6 +608,11 @@ ai_strategy_placate_population = {
 		fruit = { stance = wants_high_supply }
 		fabric = { stance = wants_high_supply }
 		wood = { stance = wants_high_supply }
+		fine_art = { stance = wants_high_supply 
+            trigger = {
+                has_technology_researched = realism
+            }
+		}
 		opium = { 
 			stance = does_not_want
 			trigger = {
@@ -664,12 +692,16 @@ ai_strategy_colonial_extraction = {
     icon = "gfx/interface/icons/ai_strategy_icons/resource_expansion.dds"
     
     type = administrative   
+	
+	desired_tax_level = high
+	max_tax_level = very_high
+	
     building_group_weights = {
         bg_rubber = 1.5
         bg_oil_extraction = 1.5
         bg_mining = 1.5
-        bg_logging = 1.5
-        bg_plantations = 1.5
+        bg_logging = 1.75
+        bg_plantations = 1.75
     }
     
     subsidies = {

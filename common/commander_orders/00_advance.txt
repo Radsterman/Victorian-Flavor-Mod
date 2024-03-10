@@ -1,0 +1,326 @@
+﻿advance = {
+    texture = "gfx/interface/icons/commander_order_icons/advance.dds"
+	
+	military_type = army
+	ai_usage = advance
+    is_basic_order_type = yes
+
+    possible = {
+        error_check = {
+            severity = invalid
+            has_role = general
+        }
+        error_check = {
+            severity = invalid
+            ai_subject_can_advance_front = yes
+        }
+        error_check = {
+            severity = invalid
+            ai_ally_can_advance_front = yes
+        }
+    }
+
+    modifier = {
+        character_advancement_speed_add = 5
+        unit_offense_mult = 0.1
+    }
+
+	entity_animation = "advance"
+	clicksound = "event:/SFX/UI/Military/order_general_front_advance"
+	experience = 0.1 # This much extra experience per week while executing Order
+	
+	ai_weight = {
+		value = 1
+	}
+}
+
+advance_reckless = {
+    texture = "gfx/interface/icons/commander_order_icons/advance.dds"
+    
+    military_type = army
+	ai_usage = advance
+
+    possible = {
+        error_check = {
+            severity = invalid
+            has_role = general
+        }
+        error_check = {
+            severity = invalid
+            ai_subject_can_advance_front = yes
+        }
+        error_check = {
+            severity = invalid
+            ai_ally_can_advance_front = yes
+        }
+		has_trait = reckless
+    }
+
+    modifier = {
+        character_advancement_speed_add = 7
+        unit_offense_mult = 0.15
+        unit_morale_loss_mult = 0.1
+        unit_recovery_rate_add = -0.1
+        character_battle_condition_aggressive_maneuver_mult = 1
+        character_battle_condition_blunder_mult = 1.5
+    }
+
+	entity_animation = "advance"
+    clicksound = "event:/SFX/UI/Military/order_general_front_advance"
+    experience = 0.1 # This much extra experience per week while executing Order
+	
+    ai_weight = {
+		value = 2
+	}
+}
+
+advance_pillager = {
+    texture = "gfx/interface/icons/commander_order_icons/advance.dds"
+    
+    military_type = army
+	ai_usage = advance
+
+    possible = {
+        error_check = {
+            severity = invalid
+            has_role = general
+        }
+        error_check = {
+            severity = invalid
+            ai_subject_can_advance_front = yes
+        }
+        error_check = {
+            severity = invalid
+            ai_ally_can_advance_front = yes
+        }
+		OR = {
+			has_trait = cruel
+			has_trait = wrathful
+            has_trait = pillager
+		}
+    }
+
+    modifier = {
+        character_advancement_speed_add = 4
+        unit_kill_rate_add = 0.20
+        unit_devastation_mult = 1
+        unit_kill_rate_add = 0.1
+        unit_morale_damage_mult = 0.2
+        unit_occupation_mult = -0.2
+    }
+
+	entity_animation = "advance"
+    clicksound = "event:/SFX/UI/Military/order_general_front_advance"
+    experience = 0.1 # This much extra experience per week while executing Order
+	
+    ai_weight = {
+		value = 2
+	}
+
+}
+
+advance_cautious = {
+    texture = "gfx/interface/icons/commander_order_icons/advance.dds"
+    
+    military_type = army
+	ai_usage = advance
+
+    possible = {
+        error_check = {
+            severity = invalid
+            has_role = general
+        }
+        error_check = {
+            severity = invalid
+            ai_subject_can_advance_front = yes
+        }
+        error_check = {
+            severity = invalid
+            ai_ally_can_advance_front = yes
+        }
+		has_trait = cautious
+    }
+
+    modifier = {
+        character_advancement_speed_add = 3
+        unit_morale_loss_mult = -0.05
+        unit_recovery_rate_add = 0.1
+        character_battle_condition_careful_maneuver_mult = 0.5
+    }
+
+	entity_animation = "advance"
+    clicksound = "event:/SFX/UI/Military/order_general_front_advance"
+    experience = 0.1 # This much extra experience per week while executing Order
+
+    ai_weight = {
+        value = 2
+    }
+}
+
+advance_heavy_barrage = {
+    texture = "gfx/interface/icons/commander_order_icons/advance.dds"
+    
+    military_type = army
+    ai_usage = advance
+
+    possible = {
+        error_check = {
+            severity = invalid
+            has_role = general
+        }
+        error_check = {
+            severity = invalid
+            ai_subject_can_advance_front = yes
+        }
+        error_check = {
+            severity = invalid
+            ai_ally_can_advance_front = yes
+        }
+        OR = {
+           has_trait = basic_artillery_commander
+           has_trait = experienced_artillery_commander
+           has_trait = expert_artillery_commander
+        }
+    }
+
+    modifier = {
+        character_advancement_speed_add = 2
+        unit_occupation_mult = -0.1
+        unit_devastation_mult = 0.75
+        unit_kill_rate_add = 0.25
+        unit_morale_damage_mult = 0.15
+    }
+
+    entity_animation = "advance"
+    clicksound = "event:/SFX/UI/Military/order_general_front_advance"
+    experience = 0.1 # This much extra experience per week while executing Order
+
+    ai_weight = {
+        value = 2
+    }
+}
+
+advance_cavalry_assualt = {
+    texture = "gfx/interface/icons/commander_order_icons/advance.dds"
+
+    military_type = army
+    ai_usage = advance
+
+    possible = {
+        error_check = {
+            severity = invalid
+            has_role = general
+        }
+        error_check = {
+            severity = invalid
+            ai_subject_can_advance_front = yes
+        }
+        error_check = {
+            severity = invalid
+            ai_ally_can_advance_front = yes
+        }
+        trigger_if = {
+            limit = {
+                has_role = general
+            }
+            OR = {
+                commander_military_formation = {
+                    formation_army_unit_type_fraction = {
+                        target = unit_type:combat_unit_type_cuirassiers
+                        value >= 0.3
+                    }
+                }
+                commander_military_formation = {
+                    formation_army_unit_type_fraction = {
+                        target = unit_type:combat_unit_type_hussars
+                        value >= 0.3
+                    }
+                }
+                commander_military_formation = {
+                    formation_army_unit_type_fraction = {
+                        target = unit_type:combat_unit_type_dragoons
+                        value >= 0.3
+                    }
+                }
+                commander_military_formation = {
+                    formation_army_unit_type_fraction = {
+                        target = unit_type:combat_unit_type_lancers
+                        value >= 0.3
+                    }
+                }
+                commander_military_formation = {
+                   formation_army_unit_type_fraction = {
+                      target = unit_type:combat_unit_type_light_tanks
+                      value >= 0.3
+                   }
+                }
+            }
+        }
+    }
+
+    modifier = {
+        character_advancement_speed_add = 7
+        unit_morale_damage_mult = 0.1
+        unit_offense_mult = 0.1
+        battle_casualties_mult = 0.15
+        unit_occupation_mult = 0.1
+    }
+
+    entity_animation = "advance"
+    clicksound = "event:/SFX/UI/Military/order_general_front_advance"
+    experience = 0.1 # This much extra experience per week while executing Order
+	
+    ai_weight = {
+		value = 2
+	}
+}
+
+advance_tank_assualt = {
+    texture = "gfx/interface/icons/commander_order_icons/advance.dds"
+
+    military_type = army
+    ai_usage = advance
+
+    possible = {
+        error_check = {
+            severity = invalid
+            has_role = general
+        }
+        error_check = {
+            severity = invalid
+            ai_subject_can_advance_front = yes
+        }
+        error_check = {
+            severity = invalid
+            ai_ally_can_advance_front = yes
+        }
+        has_trait = innovative
+        trigger_if = {
+            limit = {
+                has_role = general
+            }
+            commander_military_formation = {
+                formation_army_unit_type_fraction = {
+                    target = unit_type:combat_unit_type_heavy_tank
+                    value >= 0.3
+                }
+            }
+        }
+    }
+
+    modifier = {
+        character_advancement_speed_add = 2
+        unit_occupation_mult = -0.1
+        unit_morale_loss_mult = -0.05
+        unit_offense_mult = 0.15
+    }
+
+    entity_animation = "advance"
+    clicksound = "event:/SFX/UI/Military/order_general_front_advance"
+    experience = 0.1 # This much extra experience per week while executing Order
+	
+	ai_weight = {
+		value = 2
+	}
+}
+

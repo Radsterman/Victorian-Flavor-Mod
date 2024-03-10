@@ -240,11 +240,45 @@ types TooltipTypes
 		}
 
 		blockoverride "go_to_button_visibility" {
-			visible = no # toggle back on when doing PRCAL-15542
+			visible = no
 		}
 
 		blockoverride "go_to_button_properties" {
 			onclick = "[InformationPanelBar.OpenPartyPanel(Party.AccessSelf)]"
+		}
+
+		blockoverride "table_visibility" {
+			visible = yes
+		}
+
+		blockoverride "table_datamodel" {
+			datamodel = "[Party.GetMembers]"
+		}
+
+		blockoverride "table_header_1" {
+			text = "[concept_interest_group]"
+		}
+
+		blockoverride "table_header_2" {
+			text = "[concept_clout]"
+		}
+
+		blockoverride "table_header_3" {
+			text = "[concept_approval]"
+		}
+
+		blockoverride "table_value_1" {
+			text = "[InterestGroup.GetName]"
+		}
+
+		blockoverride "table_value_2" {
+			using = clout_tooltip_with_graph
+			raw_text = "#BOLD [InterestGroup.GetClout|1%] #!"
+		}
+
+		blockoverride "table_value_3" {
+			raw_text = "[InterestGroup.GetApprovalRating] (#variable [InterestGroup.GetApprovalValue|+=]#!)"
+			tooltip = "IG_APPROVAL_BREAKDOWN"						
 		}
 	}
 
@@ -375,6 +409,58 @@ types TooltipTypes
 		}
 
 		blockoverride "tooltip_content_after" {
+			widget = {
+				size = { 15 15 }
+			}
+
+			widget = {
+				size = { 500 60 }
+				parentanchor = hcenter
+				
+				background = {
+					using = entry_bg_simple
+				}
+
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					spacing = 10
+					margin = { 10 0 }
+					
+					textbox = {
+						autoresize = yes
+						align = nobaseline
+						text = "BUDGET_TARIFFS"
+					}
+					
+					container = {
+						name = "tutorial_highlight_market_goods_policy"
+						set_level_bar_market_tariffs = {}
+					}
+					
+					textbox = {
+						layoutpolicy_horizontal = expanding
+						align = right|nobaseline
+						text = "BUDGET_CONSUMPTION_TAXES"
+					}
+					
+					consumption_tax_button_toggle = {
+						visible = "[Not(ObjectsEqual(GetMetaPlayer.GetPlayedOrObservedCountry.GetCapital.GetMarket, Goods.GetMarket))]"
+						
+						blockoverride "tooltip" {
+							tooltip = "NOT_PLAYER_MARKET_CONSUMPTION_TAXES"
+						}
+
+						blockoverride "enabled" {
+							enabled = no
+						}
+					}
+
+					consumption_tax_button_toggle = {
+						visible = "[ObjectsEqual(GetMetaPlayer.GetPlayedOrObservedCountry.GetCapital.GetMarket, Goods.GetMarket)]"
+					}
+				}
+			}
+			
 			v3_plotline = {
 				visible = "[And(Goods.HasPriceTrend,Not(Goods.IsLocal))]"
 				using = default_list_position
@@ -624,6 +710,18 @@ types TooltipTypes
 		blockoverride "go_to_button_properties" {
 			onclick = "[InformationPanelBar.OpenPopDetailsPanel(Pop.AccessSelf)]"
 		}
+		
+	    blockoverride "tooltip_content_after" {
+			flowcontainer = {
+				scale = 0.8
+				parentanchor = hcenter
+				margin_top = 10
+				spacing = -20
+				margin_bottom = -50
+				pop_portrait_medium_male = {}
+				pop_portrait_medium_female = { }
+			}
+		}
 	}
 
 	type FancyTooltip_PopSupporters = FancyTooltipWidgetType {
@@ -708,6 +806,47 @@ types TooltipTypes
 		blockoverride "go_to_button_properties" {
 			onclick = "[InformationPanelBar.OpenCountryPanel(Country.Self)]"
 		}
+		
+		blockoverride "tooltip_content_after" {
+			flowcontainer = {
+				direction = vertical
+				visible = "[Not(Country.IsPlayer)]"
+
+				widget = {
+					visible = "[StringIsEmpty(Country.GetAttitudeTowards(GetPlayer.Self).GetStrategicDesireDesc)]"
+					size = { 14 14 }
+				}
+
+				flowcontainer = {
+					datamodel = "[Country.AccessStrategies]"
+					spacing = 3
+					direction = vertical
+					margin_top = 5
+					margin_bottom = 5
+					
+					item = {
+						flowcontainer = {
+							tooltip = "[AIStrategy.GetTooltip(Country.Self)]"
+							spacing = 10
+
+							icon = {
+								size = { 25 25 }
+								texture = "[AIStrategy.GetTexture]"
+								parentanchor = vcenter
+							}
+
+							textbox = {
+								parentanchor = vcenter
+								autoresize = yes
+								text = "[AIStrategy.GetName|v]"
+								align = left|nobaseline
+								using = tooltip_font
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	type FancyTooltip_Culture = FancyTooltipWidgetType {
@@ -739,6 +878,10 @@ types TooltipTypes
 
 		blockoverride "name" {
 			text = "[Religion.GetNameNoFormatting]"
+		}
+		
+		blockoverride "icon_texture" {
+			texture = "[Religion.GetTexture]"
 		}
 
 		blockoverride "type" {
@@ -1664,6 +1807,86 @@ types TooltipTypes
 				size = { 15 15 }
 			}
 
+			flowcontainer = {
+				spacing = 5
+				maximumsize = { 550 -1 }
+
+				manpower_bar = {
+					size = { 6 15 }
+					parentanchor = vcenter
+					alpha = "[TransparentIfTrue(EqualTo_int64(MilitaryFormation.GetMaxManpower, MilitaryFormation.GetCurrentManpower))]"
+				}
+
+				DefaultTooltipTextBox = {
+					parentanchor = vcenter
+					align = nobaseline
+					autoresize = yes
+					multiline = yes
+					fonttintcolor = "[TooltipInfo.GetTintColor]"
+					text = "DATA_MILITARY_FORMATION_MANPOWER"
+				}
+			}
+
+			flowcontainer = {
+				spacing = 5
+				maximumsize = { 550 -1 }
+
+				organization_bar = {
+					tooltip = "MILITARY_FORMATION_ORGANIZATION_TOOLTIP"
+					parentanchor = vcenter
+					size = { 6 15 }
+					
+					blockoverride "organization_value" {
+						value = "[FixedPointToFloat( MilitaryFormation.GetOrganizationPercentage )]"
+					}
+					blockoverride "organization_color" {
+						color = "[GetOrganizationColorVec( MilitaryFormation.GetOrganizationPercentage )]"
+					}
+					alpha = "[TransparentIfTrue(EqualTo_CFixedPoint(MilitaryFormation.GetOrganizationPercentage, '(CFixedPoint)1'))]"
+				}
+
+				DefaultTooltipTextBox = {
+					parentanchor = vcenter
+					align = nobaseline
+					autoresize = yes
+					multiline = yes
+					fonttintcolor = "[TooltipInfo.GetTintColor]"
+					text = "DATA_MILITARY_FORMATION_ORGANIZATION"
+				}
+			}
+
+			flowcontainer = {
+				spacing = 5
+				maximumsize = { 550 -1 }
+
+				morale_bar = {
+					size = { 6 15 }
+					parentanchor = vcenter
+					tooltip = "MILITARY_FORMATION_MORALE_TOOLTIP"
+					
+					blockoverride "morale_value" {
+						value = "[FixedPointToFloat( MilitaryFormation.GetMorale )]"
+					}
+					blockoverride "morale_color" {
+						color = "[GetMoraleColorVec( MilitaryFormation.GetMorale )]"
+					}
+					alpha = "[TransparentIfTrue(EqualTo_CFixedPoint(MilitaryFormation.GetMorale, '(CFixedPoint)1'))]"
+				}
+
+				DefaultTooltipTextBox = {
+					parentanchor = vcenter
+					align = nobaseline
+					autoresize = yes
+					multiline = yes
+					fonttintcolor = "[TooltipInfo.GetTintColor]"
+					text = "DATA_MILITARY_FORMATION_MORALE"
+				}
+			}
+
+			widget = {
+				size = { 15 15 }
+			}
+
 			DefaultTooltipTextBox = {
 				visible = "[IsDataModelEmpty(MilitaryFormation.GetCommanders)]"
 				text = "NO_COMMANDERS_IN_MILITARY_FORMATION"
@@ -1788,7 +2011,7 @@ types TooltipTypes
 		}
 	}
 
-	type FancyTooltip_CombatUnitType = FancyTooltipWidgetType {
+	type FancyTooltip_CombatUnitTypeWithoutCulture = FancyTooltipWidgetType {
         blockoverride "text" {
             text = "DATA_COMBAT_UNIT_TYPE_NAME_TOOLTIP"
         }
@@ -1804,8 +2027,43 @@ types TooltipTypes
 				position = { -1% -1% }
 			}
 			
-			datacontext = "[CombatUnitType.GetGroup]"
-			texture = "[CombatUnitType.GetTextureForCulture( MilitaryFormation.GetPrimaryCultureForGroup( CombatUnitGroup.Self ).Self )]"
+			texture = "[CombatUnitType.GetDefaultTexture]"
+		}
+
+		blockoverride "icon_size" {
+			size = { 48 48 }
+		}
+
+        blockoverride "name" {
+            text = "[CombatUnitType.GetNameNoFormatting]"
+        }
+
+        blockoverride "type" {
+            text = "[concept_combat_unit_type]"
+        }
+
+        blockoverride "icon_frame" {}
+    }
+	
+	type FancyTooltip_CombatUnitTypeWithCulture = FancyTooltipWidgetType {
+        blockoverride "text" {
+            text = "DATA_COMBAT_UNIT_TYPE_NAME_TOOLTIP"
+        }
+
+		blockoverride "icon_texture" {
+			modify_texture = {
+				using = simple_frame_mask
+			}
+
+			icon = {
+				using = simple_frame
+				size = { 102% 102% }
+				position = { -1% -1% }
+			}
+			
+			block "culture_texture" {
+				texture = "[CombatUnitType.GetTextureForCulture( Culture.Self )]"
+			}
 		}
 
 		blockoverride "icon_size" {

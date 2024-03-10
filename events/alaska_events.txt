@@ -7,7 +7,24 @@ alaska.1 = {
 
 	title = alaska.1.t
 	desc = alaska.1.d
-	flavor = alaska.1.f
+	flavor = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:alaska_seller = {
+						c:RUS ?= this
+					}
+				}
+				desc = alaska.1.f_ru
+			}
+			triggered_desc = {
+				trigger = {
+					always = yes
+				}
+				desc = alaska.1.f
+			}
+		}
+	}
 
 	duration = 3
 
@@ -23,25 +40,7 @@ alaska.1 = {
 	}
 
 	immediate = {
-		c:USA = {
-			save_scope_as = usa_scope
-		}
-		if = {
-			limit = {
-				c:RAC = {
-					owns_entire_state_region = STATE_ALASKA
-				}
-			}
-			s:STATE_ALASKA.region_state:RAC = {
-				save_scope_as = alaska_scope
-			}
-		}
-		else = {
-			s:STATE_ALASKA.region_state:RUS = {
-				save_scope_as = alaska_scope
-			}
-		}
-
+		# Scopes set in alaska.4
 	}
 
 	option = {
@@ -52,48 +51,49 @@ alaska.1 = {
 			months = 12
 			is_decaying = no
 		}
-		c:USA = {
+		scope:alaska_buyer = {
 			trigger_event = { id = alaska.2 days = 0 popup = yes }
 		}
 		show_as_tooltip = {
-			if = {
+			random_state = {
 				limit = {
-					c:RAC = {
-						owns_entire_state_region = STATE_ALASKA
-					}
+					state_region = s:STATE_ALASKA
+					owner = scope:alaska_seller
 				}
-				s:STATE_ALASKA.region_state:RAC = {
-					set_state_owner = c:USA
-				}
+				set_state_owner = scope:alaska_buyer
 			}
-			else = {
-				s:STATE_ALASKA.region_state:RUS = {
-					set_state_owner = c:USA
-				}
-			}
-
 			change_relations = {
-				country = c:USA
+				country = scope:alaska_buyer
 				value = 10
 			}
 		}
 		ai_chance = {
-			base = 1
+			base = 75
 		}
 	}
 	option = {
 		name = alaska.1.b
-		c:USA = {
+		scope:alaska_buyer = {
 			trigger_event = { id = alaska.3 days = 0 popup = yes }
 		}
 		show_as_tooltip = {
 			change_relations = {
-				country = c:USA
+				country = scope:alaska_buyer
 				value = -20
 			}
 		}
 		ai_chance = {
 			base = 0
+			modifier = {
+				trigger = {
+					scope:alaska_seller = { 
+						NOT = {
+							has_variable = alaska_sale_cooldown #Unsolicited offer
+						}
+					}
+				}
+				add = 25
+			}
 		}
 	}
 }
@@ -121,24 +121,7 @@ alaska.2 = {
 	}
 
 	immediate = {
-		c:RUS = {
-			save_scope_as = russia_scope
-		}
-		if = {
-			limit = {
-				c:RAC = {
-					owns_entire_state_region = STATE_ALASKA
-				}
-			}
-			s:STATE_ALASKA.region_state:RAC = {
-				save_scope_as = alaska_scope
-			}
-		}
-		else = {
-			s:STATE_ALASKA.region_state:RUS = {
-				save_scope_as = alaska_scope
-			}
-		}
+		# Scopes set in alaska.4
 	}
 
 	option = {
@@ -148,24 +131,21 @@ alaska.2 = {
 			name = alaska_usa_big_money
 			months = 12
 		}
-		if = {
+		scope:alaska_seller = {
+			set_variable = successful_sale_of_alaska
+		}
+		random_state = {
 			limit = {
-				c:RAC = {
-					owns_entire_state_region = STATE_ALASKA
+				state_region = s:STATE_ALASKA
+				OR = {
+				    owner = scope:alaska_seller
+					owner.top_overlord = scope:alaska_seller
 				}
 			}
-			s:STATE_ALASKA.region_state:RAC = {
-				set_state_owner = c:USA
-			}
+			set_state_owner = scope:alaska_buyer
 		}
-		else = {
-			s:STATE_ALASKA.region_state:RUS = {
-				set_state_owner = c:USA
-			}
-		}
-
 		change_relations = {
-			country = c:RUS
+			country = scope:alaska_seller
 			value = 10
 		}
 	}
@@ -194,24 +174,7 @@ alaska.3 = {
 	}
 
 	immediate = {
-		c:RUS = {
-			save_scope_as = russia_scope
-		}
-		if = {
-			limit = {
-				c:RAC = {
-					owns_entire_state_region = STATE_ALASKA
-				}
-			}
-			s:STATE_ALASKA.region_state:RAC = {
-				save_scope_as = alaska_scope
-			}
-		}
-		else = {
-			s:STATE_ALASKA.region_state:RUS = {
-				save_scope_as = alaska_scope
-			}
-		}
+		# Scopes set in alaska.4
 	}
 
 	option = {
@@ -221,11 +184,19 @@ alaska.3 = {
 			add_claim = ROOT
 		}
 		change_relations = {
-			country = c:RUS
+			country = scope:alaska_seller
 			value = -20
 		}
-        add_journal_entry = {
+		add_journal_entry = {
 			type = je_alaska
+		}
+	}
+	option = {
+		name = alaska.3.b
+		default_option = yes
+		change_relations = {
+			country = scope:alaska_seller
+			value = -5
 		}
 	}
 }
@@ -253,22 +224,23 @@ alaska.4 = {
 	}
 
 	immediate = {
-		c:RUS = {
-			save_scope_as = russia_scope
+		root = {
+			save_scope_as = alaska_buyer
 		}
-		if = {
+		random_state = {
 			limit = {
-				c:RAC = {
-					owns_entire_state_region = STATE_ALASKA
+				state_region = s:STATE_ALASKA
+				owner = {
+					NOT = {
+						is_country_type = decentralized
+					}
 				}
 			}
-			s:STATE_ALASKA.region_state:RAC = {
-				save_scope_as = alaska_scope
-			}
-		}
-		else = {
-			s:STATE_ALASKA.region_state:RUS = {
-				save_scope_as = alaska_scope
+			save_scope_as = alaska_scope
+			owner = {
+				top_overlord = {
+					save_scope_as = alaska_seller
+			    }
 			}
 		}
 	}
@@ -279,7 +251,7 @@ alaska.4 = {
 			base = 1
 		}
 		custom_tooltip = alaska.4.tt1 # 3 million over a year
-		c:RUS = {
+		scope:alaska_seller = {
 			trigger_event = {
 				id = alaska.1
 				days = 0
@@ -293,6 +265,8 @@ alaska.4 = {
 		ai_chance = {
 			base = 0
 		}
-		remove_variable = alaska_purchase_var
+		scope:alaska_seller = {
+			post_notification = alaska_negotiations_fail
+		}
 	}
 }

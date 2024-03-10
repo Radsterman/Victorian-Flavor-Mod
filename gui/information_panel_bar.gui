@@ -13,12 +13,11 @@
 @culture_position = 350
 @population_position = 390
 @journal_position = 430
-@outliner_position = 530
 @companies_position = 470
 
 @spacing_widget_2_position = 510
 
-@maplist_position = 600
+@maplist_position = 530
 @vfm_position = 640
 
 types information_panel_bar_types {
@@ -133,9 +132,24 @@ types information_panel_bar_types {
 						onclick = "[InformationPanelBar.OpenPanelCycleTabs('politics', 'default|interest_groups|laws|institutions')]"
 						onclick = "[GetVariableSystem.Clear('politics_overview_exile_pool')]"
 
+						### DEFAULT LAW ENACTMENT PROGRESS
 						animated_progresspie = {
+							visible = "[Not(LessThan_int32(GetPlayer.GetGovernmentLegitimacy, '(int32)25'))]"
 							parentanchor = center
 							texture = "gfx/interface/main_hud/sidebar_progress.dds"
+							size = { 100% 100% }
+							framesize = { 100 100 }
+							frame = 2
+							datacontext = "[GetPlayer.GetLawBeingEnacted]"
+							value = "[FixedPointToFloat(GetPlayer.GetLawEnactmentProgress)]"
+							alwaystransparent = yes
+						}
+
+						### IF ILLEGITMATE GOVERNMENT - RED PROGRESS
+						animated_progresspie = {
+							visible = "[LessThan_int32(GetPlayer.GetGovernmentLegitimacy, '(int32)25')]"
+							parentanchor = center
+							texture = "gfx/interface/main_hud/sidebar_progress_red.dds"
 							size = { 100% 100% }
 							framesize = { 100 100 }
 							frame = 2
@@ -585,46 +599,6 @@ types information_panel_bar_types {
 					position = { 0 @journal_position }
 					tooltip = "BUTTON_JOURNAL"
 					input_action = "open_journal"
-				}
-
-				### OUTLINER
-				sidebar_label_button_small = {
-					enabled = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
-					position = { -100 @outliner_position }
-					blockoverride "onclick" {
-						onclick = "[InformationPanelBar.OpenPanel('outliner')]"
-						input_action = "open_outliner"
-					}
-				}
-
-				sidebar_label_text_small = {
-					position = { -100 @outliner_position }
-					text = "OUTLINER"
-				}
-				widget = {
-					enabled = "[GetMetaPlayer.GetPlayedOrObservedCountry.IsValid]"
-					name = "tutorial_highlight_outliner"
-					position = { 0 @outliner_position }
-					using = clickthrough_blocker
-					using = sidebar_button_size_small
-					using = selected_sidepanel_animation_small
-					blockoverride "selected_visibility" {
-						visible = "[InformationPanelBar.IsPanelOpen('outliner')]"
-					}
-					sidepanel_button_small = {
-						blockoverride "icon" {
-							texture = "gfx/interface/main_hud/outliner_btn.dds"
-						}
-						blockoverride "button_selected" {
-							visible = "[InformationPanelBar.IsPanelOpen('outliner')]"
-						}
-						onclick = "[InformationPanelBar.OpenPanel('outliner')]"
-					}
-				}
-				sidebar_tooltip_area_small = {
-					position = { 0 @outliner_position }
-					tooltip = "OUTLINER_TOOLTIP"
-					input_action = "open_outliner"
 				}
 
 				#widget needed to prevent you from clicking on the map
