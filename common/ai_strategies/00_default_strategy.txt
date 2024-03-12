@@ -115,7 +115,7 @@ ai_strategy_default = {
 				    		type = rivalry
 				        }
 			}
-			subtract = 15
+			subtract = 25
 		}
 		
 		#if = {
@@ -918,7 +918,7 @@ ai_strategy_default = {
 						}
 					}
 				}
-				add = 50
+				add = 70
 			}
 			
 			if = {
@@ -934,38 +934,7 @@ ai_strategy_default = {
 						}
 					}
 				}
-				add = 80
-			}
-
-			if = {
-				limit = {
-					has_journal_entry = je_manifest_destiny_mexico
-					scope:target_state = {
-						OR = {
-							state_region = s:STATE_CALIFORNIA
-							state_region = s:STATE_NEVADA
-							state_region = s:STATE_UTAH
-							state_region = s:STATE_ARIZONA
-							state_region = s:STATE_NEW_MEXICO
-						}
-					}
-				}
-				add = 45
-			}
-
-			if = {
-				limit = {
-					has_journal_entry = je_manifest_destiny_mexico
-					scope:target_state = {
-						OR = {
-							state_region = s:STATE_BAJA_CALIFORNIA
-							state_region = s:STATE_SONORA
-							state_region = s:STATE_CHIHUAHUA
-							state_region = s:STATE_RIO_GRANDE
-						}
-					}
-				}
-				add = 25
+				add = 90
 			}
 
 			if = {
@@ -2004,12 +1973,16 @@ ai_strategy_default = {
 							state_region = s:STATE_ARIZONA
 							state_region = s:STATE_NEW_MEXICO
 							state_region = s:STATE_TEXAS
+							state_region = s:STATE_WYOMING
+							state_region = s:STATE_COLORADO
+							state_region = s:STATE_OKLAHOMA
+							state_region = s:STATE_KANSAS
 						}
 					}
 				}
 			}
 			add = 2
-		}		
+		}	
 
 		# Ethiopian Thunderdome
 		if = {
@@ -4810,7 +4783,8 @@ ai_strategy_default = {
 				}
 				add = 1000
 			}
-
+            
+			if = {
 				limit = {
 					scope:target_country = {
 						is_revolutionary = yes
@@ -5246,7 +5220,6 @@ ai_strategy_default = {
 			if = {
 				limit = {
 					has_journal_entry = je_conquest_of_algeria
-					game_date < 1839.6.1
 					has_strategic_adjacency = scope:target_country
 					scope:target_country = {
 						any_scope_state = {
@@ -5267,22 +5240,47 @@ ai_strategy_default = {
 			if = { # this could be needed, ai just stops seeing conquer values at some point in Algeria...
 				limit = {
 					has_journal_entry = je_conquest_of_algeria
-					game_date > 1840.6.1
-					scope:target_country = {
-						any_scope_state = {
-							OR = {
-								state_region = s:STATE_TLEMCEN
-								state_region = s:STATE_ALGIERS
-								state_region = s:STATE_CONSTANTINE
-								state_region = s:STATE_TOUGGOURT
-								state_region = s:STATE_GHARDAIA
-								state_region = s:STATE_SAHARA
-								state_region = s:STATE_EAST_SAHARA
+					game_date > 1839.6.1
+					OR = {
+					    AND = {	
+							exists = c:ZWA
+							scope:target_country = {
+								this = c:ZWA
+							}
+						}
+						AND = {	
+							exists = c:MAS
+							scope:target_country = {
+								this = c:MAS
+							}
+						}
+						AND = {	
+							exists = c:TUG
+							scope:target_country = {
+								this = c:TUG
+							}
+						}
+						AND = {	
+							exists = c:CON
+							scope:target_country = {
+								this = c:CON
+							}
+						}
+						AND = {	
+							exists = c:AIT
+							scope:target_country = {
+								this = c:AIT
+							}
+						}
+						AND = {	
+							exists = c:OSC
+							scope:target_country = {
+								this = c:OSC
 							}
 						}
 					}
 				}
-				add = 600
+				add = 300
 			}
 			
 			if = {
