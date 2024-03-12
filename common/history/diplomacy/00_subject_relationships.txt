@@ -219,6 +219,10 @@
 			country = c:FIN
 			type = real_union
 		}
+		if = {
+			limit = {
+				NOT = { has_game_rule = no_baltic_subjects }
+			}
 		create_diplomatic_pact = {
 			country = c:CRL
 			type = dependency
@@ -230,6 +234,7 @@
 		create_diplomatic_pact = {
 			country = c:EST
 			type = dependency
+		}
 		}
 		if = {
 			limit = {
@@ -244,6 +249,10 @@
 				type = real_union
 			}
 		}
+		if = {
+			limit = {
+				NOT = { has_game_rule = no_caucasus_subjects }
+			}
 		create_diplomatic_pact = {
 			country = c:CAU
 			type = dependency
@@ -259,6 +268,7 @@
 		create_diplomatic_pact = {
 			country = c:SVA
 			type = protectorate
+		}
 		}
 		create_diplomatic_pact = {
 			country = c:RAC
@@ -288,9 +298,28 @@
 			country = c:HOH
 			type = puppet
 		}
-		create_diplomatic_pact = {
-			country = c:HHN
-			type = puppet
+		if = {
+			limit = {
+				NOT = { has_game_rule = vanilla_german_minors }
+			}
+			create_diplomatic_pact = {
+				country = c:HHN
+				type = puppet
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					OR = {
+						has_game_rule = no_vfm_starting_countries
+						has_game_rule = no_confederations
+					}
+			    }
+			}
+			create_diplomatic_pact = {
+				country = c:NTL
+				type = personal_union
+		    }
 		}
 		if = {
 			limit = {
@@ -304,10 +333,6 @@
 				type = dependency
 			}
 		}
-		create_diplomatic_pact = {
-			country = c:NTL
-			type = personal_union
-		}
 	}		
 	c:DEN = {
 		create_diplomatic_pact = {
@@ -318,9 +343,14 @@
 			country = c:SCH
 			type = personal_union
 		}
-		create_diplomatic_pact = {
-			country = c:LAU
-			type = personal_union
+		if = {
+			limit = {
+				NOT = { has_game_rule = vanilla_german_minors }
+			}
+			create_diplomatic_pact = {
+				country = c:LAU
+				type = personal_union
+			}
 		}
 		create_diplomatic_pact = {
 			country = c:RGT
@@ -607,6 +637,10 @@
 			country = c:TUN
 			type = protectorate
 		}
+		if = {
+		limit = {
+			NOT = { has_game_rule = no_ottoman_subjects }
+		}
 		create_diplomatic_pact = {
 			country = c:BAY
 			type = protectorate
@@ -666,6 +700,7 @@
 		create_diplomatic_pact = {
 			country = c:KUW
 			type = protectorate
+		}
 		}
 	}
 	c:BIC = {
@@ -782,12 +817,6 @@
 			type = puppet
 		}
 	}
-	c:PAN = {
-		create_diplomatic_pact = {
-			country = c:CHB
-			type = tributary
-		}
-	}
 	c:DEI = {
 		create_diplomatic_pact = {
 			country = c:YOG
@@ -859,22 +888,27 @@
 		}
 	}
 	c:PER = {
-		create_diplomatic_pact = {
-			country = c:ARD
-			type = tributary
-		}
-		create_diplomatic_pact = {
-			country = c:JEL
-			type = tributary
-		}
-		create_diplomatic_pact = {
-			country = c:SHZ
-			type = tributary
-		}
-		create_diplomatic_pact = {
-			country = c:MUK
-			type = tributary
-		}	
+        if = {
+			limit = {
+				NOT = { has_game_rule = no_ottoman_subjects }
+			}	    
+			create_diplomatic_pact = {
+				country = c:ARD
+				type = tributary
+			}
+			create_diplomatic_pact = {
+				country = c:JEL
+				type = tributary
+			}
+			create_diplomatic_pact = {
+				country = c:SHZ
+				type = tributary
+			}
+			create_diplomatic_pact = {
+				country = c:MUK
+				type = tributary
+			}
+        }		
 		#create_diplomatic_pact = {
 		#	country = c:ARB
 		#	type = tributary
@@ -911,13 +945,6 @@
 		create_diplomatic_pact = {
 			country = c:BLG
 			type = vassal
-		}
-	}
-
-	c:SOK = {
-		create_diplomatic_pact = {
-			country = c:ADW
-			type = tributary
 		}
 	}
 	
