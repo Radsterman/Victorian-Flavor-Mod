@@ -75,12 +75,73 @@
 je_prussian_guard = {
 	icon = "gfx/interface/icons/event_icons/event_military.dds"
     group = je_group_internal_affairs
-	complete = {
-	    ig:ig_armed_forces = {
-			is_powerful = yes
+	
+	immediate = {
+		set_variable = {
+			name = pru_months_counter
+			value = 0
 		}
-		army_size >= 150 # TODO
-		NOT = {
+	}
+	on_monthly_pulse = {
+	    if = { 
+	    limit = {
+	        ig:ig_armed_forces = {
+			    OR = {
+				    is_powerful = yes
+				    is_in_government = yes
+			    }
+		    }
+		    army_size >= 120
+		    NOR = {
+		    	any_scope_building = {
+		    		is_building_type = building_barracks				
+		    		OR = {
+			    		building_has_goods_shortage = yes
+		    			has_active_production_method = pm_no_organization
+		    		}
+		    	}
+			    any_military_formation = {
+			    	filter = {
+			    		is_army = yes
+			    	}
+			    	any_combat_unit = {
+			    	    OR = {
+			    		has_unit_type = unit_type:combat_unit_type_irregular_infantry
+			    		has_unit_type = unit_type:combat_unit_type_line_infantry
+			    		}
+			    	}
+			    	percent >= 0.5
+		    	}
+	    	}
+		}
+		change_variable = {
+			name = pru_months_counter
+			add = 1
+		}
+		}
+	}
+	
+	
+	complete = {
+	    custom_tooltip = {
+			text = je_prussian_guard_tt
+			scope:journal_entry = { is_goal_complete = yes }
+		}
+	    ig:ig_armed_forces = {
+		    OR = {
+				is_powerful = yes
+				is_in_government = yes
+			}
+		}
+		army_size >= 120 #
+		NOR = {
+			any_scope_building = {
+				is_building_type = building_barracks				
+				OR = {
+					building_has_goods_shortage = yes
+					has_active_production_method = pm_no_organization
+				}
+			}
 			any_military_formation = {
 				filter = {
 					is_army = yes
@@ -91,7 +152,7 @@ je_prussian_guard = {
 					has_unit_type = unit_type:combat_unit_type_line_infantry
 					}
 				}
-				percent >= 0.25
+				percent >= 0.5
 			}
 		}
 	}
@@ -107,6 +168,15 @@ je_prussian_guard = {
 	}
 	
 	timeout = 7000
+	
+	current_value = {
+		value = var:pru_months_counter
+	}
+	goal_add_value = {
+		add = 24
+	}
+	
+	progressbar = yes
 
 	weight = 50
 }
