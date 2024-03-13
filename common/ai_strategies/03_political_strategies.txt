@@ -4,11 +4,7 @@
 	type = political
 	
 	revolution_aversion = {
-		value = 35 #vfm 1/2 of vanilla 1.5
-		if = {
-			limit = { is_subject = yes }
-			multiply = 1.5
-		}
+		value = 75
 	}
 	
 	min_law_chance_to_pass = {
@@ -34,10 +30,18 @@
 	
 	max_progressiveness = {
 		value = 50
+		if = {
+			limit = { any_interest_group = { is_insurrectionary = yes is_powerful = yes } }
+			multiply = 1.5
+		}
 	}
 	
 	max_regressiveness = {
 		value = 25
+		if = {
+			limit = { any_interest_group = { is_insurrectionary = yes is_powerful = yes } }
+			multiply = 1.5
+		}
 	}
 	
 	change_law_chance = { 
@@ -45,6 +49,20 @@
 		
 		if = {
 			limit = { any_interest_group = { is_insurrectionary = yes } }
+			add = 7.5
+		}
+		
+		if = {
+			limit = { any_interest_group = { is_insurrectionary = yes is_powerful = yes } }
+			add = 7.5
+		}
+		
+		if = {
+			limit = { 
+			    any_political_movement = {
+					political_movement_radicalism >= 70
+				}
+			}
 			add = 7.5
 		}
 
@@ -124,6 +142,7 @@
 			}
 			multiply = 0.25
 		}	
+		
 	}
 }
 
@@ -131,11 +150,7 @@ ai_strategy_reactionary_agenda = {
 	icon = "gfx/interface/icons/ai_strategy_icons/reactionary_agenda.dds"
 	
 	revolution_aversion = {
-		value = 25 #vfm half of vanilla 1.5
-		if = {
-			limit = { is_subject = yes }
-			multiply = 1.5
-		}
+		value = 50
 	}
 	
 	min_law_chance_to_pass = {
@@ -161,6 +176,10 @@ ai_strategy_reactionary_agenda = {
 	
 	max_progressiveness = {
 		value = 25
+		if = {
+			limit = { any_interest_group = { is_insurrectionary = yes is_powerful = yes } }
+			multiply = 1.5
+		}
 	}
 	
 	max_regressiveness = {
@@ -172,13 +191,27 @@ ai_strategy_reactionary_agenda = {
 		
 		if = {
 			limit = { any_interest_group = { is_insurrectionary = yes } }
-			add = 1.5
+			add = 2.5
+		}
+		
+		if = {
+			limit = { any_interest_group = { is_insurrectionary = yes is_powerful = yes } }
+			add = 2.5
+		}
+		
+		if = {
+			limit = { 
+			    any_political_movement = {
+					political_movement_radicalism >= 70
+				}
+			}
+			add = 2.5
 		}
 
 		if = {
 			limit = { has_journal_entry = je_government_petition  }
 			add = 10
-		}				
+		}			
 	}	
 	
 	type = political
@@ -288,14 +321,14 @@ ai_strategy_reactionary_agenda = {
 			}
 			
 			add = 1000
-		}
-
-        if = {
+		}	
+		
+		if = {
 			limit = {
 				has_law = law_type:law_council_republic	
 			}
 			multiply = 0.25
-		}			
+		}					
 	}
 }
 
@@ -305,11 +338,7 @@ ai_strategy_progressive_agenda = {
 	type = political
 	
 	revolution_aversion = {
-		value = 25 #vfm half of vanilla 1.5
-		if = {
-			limit = { is_subject = yes }
-			multiply = 1.5
-		}
+		value = 50
 	}
 	
 	min_law_chance_to_pass = {
@@ -339,6 +368,10 @@ ai_strategy_progressive_agenda = {
 	
 	max_regressiveness = {
 		value = 25
+		if = {
+			limit = { any_interest_group = { is_insurrectionary = yes is_powerful = yes } }
+			multiply = 1.5
+		}
 	}
 	
 	change_law_chance = { 
@@ -346,6 +379,20 @@ ai_strategy_progressive_agenda = {
 		
 		if = {
 			limit = { any_interest_group = { is_insurrectionary = yes } }
+			add = 10
+		}
+		
+		if = {
+			limit = { any_interest_group = { is_insurrectionary = yes is_powerful = yes } }
+			add = 10
+		}
+		
+		if = {
+			limit = { 
+			    any_political_movement = {
+					political_movement_radicalism >= 70
+				}
+			}
 			add = 10
 		}	
 
@@ -448,10 +495,7 @@ ai_strategy_progressive_agenda = {
 
 		if = {
 			limit = {
-				OR = {
-					has_variable = japan_forced_to_open_market
-					has_variable = gwangmu_reforms_var
-                }
+				has_variable = japan_forced_to_open_market
 			}
 			add = 1000
 		}
@@ -483,11 +527,7 @@ ai_strategy_egalitarian_agenda = {
 	type = political
 	
 	revolution_aversion = {
-		value = 12 #vfm half of vanilla 1.5
-		if = {
-			limit = { is_subject = yes }
-			multiply = 2.0
-		}
+		value = 25
 	}
 	
 	min_law_chance_to_pass = {
@@ -517,6 +557,10 @@ ai_strategy_egalitarian_agenda = {
 	
 	max_regressiveness = {
 		value = 0
+		if = {
+			limit = { any_interest_group = { is_insurrectionary = yes is_powerful = yes } }
+			add = 25
+		}
 	}
 
 	change_law_chance = { 
@@ -524,6 +568,20 @@ ai_strategy_egalitarian_agenda = {
 		
 		if = {
 			limit = { any_interest_group = { is_insurrectionary = yes } }
+			add = 5
+		}
+		
+		if = {
+			limit = { any_interest_group = { is_insurrectionary = yes is_powerful = yes } }
+			add = 5
+		}
+		
+		if = {
+			limit = { 
+			    any_political_movement = {
+					political_movement_radicalism >= 70
+				}
+			}
 			add = 5
 		}	
 
@@ -624,13 +682,13 @@ ai_strategy_egalitarian_agenda = {
 			}
 			
 			add = 1000
-		}
-
-        if = {
+		}	
+		
+		if = {
 			limit = {
 				has_law = law_type:law_council_republic	
 			}
-			add = 150
+			add = 250
 		}			
 	}
 }
@@ -641,11 +699,7 @@ ai_strategy_nationalist_agenda = {
 	type = political
 	
 	revolution_aversion = {
-		value = 17 #vfm half of vanilla 1.5
-		if = {
-			limit = { is_subject = yes }
-			multiply = 1.75
-		}
+		value = 35
 	}
 	
 	min_law_chance_to_pass = {
@@ -671,10 +725,18 @@ ai_strategy_nationalist_agenda = {
 	
 	max_progressiveness = {
 		value = 50
+		if = {
+			limit = { any_interest_group = { is_insurrectionary = yes is_powerful = yes } }
+			multiply = 1.5
+		}
 	}
 	
 	max_regressiveness = {
 		value = 50
+		if = {
+			limit = { any_interest_group = { is_insurrectionary = yes is_powerful = yes } }
+			multiply = 1.5
+		}
 	}
 	
 	change_law_chance = { 
@@ -682,6 +744,20 @@ ai_strategy_nationalist_agenda = {
 		
 		if = {
 			limit = { any_interest_group = { is_insurrectionary = yes } }
+			add = 10
+		}
+		
+		if = {
+			limit = { any_interest_group = { is_insurrectionary = yes is_powerful = yes } }
+			add = 10
+		}
+		
+		if = {
+			limit = { 
+			    any_political_movement = {
+					political_movement_radicalism >= 70
+				}
+			}
 			add = 10
 		}
 
@@ -807,7 +883,7 @@ ai_strategy_maintain_mandate_of_heaven = {
 	type = political
 
 	revolution_aversion = {
-		value = 60 #vfm 1/2 of vanilla 1.5
+		value = 100
 	}
 	
 	min_law_chance_to_pass = {
@@ -833,18 +909,45 @@ ai_strategy_maintain_mandate_of_heaven = {
 	
 	max_progressiveness = {
 		value = 25
+		if = {
+			limit = { any_interest_group = { is_insurrectionary = yes is_powerful = yes } }
+			multiply = 2
+		}
 	}
 	
 	max_regressiveness = {
 		value = 2
+		if = {
+			limit = { any_interest_group = { is_insurrectionary = yes is_powerful = yes } }
+			add = 25
+		}
 	}
 	
 	change_law_chance = { 
 		value = 1
 		
 		if = {
+			limit = { any_interest_group = { is_insurrectionary = yes } }
+			add = 3
+		}
+		
+		if = {
+			limit = { any_interest_group = { is_insurrectionary = yes is_powerful = yes } }
+			add = 3
+		}
+		
+		if = {
+			limit = { 
+			    any_political_movement = {
+					political_movement_radicalism >= 70
+				}
+			}
+			add = 3
+		}
+		
+		if = {
 			limit = { has_journal_entry = je_government_petition  }
-			add = 8
+			add = 10
 		}		
 	}	
 
