@@ -115,7 +115,10 @@ coa_fascist_trigger = {
 	coa_dictatorship_trigger = yes
 	any_scope_character = {
 		is_ruler = yes
-		has_ideology = ideology:ideology_fascist
+		OR = {
+			has_ideology = ideology:ideology_fascist
+			has_ideology = ideology:ideology_integralist
+		}
     }
 }
 
@@ -143,12 +146,12 @@ coa_secessionist_or_revolutionary_trigger = {
 
 coa_def_independent_trigger = {
 	exists = scope:actor
-	scope:actor = { is_subject = no }
+	scope:actor ?= { is_subject = no }
 }
 
 coa_def_subject_trigger = {
 	exists = scope:actor
-	scope:actor = { is_subject = yes }
+	scope:actor ?= { is_subject = yes }
 }
 
 coa_def_lesser_subject_trigger = {
@@ -156,7 +159,7 @@ coa_def_lesser_subject_trigger = {
 		NOT = { exists = scope:actor }
 		AND = {
 			exists = scope:actor
-			scope:actor = { 
+			scope:actor ?= { 
 				OR = {
 					is_subject_type = subject_type_puppet
 					is_subject_type = subject_type_vassal
@@ -171,82 +174,82 @@ coa_def_lesser_subject_trigger = {
 
 coa_def_monarchy_flag_trigger = {
 	exists = scope:actor
-	scope:actor = { coa_monarchy_trigger = yes }
+	scope:actor ?= { coa_monarchy_trigger = yes }
 }
 
 coa_def_absolute_monarchy_flag_trigger = {
 	exists = scope:actor
-	scope:actor = { coa_absolute_monarchy_trigger = yes }
+	scope:actor ?= { coa_absolute_monarchy_trigger = yes }
 }
 
 coa_def_undemocratic_monarchy_flag_trigger = {
 	exists = scope:actor
-	scope:actor = { coa_undemocratic_monarchy_trigger = yes }
+	scope:actor ?= { coa_undemocratic_monarchy_trigger = yes }
 }
 
 coa_def_republic_flag_trigger = {
 	exists = scope:actor
-	scope:actor = { coa_republic_trigger = yes }
+	scope:actor ?= { coa_republic_trigger = yes }
 }
 
 coa_def_theocracy_flag_trigger = {
 	exists = scope:actor
-	scope:actor = { coa_theocracy_trigger = yes }
+	scope:actor ?= { coa_theocracy_trigger = yes }
 }
 
 coa_def_multicultural_trigger = {
 	exists = scope:actor
-	scope:actor = { coa_multicultural_trigger = yes }
+	scope:actor ?= { coa_multicultural_trigger = yes }
 }
 
 coa_def_autocracy_flag_trigger = {
 	exists = scope:actor
-	scope:actor = { coa_autocracy_trigger = yes }
+	scope:actor ?= { coa_autocracy_trigger = yes }
 }
 
 coa_def_communist_flag_trigger = {
 	exists = scope:actor
-	scope:actor = { coa_communist_trigger = yes }
+	scope:actor ?= { coa_communist_trigger = yes }
 }
 
 coa_def_anarchy_flag_trigger = {
 	exists = scope:actor
-	scope:actor = { coa_anarchy_trigger = yes }
+	scope:actor ?= { coa_anarchy_trigger = yes }
 }
 
 coa_def_dictatorship_flag_trigger = {
 	exists = scope:actor
-	scope:actor = { coa_dictatorship_trigger = yes }
+	scope:actor ?= { coa_dictatorship_trigger = yes }
 }
 
 coa_def_oligarchy_flag_trigger = {
 	exists = scope:actor
-	scope:actor = { coa_oligarchy_trigger = yes }
+	scope:actor ?= { coa_oligarchy_trigger = yes }
 }
 
 coa_def_state_religion_flag_trigger = {
 	exists = scope:actor
-	scope:actor = { has_law = law_type:law_state_religion }
+	scope:actor ?= { has_law = law_type:law_state_religion }
 }
 
 coa_def_egalitarian_flag_trigger = {
 	exists = scope:actor
-	scope:actor = { has_law = law_type:law_multicultural }
+	scope:actor ?= { has_law = law_type:law_multicultural }
 }
 
 coa_def_military_junta_flag_trigger = {
 	exists = scope:actor
-	scope:actor = { coa_military_trigger = yes }
+	scope:actor ?= { coa_military_trigger = yes }
 }
 
 coa_def_fascist_flag_trigger = {
 	exists = scope:actor
-	scope:actor = { coa_fascist_trigger = yes }
+	scope:actor ?= { coa_fascist_trigger = yes }
 }
 
 coa_def_nihilist_flag_trigger = {
 	exists = scope:actor
-	scope:actor = { coa_nihilist_trigger = yes }
+	scope:actor ?= { coa_nihilist_trigger = yes }
 }
 
 # Overlord
@@ -254,10 +257,10 @@ coa_def_nihilist_flag_trigger = {
 coa_def_ensign_trigger = {
 	NOT = { has_game_rule = no_subject_flags }
 	exists = scope:overlord
-	scope:overlord = {
+	scope:overlord ?= {
 		OR = {
 			this = scope:custom_overlord
-			any_overlord_or_above = {
+			any_overlord_or_above ?= {
 				this = scope:custom_overlord
 			} 
 		}
@@ -266,7 +269,7 @@ coa_def_ensign_trigger = {
 
 coa_def_american_ensign_trigger = {
 	exists = c:USA
-	c:USA = { save_temporary_scope_as = custom_overlord }
+	c:USA ?= { save_temporary_scope_as = custom_overlord }
 	coa_def_ensign_trigger = yes
 }
 
@@ -274,12 +277,12 @@ coa_def_british_ensign_trigger = {
 	OR = {
 		AND = {
 			exists = c:GBR
-			c:GBR = { save_temporary_scope_as = custom_overlord }
+			c:GBR ?= { save_temporary_scope_as = custom_overlord }
 			coa_def_ensign_trigger = yes
 		}
 		AND = {
 			exists = c:ENG
-			c:ENG = { save_temporary_scope_as = custom_overlord }
+			c:ENG ?= { save_temporary_scope_as = custom_overlord }
 			coa_def_ensign_trigger = yes
 		}
 	}
@@ -287,55 +290,55 @@ coa_def_british_ensign_trigger = {
 
 coa_def_british_india_trigger = {
 	exists = c:BIC
-	c:BIC = { save_temporary_scope_as = custom_overlord }
+	c:BIC ?= { save_temporary_scope_as = custom_overlord }
 	coa_def_ensign_trigger = yes
 }
 
 coa_def_finnish_ensign_trigger = {
 	exists = c:FIN
-	c:FIN = { save_temporary_scope_as = custom_overlord }
+	c:FIN ?= { save_temporary_scope_as = custom_overlord }
 	coa_def_ensign_trigger = yes
 }
 
 coa_def_french_ensign_trigger = {
 	exists = c:FRA
-	c:FRA = { save_temporary_scope_as = custom_overlord }
+	c:FRA ?= { save_temporary_scope_as = custom_overlord }
 	coa_def_ensign_trigger = yes
 }
 
 coa_def_german_ensign_trigger = {
 	exists = c:GER
-	c:GER = { save_temporary_scope_as = custom_overlord }
+	c:GER ?= { save_temporary_scope_as = custom_overlord }
 	coa_def_ensign_trigger = yes
 }
 
 coa_def_prussian_ensign_trigger = {
 	exists = c:PRU
-	c:PRU = { save_temporary_scope_as = custom_overlord }
+	c:PRU ?= { save_temporary_scope_as = custom_overlord }
 	coa_def_ensign_trigger = yes
 }
 
 coa_def_spanish_ensign_trigger = {
 	exists = c:SPA
-	c:SPA = { save_temporary_scope_as = custom_overlord }
+	c:SPA ?= { save_temporary_scope_as = custom_overlord }
 	coa_def_ensign_trigger = yes
 }
 
 coa_def_mexican_ensign_trigger = {
 	exists = c:MEX
-	c:MEX = { save_temporary_scope_as = custom_overlord }
+	c:MEX ?= { save_temporary_scope_as = custom_overlord }
 	coa_def_ensign_trigger = yes
 }
 
 coa_def_swedish_ensign_trigger = {
 	exists = c:SWE
-	c:SWE = { save_temporary_scope_as = custom_overlord }
+	c:SWE ?= { save_temporary_scope_as = custom_overlord }
 	coa_def_ensign_trigger = yes
 }
 
 coa_def_danish_ensign_trigger = {
 	exists = c:DEN
-	c:DEN = { save_temporary_scope_as = custom_overlord }
+	c:DEN ?= { save_temporary_scope_as = custom_overlord }
 	coa_def_ensign_trigger = yes
 }
 
@@ -343,8 +346,8 @@ coa_def_dominant_scotland_trigger = {
 	OR = {
 		AND = {
 			exists = scope:actor
-			scope:actor = {
-				capital = {
+			scope:actor ?= {
+				capital ?= {
 					state_region = {
 						OR = {
 							this = s:STATE_LOWLANDS
@@ -356,7 +359,7 @@ coa_def_dominant_scotland_trigger = {
 		}
 		AND = {
 			exists = c:SCO
-			c:SCO = { save_temporary_scope_as = custom_overlord }
+			c:SCO ?= { save_temporary_scope_as = custom_overlord }
 			coa_def_ensign_trigger = yes
 		}		
 	}
@@ -364,43 +367,43 @@ coa_def_dominant_scotland_trigger = {
 
 coa_def_turkish_ensign_trigger = {
 	exists = c:TUR
-	c:TUR = { save_temporary_scope_as = custom_overlord }
+	c:TUR ?= { save_temporary_scope_as = custom_overlord }
 	coa_def_ensign_trigger = yes
 }
 
 coa_def_chinese_ensign_trigger = {
 	exists = c:CHI
-	c:CHI = { save_temporary_scope_as = custom_overlord }
+	c:CHI ?= { save_temporary_scope_as = custom_overlord }
 	coa_def_ensign_trigger = yes
 }
 
 coa_def_siam_ensign_trigger = {
 	exists = c:SIA
-	c:SIA = { save_temporary_scope_as = custom_overlord }
+	c:SIA ?= { save_temporary_scope_as = custom_overlord }
 	coa_def_ensign_trigger = yes
 }
 
 coa_def_russian_ensign_trigger = {
 	exists = c:RUS
-	c:RUS = { save_temporary_scope_as = custom_overlord }
+	c:RUS ?= { save_temporary_scope_as = custom_overlord }
 	coa_def_ensign_trigger = yes
 }
 
 coa_def_austrian_ensign_trigger = {
 	exists = c:AUS
-	c:AUS = { save_temporary_scope_as = custom_overlord }
+	c:AUS ?= { save_temporary_scope_as = custom_overlord }
 	coa_def_ensign_trigger = yes
 }
 
 coa_def_brazilian_ensign_trigger = {
 	exists = c:BRZ
-	c:BRZ = { save_temporary_scope_as = custom_overlord }
+	c:BRZ ?= { save_temporary_scope_as = custom_overlord }
 	coa_def_ensign_trigger = yes
 }
 
 coa_def_netherlands_ensign_trigger = {
 	exists = c:NET
-	c:NET = { save_temporary_scope_as = custom_overlord }
+	c:NET ?= { save_temporary_scope_as = custom_overlord }
 	coa_def_ensign_trigger = yes
 }
 
@@ -510,14 +513,14 @@ coa_def_hispanic_american_trigger = {
 
 coa_SWE_use_norway_canton_trigger = {
 	exists = c:NOR
-	c:NOR = { 
+	c:NOR ?= { 
 		is_subject_of = scope:target
 	}
 }
 
 coa_SWE_use_union_mark_flag_trigger = {
 	NOT = { exists = c:NOR }
-	scope:actor = {
+	scope:actor ?= {
 		any_scope_state = {
 			state_region = {
 				is_homeland = norwegian
@@ -532,7 +535,7 @@ coa_SWE_use_union_mark_canton_trigger = {
 
 coa_SWE_karl_johan_is_king_trigger = {
 	exists = c:SWE
-	c:SWE = {
+	c:SWE ?= {
 		NOT = {
 			ruler = {
 				has_variable = is_johan
@@ -543,7 +546,7 @@ coa_SWE_karl_johan_is_king_trigger = {
 
 coa_def_controls_part_of_ireland = {
 	exists = scope:actor
-	scope:actor = {
+	scope:actor ?= {
 		OR = {
 			coa_controls_part_of_ireland = yes
 			any_subject_or_below = {
@@ -555,7 +558,7 @@ coa_def_controls_part_of_ireland = {
 
 coa_def_controls_part_of_france = {
 	exists = scope:actor
-	scope:actor = {
+	scope:actor ?= {
 		OR = {
 			coa_controls_part_of_france = yes
 			any_subject_or_below = {
@@ -567,34 +570,34 @@ coa_def_controls_part_of_france = {
 
 coa_def_war_trigger = {
 	exists = scope:actor
-	scope:actor = {
+	scope:actor ?= {
 		is_at_war = yes
 	}
 }
 coa_def_secessionist_or_revolutionary_trigger = {
 	exists = scope:target
-	scope:target = {
+	scope:target ?= {
 		coa_secessionist_or_revolutionary_trigger = yes
 	}
 }
 
 coa_def_secessionist_country_trigger = {
 	exists = scope:target
-	scope:target = {
+	scope:target ?= {
 		is_secessionist = yes
 	}
 }
 
 coa_def_catholic_trigger = {
 	exists = scope:target
-	scope:target = {
+	scope:target ?= {
 		country_has_state_religion = rel:catholic
 	}
 }
 
 coa_def_kalmar_flag_trigger = {
 	exists = scope:actor
-	scope:actor = {
+	scope:actor ?= {
 		has_law = law_type:law_monarchy
 		was_formed_from = DEN
 	}
