@@ -95,8 +95,49 @@ vfm_ai.1 = {
 	}
 }
 
-# 1839
+# 1838
 vfm_ai.2 = {
+	type = country_event
+	placement = root
+
+	hidden = yes
+
+	duration = 1
+
+	trigger = {
+	    c:PRU ?= this
+		is_ai = yes
+		game_date > 1837.7.1
+		game_date < 1838.12.1
+	}
+
+	immediate = {
+		
+		if = {
+			limit = {
+			    c:PRU ?= {
+					is_ai = yes
+				}
+			}
+			c:PRU = {
+				s:STATE_POMERANIA = {
+					random_scope_state = {
+						start_building_construction = building_port
+					}
+				}
+				s:STATE_WESTPHALIA = {
+					random_scope_state = {
+						start_building_construction = building_tooling_workshops
+						start_building_construction = building_livestock_ranch
+					}
+				}
+			}
+		}
+	}
+}
+
+# 1839
+vfm_ai.3 = {
 	type = country_event
 	placement = root
 
