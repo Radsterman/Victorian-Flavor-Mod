@@ -509,6 +509,20 @@ peru_bolivia_events.4 = {
 			name = modifier_against_the_confederation
 			months = short_modifier_time
 		}
+		hidden_effect = {
+			c:BOL ?= {
+				set_mutual_secret_goal = {
+					country = root
+					secret_goal = antagonize
+				}
+			    every_subject_or_below = { # Wants to assist the subjects in attaining independence
+			        set_mutual_secret_goal = {
+			        	country = root
+			        	secret_goal = befriend
+			        }
+			    }
+			}
+		}
 		if = { #Why? Because goal_add_value causes wonky things if we tie it directly to this variable. TODO revisit when support for a static target value in JEs.
 			limit = {
 				exists = global_var:peru_bolivia_var
@@ -526,6 +540,14 @@ peru_bolivia_events.4 = {
 			type = je_war_of_the_confederation
 		}
 		change_relations = { country = c:BOL value = 15 }
+		hidden_effect = {
+			c:BOL ?= {
+				set_mutual_secret_goal = {
+					country = root
+					secret_goal = befriend
+				}
+			}
+		}
 		if = {
 			limit = {
 				exists = global_var:peru_bolivia_var
