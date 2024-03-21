@@ -198,7 +198,7 @@ je_found_british_columbia_button = {
 				type = dependency
 			}
 		}
-		if = {
+		else_if = {
 			limit = {
 				has_state_in_state_region = STATE_BRITISH_COLUMBIA
 				NOT = {
@@ -208,10 +208,15 @@ je_found_british_columbia_button = {
 					}
 				}
 			}
+			s:STATE_BRITISH_COLUMBIA = {
+				random_scope_state = {
+					save_scope_as = bc_state_scope
+				}
+		    }
 			create_country = {
 				tag = COL
-				origin = root
-				state = s:STATE_BRITISH_COLUMBIA.region_state:root
+				origin = this
+				state = scope:bc_state_scope
 			}
 			create_diplomatic_pact = {
 				country = c:COL
