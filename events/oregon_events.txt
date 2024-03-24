@@ -29,14 +29,12 @@ oregon.2 = {
 					owner = {
 						OR = {
 							c:GBR = THIS
-							OR = {
-								is_subject_of = c:GBR
-								AND = {
-									is_subject_of = c:HBC
-									c:HBC = {
-										is_subject_of = c:GBR
-									}
+							is_subject_of = c:GBR
+							AND = {
+							    c:HBC ?= {
+									is_subject_of = c:GBR
 								}
+								is_subject_of = c:HBC
 							}
 						}
 					}
@@ -50,14 +48,12 @@ oregon.2 = {
 					owner = {
 						OR = {
 							c:GBR = THIS
-							OR = {
-								is_subject_of = c:GBR
-								AND = {
-									is_subject_of = c:HBC
-									c:HBC = {
-										is_subject_of = c:GBR
-									}
+							is_subject_of = c:GBR
+							AND = {
+							    c:HBC ?= {
+									is_subject_of = c:GBR
 								}
+								is_subject_of = c:HBC
 							}
 						}
 					}
@@ -71,14 +67,12 @@ oregon.2 = {
 					owner = {
 						OR = {
 							c:GBR = THIS
-							OR = {
-								is_subject_of = c:GBR
-								AND = {
-									is_subject_of = c:HBC
-									c:HBC = {
-										is_subject_of = c:GBR
-									}
+							is_subject_of = c:GBR
+							AND = {
+							    c:HBC ?= {
+									is_subject_of = c:GBR
 								}
+								is_subject_of = c:HBC
 							}
 						}
 					}
@@ -92,14 +86,12 @@ oregon.2 = {
 					owner = {
 						OR = {
 							c:GBR = THIS
-							OR = {
-								is_subject_of = c:GBR
-								AND = {
-									is_subject_of = c:HBC
-									c:HBC = {
-										is_subject_of = c:GBR
-									}
+							is_subject_of = c:GBR
+							AND = {
+							    c:HBC ?= {
+									is_subject_of = c:GBR
 								}
+								is_subject_of = c:HBC
 							}
 						}
 					}
@@ -113,14 +105,12 @@ oregon.2 = {
 					owner = {
 						OR = {
 							c:GBR = THIS
-							OR = {
-								is_subject_of = c:GBR
-								AND = {
-									is_subject_of = c:HBC
-									c:HBC = {
-										is_subject_of = c:GBR
-									}
+							is_subject_of = c:GBR
+							AND = {
+							    c:HBC ?= {
+									is_subject_of = c:GBR
 								}
+								is_subject_of = c:HBC
 							}
 						}
 					}
@@ -147,116 +137,46 @@ oregon.2 = {
 			}
 		}
 		show_as_tooltip = {
-			s:STATE_IDAHO = {
-				random_scope_state = {
-					limit = {
-						exists = c:GBR
-					owner = {
-						OR = {
-							c:GBR = THIS
-							OR = {
-								is_subject_of = c:GBR
-								AND = {
-									is_subject_of = c:HBC
-									c:HBC = {
-										is_subject_of = c:GBR
-									}
-								}
-							}
-						}
-					}
-					}
-					set_state_owner = c:USA
+		    if = {
+				limit = {
+					exists = scope:washington_scope
 				}
-			}
-			s:STATE_WASHINGTON = {
-				random_scope_state = {
-					limit = {
-						exists = c:GBR
-						owner = {
-							OR = {
-								c:GBR = THIS
-								OR = {
-									is_subject_of = c:GBR
-									AND = {
-										is_subject_of = c:HBC
-										c:HBC = {
-											is_subject_of = c:GBR
-										}
-									}
-								}
-							}
-						}
-					}
-					set_state_owner = c:USA
+				scope:washington_scope = {
+					set_state_owner = ROOT
 				}
-			}
-			s:STATE_OREGON = {
-				random_scope_state = {
-					limit = {
-						exists = c:GBR
-						owner = {
-							OR = {
-								c:GBR = THIS
-								OR = {
-									is_subject_of = c:GBR
-									AND = {
-										is_subject_of = c:HBC
-										c:HBC = {
-											is_subject_of = c:GBR
-										}
-									}
-								}
-							}
-						}
-					}
-					set_state_owner = c:USA
+		    }
+			if = {
+				limit = {
+					exists = scope:montana_scope
 				}
-			}
-			s:STATE_WYOMING = {
-				random_scope_state = {
-					limit = {
-						exists = c:GBR
-						owner = {
-							OR = {
-								c:GBR = THIS
-								OR = {
-									is_subject_of = c:GBR
-									AND = {
-										is_subject_of = c:HBC
-										c:HBC = {
-											is_subject_of = c:GBR
-										}
-									}
-								}
-							}
-						}
-					}
-					set_state_owner = c:USA
+				scope:montana_scope = {
+					set_state_owner = ROOT
 				}
-			}
-			s:STATE_MONTANA = {
-				random_scope_state = {
-					limit = {
-						exists = c:GBR
-						owner = {
-							OR = {
-								c:GBR = THIS
-								OR = {
-									is_subject_of = c:GBR
-									AND = {
-										is_subject_of = c:HBC
-										c:HBC = {
-											is_subject_of = c:GBR
-										}
-									}
-								}
-							}
-						}
-					}
-					set_state_owner = c:USA
+		    }
+			if = {
+				limit = {
+					exists = scope:wyoming_scope
 				}
-			}
+				scope:wyoming_scope = {
+					set_state_owner = ROOT
+				}
+		    }
+			if = {
+				limit = {
+					exists = scope:idaho_scope
+				}
+				scope:idaho_scope = {
+					set_state_owner = ROOT
+				}
+		    }
+			if = {
+				limit = {
+					exists = scope:oregon_scope
+				}
+				scope:oregon_scope = {
+					set_state_owner = ROOT
+				}
+		    }
 		}
 		ai_chance = { # AI should do this by default
 			base = 10
@@ -306,18 +226,15 @@ oregon.3 = {
 		s:STATE_WASHINGTON = {
 			random_scope_state = {
 				limit = {
-					exists = c:GBR
 					owner = {
 						OR = {
 							c:GBR = THIS
-							OR = {
-								is_subject_of = c:GBR
-								AND = {
-									is_subject_of = c:HBC
-									c:HBC = {
-										is_subject_of = c:GBR
-									}
+							is_subject_of = c:GBR
+							AND = {
+							    c:HBC ?= {
+									is_subject_of = c:GBR
 								}
+								is_subject_of = c:HBC
 							}
 						}
 					}
@@ -325,21 +242,56 @@ oregon.3 = {
 				save_scope_as = washington_scope
 			}
 		}
-		s:STATE_IDAHO = {
+		s:STATE_MONTANA = {
 			random_scope_state = {
 				limit = {
-					exists = c:GBR
 					owner = {
 						OR = {
 							c:GBR = THIS
-							OR = {
-								is_subject_of = c:GBR
-								AND = {
-									is_subject_of = c:HBC
-									c:HBC = {
-										is_subject_of = c:GBR
-									}
+							is_subject_of = c:GBR
+							AND = {
+							    c:HBC ?= {
+									is_subject_of = c:GBR
 								}
+								is_subject_of = c:HBC
+							}
+						}
+					}
+				}
+				save_scope_as = montana_scope
+			}
+		}
+		s:STATE_WYOMING = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						OR = {
+							c:GBR = THIS
+							is_subject_of = c:GBR
+							AND = {
+							    c:HBC ?= {
+									is_subject_of = c:GBR
+								}
+								is_subject_of = c:HBC
+							}
+						}
+					}
+				}
+				save_scope_as = wyoming_scope
+			}
+		}
+		s:STATE_IDAHO = {
+			random_scope_state = {
+				limit = {
+					owner = {
+						OR = {
+							c:GBR = THIS
+							is_subject_of = c:GBR
+							AND = {
+							    c:HBC ?= {
+									is_subject_of = c:GBR
+								}
+								is_subject_of = c:HBC
 							}
 						}
 					}
@@ -350,18 +302,15 @@ oregon.3 = {
 		s:STATE_OREGON = {
 			random_scope_state = {
 				limit = {
-					exists = c:GBR
 					owner = {
 						OR = {
 							c:GBR = THIS
-							OR = {
-								is_subject_of = c:GBR
-								AND = {
-									is_subject_of = c:HBC
-									c:HBC = {
-										is_subject_of = c:GBR
-									}
+							is_subject_of = c:GBR
+							AND = {
+							    c:HBC ?= {
+									is_subject_of = c:GBR
 								}
+								is_subject_of = c:HBC
 							}
 						}
 					}
@@ -377,134 +326,74 @@ oregon.3 = {
 	option = {
 		name = oregon.3.a
 		default_option = yes
-		s:STATE_IDAHO = {
-			add_homeland = cu:yankee
-			random_scope_state = {
-				limit = {
-					exists = c:GBR
-					owner = {
-						OR = {
-							c:GBR = THIS
-							OR = {
-								is_subject_of = c:GBR
-								AND = {
-									is_subject_of = c:HBC
-									c:HBC = {
-										is_subject_of = c:GBR
-									}
-								}
-							}
-						}
-					}
-				}
-				set_state_owner = c:USA
-			}
-			if = {
-				limit = {
-					c:ORG = {
-						has_claim = s:STATE_IDAHO
-					}
-				}
-				s:STATE_IDAHO = {
-					remove_claim = c:ORG
-				}
-				s:STATE_IDAHO = {
-					add_claim = c:USA
+		if = {
+			limit = {
+				c:ORG ?= {
+					has_claim = s:STATE_IDAHO
 				}
 			}
-		}
-		s:STATE_WASHINGTON = {
-			add_homeland = cu:yankee
-			random_scope_state = {
-				limit = {
-					exists = c:GBR
-					owner = {
-						OR = {
-							c:GBR = THIS
-							OR = {
-								is_subject_of = c:GBR
-								AND = {
-									is_subject_of = c:HBC
-									c:HBC = {
-										is_subject_of = c:GBR
-									}
-								}
-							}
-						}
-					}
-				}
-				set_state_owner = c:USA
+			s:STATE_IDAHO = {
+				remove_claim = c:ORG
 			}
-		}
-		s:STATE_OREGON = {
-			add_homeland = cu:yankee
-			random_scope_state = {
-				limit = {
-					exists = c:GBR
-					owner = {
-						OR = {
-							c:GBR = THIS
-							OR = {
-								is_subject_of = c:GBR
-								AND = {
-									is_subject_of = c:HBC
-									c:HBC = {
-										is_subject_of = c:GBR
-									}
-								}
-							}
-						}
-					}
-				}
-				set_state_owner = c:USA
+			s:STATE_IDAHO = {
+				add_claim = c:USA
 			}
 		}
 		s:STATE_MONTANA = {
 			add_homeland = cu:yankee
-			random_scope_state = {
-				limit = {
-					exists = c:GBR
-					owner = {
-						OR = {
-							c:GBR = THIS
-							OR = {
-								is_subject_of = c:GBR
-								AND = {
-									is_subject_of = c:HBC
-									c:HBC = {
-										is_subject_of = c:GBR
-									}
-								}
-							}
-						}
-					}
-				}
-				set_state_owner = c:USA
-			}
 		}
 		s:STATE_WYOMING = {
 			add_homeland = cu:yankee
-			random_scope_state = {
-				limit = {
-					exists = c:GBR
-					owner = {
-						OR = {
-							c:GBR = THIS
-							OR = {
-								is_subject_of = c:GBR
-								AND = {
-									is_subject_of = c:HBC
-									c:HBC = {
-										is_subject_of = c:GBR
-									}
-								}
-							}
-						}
-					}
-				}
-				set_state_owner = c:USA
-			}
 		}
+		s:STATE_IDAHO = {
+			add_homeland = cu:yankee
+		}
+		s:STATE_WASHINGTON = {
+			add_homeland = cu:yankee
+		}
+		s:STATE_OREGON = {
+			add_homeland = cu:yankee
+		}
+		    if = {
+				limit = {
+					exists = scope:washington_scope
+				}
+				scope:washington_scope = {
+					set_state_owner = ROOT
+				}
+		    }
+			if = {
+				limit = {
+					exists = scope:montana_scope
+				}
+				scope:montana_scope = {
+					set_state_owner = ROOT
+				}
+		    }
+			if = {
+				limit = {
+					exists = scope:wyoming_scope
+				}
+				scope:wyoming_scope = {
+					set_state_owner = ROOT
+				}
+		    }
+			if = {
+				limit = {
+					exists = scope:idaho_scope
+				}
+				scope:idaho_scope = {
+					set_state_owner = ROOT
+				}
+		    }
+			if = {
+				limit = {
+					exists = scope:oregon_scope
+				}
+				scope:oregon_scope = {
+					set_state_owner = ROOT
+				}
+		    }
 	}
 }
 
@@ -540,6 +429,14 @@ oregon.4 = {
 		name = oregon.4.a
 		add_journal_entry = {
 			type = je_conquer_oregon
+		}
+		s:STATE_MONTANA = {
+			add_claim = ROOT
+			add_homeland = cu:yankee
+		}
+		s:STATE_WYOMING = {
+			add_claim = ROOT
+			add_homeland = cu:yankee
 		}
 		s:STATE_OREGON = {
 			add_claim = ROOT
