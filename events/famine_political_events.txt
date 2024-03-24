@@ -1,0 +1,425 @@
+﻿namespace = famine_political
+
+famine_political.1 = {
+	type = country_event
+	placement = scope:famine_state
+	title = famine_political.1.t
+	desc = famine_political.1.d
+	flavor = famine_political.1.f
+
+	cooldown = { months = normal_modifier_time }
+
+	duration = 3
+
+	event_image = {
+		video = "asia_dead_cattle_poor_harvest"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	trigger = {
+		has_law = law_type:law_traditionalism
+		NOT = { has_modifier = economic_concessions } # VFM bugfix
+		NOT = {
+			any_interest_group = {
+				has_modifier = refused_economic_concessions
+			}
+		}
+	}
+	
+	immediate = {
+		random_scope_state = {
+			limit = { has_variable = famine_var }
+			save_scope_as = famine_state
+		}
+	}
+
+	option = {
+		name = famine_political.1.a
+		add_modifier = {
+			name = economic_concessions
+			months = normal_modifier_time
+		}
+		random_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_traditionalism
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = made_economic_concessions
+				months = normal_modifier_time
+			}
+		}
+	}
+
+	option = {
+		name = famine_political.1.b
+		default_option = yes
+		scope:famine_state = {
+			add_radicals_in_state = {
+				strata = poor
+				value = 0.3
+			}
+		}
+		random_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_traditionalism
+					value < neutral
+				}
+			}
+			add_modifier = {
+				name = refused_economic_concessions
+				months = normal_modifier_time
+			}
+		}
+	}
+}
+
+famine_political.2 = {
+	type = country_event
+	placement = scope:famine_state
+	title = famine_political.2.t
+	desc = famine_political.2.d
+	flavor = famine_political.2.f
+
+	cooldown = { months = normal_modifier_time }
+
+	duration = 3
+
+	event_image = {
+		video = "asia_dead_cattle_poor_harvest"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	trigger = {
+		has_law = law_type:law_isolationism
+		NOT = { has_modifier = economic_concessions } # VFM bugfix
+		NOT = {
+			any_interest_group = {
+				has_modifier = refused_economic_concessions
+			}
+		}
+	}
+	
+	immediate = {
+		random_scope_state = {
+			limit = { has_variable = famine_var }
+			save_scope_as = famine_state
+		}
+	}
+
+	option = {
+		name = famine_political.2.a
+		add_modifier = { # VFM bugfix
+			name = economic_concessions
+			months = normal_modifier_time
+		}
+		random_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_isolationism
+					value < neutral
+				}
+			}
+			add_modifier = {
+				name = ig_gaining_support
+				months = normal_modifier_time
+			}
+		}
+		random_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_isolationism
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = made_economic_concessions
+				months = normal_modifier_time
+			}
+		}
+	}
+
+	option = {
+		name = famine_political.2.b
+		default_option = yes
+		scope:famine_state = {
+			add_radicals_in_state = {
+				strata = poor
+				value = medium_radicals
+			}
+		}
+		random_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_isolationism
+					value < neutral
+				}
+			}
+			add_modifier = {
+				name = refused_economic_concessions
+				months = normal_modifier_time
+			}
+		}
+		random_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_isolationism
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = rejected_foreign_influence
+				months = normal_modifier_time
+			}
+		}
+	}
+}
+
+famine_political.3 = {
+	type = country_event
+	placement = scope:famine_state
+	title = famine_political.3.t
+	desc = famine_political.3.d
+	flavor = famine_political.3.f
+
+	duration = 3
+
+	event_image = {
+		video = "asia_dead_cattle_poor_harvest"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	cooldown = { months = normal_modifier_time }
+
+	trigger = {
+		has_law = law_type:law_mercantilism
+		NOT = { has_modifier = economic_concessions } # VFM bugfix
+		NOT = {
+			any_interest_group = {
+				has_modifier = refused_economic_concessions
+			}
+		}
+	}
+	
+	immediate = {
+		random_scope_state = {
+			limit = { has_variable = famine_var }
+			save_scope_as = famine_state
+		}
+	}
+
+	option = {
+		name = famine_political.3.a
+		add_modifier = {
+			name = economic_concessions
+			months = normal_modifier_time
+		}
+		random_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_mercantilism
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = made_economic_concessions
+				months = normal_modifier_time
+			}
+		}
+	}
+
+	option = {
+		name = famine_political.3.b
+		default_option = yes
+		scope:famine_state = {
+			add_radicals_in_state = {
+				strata = poor
+				value = medium_radicals
+			}
+		}
+		random_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_mercantilism
+					value < neutral
+				}
+			}
+			add_modifier = {
+				name = refused_economic_concessions
+				months = normal_modifier_time
+			}
+		}
+	}
+}
+
+famine_political.4 = {
+	type = country_event
+	placement = scope:famine_state
+	title = famine_political.4.t
+	desc = famine_political.4.d
+	flavor = famine_political.4.f
+
+	duration = 3
+
+	cooldown = { months = normal_modifier_time }
+
+	event_image = {
+		video = "asia_dead_cattle_poor_harvest"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	trigger = {
+		has_law = law_type:law_free_trade
+		NOT = { has_modifier = economic_concessions } # VFM bugfix
+		NOT = {
+			any_interest_group = {
+				has_modifier = refused_economic_concessions
+			}
+		}
+	}
+	
+	immediate = {
+		random_scope_state = {
+			limit = { has_variable = famine_var }
+			save_scope_as = famine_state
+		}
+	}
+
+	option = {
+		name = famine_political.4.a
+		add_modifier = {
+			name = economic_concessions
+			months = normal_modifier_time
+		}
+		random_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_free_trade
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = made_economic_concessions
+				months = normal_modifier_time
+			}
+		}
+	}
+
+	option = {
+		name = famine_political.4.b
+		default_option = yes
+		scope:famine_state = {
+			add_radicals_in_state = {
+				strata = poor
+				value = medium_radicals
+			}
+		}
+		random_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_free_trade
+					value < neutral
+				}
+			}
+			add_modifier = {
+				name = refused_economic_concessions
+				months = normal_modifier_time
+			}
+		}
+	}
+}
+
+famine_political.5 = {
+	type = country_event
+	placement = scope:famine_state
+	title = famine_political.5.t
+	desc = famine_political.5.d
+	flavor = famine_political.5.f
+
+	duration = 3
+
+	event_image = {
+		video = "asia_dead_cattle_poor_harvest"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	cooldown = { months = normal_modifier_time }
+
+	trigger = {
+		has_law = law_type:law_command_economy
+		NOT = { has_modifier = economic_concessions } # VFM bugfix
+		NOT = {
+			any_interest_group = {
+				has_modifier = refused_economic_concessions
+			}
+		}
+	}
+	
+	immediate = {
+		random_scope_state = {
+			limit = { has_variable = famine_var }
+			save_scope_as = famine_state
+		}
+	}
+
+	option = {
+		name = famine_political.5.a
+		add_modifier = {
+			name = economic_concessions
+			months = normal_modifier_time
+		}
+		random_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_command_economy
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = made_economic_concessions
+				months = normal_modifier_time
+			}
+		}
+	}
+
+	option = {
+		name = famine_political.5.b
+		default_option = yes
+		scope:famine_state = {
+			add_radicals_in_state = {
+				strata = poor
+				value = medium_radicals
+			}
+		}
+		random_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_command_economy
+					value < neutral
+				}
+			}
+			add_modifier = {
+				name = refused_economic_concessions
+				months = normal_modifier_time
+			}
+		}
+	}
+}
